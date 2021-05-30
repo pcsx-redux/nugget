@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2020 PCSX-Redux authors
+Copyright (c) 2021 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,46 @@ SOFTWARE.
 
 */
 
-#pragma once
+#include "common/kernel/pcdrv.h"
 
-#include "common/psxlibc/device.h"
-#include "common/psxlibc/stdio.h"
+#include "common/syscalls/syscalls.h"
 
-int addDummyConsoleDevice();
-int addConsoleDevice();
+#undef unix
+#define CESTER_NO_SIGNAL
+#define CESTER_NO_TIME
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
+#include "exotic/cester.h"
 
-extern int g_cachedInstallTTY;
-extern int g_installTTY;
+// clang-format off
 
-void dev_tty_init();
-int dev_tty_open(struct File *file, const char *filename, int mode);
-int dev_tty_action(struct File *file, enum FileAction action);
-int dev_tty_ioctl(struct File *file, int req, int arg);
+CESTER_TEST(pcdrv, test_instance,
+    int r, fd;
+
+    r = PCinit();
+    cester_assert_int_eq(0, r);
+
+    fd = PCcreat("testfile", 0);
+    cester_assert_cmp(fd, >=, 0);
+
+    static const char data[] = "Hello from pcdrv";
+    r = PCwrite(fd, data, sizeof(data));
+    cester_assert_int_eq(sizeof(data), r);
+
+    r = PCclose(fd);
+    cester_assert_int_eq(0, r);
+
+    fd = PCopen("testfile", 0, 0);
+    cester_assert_cmp(fd, >=, 0);
+
+    char buf[16];
+    r = PCread(fd, buf, sizeof(data));
+    cester_assert_int_eq(sizeof(data), r);
+
+    r = PCclose(fd);
+    cester_assert_int_eq(0, r);
+
+    for (unsigned i = 0; i < sizeof(buf); i++) {
+        cester_assert_char_eq(data[i], buf[i]);
+    }
+)

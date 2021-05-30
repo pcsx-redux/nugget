@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2020 PCSX-Redux authors
+Copyright (c) 2021 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,16 +26,33 @@ SOFTWARE.
 
 #pragma once
 
-#include "common/psxlibc/device.h"
-#include "common/psxlibc/stdio.h"
+#include <stdint.h>
 
-int addDummyConsoleDevice();
-int addConsoleDevice();
+// https://docs.oracle.com/cd/E23824_01/html/819-0690/chapter6-18048.html
+struct BuildId {
+    uint32_t namesz;
+    uint32_t descsz;
+    uint32_t type;
+    uint8_t strings[];
+};
 
-extern int g_cachedInstallTTY;
-extern int g_installTTY;
+static inline int isOpenBiosPresent() {
+    uintptr_t* a0table = (uintptr_t*)0x200;
+    return (a0table[11] & 3) == 1;
+}
 
-void dev_tty_init();
-int dev_tty_open(struct File *file, const char *filename, int mode);
-int dev_tty_action(struct File *file, enum FileAction action);
-int dev_tty_ioctl(struct File *file, int req, int arg);
+static inline uint32_t getOpenBiosApiVersion() {
+    if (!isOpenBiosPresent()) return 0;
+    register int n asm("t1") = 0x00;
+    __asm__ volatile("" : "=r"(n) : "r"(n));
+    uintptr_t* a0table = (uintptr_t*)0x200;
+    return ((uint32_t(*)())(a0table[11] ^ 1))();
+}
+
+static inline struct BuildId* getOpenBiosBuildId() {
+    if (!isOpenBiosPresent()) return 0;
+    register int n asm("t1") = 0x01;
+    __asm__ volatile("" : "=r"(n) : "r"(n));
+    uintptr_t* a0table = (uintptr_t*)0x200;
+    return ((struct BuildId * (*)())(a0table[11] ^ 1))();
+}
