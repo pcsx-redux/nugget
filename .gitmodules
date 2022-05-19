@@ -1,3 +1,6 @@
 [submodule "third_party/uC-sdk"]
 	path = third_party/uC-sdk
 	url = https://github.com/grumpycoders/uC-sdk.git
+[submodule "multipart-parser-c"]
+	path = multipart-parser-c
+	url = https://github.com/iafonov/multipart-parser-c.git
