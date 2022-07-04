@@ -1,3 +1,5 @@
+PSYQODIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 TARGET = psyqo
 TYPE = library
 
@@ -17,5 +19,7 @@ CPPFLAGS = -Werror -I../third_party/EASTL/include -I../third_party/EABase/includ
 CXXFLAGS = -std=c++20
 
 DEFINES = XPRINTFNOALLOC
+
+EXTRA_DEPS += $(PSYQODIR)Makefile
 
 include ../common.mk
