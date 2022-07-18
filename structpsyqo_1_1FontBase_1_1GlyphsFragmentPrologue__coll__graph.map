@@ -1,0 +1,9 @@
+<map id="psyqo::FontBase::GlyphsFragmentPrologue" name="psyqo::FontBase::GlyphsFragmentPrologue">
+<area shape="rect" id="node1" title=" " alt="" coords="187,317,431,359"/>
+<area shape="rect" id="node2" href="$structpsyqo_1_1Prim_1_1FlushCache.html" title="The FlushCache primitive." alt="" coords="5,228,188,255"/>
+<area shape="rect" id="node3" href="$structpsyqo_1_1Prim_1_1VRAMUpload.html" title="Initiates a VRAM upload." alt="" coords="213,228,405,255"/>
+<area shape="rect" id="node4" href="$structpsyqo_1_1Rect.html" title="The Rect struct." alt="" coords="259,139,358,165"/>
+<area shape="rect" id="node5" href="$unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="253,5,365,32"/>
+<area shape="rect" id="node6" href="$structpsyqo_1_1Prim_1_1TPage.html" title=" " alt="" coords="429,228,575,255"/>
+<area shape="rect" id="node7" href="$structpsyqo_1_1Prim_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="417,139,587,165"/>
+</map>

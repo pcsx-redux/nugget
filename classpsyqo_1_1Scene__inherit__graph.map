@@ -1,0 +1,10 @@
+<map id="psyqo::Scene" name="psyqo::Scene">
+<area shape="rect" id="node1" title="The Scene class." alt="" coords="323,5,431,32"/>
+<area shape="rect" id="node2" href="$classCredits.html" title=" " alt="" coords="5,80,73,107"/>
+<area shape="rect" id="node3" href="$classGameOver.html" title=" " alt="" coords="97,80,189,107"/>
+<area shape="rect" id="node4" href="$classMainGame.html" title=" " alt="" coords="214,80,307,107"/>
+<area shape="rect" id="node5" href="$classMainMenu.html" title=" " alt="" coords="331,80,422,107"/>
+<area shape="rect" id="node6" href="$classOptions.html" title=" " alt="" coords="446,80,518,107"/>
+<area shape="rect" id="node7" href="$classPause.html" title=" " alt="" coords="542,80,603,107"/>
+<area shape="rect" id="node8" href="$classSplashScreen.html" title=" " alt="" coords="627,80,737,107"/>
+</map>

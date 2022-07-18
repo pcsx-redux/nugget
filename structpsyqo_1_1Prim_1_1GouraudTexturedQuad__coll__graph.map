@@ -1,0 +1,9 @@
+<map id="psyqo::Prim::GouraudTexturedQuad" name="psyqo::Prim::GouraudTexturedQuad">
+<area shape="rect" id="node1" title="A textured, blended quad." alt="" coords="337,172,589,199"/>
+<area shape="rect" id="node2" href="$unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="59,20,171,47"/>
+<area shape="rect" id="node3" href="$unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="63,93,166,120"/>
+<area shape="rect" id="node4" href="$structpsyqo_1_1Prim_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="29,144,200,171"/>
+<area shape="rect" id="node5" href="$structpsyqo_1_1Prim_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="29,201,200,228"/>
+<area shape="rect" id="node6" href="$structpsyqo_1_1Prim_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,261,224,288"/>
+<area shape="rect" id="node7" href="$structpsyqo_1_1Prim_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="30,312,199,339"/>
+</map>

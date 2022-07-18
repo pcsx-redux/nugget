@@ -1,0 +1,8 @@
+<map id="psyqo::Prim::TexturedQuad" name="psyqo::Prim::TexturedQuad">
+<area shape="rect" id="node1" title="A textured quad." alt="" coords="337,129,535,156"/>
+<area shape="rect" id="node2" href="$unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="59,19,171,45"/>
+<area shape="rect" id="node3" href="$structpsyqo_1_1Prim_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="29,69,200,96"/>
+<area shape="rect" id="node4" href="$structpsyqo_1_1Prim_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="29,129,200,156"/>
+<area shape="rect" id="node5" href="$structpsyqo_1_1Prim_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,189,224,216"/>
+<area shape="rect" id="node6" href="$structpsyqo_1_1Prim_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="30,240,199,267"/>
+</map>

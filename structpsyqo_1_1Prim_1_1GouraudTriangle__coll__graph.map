@@ -1,0 +1,5 @@
+<map id="psyqo::Prim::GouraudTriangle" name="psyqo::Prim::GouraudTriangle">
+<area shape="rect" id="node1" title="A gouraud&#45;shaded triangle." alt="" coords="19,124,234,151"/>
+<area shape="rect" id="node2" href="$unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="5,5,117,32"/>
+<area shape="rect" id="node3" href="$unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="142,5,245,32"/>
+</map>

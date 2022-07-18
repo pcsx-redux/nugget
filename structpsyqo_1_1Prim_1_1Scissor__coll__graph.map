@@ -1,0 +1,6 @@
+<map id="psyqo::Prim::Scissor" name="psyqo::Prim::Scissor">
+<area shape="rect" id="node1" title="A compounded Scissor primitive." alt="" coords="311,64,464,91"/>
+<area shape="rect" id="node2" href="$structpsyqo_1_1Prim_1_1DrawingOffset.html" title="The DrawingOffset primitive." alt="" coords="12,5,213,32"/>
+<area shape="rect" id="node3" href="$structpsyqo_1_1Prim_1_1DrawingAreaStart.html" title="The DrawingAreaStart primitive." alt="" coords="17,57,208,98"/>
+<area shape="rect" id="node4" href="$structpsyqo_1_1Prim_1_1DrawingAreaEnd.html" title="The DrawingAreaEnd primitive." alt="" coords="5,123,220,149"/>
+</map>

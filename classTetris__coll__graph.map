@@ -1,0 +1,18 @@
+<map id="Tetris" name="Tetris">
+<area shape="rect" id="node1" title=" " alt="" coords="479,309,536,336"/>
+<area shape="rect" id="node2" href="$classpsyqo_1_1Application.html" title="The application class." alt="" coords="187,5,330,32"/>
+<area shape="rect" id="node3" href="$classGameOver.html" title=" " alt="" coords="213,56,305,83"/>
+<area shape="rect" id="node4" href="$classpsyqo_1_1Scene.html" title="The Scene class." alt="" coords="16,208,124,235"/>
+<area shape="rect" id="node5" href="$classPause.html" title=" " alt="" coords="228,107,289,133"/>
+<area shape="rect" id="node6" href="$classOptions.html" title=" " alt="" coords="223,157,295,184"/>
+<area shape="rect" id="node7" href="$classMainGame.html" title=" " alt="" coords="212,208,305,235"/>
+<area shape="rect" id="node8" href="$classMainMenu.html" title=" " alt="" coords="213,259,304,285"/>
+<area shape="rect" id="node11" href="$classSplashScreen.html" title=" " alt="" coords="204,309,313,336"/>
+<area shape="rect" id="node12" href="$classCredits.html" title=" " alt="" coords="225,360,293,387"/>
+<area shape="rect" id="node9" href="$classRand.html" title=" " alt="" coords="231,411,286,437"/>
+<area shape="rect" id="node10" href="$structPlayfield.html" title=" " alt="" coords="184,461,333,488"/>
+<area shape="rect" id="node13" href="$classpsyqo_1_1Font.html" title=" " alt="" coords="190,512,327,539"/>
+<area shape="rect" id="node14" href="$classpsyqo_1_1FontBase.html" title="The Font drawing class." alt="" coords="5,512,135,539"/>
+<area shape="rect" id="node15" href="$classSound.html" title=" " alt="" coords="227,563,290,589"/>
+<area shape="rect" id="node16" href="$classpsyqo_1_1SimplePad.html" title="A simple class to access the pads." alt="" coords="189,613,328,640"/>
+</map>
