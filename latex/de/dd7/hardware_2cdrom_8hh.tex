@@ -1,0 +1,108 @@
+\doxysection{psyqo/hardware/cdrom.hh File Reference}
+\hypertarget{hardware_2cdrom_8hh}{}\label{hardware_2cdrom_8hh}\index{psyqo/hardware/cdrom.hh@{psyqo/hardware/cdrom.hh}}
+{\ttfamily \#include "{}psyqo/hardware/hwregs.\+hh"{}}\newline
+Include dependency graph for cdrom.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{da/df9/hardware_2cdrom_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d8/d12/hardware_2cdrom_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Access$<$ Reg, m $>$}}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1CommandFifo}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Command\+Fifo}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo}{psyqo}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1Hardware}{psyqo\+::\+Hardware}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom}{psyqo\+::\+Hardware\+::\+CDRom}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70}{psyqo\+::\+Hardware\+::\+CDRom\+::\+CDL}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a274ccef15a21e829d03293a6fd1974f3}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SYNC}} = 0
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a1a004f5abe2b334db21328be1ea6b593}{psyqo\+::\+Hardware\+::\+CDRom\+::\+NOP}} = 1
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70ada3e9d53409a35e675d357c1bda2ace0}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SETLOC}} = 2
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a6a216efc529825c60a4a4c0bc99ad77f}{psyqo\+::\+Hardware\+::\+CDRom\+::\+PLAY}} = 3
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70abfec72bb37910c61f36b6c29a1f7ec31}{psyqo\+::\+Hardware\+::\+CDRom\+::\+FORWARD}} = 4
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a6377b4908ae38f9a57fe9120cf179eb1}{psyqo\+::\+Hardware\+::\+CDRom\+::\+BACKWARD}} = 5
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70aa7223c3df54688bc926b101985b7b31d}{psyqo\+::\+Hardware\+::\+CDRom\+::\+READN}} = 6
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70aeea559d5c56d48e94e586f7fe000c0b1}{psyqo\+::\+Hardware\+::\+CDRom\+::\+STANDBY}} = 7
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a615a46af313786fc4e349f34118be111}{psyqo\+::\+Hardware\+::\+CDRom\+::\+STOP}} = 8
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a291554596c183e837f0a6bec3767c891}{psyqo\+::\+Hardware\+::\+CDRom\+::\+PAUSE}} = 9
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70afaee4ca3c30ee18148ce3ada37466498}{psyqo\+::\+Hardware\+::\+CDRom\+::\+INIT}} = 10
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a5415e9052565ecaf84f33d7f20996fd9}{psyqo\+::\+Hardware\+::\+CDRom\+::\+MUTE}} = 11
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a1a5601583c83399f22682982088e6bc3}{psyqo\+::\+Hardware\+::\+CDRom\+::\+UNMUTE}} = 12
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a1ba8e78fbf69eeadaf7e4a9d7c32be31}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SETFILTER}} = 13
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a0a4112d522a3540b77045b4a22664688}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SETMODE}} = 14
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70acb11e2f4d12bd3b669d3144418f2c6fd}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETMODE}} = 15
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a8691e11b5b67610dfb8ea4e3dc2ce12c}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETLOCL}} = 16
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70ad40f250d9f31f734740ace7bde544eab}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETLOCP}} = 17
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a34d51651c6cb442938b5e1e560f0871d}{psyqo\+::\+Hardware\+::\+CDRom\+::\+READT}} = 18
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a834f8876badefa47ae86a17f9e95cb9a}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETTN}} = 19
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a7c117fb8a9fa77f967460639d8a7b4f1}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETTD}} = 20
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a35ba4cc3a969afbdca2b3ba17a33c65a}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SEEKL}} = 21
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a62d853fa8ea645df112e6609c0fbb427}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SEEKP}} = 22
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a07038c1df4552c0330484456288fd13c}{psyqo\+::\+Hardware\+::\+CDRom\+::\+SETCLOCK}} = 23
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a6d5e501ed6aa015e4c77b77ac30dab90}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETCLOCK}} = 24
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a033bd94b1168d7e4f0d644c3c95e35bf}{psyqo\+::\+Hardware\+::\+CDRom\+::\+TEST}} = 25
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70aceceb2b8d2585fb0d5073709197ffc66}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETID}} = 26
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70adaf3b97886a197bdac135dafee39f1b5}{psyqo\+::\+Hardware\+::\+CDRom\+::\+READS}} = 27
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70ab5859d8721cfdc0312b2838b9c985bc1}{psyqo\+::\+Hardware\+::\+CDRom\+::\+RESET}} = 28
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a3dfdd55a3a9c724cce017b3fe574f839}{psyqo\+::\+Hardware\+::\+CDRom\+::\+GETQ}} = 29
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a09c85de6dcd4782ef66f315436e82c70a47b832974fac2bb50e2e69576a093799}{psyqo\+::\+Hardware\+::\+CDRom\+::\+READTOC}} = 30
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Hardware\+::\+Register}}$<$ 0x0800, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a2a57d7247e7c1020aeeef3ddacceb8a9}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Ctrl}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Hardware\+::\+Register}}$<$ 0x0801, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_aa61b8f619ec47b87affaf5e19a7c0ec7}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Response}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Hardware\+::\+Register}}$<$ 0x0802, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a6a12ed9cee5ef60c6d8ecab98901e5c2}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Fifo}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Hardware\+::\+Register}}$<$ 0x0803, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_accc2400a5ea01a5bf85951f4656f19d2}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Interrupt\+Control}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1CommandFifo}{Command\+Fifo}} \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_aa429d1c73b028f3f6e2fef87b7ae8236}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Command}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0803, 0xbf801000, uint8\+\_\+t $>$, 0 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_ac898b33ea280907170fca90434ed2132}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Data\+Request}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0802, 0xbf801000, uint8\+\_\+t $>$, 1 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_afcd2b8ff38a55db9d6cac4a5ed9e28ee}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Cause\+Mask}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0803, 0xbf801000, uint8\+\_\+t $>$, 1 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_ab22b13773a3c1f3d8b73ba1f11fa7af8}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Cause}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0802, 0xbf801000, uint8\+\_\+t $>$, 2 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a223ab2d5673a2fae3ce80efd01bdb977}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Left\+To\+Left\+Volume}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0803, 0xbf801000, uint8\+\_\+t $>$, 2 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_ad8ae2c1b703ead78d59e9c89a11b864f}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Left\+To\+Right\+Volume}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0801, 0xbf801000, uint8\+\_\+t $>$, 3 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a7437c06c8329f9182cc07733f62d7c09}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Right\+To\+Right\+Volume}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0802, 0xbf801000, uint8\+\_\+t $>$, 3 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_ac749acaa451ef87b9393489e2b18fddf}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Right\+To\+Left\+Volume}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}$<$ 0, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Write\+Queue\+::\+Bypass}}, \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CDRom_1_1Access}{Access}}$<$ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{Basic\+Access}}$<$ 0x0803, 0xbf801000, uint8\+\_\+t $>$, 3 $>$ $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CDRom_a67d1f481a5f6e88b9e98fd6bf2758faf}{psyqo\+::\+Hardware\+::\+CDRom\+::\+Volume\+Settings}}
+\end{DoxyCompactItemize}

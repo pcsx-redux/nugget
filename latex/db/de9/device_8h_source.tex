@@ -1,0 +1,89 @@
+\doxysection{device.\+h}
+\hypertarget{device_8h_source}{}\label{device_8h_source}\index{common/psxlibc/device.h@{common/psxlibc/device.h}}
+\mbox{\hyperlink{device_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stdio_8h}{common/psxlibc/stdio.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{FileAction}}\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2a5ab322cc9cb8c709f5c3ac9db0078c8e}{PSXREAD}}\ =\ 1,}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2a8edd6267571a5a7d3c4163fee612f57f}{PSXWRITE}}\ =\ 2,}
+\DoxyCodeLine{00038\ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac1c6a7f9c68e507da16985a0d74ce3d7}{PSXDTTYPE\_CHAR}}\ =\ 0x01,}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da70f60a4cfafe1d2c0e7624f30a101e02}{PSXDTTYPE\_CONS}}\ =\ 0x02,}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2daf0f22ac27d89961da6f78a18ca84ca08}{PSXDTTYPE\_BLOCK}}\ =\ 0x04,}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da17770df7ada131a51dd58a65af7418cf}{PSXDTTYPE\_RAW}}\ =\ 0x08,}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac9bdcba343cac87f4fba0e6c3f8595bf}{PSXDTTYPE\_FS}}\ =\ 0x10,}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\ (*\mbox{\hyperlink{device_8h_a34135c84926575952ceecbad89718dbf}{device\_init}})();}
+\DoxyCodeLine{00049\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_a4d58e9a224cc99eedd786c7852945c56}{device\_open}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}});}
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_aa833379500861b7f4d7dea2cd6394a01}{device\_action}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *,\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{FileAction}});}
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_a5e0109f833dfe2cd51b9b03da1369b09}{device\_close}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *);}
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_a6618c804943e12531d09cf07dc9ff3eb}{device\_ioctl}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dma_8c_a5e9712b08d7cbf6091f9e5334ff97b5d}{cmd}},\ \textcolor{keywordtype}{int}\ arg);}
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_aceebeb9ca6a90b5e140cebf7ee62ba2a}{device\_read}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_ac263b0a0a9f94089d769848594ad9931}{device\_write}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_a8c45c01a6a37175ac4daca28408cd575}{device\_erase}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path);}
+\DoxyCodeLine{00056\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *(*device\_firstFile)(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *entry);}
+\DoxyCodeLine{00057\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *(*device\_nextFile)(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *entry);}
+\DoxyCodeLine{00058\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_a686670272836608d4f5db67628e5acce}{device\_format}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *file);}
+\DoxyCodeLine{00059\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}\ (*\mbox{\hyperlink{device_8h_abc9558d4eb4e89f5fa9f42836ee2b63c}{device\_rename}})(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *oldFile,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *oldName,\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *newFile,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *newName);}
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\ (*\mbox{\hyperlink{device_8h_a6a7f741bb877447322c30d950bf2b8c1}{device\_deinit}})();}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDevice}{Device}}\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structDevice_a55f75144f200d12f734532c9c1441c5d}{name}};}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structDevice_a5f6a9aa30e114ff776b1893825911152}{flags}}\ \textcolor{comment}{/*\ PSXDTTYPE\_*\ */};}
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structDevice_aec1c208022894725105ce787951a6256}{blockSize}};}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structDevice_a592c82e71db396dce67a0ea690f74ab3}{desc}};}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{device_8h_a34135c84926575952ceecbad89718dbf}{device\_init}}\ \mbox{\hyperlink{structDevice_a7bc00c692bb77921583c5a54db26ff7e}{init}};}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{device_8h_a4d58e9a224cc99eedd786c7852945c56}{device\_open}}\ \mbox{\hyperlink{structDevice_a08d3c5f14a98aa0c092527d27bbf0518}{open}};}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{device_8h_aa833379500861b7f4d7dea2cd6394a01}{device\_action}}\ \mbox{\hyperlink{structDevice_aa1a62ea52d56322d48190c1636efd339}{action}};}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{device_8h_a5e0109f833dfe2cd51b9b03da1369b09}{device\_close}}\ \mbox{\hyperlink{structDevice_a724f617e027ae108f4c6b19dd21e9630}{close}};}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{device_8h_a6618c804943e12531d09cf07dc9ff3eb}{device\_ioctl}}\ \mbox{\hyperlink{structDevice_a47105c1657c19a67b912b514dd4d2fc0}{ioctl}};}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{device_8h_aceebeb9ca6a90b5e140cebf7ee62ba2a}{device\_read}}\ \mbox{\hyperlink{structDevice_a5a6dfab33a307d336434362ee9fb9a59}{read}};}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{device_8h_ac263b0a0a9f94089d769848594ad9931}{device\_write}}\ \mbox{\hyperlink{structDevice_a8313fb495531f8e50280b81e4de2c0de}{write}};}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{device_8h_a8c45c01a6a37175ac4daca28408cd575}{device\_erase}}\ \mbox{\hyperlink{structDevice_ac211781c885fea89126900154466b2b1}{erase}};}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{structDevice_a770fc137b01d43f2e054b7f7a43ea39b}{undelete}};}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{device_8h_a10bf224774a68f3a87f0222eca613250}{device\_firstFile}}\ \mbox{\hyperlink{structDevice_a27f8deaa04d132f819462e974d5981c0}{firstFile}};}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{device_8h_a5b39804036b2cc9ad8a7f2329f5dcc95}{device\_nextFile}}\ \mbox{\hyperlink{structDevice_a62688c5f6d20a4ab9144604ed63e869d}{nextFile}};}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{device_8h_a686670272836608d4f5db67628e5acce}{device\_format}}\ \mbox{\hyperlink{structDevice_adc2c03c191ba95245f2100a2567fb29f}{format}};}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{structDevice_aee7f8401e06807eeb4169b9d15c9d2e4}{chdir}};}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{device_8h_abc9558d4eb4e89f5fa9f42836ee2b63c}{device\_rename}}\ \mbox{\hyperlink{structDevice_aac1acff8c04835913efcee318f653a40}{rename}};}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{device_8h_a6a7f741bb877447322c30d950bf2b8c1}{device\_deinit}}\ \mbox{\hyperlink{structDevice_a707117ca593055cbd6018ecf793e07c3}{deinit}};}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{structDevice_a0438f013a8201f4d8f2a1aeb8781e0f9}{check}};}
+\DoxyCodeLine{00083\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,799 @@
+\doxysection{psyqo\+::GPU Class Reference}
+\hypertarget{classpsyqo_1_1GPU}{}\label{classpsyqo_1_1GPU}\index{psyqo::GPU@{psyqo::GPU}}
+
+
+The singleton \doxylink{classpsyqo_1_1GPU}{GPU} class.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/gpu.\+hh$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02}{Resolution}} \{ \newline
+\mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a20a3b192080fe5233724856fd1fdd4ff}{W256}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02ad2799ae4d9532e75c7b76f8fe7c80560}{W320}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a75db877e0a3a32172f0092fe627dd8c0}{W368}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a6dd107a6ff2544895b9e016397f25417}{W512}}
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a016b20118d27be1be483198a0b0ba5fb}{W640}}
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696}{Video\+Mode}} \{ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696ae1f2d5134ed2543d38a0de9751cf75d9}{AUTO}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696a4b38da225171e1781308c764b6b3b172}{NTSC}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696acf4f483867e0c770dda73062a492b370}{PAL}}
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3e}{Color\+Mode}} \{ \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eafd93ed15ae10316f799cee8d5e6e24c0}{C15\+BITS}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eab5a2a5fa6b37cce974ea28abaa8f2daa}{C24\+BITS}}
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306a}{Interlace}} \{ \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa9bc5e7fe934fe08249e3aa2e0d3678ed}{PROGRESSIVE}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa8472c10b48f63928211bd72d1888071f}{INTERLACED}}
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52}{Misc\+Setting}} \{ \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a897b839b365f010ba0cd41905200fc65}{CLEAR\+\_\+\+VRAM}}
+, \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a31b2c4669316d9f9e021bd8850049a08}{KEEP\+\_\+\+VRAM}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a94b2f5f2dccbfaf5b80662d567e1ce2a}{initialize}} (const \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}} \&config)
+\item 
+unsigned \mbox{\hyperlink{classpsyqo_1_1GPU_aa6cecf7edc1d353b0571063b92e9b95b}{get\+Refresh\+Rate}} () const
+\begin{DoxyCompactList}\small\item\em Returns the refresh rate of the \doxylink{classpsyqo_1_1GPU}{GPU}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{classpsyqo_1_1GPU_a43245681eb3f72817ab68f0c24e2d04b}{get\+Frame\+Count}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of frames rendered by the \doxylink{classpsyqo_1_1GPU}{GPU} so far. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classpsyqo_1_1GPU_a1aed0f1c3f98303bdee3dbf282e7301f}{get\+Parity}} () const
+\begin{DoxyCompactList}\small\item\em Get the index of the current display buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_aebfd00fab546616d9719222ae9e1593a}{clear}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} bg=\{\{0, 0, 0\}\})
+\begin{DoxyCompactList}\small\item\em Immediately clears the drawing buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a770c1be99910abc621ca46a809da7c47}{get\+Clear}} (\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill}{Prim\+::\+Fast\+Fill}} \&ff, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} bg=\{\{0, 0, 0\}\}) const
+\begin{DoxyCompactList}\small\item\em Sets a {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive to clear the current drawing buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ae426061894708be02f7c980a2c19f4e8}{get\+Next\+Clear}} (\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill}{Prim\+::\+Fast\+Fill}} \&ff, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} bg=\{\{0, 0, 0\}\}) const
+\begin{DoxyCompactList}\small\item\em Sets a {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive to clear the next drawing buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ae2e03a4798418feb963eb30de516de03}{upload\+To\+VRAM}} (const uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}} region)
+\begin{DoxyCompactList}\small\item\em Uploads a buffer to the VRAM as a blocking call. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ad7af278c4f7f4d24a53cef0b51cf66a7}{upload\+To\+VRAM}} (const uint16\+\_\+t \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}} region, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback=\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}})
+\begin{DoxyCompactList}\small\item\em Uploads a buffer to the VRAM as a non-\/blocking call. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Fragment Frag$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}{send\+Fragment}} (const Frag \&fragment)
+\begin{DoxyCompactList}\small\item\em Immediately sends a fragment to the \doxylink{classpsyqo_1_1GPU}{GPU}. This is a blocking operation. See the \doxylink{fragments_8hh}{fragments.\+hh} file for more information. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Fragment Frag$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a56226bf7b304aeb1c959bdadeb67040f}{send\+Fragment}} (const Frag \&fragment, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback=\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}})
+\begin{DoxyCompactList}\small\item\em Sends a fragment to the \doxylink{classpsyqo_1_1GPU}{GPU} as a non-\/blocking call. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a60d5174f36f7fcbd41385e4e8b1b3fbd}{disable\+Scissor}} ()
+\begin{DoxyCompactList}\small\item\em Immediately disables the scissoring of the VRAM. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a833d7512de2c2f839442ffcb36fe45d3}{enable\+Scissor}} ()
+\begin{DoxyCompactList}\small\item\em Enables the scissoring of the VRAM. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_afb216e98b53f375b6a117a6944a2d2fd}{get\+Scissor}} (\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Scissor}{Prim\+::\+Scissor}} \&scissor)
+\begin{DoxyCompactList}\small\item\em Gets the current scissoring region. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a8c3b5968057b8c2b48f2ae9ea06d21c7}{get\+Next\+Scissor}} (\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Scissor}{Prim\+::\+Scissor}} \&scissor)
+\begin{DoxyCompactList}\small\item\em Gets the next scissoring region. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a85873df29f9526d153dd31a8fe76c76e}{wait\+Ready}} ()
+\begin{DoxyCompactList}\small\item\em Waits until the \doxylink{classpsyqo_1_1GPU}{GPU} is ready to send a command. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ae96d300f26b67e9ef313a25273e90384}{wait\+Fifo}} ()
+\begin{DoxyCompactList}\small\item\em Waits until the \doxylink{classpsyqo_1_1GPU}{GPU}\textquotesingle{}s FIFO is ready to receive data. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Primitive Prim$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a318caff55f8649cbaf430e3e2bed39b6}{send\+Primitive}} (const Prim \&primitive)
+\begin{DoxyCompactList}\small\item\em Sends a primitive to the \doxylink{classpsyqo_1_1GPU}{GPU}. This is a blocking call. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Fragment Frag$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}{chain}} (Frag \&fragment)
+\begin{DoxyCompactList}\small\item\em Chains a fragment to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Fragment Frag1, Fragment Frag2$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a7831fbe354d4cc48b83303ed828ec70d}{chain}} (Frag1 \texorpdfstring{$\ast$}{*}first, Frag2 \texorpdfstring{$\ast$}{*}last)
+\begin{DoxyCompactList}\small\item\em Chains an already constructed \doxylink{namespacepsyqo_1_1DMA}{DMA} chain to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t N$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_acf456b99ae3277804395e4ab10cf5ee0}{chain}} (\mbox{\hyperlink{classpsyqo_1_1OrderingTable}{Ordering\+Table}}$<$ N $>$ \&table)
+\begin{DoxyCompactList}\small\item\em Chains an ordering table to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_abbb163bd353a0c1a0f74f984f4cf3035}{send\+Chain}} ()
+\begin{DoxyCompactList}\small\item\em Immediately sends the current \doxylink{namespacepsyqo_1_1DMA}{DMA} chain. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a361dda74eb57e68fe07923b721019358}{send\+Chain}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback=\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}})
+\begin{DoxyCompactList}\small\item\em Initiates the transfer of the current \doxylink{namespacepsyqo_1_1DMA}{DMA} chain. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1GPU_a15468babe6e97d899eb454c50f97a6b7}{is\+Chain\+Idle}} () const
+\begin{DoxyCompactList}\small\item\em Gets the status of the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation when initiated by a frame flip. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1GPU_aeb958e3445245f03236d1cc259e0ed31}{is\+Chain\+Transferring}} () const
+\begin{DoxyCompactList}\small\item\em Gets the status of the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation when initiated by a frame flip. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1GPU_ae17401ed52bb5d197aac16364ca577cf}{is\+Chain\+Transferred}} () const
+\begin{DoxyCompactList}\small\item\em Gets the status of the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation when initiated by a frame flip. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a3d4519352164c43fab4c6b6a9655d628}{wait\+Chain\+Idle}} ()
+\begin{DoxyCompactList}\small\item\em Waits until the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation initiated by a frame flip is complete. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}{now}} () const
+\begin{DoxyCompactList}\small\item\em Gets the current timestamp in microseconds. \end{DoxyCompactList}\item 
+uintptr\+\_\+t \mbox{\hyperlink{classpsyqo_1_1GPU_a538a75a41d5d2d7dee36257624c7141e}{arm\+Timer}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} deadline, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Creates a single-\/use timer. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{classpsyqo_1_1GPU_a7c072d5f10214000446131827711f605}{arm\+Periodic\+Timer}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} period, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Creates a periodic timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ac4e51005b198453448a9333f4287c1f9}{change\+Timer\+Period}} (uintptr\+\_\+t id, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} period, bool reset=false)
+\begin{DoxyCompactList}\small\item\em Changes the period of a periodic timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ad05cb9a39bb2f85d74fea992cf92cd8b}{pause\+Timer}} (uintptr\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Pauses a timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ae991de5c89c011d38bfcd8f21c80f929}{resume\+Timer}} (uintptr\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Resumes a paused timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ada42e9681f9ce7b6d8ed54b379c07ab8}{cancel\+Timer}} (uintptr\+\_\+t id)
+\begin{DoxyCompactList}\small\item\em Cancels a timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ad1f347688a7668c878b2aa0c1a9c4b9b}{pump\+Callbacks}} ()
+\begin{DoxyCompactList}\small\item\em Runs one round of event processing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_ae4a0f1dd3e18ea6c1a632c6102c9f79b}{send\+Raw}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} data)
+\begin{DoxyCompactList}\small\item\em Sends a raw 32 bits value to the Data register of the \doxylink{classpsyqo_1_1GPU}{GPU}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{classpsyqo_1_1GPU_a285c1eb933d75eea4d10eb798d78e97d}{US\+\_\+\+PER\+\_\+\+HBLANK}} = 64
+\item 
+static constexpr unsigned \mbox{\hyperlink{classpsyqo_1_1GPU_af55c8dc9b5e9065ab43b092b7c13f0b1}{c\+\_\+chain\+Threshold}} = 56
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1GPU_a23f25bcc02a0e94c2f5a4188496b04d0}{Application}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1GPU_a1d39bcd954a846b277501a4930aab842}{psyqo\+::\+Kernel\+::take\+Over\+Kernel}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The singleton \doxylink{classpsyqo_1_1GPU}{GPU} class. 
+
+This class shouldn\textquotesingle{}t be instantiated directly. It is a singleton instantiated within the {\ttfamily \doxylink{classpsyqo_1_1Application}{Application}} class, and accessed using the {\ttfamily gpu} method. It contains the current state of the psyqo renderer, and provides various helpers for rendering. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3e}\label{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3e} 
+\index{psyqo::GPU@{psyqo::GPU}!ColorMode@{ColorMode}}
+\index{ColorMode@{ColorMode}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{ColorMode}{ColorMode}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3e}{psyqo\+::\+GPU\+::\+Color\+Mode}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{C15BITS@{C15BITS}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!C15BITS@{C15BITS}}}\Hypertarget{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eafd93ed15ae10316f799cee8d5e6e24c0}\label{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eafd93ed15ae10316f799cee8d5e6e24c0} 
+C15\+BITS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{C24BITS@{C24BITS}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!C24BITS@{C24BITS}}}\Hypertarget{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eab5a2a5fa6b37cce974ea28abaa8f2daa}\label{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eab5a2a5fa6b37cce974ea28abaa8f2daa} 
+C24\+BITS&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306a}\label{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306a} 
+\index{psyqo::GPU@{psyqo::GPU}!Interlace@{Interlace}}
+\index{Interlace@{Interlace}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{Interlace}{Interlace}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306a}{psyqo\+::\+GPU\+::\+Interlace}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PROGRESSIVE@{PROGRESSIVE}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!PROGRESSIVE@{PROGRESSIVE}}}\Hypertarget{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa9bc5e7fe934fe08249e3aa2e0d3678ed}\label{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa9bc5e7fe934fe08249e3aa2e0d3678ed} 
+PROGRESSIVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INTERLACED@{INTERLACED}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!INTERLACED@{INTERLACED}}}\Hypertarget{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa8472c10b48f63928211bd72d1888071f}\label{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa8472c10b48f63928211bd72d1888071f} 
+INTERLACED&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52}\label{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52} 
+\index{psyqo::GPU@{psyqo::GPU}!MiscSetting@{MiscSetting}}
+\index{MiscSetting@{MiscSetting}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{MiscSetting}{MiscSetting}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52}{psyqo\+::\+GPU\+::\+Misc\+Setting}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CLEAR\_VRAM@{CLEAR\_VRAM}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!CLEAR\_VRAM@{CLEAR\_VRAM}}}\Hypertarget{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a897b839b365f010ba0cd41905200fc65}\label{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a897b839b365f010ba0cd41905200fc65} 
+CLEAR\+\_\+\+VRAM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{KEEP\_VRAM@{KEEP\_VRAM}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!KEEP\_VRAM@{KEEP\_VRAM}}}\Hypertarget{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a31b2c4669316d9f9e021bd8850049a08}\label{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a31b2c4669316d9f9e021bd8850049a08} 
+KEEP\+\_\+\+VRAM&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02}\label{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02} 
+\index{psyqo::GPU@{psyqo::GPU}!Resolution@{Resolution}}
+\index{Resolution@{Resolution}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{Resolution}{Resolution}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02}{psyqo\+::\+GPU\+::\+Resolution}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W256@{W256}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!W256@{W256}}}\Hypertarget{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a20a3b192080fe5233724856fd1fdd4ff}\label{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a20a3b192080fe5233724856fd1fdd4ff} 
+W256&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W320@{W320}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!W320@{W320}}}\Hypertarget{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02ad2799ae4d9532e75c7b76f8fe7c80560}\label{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02ad2799ae4d9532e75c7b76f8fe7c80560} 
+W320&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W368@{W368}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!W368@{W368}}}\Hypertarget{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a75db877e0a3a32172f0092fe627dd8c0}\label{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a75db877e0a3a32172f0092fe627dd8c0} 
+W368&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W512@{W512}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!W512@{W512}}}\Hypertarget{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a6dd107a6ff2544895b9e016397f25417}\label{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a6dd107a6ff2544895b9e016397f25417} 
+W512&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W640@{W640}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!W640@{W640}}}\Hypertarget{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a016b20118d27be1be483198a0b0ba5fb}\label{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a016b20118d27be1be483198a0b0ba5fb} 
+W640&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696}\label{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696} 
+\index{psyqo::GPU@{psyqo::GPU}!VideoMode@{VideoMode}}
+\index{VideoMode@{VideoMode}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{VideoMode}{VideoMode}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696}{psyqo\+::\+GPU\+::\+Video\+Mode}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AUTO@{AUTO}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!AUTO@{AUTO}}}\Hypertarget{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696ae1f2d5134ed2543d38a0de9751cf75d9}\label{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696ae1f2d5134ed2543d38a0de9751cf75d9} 
+AUTO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NTSC@{NTSC}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!NTSC@{NTSC}}}\Hypertarget{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696a4b38da225171e1781308c764b6b3b172}\label{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696a4b38da225171e1781308c764b6b3b172} 
+NTSC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PAL@{PAL}!psyqo::GPU@{psyqo::GPU}}\index{psyqo::GPU@{psyqo::GPU}!PAL@{PAL}}}\Hypertarget{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696acf4f483867e0c770dda73062a492b370}\label{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696acf4f483867e0c770dda73062a492b370} 
+PAL&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1GPU_a7c072d5f10214000446131827711f605}\label{classpsyqo_1_1GPU_a7c072d5f10214000446131827711f605} 
+\index{psyqo::GPU@{psyqo::GPU}!armPeriodicTimer@{armPeriodicTimer}}
+\index{armPeriodicTimer@{armPeriodicTimer}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{armPeriodicTimer()}{armPeriodicTimer()}}
+{\footnotesize\ttfamily uintptr\+\_\+t psyqo\+::\+GPU\+::arm\+Periodic\+Timer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{period,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Creates a periodic timer. 
+
+This method will create a periodic timer. The timer will fire every {\ttfamily period} microseconds. See the {\ttfamily arm\+Timer} method for more information about timers in general. Periodic timers will first fire at {\ttfamily \doxylink{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}{now()} + period} microseconds, and then every {\ttfamily period} microseconds thereafter. They will never be canceled automatically. 
+\begin{DoxyParams}{Parameters}
+{\em period} & The period of the timer in microseconds. \\
+\hline
+{\em callback} & The callback function to be called when the timer expires. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The id of the created timer. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_a538a75a41d5d2d7dee36257624c7141e}\label{classpsyqo_1_1GPU_a538a75a41d5d2d7dee36257624c7141e} 
+\index{psyqo::GPU@{psyqo::GPU}!armTimer@{armTimer}}
+\index{armTimer@{armTimer}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{armTimer()}{armTimer()}}
+{\footnotesize\ttfamily uintptr\+\_\+t psyqo\+::\+GPU\+::arm\+Timer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{deadline,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Creates a single-\/use timer. 
+
+This method will create a single-\/use timer. The timer will fire after the specified deadline has passed. Timers will only fire during the idle period of the CPU, for example during calls to {\ttfamily send\+Fragment}, or between calls to the {\ttfamily frame} method of the current scene. If the scene takes too long to compute, timers may significantly be delayed past their set deadline. The deadline can be computed based on the return value of the {\ttfamily \doxylink{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}{now()}} method. It is okay if the deadline rolls over their 32 bits span. Simply doing {\ttfamily gpu().\doxylink{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}{now()} + DELAY\+\_\+\+IN\+\_\+\+MICROSECONDS} will still work, as long as the delay isn\textquotesingle{}t greater than 30 minutes. Single-\/use timers will automatically be disabled upon being fired, and their id will no longer be valid. The returned id is guaranteed to be unique across active timers, but may collision with the id of timers that got canceled or got disabled on their own. 
+\begin{DoxyParams}{Parameters}
+{\em deadline} & The deadline of the timer in microseconds. \\
+\hline
+{\em callback} & The callback function to be called when the timer expires. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The id of the created timer. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_ada42e9681f9ce7b6d8ed54b379c07ab8}\label{classpsyqo_1_1GPU_ada42e9681f9ce7b6d8ed54b379c07ab8} 
+\index{psyqo::GPU@{psyqo::GPU}!cancelTimer@{cancelTimer}}
+\index{cancelTimer@{cancelTimer}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{cancelTimer()}{cancelTimer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::cancel\+Timer (\begin{DoxyParamCaption}\item[{uintptr\+\_\+t}]{id }\end{DoxyParamCaption})}
+
+
+
+Cancels a timer. 
+
+This method will cancel an active timer. The timer will no longer fire. Its id will no longer be valid. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the timer to cancel. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}\label{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce} 
+\index{psyqo::GPU@{psyqo::GPU}!chain@{chain}}
+\index{chain@{chain}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{chain()}{chain()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$Fragment Frag$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::chain (\begin{DoxyParamCaption}\item[{Frag \&}]{fragment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Chains a fragment to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. 
+
+This method will chain a fragment to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. \doxylink{namespacepsyqo_1_1DMA}{DMA} Chaining is a complex operation, and it is recommended that you use the {\ttfamily send\+Fragment} method instead if you are unsure. This can be used while a \doxylink{namespacepsyqo_1_1DMA}{DMA} chain is being sent. Use the {\ttfamily send\+Chain} method to transfer the \doxylink{namespacepsyqo_1_1DMA}{DMA} chain during the current frame, or simply return from the current scene\textquotesingle{}s {\ttfamily frame} method to transfer the \doxylink{namespacepsyqo_1_1DMA}{DMA} chain automatically during the frame flip operation. Note that the latter means the \doxylink{namespacepsyqo_1_1DMA}{DMA} chain will render on the {\itshape next} rendered frame, thus creating a sort of triple buffering system. The constructed \doxylink{namespacepsyqo_1_1DMA}{DMA} chain will thus need to be using the {\ttfamily Next} variants of the primitive constructors, if applicable. 
+\begin{DoxyParams}{Parameters}
+{\em fragment} & The fragment to chain. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a7831fbe354d4cc48b83303ed828ec70d}\label{classpsyqo_1_1GPU_a7831fbe354d4cc48b83303ed828ec70d} 
+\index{psyqo::GPU@{psyqo::GPU}!chain@{chain}}
+\index{chain@{chain}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{chain()}{chain()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$Fragment Frag1, Fragment Frag2$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::chain (\begin{DoxyParamCaption}\item[{Frag1 \texorpdfstring{$\ast$}{*}}]{first,  }\item[{Frag2 \texorpdfstring{$\ast$}{*}}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Chains an already constructed \doxylink{namespacepsyqo_1_1DMA}{DMA} chain to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. 
+
+This method will chain an already constructed \doxylink{namespacepsyqo_1_1DMA}{DMA} chain to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. This is an even more complex operation than the previous {\ttfamily chain} method, as it requires the user to construct the \doxylink{namespacepsyqo_1_1DMA}{DMA} chain manually. Some helpers are provided in the {\ttfamily \doxylink{namespacepsyqo_1_1Fragments}{Fragments}} namespace. 
+\begin{DoxyParams}{Parameters}
+{\em first} & The pointer to the first fragment of the chain. \\
+\hline
+{\em last} & The pointer to the last fragment of the chain. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_acf456b99ae3277804395e4ab10cf5ee0}\label{classpsyqo_1_1GPU_acf456b99ae3277804395e4ab10cf5ee0} 
+\index{psyqo::GPU@{psyqo::GPU}!chain@{chain}}
+\index{chain@{chain}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{chain()}{chain()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::chain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1OrderingTable}{Ordering\+Table}}$<$ N $>$ \&}]{table }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Chains an ordering table to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. 
+
+This method will chain an ordering table to the next \doxylink{namespacepsyqo_1_1DMA}{DMA} chain transfer. The ordering table table will be cleared automatically after the transfer is complete.
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & The ordering table to chain. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_ac4e51005b198453448a9333f4287c1f9}\label{classpsyqo_1_1GPU_ac4e51005b198453448a9333f4287c1f9} 
+\index{psyqo::GPU@{psyqo::GPU}!changeTimerPeriod@{changeTimerPeriod}}
+\index{changeTimerPeriod@{changeTimerPeriod}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{changeTimerPeriod()}{changeTimerPeriod()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::change\+Timer\+Period (\begin{DoxyParamCaption}\item[{uintptr\+\_\+t}]{id,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{period,  }\item[{bool}]{reset = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Changes the period of a periodic timer. 
+
+This method will change the period of a periodic timer. The timer now will fire every {\ttfamily period} microseconds instead of its previous period. When the {\ttfamily reset} argument is false, the next deadline for the timer will be adjusted according to the difference between the new period and the previous one. If the new period is shorter, and the deadline goes in the past, the timer will fire as soon as possible. When the {\ttfamily reset} argument is true, the new deadline will simply be set to the new {\ttfamily period}. This method has no effect if the timer is not periodic. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the timer to change. \\
+\hline
+{\em period} & The new period of the timer. \\
+\hline
+{\em reset} & The timer\textquotesingle{}s deadline will be adjusted to the new period if false. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_aebfd00fab546616d9719222ae9e1593a}\label{classpsyqo_1_1GPU_aebfd00fab546616d9719222ae9e1593a} 
+\index{psyqo::GPU@{psyqo::GPU}!clear@{clear}}
+\index{clear@{clear}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{bg = {\ttfamily \{\{0,~0,~0\}\}} }\end{DoxyParamCaption})}
+
+
+
+Immediately clears the drawing buffer. 
+
+This method will immediately clear the drawing buffer with the specified color. 
+\begin{DoxyParams}{Parameters}
+{\em bg} & The color to fill the drawing buffer with. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a60d5174f36f7fcbd41385e4e8b1b3fbd}\label{classpsyqo_1_1GPU_a60d5174f36f7fcbd41385e4e8b1b3fbd} 
+\index{psyqo::GPU@{psyqo::GPU}!disableScissor@{disableScissor}}
+\index{disableScissor@{disableScissor}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{disableScissor()}{disableScissor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::disable\+Scissor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Immediately disables the scissoring of the VRAM. 
+
+\Hypertarget{classpsyqo_1_1GPU_a833d7512de2c2f839442ffcb36fe45d3}\label{classpsyqo_1_1GPU_a833d7512de2c2f839442ffcb36fe45d3} 
+\index{psyqo::GPU@{psyqo::GPU}!enableScissor@{enableScissor}}
+\index{enableScissor@{enableScissor}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{enableScissor()}{enableScissor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::enable\+Scissor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Enables the scissoring of the VRAM. 
+
+This method will enable the scissoring of the VRAM, and will clip the drawing to the currently active buffer. \Hypertarget{classpsyqo_1_1GPU_a770c1be99910abc621ca46a809da7c47}\label{classpsyqo_1_1GPU_a770c1be99910abc621ca46a809da7c47} 
+\index{psyqo::GPU@{psyqo::GPU}!getClear@{getClear}}
+\index{getClear@{getClear}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getClear()}{getClear()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::get\+Clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill}{Prim\+::\+Fast\+Fill}} \&}]{ff,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{bg = {\ttfamily \{\{0,~0,~0\}\}} }\end{DoxyParamCaption}) const}
+
+
+
+Sets a {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive to clear the current drawing buffer. 
+
+This method will set the {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive passed as an argument in a way to completely clear the current drawing buffer with the specified color. This will be done in accordance to the current drawing buffer settings. 
+\begin{DoxyParams}{Parameters}
+{\em ff} & The {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive to set. \\
+\hline
+{\em end} & The color to issue. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a43245681eb3f72817ab68f0c24e2d04b}\label{classpsyqo_1_1GPU_a43245681eb3f72817ab68f0c24e2d04b} 
+\index{psyqo::GPU@{psyqo::GPU}!getFrameCount@{getFrameCount}}
+\index{getFrameCount@{getFrameCount}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getFrameCount()}{getFrameCount()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+GPU\+::get\+Frame\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the number of frames rendered by the \doxylink{classpsyqo_1_1GPU}{GPU} so far. 
+
+This returns the internal frame counter being kept by the \doxylink{classpsyqo_1_1GPU}{GPU} class. The 32 bits value will wrap around when it reaches 2\texorpdfstring{$^\wedge$}{\string^}32 frames, which is 2 years, 3 months, 7 days, 6 hours, 6 minutes and 28.\+27 seconds when running constantly at a 60Hz refresh rate. \Hypertarget{classpsyqo_1_1GPU_ae426061894708be02f7c980a2c19f4e8}\label{classpsyqo_1_1GPU_ae426061894708be02f7c980a2c19f4e8} 
+\index{psyqo::GPU@{psyqo::GPU}!getNextClear@{getNextClear}}
+\index{getNextClear@{getNextClear}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getNextClear()}{getNextClear()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::get\+Next\+Clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill}{Prim\+::\+Fast\+Fill}} \&}]{ff,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{bg = {\ttfamily \{\{0,~0,~0\}\}} }\end{DoxyParamCaption}) const}
+
+
+
+Sets a {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive to clear the next drawing buffer. 
+
+This method will set the {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive passed as an argument in a way to completely clear the next drawing buffer with the specified color. This will be done in accordance to the next drawing buffer settings, after a flip. This is useful for clearing the buffer within a dma chain to be sent during the frame flip. 
+\begin{DoxyParams}{Parameters}
+{\em ff} & The {\ttfamily \doxylink{structFastFill}{Fast\+Fill}} primitive to set. \\
+\hline
+{\em end} & The color to issue. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a8c3b5968057b8c2b48f2ae9ea06d21c7}\label{classpsyqo_1_1GPU_a8c3b5968057b8c2b48f2ae9ea06d21c7} 
+\index{psyqo::GPU@{psyqo::GPU}!getNextScissor@{getNextScissor}}
+\index{getNextScissor@{getNextScissor}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getNextScissor()}{getNextScissor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::get\+Next\+Scissor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Scissor}{Prim\+::\+Scissor}} \&}]{scissor }\end{DoxyParamCaption})}
+
+
+
+Gets the next scissoring region. 
+
+This method will set the scissor primitive to the next active drawing buffer. This is useful for setting the scissor within a dma chain to be sent during the frame flip. 
+\begin{DoxyParams}{Parameters}
+{\em scissor} & The scissor primitive to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a1aed0f1c3f98303bdee3dbf282e7301f}\label{classpsyqo_1_1GPU_a1aed0f1c3f98303bdee3dbf282e7301f} 
+\index{psyqo::GPU@{psyqo::GPU}!getParity@{getParity}}
+\index{getParity@{getParity}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getParity()}{getParity()}}
+{\footnotesize\ttfamily unsigned psyqo\+::\+GPU\+::get\+Parity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the index of the current display buffer. 
+
+This method will return the index of the current display buffer. The index will be either 0 or 1, and will be updated during the frame flip operation. This is useful for double buffering\+: when designing an application which uses double buffering, the application should keep two sets of data, one for each display buffer. The application should then use the {\ttfamily get\+Parity} method to determine which if its two sets of data should be used for the current frame.
+
+\begin{DoxyReturn}{Returns}
+unsigned The index of the current display buffer, either 0 or 1. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_aa6cecf7edc1d353b0571063b92e9b95b}\label{classpsyqo_1_1GPU_aa6cecf7edc1d353b0571063b92e9b95b} 
+\index{psyqo::GPU@{psyqo::GPU}!getRefreshRate@{getRefreshRate}}
+\index{getRefreshRate@{getRefreshRate}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getRefreshRate()}{getRefreshRate()}}
+{\footnotesize\ttfamily unsigned psyqo\+::\+GPU\+::get\+Refresh\+Rate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the refresh rate of the \doxylink{classpsyqo_1_1GPU}{GPU}. 
+
+This method will return either 60 or 50, depending on the current video mode. \Hypertarget{classpsyqo_1_1GPU_afb216e98b53f375b6a117a6944a2d2fd}\label{classpsyqo_1_1GPU_afb216e98b53f375b6a117a6944a2d2fd} 
+\index{psyqo::GPU@{psyqo::GPU}!getScissor@{getScissor}}
+\index{getScissor@{getScissor}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{getScissor()}{getScissor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::get\+Scissor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Scissor}{Prim\+::\+Scissor}} \&}]{scissor }\end{DoxyParamCaption})}
+
+
+
+Gets the current scissoring region. 
+
+This method will set the scissor primitive to the currently active drawing buffer. 
+\begin{DoxyParams}{Parameters}
+{\em scissor} & The scissor primitive to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a94b2f5f2dccbfaf5b80662d567e1ce2a}\label{classpsyqo_1_1GPU_a94b2f5f2dccbfaf5b80662d567e1ce2a} 
+\index{psyqo::GPU@{psyqo::GPU}!initialize@{initialize}}
+\index{initialize@{initialize}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::initialize (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}} \&}]{config }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1GPU_a15468babe6e97d899eb454c50f97a6b7}\label{classpsyqo_1_1GPU_a15468babe6e97d899eb454c50f97a6b7} 
+\index{psyqo::GPU@{psyqo::GPU}!isChainIdle@{isChainIdle}}
+\index{isChainIdle@{isChainIdle}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{isChainIdle()}{isChainIdle()}}
+{\footnotesize\ttfamily bool psyqo\+::\+GPU\+::is\+Chain\+Idle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets the status of the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation when initiated by a frame flip. 
+
+\begin{DoxyReturn}{Returns}
+true if no background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer is in progress nor completed. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_ae17401ed52bb5d197aac16364ca577cf}\label{classpsyqo_1_1GPU_ae17401ed52bb5d197aac16364ca577cf} 
+\index{psyqo::GPU@{psyqo::GPU}!isChainTransferred@{isChainTransferred}}
+\index{isChainTransferred@{isChainTransferred}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{isChainTransferred()}{isChainTransferred()}}
+{\footnotesize\ttfamily bool psyqo\+::\+GPU\+::is\+Chain\+Transferred (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets the status of the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation when initiated by a frame flip. 
+
+\begin{DoxyReturn}{Returns}
+true if a background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer has completed, and is now waiting for a frame flip. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_aeb958e3445245f03236d1cc259e0ed31}\label{classpsyqo_1_1GPU_aeb958e3445245f03236d1cc259e0ed31} 
+\index{psyqo::GPU@{psyqo::GPU}!isChainTransferring@{isChainTransferring}}
+\index{isChainTransferring@{isChainTransferring}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{isChainTransferring()}{isChainTransferring()}}
+{\footnotesize\ttfamily bool psyqo\+::\+GPU\+::is\+Chain\+Transferring (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets the status of the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation when initiated by a frame flip. 
+
+\begin{DoxyReturn}{Returns}
+true if a background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer is in progress. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}\label{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012} 
+\index{psyqo::GPU@{psyqo::GPU}!now@{now}}
+\index{now@{now}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{now()}{now()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+GPU\+::now (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the current timestamp in microseconds. 
+
+The current timestamp is in microseconds. It will wrap around after a bit more than an hour, so it shouldn\textquotesingle{}t be used for deadlines that are more than 30 minutes away. This relies on root counter 1 set in hsync mode without any target value. The value will be updated during the idle moments of the page flip, without relying on interrupts. The precision isn\textquotesingle{}t really good, as it assumes one scanline runs at 64us, but it should be good enough for most purposes. Creating a stopwatch out of it should show that it\textquotesingle{}s running a bit too fast, approximately 1 second too fast every minute or so. Its monotonicity should be proper however.
+
+The method {\ttfamily \doxylink{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}{now()}} should be reserved for interacting with timers. If longer span is required, with more accuracy but less precision, for something that\textquotesingle{}s not related with timers, then the current amount of time in seconds since the application started can simply be obtained using {\ttfamily \doxylink{classpsyqo_1_1GPU_a43245681eb3f72817ab68f0c24e2d04b}{get\+Frame\+Count()} / \doxylink{classpsyqo_1_1GPU_aa6cecf7edc1d353b0571063b92e9b95b}{get\+Refresh\+Rate()}}. \begin{DoxyReturn}{Returns}
+The current timestamp in microseconds. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1GPU_ad05cb9a39bb2f85d74fea992cf92cd8b}\label{classpsyqo_1_1GPU_ad05cb9a39bb2f85d74fea992cf92cd8b} 
+\index{psyqo::GPU@{psyqo::GPU}!pauseTimer@{pauseTimer}}
+\index{pauseTimer@{pauseTimer}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{pauseTimer()}{pauseTimer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::pause\+Timer (\begin{DoxyParamCaption}\item[{uintptr\+\_\+t}]{id }\end{DoxyParamCaption})}
+
+
+
+Pauses a timer. 
+
+This method will pause a timer. It will not fire anymore, even if its deadline had already passed at the moment of this call, but it will remain active, and its id will remain valid. The remainder of the deadline will be remembered, for when the timer is resumed. This method has no effect if the timer is already paused. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the timer to pause. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_ad1f347688a7668c878b2aa0c1a9c4b9b}\label{classpsyqo_1_1GPU_ad1f347688a7668c878b2aa0c1a9c4b9b} 
+\index{psyqo::GPU@{psyqo::GPU}!pumpCallbacks@{pumpCallbacks}}
+\index{pumpCallbacks@{pumpCallbacks}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{pumpCallbacks()}{pumpCallbacks()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::pump\+Callbacks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Runs one round of event processing. 
+
+While this method is technically for internal use, it is exposed here for convenience. It will run one round of event processing, including the processing of timers. This method should be called in a loop when waiting for other events to be processed. \Hypertarget{classpsyqo_1_1GPU_ae991de5c89c011d38bfcd8f21c80f929}\label{classpsyqo_1_1GPU_ae991de5c89c011d38bfcd8f21c80f929} 
+\index{psyqo::GPU@{psyqo::GPU}!resumeTimer@{resumeTimer}}
+\index{resumeTimer@{resumeTimer}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{resumeTimer()}{resumeTimer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::resume\+Timer (\begin{DoxyParamCaption}\item[{uintptr\+\_\+t}]{id }\end{DoxyParamCaption})}
+
+
+
+Resumes a paused timer. 
+
+This method will resume a paused timer. The timer will be able to fire again, according to its original settings. The new deadline will be calculated from the remainder of the time left when it was paused. This method will have no effect if the timer is not paused. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the timer to resume. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_abbb163bd353a0c1a0f74f984f4cf3035}\label{classpsyqo_1_1GPU_abbb163bd353a0c1a0f74f984f4cf3035} 
+\index{psyqo::GPU@{psyqo::GPU}!sendChain@{sendChain}}
+\index{sendChain@{sendChain}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{sendChain()}{sendChain()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::send\+Chain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Immediately sends the current \doxylink{namespacepsyqo_1_1DMA}{DMA} chain. 
+
+This method will immediately send the current \doxylink{namespacepsyqo_1_1DMA}{DMA} chain to the \doxylink{classpsyqo_1_1GPU}{GPU}, and block until completion. \Hypertarget{classpsyqo_1_1GPU_a361dda74eb57e68fe07923b721019358}\label{classpsyqo_1_1GPU_a361dda74eb57e68fe07923b721019358} 
+\index{psyqo::GPU@{psyqo::GPU}!sendChain@{sendChain}}
+\index{sendChain@{sendChain}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{sendChain()}{sendChain()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::send\+Chain (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback = {\ttfamily \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}}} }\end{DoxyParamCaption})}
+
+
+
+Initiates the transfer of the current \doxylink{namespacepsyqo_1_1DMA}{DMA} chain. 
+
+See the non-\/blocking variant of {\ttfamily upload\+To\+VRAM} for more information about asynchronous transfers. 
+\begin{DoxyParams}{Parameters}
+{\em callback} & The callback to call upon completion. \\
+\hline
+{\em dma\+Callback} & {\ttfamily \doxylink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}} or {\ttfamily \doxylink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99af617fc1f013e92619c0008a5e6ff07eb}{DMA\+::\+FROM\+\_\+\+ISR}}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}\label{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631} 
+\index{psyqo::GPU@{psyqo::GPU}!sendFragment@{sendFragment}}
+\index{sendFragment@{sendFragment}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{sendFragment()}{sendFragment()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$Fragment Frag$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::send\+Fragment (\begin{DoxyParamCaption}\item[{const Frag \&}]{fragment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Immediately sends a fragment to the \doxylink{classpsyqo_1_1GPU}{GPU}. This is a blocking operation. See the \doxylink{fragments_8hh}{fragments.\+hh} file for more information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fragment} & The fragment to send to the \doxylink{classpsyqo_1_1GPU}{GPU}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a56226bf7b304aeb1c959bdadeb67040f}\label{classpsyqo_1_1GPU_a56226bf7b304aeb1c959bdadeb67040f} 
+\index{psyqo::GPU@{psyqo::GPU}!sendFragment@{sendFragment}}
+\index{sendFragment@{sendFragment}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{sendFragment()}{sendFragment()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Fragment Frag$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::send\+Fragment (\begin{DoxyParamCaption}\item[{const Frag \&}]{fragment,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback = {\ttfamily \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sends a fragment to the \doxylink{classpsyqo_1_1GPU}{GPU} as a non-\/blocking call. 
+
+See the non-\/blocking variant of {\ttfamily upload\+To\+VRAM} for more information about asynchronous transfers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fragment} & The fragment to send to the \doxylink{classpsyqo_1_1GPU}{GPU}. \\
+\hline
+{\em callback} & The callback to call upon completion. \\
+\hline
+{\em dma\+Callback} & {\ttfamily \doxylink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}} or {\ttfamily \doxylink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99af617fc1f013e92619c0008a5e6ff07eb}{DMA\+::\+FROM\+\_\+\+ISR}}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a318caff55f8649cbaf430e3e2bed39b6}\label{classpsyqo_1_1GPU_a318caff55f8649cbaf430e3e2bed39b6} 
+\index{psyqo::GPU@{psyqo::GPU}!sendPrimitive@{sendPrimitive}}
+\index{sendPrimitive@{sendPrimitive}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{sendPrimitive()}{sendPrimitive()}}
+{\footnotesize\ttfamily template$<$Primitive Prim$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::send\+Primitive (\begin{DoxyParamCaption}\item[{const Prim \&}]{primitive }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sends a primitive to the \doxylink{classpsyqo_1_1GPU}{GPU}. This is a blocking call. 
+
+This method will immediately send the specified primitive to the \doxylink{classpsyqo_1_1GPU}{GPU}. 
+\begin{DoxyParams}{Parameters}
+{\em primitive} & The primitive to send to the \doxylink{classpsyqo_1_1GPU}{GPU}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_ae4a0f1dd3e18ea6c1a632c6102c9f79b}\label{classpsyqo_1_1GPU_ae4a0f1dd3e18ea6c1a632c6102c9f79b} 
+\index{psyqo::GPU@{psyqo::GPU}!sendRaw@{sendRaw}}
+\index{sendRaw@{sendRaw}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{sendRaw()}{sendRaw()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::send\+Raw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Sends a raw 32 bits value to the Data register of the \doxylink{classpsyqo_1_1GPU}{GPU}. 
+
+\Hypertarget{classpsyqo_1_1GPU_ae2e03a4798418feb963eb30de516de03}\label{classpsyqo_1_1GPU_ae2e03a4798418feb963eb30de516de03} 
+\index{psyqo::GPU@{psyqo::GPU}!uploadToVRAM@{uploadToVRAM}}
+\index{uploadToVRAM@{uploadToVRAM}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{uploadToVRAM()}{uploadToVRAM()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::upload\+To\+VRAM (\begin{DoxyParamCaption}\item[{const uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{\mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}}}]{region }\end{DoxyParamCaption})}
+
+
+
+Uploads a buffer to the VRAM as a blocking call. 
+
+This method will immediately upload the specified set of pixels to the VRAM, at the specified location and size. The \doxylink{classpsyqo_1_1GPU}{GPU} cache will be flushed. It will block until completion of the upload. 
+\begin{DoxyParams}{Parameters}
+{\em data} & The pixels to upload. Must be a contiguous array of 16-\/bpp pixels, with the number of pixels being equal to the area specified by the {\ttfamily region} parameter. \\
+\hline
+{\em region} & The region in VRAM to upload the pixels to. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_ad7af278c4f7f4d24a53cef0b51cf66a7}\label{classpsyqo_1_1GPU_ad7af278c4f7f4d24a53cef0b51cf66a7} 
+\index{psyqo::GPU@{psyqo::GPU}!uploadToVRAM@{uploadToVRAM}}
+\index{uploadToVRAM@{uploadToVRAM}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{uploadToVRAM()}{uploadToVRAM()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::upload\+To\+VRAM (\begin{DoxyParamCaption}\item[{const uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{\mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}}}]{region,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback = {\ttfamily \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}}} }\end{DoxyParamCaption})}
+
+
+
+Uploads a buffer to the VRAM as a non-\/blocking call. 
+
+This method will initiate an upload of the specified set of pixels to the VRAM, at the specified location and size. The \doxylink{classpsyqo_1_1GPU}{GPU} cache will be flushed. It will return immediately, and the upload will be performed in the background. Upon completion, the specified callback will be called. If {\ttfamily dma\+Callback} is set to {\ttfamily FROM\+\_\+\+ISR}, the callback will be called from the interrupt handler, and care must be taken to properly synchronize variable changes. Please use the EASTL\textquotesingle{}s {\ttfamily atomic\+\_\+signal\+\_\+fence} function for this purpose. If {\ttfamily dma\+Callback} is set to {\ttfamily FROM\+\_\+\+MAIN\+\_\+\+LOOP}, the callback will be called in the same execution context as the main loop, and it is therefore safe to access variables there. The callback will thus be called between calls to the current scene\textquotesingle{}s {\ttfamily frame} method, or during {\ttfamily Kernel\+::pump\+Callbacks()}. Note that during the upload, no \doxylink{classpsyqo_1_1GPU}{GPU} operation should be performed. 
+\begin{DoxyParams}{Parameters}
+{\em data} & The pixels to upload. Must be a contiguous array of 16-\/bpp pixels, with the number of pixels being equal to the area specified by the {\ttfamily region} parameter. \\
+\hline
+{\em region} & The region in VRAM to upload the pixels to. \\
+\hline
+{\em callback} & The callback to call upon completion. \\
+\hline
+{\em dma\+Callback} & {\ttfamily \doxylink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}} or {\ttfamily \doxylink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99af617fc1f013e92619c0008a5e6ff07eb}{DMA\+::\+FROM\+\_\+\+ISR}}. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1GPU_a3d4519352164c43fab4c6b6a9655d628}\label{classpsyqo_1_1GPU_a3d4519352164c43fab4c6b6a9655d628} 
+\index{psyqo::GPU@{psyqo::GPU}!waitChainIdle@{waitChainIdle}}
+\index{waitChainIdle@{waitChainIdle}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{waitChainIdle()}{waitChainIdle()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::wait\+Chain\+Idle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Waits until the background \doxylink{namespacepsyqo_1_1DMA}{DMA} transfer operation initiated by a frame flip is complete. 
+
+\Hypertarget{classpsyqo_1_1GPU_ae96d300f26b67e9ef313a25273e90384}\label{classpsyqo_1_1GPU_ae96d300f26b67e9ef313a25273e90384} 
+\index{psyqo::GPU@{psyqo::GPU}!waitFifo@{waitFifo}}
+\index{waitFifo@{waitFifo}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{waitFifo()}{waitFifo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::wait\+Fifo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Waits until the \doxylink{classpsyqo_1_1GPU}{GPU}\textquotesingle{}s FIFO is ready to receive data. 
+
+\Hypertarget{classpsyqo_1_1GPU_a85873df29f9526d153dd31a8fe76c76e}\label{classpsyqo_1_1GPU_a85873df29f9526d153dd31a8fe76c76e} 
+\index{psyqo::GPU@{psyqo::GPU}!waitReady@{waitReady}}
+\index{waitReady@{waitReady}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{waitReady()}{waitReady()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+GPU\+::wait\+Ready (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Waits until the \doxylink{classpsyqo_1_1GPU}{GPU} is ready to send a command. 
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1GPU_a23f25bcc02a0e94c2f5a4188496b04d0}\label{classpsyqo_1_1GPU_a23f25bcc02a0e94c2f5a4188496b04d0} 
+\index{psyqo::GPU@{psyqo::GPU}!Application@{Application}}
+\index{Application@{Application}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{Application}{Application}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classpsyqo_1_1Application}{Application}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsyqo_1_1GPU_a1d39bcd954a846b277501a4930aab842}\label{classpsyqo_1_1GPU_a1d39bcd954a846b277501a4930aab842} 
+\index{psyqo::GPU@{psyqo::GPU}!psyqo::Kernel::takeOverKernel@{psyqo::Kernel::takeOverKernel}}
+\index{psyqo::Kernel::takeOverKernel@{psyqo::Kernel::takeOverKernel}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{psyqo::Kernel::takeOverKernel}{psyqo::Kernel::takeOverKernel}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a}{psyqo\+::\+Kernel\+::take\+Over\+Kernel}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classpsyqo_1_1GPU_af55c8dc9b5e9065ab43b092b7c13f0b1}\label{classpsyqo_1_1GPU_af55c8dc9b5e9065ab43b092b7c13f0b1} 
+\index{psyqo::GPU@{psyqo::GPU}!c\_chainThreshold@{c\_chainThreshold}}
+\index{c\_chainThreshold@{c\_chainThreshold}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{c\_chainThreshold}{c\_chainThreshold}}
+{\footnotesize\ttfamily constexpr unsigned psyqo\+::\+GPU\+::c\+\_\+chain\+Threshold = 56\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsyqo_1_1GPU_a285c1eb933d75eea4d10eb798d78e97d}\label{classpsyqo_1_1GPU_a285c1eb933d75eea4d10eb798d78e97d} 
+\index{psyqo::GPU@{psyqo::GPU}!US\_PER\_HBLANK@{US\_PER\_HBLANK}}
+\index{US\_PER\_HBLANK@{US\_PER\_HBLANK}!psyqo::GPU@{psyqo::GPU}}
+\doxysubsubsection{\texorpdfstring{US\_PER\_HBLANK}{US\_PER\_HBLANK}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+GPU\+::\+US\+\_\+\+PER\+\_\+\+HBLANK = 64\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{gpu_8hh}{gpu.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{gpu_8cpp}{gpu.\+cpp}}\end{DoxyCompactItemize}

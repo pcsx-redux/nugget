@@ -1,0 +1,110 @@
+\doxysection{openbios/tty/tty.c File Reference}
+\hypertarget{tty_8c}{}\label{tty_8c}\index{openbios/tty/tty.c@{openbios/tty/tty.c}}
+{\ttfamily \#include "{}openbios/tty/tty.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/util.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/circularbuffer.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/ioctl.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/libcmisc.\+h"{}}\newline
+Include dependency graph for tty.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d2f/tty_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{tty_8c_aa91ea97c9997ea20749ec8b88acc8d00}{DEFAULT\+\_\+\+TTY\+\_\+\+INSTALL}}~0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_afff846f2ccaa8a8e6a4f246dbe8529fe}{add\+Console\+Device}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_a0a49f5a2dcfa78bb01622bc2f690a85b}{add\+Dummy\+Console\+Device}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{tty_8c_acac295f128ac8e85dc7d5d4a9be47d1d}{dev\+\_\+tty\+\_\+init}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_a11b88ca1a804cb5fc1303ef6fbc9c0d0}{dev\+\_\+tty\+\_\+open}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_a1539c5d3ab4723bf7d8934b2a361e385}{dev\+\_\+tty\+\_\+action}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, enum \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{File\+Action}} action)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_ab7fde78b4211b632bcbfb1e179a7e100}{dev\+\_\+tty\+\_\+ioctl}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} req, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} arg)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_a4e5b5af977501814f78c3c757207788f}{g\+\_\+cached\+Install\+TTY}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{tty_8c_ad02df56c0e37e7dcb0bc193998f995db}{g\+\_\+install\+TTY}} = \mbox{\hyperlink{tty_8c_aa91ea97c9997ea20749ec8b88acc8d00}{DEFAULT\+\_\+\+TTY\+\_\+\+INSTALL}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{tty_8c_aa91ea97c9997ea20749ec8b88acc8d00}\label{tty_8c_aa91ea97c9997ea20749ec8b88acc8d00} 
+\index{tty.c@{tty.c}!DEFAULT\_TTY\_INSTALL@{DEFAULT\_TTY\_INSTALL}}
+\index{DEFAULT\_TTY\_INSTALL@{DEFAULT\_TTY\_INSTALL}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_TTY\_INSTALL}{DEFAULT\_TTY\_INSTALL}}
+{\footnotesize\ttfamily \#define DEFAULT\+\_\+\+TTY\+\_\+\+INSTALL~0}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{tty_8c_afff846f2ccaa8a8e6a4f246dbe8529fe}\label{tty_8c_afff846f2ccaa8a8e6a4f246dbe8529fe} 
+\index{tty.c@{tty.c}!addConsoleDevice@{addConsoleDevice}}
+\index{addConsoleDevice@{addConsoleDevice}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{addConsoleDevice()}{addConsoleDevice()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} add\+Console\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{tty_8c_a0a49f5a2dcfa78bb01622bc2f690a85b}\label{tty_8c_a0a49f5a2dcfa78bb01622bc2f690a85b} 
+\index{tty.c@{tty.c}!addDummyConsoleDevice@{addDummyConsoleDevice}}
+\index{addDummyConsoleDevice@{addDummyConsoleDevice}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{addDummyConsoleDevice()}{addDummyConsoleDevice()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} add\+Dummy\+Console\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{tty_8c_a1539c5d3ab4723bf7d8934b2a361e385}\label{tty_8c_a1539c5d3ab4723bf7d8934b2a361e385} 
+\index{tty.c@{tty.c}!dev\_tty\_action@{dev\_tty\_action}}
+\index{dev\_tty\_action@{dev\_tty\_action}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{dev\_tty\_action()}{dev\_tty\_action()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} dev\+\_\+tty\+\_\+action (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{enum \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{File\+Action}}}]{action }\end{DoxyParamCaption})}
+
+\Hypertarget{tty_8c_acac295f128ac8e85dc7d5d4a9be47d1d}\label{tty_8c_acac295f128ac8e85dc7d5d4a9be47d1d} 
+\index{tty.c@{tty.c}!dev\_tty\_init@{dev\_tty\_init}}
+\index{dev\_tty\_init@{dev\_tty\_init}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{dev\_tty\_init()}{dev\_tty\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} dev\+\_\+tty\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{tty_8c_ab7fde78b4211b632bcbfb1e179a7e100}\label{tty_8c_ab7fde78b4211b632bcbfb1e179a7e100} 
+\index{tty.c@{tty.c}!dev\_tty\_ioctl@{dev\_tty\_ioctl}}
+\index{dev\_tty\_ioctl@{dev\_tty\_ioctl}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{dev\_tty\_ioctl()}{dev\_tty\_ioctl()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} dev\+\_\+tty\+\_\+ioctl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{req,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{arg }\end{DoxyParamCaption})}
+
+\Hypertarget{tty_8c_a11b88ca1a804cb5fc1303ef6fbc9c0d0}\label{tty_8c_a11b88ca1a804cb5fc1303ef6fbc9c0d0} 
+\index{tty.c@{tty.c}!dev\_tty\_open@{dev\_tty\_open}}
+\index{dev\_tty\_open@{dev\_tty\_open}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{dev\_tty\_open()}{dev\_tty\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} dev\+\_\+tty\+\_\+open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{mode }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{tty_8c_a4e5b5af977501814f78c3c757207788f}\label{tty_8c_a4e5b5af977501814f78c3c757207788f} 
+\index{tty.c@{tty.c}!g\_cachedInstallTTY@{g\_cachedInstallTTY}}
+\index{g\_cachedInstallTTY@{g\_cachedInstallTTY}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{g\_cachedInstallTTY}{g\_cachedInstallTTY}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+cached\+Install\+TTY}
+
+\Hypertarget{tty_8c_ad02df56c0e37e7dcb0bc193998f995db}\label{tty_8c_ad02df56c0e37e7dcb0bc193998f995db} 
+\index{tty.c@{tty.c}!g\_installTTY@{g\_installTTY}}
+\index{g\_installTTY@{g\_installTTY}!tty.c@{tty.c}}
+\doxysubsubsection{\texorpdfstring{g\_installTTY}{g\_installTTY}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+install\+TTY = \mbox{\hyperlink{tty_8c_aa91ea97c9997ea20749ec8b88acc8d00}{DEFAULT\+\_\+\+TTY\+\_\+\+INSTALL}}}
+

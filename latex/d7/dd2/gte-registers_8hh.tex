@@ -1,0 +1,304 @@
+\doxysection{psyqo/gte-\/registers.hh File Reference}
+\hypertarget{gte-registers_8hh}{}\label{gte-registers_8hh}\index{psyqo/gte-\/registers.hh@{psyqo/gte-\/registers.hh}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}psyqo/fixed-\/point.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/matrix.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/vector.\+hh"{}}\newline
+Include dependency graph for gte-\/registers.hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d9/dca/gte-registers_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{de/d53/gte-registers_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{psyqo\+::\+GTE\+::\+Packed\+Vec3}}
+\begin{DoxyCompactList}\small\item\em A GTE-\/compatible short vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo}{psyqo}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1GTE}{psyqo\+::\+GTE}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ 12 $>$ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ae792b7c00d9386fbbd07ef2e9a1e45ba}{psyqo\+::\+GTE\+::\+Long}}
+\begin{DoxyCompactList}\small\item\em A GTE-\/compatible 32-\/bits fixed point number. \end{DoxyCompactList}\item 
+typedef \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ 12, int16\+\_\+t $>$ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{psyqo\+::\+GTE\+::\+Short}}
+\begin{DoxyCompactList}\small\item\em A GTE-\/compatible 16-\/bits fixed point number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5}{psyqo\+::\+GTE\+::\+Register}} \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ad786a1efceae0307f74916c474931057}{psyqo\+::\+GTE\+::\+VXY0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a3b89a14bfe070d8d6cb041c31490c176}{psyqo\+::\+GTE\+::\+VZ0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5afb0551e60912cbcd5c76320d7a67486f}{psyqo\+::\+GTE\+::\+VXY1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a3cb2da34afc6ad84b31b782765103324}{psyqo\+::\+GTE\+::\+VZ1}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ab5c9cae1ca26be1e3abd011e09bb4439}{psyqo\+::\+GTE\+::\+VXY2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5acb5718d1b03e62b7dd70350e44bf5717}{psyqo\+::\+GTE\+::\+VZ2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a889574aebacda6bfd3e534e2b49b8028}{psyqo\+::\+GTE\+::\+RGB}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5acf23dfd8157f2562747a10065c17a4bc}{psyqo\+::\+GTE\+::\+OTZ}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a27dc3527ddc57f0019ae5c0145e5f057}{psyqo\+::\+GTE\+::\+IR0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a6ca5fff5d25b251040b4ca7f269e5604}{psyqo\+::\+GTE\+::\+IR1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a7b639efe24310482363ff1322d4404ad}{psyqo\+::\+GTE\+::\+IR2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ae32f620c39436819bc0bef90ca86f596}{psyqo\+::\+GTE\+::\+IR3}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a7ac3b99634ac8ef076a4f00c7cc13310}{psyqo\+::\+GTE\+::\+SXY0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4541ba03f771f410b18f80418330efcf}{psyqo\+::\+GTE\+::\+SXY1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a27dbece0fd36c42292ba57ec6b405194}{psyqo\+::\+GTE\+::\+SXY2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac90e639fa7c1b12976b21bc3c8ec2c5b}{psyqo\+::\+GTE\+::\+SXYP}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aafceca130ae256a39c6da97c3235f4a7}{psyqo\+::\+GTE\+::\+SZ0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a560a8ba49f00d2773a4e382dcea256fe}{psyqo\+::\+GTE\+::\+SZ1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a87fbb7b483173f1578c2322ae77adc4b}{psyqo\+::\+GTE\+::\+SZ2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a2e9f6a0acfb2cd81aec76fba29b53a02}{psyqo\+::\+GTE\+::\+SZ3}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5adfb00f75c13032a12d19409bbd6d42c0}{psyqo\+::\+GTE\+::\+RGB0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a971a6425b55c4188ad633e7a1ce83063}{psyqo\+::\+GTE\+::\+RGB1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a9be6725fbd753062550a86e9cba3d5b6}{psyqo\+::\+GTE\+::\+RGB2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a35c3a4fbfd3c3b02e8f91e11855e8844}{psyqo\+::\+GTE\+::\+RES1}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac82730eafa75a87520c9b6d0f0995679}{psyqo\+::\+GTE\+::\+MAC0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65a6e8006a9c2042e8aa78e5d9014d37}{psyqo\+::\+GTE\+::\+MAC1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ae2a627d3f27a8e5be841984f25f6c7ff}{psyqo\+::\+GTE\+::\+MAC2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ab4e60350d6c70ba07d8716dd0aac9659}{psyqo\+::\+GTE\+::\+MAC3}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ad0a5f9cf1a494f33e35eadfd857bf35f}{psyqo\+::\+GTE\+::\+IRGB}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac017fce4a92260e1ccd683cfa12aa7c1}{psyqo\+::\+GTE\+::\+ORGB}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a17a6f59d82b273cd250b31657c58c7ef}{psyqo\+::\+GTE\+::\+LZCS}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5acd1b6334b5d01e0b28b288d10a261e62}{psyqo\+::\+GTE\+::\+LZCR}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{psyqo\+::\+GTE\+::\+R11\+R12}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a5d5aa56a8a3fe517d1b1451a1ad7829e}{psyqo\+::\+GTE\+::\+R13\+R21}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a0358ca1528bded56ef3aeea3d40309b9}{psyqo\+::\+GTE\+::\+R22\+R23}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a198cb730249450b98adf6e90a9e4e7a7}{psyqo\+::\+GTE\+::\+R31\+R32}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a82cb69e5e0ee0f05e2f0b4da9918c971}{psyqo\+::\+GTE\+::\+R33}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a364e6beb127ef9ae8d1cdf6c1d5699b7}{psyqo\+::\+GTE\+::\+TRX}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a59dfb83f7cac4e3c8ee91700ef2ad90d}{psyqo\+::\+GTE\+::\+TRY}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a9b529ca41c807db0eab58fbaf9588cb7}{psyqo\+::\+GTE\+::\+TRZ}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a2b2001660147573f57c951e783f7a89a}{psyqo\+::\+GTE\+::\+L11\+L12}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a6af48d7a6f1a826092e1fc0dd8ab1850}{psyqo\+::\+GTE\+::\+L13\+L21}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a3392c367165562fdb49f5b5291c15c6d}{psyqo\+::\+GTE\+::\+L22\+L23}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aa8a37c96342226f77151dd6575b7771d}{psyqo\+::\+GTE\+::\+L31\+L32}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a700049ae9f8cb7635bf38ea93d450c00}{psyqo\+::\+GTE\+::\+L33}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aee9348767867521ca3da6763646f9de6}{psyqo\+::\+GTE\+::\+RBK}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ab9e45b5f8ceece0ac2581898270e2aac}{psyqo\+::\+GTE\+::\+GBK}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ad492abdf85ce2bfb651e28d11c70de69}{psyqo\+::\+GTE\+::\+BBK}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a1929bc29df7024053fce91ebe6a13bb1}{psyqo\+::\+GTE\+::\+LR1\+LR2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aa2bd2b89d93074c6647f7c7fe7b085f8}{psyqo\+::\+GTE\+::\+LR3\+LG1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4d018274d936dde69b9bce64975074fd}{psyqo\+::\+GTE\+::\+LG2\+LG3}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4b7d95dc15f9bea89dfa0352bb2598f5}{psyqo\+::\+GTE\+::\+LB1\+LB2}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a969e88b64bd57ee1155c7c63d1cfbf36}{psyqo\+::\+GTE\+::\+LB3}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a54bde4340555e534de2f4b6329ee925b}{psyqo\+::\+GTE\+::\+RFC}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a222ccc8cf6221f9b6d72f95d65777b68}{psyqo\+::\+GTE\+::\+GFC}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4f2ab5061f6f4676367b7acaf2182f3f}{psyqo\+::\+GTE\+::\+BFC}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a02ce7359524bef8a1b4d7a2502165400}{psyqo\+::\+GTE\+::\+OFX}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a5a157de6a3833b410eac48c745591b2b}{psyqo\+::\+GTE\+::\+OFY}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac1d9f50f86825a1a2302ec2449c17196}{psyqo\+::\+GTE\+::H}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac831f0740af8296ce34e67c8efbfc5d2}{psyqo\+::\+GTE\+::\+DQA}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac921be34eb193ccf22dc6b9dc7e70f79}{psyqo\+::\+GTE\+::\+DQB}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac97b588958ef3170651c412f1aa1022f}{psyqo\+::\+GTE\+::\+ZSF3}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a010e4df231c3e02a7cac2dc70f840ac2}{psyqo\+::\+GTE\+::\+ZSF4}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a0f4d0db3668dd58cabb9eb409657eaa8}{psyqo\+::\+GTE\+::\+FLAG}}
+ \}
+\begin{DoxyCompactList}\small\item\em The list of available GTE registers. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdd}{psyqo\+::\+GTE\+::\+Safety}} \{ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cddab2ced2ac707caf305ce22409ef5826e4}{psyqo\+::\+GTE\+::\+Unsafe}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{psyqo\+::\+GTE\+::\+Safe}}
+ \}
+\begin{DoxyCompactList}\small\item\em Whether to insert nops after register operations. \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0}{psyqo\+::\+GTE\+::\+Pseudo\+Register}} \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0af1a42bd417390fc63b030a519624607a}{psyqo\+::\+GTE\+::\+Rotation}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a9914a0ce04a7b7b6a8e39bec55064b82}{psyqo\+::\+GTE\+::\+Light}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0acb5feb1b7314637725a2e73bdc9f7295}{psyqo\+::\+GTE\+::\+Color}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a16514e6f648a594f5399a6b3a58e9c93}{psyqo\+::\+GTE\+::\+V0}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0ab4daca084ad9eabfc8de231929477ed6}{psyqo\+::\+GTE\+::\+V1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0aec765f1adc3b4253f2d3b131a4a8618f}{psyqo\+::\+GTE\+::\+V2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0ad38212a0c0e98f678feaaa5a8b9167f5}{psyqo\+::\+GTE\+::\+SV}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0aa7bdee32cb21f0abbf9f878cb06cfe16}{psyqo\+::\+GTE\+::\+LV}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a6dd08874f83507e9c7b23f1a46b7fa7c}{psyqo\+::\+GTE\+::\+Translation}}
+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a046b836c79b7be91e94ba86265a44977}{psyqo\+::\+GTE\+::\+Screen\+Offset}}
+ \}
+\begin{DoxyCompactList}\small\item\em The list of available GTE pseudo registers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2db2958f4562bc1f87500d9193ed4438}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+VXY0 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4f04572112e8a735c620a3143a9d91e5}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+VZ0 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a34a3aee4b00120b4520d7e267c467f45}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+VXY1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6b484f816047d2002ea8d2992fc820ba}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+VZ1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2a07d3b43d4ac53a919241c847949f2b}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+VXY2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a597734afbf8efffc9a10d8cc2ec35aca}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+VZ2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a74e4dbd6df3aee7b99781bc07b056ba3}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+OTZ $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa2399f0ba6d5643be40ecfa562846d55}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+IR0 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a275160192e7a6870a9c28c6983757a10}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+IR1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_abf47f30400b72926c6f7dd6cc36cf53f}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+IR2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6243c963da6bb109a9d9e3bc3292a0f2}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+IR3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac7a2c122c9c87ef7934ccfb98e9f293a}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+R11\+R12 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a66b853638f3ab6fb42c86eb23c6b1ebd}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+R13\+R21 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a568f5ba54774b97d03093acafcc6d630}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+R22\+R23 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a602b7af6780cca31b6890787e73a52b9}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+R31\+R32 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_adbfae11fb1b5cf4a66c2b93c6404549e}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+R33 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1584d861e5f35f0b5a20d3e55818671a}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+L11\+L12 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a5ccd35180f23a49d3b49871b959f91ff}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+L13\+L21 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac0508013fc6caba657bf55257ea3e47c}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+L22\+L23 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a5fd422c34548fd066728ab5bc231dadc}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+L31\+L32 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a131ef786e2a6166460f07824fa774f16}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+L33 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_adc038e2e0a693c91ff748101427f7433}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+LR1\+LR2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a27fc6bee3831e36b0edf255d5010e5e1}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+LR3\+LG1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a272071c54807b55ada9b7faccfeaa3fa}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+LG2\+LG3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a576b687bb2773b11a610976b286f4bb4}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+LB1\+LB2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab7910ca0ee18bdfcc1f112646e59b920}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+LB3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a59cb4138b7e8afa9ca9dab7fab606a2f}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+ZSF3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a76c29a159f6ae8abed8c9b1648a954ec}{psyqo\+::\+GTE\+::write\+Safe$<$ Register\+::\+ZSF4 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab65a9783fa6d41f1ed25e0701ea92888}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+VXY0 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1db5fa5c8e70effee696b71461912316}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+VZ0 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a04179b343a9a749d02cf0c89991b176c}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+VXY1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a304cfe29299a5c55d15868baa54114ba}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+VZ1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2d9f2e476e04764cd121c953e5b25f42}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+VXY2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a925ff613910463a1b882eaa1063e2d77}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+VZ2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_abdfec1bfea702e9d08a109ce977bf2f6}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+OTZ $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a04430e53b0b6dd6e8cf19f6b526a7f80}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+IR0 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ae8b844ee233b75594ef9ccaa4b29c37f}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+IR1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ae8bf29033712ed8f5a41d8104273b959}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+IR2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1b14bf2ea7ecf1a8627e157ba9e0432a}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+IR3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35e0f1dfca1177e9d6925dd531b3737c}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+R11\+R12 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0e7cb1de6bd1e017c0b39f9d87d174e6}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+R13\+R21 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a839c98ad1be800d28aab2859701e7f5a}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+R22\+R23 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35f1ec75cb9529bea71817ef01f6b3dd}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+R31\+R32 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3a4e0aadc0b471dc6e853f97a4f766fe}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+R33 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a00eb2271349f151937a0fd0ce50ced1a}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+L11\+L12 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a36d9efe9e0e74e2bcf621a4a88af9b8e}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+L13\+L21 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa60c173d1b3a3b0419554a78f0cb421e}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+L22\+L23 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a016588e081d7ea5a323bd42b64516bd1}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+L31\+L32 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a459c8b0059e29971646cb8e62fee06e1}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+L33 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a979269721aaedf9ebd9df4c024fa802e}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+LR1\+LR2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_af8f5fccfa8ad816fc7014061e5ae86f5}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+LR3\+LG1 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac9524d0636f8f071a79376300fa7e891}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+LG2\+LG3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0aea9fd321ba9bd691c6f287b926ce70}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+LB1\+LB2 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} x\+\_\+, \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} y\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab662228b579f5ee5f347dbb3f46cdc12}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+LB3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6a790fe88b162ddcef9ed84dda375077}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+ZSF3 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a58ab3e959310ee25cf9accf4016125bd}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Register\+::\+ZSF4 $>$}} (\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}} z\+\_\+)
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a77c010b374d1523224706f4be6223ad3}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+Rotation $>$}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aed540df728ebedcc5ca9307d39b9478e}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+Light $>$}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a32e2272a619329bc7f947ae129c2bc0f}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+Color $>$}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6bee53c778125000a6e2ea01adf8f068}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+V0 $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa53086d37b5b48e9f49c6f12f539a568}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+V1 $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab349d509bdcfb0e98772e98d01de0187}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+V2 $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a626e23fbe8f2aa06c0674726c5643604}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+Translation $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_af1ccaabd8906f46cb3ebf5460784ebb4}{psyqo\+::\+GTE\+::write\+Safe$<$ Pseudo\+Register\+::\+Screen\+Offset $>$}} (const \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a690b27fe2ae78ee3e47f49d5f70c2ba7}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+Rotation $>$}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aae582cf8e0f02aa1f0112c47329dcd65}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+Light $>$}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a11f47a522e5e24d6ff07116106cb3b6a}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+Color $>$}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac5743af6af34833d3e32b0fd7731697e}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+V0 $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa800707fc7c343dd6bb2f1cbe0cdd6b8}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+V1 $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a68ebf1d896595268520d6393c152b437}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+V2 $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab6952c4c3261fe8c4432ff4836639aab}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+Translation $>$}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2d8c7b7c6fd3c10b54e3789e0bd7c129}{psyqo\+::\+GTE\+::write\+Unsafe$<$ Pseudo\+Register\+::\+Screen\+Offset $>$}} (const \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}} \&\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})
+\item 
+template$<$$>$ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{Packed\+Vec3}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2f6212a616c93eb396b45d902907d72f}{psyqo\+::\+GTE\+::read\+Safe$<$ Pseudo\+Register\+::\+SV $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{Packed\+Vec3}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ad986ead08bc822a07a64b38520b8eb87}{psyqo\+::\+GTE\+::read\+Safe$<$ Pseudo\+Register\+::\+LV $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{Packed\+Vec3}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c2cf3af1a3a15acdbc0d693a025325a}{psyqo\+::\+GTE\+::read\+Unsafe$<$ Pseudo\+Register\+::\+SV $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{Packed\+Vec3}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_aee7d65ec97b10c9bf7b0e8b9e1b96784}{psyqo\+::\+GTE\+::read\+Unsafe$<$ Pseudo\+Register\+::\+LV $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_a9418d0ca64d0c37acfb0718b758ecd58}{psyqo\+::\+GTE\+::read$<$ Pseudo\+Register\+::\+LV $>$}} (\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+template$<$$>$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1GTE_ad4271a8230f2e164ddd3550c5d84dc0e}{psyqo\+::\+GTE\+::read$<$ Pseudo\+Register\+::\+LV $>$}} (\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\end{DoxyCompactItemize}

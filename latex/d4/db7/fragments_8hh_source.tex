@@ -1,0 +1,90 @@
+\doxysection{fragments.\+hh}
+\hypertarget{fragments_8hh_source}{}\label{fragments_8hh_source}\index{psyqo/fragments.hh@{psyqo/fragments.hh}}
+\mbox{\hyperlink{fragments_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/array.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{primitive-concept_8hh}{psyqo/primitive-\/concept.hh}}"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{namespace\ }Fragments\ \{}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{template}\ <Primitive\ Prim>}
+\DoxyCodeLine{00066\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment}{SimpleFragment}}\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_a839226c6f6d652f333e6aaf413866d32}{maxSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ 1;\ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_a2f5f42104f999d208f8b7f146460f683}{SimpleFragment}}()\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(*this)\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ +\ \textcolor{keyword}{sizeof}(Prim)),\ \textcolor{stringliteral}{"{}Spurious\ padding\ in\ simple\ fragment"{}});}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_a773264d21bb9d31cf3f31e5ce906ce0a}{SimpleFragment}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment}{SimpleFragment}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{typedef}\ Prim\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_adcb33b3bad0581090c66f49b90b700f5}{FragmentBaseType}};}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_a41d15a59ef26336ea77117d053cd237d}{getActualFragmentSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(Prim)\ /\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}});\ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_a3a8df39b297b43b51cae0d4db49791cd}{head}};}
+\DoxyCodeLine{00075\ \ \ \ \ Prim\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment_a32efbc3b498231a5bfabeed65db54f7c}{primitive}};}
+\DoxyCodeLine{00076\ \};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{template}\ <Primitive\ Prim,\ \textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00090\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{FixedFragment}}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a22d4550ed92d3189a8d88657eec81976}{maxSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ N;\ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a02981c2bece417ce66a756b90b867e90}{FixedFragment}}()\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(*this)\ ==\ (\textcolor{keyword}{sizeof}(unsigned)\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ +\ \textcolor{keyword}{sizeof}(Prim)\ *\ N),}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Spurious\ padding\ in\ fixed\ fragment"{}});}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a1b2696aefd8c35c61817e8e2ef045c9f}{FixedFragment}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{FixedFragment}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{typedef}\ Prim\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_ac4df14747005159a4d57eccd8cf2a930}{FragmentBaseType}};}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a2ad00339fc929dc8c00d341c5d8a0a94}{getActualFragmentSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (\textcolor{keyword}{sizeof}(Prim)\ *\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_aeadbb7353e21ec230ce4e15362c3a09f}{count}})\ /\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}});\ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_aeadbb7353e21ec230ce4e15362c3a09f}{count}}\ =\ N;}
+\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_af88ec46ceeb70ba4491a21e0503988b4}{head}};}
+\DoxyCodeLine{00101\ \ \ \ \ eastl::array<Prim,\ N>\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a6e091f70140a4065196eb076f60407c7}{primitives}};}
+\DoxyCodeLine{00102\ \};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{template}\ <Primitive\ P,\ Primitive\ Prim,\ \textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00119\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{FixedFragmentWithPrologue}}\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_ad92cd891238d7612fa18bf12fb0f4db6}{maxSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ N;\ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_a38751579c335aabd43fd28910ad3ebb0}{FixedFragmentWithPrologue}}()\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(*this)\ ==\ (\textcolor{keyword}{sizeof}(unsigned)\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ +\ \textcolor{keyword}{sizeof}(P)\ +\ \textcolor{keyword}{sizeof}(Prim)\ *\ N),}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Spurious\ padding\ in\ fixed\ fragment"{}});}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_a2bd3128a1aadc6cbf3484ae92b18c560}{FixedFragmentWithPrologue}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{FixedFragmentWithPrologue}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{typedef}\ Prim\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_acf91278c21c9eed7fabd61a5c5fd8d8c}{FragmentBaseType}};}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_a1fdc84355627c5b8436985a797120e49}{getActualFragmentSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (\textcolor{keyword}{sizeof}(P)\ +\ \textcolor{keyword}{sizeof}(Prim)\ *\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_a84e0af6dc867730364245b729ae97634}{count}})\ /\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}});\ \}}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_a84e0af6dc867730364245b729ae97634}{count}}\ =\ N;}
+\DoxyCodeLine{00129\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_a83c97177b595f9f2fe2fe29a6c2e2fd1}{head}};}
+\DoxyCodeLine{00130\ \ \ \ \ P\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_ac48ce15784554e6de611b89741305af4}{prologue}};}
+\DoxyCodeLine{00131\ \ \ \ \ eastl::array<Prim,\ N>\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue_aaa15d5fc8d330e81f218c8b73b689a7a}{primitives}};}
+\DoxyCodeLine{00132\ \};}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \}\ \ \textcolor{comment}{//\ namespace\ Fragments}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

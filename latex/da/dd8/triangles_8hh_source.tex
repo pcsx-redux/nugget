@@ -1,0 +1,207 @@
+\doxysection{triangles.\+hh}
+\hypertarget{triangles_8hh_source}{}\label{triangles_8hh_source}\index{psyqo/primitives/triangles.hh@{psyqo/primitives/triangles.hh}}
+\mbox{\hyperlink{triangles_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_8hh}{psyqo/primitives/common.hh}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }Prim\ \{}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_a6874ec0c0a421553d174bb3c585cf6bb}{Triangle}}()\ :\ command(0x20000000)\ \{\}}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_ac3f65530f806ac0111a9291a2a497497}{Triangle}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x20000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_afbaa06b05ca7b701e76a8406105cfef6}{setColor}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ command\ =\ 0x20000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_adbb9adc1a7cf62733ef9104738126a97}{setOpaque}}()\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_a31eab6960dee62b355d8a8794e9eab8e}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_a40e15ff7da4fb5ffd04f40c8f8d47b7a}{setPointA}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_ae0f7aeb33350a1502b689e14759ef22f}{pointA}}\ =\ v;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_abeb2a1cb39f8e3d536781772343be635}{setPointB}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_ac53c2ac8096e09f7242f525daebb9b71}{pointB}}\ =\ v;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_afa57b0fa792f6f5a7960d212889038da}{setPointC}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_a98e3d1f24f785ec84753c1c144bb608d}{pointC}}\ =\ v;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_ae0f7aeb33350a1502b689e14759ef22f}{pointA}};}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_ac53c2ac8096e09f7242f525daebb9b71}{pointB}};}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle_a98e3d1f24f785ec84753c1c144bb608d}{pointC}};}
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Triangle}{Triangle}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 4),\ \textcolor{stringliteral}{"{}Triangle\ is\ not\ 4\ words"{}});}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{TexturedTriangle}}\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_ae21e0c89f13b076557de4205833907b4}{TexturedTriangle}}()\ :\ command(0x25000000)\ \{\}}
+\DoxyCodeLine{00096\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a98e1cfc9db4a785e3bc13b597554bd1a}{TexturedTriangle}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x24000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{TexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a89491e849f1689b16d6cda2d69e76cf9}{setColor}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ command\ =\ 0x24000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{TexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_afb846a8d8e4b81d4ea078e607e0301d5}{setOpaque}}()\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{TexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a3e2391baa34fe4ac74655bd805ef8fe4}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a74d5a805dc2bedc697b90cf6525c67d3}{pointA}};}
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a48b896f2501cfa5260e93c451bfb985b}{uvA}};}
+\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{PrimPieces::ClutIndex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a2fe36c96ae3ab8770692c484bd12a3a9}{clutIndex}};}
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a036771b6c895fabd3b466fa01192164c}{pointB}};}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a4e6ce8c6b2b0e3edc187fced2fd33a69}{uvB}};}
+\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{PrimPieces::TPageAttr}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a384a8487ddd457cb03e5ade9401ca867}{tpage}};}
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_adc951e4bc1c545d9ce68008062ad327e}{pointC}};}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{PrimPieces::UVCoordsPadded}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_ae0c0d4805edd9d8821579e324488a79a}{uvC}};}
+\DoxyCodeLine{00123\ \};}
+\DoxyCodeLine{00124\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{TexturedTriangle}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 7),\ \textcolor{stringliteral}{"{}TexturedTriangle\ is\ not\ 7\ words"{}});}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a90210c041d6db5f5256a93942d1cdb69}{GouraudTriangle}}()\ :\ command(0x30000000)\ \{\}}
+\DoxyCodeLine{00136\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_aa75b71ee0844e14c13309454309ea27e}{GouraudTriangle}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x30000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00137\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a5d7f7f8bdd25b6eda296dfdbe755fe4a}{setColorA}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ command\ =\ 0x30000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a89cac2a7ef8bb5e29dcdaa4c4dc300bc}{setColorB}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_afe2deec6864e645b87e7ad454e70b0b7}{colorB}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+\DoxyCodeLine{00146\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_afcaee03853750c8a757b10d697b23d25}{setColorC}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a79ab52f56fcf727d92c21a60d48efd4b}{colorC}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00149\ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_ab1aaa8e6a52ebf3afab276806866bcd0}{setOpaque}}()\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00153\ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_ab51179572d9a7ecddaf78db780364695}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_aca6a2258fccae312a96355db62408e75}{setPointA}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a6a47e968ecbc085b0807710a56d00c99}{pointA}}\ =\ v;}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a9ae3d8dd527bb72ba1ba3bc2b277e094}{setPointB}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_af56ba6e749f8c996e545c201e86eff95}{pointB}}\ =\ v;}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a1cb9950b87f8a92ef982a2cafd68814c}{setPointC}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a1c97e8221cd980d9792d6b9ad567dbab}{pointC}}\ =\ v;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00172\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00175\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a6a47e968ecbc085b0807710a56d00c99}{pointA}};}
+\DoxyCodeLine{00176\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_afe2deec6864e645b87e7ad454e70b0b7}{colorB}};}
+\DoxyCodeLine{00177\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_af56ba6e749f8c996e545c201e86eff95}{pointB}};}
+\DoxyCodeLine{00178\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a79ab52f56fcf727d92c21a60d48efd4b}{colorC}};}
+\DoxyCodeLine{00179\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle_a1c97e8221cd980d9792d6b9ad567dbab}{pointC}};}
+\DoxyCodeLine{00180\ \};}
+\DoxyCodeLine{00181\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTriangle}{GouraudTriangle}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 6),\ \textcolor{stringliteral}{"{}GouraudTriangle\ is\ not\ 6\ words"{}});}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00197\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}}\ \{}
+\DoxyCodeLine{00198\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a10742a1a32ea4d96f6b5fd65a061de1e}{GouraudTexturedTriangle}}()\ :\ command(0x34000000)\ \{\}}
+\DoxyCodeLine{00199\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a25fd49ea6d32d1bc4c79bda7195bc97a}{GouraudTexturedTriangle}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x34000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00200\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a8bfb606148d06fd2072b006008721283}{setColorA}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ command\ =\ 0x34000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a5897871cd455fc71799f40b088892886}{setColorB}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a556a208ee618fdbf8b714a41daf5c4c4}{colorB}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00208\ \ \ \ \ \}}
+\DoxyCodeLine{00209\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_aef6345f9f1dc56e126a96be2e32ca7a7}{setColorC}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_ad3c064ff91981f93382e32458d0a843b}{colorC}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a067497d9378801a7a66effeb882117a3}{setOpaque}}()\ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00216\ \ \ \ \ \}}
+\DoxyCodeLine{00217\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a1653b31636d6db8efe585c5a6897eb93}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00220\ \ \ \ \ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00223\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00226\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a0ae66e46c54049971ab27ca8cbd61876}{pointA}};}
+\DoxyCodeLine{00227\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a793f81d5345a5a9ac32161ba2cbd8607}{uvA}};}
+\DoxyCodeLine{00228\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{PrimPieces::ClutIndex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a8441dd1c9d8eb538295cdc8224d1da36}{clutIndex}};}
+\DoxyCodeLine{00229\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a556a208ee618fdbf8b714a41daf5c4c4}{colorB}};}
+\DoxyCodeLine{00230\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a03622a54740d8ccce19f0b086b3a012d}{pointB}};}
+\DoxyCodeLine{00231\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_af34d143661b9ad128e484674346e130c}{uvB}};}
+\DoxyCodeLine{00232\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{PrimPieces::TPageAttr}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a776c4b1032828ef3be8d981dc34ad877}{tpage}};}
+\DoxyCodeLine{00233\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_ad3c064ff91981f93382e32458d0a843b}{colorC}};}
+\DoxyCodeLine{00234\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a9118fb64b79a996f83173b87a0c8c02e}{pointC}};}
+\DoxyCodeLine{00235\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{PrimPieces::UVCoordsPadded}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle_a518406bb0de939dfd01288f62a2e70ab}{uvC}};}
+\DoxyCodeLine{00236\ \};}
+\DoxyCodeLine{00237\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedTriangle}{GouraudTexturedTriangle}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 9),\ \textcolor{stringliteral}{"{}GouraudTexturedTriangle\ is\ not\ 9\ words"{}});}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \}\ \ \textcolor{comment}{//\ namespace\ Prim}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

@@ -1,0 +1,110 @@
+\doxysection{psyqo\+::Coroutine\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>}\+::Awaiter Struct Reference}
+\hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter}{}\label{structpsyqo_1_1Coroutine_1_1Awaiter}\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+
+
+The awaiter type.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/coroutine.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a042157c083eca88d2eda78c0c52676cb}{Awaiter}} (\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \&\&other)=default
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \& \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_af29897cc964cb366b06297b4da6c9f0b}{operator=}} (\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \&\&other)=default
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a4ea6b6fe93307ec363cfc39382f2de30}{Awaiter}} (\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} const \&)=default
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \& \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_aa35ee6bead34d2800c195c39c6a916c9}{operator=}} (\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} const \&)=default
+\item 
+constexpr bool \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_acf945cffcf50317e182da3dba258395b}{await\+\_\+ready}} () const noexcept
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a744e1bc646d6bb81685bae99d296dd15}{await\+\_\+suspend}} (std\+::coroutine\+\_\+handle$<$$>$ h)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_ac3ea50424117e460218645e74c9db705}{await\+\_\+resume}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a091d617da086cac41a91ac8a678673e7}{Coroutine}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T = void$>$\newline
+struct psyqo\+::\+Coroutine$<$ T $>$\+::\+Awaiter}
+The awaiter type. 
+
+The awaiter type is the type that is used to suspend the coroutine after scheduling an asychronous operation. The keyword {\ttfamily co\+\_\+await} can be used on an instance of the object to suspend the current coroutine. Creating an instance of this object is done by calling {\ttfamily coroutine.\+awaiter()}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_a042157c083eca88d2eda78c0c52676cb}\label{structpsyqo_1_1Coroutine_1_1Awaiter_a042157c083eca88d2eda78c0c52676cb} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!Awaiter@{Awaiter}}
+\index{Awaiter@{Awaiter}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{Awaiter()}{Awaiter()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::\+Awaiter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_a4ea6b6fe93307ec363cfc39382f2de30}\label{structpsyqo_1_1Coroutine_1_1Awaiter_a4ea6b6fe93307ec363cfc39382f2de30} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!Awaiter@{Awaiter}}
+\index{Awaiter@{Awaiter}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{Awaiter()}{Awaiter()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::\+Awaiter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_acf945cffcf50317e182da3dba258395b}\label{structpsyqo_1_1Coroutine_1_1Awaiter_acf945cffcf50317e182da3dba258395b} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!await\_ready@{await\_ready}}
+\index{await\_ready@{await\_ready}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{await\_ready()}{await\_ready()}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+constexpr bool \mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::await\+\_\+ready (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_ac3ea50424117e460218645e74c9db705}\label{structpsyqo_1_1Coroutine_1_1Awaiter_ac3ea50424117e460218645e74c9db705} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!await\_resume@{await\_resume}}
+\index{await\_resume@{await\_resume}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{await\_resume()}{await\_resume()}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+constexpr \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::await\+\_\+resume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_a744e1bc646d6bb81685bae99d296dd15}\label{structpsyqo_1_1Coroutine_1_1Awaiter_a744e1bc646d6bb81685bae99d296dd15} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!await\_suspend@{await\_suspend}}
+\index{await\_suspend@{await\_suspend}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{await\_suspend()}{await\_suspend()}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::await\+\_\+suspend (\begin{DoxyParamCaption}\item[{std\+::coroutine\+\_\+handle$<$$>$}]{h }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_af29897cc964cb366b06297b4da6c9f0b}\label{structpsyqo_1_1Coroutine_1_1Awaiter_af29897cc964cb366b06297b4da6c9f0b} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!operator=@{operator=}}
+\index{operator=@{operator=}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \& \mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_aa35ee6bead34d2800c195c39c6a916c9}\label{structpsyqo_1_1Coroutine_1_1Awaiter_aa35ee6bead34d2800c195c39c6a916c9} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!operator=@{operator=}}
+\index{operator=@{operator=}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} \& \mbox{\hyperlink{structpsyqo_1_1Coroutine}{psyqo\+::\+Coroutine}}$<$ T $>$\+::\+Awaiter\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}} const \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{structpsyqo_1_1Coroutine_1_1Awaiter_a091d617da086cac41a91ac8a678673e7}\label{structpsyqo_1_1Coroutine_1_1Awaiter_a091d617da086cac41a91ac8a678673e7} 
+\index{psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}!Coroutine@{Coroutine}}
+\index{Coroutine@{Coroutine}!psyqo::Coroutine$<$ T $>$::Awaiter@{psyqo::Coroutine$<$ T $>$::Awaiter}}
+\doxysubsubsection{\texorpdfstring{Coroutine}{Coroutine}}
+{\footnotesize\ttfamily template$<$typename T  = void$>$ \\
+friend \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{coroutine_8hh}{coroutine.\+hh}}\end{DoxyCompactItemize}

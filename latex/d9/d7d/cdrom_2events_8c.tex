@@ -1,0 +1,72 @@
+\doxysection{openbios/cdrom/events.c File Reference}
+\hypertarget{cdrom_2events_8c}{}\label{cdrom_2events_8c}\index{openbios/cdrom/events.c@{openbios/cdrom/events.c}}
+{\ttfamily \#include "{}openbios/cdrom/events.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+Include dependency graph for events.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/d61/cdrom_2events_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{cdrom_2events_8c_adca69d4146401cf92a3bbfd4c50145a3}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section("{}.ramtext"{})))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cdrom_2events_8c_a0ec9b7b39a73449cca5e1a2d4f4f7b33}{g\+\_\+cd\+Event\+ACK}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cdrom_2events_8c_a3e45f514b18cd4068f81b235e7418764}{g\+\_\+cd\+Event\+DNE}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cdrom_2events_8c_a9906c1f06dc168d96064d4e5fba0f5c3}{g\+\_\+cd\+Event\+RDY}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cdrom_2events_8c_a6de73488f2f55b3d1acc76a7a1930e84}{g\+\_\+cd\+Event\+END}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cdrom_2events_8c_ac415135b862c4fe0b29acb79ce499fa3}{g\+\_\+cd\+Event\+ERR}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{cdrom_2events_8c_adca69d4146401cf92a3bbfd4c50145a3}\label{cdrom_2events_8c_adca69d4146401cf92a3bbfd4c50145a3} 
+\index{events.c@{events.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(section("{}.ramtext"{}))}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{cdrom_2events_8c_a0ec9b7b39a73449cca5e1a2d4f4f7b33}\label{cdrom_2events_8c_a0ec9b7b39a73449cca5e1a2d4f4f7b33} 
+\index{events.c@{events.c}!g\_cdEventACK@{g\_cdEventACK}}
+\index{g\_cdEventACK@{g\_cdEventACK}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{g\_cdEventACK}{g\_cdEventACK}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+cd\+Event\+ACK}
+
+\Hypertarget{cdrom_2events_8c_a3e45f514b18cd4068f81b235e7418764}\label{cdrom_2events_8c_a3e45f514b18cd4068f81b235e7418764} 
+\index{events.c@{events.c}!g\_cdEventDNE@{g\_cdEventDNE}}
+\index{g\_cdEventDNE@{g\_cdEventDNE}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{g\_cdEventDNE}{g\_cdEventDNE}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+cd\+Event\+DNE}
+
+\Hypertarget{cdrom_2events_8c_a6de73488f2f55b3d1acc76a7a1930e84}\label{cdrom_2events_8c_a6de73488f2f55b3d1acc76a7a1930e84} 
+\index{events.c@{events.c}!g\_cdEventEND@{g\_cdEventEND}}
+\index{g\_cdEventEND@{g\_cdEventEND}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{g\_cdEventEND}{g\_cdEventEND}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+cd\+Event\+END}
+
+\Hypertarget{cdrom_2events_8c_ac415135b862c4fe0b29acb79ce499fa3}\label{cdrom_2events_8c_ac415135b862c4fe0b29acb79ce499fa3} 
+\index{events.c@{events.c}!g\_cdEventERR@{g\_cdEventERR}}
+\index{g\_cdEventERR@{g\_cdEventERR}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{g\_cdEventERR}{g\_cdEventERR}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+cd\+Event\+ERR}
+
+\Hypertarget{cdrom_2events_8c_a9906c1f06dc168d96064d4e5fba0f5c3}\label{cdrom_2events_8c_a9906c1f06dc168d96064d4e5fba0f5c3} 
+\index{events.c@{events.c}!g\_cdEventRDY@{g\_cdEventRDY}}
+\index{g\_cdEventRDY@{g\_cdEventRDY}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{g\_cdEventRDY}{g\_cdEventRDY}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+cd\+Event\+RDY}
+

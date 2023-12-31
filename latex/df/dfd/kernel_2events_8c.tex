@@ -1,0 +1,99 @@
+\doxysection{openbios/kernel/events.c File Reference}
+\hypertarget{kernel_2events_8c}{}\label{kernel_2events_8c}\index{openbios/kernel/events.c@{openbios/kernel/events.c}}
+{\ttfamily \#include "{}openbios/kernel/events.\+h"{}}\newline
+{\ttfamily \#include $<$stdatomic.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/fileio/fileio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/globals.\+h"{}}\newline
+Include dependency graph for events.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d7e/kernel_2events_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structEventInfo}{Event\+Info}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_aa49d72a0829dace42204cebdec15a9b8}{init\+Events}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_a68df356ad36159de9f44ed738a4f935e}{get\+Free\+Ev\+CBSlot}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}})
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{kernel_2events_8c_a9967fbea2224a474901d8138f22b6882}{open\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} class, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})())
+\item 
+\mbox{\hyperlink{kernel_2events_8c_a0c379f8378c934065df7a4ea1defd154}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section("{}.ramtext"{})))
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_ad4e7e0bcd73ca1ef01097230315f0d6d}{enable\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} event)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_adb7748f5baf2b25f3151cc7c5e31e474}{disable\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} event)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_a5e7562d87042f2c29af33ff3ffffdfdd}{close\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} event)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_a6f457ed8fdd0573c3ecd3fe99d90fd82}{test\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} event)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{kernel_2events_8c_a722dc65188054cd944030fbfe0cea4ce}{wait\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} event)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{kernel_2events_8c_a0c379f8378c934065df7a4ea1defd154}\label{kernel_2events_8c_a0c379f8378c934065df7a4ea1defd154} 
+\index{events.c@{events.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(section("{}.ramtext"{}))}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_a5e7562d87042f2c29af33ff3ffffdfdd}\label{kernel_2events_8c_a5e7562d87042f2c29af33ff3ffffdfdd} 
+\index{events.c@{events.c}!closeEvent@{closeEvent}}
+\index{closeEvent@{closeEvent}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{closeEvent()}{closeEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} close\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{event }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_adb7748f5baf2b25f3151cc7c5e31e474}\label{kernel_2events_8c_adb7748f5baf2b25f3151cc7c5e31e474} 
+\index{events.c@{events.c}!disableEvent@{disableEvent}}
+\index{disableEvent@{disableEvent}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{disableEvent()}{disableEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} disable\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{event }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_ad4e7e0bcd73ca1ef01097230315f0d6d}\label{kernel_2events_8c_ad4e7e0bcd73ca1ef01097230315f0d6d} 
+\index{events.c@{events.c}!enableEvent@{enableEvent}}
+\index{enableEvent@{enableEvent}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{enableEvent()}{enableEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} enable\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{event }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_a68df356ad36159de9f44ed738a4f935e}\label{kernel_2events_8c_a68df356ad36159de9f44ed738a4f935e} 
+\index{events.c@{events.c}!getFreeEvCBSlot@{getFreeEvCBSlot}}
+\index{getFreeEvCBSlot@{getFreeEvCBSlot}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{getFreeEvCBSlot()}{getFreeEvCBSlot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} get\+Free\+Ev\+CBSlot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_aa49d72a0829dace42204cebdec15a9b8}\label{kernel_2events_8c_aa49d72a0829dace42204cebdec15a9b8} 
+\index{events.c@{events.c}!initEvents@{initEvents}}
+\index{initEvents@{initEvents}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{initEvents()}{initEvents()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Events (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{count }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_a9967fbea2224a474901d8138f22b6882}\label{kernel_2events_8c_a9967fbea2224a474901d8138f22b6882} 
+\index{events.c@{events.c}!openEvent@{openEvent}}
+\index{openEvent@{openEvent}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{openEvent()}{openEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} open\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{class,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{spec,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{mode,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*})()}]{handler }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_a6f457ed8fdd0573c3ecd3fe99d90fd82}\label{kernel_2events_8c_a6f457ed8fdd0573c3ecd3fe99d90fd82} 
+\index{events.c@{events.c}!testEvent@{testEvent}}
+\index{testEvent@{testEvent}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{testEvent()}{testEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} test\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{event }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_2events_8c_a722dc65188054cd944030fbfe0cea4ce}\label{kernel_2events_8c_a722dc65188054cd944030fbfe0cea4ce} 
+\index{events.c@{events.c}!waitEvent@{waitEvent}}
+\index{waitEvent@{waitEvent}!events.c@{events.c}}
+\doxysubsubsection{\texorpdfstring{waitEvent()}{waitEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} wait\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{event }\end{DoxyParamCaption})}
+

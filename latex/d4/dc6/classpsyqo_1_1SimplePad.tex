@@ -1,0 +1,229 @@
+\doxysection{psyqo\+::Simple\+Pad Class Reference}
+\hypertarget{classpsyqo_1_1SimplePad}{}\label{classpsyqo_1_1SimplePad}\index{psyqo::SimplePad@{psyqo::SimplePad}}
+
+
+A simple class to access the pads.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/simplepad.\+hh$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event}{Event}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}} \{ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaf122d3c82ecc3848fb8245d8c14b48f1}{Pad1}}
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaa40fd15c31564d277f70c734df0df1a2}{Pad2}}
+ \}
+\item 
+enum \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{Button}} \{ \newline
+\mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa8149cd8992a1379e9172d7295c29edd0}{Select}} = 0
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa3f2123bdf4efba8725be98bfc7062d7e}{L3}} = 1
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae00854945d722882c87d2dec90147991}{R3}} = 2
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacfc178d7659457668aff9c6f56243668}{Start}} = 3
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa5bc9b3f5f32cc2d93fdbe0c66a85ea1b}{Up}} = 4
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa6b94316a55cb830187eec6bd1cd16fab}{Right}} = 5
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacc0d4ebc6831f584fe6732dfdf1de5e0}{Down}} = 6
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae70d8a3f3b816052ec5dfb8a209c74dc}{Left}} = 7
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa0df69fbdb7a6a50f1a74026ed3ae5528}{L2}} = 8
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa78b5f1eba5393fa577ad19c7da656097}{R2}} = 9
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaad1f38aababf564bcc2f13523b4889bf3}{L1}} = 10
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae3658d40c9b8d141abf90d7484a8862e}{R1}} = 11
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7b5456d9cfe306d07dc6a00fc9d749d9}{Triangle}} = 12
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa94cf448dfe8ad9a5b9e5b22d643dd77a}{Circle}} = 13
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7bdaed75a42a5ce0121a021c0ddbcc8a}{Cross}} = 14
+, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa172ddffa87a90693d4e86e9dd0f331ff}{Square}} = 15
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1SimplePad_afc63e92e96f137e5e6d16f6e59fd8780}{initialize}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the pads. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1SimplePad_a61644340c98acec0356d9c787d110d73}{set\+On\+Event}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event}{Event}})$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Sets the event callback function. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1SimplePad_aaf48c255a56848c351227cc64c851762}{is\+Pad\+Connected}} (\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}} pad) const
+\begin{DoxyCompactList}\small\item\em Returns the state of a pad. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1SimplePad_ac89250ec5a4a3a871f6cd088706b541a}{is\+Button\+Pressed}} (\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}} pad, \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{Button}} button) const
+\begin{DoxyCompactList}\small\item\em Returns the state of a button. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A simple class to access the pads. 
+
+This class is meant to be used as a singleton, probably in the {\ttfamily \doxylink{classpsyqo_1_1Application}{Application}} derived class. It is a simple thunk to the BIOS\textquotesingle{} PAD interface, and has the same caveats, namely that it should be initialized prior using the BIOS\textquotesingle{} memory card functions, and that polling will alternate between the two pads at each frame when two pads are connected, which can introduce input lags. This class will not be able to be used if the kernel is taken over. See the {\ttfamily \doxylink{namespacepsyqo_1_1Kernel}{Kernel}} namespace for more information. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba} 
+\index{psyqo::SimplePad@{psyqo::SimplePad}!Button@{Button}}
+\index{Button@{Button}!psyqo::SimplePad@{psyqo::SimplePad}}
+\doxysubsubsection{\texorpdfstring{Button}{Button}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{psyqo\+::\+Simple\+Pad\+::\+Button}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Select@{Select}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Select@{Select}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa8149cd8992a1379e9172d7295c29edd0}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa8149cd8992a1379e9172d7295c29edd0} 
+Select&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L3@{L3}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!L3@{L3}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa3f2123bdf4efba8725be98bfc7062d7e}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa3f2123bdf4efba8725be98bfc7062d7e} 
+L3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R3@{R3}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!R3@{R3}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae00854945d722882c87d2dec90147991}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae00854945d722882c87d2dec90147991} 
+R3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Start@{Start}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Start@{Start}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacfc178d7659457668aff9c6f56243668}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacfc178d7659457668aff9c6f56243668} 
+Start&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Up@{Up}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Up@{Up}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa5bc9b3f5f32cc2d93fdbe0c66a85ea1b}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa5bc9b3f5f32cc2d93fdbe0c66a85ea1b} 
+Up&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Right@{Right}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Right@{Right}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa6b94316a55cb830187eec6bd1cd16fab}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa6b94316a55cb830187eec6bd1cd16fab} 
+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Down@{Down}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Down@{Down}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacc0d4ebc6831f584fe6732dfdf1de5e0}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacc0d4ebc6831f584fe6732dfdf1de5e0} 
+Down&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Left@{Left}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Left@{Left}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae70d8a3f3b816052ec5dfb8a209c74dc}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae70d8a3f3b816052ec5dfb8a209c74dc} 
+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L2@{L2}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!L2@{L2}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa0df69fbdb7a6a50f1a74026ed3ae5528}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa0df69fbdb7a6a50f1a74026ed3ae5528} 
+L2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R2@{R2}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!R2@{R2}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa78b5f1eba5393fa577ad19c7da656097}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa78b5f1eba5393fa577ad19c7da656097} 
+R2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L1@{L1}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!L1@{L1}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaad1f38aababf564bcc2f13523b4889bf3}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaad1f38aababf564bcc2f13523b4889bf3} 
+L1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R1@{R1}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!R1@{R1}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae3658d40c9b8d141abf90d7484a8862e}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae3658d40c9b8d141abf90d7484a8862e} 
+R1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Triangle@{Triangle}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Triangle@{Triangle}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7b5456d9cfe306d07dc6a00fc9d749d9}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7b5456d9cfe306d07dc6a00fc9d749d9} 
+Triangle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Circle@{Circle}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Circle@{Circle}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa94cf448dfe8ad9a5b9e5b22d643dd77a}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa94cf448dfe8ad9a5b9e5b22d643dd77a} 
+Circle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Cross@{Cross}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Cross@{Cross}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7bdaed75a42a5ce0121a021c0ddbcc8a}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7bdaed75a42a5ce0121a021c0ddbcc8a} 
+Cross&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Square@{Square}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Square@{Square}}}\Hypertarget{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa172ddffa87a90693d4e86e9dd0f331ff}\label{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa172ddffa87a90693d4e86e9dd0f331ff} 
+Square&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}\label{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb} 
+\index{psyqo::SimplePad@{psyqo::SimplePad}!Pad@{Pad}}
+\index{Pad@{Pad}!psyqo::SimplePad@{psyqo::SimplePad}}
+\doxysubsubsection{\texorpdfstring{Pad}{Pad}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{psyqo\+::\+Simple\+Pad\+::\+Pad}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad1@{Pad1}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Pad1@{Pad1}}}\Hypertarget{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaf122d3c82ecc3848fb8245d8c14b48f1}\label{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaf122d3c82ecc3848fb8245d8c14b48f1} 
+Pad1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad2@{Pad2}!psyqo::SimplePad@{psyqo::SimplePad}}\index{psyqo::SimplePad@{psyqo::SimplePad}!Pad2@{Pad2}}}\Hypertarget{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaa40fd15c31564d277f70c734df0df1a2}\label{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaa40fd15c31564d277f70c734df0df1a2} 
+Pad2&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1SimplePad_afc63e92e96f137e5e6d16f6e59fd8780}\label{classpsyqo_1_1SimplePad_afc63e92e96f137e5e6d16f6e59fd8780} 
+\index{psyqo::SimplePad@{psyqo::SimplePad}!initialize@{initialize}}
+\index{initialize@{initialize}!psyqo::SimplePad@{psyqo::SimplePad}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Simple\+Pad\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the pads. 
+
+This will initialize the pads polling by calling the BIOS\textquotesingle{} interface. This means this method cannot be called from the {\ttfamily prepare} method of the {\ttfamily \doxylink{classpsyqo_1_1Application}{Application}} class, but rather from the {\ttfamily start} method of the root {\ttfamily \doxylink{classpsyqo_1_1Scene}{Scene}} object. Also, there can be interference with the BIOS\textquotesingle{} memory card functions, so this method is explicit to be called in the right order. \Hypertarget{classpsyqo_1_1SimplePad_ac89250ec5a4a3a871f6cd088706b541a}\label{classpsyqo_1_1SimplePad_ac89250ec5a4a3a871f6cd088706b541a} 
+\index{psyqo::SimplePad@{psyqo::SimplePad}!isButtonPressed@{isButtonPressed}}
+\index{isButtonPressed@{isButtonPressed}!psyqo::SimplePad@{psyqo::SimplePad}}
+\doxysubsubsection{\texorpdfstring{isButtonPressed()}{isButtonPressed()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Simple\+Pad\+::is\+Button\+Pressed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}}]{pad,  }\item[{\mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{Button}}}]{button }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the state of a button. 
+
+Returns the state of a button. The state is a boolean value that is {\ttfamily true} if the button is pressed, and {\ttfamily false} otherwise.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pad} & The pad to query. \\
+\hline
+{\em button} & The button to query. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating whether the button is pressed. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1SimplePad_aaf48c255a56848c351227cc64c851762}\label{classpsyqo_1_1SimplePad_aaf48c255a56848c351227cc64c851762} 
+\index{psyqo::SimplePad@{psyqo::SimplePad}!isPadConnected@{isPadConnected}}
+\index{isPadConnected@{isPadConnected}!psyqo::SimplePad@{psyqo::SimplePad}}
+\doxysubsubsection{\texorpdfstring{isPadConnected()}{isPadConnected()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Simple\+Pad\+::is\+Pad\+Connected (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}}]{pad }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the state of a pad. 
+
+Returns the state of a pad. The state is a boolean value that is {\ttfamily true} if the pad is connected, and {\ttfamily false} otherwise.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pad} & The pad to query. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating whether the pad is connected. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1SimplePad_a61644340c98acec0356d9c787d110d73}\label{classpsyqo_1_1SimplePad_a61644340c98acec0356d9c787d110d73} 
+\index{psyqo::SimplePad@{psyqo::SimplePad}!setOnEvent@{setOnEvent}}
+\index{setOnEvent@{setOnEvent}!psyqo::SimplePad@{psyqo::SimplePad}}
+\doxysubsubsection{\texorpdfstring{setOnEvent()}{setOnEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Simple\+Pad\+::set\+On\+Event (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event}{Event}})$>$ \&\&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the event callback function. 
+
+The event callback will be called for each pad-\/related event, such as pad connection / disconnection, or button press / release. The callback will only be called between frames.
+
+Scenes that are calling {\ttfamily set\+On\+Event} during their {\ttfamily start} method should call {\ttfamily set\+On\+Event} again in their {\ttfamily teardown} method with the {\ttfamily nullptr} value in order to unregister the event callback cleanly.
+
+Only one callback can be registered at a time, so setting a new callback will simply remove the previous one.
+
+Careful about what is called from the callback\+: pushing or popping scenes might call into {\ttfamily set\+On\+Event} as a result, and could end up corrupting memory as a result of the callback being deleted while being executed. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{simplepad_8hh}{simplepad.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{simplepad_8cpp}{simplepad.\+cpp}}\end{DoxyCompactItemize}

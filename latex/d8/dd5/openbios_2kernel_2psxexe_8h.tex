@@ -1,0 +1,57 @@
+\doxysection{openbios/kernel/psxexe.h File Reference}
+\hypertarget{openbios_2kernel_2psxexe_8h}{}\label{openbios_2kernel_2psxexe_8h}\index{openbios/kernel/psxexe.h@{openbios/kernel/psxexe.h}}
+{\ttfamily \#include "{}common/psxlibc/psxexe.\+h"{}}\newline
+Include dependency graph for psxexe.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{d3/d2e/openbios_2kernel_2psxexe_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d41/openbios_2kernel_2psxexe_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2psxexe_8h_a1c4cb9e1c12c79cc9fcd39c231816a3f}{load\+Exe\+Header}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}header)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2psxexe_8h_af0b70e29e59b28e55247f493070e3768}{load\+Exe}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}header)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2psxexe_8h_a485fc948489a6ffad606605b02e70050}{exec}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}header, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2kernel_2psxexe_8h_abe64838e03bdd92e1a630ee9fb58d197}{load\+And\+Exec}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} stack\+Start, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} stack\+Size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2kernel_2psxexe_8h_a485fc948489a6ffad606605b02e70050}\label{openbios_2kernel_2psxexe_8h_a485fc948489a6ffad606605b02e70050} 
+\index{psxexe.h@{psxexe.h}!exec@{exec}}
+\index{exec@{exec}!psxexe.h@{psxexe.h}}
+\doxysubsubsection{\texorpdfstring{exec()}{exec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} exec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}}]{header,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2psxexe_8h_abe64838e03bdd92e1a630ee9fb58d197}\label{openbios_2kernel_2psxexe_8h_abe64838e03bdd92e1a630ee9fb58d197} 
+\index{psxexe.h@{psxexe.h}!loadAndExec@{loadAndExec}}
+\index{loadAndExec@{loadAndExec}!psxexe.h@{psxexe.h}}
+\doxysubsubsection{\texorpdfstring{loadAndExec()}{loadAndExec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} load\+And\+Exec (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{stack\+Start,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{stack\+Size }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2psxexe_8h_af0b70e29e59b28e55247f493070e3768}\label{openbios_2kernel_2psxexe_8h_af0b70e29e59b28e55247f493070e3768} 
+\index{psxexe.h@{psxexe.h}!loadExe@{loadExe}}
+\index{loadExe@{loadExe}!psxexe.h@{psxexe.h}}
+\doxysubsubsection{\texorpdfstring{loadExe()}{loadExe()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} load\+Exe (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}}]{header }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2psxexe_8h_a1c4cb9e1c12c79cc9fcd39c231816a3f}\label{openbios_2kernel_2psxexe_8h_a1c4cb9e1c12c79cc9fcd39c231816a3f} 
+\index{psxexe.h@{psxexe.h}!loadExeHeader@{loadExeHeader}}
+\index{loadExeHeader@{loadExeHeader}!psxexe.h@{psxexe.h}}
+\doxysubsubsection{\texorpdfstring{loadExeHeader()}{loadExeHeader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} load\+Exe\+Header (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}}]{header }\end{DoxyParamCaption})}
+

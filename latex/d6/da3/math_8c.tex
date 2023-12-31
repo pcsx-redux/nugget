@@ -1,0 +1,75 @@
+\doxysection{shell/math.c File Reference}
+\hypertarget{math_8c}{}\label{math_8c}\index{shell/math.c@{shell/math.c}}
+{\ttfamily \#include "{}shell/math.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}shell/dcos.\+h"{}}\newline
+Include dependency graph for math.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d7/d1c/math_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{math_8c_a3d81324c903d32f0939900465ceb88b0}{generate\+Rotation\+Matrix3D}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}, enum \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8e}{Axis}} a)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{math_8c_a802daad307c8dde5829e893b6d880417}{multiply\+Matrix3D}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m1, const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m2, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{math_8c_acb15b7bae620473d389d3ebafe9aa7a9}{scale\+Matrix3D}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m, int32\+\_\+t \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{math_8c_a0b24da43b64f4519d2041d93e4d15d4f}{matrix\+Vertex\+Mul3D}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m, const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{math_8c_adb0fee8e1e77fe3b93575eed4d94a4a9}{matrix\+Vertex\+Mul3\+Dxy}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m, const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex2D}{Vertex2D}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\item 
+int32\+\_\+t \mbox{\hyperlink{math_8c_a20eb040c50cd9cbcf5df63bb52131ace}{matrix\+Vertex\+Mul3\+Dz}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}m, const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}v)
+\item 
+int32\+\_\+t \mbox{\hyperlink{math_8c_a91c3df7b3a43a61b3041ad438ab164c2}{d\+Div}} (int32\+\_\+t a, int32\+\_\+t \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{math_8c_a91c3df7b3a43a61b3041ad438ab164c2}\label{math_8c_a91c3df7b3a43a61b3041ad438ab164c2} 
+\index{math.c@{math.c}!dDiv@{dDiv}}
+\index{dDiv@{dDiv}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{dDiv()}{dDiv()}}
+{\footnotesize\ttfamily int32\+\_\+t d\+Div (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{a,  }\item[{int32\+\_\+t}]{b }\end{DoxyParamCaption})}
+
+\Hypertarget{math_8c_a3d81324c903d32f0939900465ceb88b0}\label{math_8c_a3d81324c903d32f0939900465ceb88b0} 
+\index{math.c@{math.c}!generateRotationMatrix3D@{generateRotationMatrix3D}}
+\index{generateRotationMatrix3D@{generateRotationMatrix3D}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{generateRotationMatrix3D()}{generateRotationMatrix3D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} generate\+Rotation\+Matrix3D (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{t,  }\item[{enum \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8e}{Axis}}}]{a }\end{DoxyParamCaption})}
+
+\Hypertarget{math_8c_a0b24da43b64f4519d2041d93e4d15d4f}\label{math_8c_a0b24da43b64f4519d2041d93e4d15d4f} 
+\index{math.c@{math.c}!matrixVertexMul3D@{matrixVertexMul3D}}
+\index{matrixVertexMul3D@{matrixVertexMul3D}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{matrixVertexMul3D()}{matrixVertexMul3D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} matrix\+Vertex\+Mul3D (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+\Hypertarget{math_8c_adb0fee8e1e77fe3b93575eed4d94a4a9}\label{math_8c_adb0fee8e1e77fe3b93575eed4d94a4a9} 
+\index{math.c@{math.c}!matrixVertexMul3Dxy@{matrixVertexMul3Dxy}}
+\index{matrixVertexMul3Dxy@{matrixVertexMul3Dxy}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{matrixVertexMul3Dxy()}{matrixVertexMul3Dxy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} matrix\+Vertex\+Mul3\+Dxy (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex2D}{Vertex2D}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+\Hypertarget{math_8c_a20eb040c50cd9cbcf5df63bb52131ace}\label{math_8c_a20eb040c50cd9cbcf5df63bb52131ace} 
+\index{math.c@{math.c}!matrixVertexMul3Dz@{matrixVertexMul3Dz}}
+\index{matrixVertexMul3Dz@{matrixVertexMul3Dz}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{matrixVertexMul3Dz()}{matrixVertexMul3Dz()}}
+{\footnotesize\ttfamily int32\+\_\+t matrix\+Vertex\+Mul3\+Dz (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structVertex3D}{Vertex3D}} \texorpdfstring{$\ast$}{*}}]{v }\end{DoxyParamCaption})}
+
+\Hypertarget{math_8c_a802daad307c8dde5829e893b6d880417}\label{math_8c_a802daad307c8dde5829e893b6d880417} 
+\index{math.c@{math.c}!multiplyMatrix3D@{multiplyMatrix3D}}
+\index{multiplyMatrix3D@{multiplyMatrix3D}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{multiplyMatrix3D()}{multiplyMatrix3D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} multiply\+Matrix3D (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m1,  }\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m2,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+\Hypertarget{math_8c_acb15b7bae620473d389d3ebafe9aa7a9}\label{math_8c_acb15b7bae620473d389d3ebafe9aa7a9} 
+\index{math.c@{math.c}!scaleMatrix3D@{scaleMatrix3D}}
+\index{scaleMatrix3D@{scaleMatrix3D}!math.c@{math.c}}
+\doxysubsubsection{\texorpdfstring{scaleMatrix3D()}{scaleMatrix3D()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} scale\+Matrix3D (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMatrix3D}{Matrix3D}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{int32\+\_\+t}]{s }\end{DoxyParamCaption})}
+

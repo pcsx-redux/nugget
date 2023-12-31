@@ -1,0 +1,56 @@
+\doxysection{openbios/main/main.h File Reference}
+\hypertarget{main_8h}{}\label{main_8h}\index{openbios/main/main.h@{openbios/main/main.h}}
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/setjmp.\+h"{}}\newline
+Include dependency graph for main.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/df8/main_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d87/main_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{main_8h_af3a3813d6509047ef815802ffdd8e03f}{set\+Configuration}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} events\+Count, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} task\+Count, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}stack\+Base)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{main_8h_a0155947f6f7f496df701e9da9ee6e57e}{get\+Configuration}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}events\+Count, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}task\+Count, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}stack\+Base)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} \mbox{\hyperlink{main_8h_a00f295aa85c29d97b00873de8f334658}{g\+\_\+io\+Abort\+Jmp\+Buf}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8h_a0155947f6f7f496df701e9da9ee6e57e}\label{main_8h_a0155947f6f7f496df701e9da9ee6e57e} 
+\index{main.h@{main.h}!getConfiguration@{getConfiguration}}
+\index{getConfiguration@{getConfiguration}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{getConfiguration()}{getConfiguration()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} get\+Configuration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{events\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{task\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{stack\+Base }\end{DoxyParamCaption})}
+
+\Hypertarget{main_8h_af3a3813d6509047ef815802ffdd8e03f}\label{main_8h_af3a3813d6509047ef815802ffdd8e03f} 
+\index{main.h@{main.h}!setConfiguration@{setConfiguration}}
+\index{setConfiguration@{setConfiguration}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{setConfiguration()}{setConfiguration()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} set\+Configuration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{events\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{task\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{stack\+Base }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{main_8h_a00f295aa85c29d97b00873de8f334658}\label{main_8h_a00f295aa85c29d97b00873de8f334658} 
+\index{main.h@{main.h}!g\_ioAbortJmpBuf@{g\_ioAbortJmpBuf}}
+\index{g\_ioAbortJmpBuf@{g\_ioAbortJmpBuf}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{g\_ioAbortJmpBuf}{g\_ioAbortJmpBuf}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} g\+\_\+io\+Abort\+Jmp\+Buf\hspace{0.3cm}{\ttfamily [extern]}}
+

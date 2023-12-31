@@ -1,0 +1,206 @@
+\doxysection{gpu.\+h}
+\hypertarget{common_2hardware_2gpu_8h_source}{}\label{common_2hardware_2gpu_8h_source}\index{common/hardware/gpu.h@{common/hardware/gpu.h}}
+\mbox{\hyperlink{common_2hardware_2gpu_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{hwregs_8h}{common/hardware/hwregs.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}{HResolution}}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a064bc3530eedee3aeefe55b7d98767ad}{HR\_EXTENDED}},}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4af30d000bd6fea31830f06a32605404e5}{HR\_256}}\ =\ 0,}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae2d55d6738d4b422c9031b0b4e4bb6c7}{HR\_320}}\ =\ 1,}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae9231a0dc0f4801cdab3915835c41270}{HR\_512}}\ =\ 2,}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a8c9f6707660daa420123b52e52649068}{HR\_640}}\ =\ 3,}
+\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}{VResolution}}\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198adf582fcb3a46980fb17b472593e2e9cb}{VR\_240}}\ =\ 0,}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198ac560e7c0f74323e71ab0b42bd49b1a13}{VR\_480}}\ =\ 1,}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149}{VideoMode}}\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149a6c9c70ba1cdad55b8f16829be0c8dd74}{VM\_NTSC}}\ =\ 0,}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149ad0c0075c588947d1f6652eb4d917563c}{VM\_PAL}}\ =\ 1,}
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}{ColorDepth}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01a4a1224017e735462285afbb259f068fe}{CD\_15BITS}}\ =\ 0,}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01ace0444b67b99c09ad3807fb63fc199f6}{CD\_24BITS}}\ =\ 1,}
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}{VideoInterlace}}\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9ae5da376145778e0108952cf5a22528a6}{VI\_OFF}}\ =\ 0,}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9a66fd82c2a733e7fc0bff14cd5aefe2a0}{VI\_ON}}\ =\ 1,}
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}{HResolutionExtended}}\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afaf158d2937e8f7e37d9339513e3ba8b08}{HRE\_NORMAL}}\ =\ 0,}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afae7f9b2e83b7941a4a217590465be4331}{HRE\_368}}\ =\ 1,}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDisplayModeConfig}{DisplayModeConfig}}\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}{HResolution}}\ \mbox{\hyperlink{structDisplayModeConfig_abbec0d75e334832bfb413c9374416908}{hResolution}};}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}{VResolution}}\ \mbox{\hyperlink{structDisplayModeConfig_a8111c4df38aaf6636754fe4c9e8cf589}{vResolution}};}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149}{VideoMode}}\ \mbox{\hyperlink{structDisplayModeConfig_a157fa4eba6ad9c7c7885f4edbbf7f049}{videoMode}};}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}{ColorDepth}}\ \mbox{\hyperlink{structDisplayModeConfig_a117b533af91be822764e9b849429d6bf}{colorDepth}};}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}{VideoInterlace}}\ \mbox{\hyperlink{structDisplayModeConfig_a11d1ce9de8df5c301b6d52090bffd4b4}{videoInterlace}};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}{HResolutionExtended}}\ \mbox{\hyperlink{structDisplayModeConfig_a1e9d759b05cb0b4826f9d61721e59391}{hResolutionExtended}};}
+\DoxyCodeLine{00073\ \};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ waitGPU()\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{while}\ ((\mbox{\hyperlink{hwregs_8h_aab82fea0bc5fee6c51d36445cb730a07}{GPU\_STATUS}}\ \&\ 0x04000000)\ ==\ 0)}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00078\ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ sendGPUData(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ data)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ waitGPU();}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775}{GPU\_DATA}}\ =\ data;}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ sendGPUStatus(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ status)\ \{\ \mbox{\hyperlink{hwregs_8h_aab82fea0bc5fee6c51d36445cb730a07}{GPU\_STATUS}}\ =\ status;\ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateDisableDisplay()\ \{\ \textcolor{keywordflow}{return}\ 0x03000001;\ \}}
+\DoxyCodeLine{00088\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateEnableDisplay()\ \{\ \textcolor{keywordflow}{return}\ 0x03000000;\ \}}
+\DoxyCodeLine{00089\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ disableDisplay()\ \{\ sendGPUStatus(generateDisableDisplay());\ \}}
+\DoxyCodeLine{00090\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ enableDisplay()\ \{\ sendGPUStatus(generateEnableDisplay());\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateDisplayMode(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structDisplayModeConfig}{DisplayModeConfig}}*\ config)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{return}\ 0x08000000\ |\ (config-\/>\mbox{\hyperlink{structDisplayModeConfig_abbec0d75e334832bfb413c9374416908}{hResolution}}\ <<\ 0)\ |\ (config-\/>\mbox{\hyperlink{structDisplayModeConfig_a8111c4df38aaf6636754fe4c9e8cf589}{vResolution}}\ <<\ 2)\ |\ (config-\/>\mbox{\hyperlink{structDisplayModeConfig_a157fa4eba6ad9c7c7885f4edbbf7f049}{videoMode}}\ <<\ 3)\ |}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ (config-\/>\mbox{\hyperlink{structDisplayModeConfig_a117b533af91be822764e9b849429d6bf}{colorDepth}}\ <<\ 4)\ |\ (config-\/>\mbox{\hyperlink{structDisplayModeConfig_a11d1ce9de8df5c301b6d52090bffd4b4}{videoInterlace}}\ <<\ 5)\ |\ (config-\/>\mbox{\hyperlink{structDisplayModeConfig_a1e9d759b05cb0b4826f9d61721e59391}{hResolutionExtended}}\ <<\ 6);}
+\DoxyCodeLine{00095\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setDisplayMode(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structDisplayModeConfig}{DisplayModeConfig}}*\ config)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ sendGPUStatus(generateDisplayMode(config));}
+\DoxyCodeLine{00099\ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateDisplayArea(int16\_t\ x,\ int16\_t\ y)\ \{\ \textcolor{keywordflow}{return}\ 0x05000000\ |\ x\ |\ (y\ <<\ 10);\ \}}
+\DoxyCodeLine{00102\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setDisplayArea(int16\_t\ x,\ int16\_t\ y)\ \{\ sendGPUStatus(generateDisplayArea(x,\ y));\ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateHorizontalRange(int16\_t\ x1,\ int16\_t\ x2)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{return}\ 0x06000000\ |\ (x1\ +\ 0x260)\ |\ ((x1\ +\ x2\ +\ 0x260)\ <<\ 12);}
+\DoxyCodeLine{00106\ \}}
+\DoxyCodeLine{00107\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setHorizontalRange(int16\_t\ x1,\ int16\_t\ x2)\ \{\ sendGPUStatus(generateHorizontalRange(x1,\ x2));\ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateVerticalRange(int16\_t\ y1,\ int16\_t\ y2)\ \{\ \textcolor{keywordflow}{return}\ 0x07000000\ |\ y1\ |\ (y2\ <<\ 10);\ \}}
+\DoxyCodeLine{00110\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setVerticalRange(int16\_t\ y1,\ int16\_t\ y2)\ \{\ sendGPUStatus(generateVerticalRange(y1,\ y2));\ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionColor}{Color}}\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}},\ \mbox{\hyperlink{unionColor_a23331f00b02491a901873b5085461d99}{g}},\ \mbox{\hyperlink{unionColor_a78ede410fb277ade36fbb157f0235d6f}{b}};}
+\DoxyCodeLine{00115\ \ \ \ \ \};}
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{unionColor_a7994fc2e14c8b10991c1febf30d2cde8}{packed}};}
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFastFill}{FastFill}}\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionColor}{Color}}\ \mbox{\hyperlink{structFastFill_a50aae9eb10ff7603344d81d7ba43f058}{c}};}
+\DoxyCodeLine{00121\ \ \ \ \ int16\_t\ \mbox{\hyperlink{structFastFill_abe79e2aaa697547f88012d2da91a0a34}{x}},\ \mbox{\hyperlink{structFastFill_af19fe502f94772d999a1922e4331f396}{y}},\ \mbox{\hyperlink{structFastFill_a86252db48acaa796cc8e4e8dff58a6a1}{w}},\ \mbox{\hyperlink{structFastFill_a13895f289a7dfc4df51ff5ab5190ceb9}{h}};}
+\DoxyCodeLine{00122\ \};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ fastFill(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structFastFill}{FastFill}}*\ ff)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ waitGPU();}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775}{GPU\_DATA}}\ =\ 0x02000000\ |\ ff-\/>\mbox{\hyperlink{structFastFill_a50aae9eb10ff7603344d81d7ba43f058}{c}}.\mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}}\ |\ ff-\/>\mbox{\hyperlink{structFastFill_a50aae9eb10ff7603344d81d7ba43f058}{c}}.\mbox{\hyperlink{unionColor_a23331f00b02491a901873b5085461d99}{g}}\ <<\ 8\ |\ ff-\/>\mbox{\hyperlink{structFastFill_a50aae9eb10ff7603344d81d7ba43f058}{c}}.\mbox{\hyperlink{unionColor_a78ede410fb277ade36fbb157f0235d6f}{b}}\ <<\ 16;}
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775}{GPU\_DATA}}\ =\ ff-\/>\mbox{\hyperlink{structFastFill_abe79e2aaa697547f88012d2da91a0a34}{x}}\ |\ ff-\/>\mbox{\hyperlink{structFastFill_af19fe502f94772d999a1922e4331f396}{y}}\ <<\ 16;}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775}{GPU\_DATA}}\ =\ ff-\/>\mbox{\hyperlink{structFastFill_a86252db48acaa796cc8e4e8dff58a6a1}{w}}\ |\ ff-\/>\mbox{\hyperlink{structFastFill_a13895f289a7dfc4df51ff5ab5190ceb9}{h}}\ <<\ 16;}
+\DoxyCodeLine{00129\ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateDrawingAreaStart(int16\_t\ x,\ int16\_t\ y)\ \{\ \textcolor{keywordflow}{return}\ 0xe3000000\ |\ x\ |\ y\ <<\ 10;\ \}}
+\DoxyCodeLine{00132\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateDrawingAreaEnd(int16\_t\ x,\ int16\_t\ y)\ \{\ \textcolor{keywordflow}{return}\ 0xe4000000\ |\ (x\ -\/\ 1)\ |\ (y\ -\/\ 1)\ <<\ 10;\ \}}
+\DoxyCodeLine{00133\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setDrawingArea(int16\_t\ x1,\ int16\_t\ y1,\ int16\_t\ x2,\ int16\_t\ y2)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ sendGPUData(generateDrawingAreaStart(x1,\ y1));}
+\DoxyCodeLine{00135\ \ \ \ \ sendGPUData(generateDrawingAreaEnd(x2,\ y2));}
+\DoxyCodeLine{00136\ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateDrawingOffset(int16\_t\ x,\ int16\_t\ y)\ \{\ \textcolor{keywordflow}{return}\ 0xe5000000\ |\ x\ |\ y\ <<\ 11;\ \}}
+\DoxyCodeLine{00139\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setDrawingOffset(int16\_t\ x,\ int16\_t\ y)\ \{\ sendGPUData(generateDrawingOffset(x,\ y));\ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894}{Shading}}\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894a65b6c9b9253e117339ff66df1f94772a}{S\_FLAT}}\ =\ 0,}
+\DoxyCodeLine{00143\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894ad20b2623fa9273797e3add2a949f296e}{S\_GOURAUD}}\ =\ 1,}
+\DoxyCodeLine{00144\ \};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92}{VerticesCount}}\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a3f830a0de7d5dd97e85e1bdf8cb8156a}{VC\_3}}\ =\ 0,}
+\DoxyCodeLine{00148\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a4ecb76d05eb1f0cd75fc19575b4c0d23}{VC\_4}}\ =\ 1,}
+\DoxyCodeLine{00149\ \};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353}{Textured}}\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a38925ba4d7ce48ba24857690e57fddd5}{TEX\_ON}}\ =\ 1,}
+\DoxyCodeLine{00153\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a4715ef4aba8af71949b8b0f61725116a}{TEX\_OFF}}\ =\ 0,}
+\DoxyCodeLine{00154\ \};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557}{Transparency}}\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557aa4d6c9d90462b8a35742c83700760a24}{TRANS\_ON}}\ =\ 1,}
+\DoxyCodeLine{00158\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557a5cd9c51b43ab91121723c76d16f1d1c9}{TRANS\_OFF}}\ =\ 0,}
+\DoxyCodeLine{00159\ \};}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921ed}{Blending}}\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921edaf7c5d90d6e8012df0145b97831a9b422}{BLEND\_ON}}\ =\ 1,}
+\DoxyCodeLine{00163\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921eda8f56fffdc7854eb29371b5fada86aad1}{BLEND\_OFF}}\ =\ 0,}
+\DoxyCodeLine{00164\ \};}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGPUPolygonCommand}{GPUPolygonCommand}}\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894}{Shading}}\ \mbox{\hyperlink{structGPUPolygonCommand_a9ff33f8b6c3fd9212018eb99012a6ae6}{shading}};}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92}{VerticesCount}}\ \mbox{\hyperlink{structGPUPolygonCommand_aa48ee2e21002bb31c363f821df89a98c}{verticesCount}};}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353}{Textured}}\ \mbox{\hyperlink{structGPUPolygonCommand_aac2beb2091ec76bba2e7cd35ade28487}{textured}};}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557}{Transparency}}\ \mbox{\hyperlink{structGPUPolygonCommand_aa8aed4cf836f5c80c0db63a4dcfb4de5}{transparency}};}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921ed}{Blending}}\ \mbox{\hyperlink{structGPUPolygonCommand_a6766dad67812274fdc5f44d26fdbb13c}{blending}};}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionColor}{Color}}\ \mbox{\hyperlink{structGPUPolygonCommand_a03b3a4d828d56e7041b3885f409df417}{color}};}
+\DoxyCodeLine{00173\ \};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generatePolygonCommand(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structGPUPolygonCommand}{GPUPolygonCommand}}*\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{return}\ 0x20000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>shading\ <<\ 28\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>verticesCount\ <<\ 27\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>textured\ <<\ 26\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>transparency\ <<\ 25\ |}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>blending\ <<\ 24\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>color.b\ <<\ 16\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>color.g\ <<\ 8\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>color.r;}
+\DoxyCodeLine{00178\ \}}
+\DoxyCodeLine{00179\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ startPolygonCommand(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structGPUPolygonCommand}{GPUPolygonCommand}}*\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{\ sendGPUData(generatePolygonCommand(\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}));\ \}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7}{LineStyle}}\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a7456855316bcd9f71f6c18356bd8e7c8}{POLY\_OFF}}\ =\ 0,}
+\DoxyCodeLine{00183\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a80095f8fb1395dde85d6bdf6bcaadb03}{POLY\_ON}}\ =\ 1,}
+\DoxyCodeLine{00184\ \};}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structGPULineCommand}{GPULineCommand}}\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894}{Shading}}\ \mbox{\hyperlink{structGPULineCommand_a2b54fd6ef475242a7bd10e725d526627}{shading}};}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7}{LineStyle}}\ \mbox{\hyperlink{structGPULineCommand_aa23fcedfb9a8fd717da81616f351f087}{lineStyle}};}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557}{Transparency}}\ \mbox{\hyperlink{structGPULineCommand_ac7050b0022cb87a95831aa5e8dea5bdf}{transparency}};}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionColor}{Color}}\ \mbox{\hyperlink{structGPULineCommand_a46b24471d7784ac44a8a14fed28a5dfa}{color}};}
+\DoxyCodeLine{00191\ \};}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateLineCommand(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structGPULineCommand}{GPULineCommand}}*\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordflow}{return}\ 0x40000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>shading\ <<\ 28\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>lineStyle\ <<\ 27\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>transparency\ <<\ 25\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>color.b\ <<\ 16\ |}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>color.g\ <<\ 8\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}-\/>color.r;}
+\DoxyCodeLine{00196\ \}}
+\DoxyCodeLine{00197\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ startLineCommand(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structGPULineCommand}{GPULineCommand}}*\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{\ sendGPUData(generateLineCommand(\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}));\ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ generateFlushGPUCache()\ \{\ \textcolor{keywordflow}{return}\ 0x01000000;\ \}}
+\DoxyCodeLine{00200\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ flushGPUCache()\ \{\ sendGPUData(generateFlushGPUCache());\ \}}
+
+\end{DoxyCode}

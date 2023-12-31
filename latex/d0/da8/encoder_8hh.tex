@@ -1,0 +1,206 @@
+\doxysection{common/util/encoder.hh File Reference}
+\hypertarget{encoder_8hh}{}\label{encoder_8hh}\index{common/util/encoder.hh@{common/util/encoder.hh}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for encoder.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{d7/d1b/encoder_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/dcd/encoder_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceMips}{Mips}}
+\item 
+namespace \mbox{\hyperlink{namespaceMips_1_1Encoder}{Mips\+::\+Encoder}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Mips\+::\+Encoder\+::\+Reg}} \{ \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a298ae558fe1a3bb5aab7fab0bad18e42}{Mips\+::\+Encoder\+::\+R0}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16afa868488740aa25870ced6b9169951fb}{Mips\+::\+Encoder\+::\+AT}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a16514e6f648a594f5399a6b3a58e9c93}{Mips\+::\+Encoder\+::\+V0}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ab4daca084ad9eabfc8de231929477ed6}{Mips\+::\+Encoder\+::\+V1}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ad88c146dfafdea37a837778a92415bc2}{Mips\+::\+Encoder\+::\+A0}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a27f237e6b7f96587b6202ff3607ad88a}{Mips\+::\+Encoder\+::\+A1}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ac6bdf6f65f3845da9085e9ae5790b494}{Mips\+::\+Encoder\+::\+A2}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a6593d7b12fd418cdb35bbf438de72f66}{Mips\+::\+Encoder\+::\+A3}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16aa48788bd63a0384007cd7d089af6c610}{Mips\+::\+Encoder\+::\+T0}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ace499dea30cfce118f4fe85da0227e83}{Mips\+::\+Encoder\+::\+T1}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a71d2c46af01feeea54a0f541243e297b}{Mips\+::\+Encoder\+::\+T2}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a54b02ae91c8c6b0aac069c84b9f78178}{Mips\+::\+Encoder\+::\+T3}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16af47fb721aa553aad2d0f389c93c2d533}{Mips\+::\+Encoder\+::\+T4}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a00a36d1346d0dc796850b0b1d919dbb6}{Mips\+::\+Encoder\+::\+T5}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a7137cd43a7a6b0dd927243aaf6d6cb10}{Mips\+::\+Encoder\+::\+T6}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16af44f8f3058a58f0b67af7248b72bb833}{Mips\+::\+Encoder\+::\+T7}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16afa4373030709881197fd6070eaecb61f}{Mips\+::\+Encoder\+::\+S0}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a67f6274e0ac0bd892f9b1ec09a2253fc}{Mips\+::\+Encoder\+::\+S1}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ab9eeaf6a16ca49f37df57620aed91b62}{Mips\+::\+Encoder\+::\+S2}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ae2ab7c65b21ed8cc1c3b642b5e36429e}{Mips\+::\+Encoder\+::\+S3}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ad59a89abb4af5bc4dd85243d5f75bcac}{Mips\+::\+Encoder\+::\+S4}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a79e6fb8fb2403b9688924408f7dc4857}{Mips\+::\+Encoder\+::\+S5}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16aa1d6f48030ed59e7372531b3555f8e31}{Mips\+::\+Encoder\+::\+S6}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a5b59aaa3645ed82ea5a47d7400326496}{Mips\+::\+Encoder\+::\+S7}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a001cf4576062cc35bbdae2b0f81d1dce}{Mips\+::\+Encoder\+::\+T8}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a2f0355649dad31dc33ebe251d9f72755}{Mips\+::\+Encoder\+::\+T9}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16ac198bc89a4e346bb001e99acd7094348}{Mips\+::\+Encoder\+::\+K0}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16aa1bba9704da78d22c74f1c2b0acf4213}{Mips\+::\+Encoder\+::\+K1}}
+, \newline
+\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16aad2d8ee7d788dcf41f399818f639cb64}{Mips\+::\+Encoder\+::\+GP}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a674769e3326f8cf937af4282f2815c02}{Mips\+::\+Encoder\+::\+SP}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16aafb0fced528eaac5fe170b763cda5975}{Mips\+::\+Encoder\+::\+S8}}
+, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a36fb81539768d678527f9929625716b7}{Mips\+::\+Encoder\+::\+RA}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aef5a81be857864606eaac340ee70ac2d}{Mips\+::\+Encoder\+::iclass}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} v)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aff431823d71214df622a63aa84376b3f}{Mips\+::\+Encoder\+::dst\+Val}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a102021722acc33cf36bde8ba29df68d9}{Mips\+::\+Encoder\+::tgt\+Val}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a635b53d617dc9897036e7cef9671c8af}{Mips\+::\+Encoder\+::src\+Val}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ab44f82025f3228a9a71f3f0dcfe72a5c}{Mips\+::\+Encoder\+::add}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a59039c268b803615edd212cf5a6e97f7}{Mips\+::\+Encoder\+::addu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a38d61d6490df321be818e8882d65ce4a}{Mips\+::\+Encoder\+::addi}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ac241d7bed61ab757c495fa7457c2b190}{Mips\+::\+Encoder\+::addiu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a8739e197b1a5197a281c6e63477b9671}{Mips\+::\+Encoder\+::andd}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a6a67242ab46c68dd753b52d146715172}{Mips\+::\+Encoder\+::andi}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a5134b48eecd2ee716c015ac75e3cb048}{Mips\+::\+Encoder\+::lui}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aa18a649631cee78df069346c736a907a}{Mips\+::\+Encoder\+::nor}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aeb40b0fb836755e06ce39c925bddcff0}{Mips\+::\+Encoder\+::orr}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ad357a94c65ed192a43eab06867ea4e51}{Mips\+::\+Encoder\+::ori}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_af36195d4432411f4b5f002261747acb0}{Mips\+::\+Encoder\+::slt}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_abfe93be616a65d0e04db929dc4b4b67e}{Mips\+::\+Encoder\+::sltu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a33c8a9171b0bb821a3bc0e2367d0fd49}{Mips\+::\+Encoder\+::slti}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a963b4295f74297f68a53c9cb4f87c025}{Mips\+::\+Encoder\+::sltiu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a90cadb24564093e36289251a386e0156}{Mips\+::\+Encoder\+::sub}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a85b88e29e514bc82bcd1ce884bb6f34d}{Mips\+::\+Encoder\+::subu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_abda4d18caca4426151606c96f7ca29b2}{Mips\+::\+Encoder\+::xorr}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a9ffa976cab1667686522a2c4eca19596}{Mips\+::\+Encoder\+::xori}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a51160225e7b9fc4370b869743a399563}{Mips\+::\+Encoder\+::sll}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, uint16\+\_\+t sa)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a9c310fbf0e09c0d6e5b6fecba88b1d1f}{Mips\+::\+Encoder\+::sllv}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ab97982e1bc97902211982f2d4ffc4021}{Mips\+::\+Encoder\+::sra}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, uint16\+\_\+t sa)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_acf7bb4e2e8da00c205c0e94f43f4eeb4}{Mips\+::\+Encoder\+::srav}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a9a023b6caa69dda9f47b1b1d58b78f41}{Mips\+::\+Encoder\+::srl}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, uint16\+\_\+t sa)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a1aa82af777a12ca98948997ce7e13ee9}{Mips\+::\+Encoder\+::srlv}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a50e7c1a25532d27eed7a989f96b72cba}{Mips\+::\+Encoder\+::div}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aa3890edb92356b04dacb13978d433a60}{Mips\+::\+Encoder\+::divu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a40572e8093c7857ac7ee0df718f780d7}{Mips\+::\+Encoder\+::mfhi}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a193a8b85e69f65c219b00ba666a26cf4}{Mips\+::\+Encoder\+::mflo}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a77142bd844db9e5ad58329506105e835}{Mips\+::\+Encoder\+::mthi}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a91b0d586c39e4c2ad921894e3e728f7d}{Mips\+::\+Encoder\+::mtlo}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a1f984de1cd1463bc5fd023e90007d6be}{Mips\+::\+Encoder\+::mult}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a35c7f84c79baebf04acfaa98eb52328d}{Mips\+::\+Encoder\+::multu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a78b3e5d830311ab43980f52e8a7b346d}{Mips\+::\+Encoder\+::beq}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_af030a7fd30d67cffb75dc4feb063cb03}{Mips\+::\+Encoder\+::bgez}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ab3c1c87047c86cd4d777c610ffc758e2}{Mips\+::\+Encoder\+::bgezal}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a4e86290b4d17404cb8fea9b2c5619b9b}{Mips\+::\+Encoder\+::bgtz}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aca9e73a817cafd73cf3605f1bfbc0057}{Mips\+::\+Encoder\+::blez}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a81b4b08c11fac7e29724bca57f88f9be}{Mips\+::\+Encoder\+::bltz}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a689102e9983aac80f9166cc69fcf84ba}{Mips\+::\+Encoder\+::bltzal}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a9d19b2ff9cdc935b370701c6e214b668}{Mips\+::\+Encoder\+::bne}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a0ffa2b1067c809b8478664f288befc78}{Mips\+::\+Encoder\+::brk}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} code)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a02b739cc0aee2c4db3ab8b71b4c80dc7}{Mips\+::\+Encoder\+::j}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} addr)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a727b175735792dab35bf5d3cc245af7c}{Mips\+::\+Encoder\+::jal}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} addr)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a6d3112ceb3aceb493cb2e135baf72e67}{Mips\+::\+Encoder\+::jalr}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} dst=\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16a36fb81539768d678527f9929625716b7}{Reg\+::\+RA}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a007e89d64108ed8d2115eccac9330233}{Mips\+::\+Encoder\+::jr}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aa65d77cb6ecf8b3cc63eaa433f9ee9c7}{Mips\+::\+Encoder\+::syscall}} ()
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ac7a356636231a5245b61002a2a97e2d8}{Mips\+::\+Encoder\+::lb}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a426f039fd9efe887b10fa8e199f468b6}{Mips\+::\+Encoder\+::lbu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_abec34bf3e8014c18a747e38cd3f87d9b}{Mips\+::\+Encoder\+::lh}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a7a299660abbe6b0bdcc2d864d2346088}{Mips\+::\+Encoder\+::lhu}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a481dd41fec25637b97a78ea2f3ae5577}{Mips\+::\+Encoder\+::lw}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a7d6fbdc3f1c86d4f875f493f08d3c50a}{Mips\+::\+Encoder\+::lwl}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ae71806941cd8ffbb8dbd12ade1afd7fa}{Mips\+::\+Encoder\+::lwr}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a4d860cc227e14196e5a3adbbb36d9dec}{Mips\+::\+Encoder\+::sb}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_ae841a93de7529896fed09a6dc0856945}{Mips\+::\+Encoder\+::sh}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_af08a850735d9554f26270d74d4306e8f}{Mips\+::\+Encoder\+::sw}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a98567786fadb9f5d4024100234f5d412}{Mips\+::\+Encoder\+::swl}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a2cf8d43f99be85f6d617fe2136b3225b}{Mips\+::\+Encoder\+::swr}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, int16\+\_\+t offset, \mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a8dcc47e2d330c3176b980b6dcfc9a499}{Mips\+::\+Encoder\+::mfc0}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, uint8\+\_\+t dst)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a7414661ee5f022471d41756b15b64df9}{Mips\+::\+Encoder\+::mtc0}} (\mbox{\hyperlink{namespaceMips_1_1Encoder_ad16b509eb9f54664ce586205d6759d16}{Reg}} tgt, uint8\+\_\+t dst)
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_a46e0928bf4bf3d154e9fa408fec14114}{Mips\+::\+Encoder\+::rfe}} ()
+\item 
+constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespaceMips_1_1Encoder_aa88bdf4d611ce16506c0711be63437c7}{Mips\+::\+Encoder\+::nop}} ()
+\end{DoxyCompactItemize}

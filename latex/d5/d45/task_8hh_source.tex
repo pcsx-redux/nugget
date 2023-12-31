@@ -1,0 +1,105 @@
+\doxysection{task.\+hh}
+\hypertarget{task_8hh_source}{}\label{task_8hh_source}\index{psyqo/task.hh@{psyqo/task.hh}}
+\mbox{\hyperlink{task_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/fixed\_vector.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152a52f9ec21735243ad9917cda3ca077d32}{GPU}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \{}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_ad29b05aa5ccc81eb5d5d8e8c9edeead5}{reset}}();}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_a62c8f7fddc6cb1f445ca4ff33e14688c}{startWith}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&\&);}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_aaaf08efebf9090f04c8a8162785a12e4}{startWith}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ *)>\ \&\&fun)\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_aaaf08efebf9090f04c8a8162785a12e4}{startWith}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}(eastl::move(fun)));\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_ad7acbe4d31ed76cdb627f5d0e1dffb94}{then}}(Task\ \&\&);}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_a161b21f3892f1da8d44c3c760eb68ff2}{then}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ *)>\ \&\&fun)\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a161b21f3892f1da8d44c3c760eb68ff2}{then}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}(eastl::move(fun)));\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_a97495e34eb3d451c740cd349c9f4a685}{butCatch}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ *)>\ \&\&);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ \&\textcolor{keywordflow}{finally}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ *)>\ \&\&);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a86c51b489c6e7c8c345f1a450eabc7d8}{run}}();}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00123\ \ \ \ \ Task\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a0f0d185b7e130c4c3b558e7189f34e03}{schedule}}();}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_ac4229852020a38c08d30acda970a349f}{isRunning}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_running;\ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a6c7d8e6324243e2f7a6a5d2cb116a7ab}{Task}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ *)>\ \&\&fun)\ :\ m\_runner(eastl::move(fun))\ \{\}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a732f21f00e136b657938abe675d25d76}{Task}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a4c938948c9f825613f4f3d96d4cc9fe5}{Task}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a241176c650be4e0f0e0d8fc742bcc8d3}{operator=}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a12116b56d70d71e5f267af21e95a87e8}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_ab142c4be40c12a9d076dfbc35d7f5f55}{resolve}}()\ \{\ m\_taskQueue-\/>runNext();\ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a5a73269c70cf9002ae0901e5567722b2}{reject}}()\ \{\ m\_taskQueue-\/>runCatch();\ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_ac8a52f9ee9d95d09be4b0c0396e738e2}{complete}}(\textcolor{keywordtype}{bool}\ success)\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success)\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_ab142c4be40c12a9d076dfbc35d7f5f55}{resolve}}();}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task_a5a73269c70cf9002ae0901e5567722b2}{reject}}();}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ *)>\ m\_runner;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ *m\_taskQueue;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}};}
+\DoxyCodeLine{00195\ \ \ \ \ \};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a062f3a0ccc549264baa18042c4f2fade}{DelayedTask}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ delay,\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{void}\ runNext();}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordtype}{void}\ runCatch();}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ eastl::fixed\_vector<Task,\ 16>\ m\_queue;}
+\DoxyCodeLine{00212\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ *)>\ m\_catch;}
+\DoxyCodeLine{00213\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{TaskQueue}}\ *)>\ m\_finally;}
+\DoxyCodeLine{00214\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\ *m\_parent\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ m\_index\ =\ 0;}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}};}
+\DoxyCodeLine{00218\ \};}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

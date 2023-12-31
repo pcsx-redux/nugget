@@ -1,0 +1,184 @@
+\doxysection{tests/libc/string.c File Reference}
+\hypertarget{string_8c}{}\label{string_8c}\index{tests/libc/string.c@{tests/libc/string.c}}
+{\ttfamily \#include "{}common/psxlibc/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+Include dependency graph for string.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/d51/string_8c__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{d5/d5e/string_8c__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\+\_\+\+TEST}} (strcpy, \mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}, char \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}32\mbox{]};char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}16\mbox{]}=\textquotesingle{}a\textquotesingle{};\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}17\mbox{]}=\textquotesingle{}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\textquotesingle{};\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}18\mbox{]}=\textquotesingle{}\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\textquotesingle{};\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}19\mbox{]}=0;\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}=syscall\+\_\+strcpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}+16);\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}+16);) CESTER\+\_\+\+TEST(memset
+\item 
+\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}} (\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}})
+\item 
+\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}} ("{}ssssssss"{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})
+\item 
+\mbox{\hyperlink{string_8c_a5f9740f6d48aab5460dc852196febf79}{CESTER\+\_\+\+TEST}} (strncpy\+Bigger, \mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}, char \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}8\mbox{]};char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};syscall\+\_\+memset(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, 0, sizeof(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}));\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}=syscall\+\_\+strncpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, "{}0123456789abcdef"{}, sizeof(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) -\/ 1);\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}}("{}0123456"{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});) CESTER\+\_\+\+TEST(strncpy\+Smaller
+\item 
+\mbox{\hyperlink{string_8c_a7863f4e707d56f2b751f64fe47ede019}{cester\+\_\+assert\+\_\+str\+\_\+equal}} ("{}abc"{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})
+\item 
+\mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (\textquotesingle{}a\textquotesingle{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}0\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_a74a83ed4d12278304adac1a0ab2a5fb9}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (\textquotesingle{}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\textquotesingle{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}1\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_aa966ee727c4f3898572935e95c40fe11}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (\textquotesingle{}\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\textquotesingle{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}2\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_aefc3d80b702f960135ef477505697421}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (0, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}3\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_a453e0d733d125b6bd8e9c619fe6cde5c}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (0, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}4\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_a5d444646d2a83b734e37e4c326b1799a}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (0, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}5\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_a932bdbb1ef9f48e30e7366e116012618}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (0, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}6\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_a0c406c384d0bf6140ec8dedb1e57558e}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (0, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}7\mbox{]})
+\item 
+\mbox{\hyperlink{string_8c_a141631449a8291327c62ea5226bb0df5}{CESTER\+\_\+\+TEST}} (strncat\+Bigger, \mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}, char \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}8\mbox{]}=\{ \textquotesingle{}a\textquotesingle{}, \textquotesingle{}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\textquotesingle{}, \textquotesingle{}\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\textquotesingle{}, 0, \textquotesingle{}x\textquotesingle{}, \textquotesingle{}x\textquotesingle{}, \textquotesingle{}x\textquotesingle{}, \textquotesingle{}x\textquotesingle{} \};char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}=syscall\+\_\+strncat(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, "{}123456"{}, 3);\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}}("{}abc123"{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});\mbox{\hyperlink{cpu_8c_a1028b7dd62a70ce18ca6f5bc0aa1bffe}{cester\+\_\+assert\+\_\+int\+\_\+eq}}(0, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}6\mbox{]});\mbox{\hyperlink{cpu_8c_a1028b7dd62a70ce18ca6f5bc0aa1bffe}{cester\+\_\+assert\+\_\+int\+\_\+eq}}(\textquotesingle{}x\textquotesingle{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}7\mbox{]});) CESTER\+\_\+\+TEST(strncat\+Smaller
+\item 
+\mbox{\hyperlink{string_8c_a32f7b232e8eaac1b9fcd14161701062a}{cester\+\_\+assert\+\_\+str\+\_\+equal}} ("{}abc123"{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})
+\item 
+\mbox{\hyperlink{string_8c_ac3311118c9ade0ddcfcb141b782135d3}{cester\+\_\+assert\+\_\+int\+\_\+eq}} (\textquotesingle{}x\textquotesingle{}, \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}7\mbox{]})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}
+\item 
+char \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}} \mbox{[}9\mbox{]} = 0
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}} = syscall\+\_\+memset(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \textquotesingle{}s\textquotesingle{}, sizeof(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) -\/ 1)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}\label{string_8c_ae722bebbfe15d5bb13eed93c06f8b361} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [1/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{\textquotesingle{}a\textquotesingle{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}0\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a74a83ed4d12278304adac1a0ab2a5fb9}\label{string_8c_a74a83ed4d12278304adac1a0ab2a5fb9} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [2/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{\textquotesingle{}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\textquotesingle{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}1\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_aa966ee727c4f3898572935e95c40fe11}\label{string_8c_aa966ee727c4f3898572935e95c40fe11} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [3/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{\textquotesingle{}\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\textquotesingle{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}2\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_ac3311118c9ade0ddcfcb141b782135d3}\label{string_8c_ac3311118c9ade0ddcfcb141b782135d3} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [4/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{\textquotesingle{}x\textquotesingle{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}7\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_aefc3d80b702f960135ef477505697421}\label{string_8c_aefc3d80b702f960135ef477505697421} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [5/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}3\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a453e0d733d125b6bd8e9c619fe6cde5c}\label{string_8c_a453e0d733d125b6bd8e9c619fe6cde5c} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [6/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}4\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a5d444646d2a83b734e37e4c326b1799a}\label{string_8c_a5d444646d2a83b734e37e4c326b1799a} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [7/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}5\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a932bdbb1ef9f48e30e7366e116012618}\label{string_8c_a932bdbb1ef9f48e30e7366e116012618} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [8/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}6\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a0c406c384d0bf6140ec8dedb1e57558e}\label{string_8c_a0c406c384d0bf6140ec8dedb1e57558e} 
+\index{string.c@{string.c}!cester\_assert\_int\_eq@{cester\_assert\_int\_eq}}
+\index{cester\_assert\_int\_eq@{cester\_assert\_int\_eq}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_int\_eq()}{cester\_assert\_int\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [9/9]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+int\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{\mbox{[}7\mbox{]} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_ac819eaabd60b63eeb9f0448629dec176}\label{string_8c_ac819eaabd60b63eeb9f0448629dec176} 
+\index{string.c@{string.c}!cester\_assert\_ptr\_equal@{cester\_assert\_ptr\_equal}}
+\index{cester\_assert\_ptr\_equal@{cester\_assert\_ptr\_equal}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_ptr\_equal()}{cester\_assert\_ptr\_equal()}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+ptr\+\_\+equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{,  }\item[{\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a7863f4e707d56f2b751f64fe47ede019}\label{string_8c_a7863f4e707d56f2b751f64fe47ede019} 
+\index{string.c@{string.c}!cester\_assert\_str\_equal@{cester\_assert\_str\_equal}}
+\index{cester\_assert\_str\_equal@{cester\_assert\_str\_equal}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_str\_equal()}{cester\_assert\_str\_equal()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+str\+\_\+equal (\begin{DoxyParamCaption}\item[{"{}abc"{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a32f7b232e8eaac1b9fcd14161701062a}\label{string_8c_a32f7b232e8eaac1b9fcd14161701062a} 
+\index{string.c@{string.c}!cester\_assert\_str\_equal@{cester\_assert\_str\_equal}}
+\index{cester\_assert\_str\_equal@{cester\_assert\_str\_equal}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_str\_equal()}{cester\_assert\_str\_equal()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+str\+\_\+equal (\begin{DoxyParamCaption}\item[{"{}abc123"{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a8e190745e6c2b7706cdd5167de4f2127}\label{string_8c_a8e190745e6c2b7706cdd5167de4f2127} 
+\index{string.c@{string.c}!cester\_assert\_str\_equal@{cester\_assert\_str\_equal}}
+\index{cester\_assert\_str\_equal@{cester\_assert\_str\_equal}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_str\_equal()}{cester\_assert\_str\_equal()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+str\+\_\+equal (\begin{DoxyParamCaption}\item[{"{}ssssssss"{}}]{,  }\item[{\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a7e0e9b9655500b5922d7025633ea2144}\label{string_8c_a7e0e9b9655500b5922d7025633ea2144} 
+\index{string.c@{string.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{strcpy}]{,  }\item[{\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}}]{,  }\item[{char \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}};char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}]{b\mbox{[}32\mbox{]}\mbox{[}16\mbox{]} = {\ttfamily \textquotesingle{}a\textquotesingle{};~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}17\mbox{]}~=~\textquotesingle{}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\textquotesingle{};~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}18\mbox{]}~=~\textquotesingle{}\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\textquotesingle{};~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}19\mbox{]}~=~0;~\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}~=~syscall\+\_\+strcpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}~+~16);~\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});~\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}~+~16);} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a141631449a8291327c62ea5226bb0df5}\label{string_8c_a141631449a8291327c62ea5226bb0df5} 
+\index{string.c@{string.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{strncat\+Bigger}]{,  }\item[{\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}}]{,  }\item[{char}]{b\mbox{[}8\mbox{]} = {\ttfamily \{~\textquotesingle{}a\textquotesingle{},~\textquotesingle{}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\textquotesingle{},~\textquotesingle{}\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\textquotesingle{},~0,~\textquotesingle{}x\textquotesingle{},~\textquotesingle{}x\textquotesingle{},~\textquotesingle{}x\textquotesingle{},~\textquotesingle{}x\textquotesingle{}~\};~char~\texorpdfstring{$\ast$}{*}~\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};~\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}~=~syscall\+\_\+strncat(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~"{}123456"{},~3);~\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});~\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}}("{}abc123"{},~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});~\mbox{\hyperlink{cpu_8c_a1028b7dd62a70ce18ca6f5bc0aa1bffe}{cester\+\_\+assert\+\_\+int\+\_\+eq}}(0,~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}6\mbox{]});~\mbox{\hyperlink{cpu_8c_a1028b7dd62a70ce18ca6f5bc0aa1bffe}{cester\+\_\+assert\+\_\+int\+\_\+eq}}(\textquotesingle{}x\textquotesingle{},~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\mbox{[}7\mbox{]});} }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8c_a5f9740f6d48aab5460dc852196febf79}\label{string_8c_a5f9740f6d48aab5460dc852196febf79} 
+\index{string.c@{string.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{strncpy\+Bigger}]{,  }\item[{\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}}]{,  }\item[{char \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}};char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};syscall\+\_\+memset(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, 0, sizeof(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}));}]{s\mbox{[}8\mbox{]} = {\ttfamily syscall\+\_\+strncpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~"{}0123456789abcdef"{},~sizeof(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})~-\/~1);~\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},~\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});~\mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\+\_\+assert\+\_\+str\+\_\+equal}}("{}0123456"{},~\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{string_8c_ae5d38ec41218c819c268b8c8281e9962}\label{string_8c_ae5d38ec41218c819c268b8c8281e9962} 
+\index{string.c@{string.c}!b@{b}}
+\index{b@{b}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{b}{b}}
+{\footnotesize\ttfamily char b = 0}
+
+\Hypertarget{string_8c_a506da415c9307c897ca9be93acfe1d0f}\label{string_8c_a506da415c9307c897ca9be93acfe1d0f} 
+\index{string.c@{string.c}!s@{s}}
+\index{s@{s}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{s}{s}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} s = syscall\+\_\+memset(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}, \textquotesingle{}s\textquotesingle{}, sizeof(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) -\/ 1)}
+
+\Hypertarget{string_8c_a81841b62c6410eba400654b679c13fe2}\label{string_8c_a81841b62c6410eba400654b679c13fe2} 
+\index{string.c@{string.c}!test\_instance@{test\_instance}}
+\index{test\_instance@{test\_instance}!string.c@{string.c}}
+\doxysubsubsection{\texorpdfstring{test\_instance}{test\_instance}}
+{\footnotesize\ttfamily test\+\_\+instance}
+

@@ -1,0 +1,125 @@
+\doxysection{psyqo/alloc.h File Reference}
+\hypertarget{psyqo_2alloc_8h}{}\label{psyqo_2alloc_8h}\index{psyqo/alloc.h@{psyqo/alloc.h}}
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for alloc.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{d6/d5b/psyqo_2alloc_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d6/d2a/psyqo_2alloc_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2alloc_8h_a3804a7f46fcc70023cde5a3f007662da}{psyqo\+\_\+malloc}} (size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\begin{DoxyCompactList}\small\item\em Allocates memory from the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2alloc_8h_a809977f42640fcb453497bdde5fb72ca}{psyqo\+\_\+realloc}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\begin{DoxyCompactList}\small\item\em Re-\/allocates memory from the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2alloc_8h_a2e8fd619ab9a5b9581d93558dfb4ee76}{psyqo\+\_\+free}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\begin{DoxyCompactList}\small\item\em Frees memory from the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2alloc_8h_a4ce1f4b67237ab642808cac9589d2b87}{psyqo\+\_\+heap\+\_\+start}} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer to the beginning of the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2alloc_8h_a7941170aa50e2e307e96e45c673a635b}{psyqo\+\_\+heap\+\_\+end}} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer to the end of the heap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{psyqo_2alloc_8h_a2e8fd619ab9a5b9581d93558dfb4ee76}\label{psyqo_2alloc_8h_a2e8fd619ab9a5b9581d93558dfb4ee76} 
+\index{alloc.h@{alloc.h}!psyqo\_free@{psyqo\_free}}
+\index{psyqo\_free@{psyqo\_free}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{psyqo\_free()}{psyqo\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+
+
+Frees memory from the heap. 
+
+This function behaves as you\textquotesingle{}d expect from typical free. Calling this function with a NULL pointer is a no-\/op.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The pointer to the memory to free. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{psyqo_2alloc_8h_a7941170aa50e2e307e96e45c673a635b}\label{psyqo_2alloc_8h_a7941170aa50e2e307e96e45c673a635b} 
+\index{alloc.h@{alloc.h}!psyqo\_heap\_end@{psyqo\_heap\_end}}
+\index{psyqo\_heap\_end@{psyqo\_heap\_end}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{psyqo\_heap\_end()}{psyqo\_heap\_end()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+heap\+\_\+end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the pointer to the end of the heap. 
+
+This function will return the pointer to the end of the heap. The heap works lazily, and this function may return a NULL pointer. The heap can grow and shrink depending on usage. Computing the current size of the heap is done by subtracting the start pointer from the end pointer. Note this wouldn\textquotesingle{}t account for memory fragmentation.
+
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The end of the heap. 
+\end{DoxyReturn}
+\Hypertarget{psyqo_2alloc_8h_a4ce1f4b67237ab642808cac9589d2b87}\label{psyqo_2alloc_8h_a4ce1f4b67237ab642808cac9589d2b87} 
+\index{alloc.h@{alloc.h}!psyqo\_heap\_start@{psyqo\_heap\_start}}
+\index{psyqo\_heap\_start@{psyqo\_heap\_start}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{psyqo\_heap\_start()}{psyqo\_heap\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+heap\+\_\+start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the pointer to the beginning of the heap. 
+
+This function will return the pointer to the beginning of the heap. The heap works lazily, and this function may return a NULL pointer, but once it returns a non-\/\+NULL pointer, it will always return the same pointer.
+
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The beginning of the heap. 
+\end{DoxyReturn}
+\Hypertarget{psyqo_2alloc_8h_a3804a7f46fcc70023cde5a3f007662da}\label{psyqo_2alloc_8h_a3804a7f46fcc70023cde5a3f007662da} 
+\index{alloc.h@{alloc.h}!psyqo\_malloc@{psyqo\_malloc}}
+\index{psyqo\_malloc@{psyqo\_malloc}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{psyqo\_malloc()}{psyqo\_malloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+malloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Allocates memory from the heap. 
+
+This function behaves as you\textquotesingle{}d expect from typical malloc. Allocating 0 bytes will return a valid pointer, which can be freed. Guarantees to align the memory to 8 bytes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The amount of bytes to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The memory allocated. 
+\end{DoxyReturn}
+\Hypertarget{psyqo_2alloc_8h_a809977f42640fcb453497bdde5fb72ca}\label{psyqo_2alloc_8h_a809977f42640fcb453497bdde5fb72ca} 
+\index{alloc.h@{alloc.h}!psyqo\_realloc@{psyqo\_realloc}}
+\index{psyqo\_realloc@{psyqo\_realloc}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{psyqo\_realloc()}{psyqo\_realloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+realloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Re-\/allocates memory from the heap. 
+
+This function behaves as you\textquotesingle{}d expect from typical realloc. Allocating 0 bytes with a NULL pointer will return a valid pointer, which can be freed. Allocating 0 bytes with a valid pointer will behave as if free was called. Re-\/allocating a pointer to a smaller size is always guaranteed to succeed and to return the same pointer. Re-\/allocating a pointer to a larger size may fail, in which case, it will return NULL. Passing a NULL pointer will behave like a call to malloc.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The pointer to the memory to re-\/allocate. \\
+\hline
+{\em size} & The amount of bytes to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The memory allocated. 
+\end{DoxyReturn}

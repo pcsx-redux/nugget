@@ -1,0 +1,101 @@
+\doxysection{tests/libc/qsort.c File Reference}
+\hypertarget{qsort_8c}{}\label{qsort_8c}\index{tests/libc/qsort.c@{tests/libc/qsort.c}}
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+Include dependency graph for qsort.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/d43/qsort_8c__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=177pt]{d9/d3b/qsort_8c__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{qsort_8c_a0c2d38e3b0c79c6f5f66b0aa1f1fa089}{CESTER\+\_\+\+BODY}} (static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} icmp(const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}a, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) \{ \mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} \texorpdfstring{$\ast$}{*}(const \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}) a -\/ \texorpdfstring{$\ast$}{*}(const \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}) \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}};\})
+\item 
+\mbox{\hyperlink{qsort_8c_a466bcdac3f3fe0b8f0ddb50f47268802}{syscall\+\_\+qsort}} (\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}, \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, sizeof(\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}\mbox{[}0\mbox{]}), icmp)
+\item 
+\mbox{\hyperlink{qsort_8c_a06ef2e2ae54045bc477e654adc5561b0}{for}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} i=0;i$<$ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}};i++)
+\item 
+\mbox{\hyperlink{qsort_8c_ab9e72fc1cf5e4b9cb83292c0e14fb634}{CESTER\+\_\+\+BODY}} (static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} scmp(const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}a, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) \{ \mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} syscall\+\_\+strcmp(\texorpdfstring{$\ast$}{*}(const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}) a, \texorpdfstring{$\ast$}{*}(const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}) \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});\})
+\item 
+\mbox{\hyperlink{qsort_8c_aefadb26cd9ec735da054897fddc235f5}{syscall\+\_\+qsort}} (\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}, \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, sizeof(\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}\mbox{[}0\mbox{]}), scmp)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{qsort_8c_a0c2d38e3b0c79c6f5f66b0aa1f1fa089}\label{qsort_8c_a0c2d38e3b0c79c6f5f66b0aa1f1fa089} 
+\index{qsort.c@{qsort.c}!CESTER\_BODY@{CESTER\_BODY}}
+\index{CESTER\_BODY@{CESTER\_BODY}!qsort.c@{qsort.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_BODY()}{CESTER\_BODY()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+BODY (\begin{DoxyParamCaption}\item[{static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} icmp(const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}a, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) \{ \mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} \texorpdfstring{$\ast$}{*}(const \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}) a -\/ \texorpdfstring{$\ast$}{*}(const \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}) \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}};\}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{qsort_8c_ab9e72fc1cf5e4b9cb83292c0e14fb634}\label{qsort_8c_ab9e72fc1cf5e4b9cb83292c0e14fb634} 
+\index{qsort.c@{qsort.c}!CESTER\_BODY@{CESTER\_BODY}}
+\index{CESTER\_BODY@{CESTER\_BODY}!qsort.c@{qsort.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_BODY()}{CESTER\_BODY()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+BODY (\begin{DoxyParamCaption}\item[{static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} scmp(const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}a, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}) \{ \mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} syscall\+\_\+strcmp(\texorpdfstring{$\ast$}{*}(const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}) a, \texorpdfstring{$\ast$}{*}(const char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}) \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});\}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{qsort_8c_a06ef2e2ae54045bc477e654adc5561b0}\label{qsort_8c_a06ef2e2ae54045bc477e654adc5561b0} 
+\index{qsort.c@{qsort.c}!for@{for}}
+\index{for@{for}!qsort.c@{qsort.c}}
+\doxysubsubsection{\texorpdfstring{for()}{for()}}
+{\footnotesize\ttfamily for (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{qsort_8c_a466bcdac3f3fe0b8f0ddb50f47268802}\label{qsort_8c_a466bcdac3f3fe0b8f0ddb50f47268802} 
+\index{qsort.c@{qsort.c}!syscall\_qsort@{syscall\_qsort}}
+\index{syscall\_qsort@{syscall\_qsort}!qsort.c@{qsort.c}}
+\doxysubsubsection{\texorpdfstring{syscall\_qsort()}{syscall\_qsort()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily syscall\+\_\+qsort (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}}]{,  }\item[{\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}}]{,  }\item[{sizeof(\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}\mbox{[}0\mbox{]})}]{,  }\item[{icmp}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{qsort_8c_aefadb26cd9ec735da054897fddc235f5}\label{qsort_8c_aefadb26cd9ec735da054897fddc235f5} 
+\index{qsort.c@{qsort.c}!syscall\_qsort@{syscall\_qsort}}
+\index{syscall\_qsort@{syscall\_qsort}!qsort.c@{qsort.c}}
+\doxysubsubsection{\texorpdfstring{syscall\_qsort()}{syscall\_qsort()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily syscall\+\_\+qsort (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}}]{,  }\item[{\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}}]{,  }\item[{sizeof(\mbox{\hyperlink{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}{input}}\mbox{[}0\mbox{]})}]{,  }\item[{scmp}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{qsort_8c_ae5e8593e4b949f487277dc190d84d05a}\label{qsort_8c_ae5e8593e4b949f487277dc190d84d05a} 
+\index{qsort.c@{qsort.c}!input@{input}}
+\index{input@{input}!qsort.c@{qsort.c}}
+\doxysubsubsection{\texorpdfstring{input}{input}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} input}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 2097143,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 8191,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 509,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1021,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 257,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 65537,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 4099,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 1048573,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 524287,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 127,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 131071,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 4194301,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 16381,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 32771,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 2053,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 262147,}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}

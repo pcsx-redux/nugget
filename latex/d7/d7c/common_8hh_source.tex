@@ -1,0 +1,166 @@
+\doxysection{common.\+hh}
+\hypertarget{common_8hh_source}{}\label{common_8hh_source}\index{psyqo/primitives/common.hh@{psyqo/primitives/common.hh}}
+\mbox{\hyperlink{common_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ int16\_t\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_ac9faa6d7d097eebb21b32c866e17e0e2}{x}},\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_ae1af881aec213136b2bc0e30df4ab25f}{u}},\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_aa4faabdfda2ccfbe00fa0ed436eb4601}{s}},\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_aec80aad106f8e9cbafa2d34245349b39}{w}};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ int16\_t\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_a79f932a78959b236e1431e983fabf127}{y}},\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_aac46d0d597a91752a556f72988eb187d}{v}},\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_a816bed0228f1f63dbe907da1db056e77}{t}},\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_a0ebe03fb7bb8e213149217b7a8f4a170}{h}};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00055\ \ \ \ \ \};}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{unionpsyqo_1_1Vertex_af75eb12da9d010a951ca77b33d7fd885}{packed}};}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}})\ ==\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}),\ \textcolor{stringliteral}{"{}Vertex\ is\ not\ 32\ bits"{}});}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}}\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Rect_a7b0810fa7447b26ff7a6fddfa445414b}{a}},\ \mbox{\hyperlink{structpsyqo_1_1Rect_ac16a91bec53d0392db473ad766f14ea1}{pos}};}
+\DoxyCodeLine{00077\ \ \ \ \ \};}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Rect_a4a67e7f61d8e16649837671522bec295}{b}},\ \mbox{\hyperlink{structpsyqo_1_1Rect_a3f0286ac6d3e08f8aa771007929852ae}{size}};}
+\DoxyCodeLine{00080\ \ \ \ \ \};}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Rect_af5f9f1c8c32290f0f3db4dcf7b8b7931}{isEmpty}}()\ \{\ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structpsyqo_1_1Rect_a3f0286ac6d3e08f8aa771007929852ae}{size}}.\mbox{\hyperlink{unionpsyqo_1_1Vertex_aec80aad106f8e9cbafa2d34245349b39}{w}}\ ==\ 0)\ \&\&\ (\mbox{\hyperlink{structpsyqo_1_1Rect_a3f0286ac6d3e08f8aa771007929852ae}{size}}.\mbox{\hyperlink{unionpsyqo_1_1Vertex_a0ebe03fb7bb8e213149217b7a8f4a170}{h}}\ ==\ 0);\ \}}
+\DoxyCodeLine{00082\ \};}
+\DoxyCodeLine{00083\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(Rect)\ ==\ \textcolor{keyword}{sizeof}(uint64\_t),\ \textcolor{stringliteral}{"{}Rect\ is\ not\ 64\ bits"{}});}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{unionpsyqo_1_1Color_ae58f14f954f3cdbcc490e7b7343ddcee}{r}},\ \mbox{\hyperlink{unionpsyqo_1_1Color_a2ff3c17c5fe2b3314948168a9e5e5211}{g}},\ \mbox{\hyperlink{unionpsyqo_1_1Color_a847d669814dfef30615e396a2533c9d1}{b}};}
+\DoxyCodeLine{00094\ \ \ \ \ \};}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{unionpsyqo_1_1Color_aaf98aa4c8bedc69dbb0075b377552816}{packed}};}
+\DoxyCodeLine{00096\ \};}
+\DoxyCodeLine{00097\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}})\ ==\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}),\ \textcolor{stringliteral}{"{}Color\ is\ not\ 32\ bits"{}});}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{keyword}{namespace\ }Prim::TPageAttr\ \{}
+\DoxyCodeLine{00100\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1f}{SemiTrans}}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1fa575e97691ea1a99a58301940ab3cb9ac}{HalfBackAndHalfFront}},\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1fa5d07df6d4148f4080d0437bf33776851}{FullBackAndFullFront}},\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1fa5d9f0d69359bc00d5f408e5bcf5ad5bd}{FullBackSubFullFront}},\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1fa61260332d4e957047385237982222ae1}{FullBackAndQuarterFront}}\ \};}
+\DoxyCodeLine{00101\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19}{ColorMode}}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19a9212a2dee3062b2fd433801295cff457}{Tex4Bits}},\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19ab0af007a8268c02815fef40dc43ea202}{Tex8Bits}},\ \mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19a360bc35e7012a86f174e396fee8465b2}{Tex16Bits}}\ \};}
+\DoxyCodeLine{00102\ \}\ \ \textcolor{comment}{//\ namespace\ Prim::TPageAttr}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{keyword}{namespace\ }PrimPieces\ \{}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{ClutIndex}}\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex_a9f84a9d4525621db98417b8997b6f1a3}{ClutIndex}}()\ \{\}}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex_a0e064aa60378747baa49eed48f48c21a}{ClutIndex}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ :\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{ClutIndex}}(v.x\ >>\ 4,\ v.y)\ \{\}}
+\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex_ac9c1793b5a9cbb338700fd502efc667d}{ClutIndex}}(uint16\_t\ x,\ uint16\_t\ y)\ :\ index((y\ <<\ 6)\ |\ x)\ \{\}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00123\ \ \ \ \ uint16\_t\ index\ =\ 0;}
+\DoxyCodeLine{00124\ \};}
+\DoxyCodeLine{00125\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(ClutIndex)\ ==\ \textcolor{keyword}{sizeof}(uint16\_t),\ \textcolor{stringliteral}{"{}ClutIndex\ is\ not\ 16\ bits"{}});}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo}{TexInfo}}\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo_aeb050ee83ee034595c99ff3fce0791cc}{u}};}
+\DoxyCodeLine{00136\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo_a3c84ec09c1978bab3f264cb31def20b6}{v}};}
+\DoxyCodeLine{00137\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{ClutIndex}}\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo_a9a96aa250d71a290f3a92c100c0d88f5}{clut}};}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo}{TexInfo}})\ ==\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}),\ \textcolor{stringliteral}{"{}TexInfo\ is\ not\ 32\ bits"{}});}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_af5bc0812819b1454ca8174111a4e584d}{setPageX}}(uint8\_t\ x)\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ \&=\ \string~0x000f;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ x\ \&=\ 0x000f;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ |=\ x;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_ab8313ffdf23500ceeea6574586a88649}{setPageY}}(uint8\_t\ y)\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ \&=\ \string~0x0010;}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ y\ \&=\ 0x0001;}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ |=\ y\ <<\ 4;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_af08f64de1a841e77fe423f64f001cd30}{set}}(\mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1f}{Prim::TPageAttr::SemiTrans}}\ trans)\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ \&=\ \string~0x0060;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(trans);}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ |=\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ <<\ 5;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00172\ \ \ \ \ \}}
+\DoxyCodeLine{00173\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5980db3a92ae4c828fcdab7752c5dda9}{set}}(\mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19}{Prim::TPageAttr::ColorMode}}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ \&=\ \string~0x0180;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ m\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(\mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}});}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ |=\ m\ <<\ 7;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00178\ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_afa64122a3e3b69ff7c74356ac765ac20}{setDithering}}(\textcolor{keywordtype}{bool}\ dithering)\ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dithering)\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ |=\ 0x0200;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ \&=\ \string~0x0200;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00186\ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5319e216eb31cac435edc16608fe8f11}{disableDisplayArea}}()\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ \&=\ \string~0x0400;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00190\ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\&\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_a2e0988f52d61648f233683b4f00a6361}{enableDisplayArea}}()\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structs__info}{info}}\ |=\ 0x0400;}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00197\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structs__info}{info}}\ =\ 0;}
+\DoxyCodeLine{00198\ \};}
+\DoxyCodeLine{00199\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(TPageAttr)\ ==\ \textcolor{keyword}{sizeof}(uint16\_t),\ \textcolor{stringliteral}{"{}TPageAttr\ is\ not\ 16\ bits"{}});}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00206\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1PageInfo}{PageInfo}}\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1PageInfo_a66b78924ff0290d33b4df82be933a6d1}{u}};}
+\DoxyCodeLine{00208\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1PageInfo_a8a7d4b7b7a04d41d21a9c9fb8ba7843e}{v}};}
+\DoxyCodeLine{00209\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPageAttr}}\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1PageInfo_a20355a170de97ea8406d793f2732e258}{attr}};}
+\DoxyCodeLine{00210\ \};}
+\DoxyCodeLine{00211\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1PageInfo}{PageInfo}})\ ==\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}),\ \textcolor{stringliteral}{"{}PageInfo\ is\ not\ 32\ bits"{}});}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00218\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{UVCoords}}\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords_a12cc7cdbb5a95ab4a9035163ccad2d47}{u}};}
+\DoxyCodeLine{00220\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords_a56450e1b8a7b2d34b73b825b794d935f}{v}};}
+\DoxyCodeLine{00221\ \};}
+\DoxyCodeLine{00222\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{UVCoords}})\ ==\ \textcolor{keyword}{sizeof}(uint16\_t),\ \textcolor{stringliteral}{"{}UVCoords\ is\ not\ 16\ bits"{}});}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00229\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{UVCoordsPadded}}\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded_afa122b9556914e987abd29591926bfb7}{u}};}
+\DoxyCodeLine{00231\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded_a5950644b002995475d27b64acf79de5b}{v}};}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00234\ \ \ \ \ uint16\_t\ padding;}
+\DoxyCodeLine{00235\ \};}
+\DoxyCodeLine{00236\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{UVCoordsPadded}})\ ==\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}),\ \textcolor{stringliteral}{"{}UVCoordsPadded\ is\ not\ 32\ bits"{}});}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \}\ \ \textcolor{comment}{//\ namespace\ PrimPieces}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

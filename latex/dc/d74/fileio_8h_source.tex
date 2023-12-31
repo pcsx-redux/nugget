@@ -1,0 +1,86 @@
+\doxysection{fileio.\+h}
+\hypertarget{fileio_8h_source}{}\label{fileio_8h_source}\index{openbios/fileio/fileio.h@{openbios/fileio/fileio.h}}
+\mbox{\hyperlink{fileio_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{device_8h}{common/psxlibc/device.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stdio_8h}{common/psxlibc/stdio.h}}"{}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_af69496d7f98dd810530fde0362a9862c}{psxopen}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fname,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}});}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_abc8967e424f08cb67a71ee1ddebb5308}{psxlseek}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keywordtype}{int}\ whence);}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a20f0e4c5e5e10ad9c195014759591579}{psxread}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a017a10468066bdc877185cb296761e35}{psxwrite}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_ae8bfc83f02c710dd9e4283f1c6452aea}{psxclose}}(\textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a875866e15abbc922e8cfd80353edf411}{psxioctl}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dma_8c_a5e9712b08d7cbf6091f9e5334ff97b5d}{cmd}},\ \textcolor{keywordtype}{int}\ arg);}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a8a9f87026bd160ccc0bd48993e4423fa}{psxexit}}(\textcolor{keywordtype}{int}\ code);}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a4133b06175940ecaf6d74ce9efe4077a}{isFileConsole}}(\textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a99d8bacd0d81f762b9bf5432ab65d707}{psxgetc}}(\textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a79f07ed3c4929bb98bbce402e5dd9c4a}{psxputc}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}},\ \textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a97b3334d36d8aa8106b9a628669301eb}{psxputchar}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}});}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a092c40c0e0461d5cda79856371ff5cda}{psxgetchar}}();}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{fileio_8h_a7dd733a3e8e0d7fa9d20a8d840f93252}{psxgets}}(\textcolor{keywordtype}{char}\ *storage);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_ac2507f4b01aab43804505f607a85d344}{psxputs}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a99b37d07e534918575f5289ab8cab8c2}{psxprintf}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *msg,\ ...);}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a77ea07b682d8e652aecca18cd16c6ec1}{ioabortraw}}(\textcolor{keywordtype}{int}\ code);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a4a567288084f1865354c9f1bb22d71b5}{setupFileIO}}(\textcolor{keywordtype}{int}\ installTTY);}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a89ca3daa4be475b0fbd086f96ea69257}{installStdIo}}(\textcolor{keywordtype}{int}\ installTTY);}
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_aca73f261075bb67031a9ace664b5c5a5}{reopenStdio}}();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDevice}{Device}}\ *\mbox{\hyperlink{fileio_8h_a4cf58eb783a1be979db0e31881e30bca}{findDevice}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structDevice_a55f75144f200d12f734532c9c1441c5d}{name}});}
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a3ef5768ef7e69aa4130d11b9c48d5983}{addDevice}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structDevice}{Device}}\ *);}
+\DoxyCodeLine{00056\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a0da2203b18ac858b20bfcd41bdf1d0f4}{removeDevice}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structDevice_a55f75144f200d12f734532c9c1441c5d}{name}});}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *\mbox{\hyperlink{fileio_8h_a5747fe14edd1642a6e735c5099e8e406}{getFileFromHandle}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{structFile_ab8b42ca503d50813876d9089a9e19427}{fd}});}
+\DoxyCodeLine{00059\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *\mbox{\hyperlink{fileio_8h_ae7f2700cbee59aa2dc7f81b8a0a5401b}{findEmptyFile}}();}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{fileio_8h_a46649560872d79fc303ba975d2546323}{splitFilepathAndFindDevice}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structDevice}{Device}}\ **\mbox{\hyperlink{structFile_a8bac47c363ec03f315bd908c507a6000}{device}},\ \textcolor{keywordtype}{int}\ *\mbox{\hyperlink{structFile_ab41b49239a26b21b9ca9fe156b554e80}{deviceId}});}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{fileio_8h_afb84712d3b0c2dd9999cfa6c2fa5b148}{psxerrno}};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_aa9e6462370e6fab9c461ced1b6282040}{cdevscan}}();}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *\mbox{\hyperlink{fileio_8h_a27038a3a14fcca6676c12550a981bc16}{firstFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filepath,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structDirEntry}{DirEntry}}\ *entry);}
+\DoxyCodeLine{00068\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *\mbox{\hyperlink{fileio_8h_ae2cca047b30743028fcbb704091936ef}{nextFile}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structDirEntry}{DirEntry}}\ *entry);}
+\DoxyCodeLine{00069\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *deviceName);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_a6465ef1af5ff027e754f0315fe21a82f}{psxrename}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *oldName,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *newName);}
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_ae8867b7e4d5d9c1b761300472d05cebc}{psxerase}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{extern}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *\mbox{\hyperlink{fileio_8h_afef84d4eb01dd840d3920c06b265f61e}{g\_firstFile}};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fileio_8h_ac5ca59f4f2e5c0e71579fe2a76fec43c}{getDeviceStatus}}();}
+\DoxyCodeLine{00077\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_ac68e60ee3fe76b31f1b08c7fde53f5fd}{setDeviceStatus}}(\textcolor{keywordtype}{int}\ deviceStatus);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a8fc650c59d27a3447aac7d0274e4f515}{printInstalledDevices}}();}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fileio_8h_a850d32e54cf5ba54e517c3af858122e8}{ioAbortWithMsg}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *msg1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *msg2);}
+
+\end{DoxyCode}

@@ -1,0 +1,72 @@
+\doxysection{openbios/cdrom/cdrom.h File Reference}
+\hypertarget{openbios_2cdrom_2cdrom_8h}{}\label{openbios_2cdrom_2cdrom_8h}\index{openbios/cdrom/cdrom.h@{openbios/cdrom/cdrom.h}}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d83/openbios_2cdrom_2cdrom_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_a21462872f61733970f55a0162386bd8e}{init\+CDRom}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_a5ead68166b63fa9761c528e1a798e2e8}{deinit\+CDRom}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_a1e2f66917ad3dcc244f76962f4740dc4}{cdrom\+Block\+Get\+Status}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_a6028cda113bf468cc5759fde75d0eaa7}{add\+CDRom\+Device}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_a02fdcc6f061d2d45051ee8aa4b101ba0}{cdrom\+Read\+TOC}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_a0f8ffb1952a3b9b288aa6e2edc000408}{cdrom\+Reset}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2cdrom_2cdrom_8h_ac64967f9003bdc512107e47c6d4365d5}{initialize\+CDRom\+Handlers\+And\+Events}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2cdrom_2cdrom_8h_a6028cda113bf468cc5759fde75d0eaa7}\label{openbios_2cdrom_2cdrom_8h_a6028cda113bf468cc5759fde75d0eaa7} 
+\index{cdrom.h@{cdrom.h}!addCDRomDevice@{addCDRomDevice}}
+\index{addCDRomDevice@{addCDRomDevice}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{addCDRomDevice()}{addCDRomDevice()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} add\+CDRom\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2cdrom_2cdrom_8h_a1e2f66917ad3dcc244f76962f4740dc4}\label{openbios_2cdrom_2cdrom_8h_a1e2f66917ad3dcc244f76962f4740dc4} 
+\index{cdrom.h@{cdrom.h}!cdromBlockGetStatus@{cdromBlockGetStatus}}
+\index{cdromBlockGetStatus@{cdromBlockGetStatus}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{cdromBlockGetStatus()}{cdromBlockGetStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Block\+Get\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2cdrom_2cdrom_8h_a02fdcc6f061d2d45051ee8aa4b101ba0}\label{openbios_2cdrom_2cdrom_8h_a02fdcc6f061d2d45051ee8aa4b101ba0} 
+\index{cdrom.h@{cdrom.h}!cdromReadTOC@{cdromReadTOC}}
+\index{cdromReadTOC@{cdromReadTOC}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{cdromReadTOC()}{cdromReadTOC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Read\+TOC (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2cdrom_2cdrom_8h_a0f8ffb1952a3b9b288aa6e2edc000408}\label{openbios_2cdrom_2cdrom_8h_a0f8ffb1952a3b9b288aa6e2edc000408} 
+\index{cdrom.h@{cdrom.h}!cdromReset@{cdromReset}}
+\index{cdromReset@{cdromReset}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{cdromReset()}{cdromReset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2cdrom_2cdrom_8h_a5ead68166b63fa9761c528e1a798e2e8}\label{openbios_2cdrom_2cdrom_8h_a5ead68166b63fa9761c528e1a798e2e8} 
+\index{cdrom.h@{cdrom.h}!deinitCDRom@{deinitCDRom}}
+\index{deinitCDRom@{deinitCDRom}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{deinitCDRom()}{deinitCDRom()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} deinit\+CDRom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2cdrom_2cdrom_8h_a21462872f61733970f55a0162386bd8e}\label{openbios_2cdrom_2cdrom_8h_a21462872f61733970f55a0162386bd8e} 
+\index{cdrom.h@{cdrom.h}!initCDRom@{initCDRom}}
+\index{initCDRom@{initCDRom}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{initCDRom()}{initCDRom()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} init\+CDRom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2cdrom_2cdrom_8h_ac64967f9003bdc512107e47c6d4365d5}\label{openbios_2cdrom_2cdrom_8h_ac64967f9003bdc512107e47c6d4365d5} 
+\index{cdrom.h@{cdrom.h}!initializeCDRomHandlersAndEvents@{initializeCDRomHandlersAndEvents}}
+\index{initializeCDRomHandlersAndEvents@{initializeCDRomHandlersAndEvents}!cdrom.h@{cdrom.h}}
+\doxysubsubsection{\texorpdfstring{initializeCDRomHandlersAndEvents()}{initializeCDRomHandlersAndEvents()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} initialize\+CDRom\+Handlers\+And\+Events (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+

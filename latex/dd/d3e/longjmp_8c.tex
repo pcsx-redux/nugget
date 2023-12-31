@@ -1,0 +1,64 @@
+\doxysection{tests/libc/longjmp.c File Reference}
+\hypertarget{longjmp_8c}{}\label{longjmp_8c}\index{tests/libc/longjmp.c@{tests/libc/longjmp.c}}
+{\ttfamily \#include "{}common/psxlibc/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+Include dependency graph for longjmp.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/dd7/longjmp_8c__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{d0/d76/longjmp_8c__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{longjmp_8c_a7b989dd44721b6cdeaa725a2d6312501}{CESTER\+\_\+\+BODY}} (static \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} jmpbuf;static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}=0;) \mbox{\hyperlink{cop0_8c_a0622d3279df74b9cc7686b3941128c91}{CESTER\+\_\+\+TEST}}(basic\+Set\+Jmp\+Long\+Jmp
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{longjmp_8c_acab531abaa74a7e664e3986f2522b33a}{r}} = syscall\+\_\+setjmp(\&jmpbuf)
+\item 
+\mbox{\hyperlink{longjmp_8c_ae11b3deb3de3df7dc48e439074023e35}{count}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{longjmp_8c_a7b989dd44721b6cdeaa725a2d6312501}\label{longjmp_8c_a7b989dd44721b6cdeaa725a2d6312501} 
+\index{longjmp.c@{longjmp.c}!CESTER\_BODY@{CESTER\_BODY}}
+\index{CESTER\_BODY@{CESTER\_BODY}!longjmp.c@{longjmp.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_BODY()}{CESTER\_BODY()}}
+{\footnotesize\ttfamily CESTER\+\_\+\+BODY (\begin{DoxyParamCaption}\item[{static \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} jmpbuf;static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{count = {\ttfamily 0;} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{longjmp_8c_ae11b3deb3de3df7dc48e439074023e35}\label{longjmp_8c_ae11b3deb3de3df7dc48e439074023e35} 
+\index{longjmp.c@{longjmp.c}!count@{count}}
+\index{count@{count}!longjmp.c@{longjmp.c}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily count}
+
+\Hypertarget{longjmp_8c_acab531abaa74a7e664e3986f2522b33a}\label{longjmp_8c_acab531abaa74a7e664e3986f2522b33a} 
+\index{longjmp.c@{longjmp.c}!r@{r}}
+\index{r@{r}!longjmp.c@{longjmp.c}}
+\doxysubsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} r = syscall\+\_\+setjmp(\&jmpbuf)}
+
+\Hypertarget{longjmp_8c_a81841b62c6410eba400654b679c13fe2}\label{longjmp_8c_a81841b62c6410eba400654b679c13fe2} 
+\index{longjmp.c@{longjmp.c}!test\_instance@{test\_instance}}
+\index{test\_instance@{test\_instance}!longjmp.c@{longjmp.c}}
+\doxysubsubsection{\texorpdfstring{test\_instance}{test\_instance}}
+{\footnotesize\ttfamily test\+\_\+instance}
+

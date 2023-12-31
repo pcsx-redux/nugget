@@ -1,0 +1,128 @@
+\doxysection{coroutine.\+hh}
+\hypertarget{coroutine_8hh_source}{}\label{coroutine_8hh_source}\index{psyqo/coroutine.hh@{psyqo/coroutine.hh}}
+\mbox{\hyperlink{coroutine_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <coroutine>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Empty}{Empty}}\ \{\};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ std::conditional<std::is\_void<T>::value,\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Empty}{Empty}},\ T>::type\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ac966a0c12e5a1d9550aab340ad6c803c}{SafeT}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ac6cf0e178384caad03628ed7386b461f}{Coroutine}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ae9dfba0a5de8000657f7963d095ca17c}{Coroutine}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \&\&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \&\mbox{\hyperlink{structpsyqo_1_1Coroutine_a8426c1dc2e3b27a876a27d5fedcdb17d}{operator=}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \&\&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_a25029da973077c6de63bb2ee7faacfea}{Coroutine}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \textcolor{keyword}{const}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \&\mbox{\hyperlink{structpsyqo_1_1Coroutine_a40a05fef33cfbc929335dcca5031e0c3}{operator=}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ \textcolor{keyword}{const}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a042157c083eca88d2eda78c0c52676cb}{Awaiter}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \&\&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \&\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_af29897cc964cb366b06297b4da6c9f0b}{operator=}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \&\&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a4ea6b6fe93307ec363cfc39382f2de30}{Awaiter}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \textcolor{keyword}{const}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \&\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_aa35ee6bead34d2800c195c39c6a916c9}{operator=}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \textcolor{keyword}{const}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_acf945cffcf50317e182da3dba258395b}{await\_ready}}()\ const\ noexcept\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ m\_coroutine-\/>m\_earlyResume;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ m\_coroutine-\/>m\_earlyResume\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_a744e1bc646d6bb81685bae99d296dd15}{await\_suspend}}(std::coroutine\_handle<>\ h)\ \{\ m\_coroutine-\/>m\_suspended\ =\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter_ac3ea50424117e460218645e74c9db705}{await\_resume}}()\ const\ noexcept\ \{\}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}(\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ *coroutine)\ :\ m\_coroutine(coroutine)\ \{\}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}}\ *m\_coroutine;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine}};}
+\DoxyCodeLine{00082\ \ \ \ \ \};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_a38233cb6fc84eeb249d40485f53d2763}{awaiter}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_1_1Awaiter}{Awaiter}}(\textcolor{keyword}{this});\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_acc462ae3a6a9cc4f4dd2688368482c9d}{resume}}()\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_handle)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_suspended)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ m\_earlyResume\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ m\_suspended\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ m\_handle.resume();}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ae333a2d423ac671593088471329e8680}{done}}()\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_handle)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isDone\ =\ m\_handle.done();}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isDone)\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_void<T>::value)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_value\ =\ eastl::move(m\_handle.promise().m\_value);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ m\_handle.destroy();}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ m\_handle\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ isDone;}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ac966a0c12e5a1d9550aab340ad6c803c}{SafeT}}\ \&\mbox{\hyperlink{structpsyqo_1_1Coroutine_abee7b8c99df770265d88fd425226bc98}{value}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_value;\ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{struct\ }PromiseVoid\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine<>}}\ get\_return\_object()\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine}{Coroutine<>}}\{eastl::move(std::coroutine\_handle<Promise>::from\_promise(*\textcolor{keyword}{this}))\};}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ std::suspend\_always\ initial\_suspend()\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ std::suspend\_always\ final\_suspend()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ unhandled\_exception()\ \{\}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ return\_void()\ \{\}}
+\DoxyCodeLine{00155\ \ \ \ \ \};}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{struct\ }PromiseValue\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ Coroutine<T>\ get\_return\_object()\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ac6cf0e178384caad03628ed7386b461f}{Coroutine}}\{eastl::move(std::coroutine\_handle<Promise>::from\_promise(*\textcolor{keyword}{this}))\};}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ std::suspend\_always\ initial\_suspend()\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ std::suspend\_always\ final\_suspend()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ unhandled\_exception()\ \{\}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ return\_value(T\ \&\&\mbox{\hyperlink{structpsyqo_1_1Coroutine_abee7b8c99df770265d88fd425226bc98}{value}})\ \{\ m\_value\ =\ eastl::move(\mbox{\hyperlink{structpsyqo_1_1Coroutine_abee7b8c99df770265d88fd425226bc98}{value}});\ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ T\ m\_value;}
+\DoxyCodeLine{00165\ \ \ \ \ \};}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keyword}{typedef}\ \textcolor{keyword}{typename}\ std::conditional<std::is\_void<T>::value,\ PromiseVoid,\ PromiseValue>::type\ Promise;}
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ac6cf0e178384caad03628ed7386b461f}{Coroutine}}(std::coroutine\_handle<Promise>\ \&\&handle)\ :\ m\_handle(eastl::move(handle))\ \{\}}
+\DoxyCodeLine{00168\ \ \ \ \ std::coroutine\_handle<Promise>\ m\_handle;}
+\DoxyCodeLine{00169\ \ \ \ \ [[no\_unique\_address]]\ \mbox{\hyperlink{structpsyqo_1_1Coroutine_ac966a0c12e5a1d9550aab340ad6c803c}{SafeT}}\ m\_value;}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_suspended\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_earlyResume\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structpsyqo_1_1Coroutine_ab7023082ca2031b864b47e81b0c45437}{promise\_type}}\ =\ Promise;}
+\DoxyCodeLine{00175\ \};}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

@@ -1,0 +1,27 @@
+\chapter{README}
+\hypertarget{md_ucl-demo_2README}{}\label{md_ucl-demo_2README}\index{README@{README}}
+This small demo shows how to use the UCL library to compress and decompress data. It is based on the \href{http://www.oberhumer.com/opensource/ucl/}{\texttt{ UCL library}} by Markus F.\+X.\+J. Oberhumer.
+
+While the UCL library itself is GPL licensed, the decompression code in this demo has been written from scratch, and is released under the MIT license.
+
+The file {\ttfamily \doxylink{ucl-demo_8cpp}{ucl-\/demo.\+cpp}} contains the code for the demo, and should have most of the required documentation to explain how this works. The file {\ttfamily ne2-\/d.\+S} contains the decompression code. The file {\ttfamily \doxylink{n2e-d_8h}{n2e-\/d.\+h}} contains the decompression code\textquotesingle{}s header file.
+
+Creating a compressed file can be done using the {\ttfamily compress.\+lua} script, which for example can be run as follows to compress the {\ttfamily compress.\+lua} script itself\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pcsx-\/redux\ -\/cli\ -\/exec\ "{}dofile\ 'compress.lua'\ compress('compress.lua',\ 'demo.bin')\ PCSX.quit()"{}}
+
+\end{DoxyCode}
+
+
+Then, once the demo.\+bin file is created, running the demo can be done as follows\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pcsx-\/redux\ -\/stdout\ -\/noupdate\ -\/pcdrv\ -\/pcdrvbase\ .\ -\/run\ -\/exe\ ucl-\/demo.ps-\/exe}
+
+\end{DoxyCode}
+
+
+The compression code which is bound to Lua simply uses the {\ttfamily ucl\+\_\+nrv2e\+\_\+99\+\_\+compress} API function call from the UCL library, and can be used independently in other projects to create more custom assets. 

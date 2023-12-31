@@ -1,0 +1,70 @@
+\doxysection{cpu.\+hh}
+\hypertarget{cpu_8hh_source}{}\label{cpu_8hh_source}\index{psyqo/hardware/cpu.hh@{psyqo/hardware/cpu.hh}}
+\mbox{\hyperlink{cpu_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{hwregs_8hh}{psyqo/hardware/hwregs.hh}}"{}}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU}{psyqo::Hardware::CPU}}\ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152}{IRQ}}\ :\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152ad23364186c9aa9bca9ea12f6a7d2ecd5}{VBlank}}\ =\ 1\ <<\ 0,}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ =\ 1\ <<\ 1,}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}}\ =\ 1\ <<\ 2,}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152a33fd5f6391f2f0cb4c91179d7f521949}{DMA}}\ =\ 1\ <<\ 3,}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152aee8d7ab96a578300058b217be0b6e4b5}{Timer0}}\ =\ 1\ <<\ 4,}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152a520b0824cea8417f3fde566f0019a2a7}{Timer1}}\ =\ 1\ <<\ 5,}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152aa3df64ca11c5bfc17207d0db3b782e96}{Timer2}}\ =\ 1\ <<\ 6,}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152a9bbf373797bf7cf7ba62c80023682e25}{Controller}}\ =\ 1\ <<\ 7,}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{structSIO}{SIO}}\ =\ 1\ <<\ 8,}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SPU}{SPU}}\ =\ 1\ <<\ 9,}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152a7a876fbec890f829703bc77a76e8ef45}{PIO}}\ =\ 1\ <<\ 10,}
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{template}\ <u\textcolor{keywordtype}{int}32\_t\ offset>}
+\DoxyCodeLine{00048\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CPU_1_1IRQReg}{IRQReg}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}<offset>\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CPU_1_1IRQReg_a33cf539fc75e3570a999edd6f82f21b9}{set}}(\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152}{IRQ}}\ irq)\ \{\ *\textcolor{keyword}{this}\ |=\ (\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(irq));\ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CPU_1_1IRQReg_acc0f8cb01feb54bcbfccfb8e4637b96a}{clear}}(\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152}{IRQ}}\ irq)\ \{\ *\textcolor{keyword}{this}\ \&=\ \string~(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(irq));\ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CPU_1_1IRQReg_a78813169bac590331381721523ab847b}{clear}}()\ \{\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{Register<offset>::access}}()\ =\ 0;\ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1CPU_1_1IRQReg_aef4506f9fde0e841e250c24c9c3d2528}{isSet}}(\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152}{IRQ}}\ irq)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (*\textcolor{keyword}{this}\ \&\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(irq))\ !=\ 0;\ \}}
+\DoxyCodeLine{00053\ \};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{extern}\ IRQReg<0x0070>\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a94f1a4f140ebe62e24adbbfe23b7d462}{IReg}};}
+\DoxyCodeLine{00056\ \textcolor{keyword}{extern}\ IRQReg<0x0074>\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_ae53aa2187ef25c4a5f7117696197e34b}{IMask}};}
+\DoxyCodeLine{00057\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register<0x00f0>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a7237a82b31198e33f38e0714e29782c6}{DPCR}};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register<0x00f4>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_ac0228382348e29616bd49d6d5d74d73b}{DICR}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register<0x0000,\ uint32\_t,\ WriteQueue::Bypass>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_ab298727e521552e52a1a0fe6475e37d8}{WriteQueueFlusher}};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ flushWriteQueue()\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_ab298727e521552e52a1a0fe6475e37d8}{WriteQueueFlusher}}.throwAway();\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo::Hardware::CPU}}
+
+\end{DoxyCode}

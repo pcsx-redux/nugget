@@ -1,0 +1,151 @@
+\doxysection{common/hardware/irq.h File Reference}
+\hypertarget{irq_8h}{}\label{irq_8h}\index{common/hardware/irq.h@{common/hardware/irq.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for irq.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{d7/dc6/irq_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/daa/irq_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24}{IRQ}} \{ \newline
+\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24adf239d8c5d5184509fc225674d243d01}{IRQ\+\_\+\+VBLANK\+\_\+\+NUMBER}} = 0
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a38af5b8afc08fd0c0423b74f1e944ff9}{IRQ\+\_\+\+VBLANK}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+VBLANK\+\_\+\+NUMBER
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a90729841f36adec784ac8641460560c0}{IRQ\+\_\+\+GPU\+\_\+\+NUMBER}} = 1
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2bae573d0dfb5c2bc5721dd28a31b620}{IRQ\+\_\+\+GPU}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+GPU\+\_\+\+NUMBER
+, \newline
+\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a8fb8408bf0b76d7fbe82819d8b46bb48}{IRQ\+\_\+\+CDROM\+\_\+\+NUMBER}} = 2
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a9dbb60d6b8c3868829a3c51b01ff4d05}{IRQ\+\_\+\+CDROM}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+CDROM\+\_\+\+NUMBER
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24acc5a36dd9d65fb5e298140b87e7de0e7}{IRQ\+\_\+\+DMA\+\_\+\+NUMBER}} = 3
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a14941626cea2786d32dae9c75edb4df1}{IRQ\+\_\+\+DMA}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+DMA\+\_\+\+NUMBER
+, \newline
+\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a97196f410e18ca633708644b08a8a632}{IRQ\+\_\+\+TIMER0\+\_\+\+NUMBER}} = 4
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2618469a68d84d93cbc690683d166cfd}{IRQ\+\_\+\+TIMER0}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+TIMER0\+\_\+\+NUMBER
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a56afcda2a53a5d64507c844d9a3a4351}{IRQ\+\_\+\+TIMER1\+\_\+\+NUMBER}} = 5
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a8c39cc59e699744d2ec759fe14ff4e98}{IRQ\+\_\+\+TIMER1}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+TIMER1\+\_\+\+NUMBER
+, \newline
+\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a9230648d3e1732553dae539cf594514a}{IRQ\+\_\+\+TIMER2\+\_\+\+NUMBER}} = 6
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a0e01d49d80b56430de0f28a700a1cf40}{IRQ\+\_\+\+TIMER2}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+TIMER2\+\_\+\+NUMBER
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a4cb55ab9c8808692b3e3bc7dd09c31b4}{IRQ\+\_\+\+CONTROLLER\+\_\+\+NUMBER}} = 7
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24ae4d5e5696df66051d248a56f00f6f17d}{IRQ\+\_\+\+CONTROLLER}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+CONTROLLER\+\_\+\+NUMBER
+, \newline
+\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2f5933658c819e1ecd1323770bf13f00}{IRQ\+\_\+\+SIO\+\_\+\+NUMBER}} = 8
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24ae627969c3506f20c959271b694985587}{IRQ\+\_\+\+SIO}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+SIO\+\_\+\+NUMBER
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a7680f97c4af8b1f4c39908617025f1dd}{IRQ\+\_\+\+SPU\+\_\+\+NUMBER}} = 9
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24afd145f7190299c92ab3d8c9100dc6681}{IRQ\+\_\+\+SPU}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+SPU\+\_\+\+NUMBER
+, \newline
+\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24afd7bb3cc8a3ccd4dc2c5ac34670db9bd}{IRQ\+\_\+\+PIO\+\_\+\+NUMBER}} = 10
+, \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a73f9000df681d407d397e5b7a9642a16}{IRQ\+\_\+\+PIO}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} IRQ\+\_\+\+PIO\+\_\+\+NUMBER
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24}\label{irq_8h_a891c9036e6872ed134c185addd341b24} 
+\index{irq.h@{irq.h}!IRQ@{IRQ}}
+\index{IRQ@{IRQ}!irq.h@{irq.h}}
+\doxysubsubsection{\texorpdfstring{IRQ}{IRQ}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24}{IRQ}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_VBLANK\_NUMBER@{IRQ\_VBLANK\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_VBLANK\_NUMBER@{IRQ\_VBLANK\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24adf239d8c5d5184509fc225674d243d01}\label{irq_8h_a891c9036e6872ed134c185addd341b24adf239d8c5d5184509fc225674d243d01} 
+IRQ\+\_\+\+VBLANK\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_VBLANK@{IRQ\_VBLANK}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_VBLANK@{IRQ\_VBLANK}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a38af5b8afc08fd0c0423b74f1e944ff9}\label{irq_8h_a891c9036e6872ed134c185addd341b24a38af5b8afc08fd0c0423b74f1e944ff9} 
+IRQ\+\_\+\+VBLANK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_GPU\_NUMBER@{IRQ\_GPU\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_GPU\_NUMBER@{IRQ\_GPU\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a90729841f36adec784ac8641460560c0}\label{irq_8h_a891c9036e6872ed134c185addd341b24a90729841f36adec784ac8641460560c0} 
+IRQ\+\_\+\+GPU\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_GPU@{IRQ\_GPU}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_GPU@{IRQ\_GPU}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a2bae573d0dfb5c2bc5721dd28a31b620}\label{irq_8h_a891c9036e6872ed134c185addd341b24a2bae573d0dfb5c2bc5721dd28a31b620} 
+IRQ\+\_\+\+GPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_CDROM\_NUMBER@{IRQ\_CDROM\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_CDROM\_NUMBER@{IRQ\_CDROM\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a8fb8408bf0b76d7fbe82819d8b46bb48}\label{irq_8h_a891c9036e6872ed134c185addd341b24a8fb8408bf0b76d7fbe82819d8b46bb48} 
+IRQ\+\_\+\+CDROM\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_CDROM@{IRQ\_CDROM}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_CDROM@{IRQ\_CDROM}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a9dbb60d6b8c3868829a3c51b01ff4d05}\label{irq_8h_a891c9036e6872ed134c185addd341b24a9dbb60d6b8c3868829a3c51b01ff4d05} 
+IRQ\+\_\+\+CDROM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_DMA\_NUMBER@{IRQ\_DMA\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_DMA\_NUMBER@{IRQ\_DMA\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24acc5a36dd9d65fb5e298140b87e7de0e7}\label{irq_8h_a891c9036e6872ed134c185addd341b24acc5a36dd9d65fb5e298140b87e7de0e7} 
+IRQ\+\_\+\+DMA\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_DMA@{IRQ\_DMA}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_DMA@{IRQ\_DMA}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a14941626cea2786d32dae9c75edb4df1}\label{irq_8h_a891c9036e6872ed134c185addd341b24a14941626cea2786d32dae9c75edb4df1} 
+IRQ\+\_\+\+DMA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_TIMER0\_NUMBER@{IRQ\_TIMER0\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_TIMER0\_NUMBER@{IRQ\_TIMER0\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a97196f410e18ca633708644b08a8a632}\label{irq_8h_a891c9036e6872ed134c185addd341b24a97196f410e18ca633708644b08a8a632} 
+IRQ\+\_\+\+TIMER0\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_TIMER0@{IRQ\_TIMER0}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_TIMER0@{IRQ\_TIMER0}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a2618469a68d84d93cbc690683d166cfd}\label{irq_8h_a891c9036e6872ed134c185addd341b24a2618469a68d84d93cbc690683d166cfd} 
+IRQ\+\_\+\+TIMER0&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_TIMER1\_NUMBER@{IRQ\_TIMER1\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_TIMER1\_NUMBER@{IRQ\_TIMER1\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a56afcda2a53a5d64507c844d9a3a4351}\label{irq_8h_a891c9036e6872ed134c185addd341b24a56afcda2a53a5d64507c844d9a3a4351} 
+IRQ\+\_\+\+TIMER1\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_TIMER1@{IRQ\_TIMER1}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_TIMER1@{IRQ\_TIMER1}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a8c39cc59e699744d2ec759fe14ff4e98}\label{irq_8h_a891c9036e6872ed134c185addd341b24a8c39cc59e699744d2ec759fe14ff4e98} 
+IRQ\+\_\+\+TIMER1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_TIMER2\_NUMBER@{IRQ\_TIMER2\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_TIMER2\_NUMBER@{IRQ\_TIMER2\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a9230648d3e1732553dae539cf594514a}\label{irq_8h_a891c9036e6872ed134c185addd341b24a9230648d3e1732553dae539cf594514a} 
+IRQ\+\_\+\+TIMER2\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_TIMER2@{IRQ\_TIMER2}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_TIMER2@{IRQ\_TIMER2}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a0e01d49d80b56430de0f28a700a1cf40}\label{irq_8h_a891c9036e6872ed134c185addd341b24a0e01d49d80b56430de0f28a700a1cf40} 
+IRQ\+\_\+\+TIMER2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_CONTROLLER\_NUMBER@{IRQ\_CONTROLLER\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_CONTROLLER\_NUMBER@{IRQ\_CONTROLLER\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a4cb55ab9c8808692b3e3bc7dd09c31b4}\label{irq_8h_a891c9036e6872ed134c185addd341b24a4cb55ab9c8808692b3e3bc7dd09c31b4} 
+IRQ\+\_\+\+CONTROLLER\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_CONTROLLER@{IRQ\_CONTROLLER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_CONTROLLER@{IRQ\_CONTROLLER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24ae4d5e5696df66051d248a56f00f6f17d}\label{irq_8h_a891c9036e6872ed134c185addd341b24ae4d5e5696df66051d248a56f00f6f17d} 
+IRQ\+\_\+\+CONTROLLER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_SIO\_NUMBER@{IRQ\_SIO\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_SIO\_NUMBER@{IRQ\_SIO\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a2f5933658c819e1ecd1323770bf13f00}\label{irq_8h_a891c9036e6872ed134c185addd341b24a2f5933658c819e1ecd1323770bf13f00} 
+IRQ\+\_\+\+SIO\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_SIO@{IRQ\_SIO}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_SIO@{IRQ\_SIO}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24ae627969c3506f20c959271b694985587}\label{irq_8h_a891c9036e6872ed134c185addd341b24ae627969c3506f20c959271b694985587} 
+IRQ\+\_\+\+SIO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_SPU\_NUMBER@{IRQ\_SPU\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_SPU\_NUMBER@{IRQ\_SPU\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a7680f97c4af8b1f4c39908617025f1dd}\label{irq_8h_a891c9036e6872ed134c185addd341b24a7680f97c4af8b1f4c39908617025f1dd} 
+IRQ\+\_\+\+SPU\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_SPU@{IRQ\_SPU}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_SPU@{IRQ\_SPU}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24afd145f7190299c92ab3d8c9100dc6681}\label{irq_8h_a891c9036e6872ed134c185addd341b24afd145f7190299c92ab3d8c9100dc6681} 
+IRQ\+\_\+\+SPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_PIO\_NUMBER@{IRQ\_PIO\_NUMBER}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_PIO\_NUMBER@{IRQ\_PIO\_NUMBER}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24afd7bb3cc8a3ccd4dc2c5ac34670db9bd}\label{irq_8h_a891c9036e6872ed134c185addd341b24afd7bb3cc8a3ccd4dc2c5ac34670db9bd} 
+IRQ\+\_\+\+PIO\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IRQ\_PIO@{IRQ\_PIO}!irq.h@{irq.h}}\index{irq.h@{irq.h}!IRQ\_PIO@{IRQ\_PIO}}}\Hypertarget{irq_8h_a891c9036e6872ed134c185addd341b24a73f9000df681d407d397e5b7a9642a16}\label{irq_8h_a891c9036e6872ed134c185addd341b24a73f9000df681d407d397e5b7a9642a16} 
+IRQ\+\_\+\+PIO&\\
+\hline
+
+\end{DoxyEnumFields}

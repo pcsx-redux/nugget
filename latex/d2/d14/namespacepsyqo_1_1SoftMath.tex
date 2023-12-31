@@ -1,0 +1,394 @@
+\doxysection{psyqo\+::Soft\+Math Namespace Reference}
+\hypertarget{namespacepsyqo_1_1SoftMath}{}\label{namespacepsyqo_1_1SoftMath}\index{psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}{Axis}} \{ \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a02129bb861061d1a052c592e2dc6b383}{X}}
+, \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a57cec4137b614c87cb4e24a3d003a3e0}{Y}}
+, \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a21c2e59531c8710156d34a3c30ac81d5}{Z}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a2f94163cf5083d0f078e15ef528fa332}{generate\+Rotation\+Matrix33}} (\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \texorpdfstring{$\ast$}{*}m, \mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}, \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}{Axis}} a, const \mbox{\hyperlink{classpsyqo_1_1Trig}{Trig}}$<$$>$ \&trig)
+\begin{DoxyCompactList}\small\item\em Generate a rotation matrix for a given angle and axis. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a461601e6752b109823d8711cafc07c25}{generate\+Rotation\+Matrix33}} (\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}, \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}{Axis}} a, const \mbox{\hyperlink{classpsyqo_1_1Trig}{Trig}}$<$$>$ \&trig)
+\begin{DoxyCompactList}\small\item\em Generate a rotation matrix for a given angle and axis. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_afb9ed91fc9a10a572ca5b022ee86cc41}{multiply\+Matrix33}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m1, const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m2, \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\begin{DoxyCompactList}\small\item\em Multiply two 3x3 matrices. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_ae6ea4ad6715db13a206b4d8812b0f8fb}{multiply\+Matrix33}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m1, const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m2)
+\begin{DoxyCompactList}\small\item\em Multiply two 3x3 matrices. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a73530ae0c31ead60c6c6b4769968706a}{scale\+Matrix33}} (\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \texorpdfstring{$\ast$}{*}m, \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}})
+\begin{DoxyCompactList}\small\item\em Scale a 3x3 matrix by a scalar. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a94db4804b2f3c7254e5ab3247ced49d7}{matrix\+Vec\+Mul3}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m, const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v, \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\begin{DoxyCompactList}\small\item\em Multiply a 3x3 matrix by a 3D vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a9d804add13952a0782b7f0a7a3440090}{matrix\+Vec\+Mul3xy}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m, const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v, \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\begin{DoxyCompactList}\small\item\em Multiply a 3x3 matrix by a 3D vector, returning only the x and y components. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a8dcbf0c50f1385ebed079126d15dfd8c}{matrix\+Vec\+Mul3z}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m, const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v)
+\begin{DoxyCompactList}\small\item\em Multiply a 3x3 matrix by a 3D vector, returning only the z component. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_aa26d99d6b991f12f306af9f49e6988c5}{cross\+Product\+Vec3}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v1, const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v2, \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\begin{DoxyCompactList}\small\item\em Compute the cross product of two 3D vectors. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a30a7cd826084b3a88f903ab8bee22c3f}{cross\+Product\+Vec3}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v1, const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v2)
+\begin{DoxyCompactList}\small\item\em Compute the cross product of two 3D vectors. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a93b97a097a368ba2ed0be599c0b9cd96}{matrix\+Determinant3}} (const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&m)
+\begin{DoxyCompactList}\small\item\em Compute the determinant of a 3x3 matrix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a9a6dced91cc594f0b6eb4fb119bf4e79}{square\+Root}} (\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$ x, \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$ y)
+\begin{DoxyCompactList}\small\item\em Computes the square root of a fixed point number, given an approximative hint. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a02df6513e078751b9d4186f9cb08ad18}{inverse\+Square\+Root}} (\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$ x, \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$ y)
+\begin{DoxyCompactList}\small\item\em Computes the inverse square root of a fixed point number, given an approximative hint. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_ac711d2dccdcfef6d53bf79d48486e8b1}{norm\+Of\+Vec3}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&v)
+\begin{DoxyCompactList}\small\item\em Computes the norm of a 3D vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a9461315ff35bc76386a59e951f415f06}{normalize\+Vec3}} (\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}v)
+\begin{DoxyCompactList}\small\item\em Normalizes a 3D vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a0c895f416d31c78f84db02208a5e2acd}{fast\+Normalize\+Vec3}} (\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}v)
+\begin{DoxyCompactList}\small\item\em Normalizes a 3D vector, using a faster but less accurate algorithm. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_a39a39c21dd3867ad5c523d4026352938}{project}} (const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}v, \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$ h, \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}})
+\begin{DoxyCompactList}\small\item\em Projects a 3D point onto a 2D plane. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}\label{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!Axis@{Axis}}
+\index{Axis@{Axis}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{Axis}{Axis}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}{psyqo\+::\+Soft\+Math\+::\+Axis}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{X@{X}!psyqo::SoftMath@{psyqo::SoftMath}}\index{psyqo::SoftMath@{psyqo::SoftMath}!X@{X}}}\Hypertarget{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a02129bb861061d1a052c592e2dc6b383}\label{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a02129bb861061d1a052c592e2dc6b383} 
+X&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Y@{Y}!psyqo::SoftMath@{psyqo::SoftMath}}\index{psyqo::SoftMath@{psyqo::SoftMath}!Y@{Y}}}\Hypertarget{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a57cec4137b614c87cb4e24a3d003a3e0}\label{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a57cec4137b614c87cb4e24a3d003a3e0} 
+Y&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Z@{Z}!psyqo::SoftMath@{psyqo::SoftMath}}\index{psyqo::SoftMath@{psyqo::SoftMath}!Z@{Z}}}\Hypertarget{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a21c2e59531c8710156d34a3c30ac81d5}\label{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10a21c2e59531c8710156d34a3c30ac81d5} 
+Z&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a30a7cd826084b3a88f903ab8bee22c3f}\label{namespacepsyqo_1_1SoftMath_a30a7cd826084b3a88f903ab8bee22c3f} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!crossProductVec3@{crossProductVec3}}
+\index{crossProductVec3@{crossProductVec3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{crossProductVec3()}{crossProductVec3()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{psyqo\+::\+Vec3}} psyqo\+::\+Soft\+Math\+::cross\+Product\+Vec3 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v1,  }\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v2 }\end{DoxyParamCaption})}
+
+
+
+Compute the cross product of two 3D vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & The first vector. \\
+\hline
+{\em v2} & The second vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vec3 The cross product. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_aa26d99d6b991f12f306af9f49e6988c5}\label{namespacepsyqo_1_1SoftMath_aa26d99d6b991f12f306af9f49e6988c5} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!crossProductVec3@{crossProductVec3}}
+\index{crossProductVec3@{crossProductVec3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{crossProductVec3()}{crossProductVec3()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::cross\+Product\+Vec3 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v1,  }\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v2,  }\item[{\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+
+
+Compute the cross product of two 3D vectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & The first vector. \\
+\hline
+{\em v2} & The second vector. \\
+\hline
+{\em out} & The vector to store the result in. May be the same as v1 or v2. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a0c895f416d31c78f84db02208a5e2acd}\label{namespacepsyqo_1_1SoftMath_a0c895f416d31c78f84db02208a5e2acd} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!fastNormalizeVec3@{fastNormalizeVec3}}
+\index{fastNormalizeVec3@{fastNormalizeVec3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{fastNormalizeVec3()}{fastNormalizeVec3()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::fast\+Normalize\+Vec3 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}}]{v }\end{DoxyParamCaption})}
+
+
+
+Normalizes a 3D vector, using a faster but less accurate algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The vector to normalize. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a461601e6752b109823d8711cafc07c25}\label{namespacepsyqo_1_1SoftMath_a461601e6752b109823d8711cafc07c25} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!generateRotationMatrix33@{generateRotationMatrix33}}
+\index{generateRotationMatrix33@{generateRotationMatrix33}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{generateRotationMatrix33()}{generateRotationMatrix33()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Matrix33}{psyqo\+::\+Matrix33}} psyqo\+::\+Soft\+Math\+::generate\+Rotation\+Matrix33 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}}}]{t,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}{Axis}}}]{a,  }\item[{const \mbox{\hyperlink{classpsyqo_1_1Trig}{Trig}}$<$$>$ \&}]{trig }\end{DoxyParamCaption})}
+
+
+
+Generate a rotation matrix for a given angle and axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & The angle to rotate by. \\
+\hline
+{\em a} & The axis to rotate around. \\
+\hline
+{\em trig} & A trigonometry object to use for sine and cosine calculations. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{structpsyqo_1_1Matrix33}{Matrix33} The rotation matrix. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a2f94163cf5083d0f078e15ef528fa332}\label{namespacepsyqo_1_1SoftMath_a2f94163cf5083d0f078e15ef528fa332} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!generateRotationMatrix33@{generateRotationMatrix33}}
+\index{generateRotationMatrix33@{generateRotationMatrix33}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{generateRotationMatrix33()}{generateRotationMatrix33()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::generate\+Rotation\+Matrix33 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}}}]{t,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1SoftMath_af7072da6083eaa2f0b6381220941be10}{Axis}}}]{a,  }\item[{const \mbox{\hyperlink{classpsyqo_1_1Trig}{Trig}}$<$$>$ \&}]{trig }\end{DoxyParamCaption})}
+
+
+
+Generate a rotation matrix for a given angle and axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The matrix to store the result in. \\
+\hline
+{\em t} & The angle to rotate by. \\
+\hline
+{\em a} & The axis to rotate around. \\
+\hline
+{\em trig} & A trigonometry object to use for sine and cosine calculations. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a02df6513e078751b9d4186f9cb08ad18}\label{namespacepsyqo_1_1SoftMath_a02df6513e078751b9d4186f9cb08ad18} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!inverseSquareRoot@{inverseSquareRoot}}
+\index{inverseSquareRoot@{inverseSquareRoot}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{inverseSquareRoot()}{inverseSquareRoot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}} psyqo\+::\+Soft\+Math\+::inverse\+Square\+Root (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}}$<$$>$}]{x,  }\item[{\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}}$<$$>$}]{y }\end{DoxyParamCaption})}
+
+
+
+Computes the inverse square root of a fixed point number, given an approximative hint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The number to compute the inverse square root of. \\
+\hline
+{\em y} & The approximative hint of the result. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+psyqo\+::\+Fixed\+Point$<$$>$ The inverse square root. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a93b97a097a368ba2ed0be599c0b9cd96}\label{namespacepsyqo_1_1SoftMath_a93b97a097a368ba2ed0be599c0b9cd96} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!matrixDeterminant3@{matrixDeterminant3}}
+\index{matrixDeterminant3@{matrixDeterminant3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{matrixDeterminant3()}{matrixDeterminant3()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}} psyqo\+::\+Soft\+Math\+::matrix\+Determinant3 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m }\end{DoxyParamCaption})}
+
+
+
+Compute the determinant of a 3x3 matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Fixed\+Point$<$$>$ The determinant. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a94db4804b2f3c7254e5ab3247ced49d7}\label{namespacepsyqo_1_1SoftMath_a94db4804b2f3c7254e5ab3247ced49d7} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!matrixVecMul3@{matrixVecMul3}}
+\index{matrixVecMul3@{matrixVecMul3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{matrixVecMul3()}{matrixVecMul3()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::matrix\+Vec\+Mul3 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m,  }\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v,  }\item[{\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+
+
+Multiply a 3x3 matrix by a 3D vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The matrix. \\
+\hline
+{\em v} & The vector. \\
+\hline
+{\em out} & The vector to store the result in. May be the same as v. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a9d804add13952a0782b7f0a7a3440090}\label{namespacepsyqo_1_1SoftMath_a9d804add13952a0782b7f0a7a3440090} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!matrixVecMul3xy@{matrixVecMul3xy}}
+\index{matrixVecMul3xy@{matrixVecMul3xy}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{matrixVecMul3xy()}{matrixVecMul3xy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::matrix\+Vec\+Mul3xy (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m,  }\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v,  }\item[{\mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+
+
+Multiply a 3x3 matrix by a 3D vector, returning only the x and y components. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The matrix. \\
+\hline
+{\em v} & The vector. \\
+\hline
+{\em out} & The vector to store the result in. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a8dcbf0c50f1385ebed079126d15dfd8c}\label{namespacepsyqo_1_1SoftMath_a8dcbf0c50f1385ebed079126d15dfd8c} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!matrixVecMul3z@{matrixVecMul3z}}
+\index{matrixVecMul3z@{matrixVecMul3z}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{matrixVecMul3z()}{matrixVecMul3z()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}} psyqo\+::\+Soft\+Math\+::matrix\+Vec\+Mul3z (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m,  }\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v }\end{DoxyParamCaption})}
+
+
+
+Multiply a 3x3 matrix by a 3D vector, returning only the z component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The matrix. \\
+\hline
+{\em v} & The vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Fixed\+Point$<$$>$ The z component of the result. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_ae6ea4ad6715db13a206b4d8812b0f8fb}\label{namespacepsyqo_1_1SoftMath_ae6ea4ad6715db13a206b4d8812b0f8fb} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!multiplyMatrix33@{multiplyMatrix33}}
+\index{multiplyMatrix33@{multiplyMatrix33}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{multiplyMatrix33()}{multiplyMatrix33()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Matrix33}{psyqo\+::\+Matrix33}} psyqo\+::\+Soft\+Math\+::multiply\+Matrix33 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m1,  }\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m2 }\end{DoxyParamCaption})}
+
+
+
+Multiply two 3x3 matrices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m1} & The first matrix. \\
+\hline
+{\em m2} & The second matrix. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{structpsyqo_1_1Matrix33}{Matrix33} The result of the multiplication. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_afb9ed91fc9a10a572ca5b022ee86cc41}\label{namespacepsyqo_1_1SoftMath_afb9ed91fc9a10a572ca5b022ee86cc41} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!multiplyMatrix33@{multiplyMatrix33}}
+\index{multiplyMatrix33@{multiplyMatrix33}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{multiplyMatrix33()}{multiplyMatrix33()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::multiply\+Matrix33 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m1,  }\item[{const \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \&}]{m2,  }\item[{\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+
+
+Multiply two 3x3 matrices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m1} & The first matrix. \\
+\hline
+{\em m2} & The second matrix. \\
+\hline
+{\em out} & The matrix to store the result in. May be the same as m1 or m2. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a9461315ff35bc76386a59e951f415f06}\label{namespacepsyqo_1_1SoftMath_a9461315ff35bc76386a59e951f415f06} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!normalizeVec3@{normalizeVec3}}
+\index{normalizeVec3@{normalizeVec3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{normalizeVec3()}{normalizeVec3()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::normalize\+Vec3 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}}]{v }\end{DoxyParamCaption})}
+
+
+
+Normalizes a 3D vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The vector to normalize. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_ac711d2dccdcfef6d53bf79d48486e8b1}\label{namespacepsyqo_1_1SoftMath_ac711d2dccdcfef6d53bf79d48486e8b1} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!normOfVec3@{normOfVec3}}
+\index{normOfVec3@{normOfVec3}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{normOfVec3()}{normOfVec3()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}} psyqo\+::\+Soft\+Math\+::norm\+Of\+Vec3 (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \&}]{v }\end{DoxyParamCaption})}
+
+
+
+Computes the norm of a 3D vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+psyqo\+::\+Fixed\+Point$<$$>$ The norm. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a39a39c21dd3867ad5c523d4026352938}\label{namespacepsyqo_1_1SoftMath_a39a39c21dd3867ad5c523d4026352938} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!project@{project}}
+\index{project@{project}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{project()}{project()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::project (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$$>$}]{h,  }\item[{\mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}} \texorpdfstring{$\ast$}{*}}]{out }\end{DoxyParamCaption})}
+
+
+
+Projects a 3D point onto a 2D plane. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The vector to project. \\
+\hline
+{\em h} & The height of the plane. \\
+\hline
+{\em out} & The vector to store the result in. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a73530ae0c31ead60c6c6b4769968706a}\label{namespacepsyqo_1_1SoftMath_a73530ae0c31ead60c6c6b4769968706a} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!scaleMatrix33@{scaleMatrix33}}
+\index{scaleMatrix33@{scaleMatrix33}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{scaleMatrix33()}{scaleMatrix33()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Soft\+Math\+::scale\+Matrix33 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}} \texorpdfstring{$\ast$}{*}}]{m,  }\item[{\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}}$<$$>$}]{s }\end{DoxyParamCaption})}
+
+
+
+Scale a 3x3 matrix by a scalar. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The matrix to scale. \\
+\hline
+{\em s} & The scalar to scale by. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1SoftMath_a9a6dced91cc594f0b6eb4fb119bf4e79}\label{namespacepsyqo_1_1SoftMath_a9a6dced91cc594f0b6eb4fb119bf4e79} 
+\index{psyqo::SoftMath@{psyqo::SoftMath}!squareRoot@{squareRoot}}
+\index{squareRoot@{squareRoot}!psyqo::SoftMath@{psyqo::SoftMath}}
+\doxysubsubsection{\texorpdfstring{squareRoot()}{squareRoot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}} psyqo\+::\+Soft\+Math\+::square\+Root (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}}$<$$>$}]{x,  }\item[{\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{psyqo\+::\+Fixed\+Point}}$<$$>$}]{y }\end{DoxyParamCaption})}
+
+
+
+Computes the square root of a fixed point number, given an approximative hint. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The number to compute the square root of. \\
+\hline
+{\em y} & The approximative hint of the result. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+psyqo\+::\+Fixed\+Point$<$$>$ The square root. 
+\end{DoxyReturn}

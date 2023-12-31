@@ -1,0 +1,231 @@
+\doxysection{quads.\+hh}
+\hypertarget{quads_8hh_source}{}\label{quads_8hh_source}\index{psyqo/primitives/quads.hh@{psyqo/primitives/quads.hh}}
+\mbox{\hyperlink{quads_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_8hh}{psyqo/primitives/common.hh}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }Prim\ \{}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a79e8dca7cfb0c681ce6b90262ccb7006}{Quad}}()\ :\ command(0x28000000)\ \{\}}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a52492a3a699f8f4fb7318cd50e903cd5}{Quad}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x28000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ae448d05938f804f983ee6d670960f148}{setColor}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ command\ =\ 0x28000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_aa99fd814cfc61de3f43cc0ad5465e5c4}{setOpaque}}()\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a88704b4b592c5a920ae8b1cba25c3684}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ad4f129cdd051490b4a057b4cd51165db}{setPointA}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a23dd02011e956324429b658532f1c5ba}{pointA}}\ =\ v;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ae41a865d9cf1918288d63c85b3b782fe}{setPointB}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_afe6d3fe90379b78bdc90fa186b9ebff3}{pointB}}\ =\ v;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ab15c6b86929b6f1538b5f441f74207a4}{setPointC}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a8d35b97bdeaf5260a0d722a0612d427d}{pointC}}\ =\ v;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_af78f9c1d9f7c90282fdfd5d7ab6d49a6}{setPointD}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a1b6647b157a04b507ffd1c8e706d9d66}{pointD}}\ =\ v;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a23dd02011e956324429b658532f1c5ba}{pointA}};}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_afe6d3fe90379b78bdc90fa186b9ebff3}{pointB}};}
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a8d35b97bdeaf5260a0d722a0612d427d}{pointC}};}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a1b6647b157a04b507ffd1c8e706d9d66}{pointD}};}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 5),\ \textcolor{stringliteral}{"{}Quad\ is\ not\ 5\ words"{}});}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00105\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad}{TexturedQuad}}\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a47474daadf13565b5a427fbe8795bac5}{TexturedQuad}}()\ :\ command(0x2d000000)\ \{\}}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a42af694901b69b47a92bca223567e7d0}{TexturedQuad}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x2c000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad}{TexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_aeed23165b716c0bdd68b1277f2a5b60d}{setColor}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ command\ =\ 0x2c000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad}{TexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a59cdcf8826b8f428416b6dd45919a2ab}{setOpaque}}()\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad}{TexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a742f820ae6ccbd9d41ddd7e864d47d1b}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00123\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_ae8816a28a970e8e556bc05697646b743}{pointA}};}
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_abde7d925c957d550aad2e0a298aa26c8}{uvA}};}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{PrimPieces::ClutIndex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a4522b3bdc629455ff11702b412d5020a}{clutIndex}};}
+\DoxyCodeLine{00129\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a6216412d5ef770c90181f89745fc8e9d}{pointB}};}
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a881559a27d324e73752f0e05d324fab6}{uvB}};}
+\DoxyCodeLine{00131\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{PrimPieces::TPageAttr}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_ada0aa562a38a7e75cfe5a92dd825e1f4}{tpage}};}
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a803c2afc6f7c3b1ecb84c94c7410cafb}{pointC}};}
+\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{PrimPieces::UVCoordsPadded}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_afaae8c8aa073f745b98ef0b6f94ccf73}{uvC}};}
+\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_ae850cef17df8df5a5edd86b84144d1cc}{pointD}};}
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{PrimPieces::UVCoordsPadded}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad_a9ca01c0f9e6868e5357b68d9f60817ce}{uvD}};}
+\DoxyCodeLine{00136\ \};}
+\DoxyCodeLine{00137\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedQuad}{TexturedQuad}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 9),\ \textcolor{stringliteral}{"{}TexturedQuad\ is\ not\ 9\ words"{}});}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00147\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a295559f29b2f19ff88b0e3aab786d54d}{GouraudQuad}}()\ :\ command(0x38000000)\ \{\}}
+\DoxyCodeLine{00149\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a981c96f8df28a9a9d251cd91e30c5584}{GouraudQuad}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x38000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00150\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_ac4b74d57ad13d22bb13cb172c6a2509b}{setColorA}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ command\ =\ 0x38000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00154\ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_afd84c646b592e4def09803260c0c3e37}{setColorB}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a6477eab365d3535c9c3fa761b3cac2f9}{colorB}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a87564f7d267b86b9b6ff3c402190f80b}{setColorC}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_aed30549dcaf9793e31d687c10704f972}{colorC}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a5f5e060e2a44266860223c3a6f738fca}{setColorD}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a6c1ab52aa92988c0b40d85bceaa5c681}{colorD}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_aa99338cb7cfec7518e766b6e8d0526d3}{setOpaque}}()\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00170\ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a0677fc875cf8f084484f23325915e46e}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00174\ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a214c0190623a134558cdf060dd9a2191}{setPointA}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_ad0103535e66c988abcf0a53e2bed34cb}{pointA}}\ =\ v;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00178\ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_aec04da0fbfb7451c48ab3610cfaf44bc}{setPointB}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_aa76597f73eedcc2fc8b67c9ce91b62af}{pointB}}\ =\ v;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a88f0cb828563d1bae3155a7935c298a0}{setPointC}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a62fef5f8c02214a287ebe1157a612cf5}{pointC}}\ =\ v;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00186\ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_ae1545b39d6291004b74efeb07479fbfd}{setPointD}}(\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ v)\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a64d93c6e04b78dd61ef7a5a5396cb6a7}{pointD}}\ =\ v;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00190\ \ \ \ \ \}}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00193\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00196\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_ad0103535e66c988abcf0a53e2bed34cb}{pointA}};}
+\DoxyCodeLine{00197\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a6477eab365d3535c9c3fa761b3cac2f9}{colorB}};}
+\DoxyCodeLine{00198\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_aa76597f73eedcc2fc8b67c9ce91b62af}{pointB}};}
+\DoxyCodeLine{00199\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_aed30549dcaf9793e31d687c10704f972}{colorC}};}
+\DoxyCodeLine{00200\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a62fef5f8c02214a287ebe1157a612cf5}{pointC}};}
+\DoxyCodeLine{00201\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a6c1ab52aa92988c0b40d85bceaa5c681}{colorD}};}
+\DoxyCodeLine{00202\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad_a64d93c6e04b78dd61ef7a5a5396cb6a7}{pointD}};}
+\DoxyCodeLine{00203\ \};}
+\DoxyCodeLine{00204\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudQuad}{GouraudQuad}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 8),\ \textcolor{stringliteral}{"{}GouraudQuad\ is\ not\ 8\ words"{}});}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00221\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a5c3773d8584040f878c971cf7caa3368}{GouraudTexturedQuad}}()\ :\ command(0x3c000000)\ \{\}}
+\DoxyCodeLine{00223\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a07cec61325bbf6bf676b80977befae92}{GouraudTexturedQuad}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ :\ command(0x3c000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed)\ \{\}}
+\DoxyCodeLine{00224\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a2bf1c75cb28ab2642192b07196b5f23e}{setColorA}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ wasSemiTrans\ =\ command\ \&\ 0x02000000;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ command\ =\ 0x3c000000\ |\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}.packed\ |\ wasSemiTrans;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00228\ \ \ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a488e478d93a09818d4480cc66c639aaa}{setColorB}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_aa06c16b7258c56dd31d927ef430e8635}{colorB}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00232\ \ \ \ \ \}}
+\DoxyCodeLine{00233\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a6f30cffb97c552642dd8bcaa60de96c7}{setColorC}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a5677910610ca4ee695487be77adc2104}{colorC}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00236\ \ \ \ \ \}}
+\DoxyCodeLine{00237\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a0bf01a04dd5cba56b87a89ac54c412ee}{setColorD}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a4005ac3a8ad70602b143a6ea954c74c3}{colorD}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_af831c6f22c7e21264329e2bb3b9f33a6}{setOpaque}}()\ \{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ command\ \&=\ \string~0x02000000;}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00244\ \ \ \ \ \}}
+\DoxyCodeLine{00245\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}}\&\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a8ac110723dc132aa90c874f8dc8ddece}{setSemiTrans}}()\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ command\ |=\ 0x02000000;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00251\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ command;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00254\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a736e8c3cc57e9e5f30c050e8fb9a4bfa}{pointA}};}
+\DoxyCodeLine{00255\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a96fc46332fe2539061bb3b552587f548}{uvA}};}
+\DoxyCodeLine{00256\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{PrimPieces::ClutIndex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_aee11e1793a4fab0f3f4c91b8431759d8}{clutIndex}};}
+\DoxyCodeLine{00257\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_aa06c16b7258c56dd31d927ef430e8635}{colorB}};}
+\DoxyCodeLine{00258\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_ad9192614934e0ceab77509ec04346401}{pointB}};}
+\DoxyCodeLine{00259\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{PrimPieces::UVCoords}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a9da08cd90ffabfebdabba8123b2fb9d0}{uvB}};}
+\DoxyCodeLine{00260\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{PrimPieces::TPageAttr}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a6ed76bce2c2013ad682ad58b0832dd5f}{tpage}};}
+\DoxyCodeLine{00261\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a5677910610ca4ee695487be77adc2104}{colorC}};}
+\DoxyCodeLine{00262\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_ab5c590b611e189968b4c81b8d0e909ef}{pointC}};}
+\DoxyCodeLine{00263\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{PrimPieces::UVCoordsPadded}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a5acacce378a0c51587ba738044402936}{uvC}};}
+\DoxyCodeLine{00264\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a4005ac3a8ad70602b143a6ea954c74c3}{colorD}};}
+\DoxyCodeLine{00265\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_a2f858118f449885d0a01659fa49af888}{pointD}};}
+\DoxyCodeLine{00266\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{PrimPieces::UVCoordsPadded}}\ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad_aad991c9d712831eccda7d668616fc97d}{uvD}};}
+\DoxyCodeLine{00267\ \};}
+\DoxyCodeLine{00268\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1GouraudTexturedQuad}{GouraudTexturedQuad}})\ ==\ (\textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\ *\ 12),\ \textcolor{stringliteral}{"{}GouraudTexturedQuad\ is\ not\ 12\ words"{}});}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \}\ \ \textcolor{comment}{//\ namespace\ Prim}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

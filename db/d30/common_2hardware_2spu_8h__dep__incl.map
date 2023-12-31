@@ -1,0 +1,9 @@
+<map id="common/hardware/spu.h" name="common/hardware/spu.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="199,5,381,31"/>
+<area shape="rect" id="Node000002" href="$d3/d33/modplayer_8c.html" title=" " alt="" coords="5,79,183,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,38,127,81,125,76,245,33"/>
+<area shape="rect" id="Node000003" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="207,79,373,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="293,44,293,79,287,79,287,44"/>
+<area shape="rect" id="Node000004" href="$d2/dcd/spu_8cpp.html" title=" " alt="" coords="398,79,537,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="332,33,439,76,437,81,330,38"/>
+</map>

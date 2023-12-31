@@ -1,0 +1,8 @@
+\chapter{README}
+\hypertarget{md_psyqo-paths_2README}{}\label{md_psyqo-paths_2README}\index{README@{README}}
+While the \href{../psyqo}{\texttt{ PSYQo}} library is still very light, and not really opinionated on how to process certain operations, it means it can be tedious and verbose to write certain things. This is where the PSYQo Paths library comes in\+: it provides a set of functions called "{}\+Paths"{} to help with common operations, such as loading a file from CD-\/\+Rom.
+
+The point is to provide a set of functions that are easy to use, but are also too generic to be included in the PSYQo library itself. Using them comes with the caveat that they are not optimized for any specific use case, and may not be the best solution for your specific problem. However, they should be good enough for most cases, and can be used as a starting point for more specific implementations.\hypertarget{md_psyqo-paths_2README_autotoc_md30}{}\doxysubsection{\texorpdfstring{Loading a file from CD-\/\+Rom}{Loading a file from CD-Rom}}\label{md_psyqo-paths_2README_autotoc_md30}
+This Path will allow you to load a file from CD-\/\+Rom, and return a vector containing the file\textquotesingle{}s data. As with the rest of PSYQo, the loading is still going to be done asynchronously, so you will need to either pass a callback to the class\textquotesingle{} method, or use the {\ttfamily schedule} version of the method using the task scheduler.
+
+See \href{examples/cdrom-loader}{\texttt{ the example}} for a full usage example. 

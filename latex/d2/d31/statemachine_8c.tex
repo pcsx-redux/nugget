@@ -1,0 +1,164 @@
+\doxysection{openbios/cdrom/statemachine.c File Reference}
+\hypertarget{statemachine_8c}{}\label{statemachine_8c}\index{openbios/cdrom/statemachine.c@{openbios/cdrom/statemachine.c}}
+{\ttfamily \#include "{}openbios/cdrom/statemachine.\+h"{}}\newline
+{\ttfamily \#include $<$stdatomic.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/dma.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/irq.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/events.\+h"{}}\newline
+Include dependency graph for statemachine.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/dfa/statemachine_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153}{CDRom\+State}} \{ \newline
+\mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153affeab579b851121f65f6d44c36c32b8d}{GETSTATUS}} = 0x0001
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153afde5eb4e8b663e7093a237a32d2cd70e}{SETMODE}} = 0x000e
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153ac26b28caebd6f3c5ba6f1b6debd605f5}{SEEKL}} = 0x0015
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a12b2086b2555cafb1e0eb7e2628c0543}{SEEKP}} = 0x0016
+, \newline
+\mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a1cde2d62ac2fa121e204fa9a53c3ba84}{SEEKL\+\_\+\+SETLOC}} = 0x00f2
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a9790ffd184f771be25f01ec3a2a1dc09}{READN}} = 0x00f6
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a44dfaef0191e291469890c6b4081a52b}{READS}} = 0x00fb
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a488737719af53e0c17a22132a59c0fd1}{READ\+\_\+\+SETMODE}} = 0x00fe
+, \newline
+\mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a646fa15851d5e9f6784d044a50eef221}{INITIALIZING}} = 0x0ccc
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a2f25e27776949e443ec82cd5317c578a}{GOT\+\_\+\+ERROR\+\_\+\+AND\+\_\+\+REINIT}} = 0x0ddd
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a0b3660753b291338f04f649be9a25209}{PAUSING}} = 0x0fff
+, \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153afd6a0e4343048b10646dd2976cc5ad18}{IDLE}} = 0xffff
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8c_ab151df91b30cd246680f3497fe0d7fff}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section("{}.ramtext"{})))
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8c_aa9e83f29cc47e2061c9ce7f6b35cb700}{get\+Last\+CDRom\+Error}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}err1, uint8\+\_\+t \texorpdfstring{$\ast$}{*}err2)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8c_a4648235940794c4975ce7dd9e84d2dc3}{set\+CDRom\+IRQAuto\+Ack}} (enum \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{Auto\+Ack\+Type}} type, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8c_a202cf5f24b4dfc34b04baba458a515ec}{enqueue\+CDRom\+Handlers}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8c_abc0568fb3f7349976a1d730348466158}{dequeue\+CDRom\+Handlers}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{statemachine_8c_a51eb2a4559e6befb8f9bcd0473e8462c}{s\+\_\+audio\+Resp}} \mbox{[}8\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{statemachine_8c_a9e1ec482c348197d3801825c3aa3e332}{\+\_\+\+\_\+vector\+\_\+00}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153} 
+\index{statemachine.c@{statemachine.c}!CDRomState@{CDRomState}}
+\index{CDRomState@{CDRomState}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{CDRomState}{CDRomState}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153}{CDRom\+State}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GETSTATUS@{GETSTATUS}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!GETSTATUS@{GETSTATUS}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153affeab579b851121f65f6d44c36c32b8d}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153affeab579b851121f65f6d44c36c32b8d} 
+GETSTATUS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SETMODE@{SETMODE}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!SETMODE@{SETMODE}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153afde5eb4e8b663e7093a237a32d2cd70e}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153afde5eb4e8b663e7093a237a32d2cd70e} 
+SETMODE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEEKL@{SEEKL}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!SEEKL@{SEEKL}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153ac26b28caebd6f3c5ba6f1b6debd605f5}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153ac26b28caebd6f3c5ba6f1b6debd605f5} 
+SEEKL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEEKP@{SEEKP}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!SEEKP@{SEEKP}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a12b2086b2555cafb1e0eb7e2628c0543}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a12b2086b2555cafb1e0eb7e2628c0543} 
+SEEKP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEEKL\_SETLOC@{SEEKL\_SETLOC}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!SEEKL\_SETLOC@{SEEKL\_SETLOC}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a1cde2d62ac2fa121e204fa9a53c3ba84}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a1cde2d62ac2fa121e204fa9a53c3ba84} 
+SEEKL\+\_\+\+SETLOC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{READN@{READN}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!READN@{READN}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a9790ffd184f771be25f01ec3a2a1dc09}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a9790ffd184f771be25f01ec3a2a1dc09} 
+READN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{READS@{READS}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!READS@{READS}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a44dfaef0191e291469890c6b4081a52b}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a44dfaef0191e291469890c6b4081a52b} 
+READS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{READ\_SETMODE@{READ\_SETMODE}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!READ\_SETMODE@{READ\_SETMODE}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a488737719af53e0c17a22132a59c0fd1}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a488737719af53e0c17a22132a59c0fd1} 
+READ\+\_\+\+SETMODE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INITIALIZING@{INITIALIZING}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!INITIALIZING@{INITIALIZING}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a646fa15851d5e9f6784d044a50eef221}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a646fa15851d5e9f6784d044a50eef221} 
+INITIALIZING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GOT\_ERROR\_AND\_REINIT@{GOT\_ERROR\_AND\_REINIT}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!GOT\_ERROR\_AND\_REINIT@{GOT\_ERROR\_AND\_REINIT}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a2f25e27776949e443ec82cd5317c578a}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a2f25e27776949e443ec82cd5317c578a} 
+GOT\+\_\+\+ERROR\+\_\+\+AND\+\_\+\+REINIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PAUSING@{PAUSING}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!PAUSING@{PAUSING}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a0b3660753b291338f04f649be9a25209}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153a0b3660753b291338f04f649be9a25209} 
+PAUSING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IDLE@{IDLE}!statemachine.c@{statemachine.c}}\index{statemachine.c@{statemachine.c}!IDLE@{IDLE}}}\Hypertarget{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153afd6a0e4343048b10646dd2976cc5ad18}\label{statemachine_8c_a3ff3de475fef357fb2cbd49d98dc4153afd6a0e4343048b10646dd2976cc5ad18} 
+IDLE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{statemachine_8c_ab151df91b30cd246680f3497fe0d7fff}\label{statemachine_8c_ab151df91b30cd246680f3497fe0d7fff} 
+\index{statemachine.c@{statemachine.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(section("{}.ramtext"{}))}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8c_abc0568fb3f7349976a1d730348466158}\label{statemachine_8c_abc0568fb3f7349976a1d730348466158} 
+\index{statemachine.c@{statemachine.c}!dequeueCDRomHandlers@{dequeueCDRomHandlers}}
+\index{dequeueCDRomHandlers@{dequeueCDRomHandlers}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{dequeueCDRomHandlers()}{dequeueCDRomHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} dequeue\+CDRom\+Handlers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8c_a202cf5f24b4dfc34b04baba458a515ec}\label{statemachine_8c_a202cf5f24b4dfc34b04baba458a515ec} 
+\index{statemachine.c@{statemachine.c}!enqueueCDRomHandlers@{enqueueCDRomHandlers}}
+\index{enqueueCDRomHandlers@{enqueueCDRomHandlers}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{enqueueCDRomHandlers()}{enqueueCDRomHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} enqueue\+CDRom\+Handlers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8c_aa9e83f29cc47e2061c9ce7f6b35cb700}\label{statemachine_8c_aa9e83f29cc47e2061c9ce7f6b35cb700} 
+\index{statemachine.c@{statemachine.c}!getLastCDRomError@{getLastCDRomError}}
+\index{getLastCDRomError@{getLastCDRomError}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{getLastCDRomError()}{getLastCDRomError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} get\+Last\+CDRom\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{err1,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{err2 }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8c_a4648235940794c4975ce7dd9e84d2dc3}\label{statemachine_8c_a4648235940794c4975ce7dd9e84d2dc3} 
+\index{statemachine.c@{statemachine.c}!setCDRomIRQAutoAck@{setCDRomIRQAutoAck}}
+\index{setCDRomIRQAutoAck@{setCDRomIRQAutoAck}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{setCDRomIRQAutoAck()}{setCDRomIRQAutoAck()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} set\+CDRom\+IRQAuto\+Ack (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{Auto\+Ack\+Type}}}]{type,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{value }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{statemachine_8c_a9e1ec482c348197d3801825c3aa3e332}\label{statemachine_8c_a9e1ec482c348197d3801825c3aa3e332} 
+\index{statemachine.c@{statemachine.c}!\_\_vector\_00@{\_\_vector\_00}}
+\index{\_\_vector\_00@{\_\_vector\_00}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vector\_00}{\_\_vector\_00}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+vector\+\_\+00\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{statemachine_8c_a51eb2a4559e6befb8f9bcd0473e8462c}\label{statemachine_8c_a51eb2a4559e6befb8f9bcd0473e8462c} 
+\index{statemachine.c@{statemachine.c}!s\_audioResp@{s\_audioResp}}
+\index{s\_audioResp@{s\_audioResp}!statemachine.c@{statemachine.c}}
+\doxysubsubsection{\texorpdfstring{s\_audioResp}{s\_audioResp}}
+{\footnotesize\ttfamily uint8\+\_\+t s\+\_\+audio\+Resp\mbox{[}8\mbox{]}}
+

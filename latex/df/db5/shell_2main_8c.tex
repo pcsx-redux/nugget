@@ -1,0 +1,103 @@
+\doxysection{shell/main.c File Reference}
+\hypertarget{shell_2main_8c}{}\label{shell_2main_8c}\index{shell/main.c@{shell/main.c}}
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/pcsxhw.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}shell/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}shell/dcos.\+h"{}}\newline
+{\ttfamily \#include "{}shell/gpu.\+h"{}}\newline
+{\ttfamily \#include "{}shell/hull.\+h"{}}\newline
+{\ttfamily \#include "{}shell/math.\+h"{}}\newline
+{\ttfamily \#include "{}shell/spu.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d6/d2f/shell_2main_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structLerpU}{LerpU}}
+\item 
+struct \mbox{\hyperlink{structLerpS}{LerpS}}
+\item 
+struct \mbox{\hyperlink{structLerpD}{LerpD}}
+\item 
+struct \mbox{\hyperlink{structLerpC}{LerpC}}
+\item 
+struct \mbox{\hyperlink{structLerp}{Lerp}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{shell_2main_8c_a4fc34b120ed3bd1120c1eb36abbcd6af}{NL}}~\mbox{\hyperlink{math_8h_a206b6f5362e56b51ca957635350b70b6}{ONE}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754b}{Lerp\+ID}} \{ \newline
+\mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba7f4165ecf9f470ef502db1a0bf875752}{LERP\+\_\+\+TO\+\_\+\+IDLE}}
+, \mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba4179904c68ddae48b73068b6aae1fc0e}{LERP\+\_\+\+TO\+\_\+\+SUCCESS}}
+, \mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba28d285da58123a5b5b7813b5d99f3cee}{LERP\+\_\+\+TO\+\_\+\+ERROR}}
+, \mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba5a81ba2ec85f2299a16f5ab0b9b41bab}{LERP\+\_\+\+TO\+\_\+\+OUTRO}}
+, \newline
+\mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754bad4aa4ae8fd61466ea380276ecff9b3e8}{LERP\+\_\+\+TO\+\_\+\+BLACK}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{shell_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{shell_2main_8c_a4fc34b120ed3bd1120c1eb36abbcd6af}\label{shell_2main_8c_a4fc34b120ed3bd1120c1eb36abbcd6af} 
+\index{main.c@{main.c}!NL@{NL}}
+\index{NL@{NL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{NL}{NL}}
+{\footnotesize\ttfamily \#define NL~\mbox{\hyperlink{math_8h_a206b6f5362e56b51ca957635350b70b6}{ONE}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754b}\label{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754b} 
+\index{main.c@{main.c}!LerpID@{LerpID}}
+\index{LerpID@{LerpID}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{LerpID}{LerpID}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754b}{Lerp\+ID}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LERP\_TO\_IDLE@{LERP\_TO\_IDLE}!main.c@{main.c}}\index{main.c@{main.c}!LERP\_TO\_IDLE@{LERP\_TO\_IDLE}}}\Hypertarget{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba7f4165ecf9f470ef502db1a0bf875752}\label{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba7f4165ecf9f470ef502db1a0bf875752} 
+LERP\+\_\+\+TO\+\_\+\+IDLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LERP\_TO\_SUCCESS@{LERP\_TO\_SUCCESS}!main.c@{main.c}}\index{main.c@{main.c}!LERP\_TO\_SUCCESS@{LERP\_TO\_SUCCESS}}}\Hypertarget{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba4179904c68ddae48b73068b6aae1fc0e}\label{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba4179904c68ddae48b73068b6aae1fc0e} 
+LERP\+\_\+\+TO\+\_\+\+SUCCESS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LERP\_TO\_ERROR@{LERP\_TO\_ERROR}!main.c@{main.c}}\index{main.c@{main.c}!LERP\_TO\_ERROR@{LERP\_TO\_ERROR}}}\Hypertarget{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba28d285da58123a5b5b7813b5d99f3cee}\label{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba28d285da58123a5b5b7813b5d99f3cee} 
+LERP\+\_\+\+TO\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LERP\_TO\_OUTRO@{LERP\_TO\_OUTRO}!main.c@{main.c}}\index{main.c@{main.c}!LERP\_TO\_OUTRO@{LERP\_TO\_OUTRO}}}\Hypertarget{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba5a81ba2ec85f2299a16f5ab0b9b41bab}\label{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754ba5a81ba2ec85f2299a16f5ab0b9b41bab} 
+LERP\+\_\+\+TO\+\_\+\+OUTRO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LERP\_TO\_BLACK@{LERP\_TO\_BLACK}!main.c@{main.c}}\index{main.c@{main.c}!LERP\_TO\_BLACK@{LERP\_TO\_BLACK}}}\Hypertarget{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754bad4aa4ae8fd61466ea380276ecff9b3e8}\label{shell_2main_8c_ae7eac066cc90e2e602a9cd3a1246754bad4aa4ae8fd61466ea380276ecff9b3e8} 
+LERP\+\_\+\+TO\+\_\+\+BLACK&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{shell_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{shell_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} main (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}}]{ }\end{DoxyParamCaption})}
+

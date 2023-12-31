@@ -1,0 +1,121 @@
+\doxysection{openbios/handlers/handlers.h File Reference}
+\hypertarget{openbios_2handlers_2handlers_8h}{}\label{openbios_2handlers_2handlers_8h}\index{openbios/handlers/handlers.h@{openbios/handlers/handlers.h}}
+{\ttfamily \#include "{}common/psxlibc/handlers.\+h"{}}\newline
+Include dependency graph for handlers.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{d1/da9/openbios_2handlers_2handlers_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d5d/openbios_2handlers_2handlers_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_afba100e3566e40f8007eb6b758be597d}{sys\+Enq\+Int\+RP}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} priority, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a466b3a4a911618919247b9fbf4877471}{sys\+Deq\+Int\+RP}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} priority, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a2f5e8a015f1fe1b50a86cd1b283a4342}{enqueue\+Syscall\+Handler}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} priority)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_af2c9432ded424ff6acd6afeeb23fbc3f}{enqueue\+Irq\+Handler}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} priority)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_ae91a59af74c27f4df14b179b9e0b50a9}{enqueue\+RCnt\+Irqs}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} priority)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a5a451c742fbd06f0b05c6e2710e1b297}{set\+Irq\+Auto\+Ack}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} irq, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a8c5060ddb52f5a707e49bdf35a9846a5}{init\+Timer}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} timer, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a5d2c023108742a1ce78ba9823c06ea35}{target}}, uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9}{flags}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a6f13654ade1981bf8070e28b1bcfe6a2}{set\+Timer\+Auto\+Ack}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} timer, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a7a7c98bf1270d0a802ce59e196306cbc}{get\+Timer}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} timer)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a18a544698e2a27ed0d274c351a30a9bb}{enable\+Timer\+IRQ}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} timer)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_ac4846b1a118f649b3b9e0a18b2ed1f5b}{disable\+Timer\+IRQ}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} timer)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a5a1e00e4b60fbb97626b83303e6a27a9}{restart\+Timer}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} timer)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2handlers_2handlers_8h_ac4846b1a118f649b3b9e0a18b2ed1f5b}\label{openbios_2handlers_2handlers_8h_ac4846b1a118f649b3b9e0a18b2ed1f5b} 
+\index{handlers.h@{handlers.h}!disableTimerIRQ@{disableTimerIRQ}}
+\index{disableTimerIRQ@{disableTimerIRQ}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{disableTimerIRQ()}{disableTimerIRQ()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} disable\+Timer\+IRQ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{timer }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a18a544698e2a27ed0d274c351a30a9bb}\label{openbios_2handlers_2handlers_8h_a18a544698e2a27ed0d274c351a30a9bb} 
+\index{handlers.h@{handlers.h}!enableTimerIRQ@{enableTimerIRQ}}
+\index{enableTimerIRQ@{enableTimerIRQ}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{enableTimerIRQ()}{enableTimerIRQ()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} enable\+Timer\+IRQ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{timer }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_af2c9432ded424ff6acd6afeeb23fbc3f}\label{openbios_2handlers_2handlers_8h_af2c9432ded424ff6acd6afeeb23fbc3f} 
+\index{handlers.h@{handlers.h}!enqueueIrqHandler@{enqueueIrqHandler}}
+\index{enqueueIrqHandler@{enqueueIrqHandler}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{enqueueIrqHandler()}{enqueueIrqHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} enqueue\+Irq\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{priority }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_ae91a59af74c27f4df14b179b9e0b50a9}\label{openbios_2handlers_2handlers_8h_ae91a59af74c27f4df14b179b9e0b50a9} 
+\index{handlers.h@{handlers.h}!enqueueRCntIrqs@{enqueueRCntIrqs}}
+\index{enqueueRCntIrqs@{enqueueRCntIrqs}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{enqueueRCntIrqs()}{enqueueRCntIrqs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} enqueue\+RCnt\+Irqs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{priority }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a2f5e8a015f1fe1b50a86cd1b283a4342}\label{openbios_2handlers_2handlers_8h_a2f5e8a015f1fe1b50a86cd1b283a4342} 
+\index{handlers.h@{handlers.h}!enqueueSyscallHandler@{enqueueSyscallHandler}}
+\index{enqueueSyscallHandler@{enqueueSyscallHandler}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{enqueueSyscallHandler()}{enqueueSyscallHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} enqueue\+Syscall\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{priority }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a7a7c98bf1270d0a802ce59e196306cbc}\label{openbios_2handlers_2handlers_8h_a7a7c98bf1270d0a802ce59e196306cbc} 
+\index{handlers.h@{handlers.h}!getTimer@{getTimer}}
+\index{getTimer@{getTimer}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{getTimer()}{getTimer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} get\+Timer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{timer }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a8c5060ddb52f5a707e49bdf35a9846a5}\label{openbios_2handlers_2handlers_8h_a8c5060ddb52f5a707e49bdf35a9846a5} 
+\index{handlers.h@{handlers.h}!initTimer@{initTimer}}
+\index{initTimer@{initTimer}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{initTimer()}{initTimer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Timer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{timer,  }\item[{uint16\+\_\+t}]{target,  }\item[{uint16\+\_\+t}]{flags }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a5a1e00e4b60fbb97626b83303e6a27a9}\label{openbios_2handlers_2handlers_8h_a5a1e00e4b60fbb97626b83303e6a27a9} 
+\index{handlers.h@{handlers.h}!restartTimer@{restartTimer}}
+\index{restartTimer@{restartTimer}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{restartTimer()}{restartTimer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} restart\+Timer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{timer }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a5a451c742fbd06f0b05c6e2710e1b297}\label{openbios_2handlers_2handlers_8h_a5a451c742fbd06f0b05c6e2710e1b297} 
+\index{handlers.h@{handlers.h}!setIrqAutoAck@{setIrqAutoAck}}
+\index{setIrqAutoAck@{setIrqAutoAck}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{setIrqAutoAck()}{setIrqAutoAck()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} set\+Irq\+Auto\+Ack (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{irq,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{value }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a6f13654ade1981bf8070e28b1bcfe6a2}\label{openbios_2handlers_2handlers_8h_a6f13654ade1981bf8070e28b1bcfe6a2} 
+\index{handlers.h@{handlers.h}!setTimerAutoAck@{setTimerAutoAck}}
+\index{setTimerAutoAck@{setTimerAutoAck}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{setTimerAutoAck()}{setTimerAutoAck()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} set\+Timer\+Auto\+Ack (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{timer,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{value }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_a466b3a4a911618919247b9fbf4877471}\label{openbios_2handlers_2handlers_8h_a466b3a4a911618919247b9fbf4877471} 
+\index{handlers.h@{handlers.h}!sysDeqIntRP@{sysDeqIntRP}}
+\index{sysDeqIntRP@{sysDeqIntRP}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{sysDeqIntRP()}{sysDeqIntRP()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*} sys\+Deq\+Int\+RP (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{priority,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*}}]{handler }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2handlers_2handlers_8h_afba100e3566e40f8007eb6b758be597d}\label{openbios_2handlers_2handlers_8h_afba100e3566e40f8007eb6b758be597d} 
+\index{handlers.h@{handlers.h}!sysEnqIntRP@{sysEnqIntRP}}
+\index{sysEnqIntRP@{sysEnqIntRP}!handlers.h@{handlers.h}}
+\doxysubsubsection{\texorpdfstring{sysEnqIntRP()}{sysEnqIntRP()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} sys\+Enq\+Int\+RP (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{priority,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*}}]{handler }\end{DoxyParamCaption})}
+

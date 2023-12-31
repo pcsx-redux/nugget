@@ -1,0 +1,148 @@
+\doxysection{configuration.\+hh}
+\hypertarget{configuration_8hh_source}{}\label{configuration_8hh_source}\index{psyqo/internal/gpu/configuration.hh@{psyqo/internal/gpu/configuration.hh}}
+\mbox{\hyperlink{configuration_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{psyqo::GPU::Configuration}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}}\ \&\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration_a289d2de35de4ecfb50b3c9e1ff50ac97}{set}}(\mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02}{Resolution}}\ resolution)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (resolution\ ==\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a75db877e0a3a32172f0092fe627dd8c0}{Resolution::W368}})\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolution\ =\ HR\_EXTENDED;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolutionExtended\ =\ HRE\_368;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolutionExtended\ =\ HRE\_NORMAL;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (resolution)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a20a3b192080fe5233724856fd1fdd4ff}{Resolution::W256}}:}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolution\ =\ HR\_256;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02ad2799ae4d9532e75c7b76f8fe7c80560}{Resolution::W320}}:}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolution\ =\ HR\_320;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a6dd107a6ff2544895b9e016397f25417}{Resolution::W512}}:}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolution\ =\ HR\_512;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a016b20118d27be1be483198a0b0ba5fb}{Resolution::W640}}:}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.hResolution\ =\ HR\_640;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}}\ \&\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration_a17a526ece93015d97c7859f6e0c03ad9}{set}}(\mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696}{VideoMode}}\ videoMode)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (videoMode)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696ae1f2d5134ed2543d38a0de9751cf75d9}{VideoMode::AUTO}}:}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.videoMode\ =\ (*((\textcolor{keywordtype}{char}\ *)0xbfc7ff52)\ ==\ \textcolor{charliteral}{'E'})\ ?\ VM\_PAL\ :\ VM\_NTSC;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696a4b38da225171e1781308c764b6b3b172}{VideoMode::NTSC}}:}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.videoMode\ =\ VM\_NTSC;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696acf4f483867e0c770dda73062a492b370}{VideoMode::PAL}}:}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.videoMode\ =\ VM\_PAL;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}}\ \&\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration_ae4d7b2051ad2c292e79406da2c596dbf}{set}}(\mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3e}{ColorMode}}\ colorMode)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (colorMode)\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eafd93ed15ae10316f799cee8d5e6e24c0}{ColorMode::C15BITS}}:}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.colorDepth\ =\ CD\_15BITS;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eab5a2a5fa6b37cce974ea28abaa8f2daa}{ColorMode::C24BITS}}:}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.colorDepth\ =\ CD\_24BITS;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}}\ \&\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration_a9c7602797b5d9dc654933778e796854b}{set}}(\mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306a}{Interlace}}\ interlace)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ config.videoInterlace\ =\ interlace\ ==\ \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa8472c10b48f63928211bd72d1888071f}{Interlace::INTERLACED}}\ ?\ VI\_ON\ :\ VI\_OFF;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ config.vResolution\ =\ interlace\ ==\ \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa8472c10b48f63928211bd72d1888071f}{Interlace::INTERLACED}}\ ?\ VR\_480\ :\ VR\_240;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}}\ \&\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration_ac09e417cda588c298a90ff9ffd9d29ff}{set}}(\mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52}{MiscSetting}}\ setting)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (setting)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a897b839b365f010ba0cd41905200fc65}{MiscSetting::CLEAR\_VRAM}}:}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clearVRAM\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a31b2c4669316d9f9e021bd8850049a08}{MiscSetting::KEEP\_VRAM}}:}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clearVRAM\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}{HResolution}}\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ HR\_EXTENDED,}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ HR\_256\ =\ 0,}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ HR\_320\ =\ 1,}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ HR\_512\ =\ 2,}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ HR\_640\ =\ 3,}
+\DoxyCodeLine{00102\ \ \ \ \ \};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}{VResolution}}\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ VR\_240\ =\ 0,}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ VR\_480\ =\ 1,}
+\DoxyCodeLine{00107\ \ \ \ \ \};}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{enum}\ VMode\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ VM\_NTSC\ =\ 0,}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ VM\_PAL\ =\ 1,}
+\DoxyCodeLine{00112\ \ \ \ \ \};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}{ColorDepth}}\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ CD\_15BITS\ =\ 0,}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ CD\_24BITS\ =\ 1,}
+\DoxyCodeLine{00117\ \ \ \ \ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}{VideoInterlace}}\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ VI\_OFF\ =\ 0,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ VI\_ON\ =\ 1,}
+\DoxyCodeLine{00122\ \ \ \ \ \};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}{HResolutionExtended}}\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ HRE\_NORMAL\ =\ 0,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ HRE\_368\ =\ 1,}
+\DoxyCodeLine{00127\ \ \ \ \ \};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDisplayModeConfig}{DisplayModeConfig}}\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}{HResolution}}\ hResolution;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}{VResolution}}\ vResolution;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ VMode\ videoMode;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}{ColorDepth}}\ colorDepth;}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}{VideoInterlace}}\ videoInterlace;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}{HResolutionExtended}}\ hResolutionExtended;}
+\DoxyCodeLine{00136\ \ \ \ \ \};}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{structDisplayModeConfig}{DisplayModeConfig}}\ config\ =\ \{\};}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{bool}\ clearVRAM\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}};}
+\DoxyCodeLine{00142\ \};}
+
+\end{DoxyCode}

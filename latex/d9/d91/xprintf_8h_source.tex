@@ -1,0 +1,128 @@
+\doxysection{xprintf.\+h}
+\hypertarget{xprintf_8h_source}{}\label{xprintf_8h_source}\index{psyqo/xprintf.h@{psyqo/xprintf.h}}
+\mbox{\hyperlink{xprintf_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdarg.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00067\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{xprintf_8h_a57f7f4425254d82c3080f83d96855fb0}{vxprintf}}(\textcolor{keywordtype}{void}\ (*func)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{void}\ *),\ \textcolor{keywordtype}{void}\ *opaque,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ va\_list\ ap);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{xprintf_8h_a2acd803179adb1bdd96c409c7cf6ddca}{vsprintf}}(\textcolor{keywordtype}{char}\ *\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ va\_list\ ap);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00097\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{xprintf_8h_af67cd10179bf7388f6190ad133aa3258}{vsnprintf}}(\textcolor{keywordtype}{char}\ *\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ \textcolor{keywordtype}{size\_t}\ n,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ va\_list\ ap);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00112\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{xprintf_8h_a6272c6e035a25011838dab16a83167d6}{vasprintf}}(\textcolor{keywordtype}{char}\ **\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ va\_list\ ap);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ xprintf(\textcolor{keywordtype}{void}\ (*func)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{void}\ *),\ \textcolor{keywordtype}{void}\ *arg,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ ...)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ va\_list\ ap;}
+\DoxyCodeLine{00116\ \ \ \ \ va\_start(ap,\ fmt);}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ \mbox{\hyperlink{xprintf_8h_a57f7f4425254d82c3080f83d96855fb0}{vxprintf}}(func,\ arg,\ fmt,\ ap);}
+\DoxyCodeLine{00118\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00120\ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ sprintf(\textcolor{keywordtype}{char}\ *\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ ...)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ va\_list\ ap;}
+\DoxyCodeLine{00124\ \ \ \ \ va\_start(ap,\ fmt);}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ \mbox{\hyperlink{xprintf_8h_a2acd803179adb1bdd96c409c7cf6ddca}{vsprintf}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ fmt,\ ap);}
+\DoxyCodeLine{00126\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00128\ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ snprintf(\textcolor{keywordtype}{char}\ *\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ \textcolor{keywordtype}{size\_t}\ n,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ ...)\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ va\_list\ ap;}
+\DoxyCodeLine{00132\ \ \ \ \ va\_start(ap,\ fmt);}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ \mbox{\hyperlink{xprintf_8h_af67cd10179bf7388f6190ad133aa3258}{vsnprintf}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ n,\ fmt,\ ap);}
+\DoxyCodeLine{00134\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00136\ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ asprintf(\textcolor{keywordtype}{char}\ **\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ ...)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ va\_list\ ap;}
+\DoxyCodeLine{00140\ \ \ \ \ va\_start(ap,\ fmt);}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ \mbox{\hyperlink{xprintf_8h_a6272c6e035a25011838dab16a83167d6}{vasprintf}}(\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}},\ fmt,\ ap);}
+\DoxyCodeLine{00142\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00144\ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00147\ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#include\ <EASTL/fixed\_string.h>}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#include\ <EASTL/string.h>}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ nodeCount,\ \textcolor{keywordtype}{bool}\ bEnableOverflow\ =\ true>}
+\DoxyCodeLine{00163\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ vfsprintf(eastl::fixed\_string<char,\ nodeCount,\ bEnableOverflow>\ \&str,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ va\_list\ ap)\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ str.clear();}
+\DoxyCodeLine{00165\ \ \ \ \ \mbox{\hyperlink{xprintf_8h_a57f7f4425254d82c3080f83d96855fb0}{vxprintf}}(}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str,\ \textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{void}\ *opaque)\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ eastl::fixed\_string<char,\ nodeCount,\ bEnableOverflow>\ *\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}}\ =}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (eastl::fixed\_string<char,\ nodeCount,\ bEnableOverflow>\ *)opaque;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}}-\/>append(str,\ len);}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \&str,\ fmt,\ ap);}
+\DoxyCodeLine{00172\ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{int}\ nodeCount,\ \textcolor{keywordtype}{bool}\ bEnableOverflow\ =\ true>}
+\DoxyCodeLine{00175\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ fsprintf(eastl::fixed\_string<char,\ nodeCount,\ bEnableOverflow>\ \&str,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ ...)\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ str.clear();}
+\DoxyCodeLine{00177\ \ \ \ \ va\_list\ ap;}
+\DoxyCodeLine{00178\ \ \ \ \ va\_start(ap,\ fmt);}
+\DoxyCodeLine{00179\ \ \ \ \ vfsprintf<nodeCount,\ bEnableOverflow>(str,\ fmt,\ ap);}
+\DoxyCodeLine{00180\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00181\ \}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00193\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ eastl::string\ \mbox{\hyperlink{xprintf_8h_a2acd803179adb1bdd96c409c7cf6ddca}{vsprintf}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ va\_list\ ap)\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ eastl::string\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00195\ \ \ \ \ \mbox{\hyperlink{xprintf_8h_a57f7f4425254d82c3080f83d96855fb0}{vxprintf}}(}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str,\ \textcolor{keywordtype}{int}\ len,\ \textcolor{keywordtype}{void}\ *opaque)\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ eastl::string\ *\mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ (eastl::string\ *)opaque;}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}-\/>append(str,\ len);}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \&\mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}},\ fmt,\ ap);}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00202\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ eastl::string\ sprintf(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fmt,\ ...)\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ va\_list\ ap;}
+\DoxyCodeLine{00206\ \ \ \ \ va\_start(ap,\ fmt);}
+\DoxyCodeLine{00207\ \ \ \ \ eastl::string\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ \mbox{\hyperlink{xprintf_8h_a2acd803179adb1bdd96c409c7cf6ddca}{vsprintf}}(fmt,\ ap);}
+\DoxyCodeLine{00208\ \ \ \ \ va\_end(ap);}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00210\ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

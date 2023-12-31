@@ -1,0 +1,79 @@
+\doxysection{shell/gpu.h File Reference}
+\hypertarget{shell_2gpu_8h}{}\label{shell_2gpu_8h}\index{shell/gpu.h@{shell/gpu.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/gpu.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}shell/math.\+h"{}}\newline
+Include dependency graph for gpu.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d0d/shell_2gpu_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{da/dab/shell_2gpu_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{unionGPUPoint}{GPUPoint}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{shell_2gpu_8h_a241aeeb764887ae5e3de58b98f04b16d}{WIDTH}}~640
+\item 
+\#define \mbox{\hyperlink{shell_2gpu_8h_aed89bd71aee8be823e8a20ec4e093c1e}{HEIGHT}}~480
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{shell_2gpu_8h_a4c7284316f9625e6a114c6bcff4b4f43}{init\+GPU}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} is\+PAL)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{shell_2gpu_8h_aec419865c68f8320f110e89306e45395}{flip}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} double\+Buffer, const union \mbox{\hyperlink{unionColor}{Color}} bg)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{shell_2gpu_8h_a7ba979fa4b773893af4022dadfde54d2}{wait\+VSync}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} interlaced, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*}idle)())
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{shell_2gpu_8h_aed89bd71aee8be823e8a20ec4e093c1e}\label{shell_2gpu_8h_aed89bd71aee8be823e8a20ec4e093c1e} 
+\index{gpu.h@{gpu.h}!HEIGHT@{HEIGHT}}
+\index{HEIGHT@{HEIGHT}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{HEIGHT}{HEIGHT}}
+{\footnotesize\ttfamily \#define HEIGHT~480}
+
+\Hypertarget{shell_2gpu_8h_a241aeeb764887ae5e3de58b98f04b16d}\label{shell_2gpu_8h_a241aeeb764887ae5e3de58b98f04b16d} 
+\index{gpu.h@{gpu.h}!WIDTH@{WIDTH}}
+\index{WIDTH@{WIDTH}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{WIDTH}{WIDTH}}
+{\footnotesize\ttfamily \#define WIDTH~640}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{shell_2gpu_8h_aec419865c68f8320f110e89306e45395}\label{shell_2gpu_8h_aec419865c68f8320f110e89306e45395} 
+\index{gpu.h@{gpu.h}!flip@{flip}}
+\index{flip@{flip}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{flip()}{flip()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} flip (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{double\+Buffer,  }\item[{const union \mbox{\hyperlink{unionColor}{Color}}}]{bg }\end{DoxyParamCaption})}
+
+\Hypertarget{shell_2gpu_8h_a4c7284316f9625e6a114c6bcff4b4f43}\label{shell_2gpu_8h_a4c7284316f9625e6a114c6bcff4b4f43} 
+\index{gpu.h@{gpu.h}!initGPU@{initGPU}}
+\index{initGPU@{initGPU}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{initGPU()}{initGPU()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} init\+GPU (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{is\+PAL }\end{DoxyParamCaption})}
+
+\Hypertarget{shell_2gpu_8h_a7ba979fa4b773893af4022dadfde54d2}\label{shell_2gpu_8h_a7ba979fa4b773893af4022dadfde54d2} 
+\index{gpu.h@{gpu.h}!waitVSync@{waitVSync}}
+\index{waitVSync@{waitVSync}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{waitVSync()}{waitVSync()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} wait\+VSync (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{interlaced,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*})()}]{idle }\end{DoxyParamCaption})}
+

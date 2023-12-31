@@ -1,0 +1,31 @@
+\doxysection{psyqo\+::Fragments Namespace Reference}
+\hypertarget{namespacepsyqo_1_1Fragments}{}\label{namespacepsyqo_1_1Fragments}\index{psyqo::Fragments@{psyqo::Fragments}}
+
+
+The fragments helpers.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{Fixed\+Fragment}}
+\begin{DoxyCompactList}\small\item\em A maximum fixed sized fragment of similar primitives. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{Fixed\+Fragment\+With\+Prologue}}
+\begin{DoxyCompactList}\small\item\em A maximum fixed sized fragment of similar primitives. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment}{Simple\+Fragment}}
+\begin{DoxyCompactList}\small\item\em A fragment containing a single primitive. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The fragments helpers. 
+
+This namespace provides helper templates to create fragments. A fragment is any structure which validates the following constraints\+:
+\begin{DoxyItemize}
+\item it must contain a uint32\+\_\+t named {\ttfamily head} which is reserved for the usage of the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class.
+\item it must have a {\ttfamily size\+\_\+t get\+Actual\+Fragment\+Size()} method which returns the size of the fragment\textquotesingle{}s payload in uint32\+\_\+t units.
+\item the fragment payload must be immediately after the {\ttfamily head} field.
+\end{DoxyItemize}
+
+The structure may have any other field for its own usage.
+
+\doxylink{namespacepsyqo_1_1Fragments}{Fragments} are used by the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class to send a list of commands to the \doxylink{classpsyqo_1_1GPU}{GPU}. This can be done either using the {\ttfamily send\+Fragment} call to only send a single fragment, or by using the {\ttfamily chain} call to queue the fragments in a chain to be sent later. 

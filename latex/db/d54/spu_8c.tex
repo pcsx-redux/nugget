@@ -1,0 +1,112 @@
+\doxysection{shell/spu.c File Reference}
+\hypertarget{spu_8c}{}\label{spu_8c}\index{shell/spu.c@{shell/spu.c}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}modplayer/modplayer.\+h"{}}\newline
+Include dependency graph for spu.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/d64/spu_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{spu_8c_ad2eb277496af160238e7306fff780ad2}{printf}}(...)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{spu_8c_ade9af8b28f515da87d5e0b97d6089f82}{spu\+Is\+Intro}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_aad562b41a5b35feb18832298aa741dce}{init\+SPU}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_a010721f1ffb516bc13d220932febdeeb}{check\+SPU}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_a3271b7200fa8e687b9b5449ef5af43b9}{uninit\+SPU}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_ac14e6d5d3e9991019743817da5b90efe}{spu\+Schedule\+Ping}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_a0b8035158bd3f524a41a3c172df7b2bf}{spu\+Schedule\+Idle}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_a5271d96c28ea37dd25ed113c6967ac3e}{spu\+Schedule\+Outro}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{spu_8c_a159097473a2bfcd7b652296cdadd7e2a}{spu\+Schedule\+Error}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \mbox{\hyperlink{spu_8c_aae6ddda0d63d0cf65d5b75545dcec579}{\+\_\+binary\+\_\+blip\+\_\+hit\+\_\+start}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{spu_8c_ad2eb277496af160238e7306fff780ad2}\label{spu_8c_ad2eb277496af160238e7306fff780ad2} 
+\index{spu.c@{spu.c}!printf@{printf}}
+\index{printf@{printf}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{printf}{printf}}
+{\footnotesize\ttfamily \#define printf(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{spu_8c_a010721f1ffb516bc13d220932febdeeb}\label{spu_8c_a010721f1ffb516bc13d220932febdeeb} 
+\index{spu.c@{spu.c}!checkSPU@{checkSPU}}
+\index{checkSPU@{checkSPU}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{checkSPU()}{checkSPU()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} check\+SPU (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_aad562b41a5b35feb18832298aa741dce}\label{spu_8c_aad562b41a5b35feb18832298aa741dce} 
+\index{spu.c@{spu.c}!initSPU@{initSPU}}
+\index{initSPU@{initSPU}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{initSPU()}{initSPU()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} init\+SPU (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_ade9af8b28f515da87d5e0b97d6089f82}\label{spu_8c_ade9af8b28f515da87d5e0b97d6089f82} 
+\index{spu.c@{spu.c}!spuIsIntro@{spuIsIntro}}
+\index{spuIsIntro@{spuIsIntro}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{spuIsIntro()}{spuIsIntro()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} spu\+Is\+Intro (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_a159097473a2bfcd7b652296cdadd7e2a}\label{spu_8c_a159097473a2bfcd7b652296cdadd7e2a} 
+\index{spu.c@{spu.c}!spuScheduleError@{spuScheduleError}}
+\index{spuScheduleError@{spuScheduleError}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{spuScheduleError()}{spuScheduleError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} spu\+Schedule\+Error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_a0b8035158bd3f524a41a3c172df7b2bf}\label{spu_8c_a0b8035158bd3f524a41a3c172df7b2bf} 
+\index{spu.c@{spu.c}!spuScheduleIdle@{spuScheduleIdle}}
+\index{spuScheduleIdle@{spuScheduleIdle}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{spuScheduleIdle()}{spuScheduleIdle()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} spu\+Schedule\+Idle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_a5271d96c28ea37dd25ed113c6967ac3e}\label{spu_8c_a5271d96c28ea37dd25ed113c6967ac3e} 
+\index{spu.c@{spu.c}!spuScheduleOutro@{spuScheduleOutro}}
+\index{spuScheduleOutro@{spuScheduleOutro}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{spuScheduleOutro()}{spuScheduleOutro()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} spu\+Schedule\+Outro (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_ac14e6d5d3e9991019743817da5b90efe}\label{spu_8c_ac14e6d5d3e9991019743817da5b90efe} 
+\index{spu.c@{spu.c}!spuSchedulePing@{spuSchedulePing}}
+\index{spuSchedulePing@{spuSchedulePing}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{spuSchedulePing()}{spuSchedulePing()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} spu\+Schedule\+Ping (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{spu_8c_a3271b7200fa8e687b9b5449ef5af43b9}\label{spu_8c_a3271b7200fa8e687b9b5449ef5af43b9} 
+\index{spu.c@{spu.c}!uninitSPU@{uninitSPU}}
+\index{uninitSPU@{uninitSPU}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{uninitSPU()}{uninitSPU()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} uninit\+SPU (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{spu_8c_aae6ddda0d63d0cf65d5b75545dcec579}\label{spu_8c_aae6ddda0d63d0cf65d5b75545dcec579} 
+\index{spu.c@{spu.c}!\_binary\_blip\_hit\_start@{\_binary\_blip\_hit\_start}}
+\index{\_binary\_blip\_hit\_start@{\_binary\_blip\_hit\_start}!spu.c@{spu.c}}
+\doxysubsubsection{\texorpdfstring{\_binary\_blip\_hit\_start}{\_binary\_blip\_hit\_start}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \+\_\+binary\+\_\+blip\+\_\+hit\+\_\+start\hspace{0.3cm}{\ttfamily [extern]}}
+

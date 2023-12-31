@@ -1,0 +1,352 @@
+\doxysection{fixed-\/point.hh}
+\hypertarget{fixed-point_8hh_source}{}\label{fixed-point_8hh_source}\index{psyqo/fixed-\/point.hh@{psyqo/fixed-\/point.hh}}
+\mbox{\hyperlink{fixed-point_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <compare>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{namespace\ }FixedPointInternals\ \{}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_a6f374a97042c653a6594386a5363757d}{iDiv}}(uint64\_t\ rem,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ base,\ \textcolor{keywordtype}{unsigned}\ precisionBits);}
+\DoxyCodeLine{00041\ int32\_t\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_ab407533df92ad255a761f58b40f1f465}{dDiv}}(int32\_t\ a,\ int32\_t\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \textcolor{keywordtype}{unsigned}\ precisionBits);}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_a12b1b4dd7451c1901f4f0958b2ee4a74}{printInt}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}},\ \textcolor{keyword}{const}\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{char})>\&,\ \textcolor{keywordtype}{unsigned}\ precisionBits);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \}\ \ \textcolor{comment}{//\ namespace\ FixedPointInternals}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ T\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00065\ \textcolor{keyword}{requires}((precisionBits\ >\ 0)\ \&\&\ (precisionBits\ <\ 32)\ \&\&\ ((\textcolor{keyword}{sizeof}(T)\ ==\ 4)\ ||\ (\textcolor{keyword}{sizeof}(T)\ ==\ 2)))}
+\DoxyCodeLine{00066\ class\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{using\ }signedUpType\ =\ std::conditional<\textcolor{keyword}{sizeof}(T)\ ==\ 4,\ int64\_t,\ int32\_t>::type;}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{using\ }unsignedUpType\ =\ std::conditional<\textcolor{keyword}{sizeof}(T)\ ==\ 4,\ uint64\_t,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}>::type;}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{using\ }upType\ =\ std::conditional<std::is\_signed<T>::value,\ signedUpType,\ unsignedUpType>::type;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00079\ \ \ \ \ T\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00080\ \ \ \ \ T\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ scale\ =\ 1\ <<\ precisionBits;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ab8218cb297ea36536068cf883c4b743d}{FixedPoint}}(T\ integer,\ T\ fraction)\ :\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}(integer\ *\ scale\ +\ fraction)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}})\ ==\ \textcolor{keyword}{sizeof}(T));}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a9bb721e1120fcf78bc70da237327f09e}{FixedPoint}}(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ ld)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_signed<T>::value\ ||\ (ld\ >=\ 0));}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ negative\ =\ ld\ <\ 0;}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ T\ integer\ =\ negative\ ?\ -\/ld\ :\ ld;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ T\ fraction\ =\ ld\ *\ scale\ -\/\ integer\ *\ scale\ +\ (negative\ ?\ -\/0.5\ :\ 0.5);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ integer\ *\ scale\ +\ fraction;}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a420a538aa501d855a77b38c940163881}{FixedPoint}}()\ :\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}(0)\ \{\}}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a9651c940d0a9223b4afc32b859d6801b}{FixedPoint}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a309f91bf12e932ce56dfb54e1c665dca}{FixedPoint}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a8de3a744a67a8fde59115e66c3be2726}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837}{Raw}}\ \{\ RAW\ \};}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a5375f749bb5c7cd7c705fc497cbab094}{FixedPoint}}(T\ raw,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837}{Raw}})\ :\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}(raw)\ \{\}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ otherPrecisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ U\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a176ec54d6bbbcac6c98ae3a8b190680a}{FixedPoint}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<otherPrecisionBits,\ U>}}\ other)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (precisionBits\ ==\ otherPrecisionBits)\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ T(other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}});}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (precisionBits\ >\ otherPrecisionBits)\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ T(other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ <<\ (precisionBits\ -\/\ otherPrecisionBits));}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (precisionBits\ <\ otherPrecisionBits)\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ T(other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ >>\ (otherPrecisionBits\ -\/\ precisionBits));}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ factor\ =\ 1>}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{constexpr}\ T\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ab9d3e4c95fcfb2f6f7ac25bf896772dc}{integer}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ <\ 0)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ T(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/\ scale\ /\ (2\ *\ factor))\ /\ T(scale\ /\ factor);}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ T(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ +\ scale\ /\ (2\ *\ factor))\ /\ T(scale\ /\ factor);}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keyword}{constexpr}\ U\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ad79ed8e2364b22e98aa4579eb2f36189}{integer}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ <\ 0)\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ U((\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/\ scale\ /\ 2)\ /\ scale);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ U((\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ +\ scale\ /\ 2)\ /\ scale);}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_adf6337474f5f1128d6b540fdc6a25ca3}{print}}(\textcolor{keyword}{const}\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{char})>\&\ charPrinter)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ T\ copy\ =\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (copy\ <\ 0)\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ charPrinter(\textcolor{charliteral}{'-\/'});}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ copy\ =\ -\/copy;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_a12b1b4dd7451c1901f4f0958b2ee4a74}{FixedPointInternals::printInt}}(copy,\ charPrinter,\ precisionBits);}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ace8626c3286d22ddda24d97d9e0bc4ed}{abs}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value\ <\ 0)\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ -\/\mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value;}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a09e5595fce5db4a1f964db18e3febb36}{operator+}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ +=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00210\ \ \ \ \ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1400061b258c012b3bf825be61a74087}{operator+}}(U\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ +=\ other\ *\ scale;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ab805d8fd4eca6fe1030ebbaaa2f09d81}{operator-\/}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ -\/=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00223\ \ \ \ \ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a9d09de4e042e6d4b6e05df4f812cd220}{operator-\/}}(U\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ -\/=\ other\ *\ scale;}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a0af09aef045d40652b667963112d6fa0}{operator*}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ upType\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ =\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ *=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ /=\ scale;}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a9f04f50e966e1a479e11f81be4654cd2}{operator*}}(U\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ *=\ other;}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00246\ \ \ \ \ \}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a285428f85673e0676cf4e3fb5d91eddf}{operator/}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(T)\ ==\ 4)\ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_ab407533df92ad255a761f58b40f1f465}{FixedPointInternals::dDiv}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}},\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}},\ precisionBits);}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value\ =\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_a6f374a97042c653a6594386a5363757d}{FixedPointInternals::iDiv}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}},\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}},\ precisionBits);}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(T)\ ==\ 2)\ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ upType\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ =\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ *=\ scale;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ /=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value\ =\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00263\ \ \ \ \ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a10323c542660b571aeda41ec055db4a5}{operator/}}(U\ other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ /=\ other;}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00270\ \ \ \ \ \}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1ef40a4a763dd40dcb450857098c69ee}{operator-\/}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ -\/\mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value;}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00276\ \ \ \ \ \}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a501fe3b196f26961c4da29c91e1635fe}{operator+=}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\ \{}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ +=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00281\ \ \ \ \ \}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a0adef19ce0df035c584581b94ceaf329}{operator+=}}(U\ other)\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ +=\ other\ *\ scale;}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00287\ \ \ \ \ \}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_adddcaa7bd0721c53ebc3696efb34aacb}{operator-\/=}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_adb092e740da455159ca721434b38c110}{operator-\/=}}(U\ other)\ \{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/=\ other\ *\ scale;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00298\ \ \ \ \ \}}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a55081cc592a75b1f075142d900fa638f}{operator*=}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\ \{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ upType\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ =\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ *=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ /=\ scale;}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00306\ \ \ \ \ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1ec68158bc0bd6bd176e1c7fd8261352}{operator*=}}(U\ other)\ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ *=\ other;}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00312\ \ \ \ \ \}}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00314\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a02ca3511cc75861b6950668fb087e16f}{operator/=}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ other)\ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(T)\ ==\ 4)\ \{}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_ab407533df92ad255a761f58b40f1f465}{FixedPointInternals::dDiv}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}},\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}},\ precisionBits);}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_signed<T>::value)\ \{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_a6f374a97042c653a6594386a5363757d}{FixedPointInternals::iDiv}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}},\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}},\ precisionBits);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(T)\ ==\ 2)\ \{}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ upType\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ =\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ *=\ scale;}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ /=\ other.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ =\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00328\ \ \ \ \ \}}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a72a49b4bc56dba61042d1570d31c53bf}{operator/=}}(U\ other)\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ /=\ other;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00334\ \ \ \ \ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_aed392f8dc2747449fb088527c0ccfdfe}{operator<=>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ other)\ \textcolor{keyword}{const}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_aee92dc42a448b859a4c34bf899f58d40}{operator<<}}(\textcolor{keywordtype}{unsigned}\ shift)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ <<=\ shift;}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00342\ \ \ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_aac8cdc34ff871b5400ac270276dc5d60}{operator>>}}(\textcolor{keywordtype}{unsigned}\ shift)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ >>=\ shift;}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00348\ \ \ \ \ \}}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a30640088ad8b5178cc7abd59f19ab6f1}{operator<<=}}(\textcolor{keywordtype}{unsigned}\ shift)\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ <<=\ shift;}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00353\ \ \ \ \ \}}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\&\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a32ec4cf3fa064fa654a8f286d23833d9}{operator>>=}}(\textcolor{keywordtype}{unsigned}\ shift)\ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ >>=\ shift;}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00358\ \ \ \ \ \}}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ae9360799281e9580a68cb3eb2b7cf5e8}{operator++}}()\ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ +=\ scale;}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00363\ \ \ \ \ \}}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a9b5d3b1eadfa01bf04f990a02cadbbab}{operator++}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ +=\ scale;}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00369\ \ \ \ \ \}}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_acc65601952c889363ddaf18839c9e3aa}{operator-\/-\/}}()\ \{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/=\ scale;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00374\ \ \ \ \ \}}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_ade97b08316ba3c6ed5a7875316479f43}{operator-\/-\/}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/=\ scale;}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00380\ \ \ \ \ \}}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a9048fb83a478ba0621ee85f19ec94887}{operator!}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ ==\ 0;\ \}}
+\DoxyCodeLine{00383\ \};}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ T\ =\ \textcolor{keywordtype}{int}32\_t,\ std::\textcolor{keywordtype}{int}egral\ U\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00386\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{namespacepsyqo_ad22f348f5de5e218d5840e2d1d8ea5e8}{operator+}}(U\ a,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ \{}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ +\ a;}
+\DoxyCodeLine{00388\ \}}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ T\ =\ \textcolor{keywordtype}{int}32\_t,\ std::\textcolor{keywordtype}{int}egral\ U\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00391\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{namespacepsyqo_a1542347871e7431ced9698d6e7d15827}{operator-\/}}(U\ a,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ \{}
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ +\ a;}
+\DoxyCodeLine{00393\ \}}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ T\ =\ \textcolor{keywordtype}{int}32\_t,\ std::\textcolor{keywordtype}{int}egral\ U\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00396\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{namespacepsyqo_a0b62fa4cb934f25528585c7818c0a7fb}{operator*}}(U\ a,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ \{}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ *\ a;}
+\DoxyCodeLine{00398\ \}}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ T\ =\ \textcolor{keywordtype}{int}32\_t,\ std::\textcolor{keywordtype}{int}egral\ U\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00401\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{namespacepsyqo_a18701433259cb9287a786d0d54d8e015}{operator/}}(U\ a,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ \{}
+\DoxyCodeLine{00402\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(T)\ ==\ 4)\ \{}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_signed<T>::value\ ||\ std::is\_signed<U>::value)\ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_ab407533df92ad255a761f58b40f1f465}{FixedPointInternals::dDiv}}(a\ *\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>::scale}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}(),\ precisionBits);}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_signed<T>::value\ \&\&\ !std::is\_signed<U>::value)\ \{}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value\ =\ \mbox{\hyperlink{namespacepsyqo_1_1FixedPointInternals_a6f374a97042c653a6594386a5363757d}{FixedPointInternals::iDiv}}(a\ *\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>::scale}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}(),\ precisionBits);}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00409\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(T)\ ==\ 2)\ \{}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.value\ =\ a\ *\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>::scale}}\ /\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}();}
+\DoxyCodeLine{00411\ \ \ \ \ \}}
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00413\ \}}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \textcolor{keyword}{namespace\ }fixed\_point\_literals\ \{}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00423\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<>}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_fp(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \}\ \ \textcolor{comment}{//\ namespace\ fixed\_point\_literals}}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

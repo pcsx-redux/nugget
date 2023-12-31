@@ -1,0 +1,100 @@
+\doxysection{psyqo\+::ISO9660\+Parser\+::Dir\+Entry Struct Reference}
+\hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry}\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}
+
+
+An ISO9660 directory entry.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/iso9660-\/parser.\+hh$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a245d3bd1ce417b459edf2ce0303124e9}{INVALID}}
+, \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91aa8a84f42186db4a82d2050b8df8ed150}{FILE}}
+, \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91af3eb69f2c2156511dc9711643d0b5a36}{DIRECTORY}}
+, \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a3efe6dd0131931286d13a0f3895fbbb9}{CURRENT\+\_\+\+DIR}}
+, \newline
+\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a0065b7a602d7de80584ab6bd0e6210ce}{PARENT\+\_\+\+DIR}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a7d2f703e6ef799ce2d80932712c13d62}{LBA}} = 0
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a015a8119b576a8230fe205e257288f49}{size}} = 0
+\item 
+eastl\+::fixed\+\_\+string$<$ char, 15, false $>$ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aa8ac32885aa2c2997d12bd10436a9fda}{name}}
+\item 
+enum psyqo\+::\+ISO9660\+Parser\+::\+Dir\+Entry\+:: \{ ... \}  \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aee93c5ec10c9d12fb5fc6af54d67933b}{type}} = \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a245d3bd1ce417b459edf2ce0303124e9}{INVALID}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An ISO9660 directory entry. 
+
+This struct represents a single directory entry in an ISO9660. It\textquotesingle{}s not necessarily complete at the moment. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID@{INVALID}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!INVALID@{INVALID}}}\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a245d3bd1ce417b459edf2ce0303124e9}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a245d3bd1ce417b459edf2ce0303124e9} 
+INVALID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FILE@{FILE}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!FILE@{FILE}}}\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91aa8a84f42186db4a82d2050b8df8ed150}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91aa8a84f42186db4a82d2050b8df8ed150} 
+FILE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIRECTORY@{DIRECTORY}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!DIRECTORY@{DIRECTORY}}}\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91af3eb69f2c2156511dc9711643d0b5a36}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91af3eb69f2c2156511dc9711643d0b5a36} 
+DIRECTORY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CURRENT\_DIR@{CURRENT\_DIR}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!CURRENT\_DIR@{CURRENT\_DIR}}}\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a3efe6dd0131931286d13a0f3895fbbb9}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a3efe6dd0131931286d13a0f3895fbbb9} 
+CURRENT\+\_\+\+DIR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARENT\_DIR@{PARENT\_DIR}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!PARENT\_DIR@{PARENT\_DIR}}}\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a0065b7a602d7de80584ab6bd0e6210ce}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a0065b7a602d7de80584ab6bd0e6210ce} 
+PARENT\+\_\+\+DIR&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a7d2f703e6ef799ce2d80932712c13d62}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a7d2f703e6ef799ce2d80932712c13d62} 
+\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!LBA@{LBA}}
+\index{LBA@{LBA}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}
+\doxysubsubsection{\texorpdfstring{LBA}{LBA}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+ISO9660\+Parser\+::\+Dir\+Entry\+::\+LBA = 0}
+
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aa8ac32885aa2c2997d12bd10436a9fda}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aa8ac32885aa2c2997d12bd10436a9fda} 
+\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!name@{name}}
+\index{name@{name}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily eastl\+::fixed\+\_\+string$<$char, 15, false$>$ psyqo\+::\+ISO9660\+Parser\+::\+Dir\+Entry\+::name}
+
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a015a8119b576a8230fe205e257288f49}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a015a8119b576a8230fe205e257288f49} 
+\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!size@{size}}
+\index{size@{size}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+ISO9660\+Parser\+::\+Dir\+Entry\+::size = 0}
+
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aee93c5ec10c9d12fb5fc6af54d67933b}\label{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aee93c5ec10c9d12fb5fc6af54d67933b} 
+\index{psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}!type@{type}}
+\index{type@{type}!psyqo::ISO9660Parser::DirEntry@{psyqo::ISO9660Parser::DirEntry}}
+\doxysubsubsection{\texorpdfstring{[]}{[]}}
+{\footnotesize\ttfamily enum  \{ ... \}  psyqo\+::\+ISO9660\+Parser\+::\+Dir\+Entry\+::type}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{iso9660-parser_8hh}{iso9660-\/parser.\+hh}}\end{DoxyCompactItemize}

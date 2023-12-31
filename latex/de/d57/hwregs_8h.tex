@@ -1,0 +1,223 @@
+\doxysection{common/hardware/hwregs.h File Reference}
+\hypertarget{hwregs_8h}{}\label{hwregs_8h}\index{common/hardware/hwregs.h@{common/hardware/hwregs.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/counters.\+h"{}}\newline
+Include dependency graph for hwregs.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{de/d0e/hwregs_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d64/hwregs_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSIO}{SIO}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(x)~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} uint8\+\_\+t \texorpdfstring{$\ast$}{*})(x))
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(x)~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} uint16\+\_\+t \texorpdfstring{$\ast$}{*})(x))
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(x)~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*})(x))
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a83e0f8f0a1a2e39b5deff815a0e91581}{HW\+\_\+\+S8}}(x)~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} int8\+\_\+t \texorpdfstring{$\ast$}{*})(x))
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a2a1760da37fb97702fd87e756fb4487e}{HW\+\_\+\+S16}}(x)~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} int16\+\_\+t \texorpdfstring{$\ast$}{*})(x))
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a7ed6d66610b81a6c6f8cc073ba242044}{HW\+\_\+\+S32}}(x)~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} int32\+\_\+t \texorpdfstring{$\ast$}{*})(x))
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a088ebf0fb575381f6caa649b88c7c7b2}{SBUS\+\_\+\+DEV4\+\_\+\+CTRL}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801014)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a0705c3bd7eb1ef45b0fd97fbbe9a166a}{SBUS\+\_\+\+DEV5\+\_\+\+CTRL}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801018)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_ac881cfcf7e92e4f8bcd6d88608b5d905}{SBUS\+\_\+\+COM\+\_\+\+CTRL}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801020)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a41ea48bc02da0ab8ae7f09c801c8f296}{SIOS}}~((\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structSIO}{SIO}} \texorpdfstring{$\ast$}{*})0x1f801040)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_ab82dd208a7e716e09a3f8c229bfe78d7}{RAM\+\_\+\+SIZE}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801060)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_afade684c8621cc322a5b3234371ca4a8}{IREG}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0xbf801070)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a836b6805a266d890bcfe30a459b077fa}{IMASK}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0xbf801074)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a16a6dbd07aa9f49d1b164250247fd453}{DPCR}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f8010f0)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_ac1c5a03345a77fcf1c179691ca73ef93}{DICR}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f8010f4)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775}{GPU\+\_\+\+DATA}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801810)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_aab82fea0bc5fee6c51d36445cb730a07}{GPU\+\_\+\+STATUS}}~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801814)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a4ec0a475e9507ddf929e436b141d5ea6}{ATCONS\+\_\+\+STAT}}~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802000)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a9746bfa48f989e8f7be7ddbc6004d157}{ATCONS\+\_\+\+FIFO}}~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802002)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a394b8244ff359adf204d5c3248507d09}{ATCONS\+\_\+\+IRQ}}~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802030)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_ac80ee6b297f4592aeb5bb7609ea433c7}{ATCONS\+\_\+\+IRQ2}}~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802032)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_a6dbf53307a3ad899f4e017f37a502a8a}{SYS573\+\_\+\+WATCHDOG}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f5c0000)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_abef9bef556a605fb25915bf5ee26ed93}{SYS573\+\_\+7\+SEG\+\_\+\+POST}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f640010)
+\item 
+\#define \mbox{\hyperlink{hwregs_8h_aaa567395088118b7a0aec48af9278fa1}{POST}}~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0xbf802041)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{hwregs_8h_a9746bfa48f989e8f7be7ddbc6004d157}\label{hwregs_8h_a9746bfa48f989e8f7be7ddbc6004d157} 
+\index{hwregs.h@{hwregs.h}!ATCONS\_FIFO@{ATCONS\_FIFO}}
+\index{ATCONS\_FIFO@{ATCONS\_FIFO}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{ATCONS\_FIFO}{ATCONS\_FIFO}}
+{\footnotesize\ttfamily \#define ATCONS\+\_\+\+FIFO~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802002)}
+
+\Hypertarget{hwregs_8h_a394b8244ff359adf204d5c3248507d09}\label{hwregs_8h_a394b8244ff359adf204d5c3248507d09} 
+\index{hwregs.h@{hwregs.h}!ATCONS\_IRQ@{ATCONS\_IRQ}}
+\index{ATCONS\_IRQ@{ATCONS\_IRQ}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{ATCONS\_IRQ}{ATCONS\_IRQ}}
+{\footnotesize\ttfamily \#define ATCONS\+\_\+\+IRQ~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802030)}
+
+\Hypertarget{hwregs_8h_ac80ee6b297f4592aeb5bb7609ea433c7}\label{hwregs_8h_ac80ee6b297f4592aeb5bb7609ea433c7} 
+\index{hwregs.h@{hwregs.h}!ATCONS\_IRQ2@{ATCONS\_IRQ2}}
+\index{ATCONS\_IRQ2@{ATCONS\_IRQ2}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{ATCONS\_IRQ2}{ATCONS\_IRQ2}}
+{\footnotesize\ttfamily \#define ATCONS\+\_\+\+IRQ2~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802032)}
+
+\Hypertarget{hwregs_8h_a4ec0a475e9507ddf929e436b141d5ea6}\label{hwregs_8h_a4ec0a475e9507ddf929e436b141d5ea6} 
+\index{hwregs.h@{hwregs.h}!ATCONS\_STAT@{ATCONS\_STAT}}
+\index{ATCONS\_STAT@{ATCONS\_STAT}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{ATCONS\_STAT}{ATCONS\_STAT}}
+{\footnotesize\ttfamily \#define ATCONS\+\_\+\+STAT~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f802000)}
+
+\Hypertarget{hwregs_8h_ac1c5a03345a77fcf1c179691ca73ef93}\label{hwregs_8h_ac1c5a03345a77fcf1c179691ca73ef93} 
+\index{hwregs.h@{hwregs.h}!DICR@{DICR}}
+\index{DICR@{DICR}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{DICR}{DICR}}
+{\footnotesize\ttfamily \mbox{\hyperlink{cester-cop0_8c_abf96899658810c71ee55337f12cc8912}{dicr}} \& DICR~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f8010f4)}
+
+\Hypertarget{hwregs_8h_a16a6dbd07aa9f49d1b164250247fd453}\label{hwregs_8h_a16a6dbd07aa9f49d1b164250247fd453} 
+\index{hwregs.h@{hwregs.h}!DPCR@{DPCR}}
+\index{DPCR@{DPCR}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{DPCR}{DPCR}}
+{\footnotesize\ttfamily \#define DPCR~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f8010f0)}
+
+\Hypertarget{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775}\label{hwregs_8h_a7b07a39445cd345f36e5b2c1f02be775} 
+\index{hwregs.h@{hwregs.h}!GPU\_DATA@{GPU\_DATA}}
+\index{GPU\_DATA@{GPU\_DATA}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_DATA}{GPU\_DATA}}
+{\footnotesize\ttfamily \#define GPU\+\_\+\+DATA~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801810)}
+
+\Hypertarget{hwregs_8h_aab82fea0bc5fee6c51d36445cb730a07}\label{hwregs_8h_aab82fea0bc5fee6c51d36445cb730a07} 
+\index{hwregs.h@{hwregs.h}!GPU\_STATUS@{GPU\_STATUS}}
+\index{GPU\_STATUS@{GPU\_STATUS}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_STATUS}{GPU\_STATUS}}
+{\footnotesize\ttfamily \#define GPU\+\_\+\+STATUS~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801814)}
+
+\Hypertarget{hwregs_8h_a2a1760da37fb97702fd87e756fb4487e}\label{hwregs_8h_a2a1760da37fb97702fd87e756fb4487e} 
+\index{hwregs.h@{hwregs.h}!HW\_S16@{HW\_S16}}
+\index{HW\_S16@{HW\_S16}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{HW\_S16}{HW\_S16}}
+{\footnotesize\ttfamily \#define HW\+\_\+\+S16(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} int16\+\_\+t \texorpdfstring{$\ast$}{*})(x))}
+
+\Hypertarget{hwregs_8h_a7ed6d66610b81a6c6f8cc073ba242044}\label{hwregs_8h_a7ed6d66610b81a6c6f8cc073ba242044} 
+\index{hwregs.h@{hwregs.h}!HW\_S32@{HW\_S32}}
+\index{HW\_S32@{HW\_S32}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{HW\_S32}{HW\_S32}}
+{\footnotesize\ttfamily \#define HW\+\_\+\+S32(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} int32\+\_\+t \texorpdfstring{$\ast$}{*})(x))}
+
+\Hypertarget{hwregs_8h_a83e0f8f0a1a2e39b5deff815a0e91581}\label{hwregs_8h_a83e0f8f0a1a2e39b5deff815a0e91581} 
+\index{hwregs.h@{hwregs.h}!HW\_S8@{HW\_S8}}
+\index{HW\_S8@{HW\_S8}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{HW\_S8}{HW\_S8}}
+{\footnotesize\ttfamily \#define HW\+\_\+\+S8(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} int8\+\_\+t \texorpdfstring{$\ast$}{*})(x))}
+
+\Hypertarget{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}\label{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857} 
+\index{hwregs.h@{hwregs.h}!HW\_U16@{HW\_U16}}
+\index{HW\_U16@{HW\_U16}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{HW\_U16}{HW\_U16}}
+{\footnotesize\ttfamily \#define HW\+\_\+\+U16(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} uint16\+\_\+t \texorpdfstring{$\ast$}{*})(x))}
+
+\Hypertarget{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}\label{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e} 
+\index{hwregs.h@{hwregs.h}!HW\_U32@{HW\_U32}}
+\index{HW\_U32@{HW\_U32}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{HW\_U32}{HW\_U32}}
+{\footnotesize\ttfamily \#define HW\+\_\+\+U32(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*})(x))}
+
+\Hypertarget{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}\label{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a} 
+\index{hwregs.h@{hwregs.h}!HW\_U8@{HW\_U8}}
+\index{HW\_U8@{HW\_U8}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{HW\_U8}{HW\_U8}}
+{\footnotesize\ttfamily \#define HW\+\_\+\+U8(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\texorpdfstring{$\ast$}{*}(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} uint8\+\_\+t \texorpdfstring{$\ast$}{*})(x))}
+
+\Hypertarget{hwregs_8h_a836b6805a266d890bcfe30a459b077fa}\label{hwregs_8h_a836b6805a266d890bcfe30a459b077fa} 
+\index{hwregs.h@{hwregs.h}!IMASK@{IMASK}}
+\index{IMASK@{IMASK}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{IMASK}{IMASK}}
+{\footnotesize\ttfamily \#define IMASK~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0xbf801074)}
+
+\Hypertarget{hwregs_8h_afade684c8621cc322a5b3234371ca4a8}\label{hwregs_8h_afade684c8621cc322a5b3234371ca4a8} 
+\index{hwregs.h@{hwregs.h}!IREG@{IREG}}
+\index{IREG@{IREG}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{IREG}{IREG}}
+{\footnotesize\ttfamily \#define IREG~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0xbf801070)}
+
+\Hypertarget{hwregs_8h_aaa567395088118b7a0aec48af9278fa1}\label{hwregs_8h_aaa567395088118b7a0aec48af9278fa1} 
+\index{hwregs.h@{hwregs.h}!POST@{POST}}
+\index{POST@{POST}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{POST}{POST}}
+{\footnotesize\ttfamily \#define POST~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0xbf802041)}
+
+\Hypertarget{hwregs_8h_ab82dd208a7e716e09a3f8c229bfe78d7}\label{hwregs_8h_ab82dd208a7e716e09a3f8c229bfe78d7} 
+\index{hwregs.h@{hwregs.h}!RAM\_SIZE@{RAM\_SIZE}}
+\index{RAM\_SIZE@{RAM\_SIZE}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{RAM\_SIZE}{RAM\_SIZE}}
+{\footnotesize\ttfamily \#define RAM\+\_\+\+SIZE~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801060)}
+
+\Hypertarget{hwregs_8h_ac881cfcf7e92e4f8bcd6d88608b5d905}\label{hwregs_8h_ac881cfcf7e92e4f8bcd6d88608b5d905} 
+\index{hwregs.h@{hwregs.h}!SBUS\_COM\_CTRL@{SBUS\_COM\_CTRL}}
+\index{SBUS\_COM\_CTRL@{SBUS\_COM\_CTRL}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{SBUS\_COM\_CTRL}{SBUS\_COM\_CTRL}}
+{\footnotesize\ttfamily \#define SBUS\+\_\+\+COM\+\_\+\+CTRL~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801020)}
+
+\Hypertarget{hwregs_8h_a088ebf0fb575381f6caa649b88c7c7b2}\label{hwregs_8h_a088ebf0fb575381f6caa649b88c7c7b2} 
+\index{hwregs.h@{hwregs.h}!SBUS\_DEV4\_CTRL@{SBUS\_DEV4\_CTRL}}
+\index{SBUS\_DEV4\_CTRL@{SBUS\_DEV4\_CTRL}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{SBUS\_DEV4\_CTRL}{SBUS\_DEV4\_CTRL}}
+{\footnotesize\ttfamily \#define SBUS\+\_\+\+DEV4\+\_\+\+CTRL~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801014)}
+
+\Hypertarget{hwregs_8h_a0705c3bd7eb1ef45b0fd97fbbe9a166a}\label{hwregs_8h_a0705c3bd7eb1ef45b0fd97fbbe9a166a} 
+\index{hwregs.h@{hwregs.h}!SBUS\_DEV5\_CTRL@{SBUS\_DEV5\_CTRL}}
+\index{SBUS\_DEV5\_CTRL@{SBUS\_DEV5\_CTRL}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{SBUS\_DEV5\_CTRL}{SBUS\_DEV5\_CTRL}}
+{\footnotesize\ttfamily \#define SBUS\+\_\+\+DEV5\+\_\+\+CTRL~\mbox{\hyperlink{hwregs_8h_a22ad6e6d67539019322bbdaafc05e72e}{HW\+\_\+\+U32}}(0x1f801018)}
+
+\Hypertarget{hwregs_8h_a41ea48bc02da0ab8ae7f09c801c8f296}\label{hwregs_8h_a41ea48bc02da0ab8ae7f09c801c8f296} 
+\index{hwregs.h@{hwregs.h}!SIOS@{SIOS}}
+\index{SIOS@{SIOS}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{SIOS}{SIOS}}
+{\footnotesize\ttfamily \#define SIOS~((\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structSIO}{SIO}} \texorpdfstring{$\ast$}{*})0x1f801040)}
+
+\Hypertarget{hwregs_8h_abef9bef556a605fb25915bf5ee26ed93}\label{hwregs_8h_abef9bef556a605fb25915bf5ee26ed93} 
+\index{hwregs.h@{hwregs.h}!SYS573\_7SEG\_POST@{SYS573\_7SEG\_POST}}
+\index{SYS573\_7SEG\_POST@{SYS573\_7SEG\_POST}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{SYS573\_7SEG\_POST}{SYS573\_7SEG\_POST}}
+{\footnotesize\ttfamily \#define SYS573\+\_\+7\+SEG\+\_\+\+POST~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f640010)}
+
+\Hypertarget{hwregs_8h_a6dbf53307a3ad899f4e017f37a502a8a}\label{hwregs_8h_a6dbf53307a3ad899f4e017f37a502a8a} 
+\index{hwregs.h@{hwregs.h}!SYS573\_WATCHDOG@{SYS573\_WATCHDOG}}
+\index{SYS573\_WATCHDOG@{SYS573\_WATCHDOG}!hwregs.h@{hwregs.h}}
+\doxysubsubsection{\texorpdfstring{SYS573\_WATCHDOG}{SYS573\_WATCHDOG}}
+{\footnotesize\ttfamily \#define SYS573\+\_\+\+WATCHDOG~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f5c0000)}
+

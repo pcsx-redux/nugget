@@ -1,0 +1,35 @@
+\doxysection{psyqo\+::Prim\+::Flush\+Cache Struct Reference}
+\hypertarget{structpsyqo_1_1Prim_1_1FlushCache}{}\label{structpsyqo_1_1Prim_1_1FlushCache}\index{psyqo::Prim::FlushCache@{psyqo::Prim::FlushCache}}
+
+
+The \doxylink{structpsyqo_1_1Prim_1_1FlushCache}{Flush\+Cache} primitive.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/misc.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FlushCache_acd546d2deb7021da69827b6634ec1448}{Flush\+Cache}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{structpsyqo_1_1Prim_1_1FlushCache}{Flush\+Cache} primitive. 
+
+This primitive will flush the \doxylink{classpsyqo_1_1GPU}{GPU}\textquotesingle{}s cache. It\textquotesingle{}s meant to be used after changing a texture or a CLUT, as the \doxylink{classpsyqo_1_1GPU}{GPU} has a small texture cache. The primary usage should be when doing render-\/to-\/texture. The {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class will use it for its {\ttfamily upload\+To\+VRAM} method. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1FlushCache_acd546d2deb7021da69827b6634ec1448}\label{structpsyqo_1_1Prim_1_1FlushCache_acd546d2deb7021da69827b6634ec1448} 
+\index{psyqo::Prim::FlushCache@{psyqo::Prim::FlushCache}!FlushCache@{FlushCache}}
+\index{FlushCache@{FlushCache}!psyqo::Prim::FlushCache@{psyqo::Prim::FlushCache}}
+\doxysubsubsection{\texorpdfstring{FlushCache()}{FlushCache()}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Flush\+Cache\+::\+Flush\+Cache (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{misc_8hh}{misc.\+hh}}\end{DoxyCompactItemize}

@@ -1,0 +1,287 @@
+\doxysection{openbios/sio0/card.h File Reference}
+\hypertarget{sio0_2card_8h}{}\label{sio0_2card_8h}\index{openbios/sio0/card.h@{openbios/sio0/card.h}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for card.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=197pt]{d4/d11/sio0_2card_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d9/df2/sio0_2card_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_ab4b9c5aba62f9a12628e7be605d802ab}{init\+Card}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} pad\+Started)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a921eba27b0470bab3711665f680e0608}{start\+Card}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a1aea792ad4f74a46742224a6d3c0a5f4}{stop\+Card}} ()
+\item 
+uint8\+\_\+t \mbox{\hyperlink{sio0_2card_8h_a7ec4cb6833364a31a795fe559b7e22ee}{get\+Card\+Status}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} port)
+\item 
+uint8\+\_\+t \mbox{\hyperlink{sio0_2card_8h_a0e9b0e18355b9021d887754e195186d2}{wait\+Card\+Status}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} port)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{sio0_2card_8h_a8dba320d84621370cba6c5df8c541250}{mc\+Reset\+Status}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a5ce1306dffa036f3e3b0bf8fe8328265}{mc\+Wait\+For\+Status}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a601c3567184862e6a457d746f74444f9}{mc\+Wait\+For\+Status\+And\+Return\+Index}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{sio0_2card_8h_a7a6726365c63505f865c166150f42ae3}{mc\+Allow\+New\+Card}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a1f9d5714aac8669b097fe172e1da3117}{mc\+Get\+Last\+Device}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_acb72edebd0d4c14e6aeacbeb1f9c6f1b}{mc\+Read\+Sector}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a764b813475c7aeb45ee8a290f8d102c1}{mc\+Write\+Sector}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_aeb00faaa9355abead1a4d3ac12a70a82}{card\+Info\+Internal}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a5782388092a12bfbbe149fc79bff15cb}{mc\+Read\+Handler}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a85255efe10aca77c3cae44d18123123d}{mc\+Write\+Handler}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a331baccb0e746e2b5b08c4f1a21c27c1}{mc\+Info\+Handler}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_ad60a29fdab59e6526cec7f81c5d94c40}{g\+\_\+mc\+Operation}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a6a7b3a3a934a685414c44a6d0fcf6d4d}{g\+\_\+mc\+Port\+Flipping}}
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{sio0_2card_8h_a85673583acb16b00f06b6426065cde31}{g\+\_\+mc\+User\+Buffers}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{sio0_2card_8h_a0115e97a8db4f2c8660c0d09f4004bff}{g\+\_\+mc\+Checksum}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a269e7137df0f79f9fcb40146c7778460}{g\+\_\+mc\+Sector}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a2ed59072c3ddd84d3fc779353834ea3b}{g\+\_\+mc\+Device\+Id}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a2ef26af29af60c8cab27c02be6f83714}{g\+\_\+mc\+Action\+In\+Progress}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_ae6551f1cc2ad35b2013975590689d9ad}{g\+\_\+skip\+Error\+On\+New\+Card}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{sio0_2card_8h_a52a74ed4b2bd9a8b4b7a4f36c92343dc}{g\+\_\+mc\+Flags}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a575fc96b90b86405d444eb21d2e83585}{g\+\_\+mc\+Last\+Port}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a60bfb6c9dcaca96921584844d191aca7}{g\+\_\+mc\+Got\+Error}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_ad8b9fb284b4bc7a49eba3771e37c7eac}{g\+\_\+mc\+Fast\+Track\+Active}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a5d5e1ed257f97038f734c7780d32a524}{g\+\_\+mc\+Overall\+Success}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_ad1f5cba7d4cf7f9c878f04d00df907cc}{g\+\_\+mc\+Errors}} \mbox{[}4\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_a27b2b68cf113c2bc7c73bcb4d82f09d6}{g\+\_\+mc\+Handler\+Delay\+Patch}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{sio0_2card_8h_acdfc6a08c55328a64e4fda9b02ec4b73}{g\+\_\+mc\+Card\+Info\+Patch\+Activated}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{sio0_2card_8h_aeb00faaa9355abead1a4d3ac12a70a82}\label{sio0_2card_8h_aeb00faaa9355abead1a4d3ac12a70a82} 
+\index{card.h@{card.h}!cardInfoInternal@{cardInfoInternal}}
+\index{cardInfoInternal@{cardInfoInternal}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{cardInfoInternal()}{cardInfoInternal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} card\+Info\+Internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a7ec4cb6833364a31a795fe559b7e22ee}\label{sio0_2card_8h_a7ec4cb6833364a31a795fe559b7e22ee} 
+\index{card.h@{card.h}!getCardStatus@{getCardStatus}}
+\index{getCardStatus@{getCardStatus}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{getCardStatus()}{getCardStatus()}}
+{\footnotesize\ttfamily uint8\+\_\+t get\+Card\+Status (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{port }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_ab4b9c5aba62f9a12628e7be605d802ab}\label{sio0_2card_8h_ab4b9c5aba62f9a12628e7be605d802ab} 
+\index{card.h@{card.h}!initCard@{initCard}}
+\index{initCard@{initCard}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{initCard()}{initCard()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Card (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{pad\+Started }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a7a6726365c63505f865c166150f42ae3}\label{sio0_2card_8h_a7a6726365c63505f865c166150f42ae3} 
+\index{card.h@{card.h}!mcAllowNewCard@{mcAllowNewCard}}
+\index{mcAllowNewCard@{mcAllowNewCard}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcAllowNewCard()}{mcAllowNewCard()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} mc\+Allow\+New\+Card (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a1f9d5714aac8669b097fe172e1da3117}\label{sio0_2card_8h_a1f9d5714aac8669b097fe172e1da3117} 
+\index{card.h@{card.h}!mcGetLastDevice@{mcGetLastDevice}}
+\index{mcGetLastDevice@{mcGetLastDevice}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcGetLastDevice()}{mcGetLastDevice()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Get\+Last\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a331baccb0e746e2b5b08c4f1a21c27c1}\label{sio0_2card_8h_a331baccb0e746e2b5b08c4f1a21c27c1} 
+\index{card.h@{card.h}!mcInfoHandler@{mcInfoHandler}}
+\index{mcInfoHandler@{mcInfoHandler}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcInfoHandler()}{mcInfoHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Info\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a5782388092a12bfbbe149fc79bff15cb}\label{sio0_2card_8h_a5782388092a12bfbbe149fc79bff15cb} 
+\index{card.h@{card.h}!mcReadHandler@{mcReadHandler}}
+\index{mcReadHandler@{mcReadHandler}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcReadHandler()}{mcReadHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Read\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_acb72edebd0d4c14e6aeacbeb1f9c6f1b}\label{sio0_2card_8h_acb72edebd0d4c14e6aeacbeb1f9c6f1b} 
+\index{card.h@{card.h}!mcReadSector@{mcReadSector}}
+\index{mcReadSector@{mcReadSector}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcReadSector()}{mcReadSector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Read\+Sector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{sector,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a8dba320d84621370cba6c5df8c541250}\label{sio0_2card_8h_a8dba320d84621370cba6c5df8c541250} 
+\index{card.h@{card.h}!mcResetStatus@{mcResetStatus}}
+\index{mcResetStatus@{mcResetStatus}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcResetStatus()}{mcResetStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} mc\+Reset\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a5ce1306dffa036f3e3b0bf8fe8328265}\label{sio0_2card_8h_a5ce1306dffa036f3e3b0bf8fe8328265} 
+\index{card.h@{card.h}!mcWaitForStatus@{mcWaitForStatus}}
+\index{mcWaitForStatus@{mcWaitForStatus}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcWaitForStatus()}{mcWaitForStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Wait\+For\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a601c3567184862e6a457d746f74444f9}\label{sio0_2card_8h_a601c3567184862e6a457d746f74444f9} 
+\index{card.h@{card.h}!mcWaitForStatusAndReturnIndex@{mcWaitForStatusAndReturnIndex}}
+\index{mcWaitForStatusAndReturnIndex@{mcWaitForStatusAndReturnIndex}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcWaitForStatusAndReturnIndex()}{mcWaitForStatusAndReturnIndex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Wait\+For\+Status\+And\+Return\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a85255efe10aca77c3cae44d18123123d}\label{sio0_2card_8h_a85255efe10aca77c3cae44d18123123d} 
+\index{card.h@{card.h}!mcWriteHandler@{mcWriteHandler}}
+\index{mcWriteHandler@{mcWriteHandler}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcWriteHandler()}{mcWriteHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Write\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a764b813475c7aeb45ee8a290f8d102c1}\label{sio0_2card_8h_a764b813475c7aeb45ee8a290f8d102c1} 
+\index{card.h@{card.h}!mcWriteSector@{mcWriteSector}}
+\index{mcWriteSector@{mcWriteSector}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{mcWriteSector()}{mcWriteSector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Write\+Sector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{sector,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a921eba27b0470bab3711665f680e0608}\label{sio0_2card_8h_a921eba27b0470bab3711665f680e0608} 
+\index{card.h@{card.h}!startCard@{startCard}}
+\index{startCard@{startCard}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{startCard()}{startCard()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} start\+Card (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a1aea792ad4f74a46742224a6d3c0a5f4}\label{sio0_2card_8h_a1aea792ad4f74a46742224a6d3c0a5f4} 
+\index{card.h@{card.h}!stopCard@{stopCard}}
+\index{stopCard@{stopCard}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{stopCard()}{stopCard()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} stop\+Card (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio0_2card_8h_a0e9b0e18355b9021d887754e195186d2}\label{sio0_2card_8h_a0e9b0e18355b9021d887754e195186d2} 
+\index{card.h@{card.h}!waitCardStatus@{waitCardStatus}}
+\index{waitCardStatus@{waitCardStatus}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{waitCardStatus()}{waitCardStatus()}}
+{\footnotesize\ttfamily uint8\+\_\+t wait\+Card\+Status (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{port }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{sio0_2card_8h_a2ef26af29af60c8cab27c02be6f83714}\label{sio0_2card_8h_a2ef26af29af60c8cab27c02be6f83714} 
+\index{card.h@{card.h}!g\_mcActionInProgress@{g\_mcActionInProgress}}
+\index{g\_mcActionInProgress@{g\_mcActionInProgress}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcActionInProgress}{g\_mcActionInProgress}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Action\+In\+Progress\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_acdfc6a08c55328a64e4fda9b02ec4b73}\label{sio0_2card_8h_acdfc6a08c55328a64e4fda9b02ec4b73} 
+\index{card.h@{card.h}!g\_mcCardInfoPatchActivated@{g\_mcCardInfoPatchActivated}}
+\index{g\_mcCardInfoPatchActivated@{g\_mcCardInfoPatchActivated}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcCardInfoPatchActivated}{g\_mcCardInfoPatchActivated}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Card\+Info\+Patch\+Activated\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a0115e97a8db4f2c8660c0d09f4004bff}\label{sio0_2card_8h_a0115e97a8db4f2c8660c0d09f4004bff} 
+\index{card.h@{card.h}!g\_mcChecksum@{g\_mcChecksum}}
+\index{g\_mcChecksum@{g\_mcChecksum}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcChecksum}{g\_mcChecksum}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+mc\+Checksum\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a2ed59072c3ddd84d3fc779353834ea3b}\label{sio0_2card_8h_a2ed59072c3ddd84d3fc779353834ea3b} 
+\index{card.h@{card.h}!g\_mcDeviceId@{g\_mcDeviceId}}
+\index{g\_mcDeviceId@{g\_mcDeviceId}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcDeviceId}{g\_mcDeviceId}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Device\+Id\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_ad1f5cba7d4cf7f9c878f04d00df907cc}\label{sio0_2card_8h_ad1f5cba7d4cf7f9c878f04d00df907cc} 
+\index{card.h@{card.h}!g\_mcErrors@{g\_mcErrors}}
+\index{g\_mcErrors@{g\_mcErrors}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcErrors}{g\_mcErrors}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Errors\mbox{[}4\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_ad8b9fb284b4bc7a49eba3771e37c7eac}\label{sio0_2card_8h_ad8b9fb284b4bc7a49eba3771e37c7eac} 
+\index{card.h@{card.h}!g\_mcFastTrackActive@{g\_mcFastTrackActive}}
+\index{g\_mcFastTrackActive@{g\_mcFastTrackActive}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcFastTrackActive}{g\_mcFastTrackActive}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Fast\+Track\+Active\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a52a74ed4b2bd9a8b4b7a4f36c92343dc}\label{sio0_2card_8h_a52a74ed4b2bd9a8b4b7a4f36c92343dc} 
+\index{card.h@{card.h}!g\_mcFlags@{g\_mcFlags}}
+\index{g\_mcFlags@{g\_mcFlags}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcFlags}{g\_mcFlags}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+mc\+Flags\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a60bfb6c9dcaca96921584844d191aca7}\label{sio0_2card_8h_a60bfb6c9dcaca96921584844d191aca7} 
+\index{card.h@{card.h}!g\_mcGotError@{g\_mcGotError}}
+\index{g\_mcGotError@{g\_mcGotError}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcGotError}{g\_mcGotError}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Got\+Error\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a27b2b68cf113c2bc7c73bcb4d82f09d6}\label{sio0_2card_8h_a27b2b68cf113c2bc7c73bcb4d82f09d6} 
+\index{card.h@{card.h}!g\_mcHandlerDelayPatch@{g\_mcHandlerDelayPatch}}
+\index{g\_mcHandlerDelayPatch@{g\_mcHandlerDelayPatch}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcHandlerDelayPatch}{g\_mcHandlerDelayPatch}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Handler\+Delay\+Patch\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a575fc96b90b86405d444eb21d2e83585}\label{sio0_2card_8h_a575fc96b90b86405d444eb21d2e83585} 
+\index{card.h@{card.h}!g\_mcLastPort@{g\_mcLastPort}}
+\index{g\_mcLastPort@{g\_mcLastPort}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcLastPort}{g\_mcLastPort}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Last\+Port\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_ad60a29fdab59e6526cec7f81c5d94c40}\label{sio0_2card_8h_ad60a29fdab59e6526cec7f81c5d94c40} 
+\index{card.h@{card.h}!g\_mcOperation@{g\_mcOperation}}
+\index{g\_mcOperation@{g\_mcOperation}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcOperation}{g\_mcOperation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Operation\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a5d5e1ed257f97038f734c7780d32a524}\label{sio0_2card_8h_a5d5e1ed257f97038f734c7780d32a524} 
+\index{card.h@{card.h}!g\_mcOverallSuccess@{g\_mcOverallSuccess}}
+\index{g\_mcOverallSuccess@{g\_mcOverallSuccess}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcOverallSuccess}{g\_mcOverallSuccess}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Overall\+Success\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a6a7b3a3a934a685414c44a6d0fcf6d4d}\label{sio0_2card_8h_a6a7b3a3a934a685414c44a6d0fcf6d4d} 
+\index{card.h@{card.h}!g\_mcPortFlipping@{g\_mcPortFlipping}}
+\index{g\_mcPortFlipping@{g\_mcPortFlipping}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcPortFlipping}{g\_mcPortFlipping}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Port\+Flipping\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a269e7137df0f79f9fcb40146c7778460}\label{sio0_2card_8h_a269e7137df0f79f9fcb40146c7778460} 
+\index{card.h@{card.h}!g\_mcSector@{g\_mcSector}}
+\index{g\_mcSector@{g\_mcSector}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcSector}{g\_mcSector}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Sector\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_a85673583acb16b00f06b6426065cde31}\label{sio0_2card_8h_a85673583acb16b00f06b6426065cde31} 
+\index{card.h@{card.h}!g\_mcUserBuffers@{g\_mcUserBuffers}}
+\index{g\_mcUserBuffers@{g\_mcUserBuffers}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_mcUserBuffers}{g\_mcUserBuffers}}
+{\footnotesize\ttfamily uint8\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+mc\+User\+Buffers\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{sio0_2card_8h_ae6551f1cc2ad35b2013975590689d9ad}\label{sio0_2card_8h_ae6551f1cc2ad35b2013975590689d9ad} 
+\index{card.h@{card.h}!g\_skipErrorOnNewCard@{g\_skipErrorOnNewCard}}
+\index{g\_skipErrorOnNewCard@{g\_skipErrorOnNewCard}!card.h@{card.h}}
+\doxysubsubsection{\texorpdfstring{g\_skipErrorOnNewCard}{g\_skipErrorOnNewCard}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+skip\+Error\+On\+New\+Card\hspace{0.3cm}{\ttfamily [extern]}}
+

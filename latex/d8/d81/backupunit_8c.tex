@@ -1,0 +1,178 @@
+\doxysection{openbios/card/backupunit.c File Reference}
+\hypertarget{backupunit_8c}{}\label{backupunit_8c}\index{openbios/card/backupunit.c@{openbios/card/backupunit.c}}
+{\ttfamily \#include "{}openbios/card/backupunit.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/pcsxhw.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/card/card.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/libcmisc.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/card.\+h"{}}\newline
+{\ttfamily \#include "{}osdebug.\+h"{}}\newline
+Include dependency graph for backupunit.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d6/d2d/backupunit_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_a7c3ee292f71b4a8de1ae39c685e6bb6c}{bu\+Reallocate\+Broken\+Sector\+And\+Retry}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_a1dd1e221dd3fcdd0896264b0cf6e644c}{bu\+Format}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_a00d5bd2590765bfa62ad75ab8b5f36a3}{bu\+Init}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_ad78a445265ff82fad29e20ee1aa10a47}{init\+Backup\+Unit}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_a94b0a6835a1ce2e937ea6d006b5fdd83}{card\+Info}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{backupunit_8c_aed1cacafe4d5d83c8a4f8baa2fd857db}{bu\+Finish\+And\+Trigger}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} port, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{backupunit_8c_ae1d31a05dbed8f6d749fe4b8286c7b29}{bu\+Low\+Level\+Op\+Completed}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{backupunit_8c_a941733ffa80d491725abe2649c81c047}{bu\+Low\+Level\+Op\+Error1}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{backupunit_8c_a4f007ce279f201c2c4e24b97eec2377e}{bu\+Low\+Level\+Op\+Error2}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{backupunit_8c_aa604e1c913135101bb3c2f8e5593901b}{bu\+Low\+Level\+Op\+Error3}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_ad04b27dcf5edbb60d270dcf509ae8cac}{bu\+Read\+TOC}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_aeb817a32968330a77aac2e8fc8777d74}{bu\+Write\+TOC}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}bitmap)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_aa15e339bde5a598e378b234cafa3fe57}{bu\+Set\+Auto\+Format}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} auto\+Format)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_a08f730feedc20125593a0556b1b630c2}{g\+\_\+bu\+Operation}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8c_a9c1c1f399e80de7d02624d982c93dce8}{g\+\_\+bu\+Auto\+Format}}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuDirectoryEntry}{Bu\+Directory\+Entry}} \mbox{\hyperlink{backupunit_8c_ad9d91d7a509b2cc66f9b5e55117a5508}{g\+\_\+bu\+Dir\+Entries}} \mbox{[}2\mbox{]}\mbox{[}15\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{backupunit_8c_ae151fb4985646225908f06265c21143c}{g\+\_\+bu\+Buffer}} \mbox{[}2\mbox{]}\mbox{[}128\mbox{]}
+\item 
+int32\+\_\+t \mbox{\hyperlink{backupunit_8c_a24bb3c1152d97480a011266ccf088db7}{g\+\_\+bu\+Broken}} \mbox{[}2\mbox{]}\mbox{[}20\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{backupunit_8c_aed1cacafe4d5d83c8a4f8baa2fd857db}\label{backupunit_8c_aed1cacafe4d5d83c8a4f8baa2fd857db} 
+\index{backupunit.c@{backupunit.c}!buFinishAndTrigger@{buFinishAndTrigger}}
+\index{buFinishAndTrigger@{buFinishAndTrigger}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buFinishAndTrigger()}{buFinishAndTrigger()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} bu\+Finish\+And\+Trigger (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{port,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{spec }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_a1dd1e221dd3fcdd0896264b0cf6e644c}\label{backupunit_8c_a1dd1e221dd3fcdd0896264b0cf6e644c} 
+\index{backupunit.c@{backupunit.c}!buFormat@{buFormat}}
+\index{buFormat@{buFormat}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buFormat()}{buFormat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_a00d5bd2590765bfa62ad75ab8b5f36a3}\label{backupunit_8c_a00d5bd2590765bfa62ad75ab8b5f36a3} 
+\index{backupunit.c@{backupunit.c}!buInit@{buInit}}
+\index{buInit@{buInit}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buInit()}{buInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_ae1d31a05dbed8f6d749fe4b8286c7b29}\label{backupunit_8c_ae1d31a05dbed8f6d749fe4b8286c7b29} 
+\index{backupunit.c@{backupunit.c}!buLowLevelOpCompleted@{buLowLevelOpCompleted}}
+\index{buLowLevelOpCompleted@{buLowLevelOpCompleted}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buLowLevelOpCompleted()}{buLowLevelOpCompleted()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} bu\+Low\+Level\+Op\+Completed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_a941733ffa80d491725abe2649c81c047}\label{backupunit_8c_a941733ffa80d491725abe2649c81c047} 
+\index{backupunit.c@{backupunit.c}!buLowLevelOpError1@{buLowLevelOpError1}}
+\index{buLowLevelOpError1@{buLowLevelOpError1}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buLowLevelOpError1()}{buLowLevelOpError1()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} bu\+Low\+Level\+Op\+Error1 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_a4f007ce279f201c2c4e24b97eec2377e}\label{backupunit_8c_a4f007ce279f201c2c4e24b97eec2377e} 
+\index{backupunit.c@{backupunit.c}!buLowLevelOpError2@{buLowLevelOpError2}}
+\index{buLowLevelOpError2@{buLowLevelOpError2}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buLowLevelOpError2()}{buLowLevelOpError2()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} bu\+Low\+Level\+Op\+Error2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_aa604e1c913135101bb3c2f8e5593901b}\label{backupunit_8c_aa604e1c913135101bb3c2f8e5593901b} 
+\index{backupunit.c@{backupunit.c}!buLowLevelOpError3@{buLowLevelOpError3}}
+\index{buLowLevelOpError3@{buLowLevelOpError3}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buLowLevelOpError3()}{buLowLevelOpError3()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} bu\+Low\+Level\+Op\+Error3 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_ad04b27dcf5edbb60d270dcf509ae8cac}\label{backupunit_8c_ad04b27dcf5edbb60d270dcf509ae8cac} 
+\index{backupunit.c@{backupunit.c}!buReadTOC@{buReadTOC}}
+\index{buReadTOC@{buReadTOC}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buReadTOC()}{buReadTOC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Read\+TOC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_a7c3ee292f71b4a8de1ae39c685e6bb6c}\label{backupunit_8c_a7c3ee292f71b4a8de1ae39c685e6bb6c} 
+\index{backupunit.c@{backupunit.c}!buReallocateBrokenSectorAndRetry@{buReallocateBrokenSectorAndRetry}}
+\index{buReallocateBrokenSectorAndRetry@{buReallocateBrokenSectorAndRetry}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buReallocateBrokenSectorAndRetry()}{buReallocateBrokenSectorAndRetry()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Reallocate\+Broken\+Sector\+And\+Retry (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{sector,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_aa15e339bde5a598e378b234cafa3fe57}\label{backupunit_8c_aa15e339bde5a598e378b234cafa3fe57} 
+\index{backupunit.c@{backupunit.c}!buSetAutoFormat@{buSetAutoFormat}}
+\index{buSetAutoFormat@{buSetAutoFormat}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buSetAutoFormat()}{buSetAutoFormat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Set\+Auto\+Format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{auto\+Format }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_aeb817a32968330a77aac2e8fc8777d74}\label{backupunit_8c_aeb817a32968330a77aac2e8fc8777d74} 
+\index{backupunit.c@{backupunit.c}!buWriteTOC@{buWriteTOC}}
+\index{buWriteTOC@{buWriteTOC}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{buWriteTOC()}{buWriteTOC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Write\+TOC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{bitmap }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_a94b0a6835a1ce2e937ea6d006b5fdd83}\label{backupunit_8c_a94b0a6835a1ce2e937ea6d006b5fdd83} 
+\index{backupunit.c@{backupunit.c}!cardInfo@{cardInfo}}
+\index{cardInfo@{cardInfo}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{cardInfo()}{cardInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} card\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8c_ad78a445265ff82fad29e20ee1aa10a47}\label{backupunit_8c_ad78a445265ff82fad29e20ee1aa10a47} 
+\index{backupunit.c@{backupunit.c}!initBackupUnit@{initBackupUnit}}
+\index{initBackupUnit@{initBackupUnit}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{initBackupUnit()}{initBackupUnit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Backup\+Unit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{backupunit_8c_a9c1c1f399e80de7d02624d982c93dce8}\label{backupunit_8c_a9c1c1f399e80de7d02624d982c93dce8} 
+\index{backupunit.c@{backupunit.c}!g\_buAutoFormat@{g\_buAutoFormat}}
+\index{g\_buAutoFormat@{g\_buAutoFormat}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{g\_buAutoFormat}{g\_buAutoFormat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+bu\+Auto\+Format}
+
+\Hypertarget{backupunit_8c_a24bb3c1152d97480a011266ccf088db7}\label{backupunit_8c_a24bb3c1152d97480a011266ccf088db7} 
+\index{backupunit.c@{backupunit.c}!g\_buBroken@{g\_buBroken}}
+\index{g\_buBroken@{g\_buBroken}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{g\_buBroken}{g\_buBroken}}
+{\footnotesize\ttfamily int32\+\_\+t g\+\_\+bu\+Broken\mbox{[}2\mbox{]}\mbox{[}20\mbox{]}}
+
+\Hypertarget{backupunit_8c_ae151fb4985646225908f06265c21143c}\label{backupunit_8c_ae151fb4985646225908f06265c21143c} 
+\index{backupunit.c@{backupunit.c}!g\_buBuffer@{g\_buBuffer}}
+\index{g\_buBuffer@{g\_buBuffer}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{g\_buBuffer}{g\_buBuffer}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+bu\+Buffer\mbox{[}2\mbox{]}\mbox{[}128\mbox{]}}
+
+\Hypertarget{backupunit_8c_ad9d91d7a509b2cc66f9b5e55117a5508}\label{backupunit_8c_ad9d91d7a509b2cc66f9b5e55117a5508} 
+\index{backupunit.c@{backupunit.c}!g\_buDirEntries@{g\_buDirEntries}}
+\index{g\_buDirEntries@{g\_buDirEntries}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{g\_buDirEntries}{g\_buDirEntries}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuDirectoryEntry}{Bu\+Directory\+Entry}} g\+\_\+bu\+Dir\+Entries\mbox{[}2\mbox{]}\mbox{[}15\mbox{]}}
+
+\Hypertarget{backupunit_8c_a08f730feedc20125593a0556b1b630c2}\label{backupunit_8c_a08f730feedc20125593a0556b1b630c2} 
+\index{backupunit.c@{backupunit.c}!g\_buOperation@{g\_buOperation}}
+\index{g\_buOperation@{g\_buOperation}!backupunit.c@{backupunit.c}}
+\doxysubsubsection{\texorpdfstring{g\_buOperation}{g\_buOperation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+bu\+Operation\mbox{[}2\mbox{]}}
+

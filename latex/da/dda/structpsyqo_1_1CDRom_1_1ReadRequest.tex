@@ -1,0 +1,51 @@
+\doxysection{psyqo\+::CDRom\+::Read\+Request Struct Reference}
+\hypertarget{structpsyqo_1_1CDRom_1_1ReadRequest}{}\label{structpsyqo_1_1CDRom_1_1ReadRequest}\index{psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}}
+
+
+An asynchronous read request.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/cdrom.\+hh$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest_a1d05cf7061f9915d20cd654ef46d3efa}{LBA}} = 0
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest_aa5b171272fc7dd7256f464ad1e2a0f5f}{count}} = 0
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest_a047ceb416dd34258918af0c1a49b441b}{buffer}} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An asynchronous read request. 
+
+This struct serves as a persistent storage for an asynchronous read request. Its purpose is to be embedded outside of the device class, so it can keep track of the current state of the request. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1CDRom_1_1ReadRequest_a047ceb416dd34258918af0c1a49b441b}\label{structpsyqo_1_1CDRom_1_1ReadRequest_a047ceb416dd34258918af0c1a49b441b} 
+\index{psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}!buffer@{buffer}}
+\index{buffer@{buffer}!psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}}
+\doxysubsubsection{\texorpdfstring{buffer}{buffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} psyqo\+::\+CDRom\+::\+Read\+Request\+::buffer = nullptr}
+
+\Hypertarget{structpsyqo_1_1CDRom_1_1ReadRequest_aa5b171272fc7dd7256f464ad1e2a0f5f}\label{structpsyqo_1_1CDRom_1_1ReadRequest_aa5b171272fc7dd7256f464ad1e2a0f5f} 
+\index{psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}!count@{count}}
+\index{count@{count}!psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+CDRom\+::\+Read\+Request\+::count = 0}
+
+\Hypertarget{structpsyqo_1_1CDRom_1_1ReadRequest_a1d05cf7061f9915d20cd654ef46d3efa}\label{structpsyqo_1_1CDRom_1_1ReadRequest_a1d05cf7061f9915d20cd654ef46d3efa} 
+\index{psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}!LBA@{LBA}}
+\index{LBA@{LBA}!psyqo::CDRom::ReadRequest@{psyqo::CDRom::ReadRequest}}
+\doxysubsubsection{\texorpdfstring{LBA}{LBA}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+CDRom\+::\+Read\+Request\+::\+LBA = 0}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{cdrom_8hh}{cdrom.\+hh}}\end{DoxyCompactItemize}

@@ -1,0 +1,196 @@
+\doxysection{common/psxlibc/device.h File Reference}
+\hypertarget{device_8h}{}\label{device_8h}\index{common/psxlibc/device.h@{common/psxlibc/device.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+Include dependency graph for device.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{d5/d97/device_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d7/dab/device_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structDevice}{Device}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a34135c84926575952ceecbad89718dbf}{device\+\_\+init}}) ()
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a4d58e9a224cc99eedd786c7852945c56}{device\+\_\+open}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_aa833379500861b7f4d7dea2cd6394a01}{device\+\_\+action}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, enum \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{File\+Action}})
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a5e0109f833dfe2cd51b9b03da1369b09}{device\+\_\+close}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*})
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a6618c804943e12531d09cf07dc9ff3eb}{device\+\_\+ioctl}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{dma_8c_a5e9712b08d7cbf6091f9e5334ff97b5d}{cmd}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} arg)
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_aceebeb9ca6a90b5e140cebf7ee62ba2a}{device\+\_\+read}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_ac263b0a0a9f94089d769848594ad9931}{device\+\_\+write}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a8c45c01a6a37175ac4daca28408cd575}{device\+\_\+erase}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}path)
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a10bf224774a68f3a87f0222eca613250}{device\+\_\+first\+File}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a5b39804036b2cc9ad8a7f2329f5dcc95}{device\+\_\+next\+File}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a686670272836608d4f5db67628e5acce}{device\+\_\+format}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file)
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_abc9558d4eb4e89f5fa9f42836ee2b63c}{device\+\_\+rename}}) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}old\+File, const char \texorpdfstring{$\ast$}{*}old\+Name, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}new\+File, const char \texorpdfstring{$\ast$}{*}new\+Name)
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{device_8h_a6a7f741bb877447322c30d950bf2b8c1}{device\+\_\+deinit}}) ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{File\+Action}} \{ \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2a5ab322cc9cb8c709f5c3ac9db0078c8e}{PSXREAD}} = 1
+, \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2a8edd6267571a5a7d3c4163fee612f57f}{PSXWRITE}} = 2
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac1c6a7f9c68e507da16985a0d74ce3d7}{PSXDTTYPE\+\_\+\+CHAR}} = 0x01
+, \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da70f60a4cfafe1d2c0e7624f30a101e02}{PSXDTTYPE\+\_\+\+CONS}} = 0x02
+, \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2daf0f22ac27d89961da6f78a18ca84ca08}{PSXDTTYPE\+\_\+\+BLOCK}} = 0x04
+, \mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da17770df7ada131a51dd58a65af7418cf}{PSXDTTYPE\+\_\+\+RAW}} = 0x08
+, \newline
+\mbox{\hyperlink{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac9bdcba343cac87f4fba0e6c3f8595bf}{PSXDTTYPE\+\_\+\+FS}} = 0x10
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{device_8h_aa833379500861b7f4d7dea2cd6394a01}\label{device_8h_aa833379500861b7f4d7dea2cd6394a01} 
+\index{device.h@{device.h}!device\_action@{device\_action}}
+\index{device\_action@{device\_action}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_action}{device\_action}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+action) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, enum \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{File\+Action}})}
+
+\Hypertarget{device_8h_a5e0109f833dfe2cd51b9b03da1369b09}\label{device_8h_a5e0109f833dfe2cd51b9b03da1369b09} 
+\index{device.h@{device.h}!device\_close@{device\_close}}
+\index{device\_close@{device\_close}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_close}{device\_close}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+close) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*})}
+
+\Hypertarget{device_8h_a6a7f741bb877447322c30d950bf2b8c1}\label{device_8h_a6a7f741bb877447322c30d950bf2b8c1} 
+\index{device.h@{device.h}!device\_deinit@{device\_deinit}}
+\index{device\_deinit@{device\_deinit}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_deinit}{device\_deinit}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*} device\+\_\+deinit) ()}
+
+\Hypertarget{device_8h_a8c45c01a6a37175ac4daca28408cd575}\label{device_8h_a8c45c01a6a37175ac4daca28408cd575} 
+\index{device.h@{device.h}!device\_erase@{device\_erase}}
+\index{device\_erase@{device\_erase}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_erase}{device\_erase}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+erase) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}path)}
+
+\Hypertarget{device_8h_a10bf224774a68f3a87f0222eca613250}\label{device_8h_a10bf224774a68f3a87f0222eca613250} 
+\index{device.h@{device.h}!device\_firstFile@{device\_firstFile}}
+\index{device\_firstFile@{device\_firstFile}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_firstFile}{device\_firstFile}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} device\+\_\+first\+File) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)}
+
+\Hypertarget{device_8h_a686670272836608d4f5db67628e5acce}\label{device_8h_a686670272836608d4f5db67628e5acce} 
+\index{device.h@{device.h}!device\_format@{device\_format}}
+\index{device\_format@{device\_format}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_format}{device\_format}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+format) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file)}
+
+\Hypertarget{device_8h_a34135c84926575952ceecbad89718dbf}\label{device_8h_a34135c84926575952ceecbad89718dbf} 
+\index{device.h@{device.h}!device\_init@{device\_init}}
+\index{device\_init@{device\_init}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_init}{device\_init}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*} device\+\_\+init) ()}
+
+\Hypertarget{device_8h_a6618c804943e12531d09cf07dc9ff3eb}\label{device_8h_a6618c804943e12531d09cf07dc9ff3eb} 
+\index{device.h@{device.h}!device\_ioctl@{device\_ioctl}}
+\index{device\_ioctl@{device\_ioctl}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_ioctl}{device\_ioctl}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+ioctl) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{dma_8c_a5e9712b08d7cbf6091f9e5334ff97b5d}{cmd}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} arg)}
+
+\Hypertarget{device_8h_a5b39804036b2cc9ad8a7f2329f5dcc95}\label{device_8h_a5b39804036b2cc9ad8a7f2329f5dcc95} 
+\index{device.h@{device.h}!device\_nextFile@{device\_nextFile}}
+\index{device\_nextFile@{device\_nextFile}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_nextFile}{device\_nextFile}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*} device\+\_\+next\+File) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)}
+
+\Hypertarget{device_8h_a4d58e9a224cc99eedd786c7852945c56}\label{device_8h_a4d58e9a224cc99eedd786c7852945c56} 
+\index{device.h@{device.h}!device\_open@{device\_open}}
+\index{device\_open@{device\_open}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_open}{device\_open}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+open) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})}
+
+\Hypertarget{device_8h_aceebeb9ca6a90b5e140cebf7ee62ba2a}\label{device_8h_aceebeb9ca6a90b5e140cebf7ee62ba2a} 
+\index{device.h@{device.h}!device\_read@{device\_read}}
+\index{device\_read@{device\_read}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_read}{device\_read}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+read) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})}
+
+\Hypertarget{device_8h_abc9558d4eb4e89f5fa9f42836ee2b63c}\label{device_8h_abc9558d4eb4e89f5fa9f42836ee2b63c} 
+\index{device.h@{device.h}!device\_rename@{device\_rename}}
+\index{device\_rename@{device\_rename}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_rename}{device\_rename}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+rename) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}old\+File, const char \texorpdfstring{$\ast$}{*}old\+Name, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}new\+File, const char \texorpdfstring{$\ast$}{*}new\+Name)}
+
+\Hypertarget{device_8h_ac263b0a0a9f94089d769848594ad9931}\label{device_8h_ac263b0a0a9f94089d769848594ad9931} 
+\index{device.h@{device.h}!device\_write@{device\_write}}
+\index{device\_write@{device\_write}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{device\_write}{device\_write}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} device\+\_\+write) (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2d}\label{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2d} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXDTTYPE\_CHAR@{PSXDTTYPE\_CHAR}!device.h@{device.h}}\index{device.h@{device.h}!PSXDTTYPE\_CHAR@{PSXDTTYPE\_CHAR}}}\Hypertarget{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac1c6a7f9c68e507da16985a0d74ce3d7}\label{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac1c6a7f9c68e507da16985a0d74ce3d7} 
+PSXDTTYPE\+\_\+\+CHAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXDTTYPE\_CONS@{PSXDTTYPE\_CONS}!device.h@{device.h}}\index{device.h@{device.h}!PSXDTTYPE\_CONS@{PSXDTTYPE\_CONS}}}\Hypertarget{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da70f60a4cfafe1d2c0e7624f30a101e02}\label{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da70f60a4cfafe1d2c0e7624f30a101e02} 
+PSXDTTYPE\+\_\+\+CONS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXDTTYPE\_BLOCK@{PSXDTTYPE\_BLOCK}!device.h@{device.h}}\index{device.h@{device.h}!PSXDTTYPE\_BLOCK@{PSXDTTYPE\_BLOCK}}}\Hypertarget{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2daf0f22ac27d89961da6f78a18ca84ca08}\label{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2daf0f22ac27d89961da6f78a18ca84ca08} 
+PSXDTTYPE\+\_\+\+BLOCK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXDTTYPE\_RAW@{PSXDTTYPE\_RAW}!device.h@{device.h}}\index{device.h@{device.h}!PSXDTTYPE\_RAW@{PSXDTTYPE\_RAW}}}\Hypertarget{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da17770df7ada131a51dd58a65af7418cf}\label{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2da17770df7ada131a51dd58a65af7418cf} 
+PSXDTTYPE\+\_\+\+RAW&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXDTTYPE\_FS@{PSXDTTYPE\_FS}!device.h@{device.h}}\index{device.h@{device.h}!PSXDTTYPE\_FS@{PSXDTTYPE\_FS}}}\Hypertarget{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac9bdcba343cac87f4fba0e6c3f8595bf}\label{device_8h_a0411cd49bb5b71852cecd93bcbf0ca2dac9bdcba343cac87f4fba0e6c3f8595bf} 
+PSXDTTYPE\+\_\+\+FS&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{device_8h_afbfc6907cc6a318c74e9246174c40ff2}\label{device_8h_afbfc6907cc6a318c74e9246174c40ff2} 
+\index{device.h@{device.h}!FileAction@{FileAction}}
+\index{FileAction@{FileAction}!device.h@{device.h}}
+\doxysubsubsection{\texorpdfstring{FileAction}{FileAction}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{device_8h_afbfc6907cc6a318c74e9246174c40ff2}{File\+Action}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXREAD@{PSXREAD}!device.h@{device.h}}\index{device.h@{device.h}!PSXREAD@{PSXREAD}}}\Hypertarget{device_8h_afbfc6907cc6a318c74e9246174c40ff2a5ab322cc9cb8c709f5c3ac9db0078c8e}\label{device_8h_afbfc6907cc6a318c74e9246174c40ff2a5ab322cc9cb8c709f5c3ac9db0078c8e} 
+PSXREAD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PSXWRITE@{PSXWRITE}!device.h@{device.h}}\index{device.h@{device.h}!PSXWRITE@{PSXWRITE}}}\Hypertarget{device_8h_afbfc6907cc6a318c74e9246174c40ff2a8edd6267571a5a7d3c4163fee612f57f}\label{device_8h_afbfc6907cc6a318c74e9246174c40ff2a8edd6267571a5a7d3c4163fee612f57f} 
+PSXWRITE&\\
+\hline
+
+\end{DoxyEnumFields}

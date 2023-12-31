@@ -1,0 +1,47 @@
+\doxysection{psyqo/trigonometry.hh File Reference}
+\hypertarget{trigonometry_8hh}{}\label{trigonometry_8hh}\index{psyqo/trigonometry.hh@{psyqo/trigonometry.hh}}
+{\ttfamily \#include $<$EASTL/array.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}psyqo/fixed-\/point.\+hh"{}}\newline
+Include dependency graph for trigonometry.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{da/dfe/trigonometry_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d22/trigonometry_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1Trig}{psyqo\+::\+Trig$<$ precision\+Bits $>$}}
+\begin{DoxyCompactList}\small\item\em A trigonometry table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo}{psyqo}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1TrigInternals}{psyqo\+::\+Trig\+Internals}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1trig__literals}{psyqo\+::trig\+\_\+literals}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ 10 $>$ \mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{psyqo\+::\+Angle}}
+\begin{DoxyCompactList}\small\item\em A fixed point angle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1TrigInternals_ace71e7143532200dfcdd0fbfde7f7026}{psyqo\+::\+Trig\+Internals\+::generate\+Table}} (eastl\+::array$<$ int32\+\_\+t, 512 $>$ \&table, unsigned precision\+Bits)
+\item 
+consteval \mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}} \mbox{\hyperlink{namespacepsyqo_1_1trig__literals_ac6f298ff9e08d4cd43ec3cada4fed962}{psyqo\+::trig\+\_\+literals\+::operator"{}"{}\+\_\+pi}} (long double angle)
+\begin{DoxyCompactList}\small\item\em A user-\/defined literal for angle values. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,48 @@
+\doxysection{handlers.\+h}
+\hypertarget{openbios_2handlers_2handlers_8h_source}{}\label{openbios_2handlers_2handlers_8h_source}\index{openbios/handlers/handlers.h@{openbios/handlers/handlers.h}}
+\mbox{\hyperlink{openbios_2handlers_2handlers_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_2psxlibc_2handlers_8h}{common/psxlibc/handlers.h}}"{}}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_afba100e3566e40f8007eb6b758be597d}{sysEnqIntRP}}(\textcolor{keywordtype}{int}\ priority,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structHandlerInfo}{HandlerInfo}}*\ \mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}});}
+\DoxyCodeLine{00032\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHandlerInfo}{HandlerInfo}}*\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a466b3a4a911618919247b9fbf4877471}{sysDeqIntRP}}(\textcolor{keywordtype}{int}\ priority,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structHandlerInfo}{HandlerInfo}}*\ \mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}});}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a2f5e8a015f1fe1b50a86cd1b283a4342}{enqueueSyscallHandler}}(\textcolor{keywordtype}{int}\ priority);}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_af2c9432ded424ff6acd6afeeb23fbc3f}{enqueueIrqHandler}}(\textcolor{keywordtype}{int}\ priority);}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_ae91a59af74c27f4df14b179b9e0b50a9}{enqueueRCntIrqs}}(\textcolor{keywordtype}{int}\ priority);}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a5a451c742fbd06f0b05c6e2710e1b297}{setIrqAutoAck}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ irq,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}});}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a8c5060ddb52f5a707e49bdf35a9846a5}{initTimer}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ timer,\ uint16\_t\ \mbox{\hyperlink{syscalls_8h_a5d2c023108742a1ce78ba9823c06ea35}{target}},\ uint16\_t\ \mbox{\hyperlink{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9}{flags}});}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a6f13654ade1981bf8070e28b1bcfe6a2}{setTimerAutoAck}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ timer,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}});}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a7a7c98bf1270d0a802ce59e196306cbc}{getTimer}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ timer);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a18a544698e2a27ed0d274c351a30a9bb}{enableTimerIRQ}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ timer);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_ac4846b1a118f649b3b9e0a18b2ed1f5b}{disableTimerIRQ}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ timer);}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a5a1e00e4b60fbb97626b83303e6a27a9}{restartTimer}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ timer);}
+
+\end{DoxyCode}

@@ -1,0 +1,80 @@
+\doxysection{psyqo\+::Prim\+::Fast\+Fill Struct Reference}
+\hypertarget{structpsyqo_1_1Prim_1_1FastFill}{}\label{structpsyqo_1_1Prim_1_1FastFill}\index{psyqo::Prim::FastFill@{psyqo::Prim::FastFill}}
+
+
+The \doxylink{structpsyqo_1_1Prim_1_1FastFill}{Fast\+Fill} primitive.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/misc.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::Prim\+::Fast\+Fill\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{d3/d1d/structpsyqo_1_1Prim_1_1FastFill__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill_a0964dbb28a16f38f235680939980b891}{Fast\+Fill}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill_af1092283d54e25a3d8cb10c519dce05f}{Fast\+Fill}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill}{Fast\+Fill}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill_ac091170a8df5df2211c9110178103b0c}{set\+Color}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill_a372ce65788e5720a9696b98f53e75d9c}{rect}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{structpsyqo_1_1Prim_1_1FastFill}{Fast\+Fill} primitive. 
+
+Sending this command will fill the VRAM space specified by the {\ttfamily rect} member with the color specified by the {\ttfamily \doxylink{unionpsyqo_1_1Color}{Color}} argument of the constructor or the {\ttfamily set\+Color} method.
+
+This primitive will ignore the current scissor, so it\textquotesingle{}s not a good idea to use it directly. It\textquotesingle{}ll be used properly by the various \doxylink{classpsyqo_1_1GPU}{GPU} clear commands. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1FastFill_a0964dbb28a16f38f235680939980b891}\label{structpsyqo_1_1Prim_1_1FastFill_a0964dbb28a16f38f235680939980b891} 
+\index{psyqo::Prim::FastFill@{psyqo::Prim::FastFill}!FastFill@{FastFill}}
+\index{FastFill@{FastFill}!psyqo::Prim::FastFill@{psyqo::Prim::FastFill}}
+\doxysubsubsection{\texorpdfstring{FastFill()}{FastFill()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Fast\+Fill\+::\+Fast\+Fill (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1FastFill_af1092283d54e25a3d8cb10c519dce05f}\label{structpsyqo_1_1Prim_1_1FastFill_af1092283d54e25a3d8cb10c519dce05f} 
+\index{psyqo::Prim::FastFill@{psyqo::Prim::FastFill}!FastFill@{FastFill}}
+\index{FastFill@{FastFill}!psyqo::Prim::FastFill@{psyqo::Prim::FastFill}}
+\doxysubsubsection{\texorpdfstring{FastFill()}{FastFill()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Fast\+Fill\+::\+Fast\+Fill (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1FastFill_ac091170a8df5df2211c9110178103b0c}\label{structpsyqo_1_1Prim_1_1FastFill_ac091170a8df5df2211c9110178103b0c} 
+\index{psyqo::Prim::FastFill@{psyqo::Prim::FastFill}!setColor@{setColor}}
+\index{setColor@{setColor}!psyqo::Prim::FastFill@{psyqo::Prim::FastFill}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1FastFill}{Fast\+Fill}} \& psyqo\+::\+Prim\+::\+Fast\+Fill\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1FastFill_a372ce65788e5720a9696b98f53e75d9c}\label{structpsyqo_1_1Prim_1_1FastFill_a372ce65788e5720a9696b98f53e75d9c} 
+\index{psyqo::Prim::FastFill@{psyqo::Prim::FastFill}!rect@{rect}}
+\index{rect@{rect}!psyqo::Prim::FastFill@{psyqo::Prim::FastFill}}
+\doxysubsubsection{\texorpdfstring{rect}{rect}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Rect}{Rect}} psyqo\+::\+Prim\+::\+Fast\+Fill\+::rect}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{misc_8hh}{misc.\+hh}}\end{DoxyCompactItemize}

@@ -1,0 +1,56 @@
+\doxysection{psyqo\+::ISO9660\+Parser\+::Read\+Request Struct Reference}
+\hypertarget{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{}\label{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}\index{psyqo::ISO9660Parser::ReadRequest@{psyqo::ISO9660Parser::ReadRequest}}
+
+
+An asynchronous read request.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/iso9660-\/parser.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::ISO9660\+Parser\+::Read\+Request\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{d3/d7b/structpsyqo_1_1ISO9660Parser_1_1ReadRequest__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}} \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_aa49f7439e4828240baf1d2f79920b390}{entry}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_a175b82bb39e37e77db37120a86d2b629}{buffer}} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An asynchronous read request. 
+
+This struct serves as a persistent storage for an asynchronous read request. Its purpose is to be embedded outside of the parser, so it can keep track of the current state of the request. IMPORTANT\+: The buffer pointer needs to hold at least enough sectors to hold the file. Even if the file size isn\textquotesingle{}t a multiple of 2048, the buffer needs to be a multiple of
+\begin{DoxyEnumerate}
+\item The buffer is not owned by the parser, and it\textquotesingle{}s the user\textquotesingle{}s responsibility to ensure it\textquotesingle{}s valid during the whole request. 
+\end{DoxyEnumerate}
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_a175b82bb39e37e77db37120a86d2b629}\label{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_a175b82bb39e37e77db37120a86d2b629} 
+\index{psyqo::ISO9660Parser::ReadRequest@{psyqo::ISO9660Parser::ReadRequest}!buffer@{buffer}}
+\index{buffer@{buffer}!psyqo::ISO9660Parser::ReadRequest@{psyqo::ISO9660Parser::ReadRequest}}
+\doxysubsubsection{\texorpdfstring{buffer}{buffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} psyqo\+::\+ISO9660\+Parser\+::\+Read\+Request\+::buffer = nullptr}
+
+\Hypertarget{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_aa49f7439e4828240baf1d2f79920b390}\label{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_aa49f7439e4828240baf1d2f79920b390} 
+\index{psyqo::ISO9660Parser::ReadRequest@{psyqo::ISO9660Parser::ReadRequest}!entry@{entry}}
+\index{entry@{entry}!psyqo::ISO9660Parser::ReadRequest@{psyqo::ISO9660Parser::ReadRequest}}
+\doxysubsubsection{\texorpdfstring{entry}{entry}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}} psyqo\+::\+ISO9660\+Parser\+::\+Read\+Request\+::entry}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{iso9660-parser_8hh}{iso9660-\/parser.\+hh}}\end{DoxyCompactItemize}

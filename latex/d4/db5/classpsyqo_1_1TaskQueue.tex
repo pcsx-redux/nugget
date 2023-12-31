@@ -1,0 +1,184 @@
+\doxysection{psyqo\+::Task\+Queue Class Reference}
+\hypertarget{classpsyqo_1_1TaskQueue}{}\label{classpsyqo_1_1TaskQueue}\index{psyqo::TaskQueue@{psyqo::TaskQueue}}
+
+
+A task queue for processing tasks sequentially.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/task.\+hh$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}
+\begin{DoxyCompactList}\small\item\em The \doxylink{classpsyqo_1_1TaskQueue_1_1Task}{Task} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1TaskQueue_ad29b05aa5ccc81eb5d5d8e8c9edeead5}{reset}} ()
+\begin{DoxyCompactList}\small\item\em Resets the queue. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a62c8f7fddc6cb1f445ca4ff33e14688c}{start\+With}} (\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \&\&)
+\begin{DoxyCompactList}\small\item\em Enqueues a task for execution. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& \mbox{\hyperlink{classpsyqo_1_1TaskQueue_aaaf08efebf9090f04c8a8162785a12e4}{start\+With}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \texorpdfstring{$\ast$}{*})$>$ \&\&fun)
+\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& \mbox{\hyperlink{classpsyqo_1_1TaskQueue_ad7acbe4d31ed76cdb627f5d0e1dffb94}{then}} (\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \&\&)
+\begin{DoxyCompactList}\small\item\em Enqueues a task for execution. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a161b21f3892f1da8d44c3c760eb68ff2}{then}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \texorpdfstring{$\ast$}{*})$>$ \&\&fun)
+\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a97495e34eb3d451c740cd349c9f4a685}{but\+Catch}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \texorpdfstring{$\ast$}{*})$>$ \&\&)
+\begin{DoxyCompactList}\small\item\em Sets the exception handler. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a12e476995582fddf77162c83eac284f6}{finally}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \texorpdfstring{$\ast$}{*})$>$ \&\&)
+\begin{DoxyCompactList}\small\item\em Sets the finally handler. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a86c51b489c6e7c8c345f1a450eabc7d8}{run}} ()
+\begin{DoxyCompactList}\small\item\em Runs the task queue. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a0f0d185b7e130c4c3b558e7189f34e03}{schedule}} ()
+\begin{DoxyCompactList}\small\item\em Schedules the task queue to another task queue. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1TaskQueue_ac4229852020a38c08d30acda970a349f}{is\+Running}} () const
+\begin{DoxyCompactList}\small\item\em Queries the status of the queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \mbox{\hyperlink{classpsyqo_1_1TaskQueue_a062f3a0ccc549264baa18042c4f2fade}{Delayed\+Task}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} delay, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\begin{DoxyCompactList}\small\item\em Creates a delayed task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1TaskQueue_aaa7728226b6ce66782e8816b1658dd9a}{Task}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A task queue for processing tasks sequentially. 
+
+This class is used to process a sequence of tasks one after the other. The design is loosely inspired by the Java\+Script Promise API. A task is effectively a lambda function. A queue can be run multiple times, and can also be embedded within another queue. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1TaskQueue_a97495e34eb3d451c740cd349c9f4a685}\label{classpsyqo_1_1TaskQueue_a97495e34eb3d451c740cd349c9f4a685} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!butCatch@{butCatch}}
+\index{butCatch@{butCatch}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{butCatch()}{butCatch()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{psyqo\+::\+Task\+Queue}} \& psyqo\+::\+Task\+Queue\+::but\+Catch (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \texorpdfstring{$\ast$}{*})$>$ \&\&}]{fun }\end{DoxyParamCaption})}
+
+
+
+Sets the exception handler. 
+
+This method will set the exception handler. The exception handler will be called if any of the tasks in the queue throws an exception. The exception handler will be called with the task queue as its argument. Calling this while the queue is running is undefined behavior. \Hypertarget{classpsyqo_1_1TaskQueue_a062f3a0ccc549264baa18042c4f2fade}\label{classpsyqo_1_1TaskQueue_a062f3a0ccc549264baa18042c4f2fade} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!DelayedTask@{DelayedTask}}
+\index{DelayedTask@{DelayedTask}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{DelayedTask()}{DelayedTask()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+Task\+Queue\+::\+Delayed\+Task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{delay,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Creates a delayed task. 
+
+This method is a convenience method to create a task that will be executed after a delay. The delay is specified in microseconds.
+
+
+\begin{DoxyParams}{Parameters}
+{\em delay} & The delay in microseconds. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1TaskQueue_a12e476995582fddf77162c83eac284f6}\label{classpsyqo_1_1TaskQueue_a12e476995582fddf77162c83eac284f6} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!finally@{finally}}
+\index{finally@{finally}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{finally()}{finally()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{psyqo\+::\+Task\+Queue}} \& psyqo\+::\+Task\+Queue\+::finally (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \texorpdfstring{$\ast$}{*})$>$ \&\&}]{fun }\end{DoxyParamCaption})}
+
+
+
+Sets the finally handler. 
+
+This method will set the finally handler. The finally handler will be called after all tasks in the queue have been executed, or after the exception handler. The finally handler will be called with the task queue as its argument. Calling this while the queue is running is undefined behavior. \Hypertarget{classpsyqo_1_1TaskQueue_ac4229852020a38c08d30acda970a349f}\label{classpsyqo_1_1TaskQueue_ac4229852020a38c08d30acda970a349f} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!isRunning@{isRunning}}
+\index{isRunning@{isRunning}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{isRunning()}{isRunning()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Task\+Queue\+::is\+Running (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Queries the status of the queue. 
+
+\begin{DoxyReturn}{Returns}
+true if the queue is running, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1TaskQueue_ad29b05aa5ccc81eb5d5d8e8c9edeead5}\label{classpsyqo_1_1TaskQueue_ad29b05aa5ccc81eb5d5d8e8c9edeead5} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!reset@{reset}}
+\index{reset@{reset}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Task\+Queue\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Resets the queue. 
+
+This method resets the queue to its initial state. Calling this method while the queue is running is undefined behavior. \Hypertarget{classpsyqo_1_1TaskQueue_a86c51b489c6e7c8c345f1a450eabc7d8}\label{classpsyqo_1_1TaskQueue_a86c51b489c6e7c8c345f1a450eabc7d8} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!run@{run}}
+\index{run@{run}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Task\+Queue\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Runs the task queue. 
+
+This method will start running the queue. The queue will continue to run until all tasks have been executed, or until an exception is thrown. This method can be called multiple times, in order to execute the whole queue multiple times. Calling this while the queue is already running is undefined behavior. \Hypertarget{classpsyqo_1_1TaskQueue_a0f0d185b7e130c4c3b558e7189f34e03}\label{classpsyqo_1_1TaskQueue_a0f0d185b7e130c4c3b558e7189f34e03} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!schedule@{schedule}}
+\index{schedule@{schedule}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{schedule()}{schedule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+Task\+Queue\+::schedule (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Schedules the task queue to another task queue. 
+
+This method will enable embedding the queue into another one. Exceptions will be cascading. \Hypertarget{classpsyqo_1_1TaskQueue_aaaf08efebf9090f04c8a8162785a12e4}\label{classpsyqo_1_1TaskQueue_aaaf08efebf9090f04c8a8162785a12e4} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!startWith@{startWith}}
+\index{startWith@{startWith}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{startWith()}{startWith()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& psyqo\+::\+Task\+Queue\+::start\+With (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \texorpdfstring{$\ast$}{*})$>$ \&\&}]{fun }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1TaskQueue_a62c8f7fddc6cb1f445ca4ff33e14688c}\label{classpsyqo_1_1TaskQueue_a62c8f7fddc6cb1f445ca4ff33e14688c} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!startWith@{startWith}}
+\index{startWith@{startWith}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{startWith()}{startWith()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{psyqo\+::\+Task\+Queue}} \& psyqo\+::\+Task\+Queue\+::start\+With (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \&\&}]{task }\end{DoxyParamCaption})}
+
+
+
+Enqueues a task for execution. 
+
+This method will enqueue a task for execution, while resetting the queue first. This means that any previously enqueued tasks will be removed first. Any exception handler or finally handler will also be cleared out. Calling this while the queue is running is undefined behavior. \Hypertarget{classpsyqo_1_1TaskQueue_a161b21f3892f1da8d44c3c760eb68ff2}\label{classpsyqo_1_1TaskQueue_a161b21f3892f1da8d44c3c760eb68ff2} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!then@{then}}
+\index{then@{then}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{then()}{then()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{Task\+Queue}} \& psyqo\+::\+Task\+Queue\+::then (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \texorpdfstring{$\ast$}{*})$>$ \&\&}]{fun }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1TaskQueue_ad7acbe4d31ed76cdb627f5d0e1dffb94}\label{classpsyqo_1_1TaskQueue_ad7acbe4d31ed76cdb627f5d0e1dffb94} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!then@{then}}
+\index{then@{then}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{then()}{then()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue}{psyqo\+::\+Task\+Queue}} \& psyqo\+::\+Task\+Queue\+::then (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}} \&\&}]{task }\end{DoxyParamCaption})}
+
+
+
+Enqueues a task for execution. 
+
+This method will enqueue a task for execution. The task will be executed after all previously enqueued tasks have been executed. Calling this while the queue is running is undefined behavior. 
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1TaskQueue_aaa7728226b6ce66782e8816b1658dd9a}\label{classpsyqo_1_1TaskQueue_aaa7728226b6ce66782e8816b1658dd9a} 
+\index{psyqo::TaskQueue@{psyqo::TaskQueue}!Task@{Task}}
+\index{Task@{Task}!psyqo::TaskQueue@{psyqo::TaskQueue}}
+\doxysubsubsection{\texorpdfstring{Task}{Task}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{task_8hh}{task.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{task_8cpp}{task.\+cpp}}\end{DoxyCompactItemize}

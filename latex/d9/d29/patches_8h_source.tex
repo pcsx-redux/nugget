@@ -1,0 +1,58 @@
+\doxysection{patches.\+h}
+\hypertarget{patches_8h_source}{}\label{patches_8h_source}\index{openbios/patches/patches.h@{openbios/patches/patches.h}}
+\mbox{\hyperlink{patches_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ \ Most\ PSX\ games\ will\ have\ kernel\ patches\ within\ them.\ Most\ (but\ not\ all)}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ of\ these\ patches\ will\ call\ B0:56\ and\ B0:57\ to\ get\ the\ pointer\ of\ the}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ B0\ and\ C0\ tables.\ It\ will\ be\ close\ to\ impossible\ for\ us\ to\ create\ code}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ in\ a\ way\ that\ will\ make\ these\ patches\ work\ properly\ transparently,\ so}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ \ instead\ we\ will\ rely\ on\ the\ fact\ they\ are\ calling\ these\ two\ functions,}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ \ and\ then\ we\ patch\ them\ out\ after\ we\ detect\ them.\ This\ assumes\ that\ these}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ \ two\ functions\ aren't\ called\ for\ anything\ else\ but\ the\ patches.\ The}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ \ boolean\ below\ controls\ if\ we\ want\ to\ be\ permissive\ or\ not\ with\ unrecognized}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ \ patches.\ It\ is\ currently\ set\ to\ 1,\ and\ probably\ should\ remain\ so\ for\ a}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ \ long\ time,\ until\ we\ are\ sure\ we\ got\ all\ the\ patches\ properly.}}
+\DoxyCodeLine{00042\ \textcolor{comment}{}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ \ Then,\ depending\ on\ the\ patch\ itself,\ we\ may\ change\ our\ kernel's\ behavior,}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ in\ order\ to\ emulate\ what\ the\ original\ patch\ was\ trying\ to\ do.}}
+\DoxyCodeLine{00045\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{patches_8h_ab53a6034bf8d61f53fd8465f3fa61435}{g\_patch\_permissive}};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{patches_8h_a917b28f6fc579ba1f9481a8623b186d9}{patch\_table}}\ \{\ \mbox{\hyperlink{patches_8h_a917b28f6fc579ba1f9481a8623b186d9a1b485c11f037a678eff3c2fbdcdfcd13}{PATCH\_TABLE\_B0}},\ \mbox{\hyperlink{patches_8h_a917b28f6fc579ba1f9481a8623b186d9a4ddd755a667fd05bfa24a8e1bbb7f019}{PATCH\_TABLE\_C0}}\ \};}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{patches_8h_aba9db911c1b04cc67647df7647248be0}{patch\_hook}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\ ra,\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{patches_8h_a917b28f6fc579ba1f9481a8623b186d9}{patch\_table}}\ table);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\_behavior}}\ \{\ \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349ad8bb38592d6c9a1d3196733a7429a08c}{PATCH\_NOT\_MATCHING}},\ \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349a851357a4fc7b2c6852eaba9857dd6db2}{PATCH\_COUNTERPATCH}},\ \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349a9f59e26720057901c434b9cc3087b84b}{PATCH\_PASSTHROUGH}}\ \};}
+
+\end{DoxyCode}

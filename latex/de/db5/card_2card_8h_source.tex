@@ -1,0 +1,66 @@
+\doxysection{card.\+h}
+\hypertarget{card_2card_8h_source}{}\label{card_2card_8h_source}\index{openbios/card/card.h@{openbios/card/card.h}}
+\mbox{\hyperlink{card_2card_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{direntry_8h}{common/psxlibc/direntry.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stdio_8h}{common/psxlibc/stdio.h}}"{}}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a4b0306de1058fa1c16ce7a0749d171a1}{addMemoryCardDevice}}();}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_ad78a445265ff82fad29e20ee1aa10a47}{initBackupUnit}}();}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a94b0a6835a1ce2e937ea6d006b5fdd83}{cardInfo}}(\textcolor{keywordtype}{int}\ deviceId);}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{card_2card_8h_ae1d31a05dbed8f6d749fe4b8286c7b29}{buLowLevelOpCompleted}}();}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_ad04b27dcf5edbb60d270dcf509ae8cac}{buReadTOC}}(\textcolor{keywordtype}{int}\ deviceId);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{card_2card_8h_a941733ffa80d491725abe2649c81c047}{buLowLevelOpError1}}();}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{card_2card_8h_a4f007ce279f201c2c4e24b97eec2377e}{buLowLevelOpError2}}();}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{card_2card_8h_aa604e1c913135101bb3c2f8e5593901b}{buLowLevelOpError3}}();}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a4914d60c9086930e1f57774d507b10fe}{dev\_bu\_open}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}});}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a54518e13f89df9c92c8d2b1cd4263552}{dev\_bu\_close}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file);}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a37ade6f2bb725df1514691a084115781}{dev\_bu\_read}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a4d29538eeea167d46c75baa4a5080f86}{dev\_bu\_write}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a4a9a74801cf7918f1769b699fa213390}{dev\_bu\_erase}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{card_2card_8h_a498a37dab83ffee4af6913d0c8e75677}{dev\_bu\_undelete}}();}
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *\mbox{\hyperlink{card_2card_8h_ad2558ea2452645f539b6a363a66519a9}{dev\_bu\_firstFile}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structDirEntry}{DirEntry}}\ *entry);}
+\DoxyCodeLine{00048\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDirEntry}{DirEntry}}\ *\mbox{\hyperlink{card_2card_8h_a4fe2d3604c9fd470591e97a660a91493}{dev\_bu\_nextFile}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structDirEntry}{DirEntry}}\ *entry);}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_ae215f13d09648b451e5b1f6001dbb7ab}{dev\_bu\_format}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file);}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_aaa392ecc9cb32a63d5da303871a4035f}{dev\_bu\_rename}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *file,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *oldName,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structFile}{File}}\ *unused,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *newName);}
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{card_2card_8h_aafdfba3614b1b1d5737cc77cc9281355}{dev\_bu\_deinit}}();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a66a852cdcebd3d587307b27a7167fa78}{g\_buOpSectorStart}}[2];}
+\DoxyCodeLine{00054\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a1e29a1a2a0e454e1ffd04ae5c803db4d}{g\_buOpSectorCount}}[2];}
+\DoxyCodeLine{00055\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a70d4c3215e2810f2561c7f9c71909c2d}{g\_buOpActualSector}}[2];}
+\DoxyCodeLine{00056\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{card_2card_8h_a7a74b23bc3f038af2a65b12111fb0c8a}{g\_buOpBuffer}}[2];}
+\DoxyCodeLine{00057\ \textcolor{keyword}{extern}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ *\mbox{\hyperlink{card_2card_8h_afb30ff34a830c55cf544bad1f7ecd05a}{g\_buOpFile}}[2];}
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_aa1e8ea93025d7e568bd50c325d441af5}{buRelativeToAbsoluteSector}}(\textcolor{keywordtype}{int}\ port,\ \textcolor{keywordtype}{int}\ block,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}});}
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_a3cec523cc4e54a74d01446d7c55b6ee0}{buGetReallocated}}(\textcolor{keywordtype}{int}\ port,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}});}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{card_2card_8h_aa15e339bde5a598e378b234cafa3fe57}{buSetAutoFormat}}(\textcolor{keywordtype}{int}\ autoFormat);}
+
+\end{DoxyCode}

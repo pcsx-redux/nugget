@@ -1,0 +1,486 @@
+\doxysection{psyqo\+::CDRom\+Device Class Reference}
+\hypertarget{classpsyqo_1_1CDRomDevice}{}\label{classpsyqo_1_1CDRomDevice}\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+
+
+A specialization of the \doxylink{classpsyqo_1_1CDRom}{CDRom} interface.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/cdrom-\/device.\+hh$>$}
+
+
+
+Inheritance diagram for psyqo\+::CDRom\+Device\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{d7/dff/classpsyqo_1_1CDRomDevice__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for psyqo\+::CDRom\+Device\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{d7/dea/classpsyqo_1_1CDRomDevice__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_1_1Action}{Action}}
+\begin{DoxyCompactList}\small\item\em The action base class for the internal state machine. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef eastl\+::fixed\+\_\+vector$<$ uint8\+\_\+t, 16, false $>$ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{Response}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a65b772b0c245453770df37739e78b419}{\texorpdfstring{$\sim$}{\string~}\+CDRom\+Device}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ac314de0acbe9ef208876c40e16fc163b}{prepare}} ()
+\begin{DoxyCompactList}\small\item\em Prepares the \doxylink{classpsyqo_1_1CDRom}{CDRom} subsystem. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a6b88625927a4d11678b6621370480110}{reset}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Resets the \doxylink{classpsyqo_1_1CDRom}{CDRom} controller. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a4a3646a4cd6e92d32c5efdc84039f4d5}{schedule\+Reset}} ()
+\item 
+bool \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a893b785afd538694f25255b032003eca}{reset\+Blocking}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a9a8a933248e9a03cdcbdb7b3ac2af4db}{read\+Sectors}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback) override
+\begin{DoxyCompactList}\small\item\em Reads sectors from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a9e073f427b41d72dc2d63fdb8857757b}{schedule\+Read\+Sectors}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+bool \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_af9e899781794aa02e25ac12ef252af30}{read\+Sectors\+Blocking}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_abaef15e9cdbb2589efb9ee4f19f55513}{get\+TOCSize}} (unsigned \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Gets the size of the Table of Contents from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. Note that while the blocking variant is available because it is a fairly short operation with the \doxylink{classpsyqo_1_1CDRom}{CDRom} controller, it can still block the system for roughly 2ms, which is a long time in the context of a 33MHz CPU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a39771790e804dfa3fdde26b57b242b89}{schedule\+Get\+TOCSize}} (unsigned \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+unsigned \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a0fe4012bd2533b10770cedd0d5ae111e}{get\+TOCSize\+Blocking}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afd2dd5c6a776779aa73f6d948287c9c4}{read\+TOC}} (\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} \texorpdfstring{$\ast$}{*}toc, unsigned \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Reads the Table of Contents from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a734b041b585e7b1dfc6a4e2cceffb20b}{schedule\+Read\+TOC}} (\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} \texorpdfstring{$\ast$}{*}toc, unsigned \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+bool \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a2d94308843587ba611114f422f8d0599}{read\+TOCBlocking}} (\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} \texorpdfstring{$\ast$}{*}toc, unsigned \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5d0484342abc164a65270ec785813b50}{mute}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Mutes the CD audio for both CDDA and CDXA. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_aa07080bf266a6ce39b09115bc5d42436}{schedule\+Mute}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a2340868641ad78f8dd83c0dd3badec35}{mute\+Blocking}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a00ff1ce6e66c9de5d949f1caa966d354}{unmute}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Unmutes the CD audio for both CDDA and CDXA. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ad4c6bb9c3039fe801d9fdd35c9ae3ae7}{schedule\+Unmute}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ad470fc9ce1e05d588d8a8154140e48cd}{unmute\+Blocking}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a957870d212d6edf68656a7cfc9e4698a}{play\+CDDATrack}} (\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} start, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Begins playing CDDA audio from a given starting point. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a36c44ae43ebf605f75e08b68f7981f88}{play\+CDDATrack}} (unsigned track, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5914f4a4de3b3a7a3c0c5efb0da4f768}{play\+CDDADisc}} (\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} start, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae2fd8d23b6b9de01e5c6c955fb6012f7}{play\+CDDADisc}} (unsigned track, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a054eb5af43ec96db42fd616464b5a589}{resume\+CDDA}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a80dd1d94cd48a3442bc79e74da83825f}{pause\+CDDA}} ()
+\begin{DoxyCompactList}\small\item\em Pauses CDDA playback. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afaf72332efdab89410042b9c139e331e}{stop\+CDDA}} ()
+\begin{DoxyCompactList}\small\item\em Stops CDDA playback. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afca1c28a598bf8641449c929182b41b0}{get\+Playback\+Location}} (\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*}location, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*})$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Get the Playback location of the CDDA audio. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a962a9a4c9225d176d1751eedaf9ddd65}{get\+Playback\+Location}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*})$>$ \&\&callback)
+\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a888ac387d2d4b01509f1714c81f8a738}{schedule\+Get\+Playback\+Location}} (\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*}location)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a55591c0279ddd76b58050bdfad53d15b}{set\+Volume}} (uint8\+\_\+t left\+To\+Left, uint8\+\_\+t right\+To\+Left, uint8\+\_\+t left\+To\+Right, uint8\+\_\+t right\+To\+Right)
+\begin{DoxyCompactList}\small\item\em Set the Volume of the CDDA audio. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a59a1f45fb5026ac799d7c4b1e8deeac9}{is\+Idle}} () const
+\begin{DoxyCompactList}\small\item\em Checks if the CDROM device is in idle state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classpsyqo_1_1CDRom}{psyqo\+::\+CDRom}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1CDRom_a36cde538cac3c78d13a7d44f60784154}{\texorpdfstring{$\sim$}{\string~}\+CDRom}} ()
+\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRom_aecc18d997ba0987b64288ad6a5c1bcf1}{schedule\+Read\+Sectors}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\begin{DoxyCompactList}\small\item\em Schedule a read operation. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRom_a0bf9778ff8287dbd97a870bd7ba7dc09}{schedule\+Read\+Request}} (\mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest}{Read\+Request}} \texorpdfstring{$\ast$}{*}request)
+\begin{DoxyCompactList}\small\item\em Schedule a read operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe}{Action\+Base}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A specialization of the \doxylink{classpsyqo_1_1CDRom}{CDRom} interface. 
+
+This class is a specialization of the \doxylink{classpsyqo_1_1CDRom}{CDRom} interface, which provides a way to read from the physical \doxylink{classpsyqo_1_1CDRom}{CDRom} drive of the console. All of the methods in this class are asynchronous, and will call the provided callback when the operation is complete. The class also provides a blocking variant for some of the methods, which can be used to perform the operation synchronously. Note that the blocking variants are only provided for methods that are expected to complete quickly, and should not be used in performance-\/critical code, as they can still block the system for several milliseconds. The callbacks will be called from the main thread, and have a boolean parameter that indicates whether the operation was successful. 
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}\label{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!Response@{Response}}
+\index{Response@{Response}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{Response}{Response}}
+{\footnotesize\ttfamily typedef eastl\+::fixed\+\_\+vector$<$uint8\+\_\+t, 16, false$>$ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{psyqo\+::\+CDRom\+Device\+::\+Response}}}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a65b772b0c245453770df37739e78b419}\label{classpsyqo_1_1CDRomDevice_a65b772b0c245453770df37739e78b419} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!````~CDRomDevice@{\texorpdfstring{$\sim$}{\string~}CDRomDevice}}
+\index{````~CDRomDevice@{\texorpdfstring{$\sim$}{\string~}CDRomDevice}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}CDRomDevice()}{\string~CDRomDevice()}}
+{\footnotesize\ttfamily psyqo\+::\+CDRom\+Device\+::\texorpdfstring{$\sim$}{\string~}\+CDRom\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a962a9a4c9225d176d1751eedaf9ddd65}\label{classpsyqo_1_1CDRomDevice_a962a9a4c9225d176d1751eedaf9ddd65} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!getPlaybackLocation@{getPlaybackLocation}}
+\index{getPlaybackLocation@{getPlaybackLocation}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{getPlaybackLocation()}{getPlaybackLocation()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::get\+Playback\+Location (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*})$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_afca1c28a598bf8641449c929182b41b0}\label{classpsyqo_1_1CDRomDevice_afca1c28a598bf8641449c929182b41b0} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!getPlaybackLocation@{getPlaybackLocation}}
+\index{getPlaybackLocation@{getPlaybackLocation}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{getPlaybackLocation()}{getPlaybackLocation()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::get\+Playback\+Location (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*}}]{location,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*})$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Get the Playback location of the CDDA audio. 
+
+This method will request the current playback location of the CDDA audio. The callback will be called with a pointer to a {\ttfamily \doxylink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} structure, which will contain the relative and absolute \doxylink{structpsyqo_1_1MSF}{MSF} values, the current track number, and the current index. The callback will be called with a null pointer if the location could not be retrieved.
+
+
+\begin{DoxyParams}{Parameters}
+{\em location} & If provided, the location will be stored here. \\
+\hline
+{\em callback} & The callback to call when the location is retrieved. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_abaef15e9cdbb2589efb9ee4f19f55513}\label{classpsyqo_1_1CDRomDevice_abaef15e9cdbb2589efb9ee4f19f55513} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!getTOCSize@{getTOCSize}}
+\index{getTOCSize@{getTOCSize}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{getTOCSize()}{getTOCSize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::get\+TOCSize (\begin{DoxyParamCaption}\item[{unsigned \texorpdfstring{$\ast$}{*}}]{size,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Gets the size of the Table of Contents from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. Note that while the blocking variant is available because it is a fairly short operation with the \doxylink{classpsyqo_1_1CDRom}{CDRom} controller, it can still block the system for roughly 2ms, which is a long time in the context of a 33MHz CPU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The pointer to store the size of the TOC. \\
+\hline
+{\em callback} & The callback to call when the size is retrieved. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a0fe4012bd2533b10770cedd0d5ae111e}\label{classpsyqo_1_1CDRomDevice_a0fe4012bd2533b10770cedd0d5ae111e} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!getTOCSizeBlocking@{getTOCSizeBlocking}}
+\index{getTOCSizeBlocking@{getTOCSizeBlocking}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{getTOCSizeBlocking()}{getTOCSizeBlocking()}}
+{\footnotesize\ttfamily unsigned psyqo\+::\+CDRom\+Device\+::get\+TOCSize\+Blocking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a59a1f45fb5026ac799d7c4b1e8deeac9}\label{classpsyqo_1_1CDRomDevice_a59a1f45fb5026ac799d7c4b1e8deeac9} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!isIdle@{isIdle}}
+\index{isIdle@{isIdle}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{isIdle()}{isIdle()}}
+{\footnotesize\ttfamily bool psyqo\+::\+CDRom\+Device\+::is\+Idle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if the CDROM device is in idle state. 
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a5d0484342abc164a65270ec785813b50}\label{classpsyqo_1_1CDRomDevice_a5d0484342abc164a65270ec785813b50} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!mute@{mute}}
+\index{mute@{mute}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{mute()}{mute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::mute (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Mutes the CD audio for both CDDA and CDXA. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & The callback to call when the mute operation is complete. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a2340868641ad78f8dd83c0dd3badec35}\label{classpsyqo_1_1CDRomDevice_a2340868641ad78f8dd83c0dd3badec35} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!muteBlocking@{muteBlocking}}
+\index{muteBlocking@{muteBlocking}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{muteBlocking()}{muteBlocking()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::mute\+Blocking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a80dd1d94cd48a3442bc79e74da83825f}\label{classpsyqo_1_1CDRomDevice_a80dd1d94cd48a3442bc79e74da83825f} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!pauseCDDA@{pauseCDDA}}
+\index{pauseCDDA@{pauseCDDA}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{pauseCDDA()}{pauseCDDA()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::pause\+CDDA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pauses CDDA playback. 
+
+This method will request a pause of the CDDA playback. The callback which was provided to the {\ttfamily play\+CDDA} method will be called with {\ttfamily true} when the playback is paused successfully. This method can only be called when the CDDA playback is in progress, as indicated by a first successful call of the {\ttfamily play\+CDDA} callback, and will fail if not. Pausing the playback will not stop the \doxylink{classpsyqo_1_1CDRom}{CDRom} drive motor, which means that another {\ttfamily play\+CDDA} call start playing faster than if the motor was stopped. \Hypertarget{classpsyqo_1_1CDRomDevice_a5914f4a4de3b3a7a3c0c5efb0da4f768}\label{classpsyqo_1_1CDRomDevice_a5914f4a4de3b3a7a3c0c5efb0da4f768} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!playCDDADisc@{playCDDADisc}}
+\index{playCDDADisc@{playCDDADisc}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{playCDDADisc()}{playCDDADisc()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::play\+CDDADisc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}}]{start,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_ae2fd8d23b6b9de01e5c6c955fb6012f7}\label{classpsyqo_1_1CDRomDevice_ae2fd8d23b6b9de01e5c6c955fb6012f7} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!playCDDADisc@{playCDDADisc}}
+\index{playCDDADisc@{playCDDADisc}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{playCDDADisc()}{playCDDADisc()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::play\+CDDADisc (\begin{DoxyParamCaption}\item[{unsigned}]{track,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a957870d212d6edf68656a7cfc9e4698a}\label{classpsyqo_1_1CDRomDevice_a957870d212d6edf68656a7cfc9e4698a} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!playCDDATrack@{playCDDATrack}}
+\index{playCDDATrack@{playCDDATrack}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{playCDDATrack()}{playCDDATrack()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::play\+CDDATrack (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}}]{start,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Begins playing CDDA audio from a given starting point. 
+
+This method will begin playing CDDA audio from a given starting point. The starting point is either a track number or an \doxylink{structpsyqo_1_1MSF}{MSF} value. Unlike other APIs here, upon success, the callback will be called {\itshape twice}\+: once when the playback actually started, and once when the playback is complete or paused, which can be after the end of the track, at the end of the disc if the last track is reached, or if the playback is paused or stopped using the {\ttfamily pause\+CDDA} or {\ttfamily stop\+CDDA} methods. The first callback will be called with {\ttfamily true} if the playback started successfully, and {\ttfamily false} if it failed. In the case of failure, the second callback will not be called. The Track variant will stop playback at the end of the track, while the Disc variant will stop playback at the end of the disc. The resume method can be used to resume playback after a pause. Its callback argument will function similarly to the callback argument of the {\ttfamily play\+CDDA} methods.
+
+
+\begin{DoxyParams}{Parameters}
+{\em start} & The starting point for playback. \\
+\hline
+{\em stop\+At\+End\+Of\+Track} & If true, playback will stop at the end of the track. \\
+\hline
+{\em callback} & The callback to call when playback is complete. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a36c44ae43ebf605f75e08b68f7981f88}\label{classpsyqo_1_1CDRomDevice_a36c44ae43ebf605f75e08b68f7981f88} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!playCDDATrack@{playCDDATrack}}
+\index{playCDDATrack@{playCDDATrack}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{playCDDATrack()}{playCDDATrack()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::play\+CDDATrack (\begin{DoxyParamCaption}\item[{unsigned}]{track,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_ac314de0acbe9ef208876c40e16fc163b}\label{classpsyqo_1_1CDRomDevice_ac314de0acbe9ef208876c40e16fc163b} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!prepare@{prepare}}
+\index{prepare@{prepare}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{prepare()}{prepare()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::prepare (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prepares the \doxylink{classpsyqo_1_1CDRom}{CDRom} subsystem. 
+
+This method prepares the kernel and the system for the \doxylink{classpsyqo_1_1CDRom}{CDRom} subsystem. It should be called once from the application\textquotesingle{}s {\ttfamily prepare} method. \Hypertarget{classpsyqo_1_1CDRomDevice_a9a8a933248e9a03cdcbdb7b3ac2af4db}\label{classpsyqo_1_1CDRomDevice_a9a8a933248e9a03cdcbdb7b3ac2af4db} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!readSectors@{readSectors}}
+\index{readSectors@{readSectors}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{readSectors()}{readSectors()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::read\+Sectors (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sector,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reads sectors from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. 
+
+This method will read a number of sectors from the \doxylink{classpsyqo_1_1CDRom}{CDRom} drive. The sectors will be read into the provided buffer. Note that only one read operation can be active at a time, and that the {\ttfamily \doxylink{classpsyqo_1_1ISO9660Parser}{ISO9660\+Parser}} class will call this method to read the filesystem structure, so care must be taken to ensure no other read operation is active when the parser is used.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sector} & The sector to start reading from. \\
+\hline
+{\em count} & The number of sectors to read. \\
+\hline
+{\em buffer} & The buffer to read the sectors into. \\
+\hline
+{\em callback} & The callback to call when the read is complete. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classpsyqo_1_1CDRom_a121b5efb6f051c3d6715fdce8568fbd8}{psyqo\+::\+CDRom}}.
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_af9e899781794aa02e25ac12ef252af30}\label{classpsyqo_1_1CDRomDevice_af9e899781794aa02e25ac12ef252af30} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!readSectorsBlocking@{readSectorsBlocking}}
+\index{readSectorsBlocking@{readSectorsBlocking}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{readSectorsBlocking()}{readSectorsBlocking()}}
+{\footnotesize\ttfamily bool psyqo\+::\+CDRom\+Device\+::read\+Sectors\+Blocking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sector,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_afd2dd5c6a776779aa73f6d948287c9c4}\label{classpsyqo_1_1CDRomDevice_afd2dd5c6a776779aa73f6d948287c9c4} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!readTOC@{readTOC}}
+\index{readTOC@{readTOC}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{readTOC()}{readTOC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::read\+TOC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} \texorpdfstring{$\ast$}{*}}]{toc,  }\item[{unsigned}]{size,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Reads the Table of Contents from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. 
+
+This method will read the Table of Contents from the \doxylink{classpsyqo_1_1CDRom}{CDRom} drive. The TOC will be read into the provided buffer. Note that a CD-\/\+Rom can have up to 99 tracks, and the TOC will be read into the provided buffer starting at index 1 for the first track. Any tracks that are not present on the CD will not have their \doxylink{structpsyqo_1_1MSF}{MSF} structure filled in, so the application should ensure that the buffer is initialized to zero before calling this method. The blocking variant may take a total of 200ms to complete, depending on the number of tracks on the CD.
+
+
+\begin{DoxyParams}{Parameters}
+{\em toc} & The buffer to read the TOC into. \\
+\hline
+{\em size} & The size of the buffer. Should be 100 to hold all possible tracks. \\
+\hline
+{\em callback} & The callback to call when the read is complete. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a2d94308843587ba611114f422f8d0599}\label{classpsyqo_1_1CDRomDevice_a2d94308843587ba611114f422f8d0599} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!readTOCBlocking@{readTOCBlocking}}
+\index{readTOCBlocking@{readTOCBlocking}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{readTOCBlocking()}{readTOCBlocking()}}
+{\footnotesize\ttfamily bool psyqo\+::\+CDRom\+Device\+::read\+TOCBlocking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} \texorpdfstring{$\ast$}{*}}]{toc,  }\item[{unsigned}]{size,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a6b88625927a4d11678b6621370480110}\label{classpsyqo_1_1CDRomDevice_a6b88625927a4d11678b6621370480110} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!reset@{reset}}
+\index{reset@{reset}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::reset (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Resets the \doxylink{classpsyqo_1_1CDRom}{CDRom} controller. 
+
+This method will reset the \doxylink{classpsyqo_1_1CDRom}{CDRom} controller. It technically does not need to be called, but it is a good idea to call it when the application starts, in order to ensure that the controller is in a known state. \Hypertarget{classpsyqo_1_1CDRomDevice_a893b785afd538694f25255b032003eca}\label{classpsyqo_1_1CDRomDevice_a893b785afd538694f25255b032003eca} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!resetBlocking@{resetBlocking}}
+\index{resetBlocking@{resetBlocking}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{resetBlocking()}{resetBlocking()}}
+{\footnotesize\ttfamily bool psyqo\+::\+CDRom\+Device\+::reset\+Blocking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a054eb5af43ec96db42fd616464b5a589}\label{classpsyqo_1_1CDRomDevice_a054eb5af43ec96db42fd616464b5a589} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!resumeCDDA@{resumeCDDA}}
+\index{resumeCDDA@{resumeCDDA}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{resumeCDDA()}{resumeCDDA()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::resume\+CDDA (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a888ac387d2d4b01509f1714c81f8a738}\label{classpsyqo_1_1CDRomDevice_a888ac387d2d4b01509f1714c81f8a738} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleGetPlaybackLocation@{scheduleGetPlaybackLocation}}
+\index{scheduleGetPlaybackLocation@{scheduleGetPlaybackLocation}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleGetPlaybackLocation()}{scheduleGetPlaybackLocation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Get\+Playback\+Location (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{Playback\+Location}} \texorpdfstring{$\ast$}{*}}]{location }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a39771790e804dfa3fdde26b57b242b89}\label{classpsyqo_1_1CDRomDevice_a39771790e804dfa3fdde26b57b242b89} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleGetTOCSize@{scheduleGetTOCSize}}
+\index{scheduleGetTOCSize@{scheduleGetTOCSize}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleGetTOCSize()}{scheduleGetTOCSize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Get\+TOCSize (\begin{DoxyParamCaption}\item[{unsigned \texorpdfstring{$\ast$}{*}}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_aa07080bf266a6ce39b09115bc5d42436}\label{classpsyqo_1_1CDRomDevice_aa07080bf266a6ce39b09115bc5d42436} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleMute@{scheduleMute}}
+\index{scheduleMute@{scheduleMute}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleMute()}{scheduleMute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Mute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a9e073f427b41d72dc2d63fdb8857757b}\label{classpsyqo_1_1CDRomDevice_a9e073f427b41d72dc2d63fdb8857757b} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleReadSectors@{scheduleReadSectors}}
+\index{scheduleReadSectors@{scheduleReadSectors}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleReadSectors()}{scheduleReadSectors()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Read\+Sectors (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sector,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a734b041b585e7b1dfc6a4e2cceffb20b}\label{classpsyqo_1_1CDRomDevice_a734b041b585e7b1dfc6a4e2cceffb20b} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleReadTOC@{scheduleReadTOC}}
+\index{scheduleReadTOC@{scheduleReadTOC}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleReadTOC()}{scheduleReadTOC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Read\+TOC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}} \texorpdfstring{$\ast$}{*}}]{toc,  }\item[{unsigned}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a4a3646a4cd6e92d32c5efdc84039f4d5}\label{classpsyqo_1_1CDRomDevice_a4a3646a4cd6e92d32c5efdc84039f4d5} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleReset@{scheduleReset}}
+\index{scheduleReset@{scheduleReset}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleReset()}{scheduleReset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_ad4c6bb9c3039fe801d9fdd35c9ae3ae7}\label{classpsyqo_1_1CDRomDevice_ad4c6bb9c3039fe801d9fdd35c9ae3ae7} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!scheduleUnmute@{scheduleUnmute}}
+\index{scheduleUnmute@{scheduleUnmute}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{scheduleUnmute()}{scheduleUnmute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+Device\+::schedule\+Unmute (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1CDRomDevice_a55591c0279ddd76b58050bdfad53d15b}\label{classpsyqo_1_1CDRomDevice_a55591c0279ddd76b58050bdfad53d15b} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!setVolume@{setVolume}}
+\index{setVolume@{setVolume}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{setVolume()}{setVolume()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::set\+Volume (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{left\+To\+Left,  }\item[{uint8\+\_\+t}]{right\+To\+Left,  }\item[{uint8\+\_\+t}]{left\+To\+Right,  }\item[{uint8\+\_\+t}]{right\+To\+Right }\end{DoxyParamCaption})}
+
+
+
+Set the Volume of the CDDA audio. 
+
+This method will set the volume of the CDDA audio. The volume is set using four values, which represent the volume of the left channel to the left speaker, the right channel to the left speaker, the left channel to the right speaker, and the right channel to the right speaker. The given output value should be in the range of 0 to 128, where 0 is silence and 128 is full volume. The values for a given output speaker will be added together, so clipping can occur if the sum of the values is greater than 128. The method can be used at any time, unlike the mute/unmute methods, which can only be used when the drive is idle. The normal volume setting is 0x80, 0x00, 0x00, 0x80.
+
+
+\begin{DoxyParams}{Parameters}
+{\em left\+To\+Left} & The volume of the left channel to the left speaker. \\
+\hline
+{\em right\+To\+Left} & The volume of the right channel to the left speaker. \\
+\hline
+{\em left\+To\+Right} & The volume of the left channel to the right speaker. \\
+\hline
+{\em right\+To\+Right} & The volume of the right channel to the right speaker. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_afaf72332efdab89410042b9c139e331e}\label{classpsyqo_1_1CDRomDevice_afaf72332efdab89410042b9c139e331e} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!stopCDDA@{stopCDDA}}
+\index{stopCDDA@{stopCDDA}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{stopCDDA()}{stopCDDA()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::stop\+CDDA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Stops CDDA playback. 
+
+This method will request a stop of the CDDA playback. It functions similarly to the {\ttfamily pause\+CDDA} method, but will stop the \doxylink{classpsyqo_1_1CDRom}{CDRom} drive motor, which means that another {\ttfamily play\+CDDA} call will take longer to start playing than if the motor was not stopped. \Hypertarget{classpsyqo_1_1CDRomDevice_a00ff1ce6e66c9de5d949f1caa966d354}\label{classpsyqo_1_1CDRomDevice_a00ff1ce6e66c9de5d949f1caa966d354} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!unmute@{unmute}}
+\index{unmute@{unmute}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{unmute()}{unmute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::unmute (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})}
+
+
+
+Unmutes the CD audio for both CDDA and CDXA. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & The callback to call when the unmute operation is complete. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1CDRomDevice_ad470fc9ce1e05d588d8a8154140e48cd}\label{classpsyqo_1_1CDRomDevice_ad470fc9ce1e05d588d8a8154140e48cd} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!unmuteBlocking@{unmuteBlocking}}
+\index{unmuteBlocking@{unmuteBlocking}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{unmuteBlocking()}{unmuteBlocking()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+Device\+::unmute\+Blocking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe}\label{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe} 
+\index{psyqo::CDRomDevice@{psyqo::CDRomDevice}!ActionBase@{ActionBase}}
+\index{ActionBase@{ActionBase}!psyqo::CDRomDevice@{psyqo::CDRomDevice}}
+\doxysubsubsection{\texorpdfstring{ActionBase}{ActionBase}}
+{\footnotesize\ttfamily friend class Action\+Base\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{cdrom-device_8hh}{cdrom-\/device.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom-device-cdda_8cpp}{cdrom-\/device-\/cdda.\+cpp}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom-device-muteunmute_8cpp}{cdrom-\/device-\/muteunmute.\+cpp}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom-device-readsectors_8cpp}{cdrom-\/device-\/readsectors.\+cpp}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom-device-reset_8cpp}{cdrom-\/device-\/reset.\+cpp}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom-device-toc_8cpp}{cdrom-\/device-\/toc.\+cpp}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom-device_8cpp}{cdrom-\/device.\+cpp}}\end{DoxyCompactItemize}

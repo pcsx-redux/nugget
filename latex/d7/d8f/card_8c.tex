@@ -1,0 +1,86 @@
+\doxysection{openbios/sio0/card.c File Reference}
+\hypertarget{card_8c}{}\label{card_8c}\index{openbios/sio0/card.c@{openbios/sio0/card.c}}
+{\ttfamily \#include "{}openbios/sio0/card.\+h"{}}\newline
+{\ttfamily \#include $<$stdatomic.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/irq.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/sio0.\+h"{}}\newline
+Include dependency graph for card.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d95/card_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{card_8c_a8dba320d84621370cba6c5df8c541250}{mc\+Reset\+Status}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{card_8c_a5ce1306dffa036f3e3b0bf8fe8328265}{mc\+Wait\+For\+Status}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{card_8c_a601c3567184862e6a457d746f74444f9}{mc\+Wait\+For\+Status\+And\+Return\+Index}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{card_8c_ab151df91b30cd246680f3497fe0d7fff}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section("{}.ramtext"{})))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{card_8c_a5d5e1ed257f97038f734c7780d32a524}{g\+\_\+mc\+Overall\+Success}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{card_8c_ad1f5cba7d4cf7f9c878f04d00df907cc}{g\+\_\+mc\+Errors}} \mbox{[}4\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{card_8c_acdfc6a08c55328a64e4fda9b02ec4b73}{g\+\_\+mc\+Card\+Info\+Patch\+Activated}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{card_8c_ab151df91b30cd246680f3497fe0d7fff}\label{card_8c_ab151df91b30cd246680f3497fe0d7fff} 
+\index{card.c@{card.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(section("{}.ramtext"{}))}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{card_8c_a8dba320d84621370cba6c5df8c541250}\label{card_8c_a8dba320d84621370cba6c5df8c541250} 
+\index{card.c@{card.c}!mcResetStatus@{mcResetStatus}}
+\index{mcResetStatus@{mcResetStatus}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{mcResetStatus()}{mcResetStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} mc\+Reset\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{card_8c_a5ce1306dffa036f3e3b0bf8fe8328265}\label{card_8c_a5ce1306dffa036f3e3b0bf8fe8328265} 
+\index{card.c@{card.c}!mcWaitForStatus@{mcWaitForStatus}}
+\index{mcWaitForStatus@{mcWaitForStatus}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{mcWaitForStatus()}{mcWaitForStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Wait\+For\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{card_8c_a601c3567184862e6a457d746f74444f9}\label{card_8c_a601c3567184862e6a457d746f74444f9} 
+\index{card.c@{card.c}!mcWaitForStatusAndReturnIndex@{mcWaitForStatusAndReturnIndex}}
+\index{mcWaitForStatusAndReturnIndex@{mcWaitForStatusAndReturnIndex}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{mcWaitForStatusAndReturnIndex()}{mcWaitForStatusAndReturnIndex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Wait\+For\+Status\+And\+Return\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{card_8c_acdfc6a08c55328a64e4fda9b02ec4b73}\label{card_8c_acdfc6a08c55328a64e4fda9b02ec4b73} 
+\index{card.c@{card.c}!g\_mcCardInfoPatchActivated@{g\_mcCardInfoPatchActivated}}
+\index{g\_mcCardInfoPatchActivated@{g\_mcCardInfoPatchActivated}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcCardInfoPatchActivated}{g\_mcCardInfoPatchActivated}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Card\+Info\+Patch\+Activated = 0}
+
+\Hypertarget{card_8c_ad1f5cba7d4cf7f9c878f04d00df907cc}\label{card_8c_ad1f5cba7d4cf7f9c878f04d00df907cc} 
+\index{card.c@{card.c}!g\_mcErrors@{g\_mcErrors}}
+\index{g\_mcErrors@{g\_mcErrors}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcErrors}{g\_mcErrors}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Errors\mbox{[}4\mbox{]}}
+
+\Hypertarget{card_8c_a5d5e1ed257f97038f734c7780d32a524}\label{card_8c_a5d5e1ed257f97038f734c7780d32a524} 
+\index{card.c@{card.c}!g\_mcOverallSuccess@{g\_mcOverallSuccess}}
+\index{g\_mcOverallSuccess@{g\_mcOverallSuccess}!card.c@{card.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcOverallSuccess}{g\_mcOverallSuccess}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Overall\+Success}
+

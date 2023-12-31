@@ -1,0 +1,50 @@
+\chapter{Conversion of the official Sony libraries}
+\hypertarget{md_psyq_2README}{}\label{md_psyq_2README}\index{Conversion of the official Sony libraries@{Conversion of the official Sony libraries}}
+\label{md_psyq_2README_autotoc_md23}%
+\Hypertarget{md_psyq_2README_autotoc_md23}%
+ Using the psyq-\/obj-\/parser tool, one can convert the Sony libraries into something usable for modern compilers. This is a bit of complex juggling act, as the original code was compiled with ccpsx, which is an utterly broken compiler. Making everything work fine between this old compiler and a newer gcc is a bit of a round hole square peg situation. Nonetheless, this sorts of works, and it has some advantages for further reverse engineering work.\hypertarget{md_psyq_2README_autotoc_md24}{}\doxysection{\texorpdfstring{Extracting the old libraries}{Extracting the old libraries}}\label{md_psyq_2README_autotoc_md24}
+There is a tool in the old toolkit that can be used to extract all object files from a .LIB file\+: PSYLIBD. Alternatively, the other similar project called psyq2elf contains a dumper for these files\+: \href{https://gitlab.com/jype/psyq2elf/-/blob/master/src/psyqdump.c}{\texttt{ https\+://gitlab.\+com/jype/psyq2elf/-\//blob/master/src/psyqdump.\+c}}\hypertarget{md_psyq_2README_autotoc_md25}{}\doxysection{\texorpdfstring{Converting all the files}{Converting all the files}}\label{md_psyq_2README_autotoc_md25}
+Simply compile and run the psyq-\/obj-\/parser tool\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ psyq-\/obj-\/parser\ input.obj\ -\/o\ output.o}
+
+\end{DoxyCode}
+\hypertarget{md_psyq_2README_autotoc_md26}{}\doxysection{\texorpdfstring{Re-\/creating object files}{Re-creating object files}}\label{md_psyq_2README_autotoc_md26}
+The generated object files will be compatible to use by modern gcc, so you can simply use mipsel-\/linux-\/elf-\/ar to re-\/create .a files\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ mipsel-\/linux-\/elf-\/ar\ rcs\ libsomething.a\ *.o}
+
+\end{DoxyCode}
+\hypertarget{md_psyq_2README_autotoc_md27}{}\doxysection{\texorpdfstring{Directory structure}{Directory structure}}\label{md_psyq_2README_autotoc_md27}
+This folder should contain a lib folder and an include folder. It ideally contains the following files\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{include:}
+\DoxyCodeLine{abs.h\ \ \ \ \ \ gtereg.h\ \ \ \ libcd.h\ \ \ \ libhmd.h\ \ \ \ libsnd.h\ \ r3000.h\ \ \ string.h}
+\DoxyCodeLine{asm.h\ \ \ \ \ \ gtereg\_s.h\ \ libcomb.h\ \ libmath.h\ \ \ libspu.h\ \ rand.h\ \ \ \ strings.h}
+\DoxyCodeLine{assert.h\ \ \ inline\_a.h\ \ libds.h\ \ \ \ libmcrd.h\ \ \ libtap.h\ \ romio.h\ \ \ sys/}
+\DoxyCodeLine{convert.h\ \ inline\_c.h\ \ libetc.h\ \ \ libmcx.h\ \ \ \ limits.h\ \ setjmp.h}
+\DoxyCodeLine{ctype.h\ \ \ \ inline\_o.h\ \ libgpu.h\ \ \ libpad.h\ \ \ \ malloc.h\ \ stdarg.h}
+\DoxyCodeLine{fs.h\ \ \ \ \ \ \ inline\_s.h\ \ libgs.h\ \ \ \ libpress.h\ \ mcgui.h\ \ \ stddef.h}
+\DoxyCodeLine{gtemac.h\ \ \ kernel.h\ \ \ \ libgte.h\ \ \ libsio.h\ \ \ \ memory.h\ \ stdio.h}
+\DoxyCodeLine{gtenom.h\ \ \ libapi.h\ \ \ \ libgun.h\ \ \ libsn.h\ \ \ \ \ qsort.h\ \ \ stdlib.h}
+\DoxyCodeLine{}
+\DoxyCodeLine{include/sys:}
+\DoxyCodeLine{errno.h\ \ fcntl.h\ \ file.h\ \ ioctl.h\ \ types.h}
+\DoxyCodeLine{}
+\DoxyCodeLine{lib:}
+\DoxyCodeLine{libapi.a\ \ \ libcomb.a\ \ libgte.a\ \ \ libmcx.a\ \ \ \ libspu.a\ \ \ \ \ \ \ poweron.obj.o}
+\DoxyCodeLine{libc.a\ \ \ \ \ libds.a\ \ \ \ libgun.a\ \ \ libpad.a\ \ \ \ libtap.a}
+\DoxyCodeLine{libc2.a\ \ \ \ libetc.a\ \ \ libhmd.a\ \ \ libpress.a\ \ mcgui.obj.o}
+\DoxyCodeLine{libcard.a\ \ libgpu.a\ \ \ libmath.a\ \ libsio.a\ \ \ \ mcgui\_e.obj.o}
+\DoxyCodeLine{libcd.a\ \ \ \ libgs.a\ \ \ \ libmcrd.a\ \ libsnd.a\ \ \ \ noprint.obj.o}
+
+\end{DoxyCode}
+\hypertarget{md_psyq_2README_autotoc_md28}{}\doxysection{\texorpdfstring{Caveats of the conversion}{Caveats of the conversion}}\label{md_psyq_2README_autotoc_md28}
+The crt0 files (the files typically named 2\+MBYTE.\+OBJ, 8\+MBYTE.\+OBJ, NOHEAP.\+OBJ, and NONE3.\+OBJ) cannot be properly converted. The provided crt0 in the common folder should be providing an appropriate replacement however.\hypertarget{md_psyq_2README_autotoc_md29}{}\doxysection{\texorpdfstring{Optional\+: Apply fix for header include order}{Optional: Apply fix for header include order}}\label{md_psyq_2README_autotoc_md29}
+psyq has a notorious issue with the header files that prevents you from changing the include order, among other annoyances. There are a set of updated headers available which try to address these issues\+: \href{https://github.com/johnbaumann/psyq_include_what_you_use}{\texttt{ https\+://github.\+com/johnbaumann/psyq\+\_\+include\+\_\+what\+\_\+you\+\_\+use}} 

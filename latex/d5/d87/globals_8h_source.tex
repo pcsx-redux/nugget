@@ -1,0 +1,77 @@
+\doxysection{globals.\+h}
+\hypertarget{globals_8h_source}{}\label{globals_8h_source}\index{openbios/kernel/globals.h@{openbios/kernel/globals.h}}
+\mbox{\hyperlink{globals_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_2psxlibc_2handlers_8h}{common/psxlibc/handlers.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stdio_8h}{common/psxlibc/stdio.h}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{openbios_2kernel_2events_8h}{openbios/kernel/events.h}}"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{openbios_2kernel_2threads_8h}{openbios/kernel/threads.h}}"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{extern}\ \textcolor{keyword}{struct\ }\{\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a59b2df8e883e815e1a7111ca8f83c4a8}{ramsize}},\ \mbox{\hyperlink{globals_8h_a624f28a4d22ff733daf144edb7917709}{unk1}},\ \mbox{\hyperlink{globals_8h_a752d71283860626b9b29cf4efc65a428}{unk2}};\ \}\ \mbox{\hyperlink{globals_8h_a1c4db08cc29588befa1cf80926038c86}{\_\_globals60}};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{extern}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{/*\ 100\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structHandlersStorage}{HandlersStorage}}*\ \mbox{\hyperlink{globals_8h_a7cfd0c22085960455d367b61eb836efb}{handlersArray}};}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{/*\ 104\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a9af81d711028b9c9cb96020dc361ac4d}{handlersArraySize}};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{/*\ 108\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structProcess}{Process}}*\ \mbox{\hyperlink{globals_8h_ab6db7f3e054b734590f012ede3832d83}{processes}};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{/*\ 10c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_af15a6207410ea76ae2bc637b1d285cea}{processBlockSize}};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{/*\ 110\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structThread}{Thread}}*\ \mbox{\hyperlink{globals_8h_ab2277f1b3f4cebda71a3495c292cb558}{threads}};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{/*\ 114\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a9d47bca6c3cb1ad6a13d82051a3ee888}{threadBlockSize}};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{/*\ 118\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a00d7ac5fc817081029bddcd0940038f9}{xxx\_06}};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{/*\ 11c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a83bc4a793542e845d16c906b6a7a000d}{xxx\_07}};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{/*\ 120\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structEventInfo}{EventInfo}}*\ \mbox{\hyperlink{globals_8h_a586d62a75e9622e49459987843adc6e4}{events}};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{/*\ 124\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a4b089ce5a2f014fbbe1e30708b9bbdf6}{eventsSize}};}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{/*\ 128\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_aa1119e19634a227b3512a49124be0055}{xxx\_0a}};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{/*\ 12c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_aeac7f33b4fa7e3b0f8ca122841456451}{xxx\_0b}};}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{/*\ 130\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a6623852d55852590dcbd70b2ee1d95a7}{xxx\_0c}};}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{/*\ 134\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a5acd4dcb134fcf08920a4787e215292e}{xxx\_0d}};}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{/*\ 138\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_ad482eaeea32e678b6d518f4f65f8401c}{xxx\_0e}};}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{/*\ 13c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_aa64c0c5c6f1581c17e4b1ca8e53aa609}{xxx\_0f}};}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{/*\ 140\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}*\ \mbox{\hyperlink{globals_8h_acd13691592908f7aac77cf36568bdab4}{files}};}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{/*\ 144\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_acfc088dc08a56a7bf0e65ea944d4515c}{filesSize}};}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{comment}{/*\ 148\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_aa925318d9e55d02ba7756acf5d562dc6}{xxx\_12}};}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{/*\ 14c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a9029a11783385bbd019c036e874d0f05}{xxx\_13}};}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{/*\ 150\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDevice}{Device}}*\ \mbox{\hyperlink{globals_8h_a36b3a0a1c2628feb080b27f26fe1d94b}{devices}};}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{/*\ 154\ */}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDevice}{Device}}*\ \mbox{\hyperlink{globals_8h_a1ec93bfbacd12e23dbb825d7311901ca}{devicesEnd}};}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{/*\ 158\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a078ac4514194ce5af269b0b13db6cf41}{xxx\_16}};}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{/*\ 15c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a1e97e35ebe2b5a8ec2773933c004bc8c}{xxx\_17}};}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{/*\ 160\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_ad987443af63ba87380a16a308685b47b}{xxx\_18}};}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{comment}{/*\ 164\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a77cdfcb13c5d4c7bd9b2f5aa8a4d0f51}{xxx\_19}};}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{/*\ 168\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_ac244b7c411638d25d4c9f550a1be6ef4}{xxx\_1a}};}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{/*\ 16c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a8530a19af3ef99af58d6c2a3bff7fb12}{xxx\_1b}};}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{/*\ 170\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a6c5735be3021dfddda26d9a9582020e7}{xxx\_1c}};}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{comment}{/*\ 174\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a35a640f8bdd663022eff4e2b51f03bec}{xxx\_1d}};}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{/*\ 178\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a5667f53199f0e0103671519425d99e5b}{xxx\_1e}};}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{/*\ 17c\ */}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{globals_8h_a1d4c1452dfb30f59a63b6ec027f23ece}{xxx\_1f}};}
+\DoxyCodeLine{00071\ \}\ \mbox{\hyperlink{globals_8h_abf8bb78460acd9423393a3387b91fecc}{\_\_globals}};}
+
+\end{DoxyCode}

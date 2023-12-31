@@ -1,0 +1,53 @@
+\doxysection{statemachine.\+h}
+\hypertarget{statemachine_8h_source}{}\label{statemachine_8h_source}\index{openbios/cdrom/statemachine.h@{openbios/cdrom/statemachine.h}}
+\mbox{\hyperlink{statemachine_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_aa4e6ec52cff6d656579d21f13c3c9b97}{cdromSeekL}}(uint8\_t\ *msf);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_ada5e4ac001133ea34a967a56d6e30e9a}{cdromGetStatus}}(uint8\_t\ *responsePtr);}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_a9db86520a3402affb66a3aabd6da79f2}{cdromRead}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}},\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}});}
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_a10e350cea99ae11bb6c51a294fec2659}{cdromSetMode}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}});}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_aff49cd425f122bf66810370559c998b0}{cdromIOVerifier}}();}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_a0498d5adc42e93cb951f3a785f192dd5}{cdromDMAVerifier}}();}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{statemachine_8h_ab3fe844051893b3fda4c5b2a91b13f9a}{cdromIOHandler}}();}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{statemachine_8h_a894b949a578941a4766e534b44b12ee9}{cdromDMAHandler}}();}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{statemachine_8h_aa9e83f29cc47e2061c9ce7f6b35cb700}{getLastCDRomError}}(uint8\_t\ *err1,\ uint8\_t\ *err2);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_a551addf8cbb221ab29d22b16655b28c6}{cdromInnerInit}}();}
+\DoxyCodeLine{00041\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{AutoAckType}}\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758adccbf45a8a8cf4041824874b0e78270e}{AUTOACK\_IO}}\ =\ 0,}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758a90fb0e17a1cf35b837eb68d4da69146b}{AUTOACK\_DMA}}\ =\ 1,}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{statemachine_8h_a4648235940794c4975ce7dd9e84d2dc3}{setCDRomIRQAutoAck}}(\textcolor{keyword}{enum}\ \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{AutoAckType}}\ type,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}});}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{statemachine_8h_a202cf5f24b4dfc34b04baba458a515ec}{enqueueCDRomHandlers}}();}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{statemachine_8h_abc0568fb3f7349976a1d730348466158}{dequeueCDRomHandlers}}();}
+
+\end{DoxyCode}

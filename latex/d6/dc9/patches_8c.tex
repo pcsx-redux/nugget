@@ -1,0 +1,193 @@
+\doxysection{openbios/patches/patches.c File Reference}
+\hypertarget{patches_8c}{}\label{patches_8c}\index{openbios/patches/patches.c@{openbios/patches/patches.c}}
+{\ttfamily \#include "{}openbios/patches/patches.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/pcsxhw.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/patches/hash.\+h"{}}\newline
+Include dependency graph for patches.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/d8f/patches_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpatch}{patch}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a76c89372a7961c2965ca690bb0e41e79}{patch\+\_\+card\+\_\+info\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a5bb7f2ffbba4237df9df90cf3e67c366}{patch\+\_\+card2\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_abd68ee52e7388b84f3d1af23bad0e7e8}{patch\+\_\+card2\+\_\+2\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_af0f7b49348985e2905926683eca28dfb}{patch\+\_\+pad\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a9be16ff5496b8dff6cafc8146131d8e6}{patch\+\_\+pad\+\_\+2\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a4f1144c12463245dec3ca971ba5ddc81}{patch\+\_\+pad\+\_\+3\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a479a52bf603014b25f4faa1808fcd861}{remove\+\_\+\+Chgclr\+PAD\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a2d2ca1de312b777803e5faf852d63332}{remove\+\_\+\+Chgclr\+PAD\+\_\+2\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a3e0599417bc3689ef00c4aedc480c86d}{send\+\_\+pad\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_aab481e83e83beff9736d61c12cf7b1e8}{send\+\_\+pad\+\_\+2\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a8df957aa643ecf307274254094580b02}{clear\+\_\+card\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a81aee3ff5a23594c263a33f821485b09}{custom\+\_\+handler\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a711d9d4d9808517ee2870ef184c8c82c}{initgun\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a2435dfffd3be6389664cb3e8642bfeee}{patch\+\_\+card\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_abdea9acad0707221bed14e57752a97d6}{patch\+\_\+card\+\_\+2\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_aa4512c6eee675882c769867eb5d22afc}{patch\+\_\+gte\+\_\+1\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_adf101c973d4457f8edcdb02b8faba0b0}{patch\+\_\+gte\+\_\+2\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} \mbox{\hyperlink{patches_8c_a1f94d5d20e569b6f77d2ce15879e0894}{patch\+\_\+gte\+\_\+3\+\_\+execute}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{patches_8c_aba9db911c1b04cc67647df7647248be0}{patch\+\_\+hook}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}ra, enum \mbox{\hyperlink{patches_8h_a917b28f6fc579ba1f9481a8623b186d9}{patch\+\_\+table}} table)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{patches_8c_ab53a6034bf8d61f53fd8465f3fa61435}{g\+\_\+patch\+\_\+permissive}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{patches_8c_a8df957aa643ecf307274254094580b02}\label{patches_8c_a8df957aa643ecf307274254094580b02} 
+\index{patches.c@{patches.c}!clear\_card\_1\_execute@{clear\_card\_1\_execute}}
+\index{clear\_card\_1\_execute@{clear\_card\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{clear\_card\_1\_execute()}{clear\_card\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} clear\+\_\+card\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a81aee3ff5a23594c263a33f821485b09}\label{patches_8c_a81aee3ff5a23594c263a33f821485b09} 
+\index{patches.c@{patches.c}!custom\_handler\_1\_execute@{custom\_handler\_1\_execute}}
+\index{custom\_handler\_1\_execute@{custom\_handler\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{custom\_handler\_1\_execute()}{custom\_handler\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} custom\+\_\+handler\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a711d9d4d9808517ee2870ef184c8c82c}\label{patches_8c_a711d9d4d9808517ee2870ef184c8c82c} 
+\index{patches.c@{patches.c}!initgun\_1\_execute@{initgun\_1\_execute}}
+\index{initgun\_1\_execute@{initgun\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{initgun\_1\_execute()}{initgun\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} initgun\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a5bb7f2ffbba4237df9df90cf3e67c366}\label{patches_8c_a5bb7f2ffbba4237df9df90cf3e67c366} 
+\index{patches.c@{patches.c}!patch\_card2\_1\_execute@{patch\_card2\_1\_execute}}
+\index{patch\_card2\_1\_execute@{patch\_card2\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_card2\_1\_execute()}{patch\_card2\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+card2\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_abd68ee52e7388b84f3d1af23bad0e7e8}\label{patches_8c_abd68ee52e7388b84f3d1af23bad0e7e8} 
+\index{patches.c@{patches.c}!patch\_card2\_2\_execute@{patch\_card2\_2\_execute}}
+\index{patch\_card2\_2\_execute@{patch\_card2\_2\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_card2\_2\_execute()}{patch\_card2\_2\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+card2\+\_\+2\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a2435dfffd3be6389664cb3e8642bfeee}\label{patches_8c_a2435dfffd3be6389664cb3e8642bfeee} 
+\index{patches.c@{patches.c}!patch\_card\_1\_execute@{patch\_card\_1\_execute}}
+\index{patch\_card\_1\_execute@{patch\_card\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_card\_1\_execute()}{patch\_card\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+card\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_abdea9acad0707221bed14e57752a97d6}\label{patches_8c_abdea9acad0707221bed14e57752a97d6} 
+\index{patches.c@{patches.c}!patch\_card\_2\_execute@{patch\_card\_2\_execute}}
+\index{patch\_card\_2\_execute@{patch\_card\_2\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_card\_2\_execute()}{patch\_card\_2\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+card\+\_\+2\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a76c89372a7961c2965ca690bb0e41e79}\label{patches_8c_a76c89372a7961c2965ca690bb0e41e79} 
+\index{patches.c@{patches.c}!patch\_card\_info\_1\_execute@{patch\_card\_info\_1\_execute}}
+\index{patch\_card\_info\_1\_execute@{patch\_card\_info\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_card\_info\_1\_execute()}{patch\_card\_info\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+card\+\_\+info\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_aa4512c6eee675882c769867eb5d22afc}\label{patches_8c_aa4512c6eee675882c769867eb5d22afc} 
+\index{patches.c@{patches.c}!patch\_gte\_1\_execute@{patch\_gte\_1\_execute}}
+\index{patch\_gte\_1\_execute@{patch\_gte\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_gte\_1\_execute()}{patch\_gte\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+gte\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_adf101c973d4457f8edcdb02b8faba0b0}\label{patches_8c_adf101c973d4457f8edcdb02b8faba0b0} 
+\index{patches.c@{patches.c}!patch\_gte\_2\_execute@{patch\_gte\_2\_execute}}
+\index{patch\_gte\_2\_execute@{patch\_gte\_2\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_gte\_2\_execute()}{patch\_gte\_2\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+gte\+\_\+2\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a1f94d5d20e569b6f77d2ce15879e0894}\label{patches_8c_a1f94d5d20e569b6f77d2ce15879e0894} 
+\index{patches.c@{patches.c}!patch\_gte\_3\_execute@{patch\_gte\_3\_execute}}
+\index{patch\_gte\_3\_execute@{patch\_gte\_3\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_gte\_3\_execute()}{patch\_gte\_3\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+gte\+\_\+3\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_aba9db911c1b04cc67647df7647248be0}\label{patches_8c_aba9db911c1b04cc67647df7647248be0} 
+\index{patches.c@{patches.c}!patch\_hook@{patch\_hook}}
+\index{patch\_hook@{patch\_hook}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_hook()}{patch\_hook()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+hook (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra,  }\item[{enum \mbox{\hyperlink{patches_8h_a917b28f6fc579ba1f9481a8623b186d9}{patch\+\_\+table}}}]{table }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_af0f7b49348985e2905926683eca28dfb}\label{patches_8c_af0f7b49348985e2905926683eca28dfb} 
+\index{patches.c@{patches.c}!patch\_pad\_1\_execute@{patch\_pad\_1\_execute}}
+\index{patch\_pad\_1\_execute@{patch\_pad\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_pad\_1\_execute()}{patch\_pad\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+pad\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a9be16ff5496b8dff6cafc8146131d8e6}\label{patches_8c_a9be16ff5496b8dff6cafc8146131d8e6} 
+\index{patches.c@{patches.c}!patch\_pad\_2\_execute@{patch\_pad\_2\_execute}}
+\index{patch\_pad\_2\_execute@{patch\_pad\_2\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_pad\_2\_execute()}{patch\_pad\_2\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+pad\+\_\+2\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a4f1144c12463245dec3ca971ba5ddc81}\label{patches_8c_a4f1144c12463245dec3ca971ba5ddc81} 
+\index{patches.c@{patches.c}!patch\_pad\_3\_execute@{patch\_pad\_3\_execute}}
+\index{patch\_pad\_3\_execute@{patch\_pad\_3\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{patch\_pad\_3\_execute()}{patch\_pad\_3\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} patch\+\_\+pad\+\_\+3\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a479a52bf603014b25f4faa1808fcd861}\label{patches_8c_a479a52bf603014b25f4faa1808fcd861} 
+\index{patches.c@{patches.c}!remove\_ChgclrPAD\_1\_execute@{remove\_ChgclrPAD\_1\_execute}}
+\index{remove\_ChgclrPAD\_1\_execute@{remove\_ChgclrPAD\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{remove\_ChgclrPAD\_1\_execute()}{remove\_ChgclrPAD\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} remove\+\_\+\+Chgclr\+PAD\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a2d2ca1de312b777803e5faf852d63332}\label{patches_8c_a2d2ca1de312b777803e5faf852d63332} 
+\index{patches.c@{patches.c}!remove\_ChgclrPAD\_2\_execute@{remove\_ChgclrPAD\_2\_execute}}
+\index{remove\_ChgclrPAD\_2\_execute@{remove\_ChgclrPAD\_2\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{remove\_ChgclrPAD\_2\_execute()}{remove\_ChgclrPAD\_2\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} remove\+\_\+\+Chgclr\+PAD\+\_\+2\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_a3e0599417bc3689ef00c4aedc480c86d}\label{patches_8c_a3e0599417bc3689ef00c4aedc480c86d} 
+\index{patches.c@{patches.c}!send\_pad\_1\_execute@{send\_pad\_1\_execute}}
+\index{send\_pad\_1\_execute@{send\_pad\_1\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{send\_pad\_1\_execute()}{send\_pad\_1\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} send\+\_\+pad\+\_\+1\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{patches_8c_aab481e83e83beff9736d61c12cf7b1e8}\label{patches_8c_aab481e83e83beff9736d61c12cf7b1e8} 
+\index{patches.c@{patches.c}!send\_pad\_2\_execute@{send\_pad\_2\_execute}}
+\index{send\_pad\_2\_execute@{send\_pad\_2\_execute}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{send\_pad\_2\_execute()}{send\_pad\_2\_execute()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{patches_8h_a739b7e54b9cc22122a6c4009c3199349}{patch\+\_\+behavior}} send\+\_\+pad\+\_\+2\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ra }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{patches_8c_ab53a6034bf8d61f53fd8465f3fa61435}\label{patches_8c_ab53a6034bf8d61f53fd8465f3fa61435} 
+\index{patches.c@{patches.c}!g\_patch\_permissive@{g\_patch\_permissive}}
+\index{g\_patch\_permissive@{g\_patch\_permissive}!patches.c@{patches.c}}
+\doxysubsubsection{\texorpdfstring{g\_patch\_permissive}{g\_patch\_permissive}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+patch\+\_\+permissive = 0}
+

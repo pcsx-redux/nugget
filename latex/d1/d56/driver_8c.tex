@@ -1,0 +1,325 @@
+\doxysection{openbios/sio0/driver.c File Reference}
+\hypertarget{driver_8c}{}\label{driver_8c}\index{openbios/sio0/driver.c@{openbios/sio0/driver.c}}
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/irq.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/string.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/handlers/handlers.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/card.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/pad.\+h"{}}\newline
+Include dependency graph for driver.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d5/d17/driver_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{driver_8c_a355cabe3f48ab3c28945d5fe5d6287c5}{mc\+Op\+Handler}}) ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a8b82954196b76d11dad6ffaa81c70bb0}{patch\+\_\+remove\+\_\+\+Chgclr\+PAD}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a3f1bd000bde18b871294e352e1f21718}{patch\+\_\+disable\+\_\+slot\+Change\+On\+Abort}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a3ddba8e7f9aba4fc49ab3d174a74ead0}{patch\+\_\+send\+\_\+pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a05edef5ff263b46e2b0b0752b4a96d8b}{patch\+\_\+start\+Pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a9a0c26542d389222eaca351f423801d5}{patch\+\_\+stop\+Pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_ab151df91b30cd246680f3497fe0d7fff}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section("{}.ramtext"{})))
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a7f18b125be808aff9833642b73162866}{busyloop}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a810fb2971bcec48e10308ede6059ecf3}{exception\+Handler\+Patch\+Slot1}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a91fc7bb4301d31c105e318bdcd2688d1}{exception\+Handler\+Card\+Fast\+Track\+Patch}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{driver_8c_a7a6726365c63505f865c166150f42ae3}{mc\+Allow\+New\+Card}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_acb72edebd0d4c14e6aeacbeb1f9c6f1b}{mc\+Read\+Sector}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a764b813475c7aeb45ee8a290f8d102c1}{mc\+Write\+Sector}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_aeb00faaa9355abead1a4d3ac12a70a82}{card\+Info\+Internal}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a1f9d5714aac8669b097fe172e1da3117}{mc\+Get\+Last\+Device}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \mbox{\hyperlink{driver_8c_a4b9fe01ba971e607797d588779980864}{g\+\_\+sio0\+Handler\+Info}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{driver_8c_a513dfee825e6a0ffb19191c6c1b57c71}{g\+\_\+sio0\+Mask}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a2ef26af29af60c8cab27c02be6f83714}{g\+\_\+mc\+Action\+In\+Progress}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a6a7b3a3a934a685414c44a6d0fcf6d4d}{g\+\_\+mc\+Port\+Flipping}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a575fc96b90b86405d444eb21d2e83585}{g\+\_\+mc\+Last\+Port}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a60bfb6c9dcaca96921584844d191aca7}{g\+\_\+mc\+Got\+Error}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{driver_8c_a52a74ed4b2bd9a8b4b7a4f36c92343dc}{g\+\_\+mc\+Flags}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_ad60a29fdab59e6526cec7f81c5d94c40}{g\+\_\+mc\+Operation}}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \mbox{\hyperlink{driver_8c_a64baf6660d2135fbeb8e51efb9c074b6}{g\+\_\+mc\+Handler\+Info}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_ae6551f1cc2ad35b2013975590689d9ad}{g\+\_\+skip\+Error\+On\+New\+Card}}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_ad8b9fb284b4bc7a49eba3771e37c7eac}{g\+\_\+mc\+Fast\+Track\+Active}} = 0
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{driver_8c_a6743ff303654145cf712af3be3d67539}{g\+\_\+mc\+Fast\+Track\+Operation\+Ptr}} = NULL
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{driver_8c_a98c981a0489083eda08c314fcf04cca9}{g\+\_\+mc\+Fast\+Track\+Buffer}} = NULL
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{driver_8c_a9c2347a9649568134795ddf20b74ac41}{g\+\_\+mc\+Fast\+Track\+Checksum\+Ptr}} = NULL
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{driver_8c_a7d3c7a97735eead0f6784399739592ef}{g\+\_\+mc\+Fast\+Track\+Counter}} = 0
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{driver_8c_a85673583acb16b00f06b6426065cde31}{g\+\_\+mc\+User\+Buffers}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{driver_8c_a0115e97a8db4f2c8660c0d09f4004bff}{g\+\_\+mc\+Checksum}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{driver_8c_a355cabe3f48ab3c28945d5fe5d6287c5}{mc\+Op\+Handler}} \mbox{\hyperlink{driver_8c_adccbc0413777d5ec94fec852d9993155}{g\+\_\+mc\+Handlers}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a2ed59072c3ddd84d3fc779353834ea3b}{g\+\_\+mc\+Device\+Id}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a269e7137df0f79f9fcb40146c7778460}{g\+\_\+mc\+Sector}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{driver_8c_a27b2b68cf113c2bc7c73bcb4d82f09d6}{g\+\_\+mc\+Handler\+Delay\+Patch}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{driver_8c_a355cabe3f48ab3c28945d5fe5d6287c5}\label{driver_8c_a355cabe3f48ab3c28945d5fe5d6287c5} 
+\index{driver.c@{driver.c}!mcOpHandler@{mcOpHandler}}
+\index{mcOpHandler@{mcOpHandler}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{mcOpHandler}{mcOpHandler}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} mc\+Op\+Handler) ()}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{driver_8c_ab151df91b30cd246680f3497fe0d7fff}\label{driver_8c_ab151df91b30cd246680f3497fe0d7fff} 
+\index{driver.c@{driver.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(section("{}.ramtext"{}))}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a7f18b125be808aff9833642b73162866}\label{driver_8c_a7f18b125be808aff9833642b73162866} 
+\index{driver.c@{driver.c}!busyloop@{busyloop}}
+\index{busyloop@{busyloop}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{busyloop()}{busyloop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} busyloop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{count }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_aeb00faaa9355abead1a4d3ac12a70a82}\label{driver_8c_aeb00faaa9355abead1a4d3ac12a70a82} 
+\index{driver.c@{driver.c}!cardInfoInternal@{cardInfoInternal}}
+\index{cardInfoInternal@{cardInfoInternal}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{cardInfoInternal()}{cardInfoInternal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} card\+Info\+Internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a91fc7bb4301d31c105e318bdcd2688d1}\label{driver_8c_a91fc7bb4301d31c105e318bdcd2688d1} 
+\index{driver.c@{driver.c}!exceptionHandlerCardFastTrackPatch@{exceptionHandlerCardFastTrackPatch}}
+\index{exceptionHandlerCardFastTrackPatch@{exceptionHandlerCardFastTrackPatch}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{exceptionHandlerCardFastTrackPatch()}{exceptionHandlerCardFastTrackPatch()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} exception\+Handler\+Card\+Fast\+Track\+Patch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a810fb2971bcec48e10308ede6059ecf3}\label{driver_8c_a810fb2971bcec48e10308ede6059ecf3} 
+\index{driver.c@{driver.c}!exceptionHandlerPatchSlot1@{exceptionHandlerPatchSlot1}}
+\index{exceptionHandlerPatchSlot1@{exceptionHandlerPatchSlot1}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{exceptionHandlerPatchSlot1()}{exceptionHandlerPatchSlot1()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} exception\+Handler\+Patch\+Slot1 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a7a6726365c63505f865c166150f42ae3}\label{driver_8c_a7a6726365c63505f865c166150f42ae3} 
+\index{driver.c@{driver.c}!mcAllowNewCard@{mcAllowNewCard}}
+\index{mcAllowNewCard@{mcAllowNewCard}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{mcAllowNewCard()}{mcAllowNewCard()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} mc\+Allow\+New\+Card (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a1f9d5714aac8669b097fe172e1da3117}\label{driver_8c_a1f9d5714aac8669b097fe172e1da3117} 
+\index{driver.c@{driver.c}!mcGetLastDevice@{mcGetLastDevice}}
+\index{mcGetLastDevice@{mcGetLastDevice}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{mcGetLastDevice()}{mcGetLastDevice()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Get\+Last\+Device (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_acb72edebd0d4c14e6aeacbeb1f9c6f1b}\label{driver_8c_acb72edebd0d4c14e6aeacbeb1f9c6f1b} 
+\index{driver.c@{driver.c}!mcReadSector@{mcReadSector}}
+\index{mcReadSector@{mcReadSector}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{mcReadSector()}{mcReadSector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Read\+Sector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{sector,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a764b813475c7aeb45ee8a290f8d102c1}\label{driver_8c_a764b813475c7aeb45ee8a290f8d102c1} 
+\index{driver.c@{driver.c}!mcWriteSector@{mcWriteSector}}
+\index{mcWriteSector@{mcWriteSector}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{mcWriteSector()}{mcWriteSector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mc\+Write\+Sector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{sector,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a3f1bd000bde18b871294e352e1f21718}\label{driver_8c_a3f1bd000bde18b871294e352e1f21718} 
+\index{driver.c@{driver.c}!patch\_disable\_slotChangeOnAbort@{patch\_disable\_slotChangeOnAbort}}
+\index{patch\_disable\_slotChangeOnAbort@{patch\_disable\_slotChangeOnAbort}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{patch\_disable\_slotChangeOnAbort()}{patch\_disable\_slotChangeOnAbort()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+disable\+\_\+slot\+Change\+On\+Abort (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a8b82954196b76d11dad6ffaa81c70bb0}\label{driver_8c_a8b82954196b76d11dad6ffaa81c70bb0} 
+\index{driver.c@{driver.c}!patch\_remove\_ChgclrPAD@{patch\_remove\_ChgclrPAD}}
+\index{patch\_remove\_ChgclrPAD@{patch\_remove\_ChgclrPAD}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{patch\_remove\_ChgclrPAD()}{patch\_remove\_ChgclrPAD()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+remove\+\_\+\+Chgclr\+PAD (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a3ddba8e7f9aba4fc49ab3d174a74ead0}\label{driver_8c_a3ddba8e7f9aba4fc49ab3d174a74ead0} 
+\index{driver.c@{driver.c}!patch\_send\_pad@{patch\_send\_pad}}
+\index{patch\_send\_pad@{patch\_send\_pad}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{patch\_send\_pad()}{patch\_send\_pad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+send\+\_\+pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a05edef5ff263b46e2b0b0752b4a96d8b}\label{driver_8c_a05edef5ff263b46e2b0b0752b4a96d8b} 
+\index{driver.c@{driver.c}!patch\_startPad@{patch\_startPad}}
+\index{patch\_startPad@{patch\_startPad}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{patch\_startPad()}{patch\_startPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+start\+Pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{driver_8c_a9a0c26542d389222eaca351f423801d5}\label{driver_8c_a9a0c26542d389222eaca351f423801d5} 
+\index{driver.c@{driver.c}!patch\_stopPad@{patch\_stopPad}}
+\index{patch\_stopPad@{patch\_stopPad}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{patch\_stopPad()}{patch\_stopPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+stop\+Pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{driver_8c_a2ef26af29af60c8cab27c02be6f83714}\label{driver_8c_a2ef26af29af60c8cab27c02be6f83714} 
+\index{driver.c@{driver.c}!g\_mcActionInProgress@{g\_mcActionInProgress}}
+\index{g\_mcActionInProgress@{g\_mcActionInProgress}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcActionInProgress}{g\_mcActionInProgress}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Action\+In\+Progress}
+
+\Hypertarget{driver_8c_a0115e97a8db4f2c8660c0d09f4004bff}\label{driver_8c_a0115e97a8db4f2c8660c0d09f4004bff} 
+\index{driver.c@{driver.c}!g\_mcChecksum@{g\_mcChecksum}}
+\index{g\_mcChecksum@{g\_mcChecksum}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcChecksum}{g\_mcChecksum}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+mc\+Checksum\mbox{[}2\mbox{]}}
+
+\Hypertarget{driver_8c_a2ed59072c3ddd84d3fc779353834ea3b}\label{driver_8c_a2ed59072c3ddd84d3fc779353834ea3b} 
+\index{driver.c@{driver.c}!g\_mcDeviceId@{g\_mcDeviceId}}
+\index{g\_mcDeviceId@{g\_mcDeviceId}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcDeviceId}{g\_mcDeviceId}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Device\+Id\mbox{[}2\mbox{]}}
+
+\Hypertarget{driver_8c_ad8b9fb284b4bc7a49eba3771e37c7eac}\label{driver_8c_ad8b9fb284b4bc7a49eba3771e37c7eac} 
+\index{driver.c@{driver.c}!g\_mcFastTrackActive@{g\_mcFastTrackActive}}
+\index{g\_mcFastTrackActive@{g\_mcFastTrackActive}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcFastTrackActive}{g\_mcFastTrackActive}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Fast\+Track\+Active = 0}
+
+\Hypertarget{driver_8c_a98c981a0489083eda08c314fcf04cca9}\label{driver_8c_a98c981a0489083eda08c314fcf04cca9} 
+\index{driver.c@{driver.c}!g\_mcFastTrackBuffer@{g\_mcFastTrackBuffer}}
+\index{g\_mcFastTrackBuffer@{g\_mcFastTrackBuffer}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcFastTrackBuffer}{g\_mcFastTrackBuffer}}
+{\footnotesize\ttfamily uint8\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+mc\+Fast\+Track\+Buffer = NULL}
+
+\Hypertarget{driver_8c_a9c2347a9649568134795ddf20b74ac41}\label{driver_8c_a9c2347a9649568134795ddf20b74ac41} 
+\index{driver.c@{driver.c}!g\_mcFastTrackChecksumPtr@{g\_mcFastTrackChecksumPtr}}
+\index{g\_mcFastTrackChecksumPtr@{g\_mcFastTrackChecksumPtr}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcFastTrackChecksumPtr}{g\_mcFastTrackChecksumPtr}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}\texorpdfstring{$\ast$}{*} g\+\_\+mc\+Fast\+Track\+Checksum\+Ptr = NULL}
+
+\Hypertarget{driver_8c_a7d3c7a97735eead0f6784399739592ef}\label{driver_8c_a7d3c7a97735eead0f6784399739592ef} 
+\index{driver.c@{driver.c}!g\_mcFastTrackCounter@{g\_mcFastTrackCounter}}
+\index{g\_mcFastTrackCounter@{g\_mcFastTrackCounter}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcFastTrackCounter}{g\_mcFastTrackCounter}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+mc\+Fast\+Track\+Counter = 0}
+
+\Hypertarget{driver_8c_a6743ff303654145cf712af3be3d67539}\label{driver_8c_a6743ff303654145cf712af3be3d67539} 
+\index{driver.c@{driver.c}!g\_mcFastTrackOperationPtr@{g\_mcFastTrackOperationPtr}}
+\index{g\_mcFastTrackOperationPtr@{g\_mcFastTrackOperationPtr}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcFastTrackOperationPtr}{g\_mcFastTrackOperationPtr}}
+{\footnotesize\ttfamily uint8\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+mc\+Fast\+Track\+Operation\+Ptr = NULL}
+
+\Hypertarget{driver_8c_a52a74ed4b2bd9a8b4b7a4f36c92343dc}\label{driver_8c_a52a74ed4b2bd9a8b4b7a4f36c92343dc} 
+\index{driver.c@{driver.c}!g\_mcFlags@{g\_mcFlags}}
+\index{g\_mcFlags@{g\_mcFlags}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcFlags}{g\_mcFlags}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+mc\+Flags\mbox{[}2\mbox{]}}
+
+\Hypertarget{driver_8c_a60bfb6c9dcaca96921584844d191aca7}\label{driver_8c_a60bfb6c9dcaca96921584844d191aca7} 
+\index{driver.c@{driver.c}!g\_mcGotError@{g\_mcGotError}}
+\index{g\_mcGotError@{g\_mcGotError}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcGotError}{g\_mcGotError}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Got\+Error}
+
+\Hypertarget{driver_8c_a27b2b68cf113c2bc7c73bcb4d82f09d6}\label{driver_8c_a27b2b68cf113c2bc7c73bcb4d82f09d6} 
+\index{driver.c@{driver.c}!g\_mcHandlerDelayPatch@{g\_mcHandlerDelayPatch}}
+\index{g\_mcHandlerDelayPatch@{g\_mcHandlerDelayPatch}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcHandlerDelayPatch}{g\_mcHandlerDelayPatch}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Handler\+Delay\+Patch = 0}
+
+\Hypertarget{driver_8c_a64baf6660d2135fbeb8e51efb9c074b6}\label{driver_8c_a64baf6660d2135fbeb8e51efb9c074b6} 
+\index{driver.c@{driver.c}!g\_mcHandlerInfo@{g\_mcHandlerInfo}}
+\index{g\_mcHandlerInfo@{g\_mcHandlerInfo}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcHandlerInfo}{g\_mcHandlerInfo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} g\+\_\+mc\+Handler\+Info}
+
+\Hypertarget{driver_8c_adccbc0413777d5ec94fec852d9993155}\label{driver_8c_adccbc0413777d5ec94fec852d9993155} 
+\index{driver.c@{driver.c}!g\_mcHandlers@{g\_mcHandlers}}
+\index{g\_mcHandlers@{g\_mcHandlers}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcHandlers}{g\_mcHandlers}}
+{\footnotesize\ttfamily \mbox{\hyperlink{driver_8c_a355cabe3f48ab3c28945d5fe5d6287c5}{mc\+Op\+Handler}} g\+\_\+mc\+Handlers\mbox{[}2\mbox{]}}
+
+\Hypertarget{driver_8c_a575fc96b90b86405d444eb21d2e83585}\label{driver_8c_a575fc96b90b86405d444eb21d2e83585} 
+\index{driver.c@{driver.c}!g\_mcLastPort@{g\_mcLastPort}}
+\index{g\_mcLastPort@{g\_mcLastPort}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcLastPort}{g\_mcLastPort}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Last\+Port}
+
+\Hypertarget{driver_8c_ad60a29fdab59e6526cec7f81c5d94c40}\label{driver_8c_ad60a29fdab59e6526cec7f81c5d94c40} 
+\index{driver.c@{driver.c}!g\_mcOperation@{g\_mcOperation}}
+\index{g\_mcOperation@{g\_mcOperation}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcOperation}{g\_mcOperation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Operation}
+
+\Hypertarget{driver_8c_a6a7b3a3a934a685414c44a6d0fcf6d4d}\label{driver_8c_a6a7b3a3a934a685414c44a6d0fcf6d4d} 
+\index{driver.c@{driver.c}!g\_mcPortFlipping@{g\_mcPortFlipping}}
+\index{g\_mcPortFlipping@{g\_mcPortFlipping}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcPortFlipping}{g\_mcPortFlipping}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Port\+Flipping}
+
+\Hypertarget{driver_8c_a269e7137df0f79f9fcb40146c7778460}\label{driver_8c_a269e7137df0f79f9fcb40146c7778460} 
+\index{driver.c@{driver.c}!g\_mcSector@{g\_mcSector}}
+\index{g\_mcSector@{g\_mcSector}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcSector}{g\_mcSector}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+mc\+Sector\mbox{[}2\mbox{]}}
+
+\Hypertarget{driver_8c_a85673583acb16b00f06b6426065cde31}\label{driver_8c_a85673583acb16b00f06b6426065cde31} 
+\index{driver.c@{driver.c}!g\_mcUserBuffers@{g\_mcUserBuffers}}
+\index{g\_mcUserBuffers@{g\_mcUserBuffers}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_mcUserBuffers}{g\_mcUserBuffers}}
+{\footnotesize\ttfamily uint8\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+mc\+User\+Buffers\mbox{[}2\mbox{]}}
+
+\Hypertarget{driver_8c_a4b9fe01ba971e607797d588779980864}\label{driver_8c_a4b9fe01ba971e607797d588779980864} 
+\index{driver.c@{driver.c}!g\_sio0HandlerInfo@{g\_sio0HandlerInfo}}
+\index{g\_sio0HandlerInfo@{g\_sio0HandlerInfo}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_sio0HandlerInfo}{g\_sio0HandlerInfo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} g\+\_\+sio0\+Handler\+Info}
+
+\Hypertarget{driver_8c_a513dfee825e6a0ffb19191c6c1b57c71}\label{driver_8c_a513dfee825e6a0ffb19191c6c1b57c71} 
+\index{driver.c@{driver.c}!g\_sio0Mask@{g\_sio0Mask}}
+\index{g\_sio0Mask@{g\_sio0Mask}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_sio0Mask}{g\_sio0Mask}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} g\+\_\+sio0\+Mask}
+
+\Hypertarget{driver_8c_ae6551f1cc2ad35b2013975590689d9ad}\label{driver_8c_ae6551f1cc2ad35b2013975590689d9ad} 
+\index{driver.c@{driver.c}!g\_skipErrorOnNewCard@{g\_skipErrorOnNewCard}}
+\index{g\_skipErrorOnNewCard@{g\_skipErrorOnNewCard}!driver.c@{driver.c}}
+\doxysubsubsection{\texorpdfstring{g\_skipErrorOnNewCard}{g\_skipErrorOnNewCard}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+skip\+Error\+On\+New\+Card}
+

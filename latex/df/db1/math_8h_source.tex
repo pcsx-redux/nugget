@@ -1,0 +1,122 @@
+\doxysection{math.\+h}
+\hypertarget{math_8h_source}{}\label{math_8h_source}\index{shell/math.h@{shell/math.h}}
+\mbox{\hyperlink{math_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_2hardware_2gpu_8h}{common/hardware/gpu.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{dcos_8h}{shell/dcos.h}}"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ ONE\ 16777216}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ int32\_t\ dMul(int32\_t\ a,\ int32\_t\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ a;}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ *=\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ >>\ 24;}
+\DoxyCodeLine{00040\ \}}
+\DoxyCodeLine{00041\ int32\_t\ \mbox{\hyperlink{math_8h_a91c3df7b3a43a61b3041ad438ab164c2}{dDiv}}(int32\_t\ a,\ int32\_t\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertex2D}{Vertex2D}}\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}},\ \mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}};}
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMatrix2D}{Matrix2D}}\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertex2D}{Vertex2D}}\ \mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[2];}
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertex3D}{Vertex3D}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structVertex3D_a963dda23ff4d93469f328ce0cb95e19a}{x}},\ \mbox{\hyperlink{structVertex3D_a5bd77dbc072f55456e4b47bfa7dc4776}{y}},\ \mbox{\hyperlink{structVertex3D_ad25ebdbfad4bc7e75b85bf2209609088}{z}};}
+\DoxyCodeLine{00053\ \};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertex3D}{Vertex3D}}\ \mbox{\hyperlink{structMatrix3D_a186b50009976561e265ba78108d0fa22}{vs}}[3];}
+\DoxyCodeLine{00057\ \};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8e}{Axis}}\ \{\ \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8ea96f9d79b61cc5f3a85c3905da30d9214}{AXIS\_X}},\ \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8eabac2b599f684a034e45fbac20013a56b}{AXIS\_Y}},\ \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8eaf30d19a1a44e01420e4e5b86cde3ecd8}{AXIS\_Z}}\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{math_8h_a3d81324c903d32f0939900465ceb88b0}{generateRotationMatrix3D}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}},\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{math_8h_ae3996976d8ffb3e58d88f58227473f8e}{Axis}}\ a);}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{math_8h_a802daad307c8dde5829e893b6d880417}{multiplyMatrix3D}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m1,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m2,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}});}
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{math_8h_acb15b7bae620473d389d3ebafe9aa7a9}{scaleMatrix3D}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m,\ int32\_t\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{math_8h_a0b24da43b64f4519d2041d93e4d15d4f}{matrixVertexMul3D}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structVertex3D}{Vertex3D}}\ *v,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structVertex3D}{Vertex3D}}\ *\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}});}
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{math_8h_adb0fee8e1e77fe3b93575eed4d94a4a9}{matrixVertexMul3Dxy}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structVertex3D}{Vertex3D}}\ *v,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structVertex2D}{Vertex2D}}\ *\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}});}
+\DoxyCodeLine{00066\ int32\_t\ \mbox{\hyperlink{math_8h_a20eb040c50cd9cbcf5df63bb52131ace}{matrixVertexMul3Dz}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix3D}{Matrix3D}}\ *m,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structVertex3D}{Vertex3D}}\ *v);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rotationMatrix2D(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix2D}{Matrix2D}}\ *m,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}})\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ int32\_t\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}\ =\ dCos(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}});}
+\DoxyCodeLine{00070\ \ \ \ \ int32\_t\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ dSin(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}});}
+\DoxyCodeLine{00071\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00072\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}}\ =\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00073\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}}\ =\ -\/\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00074\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}}\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};}
+\DoxyCodeLine{00075\ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ scaleMatrix2D(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix2D}{Matrix2D}}\ *m,\ int32\_t\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}})\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}}\ =\ dMul(m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00079\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}}\ =\ dMul(m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00080\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}}\ =\ dMul(m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00081\ \ \ \ \ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}}\ =\ dMul(m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ matrixVertexMul2D(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structMatrix2D}{Matrix2D}}\ *m,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structVertex2D}{Vertex2D}}\ *v)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structVertex3D_a963dda23ff4d93469f328ce0cb95e19a}{x}}\ =\ v-\/>\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}};}
+\DoxyCodeLine{00086\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structVertex3D_a5bd77dbc072f55456e4b47bfa7dc4776}{y}}\ =\ v-\/>\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}};}
+\DoxyCodeLine{00087\ \ \ \ \ int32\_t\ mx1\ =\ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}};}
+\DoxyCodeLine{00088\ \ \ \ \ int32\_t\ my1\ =\ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[0].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}};}
+\DoxyCodeLine{00089\ \ \ \ \ int32\_t\ mx2\ =\ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}};}
+\DoxyCodeLine{00090\ \ \ \ \ int32\_t\ my2\ =\ m-\/>\mbox{\hyperlink{structMatrix2D_a556311a0ceafb117cc7eb18834af989e}{vs}}[1].\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}};}
+\DoxyCodeLine{00091\ \ \ \ \ int32\_t\ nx1\ =\ dMul(\mbox{\hyperlink{structVertex3D_a963dda23ff4d93469f328ce0cb95e19a}{x}},\ mx1);}
+\DoxyCodeLine{00092\ \ \ \ \ int32\_t\ ny1\ =\ dMul(\mbox{\hyperlink{structVertex3D_a5bd77dbc072f55456e4b47bfa7dc4776}{y}},\ my1);}
+\DoxyCodeLine{00093\ \ \ \ \ int32\_t\ nx2\ =\ dMul(\mbox{\hyperlink{structVertex3D_a963dda23ff4d93469f328ce0cb95e19a}{x}},\ mx2);}
+\DoxyCodeLine{00094\ \ \ \ \ int32\_t\ ny2\ =\ dMul(\mbox{\hyperlink{structVertex3D_a5bd77dbc072f55456e4b47bfa7dc4776}{y}},\ my2);}
+\DoxyCodeLine{00095\ \ \ \ \ int32\_t\ nx\ =\ nx1\ +\ ny1;}
+\DoxyCodeLine{00096\ \ \ \ \ int32\_t\ ny\ =\ nx2\ +\ ny2;}
+\DoxyCodeLine{00097\ \ \ \ \ v-\/>\mbox{\hyperlink{structVertex2D_a895dc11114b0449994cf9dee901d594c}{x}}\ =\ nx;}
+\DoxyCodeLine{00098\ \ \ \ \ v-\/>\mbox{\hyperlink{structVertex2D_a49288ea0907fd50ec8ed1074c43d169c}{y}}\ =\ ny;}
+\DoxyCodeLine{00099\ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{comment}{//\ standard\ lerp\ function}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ \ s\ =\ source,\ an\ arbitrary\ number\ up\ to\ 2\string^24}}
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ \ d\ =\ destination,\ an\ arbitrary\ number\ up\ to\ 2\string^24}}
+\DoxyCodeLine{00104\ \textcolor{comment}{//\ \ p\ =\ position,\ a\ number\ between\ 0\ and\ 256,\ inclusive}}
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ \ p\ =\ 0\ means\ output\ =\ s}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ \ p\ =\ 256\ means\ output\ =\ d}}
+\DoxyCodeLine{00107\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ lerpU(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ d,\ \textcolor{keywordtype}{unsigned}\ p)\ \{\ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ *\ (256\ -\/\ p)\ +\ d\ *\ p)\ >>\ 8;\ \}}
+\DoxyCodeLine{00108\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ int32\_t\ lerpS(int32\_t\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}},\ int32\_t\ d,\ \textcolor{keywordtype}{unsigned}\ p)\ \{\ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ *\ (256\ -\/\ p)\ +\ d\ *\ p)\ >>\ 8;\ \}}
+\DoxyCodeLine{00109\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ int32\_t\ lerpD(int32\_t\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}},\ int32\_t\ d,\ int32\_t\ p)\ \{\ \textcolor{keywordflow}{return}\ dMul(\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}},\ 16777216\ -\/\ p)\ +\ dMul(d,\ p);\ \}}
+\DoxyCodeLine{00110\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionColor}{Color}}\ lerpC(const\ union\ \mbox{\hyperlink{unionColor}{Color}}\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}},\ const\ union\ \mbox{\hyperlink{unionColor}{Color}}\ d,\ unsigned\ p)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionColor}{Color}}\ \mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}};}
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}}.\mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}}\ =\ lerpU(\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}.r,\ d.r,\ p);}
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}}.b\ =\ lerpU(\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}.b,\ d.b,\ p);}
+\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}}.g\ =\ lerpU(\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}.g,\ d.g,\ p);}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{unionColor_aecbc1a4121c21990512e7c10544d6ece}{r}};}
+\DoxyCodeLine{00116\ \}}
+
+\end{DoxyCode}

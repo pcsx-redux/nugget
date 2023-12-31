@@ -1,0 +1,88 @@
+\doxysection{common/hardware/sio1.h File Reference}
+\hypertarget{sio1_8h}{}\label{sio1_8h}\index{common/hardware/sio1.h@{common/hardware/sio1.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+Include dependency graph for sio1.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=325pt]{da/ded/sio1_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{dc/d94/sio1_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{sio1_8h_a8bac85c03e5a851025a7564f982eadf0}{SIO1\+\_\+\+DATA}}~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f801050)
+\item 
+\#define \mbox{\hyperlink{sio1_8h_a6650e6650c7bb45596f107d72b420d7c}{SIO1\+\_\+\+STAT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801054)
+\item 
+\#define \mbox{\hyperlink{sio1_8h_ab0871cac84e18522116b9c12a1fbb476}{SIO1\+\_\+\+MODE}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801058)
+\item 
+\#define \mbox{\hyperlink{sio1_8h_a8839d1a97b76ac0d0c41d20f067ab173}{SIO1\+\_\+\+CTRL}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f80105a)
+\item 
+\#define \mbox{\hyperlink{sio1_8h_a178fc94d55fd583286c278bbe83186e3}{SIO1\+\_\+\+BAUD}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f80105e)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{sio1_8h_ad4bb33c88601d4993fe17bc4fbe428ba}{sio1\+\_\+init}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{sio1_8h_aa1315941dde5419a9c7854588c26aef7}{sio1\+\_\+putc}} (uint8\+\_\+t byte)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{sio1_8h_a178fc94d55fd583286c278bbe83186e3}\label{sio1_8h_a178fc94d55fd583286c278bbe83186e3} 
+\index{sio1.h@{sio1.h}!SIO1\_BAUD@{SIO1\_BAUD}}
+\index{SIO1\_BAUD@{SIO1\_BAUD}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{SIO1\_BAUD}{SIO1\_BAUD}}
+{\footnotesize\ttfamily \#define SIO1\+\_\+\+BAUD~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f80105e)}
+
+\Hypertarget{sio1_8h_a8839d1a97b76ac0d0c41d20f067ab173}\label{sio1_8h_a8839d1a97b76ac0d0c41d20f067ab173} 
+\index{sio1.h@{sio1.h}!SIO1\_CTRL@{SIO1\_CTRL}}
+\index{SIO1\_CTRL@{SIO1\_CTRL}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{SIO1\_CTRL}{SIO1\_CTRL}}
+{\footnotesize\ttfamily \#define SIO1\+\_\+\+CTRL~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f80105a)}
+
+\Hypertarget{sio1_8h_a8bac85c03e5a851025a7564f982eadf0}\label{sio1_8h_a8bac85c03e5a851025a7564f982eadf0} 
+\index{sio1.h@{sio1.h}!SIO1\_DATA@{SIO1\_DATA}}
+\index{SIO1\_DATA@{SIO1\_DATA}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{SIO1\_DATA}{SIO1\_DATA}}
+{\footnotesize\ttfamily \#define SIO1\+\_\+\+DATA~\mbox{\hyperlink{hwregs_8h_a584b6121344d686b784e4ee148ec2f5a}{HW\+\_\+\+U8}}(0x1f801050)}
+
+\Hypertarget{sio1_8h_ab0871cac84e18522116b9c12a1fbb476}\label{sio1_8h_ab0871cac84e18522116b9c12a1fbb476} 
+\index{sio1.h@{sio1.h}!SIO1\_MODE@{SIO1\_MODE}}
+\index{SIO1\_MODE@{SIO1\_MODE}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{SIO1\_MODE}{SIO1\_MODE}}
+{\footnotesize\ttfamily \#define SIO1\+\_\+\+MODE~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801058)}
+
+\Hypertarget{sio1_8h_a6650e6650c7bb45596f107d72b420d7c}\label{sio1_8h_a6650e6650c7bb45596f107d72b420d7c} 
+\index{sio1.h@{sio1.h}!SIO1\_STAT@{SIO1\_STAT}}
+\index{SIO1\_STAT@{SIO1\_STAT}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{SIO1\_STAT}{SIO1\_STAT}}
+{\footnotesize\ttfamily \#define SIO1\+\_\+\+STAT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801054)}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{sio1_8h_ad4bb33c88601d4993fe17bc4fbe428ba}\label{sio1_8h_ad4bb33c88601d4993fe17bc4fbe428ba} 
+\index{sio1.h@{sio1.h}!sio1\_init@{sio1\_init}}
+\index{sio1\_init@{sio1\_init}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{sio1\_init()}{sio1\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} sio1\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{sio1_8h_aa1315941dde5419a9c7854588c26aef7}\label{sio1_8h_aa1315941dde5419a9c7854588c26aef7} 
+\index{sio1.h@{sio1.h}!sio1\_putc@{sio1\_putc}}
+\index{sio1\_putc@{sio1\_putc}!sio1.h@{sio1.h}}
+\doxysubsubsection{\texorpdfstring{sio1\_putc()}{sio1\_putc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} sio1\+\_\+putc (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{byte }\end{DoxyParamCaption})}
+

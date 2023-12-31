@@ -1,0 +1,29 @@
+<map id="common/psxlibc/string.h" name="common/psxlibc/string.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1247,5,1430,31"/>
+<area shape="rect" id="Node000002" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="5,79,205,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1233,26,791,46,506,62,218,81,206,82,205,77,217,76,505,56,790,40,1233,21"/>
+<area shape="rect" id="Node000003" href="$d5/d96/device_8c.html" title=" " alt="" coords="229,79,400,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1234,27,870,47,412,81,400,82,400,77,412,76,870,42,1233,22"/>
+<area shape="rect" id="Node000004" href="$da/d5a/cdrom_2filesystem_8c.html" title=" " alt="" coords="424,79,635,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1233,31,647,81,635,82,635,77,646,76,1233,25"/>
+<area shape="rect" id="Node000005" href="$de/d5a/fileio_2misc_8c.html" title=" " alt="" coords="659,79,823,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1234,34,836,81,824,83,823,78,836,76,1233,29"/>
+<area shape="rect" id="Node000006" href="$dd/de7/irq_8c.html" title=" " alt="" coords="848,79,1021,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1261,36,1000,81,999,76,1260,30"/>
+<area shape="rect" id="Node000007" href="$d6/d12/openbios_2kernel_2alloc_8c.html" title=" " alt="" coords="1045,79,1216,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1293,38,1165,81,1163,76,1291,33"/>
+<area shape="rect" id="Node000008" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="1241,79,1437,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1341,44,1341,79,1336,79,1336,44"/>
+<area shape="rect" id="Node000009" href="$de/d44/libcmisc_8c.html" title=" " alt="" coords="1461,79,1656,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1388,32,1524,76,1522,81,1386,37"/>
+<area shape="rect" id="Node000010" href="$df/de5/psxexe_8c.html" title=" " alt="" coords="1680,79,1867,104"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1422,30,1704,76,1703,81,1421,35"/>
+<area shape="rect" id="Node000011" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="1891,79,2058,104"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1444,28,1879,76,1891,77,1891,83,1878,81,1444,33"/>
+<area shape="rect" id="Node000012" href="$df/ddd/pio_8c.html" title=" " alt="" coords="2082,79,2222,104"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1444,23,1727,44,2071,76,2082,77,2082,83,2070,81,1727,49,1443,29"/>
+<area shape="rect" id="Node000013" href="$d6/d4f/shell_8c.html" title=" " alt="" coords="2247,79,2409,104"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1444,22,1795,42,2235,76,2247,77,2246,83,2234,81,1795,47,1444,27"/>
+<area shape="rect" id="Node000014" href="$d1/d56/driver_8c.html" title=" " alt="" coords="2433,79,2599,104"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="1444,20,1871,39,2145,55,2422,76,2433,77,2433,82,2421,81,2145,60,1871,44,1443,26"/>
+</map>

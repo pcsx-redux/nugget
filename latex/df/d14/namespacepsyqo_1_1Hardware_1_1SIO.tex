@@ -1,0 +1,190 @@
+\doxysection{psyqo\+::Hardware\+::SIO Namespace Reference}
+\hypertarget{namespacepsyqo_1_1Hardware_1_1SIO}{}\label{namespacepsyqo_1_1Hardware_1_1SIO}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002b}{Control}} \+: uint16\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bac54e7dcdc564b3ee1bae6faaaf97742a}{CTRL\+\_\+\+TXEN}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 0)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba8f095a34fd960c6432e88da2f797ed2b}{CTRL\+\_\+\+DTR}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 1)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba782d36f860f421137740355fb7b9a2fa}{CTRL\+\_\+\+RXE}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 2)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab4045be39aa77de3b97c354df62a83a2}{CTRL\+\_\+\+SBRK}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 3)
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba1e7de333fa120803c5e197e7ada7765b}{CTRL\+\_\+\+ERRRES}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 4)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab2ddc7d551e42e37a85eb21968cd6949}{CTRL\+\_\+\+RTS}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 5)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002baf0cec6d77289335d18c48cd1ab91b5ca}{CTRL\+\_\+\+IR}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 6)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba7b93e4423f1884225c46fad3fb91c502}{CTRL\+\_\+\+RXIRQMODE}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 8)
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba497ba1c3f3387214845610e12201be09}{CTRL\+\_\+\+TXIRQEN}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 10)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba66df9719a51a713c63ab97c90fb5d2af}{CTRL\+\_\+\+RXIRQEN}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 11)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab8dca6e4229c66b77dd9cce8720c31e1}{CTRL\+\_\+\+ACKIRQEN}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 12)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba17287eddd1695f079d2962b8444a533e}{CTRL\+\_\+\+PORTSEL}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 13)
+ \}
+\item 
+enum \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aa}{Status}} \+: uint32\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaadb782e23ac2847a65910a62750736009}{STAT\+\_\+\+TXRDY}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 0)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0640b22690b739451ab2b11b1b5ea5d8}{STAT\+\_\+\+RXRDY}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 1)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa374536adbb06a3cf5842d7fd1f7aa422}{STAT\+\_\+\+TXEMPTY}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 2)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1c6e7d816c0c1a6d92eb03903a0abfb}{STAT\+\_\+\+PE}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 3)
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0000854a890695d4655363699c0eec69}{STAT\+\_\+\+OE}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 4)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaae60caa1071e374966b4d03fdf4dbf26d}{STAT\+\_\+\+FE}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 5)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1575c7636caa0b1382f9040422971e7}{STAT\+\_\+\+SYNDET}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 6)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa585d0db40e84b13c116fc3e40e262c9b}{STAT\+\_\+\+ACK}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 7)
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0528d42624df4f5d41d2566f19e0ea17}{STAT\+\_\+\+CTS}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 8)
+, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaaed9d962278142ad233f63c7cf8105e65}{STAT\+\_\+\+IRQ}} = (1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 9)
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x0040, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_ab3e41c4f00b6c4818ae7c886f147fc36}{Data}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x0044, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a5f2369caae8d64ca060910df64aebd2f}{Stat}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x0048, uint16\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_af9f3a6b85c8bf53c129c10812a9e1d42}{Mode}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x004a, uint16\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a985e7a271fd9684b342f3aff25645acd}{Ctrl}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x004e, uint16\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_ad27cd19c7ede7adbbbe74b50b6beb2db}{Baud}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002b}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002b} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Control@{Control}}
+\index{Control@{Control}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Control}{Control}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002b}{psyqo\+::\+Hardware\+::\+SIO\+::\+Control}} \+: uint16\+\_\+t}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_TXEN@{CTRL\_TXEN}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_TXEN@{CTRL\_TXEN}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bac54e7dcdc564b3ee1bae6faaaf97742a}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bac54e7dcdc564b3ee1bae6faaaf97742a} 
+CTRL\+\_\+\+TXEN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_DTR@{CTRL\_DTR}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_DTR@{CTRL\_DTR}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba8f095a34fd960c6432e88da2f797ed2b}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba8f095a34fd960c6432e88da2f797ed2b} 
+CTRL\+\_\+\+DTR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_RXE@{CTRL\_RXE}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_RXE@{CTRL\_RXE}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba782d36f860f421137740355fb7b9a2fa}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba782d36f860f421137740355fb7b9a2fa} 
+CTRL\+\_\+\+RXE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_SBRK@{CTRL\_SBRK}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_SBRK@{CTRL\_SBRK}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab4045be39aa77de3b97c354df62a83a2}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab4045be39aa77de3b97c354df62a83a2} 
+CTRL\+\_\+\+SBRK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_ERRRES@{CTRL\_ERRRES}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_ERRRES@{CTRL\_ERRRES}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba1e7de333fa120803c5e197e7ada7765b}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba1e7de333fa120803c5e197e7ada7765b} 
+CTRL\+\_\+\+ERRRES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_RTS@{CTRL\_RTS}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_RTS@{CTRL\_RTS}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab2ddc7d551e42e37a85eb21968cd6949}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab2ddc7d551e42e37a85eb21968cd6949} 
+CTRL\+\_\+\+RTS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_IR@{CTRL\_IR}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_IR@{CTRL\_IR}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002baf0cec6d77289335d18c48cd1ab91b5ca}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002baf0cec6d77289335d18c48cd1ab91b5ca} 
+CTRL\+\_\+\+IR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_RXIRQMODE@{CTRL\_RXIRQMODE}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_RXIRQMODE@{CTRL\_RXIRQMODE}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba7b93e4423f1884225c46fad3fb91c502}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba7b93e4423f1884225c46fad3fb91c502} 
+CTRL\+\_\+\+RXIRQMODE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_TXIRQEN@{CTRL\_TXIRQEN}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_TXIRQEN@{CTRL\_TXIRQEN}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba497ba1c3f3387214845610e12201be09}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba497ba1c3f3387214845610e12201be09} 
+CTRL\+\_\+\+TXIRQEN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_RXIRQEN@{CTRL\_RXIRQEN}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_RXIRQEN@{CTRL\_RXIRQEN}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba66df9719a51a713c63ab97c90fb5d2af}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba66df9719a51a713c63ab97c90fb5d2af} 
+CTRL\+\_\+\+RXIRQEN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_ACKIRQEN@{CTRL\_ACKIRQEN}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_ACKIRQEN@{CTRL\_ACKIRQEN}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab8dca6e4229c66b77dd9cce8720c31e1}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab8dca6e4229c66b77dd9cce8720c31e1} 
+CTRL\+\_\+\+ACKIRQEN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CTRL\_PORTSEL@{CTRL\_PORTSEL}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!CTRL\_PORTSEL@{CTRL\_PORTSEL}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba17287eddd1695f079d2962b8444a533e}\label{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba17287eddd1695f079d2962b8444a533e} 
+CTRL\+\_\+\+PORTSEL&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aa}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aa} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Status@{Status}}
+\index{Status@{Status}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Status}{Status}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aa}{psyqo\+::\+Hardware\+::\+SIO\+::\+Status}} \+: \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_TXRDY@{STAT\_TXRDY}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_TXRDY@{STAT\_TXRDY}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaadb782e23ac2847a65910a62750736009}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaadb782e23ac2847a65910a62750736009} 
+STAT\+\_\+\+TXRDY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_RXRDY@{STAT\_RXRDY}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_RXRDY@{STAT\_RXRDY}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0640b22690b739451ab2b11b1b5ea5d8}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0640b22690b739451ab2b11b1b5ea5d8} 
+STAT\+\_\+\+RXRDY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_TXEMPTY@{STAT\_TXEMPTY}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_TXEMPTY@{STAT\_TXEMPTY}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa374536adbb06a3cf5842d7fd1f7aa422}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa374536adbb06a3cf5842d7fd1f7aa422} 
+STAT\+\_\+\+TXEMPTY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_PE@{STAT\_PE}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_PE@{STAT\_PE}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1c6e7d816c0c1a6d92eb03903a0abfb}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1c6e7d816c0c1a6d92eb03903a0abfb} 
+STAT\+\_\+\+PE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_OE@{STAT\_OE}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_OE@{STAT\_OE}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0000854a890695d4655363699c0eec69}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0000854a890695d4655363699c0eec69} 
+STAT\+\_\+\+OE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_FE@{STAT\_FE}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_FE@{STAT\_FE}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaae60caa1071e374966b4d03fdf4dbf26d}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaae60caa1071e374966b4d03fdf4dbf26d} 
+STAT\+\_\+\+FE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_SYNDET@{STAT\_SYNDET}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_SYNDET@{STAT\_SYNDET}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1575c7636caa0b1382f9040422971e7}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1575c7636caa0b1382f9040422971e7} 
+STAT\+\_\+\+SYNDET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_ACK@{STAT\_ACK}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_ACK@{STAT\_ACK}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa585d0db40e84b13c116fc3e40e262c9b}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa585d0db40e84b13c116fc3e40e262c9b} 
+STAT\+\_\+\+ACK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_CTS@{STAT\_CTS}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_CTS@{STAT\_CTS}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0528d42624df4f5d41d2566f19e0ea17}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0528d42624df4f5d41d2566f19e0ea17} 
+STAT\+\_\+\+CTS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAT\_IRQ@{STAT\_IRQ}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!STAT\_IRQ@{STAT\_IRQ}}}\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaaed9d962278142ad233f63c7cf8105e65}\label{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaaed9d962278142ad233f63c7cf8105e65} 
+STAT\+\_\+\+IRQ&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_ad27cd19c7ede7adbbbe74b50b6beb2db}\label{namespacepsyqo_1_1Hardware_1_1SIO_ad27cd19c7ede7adbbbe74b50b6beb2db} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Baud@{Baud}}
+\index{Baud@{Baud}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Baud}{Baud}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x004e, uint16\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ psyqo\+::\+Hardware\+::\+SIO\+::\+Baud\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a985e7a271fd9684b342f3aff25645acd}\label{namespacepsyqo_1_1Hardware_1_1SIO_a985e7a271fd9684b342f3aff25645acd} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Ctrl@{Ctrl}}
+\index{Ctrl@{Ctrl}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Ctrl}{Ctrl}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x004a, uint16\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ psyqo\+::\+Hardware\+::\+SIO\+::\+Ctrl\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_ab3e41c4f00b6c4818ae7c886f147fc36}\label{namespacepsyqo_1_1Hardware_1_1SIO_ab3e41c4f00b6c4818ae7c886f147fc36} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Data@{Data}}
+\index{Data@{Data}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Data}{Data}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x0040, uint8\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ psyqo\+::\+Hardware\+::\+SIO\+::\+Data\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_af9f3a6b85c8bf53c129c10812a9e1d42}\label{namespacepsyqo_1_1Hardware_1_1SIO_af9f3a6b85c8bf53c129c10812a9e1d42} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Mode@{Mode}}
+\index{Mode@{Mode}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Mode}{Mode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x0048, uint16\+\_\+t, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ psyqo\+::\+Hardware\+::\+SIO\+::\+Mode\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{namespacepsyqo_1_1Hardware_1_1SIO_a5f2369caae8d64ca060910df64aebd2f}\label{namespacepsyqo_1_1Hardware_1_1SIO_a5f2369caae8d64ca060910df64aebd2f} 
+\index{psyqo::Hardware::SIO@{psyqo::Hardware::SIO}!Stat@{Stat}}
+\index{Stat@{Stat}!psyqo::Hardware::SIO@{psyqo::Hardware::SIO}}
+\doxysubsubsection{\texorpdfstring{Stat}{Stat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo\+::\+Hardware\+::\+Register}}$<$ 0x0044, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}, \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{psyqo\+::\+Hardware\+::\+Write\+Queue\+::\+Bypass}} $>$ psyqo\+::\+Hardware\+::\+SIO\+::\+Stat\hspace{0.3cm}{\ttfamily [extern]}}
+

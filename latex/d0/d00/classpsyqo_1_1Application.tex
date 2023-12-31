@@ -1,0 +1,152 @@
+\doxysection{psyqo\+::Application Class Reference}
+\hypertarget{classpsyqo_1_1Application}{}\label{classpsyqo_1_1Application}\index{psyqo::Application@{psyqo::Application}}
+
+
+The application class.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/application.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{classpsyqo_1_1Application_af121b23701d7d5105e3c6f90ee18b90d}{run}} ()
+\begin{DoxyCompactList}\small\item\em Runs the main loop. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Application_aa85dc46a2e7a0b5bbf1f6d298c450ae1}{prepare}} ()
+\begin{DoxyCompactList}\small\item\em Prepare the objects for the application. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Application_a4ac76c3f113b7a1aadd3d8f9efb3620a}{create\+Scene}} ()
+\begin{DoxyCompactList}\small\item\em Create the root scene object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}} \& \mbox{\hyperlink{classpsyqo_1_1Application_aa6b71fc82e255d1c12a3f8770c7d8885}{gpu}} ()
+\begin{DoxyCompactList}\small\item\em Get the \doxylink{classpsyqo_1_1GPU}{GPU} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsyqo_1_1Application_a1401a0f066c92d3a6a8a3f9f7afcb905}{get\+Current\+Scene}} ()
+\begin{DoxyCompactList}\small\item\em Get the current scene object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Application_ad79cb4e1c998442f77f4c12602200fa8}{push\+Scene}} (\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*}scene)
+\begin{DoxyCompactList}\small\item\em Push a scene object onto the stack. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsyqo_1_1Application_a8b9d0b216a6e568c806c860409d0bc6b}{pop\+Scene}} ()
+\begin{DoxyCompactList}\small\item\em Pop a scene object from the stack. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1Application_adbbd049e61f796502079c5cb90f30110}{\texorpdfstring{$\sim$}{\string~}\+Application}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1Application_a032858ae1fe02d2d1170981c2af2d67c}{Scene}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Application_a345f7a262dab31ff9b0c54b34a18624c}{Kernel\+::take\+Over\+Kernel}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The application class. 
+
+The application class is the main class of the application. It\textquotesingle{}s supposed to be a singleton object instantiated in your main program. It\textquotesingle{}s responsible for the main loop of the application, and creating the initial scene. It will hold the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} object that can be used to render primitives throughout the lifetime of the application. The {\ttfamily main} function should simply instantiate an application object and call its {\ttfamily run} method. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1Application_adbbd049e61f796502079c5cb90f30110}\label{classpsyqo_1_1Application_adbbd049e61f796502079c5cb90f30110} 
+\index{psyqo::Application@{psyqo::Application}!````~Application@{\texorpdfstring{$\sim$}{\string~}Application}}
+\index{````~Application@{\texorpdfstring{$\sim$}{\string~}Application}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Application()}{\string~Application()}}
+{\footnotesize\ttfamily virtual psyqo\+::\+Application\+::\texorpdfstring{$\sim$}{\string~}\+Application (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1Application_a4ac76c3f113b7a1aadd3d8f9efb3620a}\label{classpsyqo_1_1Application_a4ac76c3f113b7a1aadd3d8f9efb3620a} 
+\index{psyqo::Application@{psyqo::Application}!createScene@{createScene}}
+\index{createScene@{createScene}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{createScene()}{createScene()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Application\+::create\+Scene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Create the root scene object. 
+
+This will be called once before the main loop. It should create the root scene object and push it onto the stack. \Hypertarget{classpsyqo_1_1Application_a1401a0f066c92d3a6a8a3f9f7afcb905}\label{classpsyqo_1_1Application_a1401a0f066c92d3a6a8a3f9f7afcb905} 
+\index{psyqo::Application@{psyqo::Application}!getCurrentScene@{getCurrentScene}}
+\index{getCurrentScene@{getCurrentScene}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{getCurrentScene()}{getCurrentScene()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1Scene}{psyqo\+::\+Scene}} \texorpdfstring{$\ast$}{*} psyqo\+::\+Application\+::get\+Current\+Scene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the current scene object. 
+
+Returns the top scene object on the stack. \Hypertarget{classpsyqo_1_1Application_aa6b71fc82e255d1c12a3f8770c7d8885}\label{classpsyqo_1_1Application_aa6b71fc82e255d1c12a3f8770c7d8885} 
+\index{psyqo::Application@{psyqo::Application}!gpu@{gpu}}
+\index{gpu@{gpu}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{gpu()}{gpu()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}} \& psyqo\+::\+Application\+::gpu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the \doxylink{classpsyqo_1_1GPU}{GPU} object. 
+
+Simple accessor for the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} object. \Hypertarget{classpsyqo_1_1Application_a8b9d0b216a6e568c806c860409d0bc6b}\label{classpsyqo_1_1Application_a8b9d0b216a6e568c806c860409d0bc6b} 
+\index{psyqo::Application@{psyqo::Application}!popScene@{popScene}}
+\index{popScene@{popScene}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{popScene()}{popScene()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1Scene}{psyqo\+::\+Scene}} \texorpdfstring{$\ast$}{*} psyqo\+::\+Application\+::pop\+Scene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pop a scene object from the stack. 
+
+Pops the top scene object from the stack. There can be only one active scene at a time. Popping a scene object will cause the current scene to be teared down and the new top scene, if any, to be started. If the scene stack ends up being empty, the {\ttfamily create\+Scene} method will be called again.
+
+Calling this method when the stack is empty will return {\ttfamily nullptr}.
+
+\begin{DoxyReturn}{Returns}
+the popped scene, potentially for deletion if needed. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1Application_aa85dc46a2e7a0b5bbf1f6d298c450ae1}\label{classpsyqo_1_1Application_aa85dc46a2e7a0b5bbf1f6d298c450ae1} 
+\index{psyqo::Application@{psyqo::Application}!prepare@{prepare}}
+\index{prepare@{prepare}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{prepare()}{prepare()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Application\+::prepare (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Prepare the objects for the application. 
+
+This will be called once before creating the first scene, and should be used to initialize any other objects necessary. Do not try to access any hardware resources during this call. \Hypertarget{classpsyqo_1_1Application_ad79cb4e1c998442f77f4c12602200fa8}\label{classpsyqo_1_1Application_ad79cb4e1c998442f77f4c12602200fa8} 
+\index{psyqo::Application@{psyqo::Application}!pushScene@{pushScene}}
+\index{pushScene@{pushScene}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{pushScene()}{pushScene()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Application\+::push\+Scene (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*}}]{scene }\end{DoxyParamCaption})}
+
+
+
+Push a scene object onto the stack. 
+
+Pushes a new scene object onto the stack. There can be only one active scene at a time. Pushing a scene object will cause the current scene, if any, to be teared down, and the new scene to be started. \Hypertarget{classpsyqo_1_1Application_af121b23701d7d5105e3c6f90ee18b90d}\label{classpsyqo_1_1Application_af121b23701d7d5105e3c6f90ee18b90d} 
+\index{psyqo::Application@{psyqo::Application}!run@{run}}
+\index{run@{run}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} psyqo\+::\+Application\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Runs the main loop. 
+
+Call this from the {\ttfamily main} function. It will never return. 
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1Application_a345f7a262dab31ff9b0c54b34a18624c}\label{classpsyqo_1_1Application_a345f7a262dab31ff9b0c54b34a18624c} 
+\index{psyqo::Application@{psyqo::Application}!Kernel::takeOverKernel@{Kernel::takeOverKernel}}
+\index{Kernel::takeOverKernel@{Kernel::takeOverKernel}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{Kernel::takeOverKernel}{Kernel::takeOverKernel}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a}{Kernel\+::take\+Over\+Kernel}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsyqo_1_1Application_a032858ae1fe02d2d1170981c2af2d67c}\label{classpsyqo_1_1Application_a032858ae1fe02d2d1170981c2af2d67c} 
+\index{psyqo::Application@{psyqo::Application}!Scene@{Scene}}
+\index{Scene@{Scene}!psyqo::Application@{psyqo::Application}}
+\doxysubsubsection{\texorpdfstring{Scene}{Scene}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{application_8hh}{application.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{application_8cpp}{application.\+cpp}}\end{DoxyCompactItemize}

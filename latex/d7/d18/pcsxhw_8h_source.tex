@@ -1,0 +1,43 @@
+\doxysection{pcsxhw.\+h}
+\hypertarget{pcsxhw_8h_source}{}\label{pcsxhw_8h_source}\index{common/hardware/pcsxhw.h@{common/hardware/pcsxhw.h}}
+\mbox{\hyperlink{pcsxhw_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{void}\ pcsx\_putc(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})\ \{\ *((\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{char}*\ \textcolor{keyword}{const})0x1f802080)\ =\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}};\ \}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{void}\ pcsx\_debugbreak()\ \{\ *((\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{char}*\ \textcolor{keyword}{const})0x1f802081)\ =\ 0;\ \}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{void}\ pcsx\_execSlot(uint8\_t\ slot)\ \{\ *((\textcolor{keyword}{volatile}\ uint8\_t*\ \textcolor{keyword}{const})0x1f802081)\ =\ slot;\ \}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{void}\ pcsx\_exit(\textcolor{keywordtype}{int}\ code)\ \{\ *((\textcolor{keyword}{volatile}\ int16\_t*\ \textcolor{keyword}{const})0x1f802082)\ =\ code;\ \}}
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{void}\ pcsx\_message(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ msg)\ \{\ *((\textcolor{keyword}{volatile}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}**\ \textcolor{keyword}{const})0x1f802084)\ =\ msg;\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{int}\ pcsx\_present()\ \{\ \textcolor{keywordflow}{return}\ *((\textcolor{keyword}{volatile}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\ \textcolor{keyword}{const})0x1f802080)\ ==\ 0x58534350;\ \}}
+
+\end{DoxyCode}

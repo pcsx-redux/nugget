@@ -1,0 +1,132 @@
+\doxysection{kernel.\+hh}
+\hypertarget{kernel_8hh_source}{}\label{kernel_8hh_source}\index{psyqo/kernel.hh@{psyqo/kernel.hh}}
+\mbox{\hyperlink{kernel_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <source\_location>}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{class\ }Application;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{namespace\ }Kernel\ \{}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{namespace\ }Internal\ \{}
+\DoxyCodeLine{00050\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ getCop0Status()\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}mfc0\ \%0,\ \$12\ ;\ nop"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(\mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}));}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00054\ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setCop0Status(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}})\ \{\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}mtc0\ \%0,\ \$12\ ;\ nop"{}}\ :\ :\ \textcolor{stringliteral}{"{}r"{}}(\mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}));\ \}}
+\DoxyCodeLine{00057\ \}\ \ \textcolor{comment}{//\ namespace\ Internal}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ fastEnterCriticalSection()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}mtc0\ \%0,\ \$12\ ;\ nop\ ;\ nop"{}}\ :\ :\ \textcolor{stringliteral}{"{}r"{}}(0x40000000));\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ fastLeaveCriticalSection()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}mtc0\ \%0,\ \$12"{}}\ :\ :\ \textcolor{stringliteral}{"{}r"{}}(0x40000401));\ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}\ :\ \textcolor{keywordtype}{unsigned}\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a7d401456f9594b8f3b41aaa05b8473dc}{MDECin}},}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a581f36dfb2eac8e05acde5f9d65aca48}{MDECout}},}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a52f9ec21735243ad9917cda3ca077d32}{GPU}},}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98aa9d0190c0b85654779d96e011d0b6d07}{CDRom}},}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ada8a0d4a6c802e4d0bb48065258582b1}{SPU}},}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ad77d49c13fa357d3e951da9cfd01270d}{EXP1}},}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a99d34e1cefc7f86f9f4470d74e29e052}{OTC}},}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a6a061313d22e51e0f25b7cd4dc065233}{Max}},}
+\DoxyCodeLine{00083\ \};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189}{IRQ}}\ :\ \textcolor{keywordtype}{unsigned}\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ad23364186c9aa9bca9ea12f6a7d2ecd5}{VBlank}},}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a52f9ec21735243ad9917cda3ca077d32}{GPU}},}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98aa9d0190c0b85654779d96e011d0b6d07}{CDRom}},}
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}},}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aee8d7ab96a578300058b217be0b6e4b5}{Timer0}},}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a520b0824cea8417f3fde566f0019a2a7}{Timer1}},}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa3df64ca11c5bfc17207d0db3b782e96}{Timer2}},}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a9bbf373797bf7cf7ba62c80023682e25}{Controller}},}
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ab2a303bb948b58961895b9797ee116c8}{SIO}},}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ada8a0d4a6c802e4d0bb48065258582b1}{SPU}},}
+\DoxyCodeLine{00096\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a7a876fbec890f829703bc77a76e8ef45}{PIO}},}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a6a061313d22e51e0f25b7cd4dc065233}{Max}},}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ [[noreturn]]\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a270226339ad92b0643f247b3079066c1}{abort}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ msg,\ std::source\_location\ location\ =\ std::source\_location::current());}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00136\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a}{takeOverKernel}}();}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aa9f275c991805498a256274623da6459}{isKernelTakenOver}}();}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00158\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaeb7cdf1f775ac70cc620f6855c3a8c3}{queueIRQHandler}}(\mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24}{IRQ}}\ irq,\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ lambda);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00169\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a08a2e5ec19c2fc81f09b2c298bdead6e}{openEvent}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ classId,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}},\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ lambda);}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00184\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a2b637b2a1916306cd06c949dd5052c1c}{registerDmaEvent}}(\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}\ channel,\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ lambda);}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00192\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a5e42e7c13d0e282fa5521032b2f61885}{flushCache}}();}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00200\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aac8e91701eacd417e8e12a3c8ea98046}{enableDma}}(\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}\ channel,\ \textcolor{keywordtype}{unsigned}\ priority\ =\ 7);}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00207\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a4b73aa87334a1770afc9b33af3d42ddd}{disableDma}}(\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}\ channel);}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00214\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aa72643d64b318dae4e7875d0e3a74007}{unregisterDmaEvent}}(\textcolor{keywordtype}{unsigned}\ slot);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00226\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a884c0743af3b1284f6708359deb192d5}{queueCallback}}(eastl::function<\textcolor{keywordtype}{void}()>\&\&\ lambda);}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00237\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a154b2576841e7edcdb7d414c66059fe8}{queueCallbackFromISR}}(eastl::function<\textcolor{keywordtype}{void}()>\&\&\ lambda);}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00259\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a5af4fedc050cfb0ca1dd509eb4451186}{setBreakHandler}}(\textcolor{keywordtype}{unsigned}\ category,\ eastl::function<\textcolor{keywordtype}{bool}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})>\&\&\ \mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}});}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00266\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a455444ce0a60f9799624ace6219a0d36}{queuePsyqoBreakHandler}}(eastl::function<\textcolor{keywordtype}{bool}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})>\ \&\&\ \mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}});}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \textcolor{keyword}{namespace\ }Internal\ \{}
+\DoxyCodeLine{00269\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_1_1Internal_a2d2c3f5aeda94b0e125a640d7a8e6bf1}{pumpCallbacks}}();}
+\DoxyCodeLine{00270\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_1_1Internal_a840fd24b9524ff264a861ceb63113b66}{prepare}}(\mbox{\hyperlink{classpsyqo_1_1Application}{Application}}\&);}
+\DoxyCodeLine{00271\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_1_1Internal_aa1b0b835413c16005efd221d1165f686}{addInitializer}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1Application}{Application}}\&)>\&\&\ lambda);}
+\DoxyCodeLine{00272\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_1_1Internal_a862684d445ffa297d3472c0fdec2d843}{addOnFrame}}(eastl::function<\textcolor{keywordtype}{void}()>\&\&\ lambda);}
+\DoxyCodeLine{00273\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_1_1Internal_a9b2ac3a9a0420bcb64ac2b57d96cca83}{beginFrame}}();}
+\DoxyCodeLine{00274\ \}\ \ \textcolor{comment}{//\ namespace\ Internal}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00279\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a280bdda777ef203032ff0767b5063ff1}{assert}}(\textcolor{keywordtype}{bool}\ condition,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ message,}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::source\_location\ location\ =\ std::source\_location::current())\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordflow}{if}\ (!condition)\ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a270226339ad92b0643f247b3079066c1}{abort}}(message,\ location);}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}{\_\_builtin\_unreachable}}();}
+\DoxyCodeLine{00284\ \ \ \ \ \}}
+\DoxyCodeLine{00285\ \}}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \}\ \ \textcolor{comment}{//\ namespace\ Kernel}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

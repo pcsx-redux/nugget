@@ -1,0 +1,80 @@
+\doxysection{msf.\+hh}
+\hypertarget{msf_8hh_source}{}\label{msf_8hh_source}\index{psyqo/msf.hh@{psyqo/msf.hh}}
+\mbox{\hyperlink{msf_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <compare>}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ uint8\_t\ btoi(uint8\_t\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ \{\ \textcolor{keywordflow}{return}\ ((\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ /\ 16)\ *\ 10)\ +\ (\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ \%\ 16);\ \}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ uint8\_t\ itob(uint8\_t\ i)\ \{\ \textcolor{keywordflow}{return}\ ((i\ /\ 10)\ *\ 16)\ +\ (i\ \%\ 10);\ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF_a508c950b2cd96bb41b3c4b966bd1fcfe}{MSF}}()\ :\ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}(0),\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}(0),\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}}(0)\ \{\}}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF_a58854ef40a99de49a7af2cd517d7aaa3}{MSF}}(uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}},\ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}},\ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}})\ :\ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}(\mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}),\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}(\mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}),\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}}(\mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}})\ \{\}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a508c950b2cd96bb41b3c4b966bd1fcfe}{MSF}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ lba);}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a5377acef338060c83d2647c242cb53fb}{operator<=>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \&other)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1MSF_afd31a0104cafd215d7feaf77b27ee134}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \&other)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}\ ==\ other.\mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}\ \&\&\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}\ ==\ other.\mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}\ \&\&\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}}\ ==\ other.\mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}};\ \}}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \&\mbox{\hyperlink{structpsyqo_1_1MSF_afbfe6e3d3eeeb862e8c635d24f9637d6}{operator++}}();}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a4833c2af211be0c90cee50233414608c}{operator++}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ tmp\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ ++(*this);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a7403415758981538f7a647690ec6453a}{toLBA}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}\ *\ 60\ +\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}})\ *\ 75\ +\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}};\ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a858e85e55a779ef243dd1bad58b7bc16}{toBCD}}(uint8\_t\ *dst)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ dst[0]\ =\ itob(\mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}});}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ dst[1]\ =\ itob(\mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}});}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ dst[2]\ =\ itob(\mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}});}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6c0ec47508059658cfa80cb5f2498265}{fromBCD}}(\textcolor{keyword}{const}\ uint8\_t\ *\mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}\ =\ btoi(\mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}[0]);}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}\ =\ btoi(\mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}[1]);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}}\ =\ btoi(\mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}[2]);}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a05dc8bed7219188cb7cd4587afb4810a}{reset}}()\ \{\ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}}\ =\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}}\ =\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}}\ =\ 0;\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_ac9cbb4b1ed86779d81c5525f7c2cfefc}{m}};}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_a6d20dc6f889e5ce0e29d363b02ce888b}{s}};}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_a41046e21d56af77811b15512cb4ab2f1}{f}};}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_af71bae1aa42365fee6ef44a6b7c85ee6}{pad}};}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structpsyqo_1_1MSF_a186ef7ca90fff0eb68bc94accc46e1cf}{data}}[4];}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1MSF_a22382ae318cfb2d8e3dcf8fdd2b18099}{full}};}
+\DoxyCodeLine{00071\ \ \ \ \ \};}
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

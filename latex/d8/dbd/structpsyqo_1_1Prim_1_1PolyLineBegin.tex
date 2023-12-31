@@ -1,0 +1,94 @@
+\doxysection{psyqo\+::Prim\+::Poly\+Line\+Begin Struct Reference}
+\hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin}{}\label{structpsyqo_1_1Prim_1_1PolyLineBegin}\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+
+
+The primitive used to begin a polyline.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/lines.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::Prim\+::Poly\+Line\+Begin\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{dc/d55/structpsyqo_1_1Prim_1_1PolyLineBegin__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin_a5f880a30b60c857b0f30f2507fce1e0b}{Poly\+Line\+Begin}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin_a59775147cc6050eb09da0250af9674b0}{Poly\+Line\+Begin}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin}{Poly\+Line\+Begin}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin_afaea98ca8bd723d26d923bdead258bb6}{set\+Color}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin}{Poly\+Line\+Begin}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin_afa4e07b36f6c9dc05fd70d26d5d0dbe4}{set\+Opaque}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin}{Poly\+Line\+Begin}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin_a378a41a94ab239d3b1ede5ec8d099031}{set\+Semi\+Trans}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin_af9e155f9c9240d0160140d54bdfbab4b}{point}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The primitive used to begin a polyline. 
+
+This primitive is used to begin a flat-\/color polyline. As polylines are drawn using multiple \doxylink{structpsyqo_1_1Prim_1_1Line}{Line} primitives, this primitive is used to set the color of the polyline and the first vertex. As polylines can be complex, this allows drawing them piece by piece, iteratively. After sending this primitive, you need to send a number of \doxylink{unionpsyqo_1_1Vertex}{Vertex} structures using the \doxylink{classpsyqo_1_1GPU}{GPU}\textquotesingle{}s {\ttfamily send\+Raw} method, and then send a \doxylink{structpsyqo_1_1Prim_1_1PolyLineEnd}{Poly\+Line\+End} struct to finish the polyline. Note that it may be necessary to use the {\ttfamily wait\+Fifo} method of the \doxylink{classpsyqo_1_1GPU}{GPU} to ensure that the \doxylink{classpsyqo_1_1GPU}{GPU} has finished processing the previous vertex data before sending the next one. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin_a5f880a30b60c857b0f30f2507fce1e0b}\label{structpsyqo_1_1Prim_1_1PolyLineBegin_a5f880a30b60c857b0f30f2507fce1e0b} 
+\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}!PolyLineBegin@{PolyLineBegin}}
+\index{PolyLineBegin@{PolyLineBegin}!psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+\doxysubsubsection{\texorpdfstring{PolyLineBegin()}{PolyLineBegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Poly\+Line\+Begin\+::\+Poly\+Line\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin_a59775147cc6050eb09da0250af9674b0}\label{structpsyqo_1_1Prim_1_1PolyLineBegin_a59775147cc6050eb09da0250af9674b0} 
+\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}!PolyLineBegin@{PolyLineBegin}}
+\index{PolyLineBegin@{PolyLineBegin}!psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+\doxysubsubsection{\texorpdfstring{PolyLineBegin()}{PolyLineBegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Poly\+Line\+Begin\+::\+Poly\+Line\+Begin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin_afaea98ca8bd723d26d923bdead258bb6}\label{structpsyqo_1_1Prim_1_1PolyLineBegin_afaea98ca8bd723d26d923bdead258bb6} 
+\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}!setColor@{setColor}}
+\index{setColor@{setColor}!psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin}{Poly\+Line\+Begin}} \& psyqo\+::\+Prim\+::\+Poly\+Line\+Begin\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin_afa4e07b36f6c9dc05fd70d26d5d0dbe4}\label{structpsyqo_1_1Prim_1_1PolyLineBegin_afa4e07b36f6c9dc05fd70d26d5d0dbe4} 
+\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}!setOpaque@{setOpaque}}
+\index{setOpaque@{setOpaque}!psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+\doxysubsubsection{\texorpdfstring{setOpaque()}{setOpaque()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin}{Poly\+Line\+Begin}} \& psyqo\+::\+Prim\+::\+Poly\+Line\+Begin\+::set\+Opaque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin_a378a41a94ab239d3b1ede5ec8d099031}\label{structpsyqo_1_1Prim_1_1PolyLineBegin_a378a41a94ab239d3b1ede5ec8d099031} 
+\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}!setSemiTrans@{setSemiTrans}}
+\index{setSemiTrans@{setSemiTrans}!psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+\doxysubsubsection{\texorpdfstring{setSemiTrans()}{setSemiTrans()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1PolyLineBegin}{Poly\+Line\+Begin}} \& psyqo\+::\+Prim\+::\+Poly\+Line\+Begin\+::set\+Semi\+Trans (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1PolyLineBegin_af9e155f9c9240d0160140d54bdfbab4b}\label{structpsyqo_1_1Prim_1_1PolyLineBegin_af9e155f9c9240d0160140d54bdfbab4b} 
+\index{psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}!point@{point}}
+\index{point@{point}!psyqo::Prim::PolyLineBegin@{psyqo::Prim::PolyLineBegin}}
+\doxysubsubsection{\texorpdfstring{point}{point}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Poly\+Line\+Begin\+::point}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{lines_8hh}{lines.\+hh}}\end{DoxyCompactItemize}

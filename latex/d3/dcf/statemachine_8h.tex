@@ -1,0 +1,155 @@
+\doxysection{openbios/cdrom/statemachine.h File Reference}
+\hypertarget{statemachine_8h}{}\label{statemachine_8h}\index{openbios/cdrom/statemachine.h@{openbios/cdrom/statemachine.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for statemachine.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=253pt]{d6/d3e/statemachine_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dc/dd7/statemachine_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{Auto\+Ack\+Type}} \{ \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758adccbf45a8a8cf4041824874b0e78270e}{AUTOACK\+\_\+\+IO}} = 0
+, \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758a90fb0e17a1cf35b837eb68d4da69146b}{AUTOACK\+\_\+\+DMA}} = 1
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_aa4e6ec52cff6d656579d21f13c3c9b97}{cdrom\+SeekL}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}msf)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_ada5e4ac001133ea34a967a56d6e30e9a}{cdrom\+Get\+Status}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}response\+Ptr)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_a9db86520a3402affb66a3aabd6da79f2}{cdrom\+Read}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_a10e350cea99ae11bb6c51a294fec2659}{cdrom\+Set\+Mode}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_aff49cd425f122bf66810370559c998b0}{cdrom\+IOVerifier}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_a0498d5adc42e93cb951f3a785f192dd5}{cdrom\+DMAVerifier}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8h_ab3fe844051893b3fda4c5b2a91b13f9a}{cdrom\+IOHandler}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8h_a894b949a578941a4766e534b44b12ee9}{cdrom\+DMAHandler}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8h_aa9e83f29cc47e2061c9ce7f6b35cb700}{get\+Last\+CDRom\+Error}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}err1, uint8\+\_\+t \texorpdfstring{$\ast$}{*}err2)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_a551addf8cbb221ab29d22b16655b28c6}{cdrom\+Inner\+Init}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{statemachine_8h_a4648235940794c4975ce7dd9e84d2dc3}{set\+CDRom\+IRQAuto\+Ack}} (enum \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{Auto\+Ack\+Type}} type, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8h_a202cf5f24b4dfc34b04baba458a515ec}{enqueue\+CDRom\+Handlers}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{statemachine_8h_abc0568fb3f7349976a1d730348466158}{dequeue\+CDRom\+Handlers}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{statemachine_8h_af6a81f4f6654496fd5414e088557d758}\label{statemachine_8h_af6a81f4f6654496fd5414e088557d758} 
+\index{statemachine.h@{statemachine.h}!AutoAckType@{AutoAckType}}
+\index{AutoAckType@{AutoAckType}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{AutoAckType}{AutoAckType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{Auto\+Ack\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AUTOACK\_IO@{AUTOACK\_IO}!statemachine.h@{statemachine.h}}\index{statemachine.h@{statemachine.h}!AUTOACK\_IO@{AUTOACK\_IO}}}\Hypertarget{statemachine_8h_af6a81f4f6654496fd5414e088557d758adccbf45a8a8cf4041824874b0e78270e}\label{statemachine_8h_af6a81f4f6654496fd5414e088557d758adccbf45a8a8cf4041824874b0e78270e} 
+AUTOACK\+\_\+\+IO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AUTOACK\_DMA@{AUTOACK\_DMA}!statemachine.h@{statemachine.h}}\index{statemachine.h@{statemachine.h}!AUTOACK\_DMA@{AUTOACK\_DMA}}}\Hypertarget{statemachine_8h_af6a81f4f6654496fd5414e088557d758a90fb0e17a1cf35b837eb68d4da69146b}\label{statemachine_8h_af6a81f4f6654496fd5414e088557d758a90fb0e17a1cf35b837eb68d4da69146b} 
+AUTOACK\+\_\+\+DMA&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{statemachine_8h_a894b949a578941a4766e534b44b12ee9}\label{statemachine_8h_a894b949a578941a4766e534b44b12ee9} 
+\index{statemachine.h@{statemachine.h}!cdromDMAHandler@{cdromDMAHandler}}
+\index{cdromDMAHandler@{cdromDMAHandler}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromDMAHandler()}{cdromDMAHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} cdrom\+DMAHandler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_a0498d5adc42e93cb951f3a785f192dd5}\label{statemachine_8h_a0498d5adc42e93cb951f3a785f192dd5} 
+\index{statemachine.h@{statemachine.h}!cdromDMAVerifier@{cdromDMAVerifier}}
+\index{cdromDMAVerifier@{cdromDMAVerifier}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromDMAVerifier()}{cdromDMAVerifier()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+DMAVerifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_ada5e4ac001133ea34a967a56d6e30e9a}\label{statemachine_8h_ada5e4ac001133ea34a967a56d6e30e9a} 
+\index{statemachine.h@{statemachine.h}!cdromGetStatus@{cdromGetStatus}}
+\index{cdromGetStatus@{cdromGetStatus}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromGetStatus()}{cdromGetStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Get\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{response\+Ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_a551addf8cbb221ab29d22b16655b28c6}\label{statemachine_8h_a551addf8cbb221ab29d22b16655b28c6} 
+\index{statemachine.h@{statemachine.h}!cdromInnerInit@{cdromInnerInit}}
+\index{cdromInnerInit@{cdromInnerInit}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromInnerInit()}{cdromInnerInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Inner\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_ab3fe844051893b3fda4c5b2a91b13f9a}\label{statemachine_8h_ab3fe844051893b3fda4c5b2a91b13f9a} 
+\index{statemachine.h@{statemachine.h}!cdromIOHandler@{cdromIOHandler}}
+\index{cdromIOHandler@{cdromIOHandler}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromIOHandler()}{cdromIOHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} cdrom\+IOHandler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_aff49cd425f122bf66810370559c998b0}\label{statemachine_8h_aff49cd425f122bf66810370559c998b0} 
+\index{statemachine.h@{statemachine.h}!cdromIOVerifier@{cdromIOVerifier}}
+\index{cdromIOVerifier@{cdromIOVerifier}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromIOVerifier()}{cdromIOVerifier()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+IOVerifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_a9db86520a3402affb66a3aabd6da79f2}\label{statemachine_8h_a9db86520a3402affb66a3aabd6da79f2} 
+\index{statemachine.h@{statemachine.h}!cdromRead@{cdromRead}}
+\index{cdromRead@{cdromRead}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromRead()}{cdromRead()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{mode }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_aa4e6ec52cff6d656579d21f13c3c9b97}\label{statemachine_8h_aa4e6ec52cff6d656579d21f13c3c9b97} 
+\index{statemachine.h@{statemachine.h}!cdromSeekL@{cdromSeekL}}
+\index{cdromSeekL@{cdromSeekL}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromSeekL()}{cdromSeekL()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+SeekL (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{msf }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_a10e350cea99ae11bb6c51a294fec2659}\label{statemachine_8h_a10e350cea99ae11bb6c51a294fec2659} 
+\index{statemachine.h@{statemachine.h}!cdromSetMode@{cdromSetMode}}
+\index{cdromSetMode@{cdromSetMode}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{cdromSetMode()}{cdromSetMode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Set\+Mode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{mode }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_abc0568fb3f7349976a1d730348466158}\label{statemachine_8h_abc0568fb3f7349976a1d730348466158} 
+\index{statemachine.h@{statemachine.h}!dequeueCDRomHandlers@{dequeueCDRomHandlers}}
+\index{dequeueCDRomHandlers@{dequeueCDRomHandlers}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{dequeueCDRomHandlers()}{dequeueCDRomHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} dequeue\+CDRom\+Handlers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_a202cf5f24b4dfc34b04baba458a515ec}\label{statemachine_8h_a202cf5f24b4dfc34b04baba458a515ec} 
+\index{statemachine.h@{statemachine.h}!enqueueCDRomHandlers@{enqueueCDRomHandlers}}
+\index{enqueueCDRomHandlers@{enqueueCDRomHandlers}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{enqueueCDRomHandlers()}{enqueueCDRomHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} enqueue\+CDRom\+Handlers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_aa9e83f29cc47e2061c9ce7f6b35cb700}\label{statemachine_8h_aa9e83f29cc47e2061c9ce7f6b35cb700} 
+\index{statemachine.h@{statemachine.h}!getLastCDRomError@{getLastCDRomError}}
+\index{getLastCDRomError@{getLastCDRomError}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{getLastCDRomError()}{getLastCDRomError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} get\+Last\+CDRom\+Error (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{err1,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{err2 }\end{DoxyParamCaption})}
+
+\Hypertarget{statemachine_8h_a4648235940794c4975ce7dd9e84d2dc3}\label{statemachine_8h_a4648235940794c4975ce7dd9e84d2dc3} 
+\index{statemachine.h@{statemachine.h}!setCDRomIRQAutoAck@{setCDRomIRQAutoAck}}
+\index{setCDRomIRQAutoAck@{setCDRomIRQAutoAck}!statemachine.h@{statemachine.h}}
+\doxysubsubsection{\texorpdfstring{setCDRomIRQAutoAck()}{setCDRomIRQAutoAck()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} set\+CDRom\+IRQAuto\+Ack (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{statemachine_8h_af6a81f4f6654496fd5414e088557d758}{Auto\+Ack\+Type}}}]{type,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{value }\end{DoxyParamCaption})}
+

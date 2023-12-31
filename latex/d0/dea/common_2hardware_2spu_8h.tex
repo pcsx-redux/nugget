@@ -1,0 +1,214 @@
+\doxysection{common/hardware/spu.h File Reference}
+\hypertarget{common_2hardware_2spu_8h}{}\label{common_2hardware_2spu_8h}\index{common/hardware/spu.h@{common/hardware/spu.h}}
+{\ttfamily \#include "{}hwregs.\+h"{}}\newline
+Include dependency graph for spu.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=285pt]{d5/dda/common_2hardware_2spu_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d30/common_2hardware_2spu_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structSPUVoice}{SPUVoice}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a08c3628e37eb503b2dc792189990d1ed}{SPU\+\_\+\+VOICES}}~((\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structSPUVoice}{SPUVoice}} \texorpdfstring{$\ast$}{*})0x1f801c00)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a1fc3c63ccf0f7b8b23c076cd7184b504}{SPU\+\_\+\+VOL\+\_\+\+MAIN\+\_\+\+LEFT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d80)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a596fbddfcbfda2e7f3873f1ae5a3377a}{SPU\+\_\+\+VOL\+\_\+\+MAIN\+\_\+\+RIGHT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d82)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_ace9f013429a279705a4f8f5a7665a9ea}{SPU\+\_\+\+REVERB\+\_\+\+LEFT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d84)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a21aa9a86abfb7d2a99d3f768969d512e}{SPU\+\_\+\+REVERB\+\_\+\+RIGHT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d86)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a1940ced6dfad814aa1413ace21bcd4c0}{SPU\+\_\+\+KEY\+\_\+\+ON\+\_\+\+LOW}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d88)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a8447f1ceaf2909dea7ad7c583756c232}{SPU\+\_\+\+KEY\+\_\+\+ON\+\_\+\+HIGH}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d8a)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a2667a82ceef5ee3e09846ca46d8735c5}{SPU\+\_\+\+KEY\+\_\+\+OFF\+\_\+\+LOW}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d8c)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a2a61b9d43195897da599a2288559a311}{SPU\+\_\+\+KEY\+\_\+\+OFF\+\_\+\+HIGH}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d8e)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_aba293a96e6bdd395b07d95f8b4e77a27}{SPU\+\_\+\+PITCH\+\_\+\+MOD\+\_\+\+LOW}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d90)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a93c90aa432a9c9782e5d66180e716af8}{SPU\+\_\+\+PITCH\+\_\+\+MOD\+\_\+\+HIGH}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d92)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_ab01421e5de2738c1860363335d0400c8}{SPU\+\_\+\+NOISE\+\_\+\+EN\+\_\+\+LOW}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d94)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a5b8b60aef92db49571fbdb1869164b22}{SPU\+\_\+\+NOISE\+\_\+\+EN\+\_\+\+HIGH}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d96)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a9b917b6e864066c09076890e698755e6}{SPU\+\_\+\+REVERB\+\_\+\+EN\+\_\+\+LOW}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d98)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a150335d0c8da4d1d261a8885f2b5f6d7}{SPU\+\_\+\+REVERB\+\_\+\+EN\+\_\+\+HIGH}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d9a)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_aee45aeb7eb444926784eb70e14b74805}{SPU\+\_\+\+RAM\+\_\+\+DTA}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801da6)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a3639545f5f50647dfcc8aceea8b88a37}{SPU\+\_\+\+CTRL}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801daa)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_abef06ac668a869ad3a603ae1fa52506f}{SPU\+\_\+\+RAM\+\_\+\+DTC}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801dac)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a161ddc11b00a643e0d8b738e8b6e575e}{SPU\+\_\+\+STATUS}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801dae)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a06ceb690508252452e3ee113349e9914}{SPU\+\_\+\+VOL\+\_\+\+CD\+\_\+\+LEFT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db0)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a03ce77202c86aefce5abdd4331179337}{SPU\+\_\+\+VOL\+\_\+\+CD\+\_\+\+RIGHT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db2)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a45fe43a6689ad1a3841231791b3ece35}{SPU\+\_\+\+VOL\+\_\+\+EXT\+\_\+\+LEFT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db4)
+\item 
+\#define \mbox{\hyperlink{common_2hardware_2spu_8h_a6f36f19938fc25b69cf5e64187175cfe}{SPU\+\_\+\+VOL\+\_\+\+EXT\+\_\+\+RIGHT}}~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db6)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{common_2hardware_2spu_8h_a3639545f5f50647dfcc8aceea8b88a37}\label{common_2hardware_2spu_8h_a3639545f5f50647dfcc8aceea8b88a37} 
+\index{spu.h@{spu.h}!SPU\_CTRL@{SPU\_CTRL}}
+\index{SPU\_CTRL@{SPU\_CTRL}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_CTRL}{SPU\_CTRL}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+CTRL~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801daa)}
+
+\Hypertarget{common_2hardware_2spu_8h_a2a61b9d43195897da599a2288559a311}\label{common_2hardware_2spu_8h_a2a61b9d43195897da599a2288559a311} 
+\index{spu.h@{spu.h}!SPU\_KEY\_OFF\_HIGH@{SPU\_KEY\_OFF\_HIGH}}
+\index{SPU\_KEY\_OFF\_HIGH@{SPU\_KEY\_OFF\_HIGH}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_KEY\_OFF\_HIGH}{SPU\_KEY\_OFF\_HIGH}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+KEY\+\_\+\+OFF\+\_\+\+HIGH~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d8e)}
+
+\Hypertarget{common_2hardware_2spu_8h_a2667a82ceef5ee3e09846ca46d8735c5}\label{common_2hardware_2spu_8h_a2667a82ceef5ee3e09846ca46d8735c5} 
+\index{spu.h@{spu.h}!SPU\_KEY\_OFF\_LOW@{SPU\_KEY\_OFF\_LOW}}
+\index{SPU\_KEY\_OFF\_LOW@{SPU\_KEY\_OFF\_LOW}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_KEY\_OFF\_LOW}{SPU\_KEY\_OFF\_LOW}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+KEY\+\_\+\+OFF\+\_\+\+LOW~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d8c)}
+
+\Hypertarget{common_2hardware_2spu_8h_a8447f1ceaf2909dea7ad7c583756c232}\label{common_2hardware_2spu_8h_a8447f1ceaf2909dea7ad7c583756c232} 
+\index{spu.h@{spu.h}!SPU\_KEY\_ON\_HIGH@{SPU\_KEY\_ON\_HIGH}}
+\index{SPU\_KEY\_ON\_HIGH@{SPU\_KEY\_ON\_HIGH}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_KEY\_ON\_HIGH}{SPU\_KEY\_ON\_HIGH}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+KEY\+\_\+\+ON\+\_\+\+HIGH~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d8a)}
+
+\Hypertarget{common_2hardware_2spu_8h_a1940ced6dfad814aa1413ace21bcd4c0}\label{common_2hardware_2spu_8h_a1940ced6dfad814aa1413ace21bcd4c0} 
+\index{spu.h@{spu.h}!SPU\_KEY\_ON\_LOW@{SPU\_KEY\_ON\_LOW}}
+\index{SPU\_KEY\_ON\_LOW@{SPU\_KEY\_ON\_LOW}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_KEY\_ON\_LOW}{SPU\_KEY\_ON\_LOW}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+KEY\+\_\+\+ON\+\_\+\+LOW~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d88)}
+
+\Hypertarget{common_2hardware_2spu_8h_a5b8b60aef92db49571fbdb1869164b22}\label{common_2hardware_2spu_8h_a5b8b60aef92db49571fbdb1869164b22} 
+\index{spu.h@{spu.h}!SPU\_NOISE\_EN\_HIGH@{SPU\_NOISE\_EN\_HIGH}}
+\index{SPU\_NOISE\_EN\_HIGH@{SPU\_NOISE\_EN\_HIGH}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_NOISE\_EN\_HIGH}{SPU\_NOISE\_EN\_HIGH}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+NOISE\+\_\+\+EN\+\_\+\+HIGH~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d96)}
+
+\Hypertarget{common_2hardware_2spu_8h_ab01421e5de2738c1860363335d0400c8}\label{common_2hardware_2spu_8h_ab01421e5de2738c1860363335d0400c8} 
+\index{spu.h@{spu.h}!SPU\_NOISE\_EN\_LOW@{SPU\_NOISE\_EN\_LOW}}
+\index{SPU\_NOISE\_EN\_LOW@{SPU\_NOISE\_EN\_LOW}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_NOISE\_EN\_LOW}{SPU\_NOISE\_EN\_LOW}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+NOISE\+\_\+\+EN\+\_\+\+LOW~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d94)}
+
+\Hypertarget{common_2hardware_2spu_8h_a93c90aa432a9c9782e5d66180e716af8}\label{common_2hardware_2spu_8h_a93c90aa432a9c9782e5d66180e716af8} 
+\index{spu.h@{spu.h}!SPU\_PITCH\_MOD\_HIGH@{SPU\_PITCH\_MOD\_HIGH}}
+\index{SPU\_PITCH\_MOD\_HIGH@{SPU\_PITCH\_MOD\_HIGH}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_PITCH\_MOD\_HIGH}{SPU\_PITCH\_MOD\_HIGH}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+PITCH\+\_\+\+MOD\+\_\+\+HIGH~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d92)}
+
+\Hypertarget{common_2hardware_2spu_8h_aba293a96e6bdd395b07d95f8b4e77a27}\label{common_2hardware_2spu_8h_aba293a96e6bdd395b07d95f8b4e77a27} 
+\index{spu.h@{spu.h}!SPU\_PITCH\_MOD\_LOW@{SPU\_PITCH\_MOD\_LOW}}
+\index{SPU\_PITCH\_MOD\_LOW@{SPU\_PITCH\_MOD\_LOW}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_PITCH\_MOD\_LOW}{SPU\_PITCH\_MOD\_LOW}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+PITCH\+\_\+\+MOD\+\_\+\+LOW~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d90)}
+
+\Hypertarget{common_2hardware_2spu_8h_aee45aeb7eb444926784eb70e14b74805}\label{common_2hardware_2spu_8h_aee45aeb7eb444926784eb70e14b74805} 
+\index{spu.h@{spu.h}!SPU\_RAM\_DTA@{SPU\_RAM\_DTA}}
+\index{SPU\_RAM\_DTA@{SPU\_RAM\_DTA}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_RAM\_DTA}{SPU\_RAM\_DTA}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+RAM\+\_\+\+DTA~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801da6)}
+
+\Hypertarget{common_2hardware_2spu_8h_abef06ac668a869ad3a603ae1fa52506f}\label{common_2hardware_2spu_8h_abef06ac668a869ad3a603ae1fa52506f} 
+\index{spu.h@{spu.h}!SPU\_RAM\_DTC@{SPU\_RAM\_DTC}}
+\index{SPU\_RAM\_DTC@{SPU\_RAM\_DTC}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_RAM\_DTC}{SPU\_RAM\_DTC}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+RAM\+\_\+\+DTC~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801dac)}
+
+\Hypertarget{common_2hardware_2spu_8h_a150335d0c8da4d1d261a8885f2b5f6d7}\label{common_2hardware_2spu_8h_a150335d0c8da4d1d261a8885f2b5f6d7} 
+\index{spu.h@{spu.h}!SPU\_REVERB\_EN\_HIGH@{SPU\_REVERB\_EN\_HIGH}}
+\index{SPU\_REVERB\_EN\_HIGH@{SPU\_REVERB\_EN\_HIGH}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_REVERB\_EN\_HIGH}{SPU\_REVERB\_EN\_HIGH}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+REVERB\+\_\+\+EN\+\_\+\+HIGH~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d9a)}
+
+\Hypertarget{common_2hardware_2spu_8h_a9b917b6e864066c09076890e698755e6}\label{common_2hardware_2spu_8h_a9b917b6e864066c09076890e698755e6} 
+\index{spu.h@{spu.h}!SPU\_REVERB\_EN\_LOW@{SPU\_REVERB\_EN\_LOW}}
+\index{SPU\_REVERB\_EN\_LOW@{SPU\_REVERB\_EN\_LOW}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_REVERB\_EN\_LOW}{SPU\_REVERB\_EN\_LOW}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+REVERB\+\_\+\+EN\+\_\+\+LOW~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d98)}
+
+\Hypertarget{common_2hardware_2spu_8h_ace9f013429a279705a4f8f5a7665a9ea}\label{common_2hardware_2spu_8h_ace9f013429a279705a4f8f5a7665a9ea} 
+\index{spu.h@{spu.h}!SPU\_REVERB\_LEFT@{SPU\_REVERB\_LEFT}}
+\index{SPU\_REVERB\_LEFT@{SPU\_REVERB\_LEFT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_REVERB\_LEFT}{SPU\_REVERB\_LEFT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+REVERB\+\_\+\+LEFT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d84)}
+
+\Hypertarget{common_2hardware_2spu_8h_a21aa9a86abfb7d2a99d3f768969d512e}\label{common_2hardware_2spu_8h_a21aa9a86abfb7d2a99d3f768969d512e} 
+\index{spu.h@{spu.h}!SPU\_REVERB\_RIGHT@{SPU\_REVERB\_RIGHT}}
+\index{SPU\_REVERB\_RIGHT@{SPU\_REVERB\_RIGHT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_REVERB\_RIGHT}{SPU\_REVERB\_RIGHT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+REVERB\+\_\+\+RIGHT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d86)}
+
+\Hypertarget{common_2hardware_2spu_8h_a161ddc11b00a643e0d8b738e8b6e575e}\label{common_2hardware_2spu_8h_a161ddc11b00a643e0d8b738e8b6e575e} 
+\index{spu.h@{spu.h}!SPU\_STATUS@{SPU\_STATUS}}
+\index{SPU\_STATUS@{SPU\_STATUS}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_STATUS}{SPU\_STATUS}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+STATUS~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801dae)}
+
+\Hypertarget{common_2hardware_2spu_8h_a08c3628e37eb503b2dc792189990d1ed}\label{common_2hardware_2spu_8h_a08c3628e37eb503b2dc792189990d1ed} 
+\index{spu.h@{spu.h}!SPU\_VOICES@{SPU\_VOICES}}
+\index{SPU\_VOICES@{SPU\_VOICES}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOICES}{SPU\_VOICES}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOICES~((\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structSPUVoice}{SPUVoice}} \texorpdfstring{$\ast$}{*})0x1f801c00)}
+
+\Hypertarget{common_2hardware_2spu_8h_a06ceb690508252452e3ee113349e9914}\label{common_2hardware_2spu_8h_a06ceb690508252452e3ee113349e9914} 
+\index{spu.h@{spu.h}!SPU\_VOL\_CD\_LEFT@{SPU\_VOL\_CD\_LEFT}}
+\index{SPU\_VOL\_CD\_LEFT@{SPU\_VOL\_CD\_LEFT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOL\_CD\_LEFT}{SPU\_VOL\_CD\_LEFT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOL\+\_\+\+CD\+\_\+\+LEFT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db0)}
+
+\Hypertarget{common_2hardware_2spu_8h_a03ce77202c86aefce5abdd4331179337}\label{common_2hardware_2spu_8h_a03ce77202c86aefce5abdd4331179337} 
+\index{spu.h@{spu.h}!SPU\_VOL\_CD\_RIGHT@{SPU\_VOL\_CD\_RIGHT}}
+\index{SPU\_VOL\_CD\_RIGHT@{SPU\_VOL\_CD\_RIGHT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOL\_CD\_RIGHT}{SPU\_VOL\_CD\_RIGHT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOL\+\_\+\+CD\+\_\+\+RIGHT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db2)}
+
+\Hypertarget{common_2hardware_2spu_8h_a45fe43a6689ad1a3841231791b3ece35}\label{common_2hardware_2spu_8h_a45fe43a6689ad1a3841231791b3ece35} 
+\index{spu.h@{spu.h}!SPU\_VOL\_EXT\_LEFT@{SPU\_VOL\_EXT\_LEFT}}
+\index{SPU\_VOL\_EXT\_LEFT@{SPU\_VOL\_EXT\_LEFT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOL\_EXT\_LEFT}{SPU\_VOL\_EXT\_LEFT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOL\+\_\+\+EXT\+\_\+\+LEFT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db4)}
+
+\Hypertarget{common_2hardware_2spu_8h_a6f36f19938fc25b69cf5e64187175cfe}\label{common_2hardware_2spu_8h_a6f36f19938fc25b69cf5e64187175cfe} 
+\index{spu.h@{spu.h}!SPU\_VOL\_EXT\_RIGHT@{SPU\_VOL\_EXT\_RIGHT}}
+\index{SPU\_VOL\_EXT\_RIGHT@{SPU\_VOL\_EXT\_RIGHT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOL\_EXT\_RIGHT}{SPU\_VOL\_EXT\_RIGHT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOL\+\_\+\+EXT\+\_\+\+RIGHT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801db6)}
+
+\Hypertarget{common_2hardware_2spu_8h_a1fc3c63ccf0f7b8b23c076cd7184b504}\label{common_2hardware_2spu_8h_a1fc3c63ccf0f7b8b23c076cd7184b504} 
+\index{spu.h@{spu.h}!SPU\_VOL\_MAIN\_LEFT@{SPU\_VOL\_MAIN\_LEFT}}
+\index{SPU\_VOL\_MAIN\_LEFT@{SPU\_VOL\_MAIN\_LEFT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOL\_MAIN\_LEFT}{SPU\_VOL\_MAIN\_LEFT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOL\+\_\+\+MAIN\+\_\+\+LEFT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d80)}
+
+\Hypertarget{common_2hardware_2spu_8h_a596fbddfcbfda2e7f3873f1ae5a3377a}\label{common_2hardware_2spu_8h_a596fbddfcbfda2e7f3873f1ae5a3377a} 
+\index{spu.h@{spu.h}!SPU\_VOL\_MAIN\_RIGHT@{SPU\_VOL\_MAIN\_RIGHT}}
+\index{SPU\_VOL\_MAIN\_RIGHT@{SPU\_VOL\_MAIN\_RIGHT}!spu.h@{spu.h}}
+\doxysubsubsection{\texorpdfstring{SPU\_VOL\_MAIN\_RIGHT}{SPU\_VOL\_MAIN\_RIGHT}}
+{\footnotesize\ttfamily \#define SPU\+\_\+\+VOL\+\_\+\+MAIN\+\_\+\+RIGHT~\mbox{\hyperlink{hwregs_8h_a932953399d8b9cadb8dac9cc7bfa1857}{HW\+\_\+\+U16}}(0x1f801d82)}
+

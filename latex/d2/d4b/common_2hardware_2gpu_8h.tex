@@ -1,0 +1,296 @@
+\doxysection{common/hardware/gpu.h File Reference}
+\hypertarget{common_2hardware_2gpu_8h}{}\label{common_2hardware_2gpu_8h}\index{common/hardware/gpu.h@{common/hardware/gpu.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+Include dependency graph for gpu.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{d6/d10/common_2hardware_2gpu_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d80/common_2hardware_2gpu_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structDisplayModeConfig}{Display\+Mode\+Config}}
+\item 
+union \mbox{\hyperlink{unionColor}{Color}}
+\item 
+struct \mbox{\hyperlink{structFastFill}{Fast\+Fill}}
+\item 
+struct \mbox{\hyperlink{structGPUPolygonCommand}{GPUPolygon\+Command}}
+\item 
+struct \mbox{\hyperlink{structGPULineCommand}{GPULine\+Command}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}{HResolution}} \{ \newline
+\mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a064bc3530eedee3aeefe55b7d98767ad}{HR\+\_\+\+EXTENDED}}
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4af30d000bd6fea31830f06a32605404e5}{HR\+\_\+256}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae2d55d6738d4b422c9031b0b4e4bb6c7}{HR\+\_\+320}} = 1
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae9231a0dc0f4801cdab3915835c41270}{HR\+\_\+512}} = 2
+, \newline
+\mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a8c9f6707660daa420123b52e52649068}{HR\+\_\+640}} = 3
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}{VResolution}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198adf582fcb3a46980fb17b472593e2e9cb}{VR\+\_\+240}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198ac560e7c0f74323e71ab0b42bd49b1a13}{VR\+\_\+480}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149}{Video\+Mode}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149a6c9c70ba1cdad55b8f16829be0c8dd74}{VM\+\_\+\+NTSC}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149ad0c0075c588947d1f6652eb4d917563c}{VM\+\_\+\+PAL}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}{Color\+Depth}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01a4a1224017e735462285afbb259f068fe}{CD\+\_\+15\+BITS}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01ace0444b67b99c09ad3807fb63fc199f6}{CD\+\_\+24\+BITS}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}{Video\+Interlace}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9ae5da376145778e0108952cf5a22528a6}{VI\+\_\+\+OFF}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9a66fd82c2a733e7fc0bff14cd5aefe2a0}{VI\+\_\+\+ON}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}{HResolution\+Extended}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afaf158d2937e8f7e37d9339513e3ba8b08}{HRE\+\_\+\+NORMAL}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afae7f9b2e83b7941a4a217590465be4331}{HRE\+\_\+368}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894}{Shading}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894a65b6c9b9253e117339ff66df1f94772a}{S\+\_\+\+FLAT}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894ad20b2623fa9273797e3add2a949f296e}{S\+\_\+\+GOURAUD}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92}{Vertices\+Count}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a3f830a0de7d5dd97e85e1bdf8cb8156a}{VC\+\_\+3}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a4ecb76d05eb1f0cd75fc19575b4c0d23}{VC\+\_\+4}} = 1
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353}{Textured}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a38925ba4d7ce48ba24857690e57fddd5}{TEX\+\_\+\+ON}} = 1
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a4715ef4aba8af71949b8b0f61725116a}{TEX\+\_\+\+OFF}} = 0
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557}{Transparency}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557aa4d6c9d90462b8a35742c83700760a24}{TRANS\+\_\+\+ON}} = 1
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557a5cd9c51b43ab91121723c76d16f1d1c9}{TRANS\+\_\+\+OFF}} = 0
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921ed}{Blending}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921edaf7c5d90d6e8012df0145b97831a9b422}{BLEND\+\_\+\+ON}} = 1
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921eda8f56fffdc7854eb29371b5fada86aad1}{BLEND\+\_\+\+OFF}} = 0
+ \}
+\item 
+enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7}{Line\+Style}} \{ \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a7456855316bcd9f71f6c18356bd8e7c8}{POLY\+\_\+\+OFF}} = 0
+, \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a80095f8fb1395dde85d6bdf6bcaadb03}{POLY\+\_\+\+ON}} = 1
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921ed}\label{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921ed} 
+\index{gpu.h@{gpu.h}!Blending@{Blending}}
+\index{Blending@{Blending}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{Blending}{Blending}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921ed}{Blending}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BLEND\_ON@{BLEND\_ON}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!BLEND\_ON@{BLEND\_ON}}}\Hypertarget{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921edaf7c5d90d6e8012df0145b97831a9b422}\label{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921edaf7c5d90d6e8012df0145b97831a9b422} 
+BLEND\+\_\+\+ON&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BLEND\_OFF@{BLEND\_OFF}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!BLEND\_OFF@{BLEND\_OFF}}}\Hypertarget{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921eda8f56fffdc7854eb29371b5fada86aad1}\label{common_2hardware_2gpu_8h_aa692f387d166badf016c286027f921eda8f56fffdc7854eb29371b5fada86aad1} 
+BLEND\+\_\+\+OFF&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}\label{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01} 
+\index{gpu.h@{gpu.h}!ColorDepth@{ColorDepth}}
+\index{ColorDepth@{ColorDepth}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{ColorDepth}{ColorDepth}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01}{Color\+Depth}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_15BITS@{CD\_15BITS}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!CD\_15BITS@{CD\_15BITS}}}\Hypertarget{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01a4a1224017e735462285afbb259f068fe}\label{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01a4a1224017e735462285afbb259f068fe} 
+CD\+\_\+15\+BITS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_24BITS@{CD\_24BITS}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!CD\_24BITS@{CD\_24BITS}}}\Hypertarget{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01ace0444b67b99c09ad3807fb63fc199f6}\label{common_2hardware_2gpu_8h_a9c57c3f4a8a840c7ea4b99648e847e01ace0444b67b99c09ad3807fb63fc199f6} 
+CD\+\_\+24\+BITS&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}\label{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4} 
+\index{gpu.h@{gpu.h}!HResolution@{HResolution}}
+\index{HResolution@{HResolution}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{HResolution}{HResolution}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4}{HResolution}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HR\_EXTENDED@{HR\_EXTENDED}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HR\_EXTENDED@{HR\_EXTENDED}}}\Hypertarget{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a064bc3530eedee3aeefe55b7d98767ad}\label{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a064bc3530eedee3aeefe55b7d98767ad} 
+HR\+\_\+\+EXTENDED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HR\_256@{HR\_256}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HR\_256@{HR\_256}}}\Hypertarget{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4af30d000bd6fea31830f06a32605404e5}\label{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4af30d000bd6fea31830f06a32605404e5} 
+HR\+\_\+256&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HR\_320@{HR\_320}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HR\_320@{HR\_320}}}\Hypertarget{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae2d55d6738d4b422c9031b0b4e4bb6c7}\label{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae2d55d6738d4b422c9031b0b4e4bb6c7} 
+HR\+\_\+320&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HR\_512@{HR\_512}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HR\_512@{HR\_512}}}\Hypertarget{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae9231a0dc0f4801cdab3915835c41270}\label{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4ae9231a0dc0f4801cdab3915835c41270} 
+HR\+\_\+512&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HR\_640@{HR\_640}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HR\_640@{HR\_640}}}\Hypertarget{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a8c9f6707660daa420123b52e52649068}\label{common_2hardware_2gpu_8h_a51b75adb98014f6e9cd3d98a03a0f2d4a8c9f6707660daa420123b52e52649068} 
+HR\+\_\+640&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}\label{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af} 
+\index{gpu.h@{gpu.h}!HResolutionExtended@{HResolutionExtended}}
+\index{HResolutionExtended@{HResolutionExtended}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{HResolutionExtended}{HResolutionExtended}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785af}{HResolution\+Extended}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HRE\_NORMAL@{HRE\_NORMAL}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HRE\_NORMAL@{HRE\_NORMAL}}}\Hypertarget{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afaf158d2937e8f7e37d9339513e3ba8b08}\label{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afaf158d2937e8f7e37d9339513e3ba8b08} 
+HRE\+\_\+\+NORMAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HRE\_368@{HRE\_368}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!HRE\_368@{HRE\_368}}}\Hypertarget{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afae7f9b2e83b7941a4a217590465be4331}\label{common_2hardware_2gpu_8h_a2d0d0b76e0955541d82789607d2785afae7f9b2e83b7941a4a217590465be4331} 
+HRE\+\_\+368&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7}\label{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7} 
+\index{gpu.h@{gpu.h}!LineStyle@{LineStyle}}
+\index{LineStyle@{LineStyle}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{LineStyle}{LineStyle}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7}{Line\+Style}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POLY\_OFF@{POLY\_OFF}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!POLY\_OFF@{POLY\_OFF}}}\Hypertarget{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a7456855316bcd9f71f6c18356bd8e7c8}\label{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a7456855316bcd9f71f6c18356bd8e7c8} 
+POLY\+\_\+\+OFF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POLY\_ON@{POLY\_ON}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!POLY\_ON@{POLY\_ON}}}\Hypertarget{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a80095f8fb1395dde85d6bdf6bcaadb03}\label{common_2hardware_2gpu_8h_a86e0f5648542856159bb40775c854aa7a80095f8fb1395dde85d6bdf6bcaadb03} 
+POLY\+\_\+\+ON&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894}\label{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894} 
+\index{gpu.h@{gpu.h}!Shading@{Shading}}
+\index{Shading@{Shading}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{Shading}{Shading}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894}{Shading}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\_FLAT@{S\_FLAT}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!S\_FLAT@{S\_FLAT}}}\Hypertarget{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894a65b6c9b9253e117339ff66df1f94772a}\label{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894a65b6c9b9253e117339ff66df1f94772a} 
+S\+\_\+\+FLAT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\_GOURAUD@{S\_GOURAUD}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!S\_GOURAUD@{S\_GOURAUD}}}\Hypertarget{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894ad20b2623fa9273797e3add2a949f296e}\label{common_2hardware_2gpu_8h_a336180ad8f340943ea7cc2cfef57e894ad20b2623fa9273797e3add2a949f296e} 
+S\+\_\+\+GOURAUD&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353}\label{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353} 
+\index{gpu.h@{gpu.h}!Textured@{Textured}}
+\index{Textured@{Textured}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{Textured}{Textured}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353}{Textured}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TEX\_ON@{TEX\_ON}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!TEX\_ON@{TEX\_ON}}}\Hypertarget{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a38925ba4d7ce48ba24857690e57fddd5}\label{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a38925ba4d7ce48ba24857690e57fddd5} 
+TEX\+\_\+\+ON&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TEX\_OFF@{TEX\_OFF}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!TEX\_OFF@{TEX\_OFF}}}\Hypertarget{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a4715ef4aba8af71949b8b0f61725116a}\label{common_2hardware_2gpu_8h_a849a20bbf7c2cbffe2c7914fc1486353a4715ef4aba8af71949b8b0f61725116a} 
+TEX\+\_\+\+OFF&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557}\label{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557} 
+\index{gpu.h@{gpu.h}!Transparency@{Transparency}}
+\index{Transparency@{Transparency}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{Transparency}{Transparency}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557}{Transparency}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TRANS\_ON@{TRANS\_ON}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!TRANS\_ON@{TRANS\_ON}}}\Hypertarget{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557aa4d6c9d90462b8a35742c83700760a24}\label{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557aa4d6c9d90462b8a35742c83700760a24} 
+TRANS\+\_\+\+ON&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TRANS\_OFF@{TRANS\_OFF}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!TRANS\_OFF@{TRANS\_OFF}}}\Hypertarget{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557a5cd9c51b43ab91121723c76d16f1d1c9}\label{common_2hardware_2gpu_8h_a184209e78f6ae891384d08a38b1ec557a5cd9c51b43ab91121723c76d16f1d1c9} 
+TRANS\+\_\+\+OFF&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92}\label{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92} 
+\index{gpu.h@{gpu.h}!VerticesCount@{VerticesCount}}
+\index{VerticesCount@{VerticesCount}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{VerticesCount}{VerticesCount}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92}{Vertices\+Count}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VC\_3@{VC\_3}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VC\_3@{VC\_3}}}\Hypertarget{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a3f830a0de7d5dd97e85e1bdf8cb8156a}\label{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a3f830a0de7d5dd97e85e1bdf8cb8156a} 
+VC\+\_\+3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VC\_4@{VC\_4}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VC\_4@{VC\_4}}}\Hypertarget{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a4ecb76d05eb1f0cd75fc19575b4c0d23}\label{common_2hardware_2gpu_8h_ab1b11d77d76ef3ede8cf74ef591b4d92a4ecb76d05eb1f0cd75fc19575b4c0d23} 
+VC\+\_\+4&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}\label{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9} 
+\index{gpu.h@{gpu.h}!VideoInterlace@{VideoInterlace}}
+\index{VideoInterlace@{VideoInterlace}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{VideoInterlace}{VideoInterlace}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9}{Video\+Interlace}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VI\_OFF@{VI\_OFF}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VI\_OFF@{VI\_OFF}}}\Hypertarget{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9ae5da376145778e0108952cf5a22528a6}\label{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9ae5da376145778e0108952cf5a22528a6} 
+VI\+\_\+\+OFF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VI\_ON@{VI\_ON}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VI\_ON@{VI\_ON}}}\Hypertarget{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9a66fd82c2a733e7fc0bff14cd5aefe2a0}\label{common_2hardware_2gpu_8h_a9ba1dbeb7103a6af21310c3c610059a9a66fd82c2a733e7fc0bff14cd5aefe2a0} 
+VI\+\_\+\+ON&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149}\label{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149} 
+\index{gpu.h@{gpu.h}!VideoMode@{VideoMode}}
+\index{VideoMode@{VideoMode}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{VideoMode}{VideoMode}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149}{Video\+Mode}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VM\_NTSC@{VM\_NTSC}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VM\_NTSC@{VM\_NTSC}}}\Hypertarget{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149a6c9c70ba1cdad55b8f16829be0c8dd74}\label{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149a6c9c70ba1cdad55b8f16829be0c8dd74} 
+VM\+\_\+\+NTSC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VM\_PAL@{VM\_PAL}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VM\_PAL@{VM\_PAL}}}\Hypertarget{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149ad0c0075c588947d1f6652eb4d917563c}\label{common_2hardware_2gpu_8h_a1e46218ee302fcc8c77e4ea0968ea149ad0c0075c588947d1f6652eb4d917563c} 
+VM\+\_\+\+PAL&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}\label{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198} 
+\index{gpu.h@{gpu.h}!VResolution@{VResolution}}
+\index{VResolution@{VResolution}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{VResolution}{VResolution}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198}{VResolution}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VR\_240@{VR\_240}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VR\_240@{VR\_240}}}\Hypertarget{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198adf582fcb3a46980fb17b472593e2e9cb}\label{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198adf582fcb3a46980fb17b472593e2e9cb} 
+VR\+\_\+240&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VR\_480@{VR\_480}!gpu.h@{gpu.h}}\index{gpu.h@{gpu.h}!VR\_480@{VR\_480}}}\Hypertarget{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198ac560e7c0f74323e71ab0b42bd49b1a13}\label{common_2hardware_2gpu_8h_a3c63b706b902fec6d8f25fd68c6ba198ac560e7c0f74323e71ab0b42bd49b1a13} 
+VR\+\_\+480&\\
+\hline
+
+\end{DoxyEnumFields}

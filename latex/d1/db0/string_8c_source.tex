@@ -1,0 +1,109 @@
+\doxysection{string.\+c}
+\hypertarget{string_8c_source}{}\label{string_8c_source}\index{tests/libc/string.c@{tests/libc/string.c}}
+\mbox{\hyperlink{string_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_2psxlibc_2setjmp_8h}{common/psxlibc/setjmp.h}}"{}}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{syscalls_8h}{common/syscalls/syscalls.h}}"{}}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\_TEST}}(strcpy,\ \mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\_instance}},}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[32];}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[16]\ =\ \textcolor{charliteral}{'a'};}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[17]\ =\ \textcolor{charliteral}{'b'};}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[18]\ =\ \textcolor{charliteral}{'c'};}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[19]\ =\ 0;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ syscall\_strcpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ +\ 16);}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\_assert\_ptr\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\_assert\_str\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}\ +\ 16);}
+\DoxyCodeLine{00044\ )}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\_TEST}}(memset,\ \mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\_instance}},}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[9];}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[8]\ =\ 0;}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ syscall\_memset(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \textcolor{charliteral}{'s'},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ -\/\ 1);}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\_assert\_ptr\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\_assert\_str\_equal}}(\textcolor{stringliteral}{"{}ssssssss"{}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});}
+\DoxyCodeLine{00054\ )}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\_TEST}}(strncpyBigger,\ \mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\_instance}},}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[8];}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ syscall\_memset(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}));}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ syscall\_strncpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \textcolor{stringliteral}{"{}0123456789abcdef"{}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}})\ -\/\ 1);}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\_assert\_ptr\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\_assert\_str\_equal}}(\textcolor{stringliteral}{"{}0123456"{}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});}
+\DoxyCodeLine{00064\ )}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\_TEST}}(strncpySmaller,\ \mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\_instance}},}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[8]\ =\ \{\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'}\};}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ syscall\_strncpy(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \textcolor{stringliteral}{"{}abc"{}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}));}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\_assert\_ptr\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\_assert\_str\_equal}}(\textcolor{stringliteral}{"{}abc"{}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(\textcolor{charliteral}{'a'},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[0]);}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(\textcolor{charliteral}{'b'},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[1]);}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(\textcolor{charliteral}{'c'},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[2]);}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[3]);}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[4]);}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[5]);}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[6]);}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[7]);}
+\DoxyCodeLine{00081\ )}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\_TEST}}(strncatBigger,\ \mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\_instance}},}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[8]\ =\ \{\ \textcolor{charliteral}{'a'},\ \textcolor{charliteral}{'b'},\ \textcolor{charliteral}{'c'},\ 0,\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'}\ \};}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ syscall\_strncat(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \textcolor{stringliteral}{"{}123456"{}},\ 3);}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\_assert\_ptr\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\_assert\_str\_equal}}(\textcolor{stringliteral}{"{}abc123"{}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[6]);}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(\textcolor{charliteral}{'x'},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[7]);}
+\DoxyCodeLine{00092\ )}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \mbox{\hyperlink{string_8c_a7e0e9b9655500b5922d7025633ea2144}{CESTER\_TEST}}(strncatSmaller,\ \mbox{\hyperlink{string_8c_a81841b62c6410eba400654b679c13fe2}{test\_instance}},}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[8]\ =\ \{\ \textcolor{charliteral}{'a'},\ \textcolor{charliteral}{'b'},\ \textcolor{charliteral}{'c'},\ 0,\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'x'}\ \};}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}\ =\ syscall\_strncat(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \textcolor{stringliteral}{"{}123"{}},\ 6);}
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\_assert\_ptr\_equal}}(\mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}},\ \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}});}
+\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{string_8c_a8e190745e6c2b7706cdd5167de4f2127}{cester\_assert\_str\_equal}}(\textcolor{stringliteral}{"{}abc123"{}},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}});}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(0,\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[6]);}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{string_8c_ae722bebbfe15d5bb13eed93c06f8b361}{cester\_assert\_int\_eq}}(\textcolor{charliteral}{'x'},\ \mbox{\hyperlink{string_8c_ae5d38ec41218c819c268b8c8281e9962}{b}}[7]);}
+\DoxyCodeLine{00103\ )}
+
+\end{DoxyCode}

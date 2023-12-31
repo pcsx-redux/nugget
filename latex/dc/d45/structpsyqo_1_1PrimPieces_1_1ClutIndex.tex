@@ -1,0 +1,53 @@
+\doxysection{psyqo\+::Prim\+Pieces\+::Clut\+Index Struct Reference}
+\hypertarget{structpsyqo_1_1PrimPieces_1_1ClutIndex}{}\label{structpsyqo_1_1PrimPieces_1_1ClutIndex}\index{psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}}
+
+
+A primitive\textquotesingle{}s CLUT command.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/common.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex_a9f84a9d4525621db98417b8997b6f1a3}{Clut\+Index}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex_a0e064aa60378747baa49eed48f48c21a}{Clut\+Index}} (\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} v)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex_ac9c1793b5a9cbb338700fd502efc667d}{Clut\+Index}} (uint16\+\_\+t x, uint16\+\_\+t y)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A primitive\textquotesingle{}s CLUT command. 
+
+This is a common building block piece used in primitives. The binary representation is meant to be the same as the CLUT argument for \doxylink{classpsyqo_1_1GPU}{GPU} commands. The constructor can take either a {\ttfamily \doxylink{unionpsyqo_1_1Vertex}{Vertex}} or the raw x and y coordinates for the CLUT to use.
+
+Remember that CLUTs are aligned to 16 pixels, so the vertex coordinates are rounded to the lowest multiple of 16 on the X axis. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1ClutIndex_a9f84a9d4525621db98417b8997b6f1a3}\label{structpsyqo_1_1PrimPieces_1_1ClutIndex_a9f84a9d4525621db98417b8997b6f1a3} 
+\index{psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}!ClutIndex@{ClutIndex}}
+\index{ClutIndex@{ClutIndex}!psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}}
+\doxysubsubsection{\texorpdfstring{ClutIndex()}{ClutIndex()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+Pieces\+::\+Clut\+Index\+::\+Clut\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1ClutIndex_a0e064aa60378747baa49eed48f48c21a}\label{structpsyqo_1_1PrimPieces_1_1ClutIndex_a0e064aa60378747baa49eed48f48c21a} 
+\index{psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}!ClutIndex@{ClutIndex}}
+\index{ClutIndex@{ClutIndex}!psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}}
+\doxysubsubsection{\texorpdfstring{ClutIndex()}{ClutIndex()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+Pieces\+::\+Clut\+Index\+::\+Clut\+Index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1ClutIndex_ac9c1793b5a9cbb338700fd502efc667d}\label{structpsyqo_1_1PrimPieces_1_1ClutIndex_ac9c1793b5a9cbb338700fd502efc667d} 
+\index{psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}!ClutIndex@{ClutIndex}}
+\index{ClutIndex@{ClutIndex}!psyqo::PrimPieces::ClutIndex@{psyqo::PrimPieces::ClutIndex}}
+\doxysubsubsection{\texorpdfstring{ClutIndex()}{ClutIndex()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+Pieces\+::\+Clut\+Index\+::\+Clut\+Index (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{x,  }\item[{uint16\+\_\+t}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{common_8hh}{common.\+hh}}\end{DoxyCompactItemize}

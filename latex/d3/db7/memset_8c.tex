@@ -1,0 +1,142 @@
+\doxysection{tests/memset/memset.c File Reference}
+\hypertarget{memset_8c}{}\label{memset_8c}\index{tests/memset/memset.c@{tests/memset/memset.c}}
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}exotic/cester.\+h"{}}\newline
+Include dependency graph for memset.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/de1/memset_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{memset_8c_ab9d749ba0acd5d091810d8903051f734}{CESTER\+\_\+\+NO\+\_\+\+SIGNAL}}
+\item 
+\#define \mbox{\hyperlink{memset_8c_a284d6e2bc5f15d225e4600990f840607}{CESTER\+\_\+\+NO\+\_\+\+TIME}}
+\item 
+\#define \mbox{\hyperlink{memset_8c_a687984f47d8cce148d1b914d2b79612a}{EXIT\+\_\+\+SUCCESS}}~0
+\item 
+\#define \mbox{\hyperlink{memset_8c_a73efe787c131b385070f25d18b7c9aa4}{EXIT\+\_\+\+FAILURE}}~1
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{memset_8c_a4c8880d5d70a781c88eed738c7fbf0b8}{CESTER\+\_\+\+BODY}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}dest, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}, size\+\_\+t n);)
+\item 
+\mbox{\hyperlink{memset_8c_aa6b9d2d05261f4ccde6a3a65c76d19de}{for}} (unsigned i=0;i$<$ 3;i++)
+\item 
+\mbox{\hyperlink{memset_8c_a0048cc91384ff640f796040ca5c119a8}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}3\mbox{]}, 0)
+\item 
+\mbox{\hyperlink{memset_8c_acdb0279e2de88e735d8e72efbe800397}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}} (\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}, \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}})
+\item 
+\mbox{\hyperlink{memset_8c_ac6b8719cc71ef8dd794309134f32b837}{CESTER\+\_\+\+TEST}} (fastmemset\+Larger, \mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}, char \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}$\,$\mbox{]}=\{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \};\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}=\+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, 0x55, 11);\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}}(unsigned i=0;i$<$ 11;i++) \{ \mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}i\mbox{]}, 0x55);\} \mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}11\mbox{]}, 0);\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}, \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}});) CESTER\+\_\+\+TEST(fastmemset\+Largest
+\item 
+\mbox{\hyperlink{memset_8c_a62b5fdf5dcb9f2c79c7056ee28cac762}{CESTER\+\_\+\+TEST}} (fastmemset\+Unaligned, \mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}, char \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}1000\mbox{]}=\{ 0 \};\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}=\+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}+1, 0x55, sizeof(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}) -\/ 1);\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}0\mbox{]}, 0);\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}}(unsigned i=1;i$<$ sizeof(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}});i++) \{ \mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}i\mbox{]}, 0x55);\} \mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}, \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}+1);) CESTER\+\_\+\+TEST(memset\+Small
+\item 
+\mbox{\hyperlink{memset_8c_ab54e07141c29f356af158e95fab65dd0}{CESTER\+\_\+\+TEST}} (memset\+Larger, \mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}, char \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}$\,$\mbox{]}=\{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \};\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}=\+\_\+\+\_\+builtin\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, 0x55, 11);\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}}(unsigned i=0;i$<$ 11;i++) \{ \mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}i\mbox{]}, 0x55);\} \mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}11\mbox{]}, 0);\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}, \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}});) CESTER\+\_\+\+TEST(memset\+Largest
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{memset_8c_aac1c4dddd5bb371ea1008ff988760d4f}{result}} = \+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, 0x55, 3)
+\item 
+\mbox{\hyperlink{memset_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}
+\item 
+char \mbox{\hyperlink{memset_8c_ab172bb9497c8d482a3aa7b32728a71cf}{buf}} \mbox{[}1000\mbox{]} = \{ 0 \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{memset_8c_ab9d749ba0acd5d091810d8903051f734}\label{memset_8c_ab9d749ba0acd5d091810d8903051f734} 
+\index{memset.c@{memset.c}!CESTER\_NO\_SIGNAL@{CESTER\_NO\_SIGNAL}}
+\index{CESTER\_NO\_SIGNAL@{CESTER\_NO\_SIGNAL}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_NO\_SIGNAL}{CESTER\_NO\_SIGNAL}}
+{\footnotesize\ttfamily \#define CESTER\+\_\+\+NO\+\_\+\+SIGNAL}
+
+\Hypertarget{memset_8c_a284d6e2bc5f15d225e4600990f840607}\label{memset_8c_a284d6e2bc5f15d225e4600990f840607} 
+\index{memset.c@{memset.c}!CESTER\_NO\_TIME@{CESTER\_NO\_TIME}}
+\index{CESTER\_NO\_TIME@{CESTER\_NO\_TIME}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_NO\_TIME}{CESTER\_NO\_TIME}}
+{\footnotesize\ttfamily \#define CESTER\+\_\+\+NO\+\_\+\+TIME}
+
+\Hypertarget{memset_8c_a73efe787c131b385070f25d18b7c9aa4}\label{memset_8c_a73efe787c131b385070f25d18b7c9aa4} 
+\index{memset.c@{memset.c}!EXIT\_FAILURE@{EXIT\_FAILURE}}
+\index{EXIT\_FAILURE@{EXIT\_FAILURE}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{EXIT\_FAILURE}{EXIT\_FAILURE}}
+{\footnotesize\ttfamily \#define EXIT\+\_\+\+FAILURE~1}
+
+\Hypertarget{memset_8c_a687984f47d8cce148d1b914d2b79612a}\label{memset_8c_a687984f47d8cce148d1b914d2b79612a} 
+\index{memset.c@{memset.c}!EXIT\_SUCCESS@{EXIT\_SUCCESS}}
+\index{EXIT\_SUCCESS@{EXIT\_SUCCESS}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{EXIT\_SUCCESS}{EXIT\_SUCCESS}}
+{\footnotesize\ttfamily \#define EXIT\+\_\+\+SUCCESS~0}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{memset_8c_acdb0279e2de88e735d8e72efbe800397}\label{memset_8c_acdb0279e2de88e735d8e72efbe800397} 
+\index{memset.c@{memset.c}!cester\_assert\_ptr\_equal@{cester\_assert\_ptr\_equal}}
+\index{cester\_assert\_ptr\_equal@{cester\_assert\_ptr\_equal}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_ptr\_equal()}{cester\_assert\_ptr\_equal()}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+ptr\+\_\+equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{memset_8c_a0048cc91384ff640f796040ca5c119a8}\label{memset_8c_a0048cc91384ff640f796040ca5c119a8} 
+\index{memset.c@{memset.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}}]{\mbox{[}3\mbox{]},  }\item[{0}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{memset_8c_a4c8880d5d70a781c88eed738c7fbf0b8}\label{memset_8c_a4c8880d5d70a781c88eed738c7fbf0b8} 
+\index{memset.c@{memset.c}!CESTER\_BODY@{CESTER\_BODY}}
+\index{CESTER\_BODY@{CESTER\_BODY}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_BODY()}{CESTER\_BODY()}}
+{\footnotesize\ttfamily CESTER\+\_\+\+BODY (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}dest, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}, size\+\_\+t n);}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{memset_8c_ac6b8719cc71ef8dd794309134f32b837}\label{memset_8c_ac6b8719cc71ef8dd794309134f32b837} 
+\index{memset.c@{memset.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{fastmemset\+Larger}]{,  }\item[{\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}}]{,  }\item[{char}]{buf\mbox{[}$\,$\mbox{]} = {\ttfamily \{~0,~0,~0,~0,~0,~0,~0,~0,~0,~0,~0,~0~\};~\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}~\texorpdfstring{$\ast$}{*}~\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}~=~\+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},~0x55,~11);~\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}}~(unsigned~i~=~0;~i~$<$~11;~i++)~\{~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}i\mbox{]},~0x55);~\}~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}11\mbox{]},~0);~\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}},~\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}});} }\end{DoxyParamCaption})}
+
+\Hypertarget{memset_8c_a62b5fdf5dcb9f2c79c7056ee28cac762}\label{memset_8c_a62b5fdf5dcb9f2c79c7056ee28cac762} 
+\index{memset.c@{memset.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{fastmemset\+Unaligned}]{,  }\item[{\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}}]{,  }\item[{char}]{buf\mbox{[}1000\mbox{]} = {\ttfamily \{~0~\};~\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}~\texorpdfstring{$\ast$}{*}~\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}~=~\+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}~+~1,~0x55,~sizeof(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}})~-\/~1);~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}0\mbox{]},~0);~\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}}~(unsigned~i~=~1;~i~$<$~sizeof(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}});~i++)~\{~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}i\mbox{]},~0x55);~\}~\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}},~\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}~+~1);} }\end{DoxyParamCaption})}
+
+\Hypertarget{memset_8c_ab54e07141c29f356af158e95fab65dd0}\label{memset_8c_ab54e07141c29f356af158e95fab65dd0} 
+\index{memset.c@{memset.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{memset\+Larger}]{,  }\item[{\mbox{\hyperlink{longjmp_8c_a81841b62c6410eba400654b679c13fe2}{test\+\_\+instance}}}]{,  }\item[{char}]{buf\mbox{[}$\,$\mbox{]} = {\ttfamily \{~0,~0,~0,~0,~0,~0,~0,~0,~0,~0,~0,~0~\};~\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}~\texorpdfstring{$\ast$}{*}~\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}~=~\+\_\+\+\_\+builtin\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},~0x55,~11);~\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}}~(unsigned~i~=~0;~i~$<$~11;~i++)~\{~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}i\mbox{]},~0x55);~\}~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}\mbox{[}11\mbox{]},~0);~\mbox{\hyperlink{string_8c_ac819eaabd60b63eeb9f0448629dec176}{cester\+\_\+assert\+\_\+ptr\+\_\+equal}}(\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}},~\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}});} }\end{DoxyParamCaption})}
+
+\Hypertarget{memset_8c_aa6b9d2d05261f4ccde6a3a65c76d19de}\label{memset_8c_aa6b9d2d05261f4ccde6a3a65c76d19de} 
+\index{memset.c@{memset.c}!for@{for}}
+\index{for@{for}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{for()}{for()}}
+{\footnotesize\ttfamily for (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{memset_8c_ab172bb9497c8d482a3aa7b32728a71cf}\label{memset_8c_ab172bb9497c8d482a3aa7b32728a71cf} 
+\index{memset.c@{memset.c}!buf@{buf}}
+\index{buf@{buf}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{buf}{buf}}
+{\footnotesize\ttfamily char buf\mbox{[}1000\mbox{]} = \{ 0 \}}
+
+\Hypertarget{memset_8c_aac1c4dddd5bb371ea1008ff988760d4f}\label{memset_8c_aac1c4dddd5bb371ea1008ff988760d4f} 
+\index{memset.c@{memset.c}!result@{result}}
+\index{result@{result}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{result}{result}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} result = \+\_\+\+\_\+wrap\+\_\+memset(\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, 0x55, 3)}
+
+\Hypertarget{memset_8c_a81841b62c6410eba400654b679c13fe2}\label{memset_8c_a81841b62c6410eba400654b679c13fe2} 
+\index{memset.c@{memset.c}!test\_instance@{test\_instance}}
+\index{test\_instance@{test\_instance}!memset.c@{memset.c}}
+\doxysubsubsection{\texorpdfstring{test\_instance}{test\_instance}}
+{\footnotesize\ttfamily test\+\_\+instance}
+

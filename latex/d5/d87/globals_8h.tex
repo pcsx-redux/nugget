@@ -1,0 +1,298 @@
+\doxysection{openbios/kernel/globals.h File Reference}
+\hypertarget{globals_8h}{}\label{globals_8h}\index{openbios/kernel/globals.h@{openbios/kernel/globals.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/psxlibc/handlers.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/threads.\+h"{}}\newline
+Include dependency graph for globals.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/de4/globals_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/dc7/globals_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a59b2df8e883e815e1a7111ca8f83c4a8}{ramsize}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a624f28a4d22ff733daf144edb7917709}{unk1}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a752d71283860626b9b29cf4efc65a428}{unk2}}\\
+\} \mbox{\hyperlink{globals_8h_a1c4db08cc29588befa1cf80926038c86}{\_\_globals60}}\\
+
+\end{tabbing}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlersStorage}{HandlersStorage}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_a7cfd0c22085960455d367b61eb836efb}{handlersArray}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a9af81d711028b9c9cb96020dc361ac4d}{handlersArraySize}}\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structProcess}{Process}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_ab6db7f3e054b734590f012ede3832d83}{processes}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_af15a6207410ea76ae2bc637b1d285cea}{processBlockSize}}\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structThread}{Thread}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_ab2277f1b3f4cebda71a3495c292cb558}{threads}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a9d47bca6c3cb1ad6a13d82051a3ee888}{threadBlockSize}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a00d7ac5fc817081029bddcd0940038f9}{xxx\_06}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a83bc4a793542e845d16c906b6a7a000d}{xxx\_07}}\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structEventInfo}{EventInfo}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_a586d62a75e9622e49459987843adc6e4}{events}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a4b089ce5a2f014fbbe1e30708b9bbdf6}{eventsSize}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_aa1119e19634a227b3512a49124be0055}{xxx\_0a}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_aeac7f33b4fa7e3b0f8ca122841456451}{xxx\_0b}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a6623852d55852590dcbd70b2ee1d95a7}{xxx\_0c}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a5acd4dcb134fcf08920a4787e215292e}{xxx\_0d}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_ad482eaeea32e678b6d518f4f65f8401c}{xxx\_0e}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_aa64c0c5c6f1581c17e4b1ca8e53aa609}{xxx\_0f}}\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_acd13691592908f7aac77cf36568bdab4}{files}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_acfc088dc08a56a7bf0e65ea944d4515c}{filesSize}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_aa925318d9e55d02ba7756acf5d562dc6}{xxx\_12}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a9029a11783385bbd019c036e874d0f05}{xxx\_13}}\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDevice}{Device}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_a36b3a0a1c2628feb080b27f26fe1d94b}{devices}}\\
+\>\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDevice}{Device}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{globals_8h_a1ec93bfbacd12e23dbb825d7311901ca}{devicesEnd}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a078ac4514194ce5af269b0b13db6cf41}{xxx\_16}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a1e97e35ebe2b5a8ec2773933c004bc8c}{xxx\_17}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_ad987443af63ba87380a16a308685b47b}{xxx\_18}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a77cdfcb13c5d4c7bd9b2f5aa8a4d0f51}{xxx\_19}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_ac244b7c411638d25d4c9f550a1be6ef4}{xxx\_1a}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a8530a19af3ef99af58d6c2a3bff7fb12}{xxx\_1b}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a6c5735be3021dfddda26d9a9582020e7}{xxx\_1c}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a35a640f8bdd663022eff4e2b51f03bec}{xxx\_1d}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a5667f53199f0e0103671519425d99e5b}{xxx\_1e}}\\
+\>\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}} \mbox{\hyperlink{globals_8h_a1d4c1452dfb30f59a63b6ec027f23ece}{xxx\_1f}}\\
+\} \mbox{\hyperlink{globals_8h_abf8bb78460acd9423393a3387b91fecc}{\_\_globals}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{globals_8h_abf8bb78460acd9423393a3387b91fecc}\label{globals_8h_abf8bb78460acd9423393a3387b91fecc} 
+\index{globals.h@{globals.h}!\_\_globals@{\_\_globals}}
+\index{\_\_globals@{\_\_globals}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{[struct]}{[struct]}}
+{\footnotesize\ttfamily struct  \{ ... \}  \+\_\+\+\_\+globals}
+
+\Hypertarget{globals_8h_a1c4db08cc29588befa1cf80926038c86}\label{globals_8h_a1c4db08cc29588befa1cf80926038c86} 
+\index{globals.h@{globals.h}!\_\_globals60@{\_\_globals60}}
+\index{\_\_globals60@{\_\_globals60}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{[struct]}{[struct]}}
+{\footnotesize\ttfamily struct  \{ ... \}  \+\_\+\+\_\+globals60}
+
+\Hypertarget{globals_8h_a36b3a0a1c2628feb080b27f26fe1d94b}\label{globals_8h_a36b3a0a1c2628feb080b27f26fe1d94b} 
+\index{globals.h@{globals.h}!devices@{devices}}
+\index{devices@{devices}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{devices}{devices}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDevice}{Device}}\texorpdfstring{$\ast$}{*} devices}
+
+\Hypertarget{globals_8h_a1ec93bfbacd12e23dbb825d7311901ca}\label{globals_8h_a1ec93bfbacd12e23dbb825d7311901ca} 
+\index{globals.h@{globals.h}!devicesEnd@{devicesEnd}}
+\index{devicesEnd@{devicesEnd}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{devicesEnd}{devicesEnd}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDevice}{Device}}\texorpdfstring{$\ast$}{*} devices\+End}
+
+\Hypertarget{globals_8h_a586d62a75e9622e49459987843adc6e4}\label{globals_8h_a586d62a75e9622e49459987843adc6e4} 
+\index{globals.h@{globals.h}!events@{events}}
+\index{events@{events}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{events}{events}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structEventInfo}{Event\+Info}}\texorpdfstring{$\ast$}{*} events}
+
+\Hypertarget{globals_8h_a4b089ce5a2f014fbbe1e30708b9bbdf6}\label{globals_8h_a4b089ce5a2f014fbbe1e30708b9bbdf6} 
+\index{globals.h@{globals.h}!eventsSize@{eventsSize}}
+\index{eventsSize@{eventsSize}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{eventsSize}{eventsSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} events\+Size}
+
+\Hypertarget{globals_8h_acd13691592908f7aac77cf36568bdab4}\label{globals_8h_acd13691592908f7aac77cf36568bdab4} 
+\index{globals.h@{globals.h}!files@{files}}
+\index{files@{files}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{files}{files}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}}\texorpdfstring{$\ast$}{*} files}
+
+\Hypertarget{globals_8h_acfc088dc08a56a7bf0e65ea944d4515c}\label{globals_8h_acfc088dc08a56a7bf0e65ea944d4515c} 
+\index{globals.h@{globals.h}!filesSize@{filesSize}}
+\index{filesSize@{filesSize}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{filesSize}{filesSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} files\+Size}
+
+\Hypertarget{globals_8h_a7cfd0c22085960455d367b61eb836efb}\label{globals_8h_a7cfd0c22085960455d367b61eb836efb} 
+\index{globals.h@{globals.h}!handlersArray@{handlersArray}}
+\index{handlersArray@{handlersArray}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{handlersArray}{handlersArray}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlersStorage}{Handlers\+Storage}}\texorpdfstring{$\ast$}{*} handlers\+Array}
+
+\Hypertarget{globals_8h_a9af81d711028b9c9cb96020dc361ac4d}\label{globals_8h_a9af81d711028b9c9cb96020dc361ac4d} 
+\index{globals.h@{globals.h}!handlersArraySize@{handlersArraySize}}
+\index{handlersArraySize@{handlersArraySize}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{handlersArraySize}{handlersArraySize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} handlers\+Array\+Size}
+
+\Hypertarget{globals_8h_af15a6207410ea76ae2bc637b1d285cea}\label{globals_8h_af15a6207410ea76ae2bc637b1d285cea} 
+\index{globals.h@{globals.h}!processBlockSize@{processBlockSize}}
+\index{processBlockSize@{processBlockSize}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{processBlockSize}{processBlockSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} process\+Block\+Size}
+
+\Hypertarget{globals_8h_ab6db7f3e054b734590f012ede3832d83}\label{globals_8h_ab6db7f3e054b734590f012ede3832d83} 
+\index{globals.h@{globals.h}!processes@{processes}}
+\index{processes@{processes}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{processes}{processes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structProcess}{Process}}\texorpdfstring{$\ast$}{*} processes}
+
+\Hypertarget{globals_8h_a59b2df8e883e815e1a7111ca8f83c4a8}\label{globals_8h_a59b2df8e883e815e1a7111ca8f83c4a8} 
+\index{globals.h@{globals.h}!ramsize@{ramsize}}
+\index{ramsize@{ramsize}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{ramsize}{ramsize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} ramsize}
+
+\Hypertarget{globals_8h_a9d47bca6c3cb1ad6a13d82051a3ee888}\label{globals_8h_a9d47bca6c3cb1ad6a13d82051a3ee888} 
+\index{globals.h@{globals.h}!threadBlockSize@{threadBlockSize}}
+\index{threadBlockSize@{threadBlockSize}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{threadBlockSize}{threadBlockSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} thread\+Block\+Size}
+
+\Hypertarget{globals_8h_ab2277f1b3f4cebda71a3495c292cb558}\label{globals_8h_ab2277f1b3f4cebda71a3495c292cb558} 
+\index{globals.h@{globals.h}!threads@{threads}}
+\index{threads@{threads}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{threads}{threads}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structThread}{Thread}}\texorpdfstring{$\ast$}{*} threads}
+
+\Hypertarget{globals_8h_a624f28a4d22ff733daf144edb7917709}\label{globals_8h_a624f28a4d22ff733daf144edb7917709} 
+\index{globals.h@{globals.h}!unk1@{unk1}}
+\index{unk1@{unk1}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{unk1}{unk1}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} unk1}
+
+\Hypertarget{globals_8h_a752d71283860626b9b29cf4efc65a428}\label{globals_8h_a752d71283860626b9b29cf4efc65a428} 
+\index{globals.h@{globals.h}!unk2@{unk2}}
+\index{unk2@{unk2}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{unk2}{unk2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} unk2}
+
+\Hypertarget{globals_8h_a00d7ac5fc817081029bddcd0940038f9}\label{globals_8h_a00d7ac5fc817081029bddcd0940038f9} 
+\index{globals.h@{globals.h}!xxx\_06@{xxx\_06}}
+\index{xxx\_06@{xxx\_06}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_06}{xxx\_06}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+06}
+
+\Hypertarget{globals_8h_a83bc4a793542e845d16c906b6a7a000d}\label{globals_8h_a83bc4a793542e845d16c906b6a7a000d} 
+\index{globals.h@{globals.h}!xxx\_07@{xxx\_07}}
+\index{xxx\_07@{xxx\_07}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_07}{xxx\_07}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+07}
+
+\Hypertarget{globals_8h_aa1119e19634a227b3512a49124be0055}\label{globals_8h_aa1119e19634a227b3512a49124be0055} 
+\index{globals.h@{globals.h}!xxx\_0a@{xxx\_0a}}
+\index{xxx\_0a@{xxx\_0a}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_0a}{xxx\_0a}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+0a}
+
+\Hypertarget{globals_8h_aeac7f33b4fa7e3b0f8ca122841456451}\label{globals_8h_aeac7f33b4fa7e3b0f8ca122841456451} 
+\index{globals.h@{globals.h}!xxx\_0b@{xxx\_0b}}
+\index{xxx\_0b@{xxx\_0b}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_0b}{xxx\_0b}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+0b}
+
+\Hypertarget{globals_8h_a6623852d55852590dcbd70b2ee1d95a7}\label{globals_8h_a6623852d55852590dcbd70b2ee1d95a7} 
+\index{globals.h@{globals.h}!xxx\_0c@{xxx\_0c}}
+\index{xxx\_0c@{xxx\_0c}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_0c}{xxx\_0c}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+0c}
+
+\Hypertarget{globals_8h_a5acd4dcb134fcf08920a4787e215292e}\label{globals_8h_a5acd4dcb134fcf08920a4787e215292e} 
+\index{globals.h@{globals.h}!xxx\_0d@{xxx\_0d}}
+\index{xxx\_0d@{xxx\_0d}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_0d}{xxx\_0d}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+0d}
+
+\Hypertarget{globals_8h_ad482eaeea32e678b6d518f4f65f8401c}\label{globals_8h_ad482eaeea32e678b6d518f4f65f8401c} 
+\index{globals.h@{globals.h}!xxx\_0e@{xxx\_0e}}
+\index{xxx\_0e@{xxx\_0e}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_0e}{xxx\_0e}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+0e}
+
+\Hypertarget{globals_8h_aa64c0c5c6f1581c17e4b1ca8e53aa609}\label{globals_8h_aa64c0c5c6f1581c17e4b1ca8e53aa609} 
+\index{globals.h@{globals.h}!xxx\_0f@{xxx\_0f}}
+\index{xxx\_0f@{xxx\_0f}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_0f}{xxx\_0f}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+0f}
+
+\Hypertarget{globals_8h_aa925318d9e55d02ba7756acf5d562dc6}\label{globals_8h_aa925318d9e55d02ba7756acf5d562dc6} 
+\index{globals.h@{globals.h}!xxx\_12@{xxx\_12}}
+\index{xxx\_12@{xxx\_12}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_12}{xxx\_12}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+12}
+
+\Hypertarget{globals_8h_a9029a11783385bbd019c036e874d0f05}\label{globals_8h_a9029a11783385bbd019c036e874d0f05} 
+\index{globals.h@{globals.h}!xxx\_13@{xxx\_13}}
+\index{xxx\_13@{xxx\_13}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_13}{xxx\_13}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+13}
+
+\Hypertarget{globals_8h_a078ac4514194ce5af269b0b13db6cf41}\label{globals_8h_a078ac4514194ce5af269b0b13db6cf41} 
+\index{globals.h@{globals.h}!xxx\_16@{xxx\_16}}
+\index{xxx\_16@{xxx\_16}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_16}{xxx\_16}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+16}
+
+\Hypertarget{globals_8h_a1e97e35ebe2b5a8ec2773933c004bc8c}\label{globals_8h_a1e97e35ebe2b5a8ec2773933c004bc8c} 
+\index{globals.h@{globals.h}!xxx\_17@{xxx\_17}}
+\index{xxx\_17@{xxx\_17}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_17}{xxx\_17}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+17}
+
+\Hypertarget{globals_8h_ad987443af63ba87380a16a308685b47b}\label{globals_8h_ad987443af63ba87380a16a308685b47b} 
+\index{globals.h@{globals.h}!xxx\_18@{xxx\_18}}
+\index{xxx\_18@{xxx\_18}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_18}{xxx\_18}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+18}
+
+\Hypertarget{globals_8h_a77cdfcb13c5d4c7bd9b2f5aa8a4d0f51}\label{globals_8h_a77cdfcb13c5d4c7bd9b2f5aa8a4d0f51} 
+\index{globals.h@{globals.h}!xxx\_19@{xxx\_19}}
+\index{xxx\_19@{xxx\_19}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_19}{xxx\_19}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+19}
+
+\Hypertarget{globals_8h_ac244b7c411638d25d4c9f550a1be6ef4}\label{globals_8h_ac244b7c411638d25d4c9f550a1be6ef4} 
+\index{globals.h@{globals.h}!xxx\_1a@{xxx\_1a}}
+\index{xxx\_1a@{xxx\_1a}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_1a}{xxx\_1a}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+1a}
+
+\Hypertarget{globals_8h_a8530a19af3ef99af58d6c2a3bff7fb12}\label{globals_8h_a8530a19af3ef99af58d6c2a3bff7fb12} 
+\index{globals.h@{globals.h}!xxx\_1b@{xxx\_1b}}
+\index{xxx\_1b@{xxx\_1b}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_1b}{xxx\_1b}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+1b}
+
+\Hypertarget{globals_8h_a6c5735be3021dfddda26d9a9582020e7}\label{globals_8h_a6c5735be3021dfddda26d9a9582020e7} 
+\index{globals.h@{globals.h}!xxx\_1c@{xxx\_1c}}
+\index{xxx\_1c@{xxx\_1c}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_1c}{xxx\_1c}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+1c}
+
+\Hypertarget{globals_8h_a35a640f8bdd663022eff4e2b51f03bec}\label{globals_8h_a35a640f8bdd663022eff4e2b51f03bec} 
+\index{globals.h@{globals.h}!xxx\_1d@{xxx\_1d}}
+\index{xxx\_1d@{xxx\_1d}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_1d}{xxx\_1d}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+1d}
+
+\Hypertarget{globals_8h_a5667f53199f0e0103671519425d99e5b}\label{globals_8h_a5667f53199f0e0103671519425d99e5b} 
+\index{globals.h@{globals.h}!xxx\_1e@{xxx\_1e}}
+\index{xxx\_1e@{xxx\_1e}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_1e}{xxx\_1e}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+1e}
+
+\Hypertarget{globals_8h_a1d4c1452dfb30f59a63b6ec027f23ece}\label{globals_8h_a1d4c1452dfb30f59a63b6ec027f23ece} 
+\index{globals.h@{globals.h}!xxx\_1f@{xxx\_1f}}
+\index{xxx\_1f@{xxx\_1f}!globals.h@{globals.h}}
+\doxysubsubsection{\texorpdfstring{xxx\_1f}{xxx\_1f}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} xxx\+\_\+1f}
+

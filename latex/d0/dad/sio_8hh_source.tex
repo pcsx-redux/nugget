@@ -1,0 +1,73 @@
+\doxysection{sio.\+hh}
+\hypertarget{sio_8hh_source}{}\label{sio_8hh_source}\index{psyqo/hardware/sio.hh@{psyqo/hardware/sio.hh}}
+\mbox{\hyperlink{sio_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2024\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{hwregs_8hh}{psyqo/hardware/hwregs.hh}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO}{psyqo::Hardware::SIO}}\ \{}
+\DoxyCodeLine{00034\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002b}{Control}}\ :\ uint16\_t\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bac54e7dcdc564b3ee1bae6faaaf97742a}{CTRL\_TXEN}}\ =\ (1\ <<\ 0),\ \ \ \ \ \ \ \textcolor{comment}{//\ Transmit\ Enable}}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba8f095a34fd960c6432e88da2f797ed2b}{CTRL\_DTR}}\ =\ (1\ <<\ 1),\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Data\ Terminal\ Ready,\ aka\ Select\ (output)}}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba782d36f860f421137740355fb7b9a2fa}{CTRL\_RXE}}\ =\ (1\ <<\ 2),\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Receive\ Enable}}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab4045be39aa77de3b97c354df62a83a2}{CTRL\_SBRK}}\ =\ (1\ <<\ 3),\ \ \ \ \ \ \ \textcolor{comment}{//\ Send\ Break\ character}}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba1e7de333fa120803c5e197e7ada7765b}{CTRL\_ERRRES}}\ =\ (1\ <<\ 4),\ \ \ \ \ \textcolor{comment}{//\ Error\ Reset}}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab2ddc7d551e42e37a85eb21968cd6949}{CTRL\_RTS}}\ =\ (1\ <<\ 5),\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Request\ to\ Send\ (output)}}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002baf0cec6d77289335d18c48cd1ab91b5ca}{CTRL\_IR}}\ =\ (1\ <<\ 6),\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Internal\ Reset,\ resets\ most\ SIO\ registers}}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba7b93e4423f1884225c46fad3fb91c502}{CTRL\_RXIRQMODE}}\ =\ (1\ <<\ 8),\ \ \textcolor{comment}{//\ Receive\ IRQ\ Mode\ (0..3\ =\ IRQ\ when\ RX\ FIFO\ contains\ 1,2,4,8\ bytes)}}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba497ba1c3f3387214845610e12201be09}{CTRL\_TXIRQEN}}\ =\ (1\ <<\ 10),\ \ \ \textcolor{comment}{//\ Transmit\ IRQ\ Enable}}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba66df9719a51a713c63ab97c90fb5d2af}{CTRL\_RXIRQEN}}\ =\ (1\ <<\ 11),\ \ \ \textcolor{comment}{//\ Receive\ IRQ\ Enable}}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002bab8dca6e4229c66b77dd9cce8720c31e1}{CTRL\_ACKIRQEN}}\ =\ (1\ <<\ 12),\ \ \textcolor{comment}{//\ Acknowledge\ IRQ\ Enable}}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a266b2acf0c6f5b17cc5a0c94b62d002ba17287eddd1695f079d2962b8444a533e}{CTRL\_PORTSEL}}\ =\ (1\ <<\ 13),\ \ \ \textcolor{comment}{//\ Port\ Select}}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aa}{Status}}\ :\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaadb782e23ac2847a65910a62750736009}{STAT\_TXRDY}}\ =\ (1\ <<\ 0),\ \ \ \ \textcolor{comment}{//\ TX\ buffer\ is\ empty}}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0640b22690b739451ab2b11b1b5ea5d8}{STAT\_RXRDY}}\ =\ (1\ <<\ 1),\ \ \ \ \textcolor{comment}{//\ RX\ buffer\ has\ data}}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa374536adbb06a3cf5842d7fd1f7aa422}{STAT\_TXEMPTY}}\ =\ (1\ <<\ 2),\ \ \textcolor{comment}{//\ No\ data\ in\ TX\ buffer}}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1c6e7d816c0c1a6d92eb03903a0abfb}{STAT\_PE}}\ =\ (1\ <<\ 3),\ \ \ \ \ \ \ \textcolor{comment}{//\ Parity\ Error}}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0000854a890695d4655363699c0eec69}{STAT\_OE}}\ =\ (1\ <<\ 4),\ \ \ \ \ \ \ \textcolor{comment}{//\ Overrun\ Error}}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaae60caa1071e374966b4d03fdf4dbf26d}{STAT\_FE}}\ =\ (1\ <<\ 5),\ \ \ \ \ \ \ \textcolor{comment}{//\ Framing\ Error}}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaac1575c7636caa0b1382f9040422971e7}{STAT\_SYNDET}}\ =\ (1\ <<\ 6),\ \ \ \textcolor{comment}{//\ Sync\ Detect}}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa585d0db40e84b13c116fc3e40e262c9b}{STAT\_ACK}}\ =\ (1\ <<\ 7),\ \ \ \ \ \ \textcolor{comment}{//\ ACK\ signal\ level\ (input)}}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaa0528d42624df4f5d41d2566f19e0ea17}{STAT\_CTS}}\ =\ (1\ <<\ 8),\ \ \ \ \ \ \textcolor{comment}{//\ Clear\ to\ Send\ (output),\ unused\ on\ SIO0}}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a0084ea78f953da566264527fac5e17aaaed9d962278142ad233f63c7cf8105e65}{STAT\_IRQ}}\ =\ (1\ <<\ 9),\ \ \ \ \ \ \textcolor{comment}{//\ Interrupt\ Request}}
+\DoxyCodeLine{00060\ \};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo::Hardware::Register<0x0040,\ uint8\_t,\ psyqo::Hardware::WriteQueue::Bypass>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_ab3e41c4f00b6c4818ae7c886f147fc36}{Data}};}
+\DoxyCodeLine{00063\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo::Hardware::Register<0x0044,\ uint32\_t,\ psyqo::Hardware::WriteQueue::Bypass>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a5f2369caae8d64ca060910df64aebd2f}{Stat}};}
+\DoxyCodeLine{00064\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo::Hardware::Register<0x0048,\ uint16\_t,\ psyqo::Hardware::WriteQueue::Bypass>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_af9f3a6b85c8bf53c129c10812a9e1d42}{Mode}};}
+\DoxyCodeLine{00065\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo::Hardware::Register<0x004a,\ uint16\_t,\ psyqo::Hardware::WriteQueue::Bypass>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_a985e7a271fd9684b342f3aff25645acd}{Ctrl}};}
+\DoxyCodeLine{00066\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{psyqo::Hardware::Register<0x004e,\ uint16\_t,\ psyqo::Hardware::WriteQueue::Bypass>}}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1SIO_ad27cd19c7ede7adbbbe74b50b6beb2db}{Baud}};}
+\DoxyCodeLine{00067\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo::Hardware::SIO}}
+
+\end{DoxyCode}

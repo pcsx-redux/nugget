@@ -1,0 +1,123 @@
+\doxysection{psyqo\+::Fragments\+::Fixed\+Fragment\texorpdfstring{$<$}{<} Prim, N \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment}{}\label{structpsyqo_1_1Fragments_1_1FixedFragment}\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+
+
+A maximum fixed sized fragment of similar primitives.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/fragments.\+hh$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef Prim \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_ac4df14747005159a4d57eccd8cf2a930}{Fragment\+Base\+Type}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr size\+\_\+t \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a22d4550ed92d3189a8d88657eec81976}{max\+Size}} () const
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a02981c2bece417ce66a756b90b867e90}{Fixed\+Fragment}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a1b2696aefd8c35c61817e8e2ef045c9f}{Fixed\+Fragment}} (const \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{Fixed\+Fragment}} \&)=default
+\item 
+size\+\_\+t \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a2ad00339fc929dc8c00d341c5d8a0a94}{get\+Actual\+Fragment\+Size}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_aeadbb7353e21ec230ce4e15362c3a09f}{count}} = N
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_af88ec46ceeb70ba4491a21e0503988b4}{head}}
+\item 
+eastl\+::array$<$ Prim, N $>$ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment_a6e091f70140a4065196eb076f60407c7}{primitives}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Primitive Prim, size\+\_\+t N$>$\newline
+struct psyqo\+::\+Fragments\+::\+Fixed\+Fragment$<$ Prim, N $>$}
+A maximum fixed sized fragment of similar primitives. 
+
+This fragment is a simple sequence of identical primitives. The {\ttfamily count} field needs to be updated to reflect the actual number of primitives stored in the fragment\textquotesingle{}s payload. The primitive type can be a compounded structure of multiple primitive types. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The primitive type. \\
+\hline
+{\em N} & The maximum number of primitives in the payload. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_ac4df14747005159a4d57eccd8cf2a930}\label{structpsyqo_1_1Fragments_1_1FixedFragment_ac4df14747005159a4d57eccd8cf2a930} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!FragmentBaseType@{FragmentBaseType}}
+\index{FragmentBaseType@{FragmentBaseType}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{FragmentBaseType}{FragmentBaseType}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+typedef Prim \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::\+Fragment\+Base\+Type}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_a02981c2bece417ce66a756b90b867e90}\label{structpsyqo_1_1Fragments_1_1FixedFragment_a02981c2bece417ce66a756b90b867e90} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!FixedFragment@{FixedFragment}}
+\index{FixedFragment@{FixedFragment}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{FixedFragment()}{FixedFragment()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::\+Fixed\+Fragment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_a1b2696aefd8c35c61817e8e2ef045c9f}\label{structpsyqo_1_1Fragments_1_1FixedFragment_a1b2696aefd8c35c61817e8e2ef045c9f} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!FixedFragment@{FixedFragment}}
+\index{FixedFragment@{FixedFragment}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{FixedFragment()}{FixedFragment()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::\+Fixed\+Fragment (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{Fixed\+Fragment}}$<$ Prim, N $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_a2ad00339fc929dc8c00d341c5d8a0a94}\label{structpsyqo_1_1Fragments_1_1FixedFragment_a2ad00339fc929dc8c00d341c5d8a0a94} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!getActualFragmentSize@{getActualFragmentSize}}
+\index{getActualFragmentSize@{getActualFragmentSize}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{getActualFragmentSize()}{getActualFragmentSize()}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+size\+\_\+t \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::get\+Actual\+Fragment\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_a22d4550ed92d3189a8d88657eec81976}\label{structpsyqo_1_1Fragments_1_1FixedFragment_a22d4550ed92d3189a8d88657eec81976} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!maxSize@{maxSize}}
+\index{maxSize@{maxSize}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{maxSize()}{maxSize()}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+constexpr size\+\_\+t \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::max\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_aeadbb7353e21ec230ce4e15362c3a09f}\label{structpsyqo_1_1Fragments_1_1FixedFragment_aeadbb7353e21ec230ce4e15362c3a09f} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!count@{count}}
+\index{count@{count}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+unsigned \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::count = N}
+
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_af88ec46ceeb70ba4491a21e0503988b4}\label{structpsyqo_1_1Fragments_1_1FixedFragment_af88ec46ceeb70ba4491a21e0503988b4} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!head@{head}}
+\index{head@{head}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{head}{head}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::head}
+
+\Hypertarget{structpsyqo_1_1Fragments_1_1FixedFragment_a6e091f70140a4065196eb076f60407c7}\label{structpsyqo_1_1Fragments_1_1FixedFragment_a6e091f70140a4065196eb076f60407c7} 
+\index{psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}!primitives@{primitives}}
+\index{primitives@{primitives}!psyqo::Fragments::FixedFragment$<$ Prim, N $>$@{psyqo::Fragments::FixedFragment$<$ Prim, N $>$}}
+\doxysubsubsection{\texorpdfstring{primitives}{primitives}}
+{\footnotesize\ttfamily template$<$Primitive Prim, size\+\_\+t N$>$ \\
+eastl\+::array$<$Prim, N$>$ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragment}{psyqo\+::\+Fragments\+::\+Fixed\+Fragment}}$<$ Prim, N $>$\+::primitives}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{fragments_8hh}{fragments.\+hh}}\end{DoxyCompactItemize}

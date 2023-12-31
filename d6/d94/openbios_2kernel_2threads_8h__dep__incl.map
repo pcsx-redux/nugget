@@ -1,0 +1,25 @@
+<map id="openbios/kernel/threads.h" name="openbios/kernel/threads.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1041,5,1232,31"/>
+<area shape="rect" id="Node000002" href="$db/dd8/syscall_8c.html" title=" " alt="" coords="5,152,207,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1042,35,187,155,187,149,1042,30"/>
+<area shape="rect" id="Node000003" href="$d5/d87/globals_8h.html" title=" " alt="" coords="835,79,1023,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1091,38,963,81,961,76,1089,33"/>
+<area shape="rect" id="Node000007" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="1039,152,1235,177"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="1139,45,1139,152,1134,152,1134,45"/>
+<area shape="rect" id="Node000009" href="$d3/d18/threads_8c.html" title=" " alt="" coords="1259,152,1449,177"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="1167,36,1338,150,1335,154,1164,40"/>
+<area shape="rect" id="Node000010" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="1473,152,1640,177"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="1184,33,1524,149,1522,154,1182,38"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="821,104,218,155,207,156,206,150,218,149,821,98"/>
+<area shape="rect" id="Node000004" href="$de/d5a/fileio_2misc_8c.html" title=" " alt="" coords="231,152,395,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="821,107,408,155,395,156,394,151,407,149,820,102"/>
+<area shape="rect" id="Node000005" href="$d2/d2e/setup_8c.html" title=" " alt="" coords="419,152,611,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="849,109,582,155,581,149,848,104"/>
+<area shape="rect" id="Node000006" href="$df/dfd/kernel_2events_8c.html" title=" " alt="" coords="635,152,819,177"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="884,111,761,154,759,149,882,106"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="976,106,1104,149,1102,154,974,111"/>
+<area shape="rect" id="Node000008" href="$de/d98/kernel_2misc_8c.html" title=" " alt="" coords="843,152,1014,177"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="931,118,931,152,926,152,926,118"/>
+<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="1011,104,1286,149,1285,155,1010,109"/>
+<area shape="poly" id="edge10_Node000003_Node000010" title=" " alt="" coords="1037,102,1461,149,1473,151,1473,156,1460,155,1036,107"/>
+</map>

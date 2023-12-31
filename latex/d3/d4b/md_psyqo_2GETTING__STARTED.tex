@@ -1,0 +1,127 @@
+\chapter{Visual Studio Code extension}
+\hypertarget{md_psyqo_2GETTING__STARTED}{}\label{md_psyqo_2GETTING__STARTED}\index{Visual Studio Code extension@{Visual Studio Code extension}}
+\label{md_psyqo_2GETTING__STARTED_autotoc_md46}%
+\Hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md46}%
+The easiest to get started with PSYQo, and with development on the Play\+Station 1 in general, is through a \href{https://code.visualstudio.com/}{\texttt{ Visual Studio Code}} extension. You can \href{https://marketplace.visualstudio.com/items?itemName=grumpycoders.psx-dev}{\texttt{ find it in the marketplace}}, and \href{https://youtu.be/KbAv-Ao7lzU}{\texttt{ watch a video}} to see how to use it.\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md47}{}\doxysection{\texorpdfstring{The toolchain}{The toolchain}}\label{md_psyqo_2GETTING__STARTED_autotoc_md47}
+In order to develop for the Play\+Station1 using the PSYQo library, a modern C++ toolchain is required. There are several different toolchains available for the PS1, but the PSYQo library is designed to work with at least gcc 10 targeting mips I. Here are some installation methods available\+:\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md48}{}\doxysubsection{\texorpdfstring{Linux}{Linux}}\label{md_psyqo_2GETTING__STARTED_autotoc_md48}
+\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md49}{}\doxysubsubsection{\texorpdfstring{Debian derivatives\+:}{Debian derivatives:}}\label{md_psyqo_2GETTING__STARTED_autotoc_md49}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt-\/get\ install\ -\/y\ make\ g++-\/mipsel-\/linux-\/gnu}
+
+\end{DoxyCode}
+\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md50}{}\doxysubsubsection{\texorpdfstring{Arch derivatives\+:}{Arch derivatives:}}\label{md_psyqo_2GETTING__STARTED_autotoc_md50}
+The mipsel environment can be installed from \href{https://wiki.archlinux.org/index.php/Aur}{\texttt{ AUR}} \+: \href{https://aur.archlinux.org/packages/cross-mipsel-linux-gnu-binutils/}{\texttt{ cross-\/mipsel-\/linux-\/gnu-\/binutils}} and \href{https://aur.archlinux.org/packages/cross-mipsel-linux-gnu-gcc/}{\texttt{ cross-\/mipsel-\/linux-\/gnu-\/gcc}} using your \href{https://wiki.archlinux.org/index.php/AUR_helpers}{\texttt{ AURhelper}} of choice\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{trizen\ -\/S\ cross-\/mipsel-\/linux-\/gnu-\/binutils\ cross-\/mipsel-\/linux-\/gnu-\/gcc}
+
+\end{DoxyCode}
+\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md51}{}\doxysubsubsection{\texorpdfstring{All other flavors of Unix environments\+:}{All other flavors of Unix environments:}}\label{md_psyqo_2GETTING__STARTED_autotoc_md51}
+\href{https://github.com/grumpycoders/pcsx-redux/blob/main/tools/linux-mips/spawn-compiler.sh}{\texttt{ This script}} will spawn a working mips toolchain.\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md52}{}\doxysubsection{\texorpdfstring{Mac\+OS}{MacOS}}\label{md_psyqo_2GETTING__STARTED_autotoc_md52}
+Using \href{https://brew.sh/}{\texttt{ Homebrew}}, you can install the mips toolchain after downloading \href{https://github.com/grumpycoders/pcsx-redux/tree/main/tools/macos-mips}{\texttt{ these two scripts}} (or cloning the whole PCSX-\/\+Redux repository).
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{brew\ install\ ./tools/macos-\/mips/mipsel-\/none-\/elf-\/binutils.rb}
+\DoxyCodeLine{brew\ install\ ./tools/macos-\/mips/mipsel-\/none-\/elf-\/gcc.rb}
+
+\end{DoxyCode}
+\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md53}{}\doxysubsection{\texorpdfstring{Windows}{Windows}}\label{md_psyqo_2GETTING__STARTED_autotoc_md53}
+It is possible to install a mips toolchain on Windows by first running the following command\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{powershell\ -\/c\ "{}\&\ \{\ iwr\ -\/UseBasicParsing\ https://raw.githubusercontent.com/grumpycoders/pcsx-\/redux/main/mips.ps1\ |\ iex\ \}"{}}
+
+\end{DoxyCode}
+
+
+The computer might need to be rebooted after the installation of this script.
+
+Next, run the following command to install the proper toolchain and its dependencies\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mips\ install\ 14.2.0}
+
+\end{DoxyCode}
+\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md54}{}\doxysubsection{\texorpdfstring{Docker}{Docker}}\label{md_psyqo_2GETTING__STARTED_autotoc_md54}
+For users who don\textquotesingle{}t want to modify their environments, it is possible to use \href{https://www.docker.com/}{\texttt{ Docker}} to run the mips toolchain. There are two scripts provided at the root of this repository, called {\ttfamily dockermake.\+sh} for Unix users and {\ttfamily dockermake.\+bat} for Windows users.
+
+These scripts will behave like the {\ttfamily make} command, running in the same directory where the command was run. It\textquotesingle{}ll be in a Linux environment with an adequate mips toolchain to use.\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md55}{}\doxysection{\texorpdfstring{Creating a project.}{Creating a project.}}\label{md_psyqo_2GETTING__STARTED_autotoc_md55}
+The canonical method to use {\ttfamily PSYQo} is to use the \href{https://github.com/pcsx-redux/nugget}{\texttt{ nugget}} repository as a submodule for your own project, say in the {\ttfamily third\+\_\+party} directory. You can create a {\ttfamily hello.\+cpp} file at the root of your directory that\textquotesingle{}s a copy of \href{examples/hello/hello.cpp}{\texttt{ the example hello world}}. Doing a simple code drop of the nugget repository is also acceptable.
+
+Here\textquotesingle{}s how to get all this going. The commands are aimed at Unix environments, but the spirit of what\textquotesingle{}s going on should be very simple to understand for Windows too.
+
+First, let\textquotesingle{}s create a folder for your project\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ hello}
+\DoxyCodeLine{cd\ hello}
+
+\end{DoxyCode}
+
+
+Then, initialize the git repository\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ init}
+
+\end{DoxyCode}
+
+
+And then, let\textquotesingle{}s add nugget as a submodule\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ submodule\ add\ https://github.com/pcsx-\/redux/nugget.git\ third\_party/nugget}
+
+\end{DoxyCode}
+
+
+Now, download \href{examples/hello/hello.cpp}{\texttt{ the example hello world}} and drop it in your project folder.
+
+Finally, create a {\ttfamily Makefile} at the root of your project, which follows the following structure\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ The\ name\ of\ the\ binary\ to\ be\ created.}
+\DoxyCodeLine{TARGET\ =\ hello}
+\DoxyCodeLine{\#\ The\ type\ of\ the\ binary\ to\ be\ created\ -\/\ ps-\/exe\ is\ most\ common.}
+\DoxyCodeLine{TYPE\ =\ ps-\/exe}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ The\ list\ of\ sources\ files\ to\ compile\ within\ the\ binary.}
+\DoxyCodeLine{SRCS\ =\ \(\backslash\)}
+\DoxyCodeLine{hello.cpp\ \(\backslash\)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Setting\ the\ minimum\ version\ of\ the\ C++.\ C++-\/20\ is\ the\ minimum\ required\ version\ by\ PSYQo.}
+\DoxyCodeLine{CXXFLAGS\ =\ -\/std=c++20}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ This\ will\ activate\ the\ PSYQo\ library\ and\ the\ rest\ of\ the\ toolchain.}
+\DoxyCodeLine{include\ third\_party/nugget/psyqo/psyqo.mk}
+
+\end{DoxyCode}
+
+
+Once done, you can simply run {\ttfamily make} (or use the {\ttfamily dockermake} script) in your project root to create the application. This should create the binary called {\ttfamily hello.\+ps-\/exe}, which you can then run in the emulator of your choice, or on the real hardware using for example \href{https://github.com/JonathanDotCel/unirom8_bootdisc_and_firmware_for_ps1}{\texttt{ unirom}} and \href{https://github.com/JonathanDotCel/NOTPSXSerial}{\texttt{ nops}}.
+
+See the \mbox{[}examples\mbox{]}(examples) directory for more complex project structures you can use. Since the examples are subfolders of the psyqo library, their {\ttfamily Makefile}s will have a different method to include the file {\ttfamily psyqo.\+mk}, but that\textquotesingle{}s otherwise the only difference.
+
+If a more complex build system is required, compiling PSYQo itself is very simple, and should be straightforward to integrate. Refer to the \mbox{[}Makefile\mbox{]}(Makefile) for what to do exactly.\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md56}{}\doxysection{\texorpdfstring{IDE integration}{IDE integration}}\label{md_psyqo_2GETTING__STARTED_autotoc_md56}
+The recommended IDE is \href{https://code.visualstudio.com/}{\texttt{ Visual Studio Code}}. The \href{https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd}{\texttt{ clangd}} extension is configured within PSYQo, and will provide valuable IDE features such as completion or code navigation. It is also possible to debug PSYQo binaries, using the \href{https://marketplace.visualstudio.com/items?itemName=webfreak.debug}{\texttt{ Native Debug}} extension. See the \href{https://github.com/grumpycoders/pcsx-redux/blob/main/.vscode/launch.json}{\texttt{ PCSX-\/\+Redux\textquotesingle{}s launch.\+json}} for some examples.\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md57}{}\doxysection{\texorpdfstring{Build options}{Build options}}\label{md_psyqo_2GETTING__STARTED_autotoc_md57}
+When using the {\ttfamily psyqo.\+mk} file, you can specify build options for the PSYQo library and your binary. It is possible to specify the following options\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily make BUILD=Release} ~\newline
+ This is the default build, and will enable a release build of the library and your binary. It will be fast and small, but debugging will be hard.
+\item {\ttfamily make BUILD=Debug} ~\newline
+ This will enable a full debug build of the library and your binary. It will be slow and bloated, but debugging will be very easy.
+\item {\ttfamily make BUILD=Small\+Debug} ~\newline
+ This will enable a debug build of the library and your binary with still some optimizations. Debugging is possible, but will be hindered at times. It is the best compromise if debugging is needed while retaining some speed and small code footprint.
+\item {\ttfamily make BUILD=LTO} ~\newline
+ This will enable a release build of the library and your binary with \href{https://gcc.gnu.org/wiki/LinkTimeOptimization}{\texttt{ LTO}} enabled. It will be really fast and really small, but debugging will be impossible.
+\end{DoxyItemize}\hypertarget{md_psyqo_2GETTING__STARTED_autotoc_md58}{}\doxysection{\texorpdfstring{Further reading}{Further reading}}\label{md_psyqo_2GETTING__STARTED_autotoc_md58}
+Moving on to the \doxysectlink{md_psyqo_2CONCEPTS}{Concepts}{0} page is the next step in understanding how the library functions. The library itself is also thoroughly documented, and the \href{https://pcsx-redux.github.io/nugget/}{\texttt{ nugget website}} has a render of the doxygen documentation.
+
+To discuss Play\+Station1\textquotesingle{}s development, hacking, and reverse engineering in general, please join the PSX.\+Dev Discord server\+: \href{https://discord.gg/QByKPpH}{\texttt{ }} 

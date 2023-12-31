@@ -1,0 +1,316 @@
+\doxysection{openbios/kernel/handlers.c File Reference}
+\hypertarget{handlers_8c}{}\label{handlers_8c}\index{openbios/kernel/handlers.c@{openbios/kernel/handlers.c}}
+{\ttfamily \#include "{}openbios/handlers/handlers.\+h"{}}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$memory.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/pcsxhw.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/openbios.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/card/card.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/filesystem.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/helpers.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/statemachine.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/charset/sjis.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/fileio/fileio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/gpu/gpu.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/alloc.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/flushcache.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/globals.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/handlers.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/libcmisc.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/misc.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/psxexe.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/threads.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/main/main.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/patches/patches.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/card.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/pad.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/sio0/sio0.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/tty/tty.\+h"{}}\newline
+{\ttfamily \#include "{}osdebug.\+h"{}}\newline
+Include dependency graph for handlers.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/de3/handlers_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{handlers_8c_a302b91e29e316ba3ad9980fa2bc008c3}{EXCEPTION\+\_\+\+STACK\+\_\+\+SIZE}}~0x800
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplemented\+Thunk}} () \mbox{\hyperlink{cxxglue_8c_af9aace1b44b73111e15aa39f06f43456}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}((long\+\_\+call))
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_a599a015bd802e650eae45bdab437e21f}{break\+Vector}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_ad95080f4a637753de04621f5239a4ed6}{exception\+Vector}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_acb4791b6f9b97d6e3aecd0b140c018d0}{exception\+Handler}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_aa7dabbca49691a46f119cf1469aa54ea}{A0\+Vector}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_a3c313e21553da7a93e1bd9fe724d32db}{B0\+Vector}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_a512b553e55280be9ec91a5d34dc50a6f}{C0\+Vector}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_a83c3c7a4f09e0910db95b74c77c817eb}{OBHandler}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_a68acb20fbf6cdfb6552feee7d4671d08}{install\+Kernel\+Handlers}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_a9640517f7dc6a9ecae7ce989dee5488c}{unimplemented}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} table, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} call, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} ra)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_aea7f0ef524a988c28b4a43a752a9ed44}{copy\+Data\+And\+Initialize\+BSS}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{handlers_8c_afbaf6a0719ea130d22f1f18834b71377}{copy\+A0table}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{handlers_8c_a54183f190d1f171f1baa60d8c24fec69}{g\+\_\+exception\+Stack\+Ptr}} = s\+\_\+exception\+Stack + \mbox{\hyperlink{handlers_8c_a302b91e29e316ba3ad9980fa2bc008c3}{EXCEPTION\+\_\+\+STACK\+\_\+\+SIZE}}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{handlers_8c_a4b80d07e8a17de7bbabc935a1849905d}{g\+\_\+exception\+Jmp\+Buf\+Ptr}} = NULL
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{handlers_8c_a55b140ebc7aec8d669a115cda633911d}{\+\_\+\+\_\+ram\+A0table}} \mbox{[}0xc0\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{handlers_8c_a5dbf549b92de834761fa5ebce7864096}{B0table}} \mbox{[}0x60\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{handlers_8c_a3d22a888f7a0147266e655029fa2bd57}{C0table}} \mbox{[}0x20\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuildId}{Build\+Id}} \mbox{\hyperlink{handlers_8c_a5d999f0e8f987cb5f769a6c0cfac94f2}{\+\_\+\+\_\+build\+\_\+id}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{handlers_8c_a155dc40075cd3c1ebab60ffcd16e2362}{OBtable}} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{handlers_8c_af4bc07887672145e5b08984970e47257}{\+\_\+\+\_\+data\+\_\+start}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{handlers_8c_ae313342455e0d770a762ca41a0ad9ec1}{\+\_\+\+\_\+rom\+\_\+data\+\_\+start}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{handlers_8c_ad858e89a0dee021130ca334ee02ec687}{\+\_\+\+\_\+data\+\_\+len}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{handlers_8c_af213076a56bd1666772f7e3a2e340c03}{\+\_\+\+\_\+bss\+\_\+start}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{handlers_8c_a01d28e390f2cfeba14a5099d1fe03d74}{\+\_\+\+\_\+bss\+\_\+len}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{handlers_8c_a302b91e29e316ba3ad9980fa2bc008c3}\label{handlers_8c_a302b91e29e316ba3ad9980fa2bc008c3} 
+\index{handlers.c@{handlers.c}!EXCEPTION\_STACK\_SIZE@{EXCEPTION\_STACK\_SIZE}}
+\index{EXCEPTION\_STACK\_SIZE@{EXCEPTION\_STACK\_SIZE}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{EXCEPTION\_STACK\_SIZE}{EXCEPTION\_STACK\_SIZE}}
+{\footnotesize\ttfamily \#define EXCEPTION\+\_\+\+STACK\+\_\+\+SIZE~0x800}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{handlers_8c_aa7dabbca49691a46f119cf1469aa54ea}\label{handlers_8c_aa7dabbca49691a46f119cf1469aa54ea} 
+\index{handlers.c@{handlers.c}!A0Vector@{A0Vector}}
+\index{A0Vector@{A0Vector}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{A0Vector()}{A0Vector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} A0\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_a3c313e21553da7a93e1bd9fe724d32db}\label{handlers_8c_a3c313e21553da7a93e1bd9fe724d32db} 
+\index{handlers.c@{handlers.c}!B0Vector@{B0Vector}}
+\index{B0Vector@{B0Vector}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{B0Vector()}{B0Vector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} B0\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_a599a015bd802e650eae45bdab437e21f}\label{handlers_8c_a599a015bd802e650eae45bdab437e21f} 
+\index{handlers.c@{handlers.c}!breakVector@{breakVector}}
+\index{breakVector@{breakVector}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{breakVector()}{breakVector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} break\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_a512b553e55280be9ec91a5d34dc50a6f}\label{handlers_8c_a512b553e55280be9ec91a5d34dc50a6f} 
+\index{handlers.c@{handlers.c}!C0Vector@{C0Vector}}
+\index{C0Vector@{C0Vector}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{C0Vector()}{C0Vector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} C0\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_afbaf6a0719ea130d22f1f18834b71377}\label{handlers_8c_afbaf6a0719ea130d22f1f18834b71377} 
+\index{handlers.c@{handlers.c}!copyA0table@{copyA0table}}
+\index{copyA0table@{copyA0table}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{copyA0table()}{copyA0table()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} copy\+A0table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_aea7f0ef524a988c28b4a43a752a9ed44}\label{handlers_8c_aea7f0ef524a988c28b4a43a752a9ed44} 
+\index{handlers.c@{handlers.c}!copyDataAndInitializeBSS@{copyDataAndInitializeBSS}}
+\index{copyDataAndInitializeBSS@{copyDataAndInitializeBSS}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{copyDataAndInitializeBSS()}{copyDataAndInitializeBSS()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} copy\+Data\+And\+Initialize\+BSS (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_acb4791b6f9b97d6e3aecd0b140c018d0}\label{handlers_8c_acb4791b6f9b97d6e3aecd0b140c018d0} 
+\index{handlers.c@{handlers.c}!exceptionHandler@{exceptionHandler}}
+\index{exceptionHandler@{exceptionHandler}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{exceptionHandler()}{exceptionHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} exception\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_ad95080f4a637753de04621f5239a4ed6}\label{handlers_8c_ad95080f4a637753de04621f5239a4ed6} 
+\index{handlers.c@{handlers.c}!exceptionVector@{exceptionVector}}
+\index{exceptionVector@{exceptionVector}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{exceptionVector()}{exceptionVector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} exception\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_a68acb20fbf6cdfb6552feee7d4671d08}\label{handlers_8c_a68acb20fbf6cdfb6552feee7d4671d08} 
+\index{handlers.c@{handlers.c}!installKernelHandlers@{installKernelHandlers}}
+\index{installKernelHandlers@{installKernelHandlers}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{installKernelHandlers()}{installKernelHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} install\+Kernel\+Handlers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_a83c3c7a4f09e0910db95b74c77c817eb}\label{handlers_8c_a83c3c7a4f09e0910db95b74c77c817eb} 
+\index{handlers.c@{handlers.c}!OBHandler@{OBHandler}}
+\index{OBHandler@{OBHandler}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{OBHandler()}{OBHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} OBHandler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_a9640517f7dc6a9ecae7ce989dee5488c}\label{handlers_8c_a9640517f7dc6a9ecae7ce989dee5488c} 
+\index{handlers.c@{handlers.c}!unimplemented@{unimplemented}}
+\index{unimplemented@{unimplemented}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{unimplemented()}{unimplemented()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} unimplemented (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{table,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{call,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{ra }\end{DoxyParamCaption})}
+
+\Hypertarget{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}\label{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e} 
+\index{handlers.c@{handlers.c}!unimplementedThunk@{unimplementedThunk}}
+\index{unimplementedThunk@{unimplementedThunk}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{unimplementedThunk()}{unimplementedThunk()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} unimplemented\+Thunk (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{handlers_8c_a01d28e390f2cfeba14a5099d1fe03d74}\label{handlers_8c_a01d28e390f2cfeba14a5099d1fe03d74} 
+\index{handlers.c@{handlers.c}!\_\_bss\_len@{\_\_bss\_len}}
+\index{\_\_bss\_len@{\_\_bss\_len}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_bss\_len}{\_\_bss\_len}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+bss\+\_\+len\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_af213076a56bd1666772f7e3a2e340c03}\label{handlers_8c_af213076a56bd1666772f7e3a2e340c03} 
+\index{handlers.c@{handlers.c}!\_\_bss\_start@{\_\_bss\_start}}
+\index{\_\_bss\_start@{\_\_bss\_start}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_bss\_start}{\_\_bss\_start}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+bss\+\_\+start\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_a5d999f0e8f987cb5f769a6c0cfac94f2}\label{handlers_8c_a5d999f0e8f987cb5f769a6c0cfac94f2} 
+\index{handlers.c@{handlers.c}!\_\_build\_id@{\_\_build\_id}}
+\index{\_\_build\_id@{\_\_build\_id}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_build\_id}{\_\_build\_id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuildId}{Build\+Id}} \+\_\+\+\_\+build\+\_\+id\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_ad858e89a0dee021130ca334ee02ec687}\label{handlers_8c_ad858e89a0dee021130ca334ee02ec687} 
+\index{handlers.c@{handlers.c}!\_\_data\_len@{\_\_data\_len}}
+\index{\_\_data\_len@{\_\_data\_len}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_data\_len}{\_\_data\_len}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+data\+\_\+len\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_af4bc07887672145e5b08984970e47257}\label{handlers_8c_af4bc07887672145e5b08984970e47257} 
+\index{handlers.c@{handlers.c}!\_\_data\_start@{\_\_data\_start}}
+\index{\_\_data\_start@{\_\_data\_start}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_data\_start}{\_\_data\_start}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+data\+\_\+start\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_a55b140ebc7aec8d669a115cda633911d}\label{handlers_8c_a55b140ebc7aec8d669a115cda633911d} 
+\index{handlers.c@{handlers.c}!\_\_ramA0table@{\_\_ramA0table}}
+\index{\_\_ramA0table@{\_\_ramA0table}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_ramA0table}{\_\_ramA0table}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} \+\_\+\+\_\+ram\+A0table\mbox{[}0xc0\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_ae313342455e0d770a762ca41a0ad9ec1}\label{handlers_8c_ae313342455e0d770a762ca41a0ad9ec1} 
+\index{handlers.c@{handlers.c}!\_\_rom\_data\_start@{\_\_rom\_data\_start}}
+\index{\_\_rom\_data\_start@{\_\_rom\_data\_start}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{\_\_rom\_data\_start}{\_\_rom\_data\_start}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+\+\_\+rom\+\_\+data\+\_\+start\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{handlers_8c_a5dbf549b92de834761fa5ebce7864096}\label{handlers_8c_a5dbf549b92de834761fa5ebce7864096} 
+\index{handlers.c@{handlers.c}!B0table@{B0table}}
+\index{B0table@{B0table}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{B0table}{B0table}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} B0table}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a78ec0c0c04e0b91a753c97aeb0196545}{kern\_malloc}},\ \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a5fa3d1f0d4013cbe1e922c12d5deb8c9}{kern\_free}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a8c5060ddb52f5a707e49bdf35a9846a5}{initTimer}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a7a7c98bf1270d0a802ce59e196306cbc}{getTimer}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a18a544698e2a27ed0d274c351a30a9bb}{enableTimerIRQ}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_ac4846b1a118f649b3b9e0a18b2ed1f5b}{disableTimerIRQ}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a5a1e00e4b60fbb97626b83303e6a27a9}{restartTimer}},\ \mbox{\hyperlink{openbios_2kernel_2events_8h_a7271764a9e7fe34890742eb56b2182c1}{deliverEvent}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{kernel_2events_8c_a9967fbea2224a474901d8138f22b6882}{openEvent}},\ \mbox{\hyperlink{kernel_2events_8c_a5e7562d87042f2c29af33ff3ffffdfdd}{closeEvent}},\ \mbox{\hyperlink{kernel_2events_8c_a722dc65188054cd944030fbfe0cea4ce}{waitEvent}},\ \mbox{\hyperlink{kernel_2events_8c_a6f457ed8fdd0573c3ecd3fe99d90fd82}{testEvent}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{kernel_2events_8c_ad4e7e0bcd73ca1ef01097230315f0d6d}{enableEvent}},\ \mbox{\hyperlink{kernel_2events_8c_adb7748f5baf2b25f3151cc7c5e31e474}{disableEvent}},\ \mbox{\hyperlink{threads_8c_a1b1a6ef033a553876e280eba81f073c7}{openThread}},\ \mbox{\hyperlink{threads_8c_a326c179dea559e34aa6b10fc7f7df3a2}{closeThread}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{threads_8c_aed2bf6469e5dc1772d4208a6fa0ef38e}{changeThread}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{pad_8h_a21a9b830d90739175eb5456f7c92ff88}{initPad}},\ \mbox{\hyperlink{pad_8h_a0e7ddf542e1a8a561b1a11ef144d271e}{startPad}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{pad_8h_a9c2254c385237583ac69d918c25e1d23}{stopPad}},\ \mbox{\hyperlink{pad_8h_a6f8d55faaf01a1ac4b0383a7769e746b}{initPadHighLevel}},\ \mbox{\hyperlink{pad_8h_ae00811da96b1635d635ab7ed3e6c01f5}{readPadHighLevel}},\ returnFromException,\ }
+\DoxyCodeLine{\ \ \ \ setDefaultExceptionJmpBuf,\ setExceptionJmpBuf,\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{openbios_2kernel_2events_8h_a0768dcfb191a36ef75383f7fb887a0cb}{undeliverEvent}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{fileio_8h_af69496d7f98dd810530fde0362a9862c}{psxopen}},\ \mbox{\hyperlink{fileio_8h_abc8967e424f08cb67a71ee1ddebb5308}{psxlseek}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{fileio_8h_a20f0e4c5e5e10ad9c195014759591579}{psxread}},\ \mbox{\hyperlink{fileio_8h_a017a10468066bdc877185cb296761e35}{psxwrite}},\ \mbox{\hyperlink{fileio_8h_ae8bfc83f02c710dd9e4283f1c6452aea}{psxclose}},\ \mbox{\hyperlink{fileio_8h_a875866e15abbc922e8cfd80353edf411}{psxioctl}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{fileio_8h_a8a9f87026bd160ccc0bd48993e4423fa}{psxexit}},\ \mbox{\hyperlink{fileio_8h_a4133b06175940ecaf6d74ce9efe4077a}{isFileConsole}},\ \mbox{\hyperlink{fileio_8h_a99d8bacd0d81f762b9bf5432ab65d707}{psxgetc}},\ \mbox{\hyperlink{fileio_8h_a79f07ed3c4929bb98bbce402e5dd9c4a}{psxputc}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{fileio_8h_a092c40c0e0461d5cda79856371ff5cda}{psxgetchar}},\ \mbox{\hyperlink{fileio_8h_a97b3334d36d8aa8106b9a628669301eb}{psxputchar}},\ \mbox{\hyperlink{fileio_8h_a7dd733a3e8e0d7fa9d20a8d840f93252}{psxgets}},\ \mbox{\hyperlink{fileio_8h_ac2507f4b01aab43804505f607a85d344}{psxputs}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ \mbox{\hyperlink{fileio_8h_a27038a3a14fcca6676c12550a981bc16}{firstFile}},\ \mbox{\hyperlink{fileio_8h_ae2cca047b30743028fcbb704091936ef}{nextFile}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{fileio_8h_a6465ef1af5ff027e754f0315fe21a82f}{psxrename}},\ \mbox{\hyperlink{fileio_8h_ae8867b7e4d5d9c1b761300472d05cebc}{psxerase}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{fileio_8h_a3ef5768ef7e69aa4130d11b9c48d5983}{addDevice}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{fileio_8h_a0da2203b18ac858b20bfcd41bdf1d0f4}{removeDevice}},\ \mbox{\hyperlink{fileio_8h_a8fc650c59d27a3447aac7d0274e4f515}{printInstalledDevices}},\ \mbox{\hyperlink{sio0_2card_8h_ab4b9c5aba62f9a12628e7be605d802ab}{initCard}},\ \mbox{\hyperlink{sio0_2card_8h_a921eba27b0470bab3711665f680e0608}{startCard}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{sio0_2card_8h_a1aea792ad4f74a46742224a6d3c0a5f4}{stopCard}},\ \mbox{\hyperlink{sio0_2card_8h_aeb00faaa9355abead1a4d3ac12a70a82}{cardInfoInternal}},\ \mbox{\hyperlink{sio0_2card_8h_a764b813475c7aeb45ee8a290f8d102c1}{mcWriteSector}},\ \mbox{\hyperlink{sio0_2card_8h_acb72edebd0d4c14e6aeacbeb1f9c6f1b}{mcReadSector}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{sio0_2card_8h_a7a6726365c63505f865c166150f42ae3}{mcAllowNewCard}},\ \mbox{\hyperlink{sjis_8h_ab11dfb811226863a33596ca4c0ba983c}{Krom2RawAdd}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{sjis_8c_a13b36e460cde79a5b89ba5a2379e3c8e}{Krom2Offset}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ getC0table,\ getB0table,\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{sio0_2card_8h_a1f9d5714aac8669b097fe172e1da3117}{mcGetLastDevice}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{sio0_8h_a5f333bfff6ef46f54ea2cabb5d35b2ff}{setSIO0AutoAck}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{sio0_2card_8h_a7ec4cb6833364a31a795fe559b7e22ee}{getCardStatus}},\ \mbox{\hyperlink{sio0_2card_8h_a0e9b0e18355b9021d887754e195186d2}{waitCardStatus}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{handlers_8c_a3d22a888f7a0147266e655029fa2bd57}\label{handlers_8c_a3d22a888f7a0147266e655029fa2bd57} 
+\index{handlers.c@{handlers.c}!C0table@{C0table}}
+\index{C0table@{C0table}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{C0table}{C0table}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} C0table}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_ae91a59af74c27f4df14b179b9e0b50a9}{enqueueRCntIrqs}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a2f5e8a015f1fe1b50a86cd1b283a4342}{enqueueSyscallHandler}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_afba100e3566e40f8007eb6b758be597d}{sysEnqIntRP}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a466b3a4a911618919247b9fbf4877471}{sysDeqIntRP}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{kernel_2events_8c_a68df356ad36159de9f44ed738a4f935e}{getFreeEvCBSlot}},\ \mbox{\hyperlink{threads_8c_af79c0d0c967bea61e59b0592f911e0d5}{getFreeTCBslot}},\ \mbox{\hyperlink{handlers_8c_acb4791b6f9b97d6e3aecd0b140c018d0}{exceptionHandler}},\ installExceptionHandler,\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a34b2bca281463f4444a2dfa1de3e9454}{kern\_initheap}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a6f13654ade1981bf8070e28b1bcfe6a2}{setTimerAutoAck}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_af2c9432ded424ff6acd6afeeb23fbc3f}{enqueueIrqHandler}},\ \mbox{\hyperlink{openbios_2handlers_2handlers_8h_a5a451c742fbd06f0b05c6e2710e1b297}{setIrqAutoAck}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{fileio_8h_a4a567288084f1865354c9f1bb22d71b5}{setupFileIO}},\ \mbox{\hyperlink{fileio_8h_aca73f261075bb67031a9ace664b5c5a5}{reopenStdio}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{fileio_8h_aa9e6462370e6fab9c461ced1b6282040}{cdevscan}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{fileio_8h_a850d32e54cf5ba54e517c3af858122e8}{ioAbortWithMsg}},\ \mbox{\hyperlink{fileio_8h_ac68e60ee3fe76b31f1b08c7fde53f5fd}{setDeviceStatus}},\ \mbox{\hyperlink{fileio_8h_a89ca3daa4be475b0fbd086f96ea69257}{installStdIo}},\ }
+\DoxyCodeLine{\ \ \ \ patchA0table,\ \mbox{\hyperlink{fileio_8h_ac5ca59f4f2e5c0e71579fe2a76fec43c}{getDeviceStatus}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ \mbox{\hyperlink{handlers_8c_ae604814179c4cfaa050e49a30fb0c41e}{unimplementedThunk}},\ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\Hypertarget{handlers_8c_a4b80d07e8a17de7bbabc935a1849905d}\label{handlers_8c_a4b80d07e8a17de7bbabc935a1849905d} 
+\index{handlers.c@{handlers.c}!g\_exceptionJmpBufPtr@{g\_exceptionJmpBufPtr}}
+\index{g\_exceptionJmpBufPtr@{g\_exceptionJmpBufPtr}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{g\_exceptionJmpBufPtr}{g\_exceptionJmpBufPtr}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}}\texorpdfstring{$\ast$}{*} g\+\_\+exception\+Jmp\+Buf\+Ptr = NULL}
+
+\Hypertarget{handlers_8c_a54183f190d1f171f1baa60d8c24fec69}\label{handlers_8c_a54183f190d1f171f1baa60d8c24fec69} 
+\index{handlers.c@{handlers.c}!g\_exceptionStackPtr@{g\_exceptionStackPtr}}
+\index{g\_exceptionStackPtr@{g\_exceptionStackPtr}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{g\_exceptionStackPtr}{g\_exceptionStackPtr}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} g\+\_\+exception\+Stack\+Ptr = s\+\_\+exception\+Stack + \mbox{\hyperlink{handlers_8c_a302b91e29e316ba3ad9980fa2bc008c3}{EXCEPTION\+\_\+\+STACK\+\_\+\+SIZE}}}
+
+\Hypertarget{handlers_8c_a155dc40075cd3c1ebab60ffcd16e2362}\label{handlers_8c_a155dc40075cd3c1ebab60ffcd16e2362} 
+\index{handlers.c@{handlers.c}!OBtable@{OBtable}}
+\index{OBtable@{OBtable}!handlers.c@{handlers.c}}
+\doxysubsubsection{\texorpdfstring{OBtable}{OBtable}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} OBtable\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ getOpenBiosApiVersionImpl,}
+\DoxyCodeLine{\ \ \ \ getOpenBiosBuildIdImpl,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

@@ -1,0 +1,249 @@
+\doxysection{tests/cop0/cop0.c File Reference}
+\hypertarget{cop0_8c}{}\label{cop0_8c}\index{tests/cop0/cop0.c@{tests/cop0/cop0.c}}
+{\ttfamily \#include "{}common/hardware/dma.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}exotic/cester.\+h"{}}\newline
+{\ttfamily \#include "{}cester-\/cop0.\+c"{}}\newline
+Include dependency graph for cop0.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d2e/cop0_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{cop0_8c_a2fb257bbc8aa0afb3970cc624bc5c907}{PCSX\+\_\+\+TESTS}}~0
+\item 
+\#define \mbox{\hyperlink{cop0_8c_ad0a4f09dc8e99357dd439ac30e7602e8}{CESTER\+\_\+\+MAYBE\+\_\+\+TEST}}~\mbox{\hyperlink{cop0_8c_a0622d3279df74b9cc7686b3941128c91}{CESTER\+\_\+\+TEST}}
+\item 
+\#define \mbox{\hyperlink{cop0_8c_ab9d749ba0acd5d091810d8903051f734}{CESTER\+\_\+\+NO\+\_\+\+SIGNAL}}
+\item 
+\#define \mbox{\hyperlink{cop0_8c_a284d6e2bc5f15d225e4600990f840607}{CESTER\+\_\+\+NO\+\_\+\+TIME}}
+\item 
+\#define \mbox{\hyperlink{cop0_8c_a687984f47d8cce148d1b914d2b79612a}{EXIT\+\_\+\+SUCCESS}}~0
+\item 
+\#define \mbox{\hyperlink{cop0_8c_a73efe787c131b385070f25d18b7c9aa4}{EXIT\+\_\+\+FAILURE}}~1
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{cop0_8c_a0622d3279df74b9cc7686b3941128c91}{CESTER\+\_\+\+TEST}} (cpu\+\_\+cop0\+\_\+basic\+\_\+write\+\_\+bp, \mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\+\_\+tests}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}};\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}=(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}) 0x58; \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}=1;\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}"{} "{}    lui   \%0, 0b1100101010000000\textbackslash{}n"{} "{}    mtc0  \%0, \$7\textbackslash{}n"{} "{}    li    \%0, 0x58\textbackslash{}n"{} "{}    mtc0  \%0, \$5\textbackslash{}n"{} "{}    li    \%0, 0xfffffff0\textbackslash{}n"{} "{}    mtc0  \%0, \$9\textbackslash{}n"{} \+:"{}=r"{}(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}));\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(1, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}la \%0, 1f\textbackslash{}n1\+:\textbackslash{}nsw \$0, 0x58(\$0)"{} \+:"{}=r"{}(\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}));\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}mtc0 \$0, \$7\textbackslash{}n"{});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(1, \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\+\_\+got80}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0x40, \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}, \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}});) CESTER\+\_\+\+TEST(cpu\+\_\+cop0\+\_\+kseg\+\_\+write\+\_\+bp
+\item 
+\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{cop0_8c_a0426e4933ab4926914ed35ee83fa7f8d}{volatile}} ("{}"{} "{}    lui   \%0, 0b1100101010000000\textbackslash{}n"{} "{}    mtc0  \%0, \$7\textbackslash{}n"{} "{}    li    \%0, 0x58\textbackslash{}n"{} "{}    mtc0  \%0, \$5\textbackslash{}n"{} "{}    li    \%0, 0xfffffff0\textbackslash{}n"{} "{}    mtc0  \%0, \$9\textbackslash{}n"{} \+:"{}=r"{}(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}))
+\item 
+\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (1, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{cop0_8c_a5c7a98f4981ff62b4a3c8e9e99a77b03}{volatile}} ("{}lui \$at, 0x8000\textbackslash{}nsw \$0, 0x58(\$at)"{})
+\item 
+\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{cop0_8c_acd68f75ee63bca71cbaed15cf236eb87}{volatile}} ("{}mtc0 \$0, \$7\textbackslash{}n"{})
+\item 
+\mbox{\hyperlink{cop0_8c_a2e7d66c80e8d24edeb97b02af66c6bb5}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{cop0_8c_a6d94a66cb6e0342d2e52d0e3ad948d16}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0, \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}})
+\item 
+\mbox{\hyperlink{cop0_8c_ac2fc1b98e1e4f7e02b2a016e93a3a00d}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0, \mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\+\_\+got80}})
+\item 
+\mbox{\hyperlink{cop0_8c_a72e5b5b5c71373845316f15ce2e9f204}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0, \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}})
+\item 
+\mbox{\hyperlink{cop0_8c_abbedf190388345ab1066694f6bb3cb00}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0, \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}})
+\item 
+\mbox{\hyperlink{cop0_8c_a4a5a1f5d36926a32aacf7e10117e0e51}{CESTER\+\_\+\+TEST}} (cpu\+\_\+cop0\+\_\+upper\+\_\+memory\+\_\+write\+\_\+bp, \mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\+\_\+tests}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}=(\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}) 0x00200058; \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}=1;\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}"{} "{}    lui   \%0, 0b1100101010000000\textbackslash{}n"{} "{}    mtc0  \%0, \$7\textbackslash{}n"{} "{}    li    \%0, 0x58\textbackslash{}n"{} "{}    mtc0  \%0, \$5\textbackslash{}n"{} "{}    li    \%0, 0xfffffff0\textbackslash{}n"{} "{}    mtc0  \%0, \$9\textbackslash{}n"{} \+:"{}=r"{}(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}));\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(1, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}lui \$at, 0x0020\textbackslash{}nsw \$0, 0x58(\$at)"{});\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}mtc0 \$0, \$7\textbackslash{}n"{});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\+\_\+got80}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}});\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0, \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}});) CESTER\+\_\+\+TEST(cpu\+\_\+cop0\+\_\+unaligned\+\_\+write\+\_\+bp
+\item 
+\mbox{\hyperlink{cop0_8c_ab0905f418cd91f78a16a57cd1496ceb8}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0x01020304, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{cop0_8c_a2de3b0aef6c8b11e45198df31ad612a8}{volatile}} ("{}la \%0, 1f\textbackslash{}n1\+:\textbackslash{}nsb \$0, 0x59(\$0)"{} \+:"{}=r"{}(\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}))
+\item 
+\mbox{\hyperlink{cop0_8c_af3eb2e9a3579ec70200b8f16f9d101ee}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0x01020004, \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{cop0_8c_a464c67669d0f20b5ab318be1dc18f49f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (1, \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}})
+\item 
+\mbox{\hyperlink{cop0_8c_ab0fd2a444a52665c5b8c6ac3c6f52199}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (0x40, \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}})
+\item 
+\mbox{\hyperlink{cop0_8c_a0fdd4d29d3a67f44fb9e1d7d683f7722}{cester\+\_\+assert\+\_\+uint\+\_\+eq}} (\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}, \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\+\_\+tests}}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}} = (\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}) 0x80000058
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{cop0_8c_ad0a4f09dc8e99357dd439ac30e7602e8}\label{cop0_8c_ad0a4f09dc8e99357dd439ac30e7602e8} 
+\index{cop0.c@{cop0.c}!CESTER\_MAYBE\_TEST@{CESTER\_MAYBE\_TEST}}
+\index{CESTER\_MAYBE\_TEST@{CESTER\_MAYBE\_TEST}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_MAYBE\_TEST}{CESTER\_MAYBE\_TEST}}
+{\footnotesize\ttfamily \#define CESTER\+\_\+\+MAYBE\+\_\+\+TEST~\mbox{\hyperlink{cop0_8c_a0622d3279df74b9cc7686b3941128c91}{CESTER\+\_\+\+TEST}}}
+
+\Hypertarget{cop0_8c_ab9d749ba0acd5d091810d8903051f734}\label{cop0_8c_ab9d749ba0acd5d091810d8903051f734} 
+\index{cop0.c@{cop0.c}!CESTER\_NO\_SIGNAL@{CESTER\_NO\_SIGNAL}}
+\index{CESTER\_NO\_SIGNAL@{CESTER\_NO\_SIGNAL}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_NO\_SIGNAL}{CESTER\_NO\_SIGNAL}}
+{\footnotesize\ttfamily \#define CESTER\+\_\+\+NO\+\_\+\+SIGNAL}
+
+\Hypertarget{cop0_8c_a284d6e2bc5f15d225e4600990f840607}\label{cop0_8c_a284d6e2bc5f15d225e4600990f840607} 
+\index{cop0.c@{cop0.c}!CESTER\_NO\_TIME@{CESTER\_NO\_TIME}}
+\index{CESTER\_NO\_TIME@{CESTER\_NO\_TIME}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_NO\_TIME}{CESTER\_NO\_TIME}}
+{\footnotesize\ttfamily \#define CESTER\+\_\+\+NO\+\_\+\+TIME}
+
+\Hypertarget{cop0_8c_a73efe787c131b385070f25d18b7c9aa4}\label{cop0_8c_a73efe787c131b385070f25d18b7c9aa4} 
+\index{cop0.c@{cop0.c}!EXIT\_FAILURE@{EXIT\_FAILURE}}
+\index{EXIT\_FAILURE@{EXIT\_FAILURE}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{EXIT\_FAILURE}{EXIT\_FAILURE}}
+{\footnotesize\ttfamily \#define EXIT\+\_\+\+FAILURE~1}
+
+\Hypertarget{cop0_8c_a687984f47d8cce148d1b914d2b79612a}\label{cop0_8c_a687984f47d8cce148d1b914d2b79612a} 
+\index{cop0.c@{cop0.c}!EXIT\_SUCCESS@{EXIT\_SUCCESS}}
+\index{EXIT\_SUCCESS@{EXIT\_SUCCESS}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{EXIT\_SUCCESS}{EXIT\_SUCCESS}}
+{\footnotesize\ttfamily \#define EXIT\+\_\+\+SUCCESS~0}
+
+\Hypertarget{cop0_8c_a2fb257bbc8aa0afb3970cc624bc5c907}\label{cop0_8c_a2fb257bbc8aa0afb3970cc624bc5c907} 
+\index{cop0.c@{cop0.c}!PCSX\_TESTS@{PCSX\_TESTS}}
+\index{PCSX\_TESTS@{PCSX\_TESTS}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{PCSX\_TESTS}{PCSX\_TESTS}}
+{\footnotesize\ttfamily \#define PCSX\+\_\+\+TESTS~0}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{cop0_8c_a2e7d66c80e8d24edeb97b02af66c6bb5}\label{cop0_8c_a2e7d66c80e8d24edeb97b02af66c6bb5} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [1/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_abbedf190388345ab1066694f6bb3cb00}\label{cop0_8c_abbedf190388345ab1066694f6bb3cb00} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [2/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a72e5b5b5c71373845316f15ce2e9f204}\label{cop0_8c_a72e5b5b5c71373845316f15ce2e9f204} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [3/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a6d94a66cb6e0342d2e52d0e3ad948d16}\label{cop0_8c_a6d94a66cb6e0342d2e52d0e3ad948d16} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [4/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_ac2fc1b98e1e4f7e02b2a016e93a3a00d}\label{cop0_8c_ac2fc1b98e1e4f7e02b2a016e93a3a00d} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [5/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\+\_\+got80}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_af3eb2e9a3579ec70200b8f16f9d101ee}\label{cop0_8c_af3eb2e9a3579ec70200b8f16f9d101ee} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [6/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0x01020004}]{,  }\item[{\texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_ab0905f418cd91f78a16a57cd1496ceb8}\label{cop0_8c_ab0905f418cd91f78a16a57cd1496ceb8} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [7/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0x01020304}]{,  }\item[{\texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_ab0fd2a444a52665c5b8c6ac3c6f52199}\label{cop0_8c_ab0fd2a444a52665c5b8c6ac3c6f52199} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [8/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{0x40}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}\label{cop0_8c_aa72c1a39611ee9323e9086e394bef54f} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [9/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{1}]{,  }\item[{\texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a464c67669d0f20b5ab318be1dc18f49f}\label{cop0_8c_a464c67669d0f20b5ab318be1dc18f49f} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [10/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{1}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a0fdd4d29d3a67f44fb9e1d7d683f7722}\label{cop0_8c_a0fdd4d29d3a67f44fb9e1d7d683f7722} 
+\index{cop0.c@{cop0.c}!cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}}
+\index{cester\_assert\_uint\_eq@{cester\_assert\_uint\_eq}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cester\_assert\_uint\_eq()}{cester\_assert\_uint\_eq()}\hspace{0.1cm}{\footnotesize\ttfamily [11/11]}}
+{\footnotesize\ttfamily cester\+\_\+assert\+\_\+uint\+\_\+eq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}}]{,  }\item[{\mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a0622d3279df74b9cc7686b3941128c91}\label{cop0_8c_a0622d3279df74b9cc7686b3941128c91} 
+\index{cop0.c@{cop0.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{cpu\+\_\+cop0\+\_\+basic\+\_\+write\+\_\+bp}]{,  }\item[{\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\+\_\+tests}}}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}};\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ptr = {\ttfamily (\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}~\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}~\texorpdfstring{$\ast$}{*})~0x58;~\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}~=~1;~\+\_\+\+\_\+asm\+\_\+\+\_\+~\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}"{}"{}~~~~lui~~~\%0,~0b1100101010000000\textbackslash{}n"{}"{}~~~~mtc0~~\%0,~\$7\textbackslash{}n"{}"{}~~~~li~~~~\%0,~0x58\textbackslash{}n"{}"{}~~~~mtc0~~\%0,~\$5\textbackslash{}n"{}"{}~~~~li~~~~\%0,~0xfffffff0\textbackslash{}n"{}"{}~~~~mtc0~~\%0,~\$9\textbackslash{}n"{}~\+:~"{}=r"{}(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}));~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(1,~\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});~\+\_\+\+\_\+asm\+\_\+\+\_\+~\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}la~\%0,~1f\textbackslash{}n1\+:\textbackslash{}nsw~\$0,~0x58(\$0)"{}~\+:~"{}=r"{}(\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}}));~\+\_\+\+\_\+asm\+\_\+\+\_\+~\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}mtc0~\$0,~\$7\textbackslash{}n"{});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(1,~\mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\+\_\+got80}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0x40,~\mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(\mbox{\hyperlink{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}{expected\+EPC}},~\mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}});} }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a4a5a1f5d36926a32aacf7e10117e0e51}\label{cop0_8c_a4a5a1f5d36926a32aacf7e10117e0e51} 
+\index{cop0.c@{cop0.c}!CESTER\_TEST@{CESTER\_TEST}}
+\index{CESTER\_TEST@{CESTER\_TEST}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{CESTER\_TEST()}{CESTER\_TEST()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily CESTER\+\_\+\+TEST (\begin{DoxyParamCaption}\item[{cpu\+\_\+cop0\+\_\+upper\+\_\+memory\+\_\+write\+\_\+bp}]{,  }\item[{\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\+\_\+tests}}}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ptr = {\ttfamily (\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}~\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}~\texorpdfstring{$\ast$}{*})~0x00200058;~\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}~=~1;~\+\_\+\+\_\+asm\+\_\+\+\_\+~\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}"{}"{}~~~~lui~~~\%0,~0b1100101010000000\textbackslash{}n"{}"{}~~~~mtc0~~\%0,~\$7\textbackslash{}n"{}"{}~~~~li~~~~\%0,~0x58\textbackslash{}n"{}"{}~~~~mtc0~~\%0,~\$5\textbackslash{}n"{}"{}~~~~li~~~~\%0,~0xfffffff0\textbackslash{}n"{}"{}~~~~mtc0~~\%0,~\$9\textbackslash{}n"{}~\+:~"{}=r"{}(\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}));~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(1,~\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});~\+\_\+\+\_\+asm\+\_\+\+\_\+~\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}lui~\$at,~0x0020\textbackslash{}nsw~\$0,~0x58(\$at)"{});~\+\_\+\+\_\+asm\+\_\+\+\_\+~\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}}("{}mtc0~\$0,~\$7\textbackslash{}n"{});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\+\_\+got40}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\+\_\+got80}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\+\_\+from}});~\mbox{\hyperlink{cop0_8c_aa72c1a39611ee9323e9086e394bef54f}{cester\+\_\+assert\+\_\+uint\+\_\+eq}}(0,~\mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\+\_\+epc}});} }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a0426e4933ab4926914ed35ee83fa7f8d}\label{cop0_8c_a0426e4933ab4926914ed35ee83fa7f8d} 
+\index{cop0.c@{cop0.c}!volatile@{volatile}}
+\index{volatile@{volatile}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{volatile()}{volatile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\begin{DoxyParamCaption}\item[{"{}"{} "{} lui \%}]{0,  }\item[{0b1100101010000000\textbackslash{}n"{} "{} mtc0 \%}]{0,  }\item[{}]{\$7\textbackslash{}n"{} "{} li \%,  }\item[{0x58\textbackslash{}n"{} "{} mtc0 \%}]{0,  }\item[{}]{\$5\textbackslash{}n"{} "{} li \%,  }\item[{0xfffffff0\textbackslash{}n"{} "{} mtc0 \%}]{0 }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a2de3b0aef6c8b11e45198df31ad612a8}\label{cop0_8c_a2de3b0aef6c8b11e45198df31ad612a8} 
+\index{cop0.c@{cop0.c}!volatile@{volatile}}
+\index{volatile@{volatile}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{volatile()}{volatile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\begin{DoxyParamCaption}\item[{"{}la \%}]{0,  }\item[{1f\textbackslash{}n1\+:\textbackslash{}nsb}]{\$0 }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_a5c7a98f4981ff62b4a3c8e9e99a77b03}\label{cop0_8c_a5c7a98f4981ff62b4a3c8e9e99a77b03} 
+\index{cop0.c@{cop0.c}!volatile@{volatile}}
+\index{volatile@{volatile}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{volatile()}{volatile()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\begin{DoxyParamCaption}\item[{"{}lui}]{\$at,  }\item[{0x8000\textbackslash{}nsw}]{\$0,  }\item[{0x58(\$at)"{}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cop0_8c_acd68f75ee63bca71cbaed15cf236eb87}\label{cop0_8c_acd68f75ee63bca71cbaed15cf236eb87} 
+\index{cop0.c@{cop0.c}!volatile@{volatile}}
+\index{volatile@{volatile}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{volatile()}{volatile()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\begin{DoxyParamCaption}\item[{"{}mtc0}]{\$0,  }\item[{}]{\$7\textbackslash{}n"{} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}\label{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab} 
+\index{cop0.c@{cop0.c}!cpu\_tests@{cpu\_tests}}
+\index{cpu\_tests@{cpu\_tests}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{cpu\_tests}{cpu\_tests}}
+{\footnotesize\ttfamily cpu\+\_\+tests}
+
+\Hypertarget{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b}\label{cop0_8c_a202357c4c1bac5b020cf0c1328f47c2b} 
+\index{cop0.c@{cop0.c}!expectedEPC@{expectedEPC}}
+\index{expectedEPC@{expectedEPC}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{expectedEPC}{expectedEPC}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} expected\+EPC}
+
+\Hypertarget{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}\label{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b} 
+\index{cop0.c@{cop0.c}!ptr@{ptr}}
+\index{ptr@{ptr}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{ptr}{ptr}}
+{\footnotesize\ttfamily \texorpdfstring{$\ast$}{*} ptr = (\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}) 0x80000058}
+
+\Hypertarget{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}\label{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe} 
+\index{cop0.c@{cop0.c}!t@{t}}
+\index{t@{t}!cop0.c@{cop0.c}}
+\doxysubsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} t}
+

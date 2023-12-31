@@ -1,0 +1,66 @@
+\doxysection{openbios/kernel/threads.h File Reference}
+\hypertarget{openbios_2kernel_2threads_8h}{}\label{openbios_2kernel_2threads_8h}\index{openbios/kernel/threads.h@{openbios/kernel/threads.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/kernel/threads.\+h"{}}\newline
+Include dependency graph for threads.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{d3/ddb/openbios_2kernel_2threads_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d6/d94/openbios_2kernel_2threads_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2threads_8h_a56bfd8dd6d8a2d880435c5c55889b02d}{init\+Threads}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} process\+Count, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} thread\+Count)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2threads_8h_af79c0d0c967bea61e59b0592f911e0d5}{get\+Free\+TCBslot}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2threads_8h_a1b1a6ef033a553876e280eba81f073c7}{open\+Thread}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} pc, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} sp, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} gp)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2threads_8h_a326c179dea559e34aa6b10fc7f7df3a2}{close\+Thread}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} thread\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2kernel_2threads_8h_aed2bf6469e5dc1772d4208a6fa0ef38e}{change\+Thread}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} thread\+Id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2kernel_2threads_8h_aed2bf6469e5dc1772d4208a6fa0ef38e}\label{openbios_2kernel_2threads_8h_aed2bf6469e5dc1772d4208a6fa0ef38e} 
+\index{threads.h@{threads.h}!changeThread@{changeThread}}
+\index{changeThread@{changeThread}!threads.h@{threads.h}}
+\doxysubsubsection{\texorpdfstring{changeThread()}{changeThread()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} change\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{thread\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2threads_8h_a326c179dea559e34aa6b10fc7f7df3a2}\label{openbios_2kernel_2threads_8h_a326c179dea559e34aa6b10fc7f7df3a2} 
+\index{threads.h@{threads.h}!closeThread@{closeThread}}
+\index{closeThread@{closeThread}!threads.h@{threads.h}}
+\doxysubsubsection{\texorpdfstring{closeThread()}{closeThread()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} close\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{thread\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2threads_8h_af79c0d0c967bea61e59b0592f911e0d5}\label{openbios_2kernel_2threads_8h_af79c0d0c967bea61e59b0592f911e0d5} 
+\index{threads.h@{threads.h}!getFreeTCBslot@{getFreeTCBslot}}
+\index{getFreeTCBslot@{getFreeTCBslot}!threads.h@{threads.h}}
+\doxysubsubsection{\texorpdfstring{getFreeTCBslot()}{getFreeTCBslot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} get\+Free\+TCBslot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2threads_8h_a56bfd8dd6d8a2d880435c5c55889b02d}\label{openbios_2kernel_2threads_8h_a56bfd8dd6d8a2d880435c5c55889b02d} 
+\index{threads.h@{threads.h}!initThreads@{initThreads}}
+\index{initThreads@{initThreads}!threads.h@{threads.h}}
+\doxysubsubsection{\texorpdfstring{initThreads()}{initThreads()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Threads (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{process\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{thread\+Count }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2threads_8h_a1b1a6ef033a553876e280eba81f073c7}\label{openbios_2kernel_2threads_8h_a1b1a6ef033a553876e280eba81f073c7} 
+\index{threads.h@{threads.h}!openThread@{openThread}}
+\index{openThread@{openThread}!threads.h@{threads.h}}
+\doxysubsubsection{\texorpdfstring{openThread()}{openThread()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} open\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{pc,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sp,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{gp }\end{DoxyParamCaption})}
+

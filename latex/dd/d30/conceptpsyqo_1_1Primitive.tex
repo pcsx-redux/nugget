@@ -1,0 +1,28 @@
+\doxysection{psyqo\+::Primitive Concept Reference}
+\hypertarget{conceptpsyqo_1_1Primitive}{}\label{conceptpsyqo_1_1Primitive}\index{psyqo::Primitive@{psyqo::Primitive}}
+
+
+The Primitive concept.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitive-\/concept.\+hh$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Prim>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptpsyqo_1_1Primitive}{psyqo::Primitive}}\ =\ \ \textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{\ \ \ \ \{\ (\textcolor{keyword}{alignof}(Prim)\ \&\ 3)\ ==\ 0\ \};}
+\DoxyCodeLine{\ \ \ \ \{\ (\textcolor{keyword}{sizeof}(Prim)\ \&\ 3)\ ==\ 0\ \};}
+\DoxyCodeLine{\ \ \ \ \{\ !\textcolor{keyword}{requires}\ \{\ \textcolor{keyword}{typename}\ Prim::head;\ \}\ \};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+The Primitive concept. 
+
+This concept can be used as a template type constraint to ensure that a type is a valid primitive. 

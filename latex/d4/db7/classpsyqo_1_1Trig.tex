@@ -1,0 +1,90 @@
+\doxysection{psyqo\+::Trig\texorpdfstring{$<$}{<} precision\+Bits \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsyqo_1_1Trig}{}\label{classpsyqo_1_1Trig}\index{psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}}
+
+
+A trigonometry table.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/trigonometry.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classpsyqo_1_1Trig_a3aed3cf507b575c32274951471e96f04}{Trig}} ()
+\item 
+constexpr \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ precision\+Bits $>$ \mbox{\hyperlink{classpsyqo_1_1Trig_a5644be4fbbd7df5250b321fcaad83dce}{cos}} (\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}} a) const
+\begin{DoxyCompactList}\small\item\em Calculate the cosine of an angle. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ precision\+Bits $>$ \mbox{\hyperlink{classpsyqo_1_1Trig_a16ac3952ed2302554d76ac0ca3f42d65}{sin}} (\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}} a) const
+\begin{DoxyCompactList}\small\item\em Calculate the sine of an angle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$unsigned precision\+Bits = 12$>$\newline
+class psyqo\+::\+Trig$<$ precision\+Bits $>$}
+A trigonometry table. 
+
+This is a trigonometry table. It is used to calculate sine and cosine values for angles. It is constructed with a template parameter that specifies the number of bits of precision to use for the table. The default is 12 bits.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em precision\+Bits} & The number of bits of precision to use for the \doxylink{classpsyqo_1_1FixedPoint}{Fixed\+Point} values in the table. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1Trig_a3aed3cf507b575c32274951471e96f04}\label{classpsyqo_1_1Trig_a3aed3cf507b575c32274951471e96f04} 
+\index{psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}!Trig@{Trig}}
+\index{Trig@{Trig}!psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}}
+\doxysubsubsection{\texorpdfstring{Trig()}{Trig()}}
+{\footnotesize\ttfamily template$<$unsigned precision\+Bits = 12$>$ \\
+\mbox{\hyperlink{classpsyqo_1_1Trig}{psyqo\+::\+Trig}}$<$ precision\+Bits $>$\+::\+Trig (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1Trig_a5644be4fbbd7df5250b321fcaad83dce}\label{classpsyqo_1_1Trig_a5644be4fbbd7df5250b321fcaad83dce} 
+\index{psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}!cos@{cos}}
+\index{cos@{cos}!psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}}
+\doxysubsubsection{\texorpdfstring{cos()}{cos()}}
+{\footnotesize\ttfamily template$<$unsigned precision\+Bits = 12$>$ \\
+constexpr \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ precision\+Bits $>$ \mbox{\hyperlink{classpsyqo_1_1Trig}{psyqo\+::\+Trig}}$<$ precision\+Bits $>$\+::cos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}}}]{a }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Calculate the cosine of an angle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The angle to calculate the cosine of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Fixed\+Point$<$precision\+Bits$>$ The cosine of the angle. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1Trig_a16ac3952ed2302554d76ac0ca3f42d65}\label{classpsyqo_1_1Trig_a16ac3952ed2302554d76ac0ca3f42d65} 
+\index{psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}!sin@{sin}}
+\index{sin@{sin}!psyqo::Trig$<$ precisionBits $>$@{psyqo::Trig$<$ precisionBits $>$}}
+\doxysubsubsection{\texorpdfstring{sin()}{sin()}}
+{\footnotesize\ttfamily template$<$unsigned precision\+Bits = 12$>$ \\
+constexpr \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Fixed\+Point}}$<$ precision\+Bits $>$ \mbox{\hyperlink{classpsyqo_1_1Trig}{psyqo\+::\+Trig}}$<$ precision\+Bits $>$\+::sin (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}}}]{a }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Calculate the sine of an angle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The angle to calculate the sine of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Fixed\+Point$<$precision\+Bits$>$ The sine of the angle. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{trigonometry_8hh}{trigonometry.\+hh}}\end{DoxyCompactItemize}

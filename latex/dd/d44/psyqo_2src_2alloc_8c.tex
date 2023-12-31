@@ -1,0 +1,223 @@
+\doxysection{psyqo/src/alloc.c File Reference}
+\hypertarget{psyqo_2src_2alloc_8c}{}\label{psyqo_2src_2alloc_8c}\index{psyqo/src/alloc.c@{psyqo/src/alloc.c}}
+{\ttfamily \#include "{}psyqo/alloc.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for alloc.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{dc/df2/psyqo_2src_2alloc_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__heap__t}{\+\_\+heap\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{struct__heap__t}{\+\_\+heap\+\_\+t}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62}{heap\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a3804a7f46fcc70023cde5a3f007662da}{psyqo\+\_\+malloc}} (size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\begin{DoxyCompactList}\small\item\em Allocates memory from the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a809977f42640fcb453497bdde5fb72ca}{psyqo\+\_\+realloc}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\begin{DoxyCompactList}\small\item\em Re-\/allocates memory from the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a2e8fd619ab9a5b9581d93558dfb4ee76}{psyqo\+\_\+free}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\begin{DoxyCompactList}\small\item\em Frees memory from the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a27a5fa7cafcc1f5461c31b88cdcd727e}{\+\_\+\+\_\+builtin\+\_\+new}} (size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_af5d846455fa4f153a457c184c0fca621}{\+\_\+\+\_\+builtin\+\_\+delete}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a9574b598f388bc407d7b58f12098229b}{\+\_\+\+Znwj}} (unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_aa2ca29c15d6ad000f0257d7e1e4fdca5}{\+\_\+\+Znaj}} (unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_aca19781f2f49441908843c22b83a6f3d}{\+\_\+\+Zdl\+Pv}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a4498b4ee80e873628086bd449d3c5fa2}{\+\_\+\+Zda\+Pv}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_aeaec20639a9ab151a14bb2a2900ebc82}{\+\_\+\+Zdl\+Pvj}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a3cc93efb69f8695a2753b0dac69cfe7f}{\+\_\+\+Zda\+Pvj}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a4ce1f4b67237ab642808cac9589d2b87}{psyqo\+\_\+heap\+\_\+start}} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer to the beginning of the heap. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{psyqo_2src_2alloc_8c_a7941170aa50e2e307e96e45c673a635b}{psyqo\+\_\+heap\+\_\+end}} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer to the end of the heap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uintptr\+\_\+t \mbox{\hyperlink{psyqo_2src_2alloc_8c_a1affdf5085a28855f5c1cf2505331a56}{\+\_\+\+\_\+heap\+\_\+start}}
+\item 
+uintptr\+\_\+t \mbox{\hyperlink{psyqo_2src_2alloc_8c_a4e868ecdedbe3eec729d18c41e534047}{\+\_\+\+\_\+stack\+\_\+start}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{psyqo_2src_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62}\label{psyqo_2src_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62} 
+\index{alloc.c@{alloc.c}!heap\_t@{heap\_t}}
+\index{heap\_t@{heap\_t}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{heap\_t}{heap\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{struct__heap__t}{\+\_\+heap\+\_\+t}} \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62}{heap\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{psyqo_2src_2alloc_8c_af5d846455fa4f153a457c184c0fca621}\label{psyqo_2src_2alloc_8c_af5d846455fa4f153a457c184c0fca621} 
+\index{alloc.c@{alloc.c}!\_\_builtin\_delete@{\_\_builtin\_delete}}
+\index{\_\_builtin\_delete@{\_\_builtin\_delete}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_builtin\_delete()}{\_\_builtin\_delete()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \+\_\+\+\_\+builtin\+\_\+delete (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_a27a5fa7cafcc1f5461c31b88cdcd727e}\label{psyqo_2src_2alloc_8c_a27a5fa7cafcc1f5461c31b88cdcd727e} 
+\index{alloc.c@{alloc.c}!\_\_builtin\_new@{\_\_builtin\_new}}
+\index{\_\_builtin\_new@{\_\_builtin\_new}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_builtin\_new()}{\_\_builtin\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \+\_\+\+\_\+builtin\+\_\+new (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_a4498b4ee80e873628086bd449d3c5fa2}\label{psyqo_2src_2alloc_8c_a4498b4ee80e873628086bd449d3c5fa2} 
+\index{alloc.c@{alloc.c}!\_ZdaPv@{\_ZdaPv}}
+\index{\_ZdaPv@{\_ZdaPv}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_ZdaPv()}{\_ZdaPv()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \+\_\+\+Zda\+Pv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_a3cc93efb69f8695a2753b0dac69cfe7f}\label{psyqo_2src_2alloc_8c_a3cc93efb69f8695a2753b0dac69cfe7f} 
+\index{alloc.c@{alloc.c}!\_ZdaPvj@{\_ZdaPvj}}
+\index{\_ZdaPvj@{\_ZdaPvj}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_ZdaPvj()}{\_ZdaPvj()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \+\_\+\+Zda\+Pvj (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_aca19781f2f49441908843c22b83a6f3d}\label{psyqo_2src_2alloc_8c_aca19781f2f49441908843c22b83a6f3d} 
+\index{alloc.c@{alloc.c}!\_ZdlPv@{\_ZdlPv}}
+\index{\_ZdlPv@{\_ZdlPv}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_ZdlPv()}{\_ZdlPv()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \+\_\+\+Zdl\+Pv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_aeaec20639a9ab151a14bb2a2900ebc82}\label{psyqo_2src_2alloc_8c_aeaec20639a9ab151a14bb2a2900ebc82} 
+\index{alloc.c@{alloc.c}!\_ZdlPvj@{\_ZdlPvj}}
+\index{\_ZdlPvj@{\_ZdlPvj}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_ZdlPvj()}{\_ZdlPvj()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \+\_\+\+Zdl\+Pvj (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_aa2ca29c15d6ad000f0257d7e1e4fdca5}\label{psyqo_2src_2alloc_8c_aa2ca29c15d6ad000f0257d7e1e4fdca5} 
+\index{alloc.c@{alloc.c}!\_Znaj@{\_Znaj}}
+\index{\_Znaj@{\_Znaj}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_Znaj()}{\_Znaj()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \+\_\+\+Znaj (\begin{DoxyParamCaption}\item[{unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_a9574b598f388bc407d7b58f12098229b}\label{psyqo_2src_2alloc_8c_a9574b598f388bc407d7b58f12098229b} 
+\index{alloc.c@{alloc.c}!\_Znwj@{\_Znwj}}
+\index{\_Znwj@{\_Znwj}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_Znwj()}{\_Znwj()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \+\_\+\+Znwj (\begin{DoxyParamCaption}\item[{unsigned \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{psyqo_2src_2alloc_8c_a2e8fd619ab9a5b9581d93558dfb4ee76}\label{psyqo_2src_2alloc_8c_a2e8fd619ab9a5b9581d93558dfb4ee76} 
+\index{alloc.c@{alloc.c}!psyqo\_free@{psyqo\_free}}
+\index{psyqo\_free@{psyqo\_free}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{psyqo\_free()}{psyqo\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+
+
+Frees memory from the heap. 
+
+This function behaves as you\textquotesingle{}d expect from typical free. Calling this function with a NULL pointer is a no-\/op.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The pointer to the memory to free. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{psyqo_2src_2alloc_8c_a7941170aa50e2e307e96e45c673a635b}\label{psyqo_2src_2alloc_8c_a7941170aa50e2e307e96e45c673a635b} 
+\index{alloc.c@{alloc.c}!psyqo\_heap\_end@{psyqo\_heap\_end}}
+\index{psyqo\_heap\_end@{psyqo\_heap\_end}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{psyqo\_heap\_end()}{psyqo\_heap\_end()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+heap\+\_\+end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the pointer to the end of the heap. 
+
+This function will return the pointer to the end of the heap. The heap works lazily, and this function may return a NULL pointer. The heap can grow and shrink depending on usage. Computing the current size of the heap is done by subtracting the start pointer from the end pointer. Note this wouldn\textquotesingle{}t account for memory fragmentation.
+
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The end of the heap. 
+\end{DoxyReturn}
+\Hypertarget{psyqo_2src_2alloc_8c_a4ce1f4b67237ab642808cac9589d2b87}\label{psyqo_2src_2alloc_8c_a4ce1f4b67237ab642808cac9589d2b87} 
+\index{alloc.c@{alloc.c}!psyqo\_heap\_start@{psyqo\_heap\_start}}
+\index{psyqo\_heap\_start@{psyqo\_heap\_start}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{psyqo\_heap\_start()}{psyqo\_heap\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+heap\+\_\+start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the pointer to the beginning of the heap. 
+
+This function will return the pointer to the beginning of the heap. The heap works lazily, and this function may return a NULL pointer, but once it returns a non-\/\+NULL pointer, it will always return the same pointer.
+
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The beginning of the heap. 
+\end{DoxyReturn}
+\Hypertarget{psyqo_2src_2alloc_8c_a3804a7f46fcc70023cde5a3f007662da}\label{psyqo_2src_2alloc_8c_a3804a7f46fcc70023cde5a3f007662da} 
+\index{alloc.c@{alloc.c}!psyqo\_malloc@{psyqo\_malloc}}
+\index{psyqo\_malloc@{psyqo\_malloc}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{psyqo\_malloc()}{psyqo\_malloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+malloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Allocates memory from the heap. 
+
+This function behaves as you\textquotesingle{}d expect from typical malloc. Allocating 0 bytes will return a valid pointer, which can be freed. Guarantees to align the memory to 8 bytes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The amount of bytes to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The memory allocated. 
+\end{DoxyReturn}
+\Hypertarget{psyqo_2src_2alloc_8c_a809977f42640fcb453497bdde5fb72ca}\label{psyqo_2src_2alloc_8c_a809977f42640fcb453497bdde5fb72ca} 
+\index{alloc.c@{alloc.c}!psyqo\_realloc@{psyqo\_realloc}}
+\index{psyqo\_realloc@{psyqo\_realloc}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{psyqo\_realloc()}{psyqo\_realloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psyqo\+\_\+realloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Re-\/allocates memory from the heap. 
+
+This function behaves as you\textquotesingle{}d expect from typical realloc. Allocating 0 bytes with a NULL pointer will return a valid pointer, which can be freed. Allocating 0 bytes with a valid pointer will behave as if free was called. Re-\/allocating a pointer to a smaller size is always guaranteed to succeed and to return the same pointer. Re-\/allocating a pointer to a larger size may fail, in which case, it will return NULL. Passing a NULL pointer will behave like a call to malloc.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The pointer to the memory to re-\/allocate. \\
+\hline
+{\em size} & The amount of bytes to allocate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void\texorpdfstring{$\ast$}{*} The memory allocated. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{psyqo_2src_2alloc_8c_a1affdf5085a28855f5c1cf2505331a56}\label{psyqo_2src_2alloc_8c_a1affdf5085a28855f5c1cf2505331a56} 
+\index{alloc.c@{alloc.c}!\_\_heap\_start@{\_\_heap\_start}}
+\index{\_\_heap\_start@{\_\_heap\_start}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_heap\_start}{\_\_heap\_start}}
+{\footnotesize\ttfamily uintptr\+\_\+t \+\_\+\+\_\+heap\+\_\+start\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{psyqo_2src_2alloc_8c_a4e868ecdedbe3eec729d18c41e534047}\label{psyqo_2src_2alloc_8c_a4e868ecdedbe3eec729d18c41e534047} 
+\index{alloc.c@{alloc.c}!\_\_stack\_start@{\_\_stack\_start}}
+\index{\_\_stack\_start@{\_\_stack\_start}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_stack\_start}{\_\_stack\_start}}
+{\footnotesize\ttfamily uintptr\+\_\+t \+\_\+\+\_\+stack\+\_\+start\hspace{0.3cm}{\ttfamily [extern]}}
+

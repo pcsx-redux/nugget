@@ -1,0 +1,58 @@
+\doxysection{pad.\+h}
+\hypertarget{pad_8h_source}{}\label{pad_8h_source}\index{openbios/sio0/pad.h@{openbios/sio0/pad.h}}
+\mbox{\hyperlink{pad_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{/*\ This\ one\ is\ a\ tough\ one.\ Technically,\ this\ should\ return\ a\ struct,\ that's}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ \ \ using\ however\ the\ older\ gcc\ ABI.\ There's\ no\ way\ to\ reproduce\ the\ ABI}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ \ \ with\ modern\ gcc\ as\ far\ as\ I\ know,\ but\ it's\ also\ likely\ the\ rest\ of}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ \ \ the\ returned\ struct\ isn't\ actually\ used,\ so\ we\ might\ be\ lucky\ here}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ \ \ in\ terms\ of\ API.\ As\ far\ as\ ABI\ is\ concerned\ however,\ inlined\ assembly}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ \ \ code\ will\ solve\ the\ issue.\ */}}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{pad_8h_a6f8d55faaf01a1ac4b0383a7769e746b}{initPadHighLevel}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ padType,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\ \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}},\ \textcolor{keywordtype}{int}\ d);}
+\DoxyCodeLine{00039\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{pad_8h_ae00811da96b1635d635ab7ed3e6c01f5}{readPadHighLevel}}();}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{pad_8h_a21a9b830d90739175eb5456f7c92ff88}{initPad}}(uint8\_t*\ pad1Buffer,\ \textcolor{keywordtype}{size\_t}\ pad1BufferSize,\ uint8\_t*\ pad2Buffer,\ \textcolor{keywordtype}{size\_t}\ pad2BufferSize);}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{pad_8h_a0e7ddf542e1a8a561b1a11ef144d271e}{startPad}}();}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a9c2254c385237583ac69d918c25e1d23}{stopPad}}();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a8b82954196b76d11dad6ffaa81c70bb0}{patch\_remove\_ChgclrPAD}}();}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a3f1bd000bde18b871294e352e1f21718}{patch\_disable\_slotChangeOnAbort}}();}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a05edef5ff263b46e2b0b0752b4a96d8b}{patch\_startPad}}();}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a9a0c26542d389222eaca351f423801d5}{patch\_stopPad}}();}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a3ddba8e7f9aba4fc49ab3d174a74ead0}{patch\_send\_pad}}();}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{pad_8h_a9408ee936d88bac7caa59947e14679d4}{patch\_setPadOutputData}}(uint8\_t*\ pad1OutputBuffer,\ \textcolor{keywordtype}{size\_t}\ pad1OutputSize,\ uint8\_t*\ pad2OutputBuffer,}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pad2OutputSize);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\ \mbox{\hyperlink{pad_8h_ab5d01669d660fa6201d1aa1e46a71fdf}{g\_userPadBuffer}};}
+
+\end{DoxyCode}

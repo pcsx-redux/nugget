@@ -1,0 +1,157 @@
+\doxysection{psyqo\+::ISO9660\+Parser Class Reference}
+\hypertarget{classpsyqo_1_1ISO9660Parser}{}\label{classpsyqo_1_1ISO9660Parser}\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+
+
+An ISO9660 parser.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/iso9660-\/parser.\+hh$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}}
+\begin{DoxyCompactList}\small\item\em An ISO9660 directory entry. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{Read\+Request}}
+\begin{DoxyCompactList}\small\item\em An asynchronous read request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a705489fddc6b3720aa5782cb5c0e99b8}{ISO9660\+Parser}} (\mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}} \texorpdfstring{$\ast$}{*}cdrom)
+\begin{DoxyCompactList}\small\item\em The \doxylink{classpsyqo_1_1ISO9660Parser}{ISO9660\+Parser} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a846b6e1e7cdb99f58fc8f26b12c9d23f}{initialize}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool success)$>$ callback)
+\begin{DoxyCompactList}\small\item\em Initializes the parser. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a098cfc6b9dcc50582e17b15134772b1a}{schedule\+Initialize}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_ae93f45c5e3a4cec5154d609677aa1241}{get\+Direntry}} (eastl\+::string\+\_\+view path, \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool success)$>$ callback)
+\begin{DoxyCompactList}\small\item\em Get the Direntry object for a given path. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a46270c6e74259fa7537c54cb1ebe4202}{schedule\+Get\+Direntry}} (eastl\+::string\+\_\+view path, \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a65c64c1aab69f5d76c4a83e4fa7a72c9}{schedule\+Read\+Request}} (\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{Read\+Request}} \texorpdfstring{$\ast$}{*}request)
+\begin{DoxyCompactList}\small\item\em Read a file asynchronously. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a426bcd52052266e3a37d0b8ba2f17d35}{initialized}} ()
+\begin{DoxyCompactList}\small\item\em Returns the state of the parser. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a996095836bb53e89d8c667700deee30c}{get\+CDRom}} ()
+\begin{DoxyCompactList}\small\item\em Returns the \doxylink{classpsyqo_1_1CDRom}{CDRom} object used by the parser. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An ISO9660 parser. 
+
+This class is a simple ISO9660 parser. It is not meant to be a full implementation, but rather a simple parser that can be used to find the files to be loaded. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1ISO9660Parser_a705489fddc6b3720aa5782cb5c0e99b8}\label{classpsyqo_1_1ISO9660Parser_a705489fddc6b3720aa5782cb5c0e99b8} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!ISO9660Parser@{ISO9660Parser}}
+\index{ISO9660Parser@{ISO9660Parser}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{ISO9660Parser()}{ISO9660Parser()}}
+{\footnotesize\ttfamily psyqo\+::\+ISO9660\+Parser\+::\+ISO9660\+Parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}} \texorpdfstring{$\ast$}{*}}]{cdrom }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The \doxylink{classpsyqo_1_1ISO9660Parser}{ISO9660\+Parser} constructor. 
+
+This constructor takes a \doxylink{classpsyqo_1_1CDRom}{CDRom} device as a parameter. It will use that device to read the structure of the ISO9660 filesystem.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cdrom} & The \doxylink{classpsyqo_1_1CDRom}{CDRom} device to use. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1ISO9660Parser_a996095836bb53e89d8c667700deee30c}\label{classpsyqo_1_1ISO9660Parser_a996095836bb53e89d8c667700deee30c} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!getCDRom@{getCDRom}}
+\index{getCDRom@{getCDRom}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{getCDRom()}{getCDRom()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}} \texorpdfstring{$\ast$}{*} psyqo\+::\+ISO9660\+Parser\+::get\+CDRom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the \doxylink{classpsyqo_1_1CDRom}{CDRom} object used by the parser. 
+
+\begin{DoxyReturn}{Returns}
+The \doxylink{classpsyqo_1_1CDRom}{CDRom} object. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1ISO9660Parser_ae93f45c5e3a4cec5154d609677aa1241}\label{classpsyqo_1_1ISO9660Parser_ae93f45c5e3a4cec5154d609677aa1241} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!getDirentry@{getDirentry}}
+\index{getDirentry@{getDirentry}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{getDirentry()}{getDirentry()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+ISO9660\+Parser\+::get\+Direntry (\begin{DoxyParamCaption}\item[{eastl\+::string\+\_\+view}]{path,  }\item[{\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}}]{entry,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool success)$>$}]{callback }\end{DoxyParamCaption})}
+
+
+
+Get the Direntry object for a given path. 
+
+This method looks up the directory entry for a given path. It will fail if the \doxylink{classpsyqo_1_1CDRom}{CDRom} device fails reading the disk, or if the parser hasn\textquotesingle{}t been initialized yet. If the directory entry is not found, the callback or task will still be successful, but the directory entry will be invalid.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em path} & The path to look for. \\
+\hline
+\mbox{\texttt{ out}}  & {\em entry} & The \doxylink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry} object to fill. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1ISO9660Parser_a846b6e1e7cdb99f58fc8f26b12c9d23f}\label{classpsyqo_1_1ISO9660Parser_a846b6e1e7cdb99f58fc8f26b12c9d23f} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!initialize@{initialize}}
+\index{initialize@{initialize}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+ISO9660\+Parser\+::initialize (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool success)$>$}]{callback }\end{DoxyParamCaption})}
+
+
+
+Initializes the parser. 
+
+This method initializes the basic internal structures of the parser. It must be called before any other method. If the underlying \doxylink{classpsyqo_1_1CDRom}{CDRom} device fails reading, or if the filesystem is not an ISO9660, the callback or task will fail. It can be called multiple times, and has to be called when the user changes the disc in the drive. \Hypertarget{classpsyqo_1_1ISO9660Parser_a426bcd52052266e3a37d0b8ba2f17d35}\label{classpsyqo_1_1ISO9660Parser_a426bcd52052266e3a37d0b8ba2f17d35} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!initialized@{initialized}}
+\index{initialized@{initialized}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{initialized()}{initialized()}}
+{\footnotesize\ttfamily bool psyqo\+::\+ISO9660\+Parser\+::initialized (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the state of the parser. 
+
+This method returns true if the parser was initialized successfully, and false otherwise.
+
+\begin{DoxyReturn}{Returns}
+The root directory entry. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1ISO9660Parser_a46270c6e74259fa7537c54cb1ebe4202}\label{classpsyqo_1_1ISO9660Parser_a46270c6e74259fa7537c54cb1ebe4202} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!scheduleGetDirentry@{scheduleGetDirentry}}
+\index{scheduleGetDirentry@{scheduleGetDirentry}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{scheduleGetDirentry()}{scheduleGetDirentry()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+ISO9660\+Parser\+::schedule\+Get\+Direntry (\begin{DoxyParamCaption}\item[{eastl\+::string\+\_\+view}]{path,  }\item[{\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}}]{entry }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1ISO9660Parser_a098cfc6b9dcc50582e17b15134772b1a}\label{classpsyqo_1_1ISO9660Parser_a098cfc6b9dcc50582e17b15134772b1a} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!scheduleInitialize@{scheduleInitialize}}
+\index{scheduleInitialize@{scheduleInitialize}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{scheduleInitialize()}{scheduleInitialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+ISO9660\+Parser\+::schedule\+Initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1ISO9660Parser_a65c64c1aab69f5d76c4a83e4fa7a72c9}\label{classpsyqo_1_1ISO9660Parser_a65c64c1aab69f5d76c4a83e4fa7a72c9} 
+\index{psyqo::ISO9660Parser@{psyqo::ISO9660Parser}!scheduleReadRequest@{scheduleReadRequest}}
+\index{scheduleReadRequest@{scheduleReadRequest}!psyqo::ISO9660Parser@{psyqo::ISO9660Parser}}
+\doxysubsubsection{\texorpdfstring{scheduleReadRequest()}{scheduleReadRequest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+ISO9660\+Parser\+::schedule\+Read\+Request (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{Read\+Request}} \texorpdfstring{$\ast$}{*}}]{request }\end{DoxyParamCaption})}
+
+
+
+Read a file asynchronously. 
+
+This method reads a file asynchronously. It will read the file from the given {\ttfamily entry} in the {\ttfamily \doxylink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{Read\+Request}}, and will read the number of sectors corresponding to the entry\textquotesingle{}s size. The buffer is specified by the {\ttfamily buffer} field in the {\ttfamily \doxylink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{Read\+Request}}, and must be large enough to hold the whole file. This method is mainly a helper around the \doxylink{classpsyqo_1_1CDRom}{CDRom} device\textquotesingle{}s {\ttfamily read\+Sectors} method.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em request} & The request to fill. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{iso9660-parser_8hh}{iso9660-\/parser.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{iso9660-parser_8cpp}{iso9660-\/parser.\+cpp}}\end{DoxyCompactItemize}

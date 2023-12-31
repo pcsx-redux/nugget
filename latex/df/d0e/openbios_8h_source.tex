@@ -1,0 +1,64 @@
+\doxysection{openbios.\+h}
+\hypertarget{openbios_8h_source}{}\label{openbios_8h_source}\index{common/kernel/openbios.h@{common/kernel/openbios.h}}
+\mbox{\hyperlink{openbios_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ https://docs.oracle.com/cd/E23824\_01/html/819-\/0690/chapter6-\/18048.html}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBuildId}{BuildId}}\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structBuildId_a7480c59c8fb542b54167742c3754e5a5}{namesz}};}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structBuildId_aca3de65fb406a139946fc8bc68576089}{descsz}};}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structBuildId_a56d834b55117aeaeffaefb38116ded26}{type}};}
+\DoxyCodeLine{00036\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structBuildId_adb22dc338975ada88fcaf8b145f5f88e}{strings}}[];}
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ isOpenBiosPresent()\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ uintptr\_t*\ a0table\ =\ (uintptr\_t*)0x200;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ (a0table[11]\ \&\ 3)\ ==\ 1;}
+\DoxyCodeLine{00042\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ getOpenBiosApiVersion()\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{if}\ (!isOpenBiosPresent())\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x00;}
+\DoxyCodeLine{00047\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(n)\ :\ \textcolor{stringliteral}{"{}r"{}}(n));}
+\DoxyCodeLine{00048\ \ \ \ \ uintptr\_t*\ a0table\ =\ (uintptr\_t*)0x200;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return}\ ((\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}(*)())(a0table[11]\ \string^\ 1))();}
+\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structBuildId}{BuildId}}*\ getOpenBiosBuildId()\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (!isOpenBiosPresent())\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x01;}
+\DoxyCodeLine{00055\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(n)\ :\ \textcolor{stringliteral}{"{}r"{}}(n));}
+\DoxyCodeLine{00056\ \ \ \ \ uintptr\_t*\ a0table\ =\ (uintptr\_t*)0x200;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{return}\ ((\textcolor{keyword}{struct}\ \mbox{\hyperlink{structBuildId}{BuildId}}\ *\ (*)())(a0table[11]\ \string^\ 1))();}
+\DoxyCodeLine{00058\ \}}
+
+\end{DoxyCode}

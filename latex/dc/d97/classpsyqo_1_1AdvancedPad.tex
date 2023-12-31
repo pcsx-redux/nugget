@@ -1,0 +1,424 @@
+\doxysection{psyqo\+::Advanced\+Pad Class Reference}
+\hypertarget{classpsyqo_1_1AdvancedPad}{}\label{classpsyqo_1_1AdvancedPad}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+
+
+An advanced class to access the pads.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/advancedpad.\+hh$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1AdvancedPad_1_1Event}{Event}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}{Pad}} \{ \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0aab27ee78cf27d2eaf46f77e208d5f79a}{Pad1a}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a912b4b27bf087ce3495eeadfa72cd31c}{Pad1b}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0adc5035031e23a14e2c2c3be5ef9ca34c}{Pad1c}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a34acc8d282737525b0bf8c0ff47a92aa}{Pad1d}}
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ab166caf8bb19adc24380f97b886ce7e1}{Pad2a}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ae1e602fe6466a5462e46c9cfc98f5fdd}{Pad2b}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a803bf18adb8408a2feeb5966d50373f0}{Pad2c}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ac3aafc982e1fe18610d08f7097950f71}{Pad2d}}
+ \}
+\item 
+enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826}{Button}} \{ \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a154b134a151fdf8c5d70b0d58892bade}{Select}} = 0
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a1e2ac2fc2fef1561b3c380e6c7f28db4}{L3}} = 1
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826afccdbd9a21faa643e8b3705f9795b6ae}{R3}} = 2
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aaada4b98704f8f1ca73f95efae193d1e}{Start}} = 3
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a06254de2bbf7742d28d4b41b8264c1e0}{Up}} = 4
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a95e7c18b5212f0d689d9e5f8a5f438e2}{Right}} = 5
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826abf4df9037e4e146d4973d9613384f08b}{Down}} = 6
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aa0fe76c6d5556bf3e0b7b4b5353e2d8a}{Left}} = 7
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aef85c1f8c0c0c7414429b42b7c433a1f}{L2}} = 8
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a56dee8f812fcf9b4e4df89182a204af0}{R2}} = 9
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a503cb7c5344993465c0a74c5a22f2af6}{L1}} = 10
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826ab7d70d37af940f9adf4f1de97853202b}{R1}} = 11
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a6090028a767eaa4a28e7ac2c7366df06}{Triangle}} = 12
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a51b8c268a5b71134ce7658e3954d8b4e}{Circle}} = 13
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a720f33a028545b9c2375b88b6d8fe35f}{Cross}} = 14
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a87aecb0e8d8006f2f1bdc9c4ffa831f4}{Square}} = 15
+ \}
+\item 
+enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2ee}{Command}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea53204205691fd8df4bbf5756de763b14}{Pad\+Select}} = 0x01
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea4661a3a5eb1058a69101af72a6a32e07}{Read\+Pad}} = 0x42
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea49dfa2e64e5d12cdc2069fdea3cdac48}{Toggle\+Config\+Mode}} = 0x43
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eeac238b2d6cfddcaef49b1bfb43811fffb}{Set\+LED}} = 0x44
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea6f47982f2048aa7071aad220dbbd218a}{Get\+LED}} = 0x45
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eeabb6be3d9c5428ec8ae18ccc59846cb44}{Get\+Motor\+Info}} = 0x46
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea9430f761cb240121eb3497a5eca4c34f}{Get\+Motor\+List}} = 0x47
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea777379c5b888bf0cd4718c239cfc5dc7}{Get\+Motor\+State}} = 0x48
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea6f00d8c3b8812acacf35e8fcbf965fe7}{Get\+Supported\+Modes}} = 0x4c
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea7712d9a355a1665ea53b88fcd51066df}{Config\+Request\+Format}} = 0x4d
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea0b8c644cd743b42558639a3c4189a67d}{Config\+Response\+Format}} = 0x4f
+ \}
+\item 
+enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4}{Pad\+Type}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a445422949a7edd10d26568a9d7f4aec5}{Mouse}} = 0x12
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a97c8f4cea5448cd0d2d21c5c468af743}{Neg\+Con}} = 0x23
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4abdf66a127194209505cdcf5b33b79297}{Konami\+Lightgun}} = 0x31
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a83707280357dbdb20c469aeb4a5e83e4}{Digital\+Pad}} = 0x41
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4aa456bf42f1926644c31475b85c2958bd}{Analog\+Stick}} = 0x53
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a1d929f8b47aa2bfadc08992f67df79fb}{Namco\+Lightgun}} = 0x63
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4ad3d14aa84f127c59baeb785f88661e1c}{Analog\+Pad}} = 0x73
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4ab7845e75e31cb9cb091c7d369bbc82a8}{Multitap}} = 0x80
+, \newline
+\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a675c0b3fbb923ab35e80491fe42f70a1}{Jogcon}} = 0xe3
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4accc45c7b2de1546c1ba09b8559973c8c}{Config\+Mode}} = 0xf3
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a42ec6fd054c4ffdb5b7d3dbad4f6d5f7}{None}} = 0xff
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599}{Polling\+Mode}} \{ \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599a960b44c579bc2f6818d2daaf9e4c16f0}{Normal}}
+, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599ae16b5b7f26f54214445cbe38d72c2828}{Fast}}
+ \}
+\begin{DoxyCompactList}\small\item\em Initializes the pads. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_afd6a2f65f690eb04caa0daf3336f89a7}{initialize}} (\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599}{Polling\+Mode}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}}=\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599a960b44c579bc2f6818d2daaf9e4c16f0}{Polling\+Mode\+::\+Normal}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_ae2d8cf89ad5d1440258735796b27d173}{set\+On\+Event}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1AdvancedPad_1_1Event}{Event}})$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Sets the event callback function. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a577200a2a1bdc9d41fb3563a12883c62}{is\+Pad\+Connected}} (\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}{Pad}} pad) const
+\begin{DoxyCompactList}\small\item\em Returns the state of a pad. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_ac48bff4aa247e23b51cfb45de8a12b30}{is\+Button\+Pressed}} (\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}{Pad}} pad, \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826}{Button}} button) const
+\begin{DoxyCompactList}\small\item\em Returns the state of a button. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An advanced class to access the pads. 
+
+This class is meant to be used as a singleton, probably in the {\ttfamily \doxylink{classpsyqo_1_1Application}{Application}} derived class. It does not use the BIOS\textquotesingle{} PAD interface. Instead, it uses the \doxylink{structSIO}{SIO} interface directly, and can therefore support more device types including multitaps. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Button@{Button}}
+\index{Button@{Button}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{Button}{Button}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826}{psyqo\+::\+Advanced\+Pad\+::\+Button}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Select@{Select}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Select@{Select}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a154b134a151fdf8c5d70b0d58892bade}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a154b134a151fdf8c5d70b0d58892bade} 
+Select&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L3@{L3}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!L3@{L3}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a1e2ac2fc2fef1561b3c380e6c7f28db4}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a1e2ac2fc2fef1561b3c380e6c7f28db4} 
+L3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R3@{R3}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!R3@{R3}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826afccdbd9a21faa643e8b3705f9795b6ae}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826afccdbd9a21faa643e8b3705f9795b6ae} 
+R3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Start@{Start}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Start@{Start}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aaada4b98704f8f1ca73f95efae193d1e}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aaada4b98704f8f1ca73f95efae193d1e} 
+Start&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Up@{Up}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Up@{Up}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a06254de2bbf7742d28d4b41b8264c1e0}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a06254de2bbf7742d28d4b41b8264c1e0} 
+Up&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Right@{Right}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Right@{Right}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a95e7c18b5212f0d689d9e5f8a5f438e2}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a95e7c18b5212f0d689d9e5f8a5f438e2} 
+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Down@{Down}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Down@{Down}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826abf4df9037e4e146d4973d9613384f08b}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826abf4df9037e4e146d4973d9613384f08b} 
+Down&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Left@{Left}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Left@{Left}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aa0fe76c6d5556bf3e0b7b4b5353e2d8a}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aa0fe76c6d5556bf3e0b7b4b5353e2d8a} 
+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L2@{L2}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!L2@{L2}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aef85c1f8c0c0c7414429b42b7c433a1f}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826aef85c1f8c0c0c7414429b42b7c433a1f} 
+L2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R2@{R2}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!R2@{R2}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a56dee8f812fcf9b4e4df89182a204af0}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a56dee8f812fcf9b4e4df89182a204af0} 
+R2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L1@{L1}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!L1@{L1}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a503cb7c5344993465c0a74c5a22f2af6}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a503cb7c5344993465c0a74c5a22f2af6} 
+L1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R1@{R1}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!R1@{R1}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826ab7d70d37af940f9adf4f1de97853202b}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826ab7d70d37af940f9adf4f1de97853202b} 
+R1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Triangle@{Triangle}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Triangle@{Triangle}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a6090028a767eaa4a28e7ac2c7366df06}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a6090028a767eaa4a28e7ac2c7366df06} 
+Triangle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Circle@{Circle}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Circle@{Circle}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a51b8c268a5b71134ce7658e3954d8b4e}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a51b8c268a5b71134ce7658e3954d8b4e} 
+Circle&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Cross@{Cross}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Cross@{Cross}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a720f33a028545b9c2375b88b6d8fe35f}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a720f33a028545b9c2375b88b6d8fe35f} 
+Cross&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Square@{Square}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Square@{Square}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a87aecb0e8d8006f2f1bdc9c4ffa831f4}\label{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826a87aecb0e8d8006f2f1bdc9c4ffa831f4} 
+Square&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2ee}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2ee} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Command@{Command}}
+\index{Command@{Command}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{Command}{Command}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2ee}{psyqo\+::\+Advanced\+Pad\+::\+Command}} \+: uint8\+\_\+t}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PadSelect@{PadSelect}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!PadSelect@{PadSelect}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea53204205691fd8df4bbf5756de763b14}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea53204205691fd8df4bbf5756de763b14} 
+Pad\+Select&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ReadPad@{ReadPad}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!ReadPad@{ReadPad}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea4661a3a5eb1058a69101af72a6a32e07}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea4661a3a5eb1058a69101af72a6a32e07} 
+Read\+Pad&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ToggleConfigMode@{ToggleConfigMode}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!ToggleConfigMode@{ToggleConfigMode}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea49dfa2e64e5d12cdc2069fdea3cdac48}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea49dfa2e64e5d12cdc2069fdea3cdac48} 
+Toggle\+Config\+Mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SetLED@{SetLED}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!SetLED@{SetLED}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eeac238b2d6cfddcaef49b1bfb43811fffb}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eeac238b2d6cfddcaef49b1bfb43811fffb} 
+Set\+LED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetLED@{GetLED}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!GetLED@{GetLED}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea6f47982f2048aa7071aad220dbbd218a}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea6f47982f2048aa7071aad220dbbd218a} 
+Get\+LED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetMotorInfo@{GetMotorInfo}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!GetMotorInfo@{GetMotorInfo}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eeabb6be3d9c5428ec8ae18ccc59846cb44}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eeabb6be3d9c5428ec8ae18ccc59846cb44} 
+Get\+Motor\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetMotorList@{GetMotorList}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!GetMotorList@{GetMotorList}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea9430f761cb240121eb3497a5eca4c34f}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea9430f761cb240121eb3497a5eca4c34f} 
+Get\+Motor\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetMotorState@{GetMotorState}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!GetMotorState@{GetMotorState}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea777379c5b888bf0cd4718c239cfc5dc7}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea777379c5b888bf0cd4718c239cfc5dc7} 
+Get\+Motor\+State&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetSupportedModes@{GetSupportedModes}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!GetSupportedModes@{GetSupportedModes}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea6f00d8c3b8812acacf35e8fcbf965fe7}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea6f00d8c3b8812acacf35e8fcbf965fe7} 
+Get\+Supported\+Modes&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ConfigRequestFormat@{ConfigRequestFormat}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!ConfigRequestFormat@{ConfigRequestFormat}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea7712d9a355a1665ea53b88fcd51066df}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea7712d9a355a1665ea53b88fcd51066df} 
+Config\+Request\+Format&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ConfigResponseFormat@{ConfigResponseFormat}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!ConfigResponseFormat@{ConfigResponseFormat}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea0b8c644cd743b42558639a3c4189a67d}\label{classpsyqo_1_1AdvancedPad_a9544943a8a06b23c3006e2e2d548d2eea0b8c644cd743b42558639a3c4189a67d} 
+Config\+Response\+Format&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad@{Pad}}
+\index{Pad@{Pad}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{Pad}{Pad}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}{psyqo\+::\+Advanced\+Pad\+::\+Pad}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad1a@{Pad1a}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad1a@{Pad1a}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0aab27ee78cf27d2eaf46f77e208d5f79a}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0aab27ee78cf27d2eaf46f77e208d5f79a} 
+Pad1a&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad1b@{Pad1b}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad1b@{Pad1b}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a912b4b27bf087ce3495eeadfa72cd31c}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a912b4b27bf087ce3495eeadfa72cd31c} 
+Pad1b&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad1c@{Pad1c}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad1c@{Pad1c}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0adc5035031e23a14e2c2c3be5ef9ca34c}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0adc5035031e23a14e2c2c3be5ef9ca34c} 
+Pad1c&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad1d@{Pad1d}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad1d@{Pad1d}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a34acc8d282737525b0bf8c0ff47a92aa}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a34acc8d282737525b0bf8c0ff47a92aa} 
+Pad1d&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad2a@{Pad2a}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad2a@{Pad2a}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ab166caf8bb19adc24380f97b886ce7e1}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ab166caf8bb19adc24380f97b886ce7e1} 
+Pad2a&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad2b@{Pad2b}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad2b@{Pad2b}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ae1e602fe6466a5462e46c9cfc98f5fdd}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ae1e602fe6466a5462e46c9cfc98f5fdd} 
+Pad2b&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad2c@{Pad2c}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad2c@{Pad2c}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a803bf18adb8408a2feeb5966d50373f0}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0a803bf18adb8408a2feeb5966d50373f0} 
+Pad2c&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pad2d@{Pad2d}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Pad2d@{Pad2d}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ac3aafc982e1fe18610d08f7097950f71}\label{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0ac3aafc982e1fe18610d08f7097950f71} 
+Pad2d&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!PadType@{PadType}}
+\index{PadType@{PadType}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{PadType}{PadType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4}{psyqo\+::\+Advanced\+Pad\+::\+Pad\+Type}} \+: uint8\+\_\+t}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Mouse@{Mouse}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Mouse@{Mouse}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a445422949a7edd10d26568a9d7f4aec5}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a445422949a7edd10d26568a9d7f4aec5} 
+Mouse&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NegCon@{NegCon}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!NegCon@{NegCon}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a97c8f4cea5448cd0d2d21c5c468af743}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a97c8f4cea5448cd0d2d21c5c468af743} 
+Neg\+Con&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{KonamiLightgun@{KonamiLightgun}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!KonamiLightgun@{KonamiLightgun}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4abdf66a127194209505cdcf5b33b79297}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4abdf66a127194209505cdcf5b33b79297} 
+Konami\+Lightgun&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DigitalPad@{DigitalPad}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!DigitalPad@{DigitalPad}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a83707280357dbdb20c469aeb4a5e83e4}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a83707280357dbdb20c469aeb4a5e83e4} 
+Digital\+Pad&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AnalogStick@{AnalogStick}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!AnalogStick@{AnalogStick}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4aa456bf42f1926644c31475b85c2958bd}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4aa456bf42f1926644c31475b85c2958bd} 
+Analog\+Stick&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NamcoLightgun@{NamcoLightgun}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!NamcoLightgun@{NamcoLightgun}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a1d929f8b47aa2bfadc08992f67df79fb}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a1d929f8b47aa2bfadc08992f67df79fb} 
+Namco\+Lightgun&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AnalogPad@{AnalogPad}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!AnalogPad@{AnalogPad}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4ad3d14aa84f127c59baeb785f88661e1c}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4ad3d14aa84f127c59baeb785f88661e1c} 
+Analog\+Pad&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Multitap@{Multitap}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Multitap@{Multitap}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4ab7845e75e31cb9cb091c7d369bbc82a8}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4ab7845e75e31cb9cb091c7d369bbc82a8} 
+Multitap&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Jogcon@{Jogcon}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Jogcon@{Jogcon}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a675c0b3fbb923ab35e80491fe42f70a1}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a675c0b3fbb923ab35e80491fe42f70a1} 
+Jogcon&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ConfigMode@{ConfigMode}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!ConfigMode@{ConfigMode}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4accc45c7b2de1546c1ba09b8559973c8c}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4accc45c7b2de1546c1ba09b8559973c8c} 
+Config\+Mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!None@{None}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a42ec6fd054c4ffdb5b7d3dbad4f6d5f7}\label{classpsyqo_1_1AdvancedPad_a04700485f2956d4c28e5a4fe3de158d4a42ec6fd054c4ffdb5b7d3dbad4f6d5f7} 
+None&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599}\label{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!PollingMode@{PollingMode}}
+\index{PollingMode@{PollingMode}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{PollingMode}{PollingMode}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599}{psyqo\+::\+Advanced\+Pad\+::\+Polling\+Mode}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Initializes the pads. 
+
+This method should be called once at the beginning of the program, preferably from the {\ttfamily \doxylink{classpsyqo_1_1Application_aa85dc46a2e7a0b5bbf1f6d298c450ae1}{Application\+::prepare}} method. The {\ttfamily mode} parameter can be used to indicate whether the ports should be polled one at a time, or both at once. The default is {\ttfamily \doxylink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599a960b44c579bc2f6818d2daaf9e4c16f0}{Polling\+Mode\+::\+Normal}}, which will poll one port per frame. The {\ttfamily \doxylink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599ae16b5b7f26f54214445cbe38d72c2828}{Polling\+Mode\+::\+Fast}} mode will poll all ports at once each frame, which can reduce input lag, but will also increase the CPU usage.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & The polling mode to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Normal@{Normal}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Normal@{Normal}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599a960b44c579bc2f6818d2daaf9e4c16f0}\label{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599a960b44c579bc2f6818d2daaf9e4c16f0} 
+Normal&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Fast@{Fast}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!Fast@{Fast}}}\Hypertarget{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599ae16b5b7f26f54214445cbe38d72c2828}\label{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599ae16b5b7f26f54214445cbe38d72c2828} 
+Fast&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1AdvancedPad_afd6a2f65f690eb04caa0daf3336f89a7}\label{classpsyqo_1_1AdvancedPad_afd6a2f65f690eb04caa0daf3336f89a7} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!initialize@{initialize}}
+\index{initialize@{initialize}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Advanced\+Pad\+::initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599}{Polling\+Mode}}}]{mode = {\ttfamily \mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0c018d2f50b88a9a8d64aaddad9c8599a960b44c579bc2f6818d2daaf9e4c16f0}{Polling\+Mode\+::\+Normal}}} }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1AdvancedPad_ac48bff4aa247e23b51cfb45de8a12b30}\label{classpsyqo_1_1AdvancedPad_ac48bff4aa247e23b51cfb45de8a12b30} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!isButtonPressed@{isButtonPressed}}
+\index{isButtonPressed@{isButtonPressed}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{isButtonPressed()}{isButtonPressed()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Advanced\+Pad\+::is\+Button\+Pressed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}{Pad}}}]{pad,  }\item[{\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a5028df70f7e541eb1cad281fc81b1826}{Button}}}]{button }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the state of a button. 
+
+Returns the state of a button. The state is a boolean value that is {\ttfamily true} if the button is pressed, and {\ttfamily false} otherwise.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pad} & The pad to query. \\
+\hline
+{\em button} & The button to query. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating whether the button is pressed. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1AdvancedPad_a577200a2a1bdc9d41fb3563a12883c62}\label{classpsyqo_1_1AdvancedPad_a577200a2a1bdc9d41fb3563a12883c62} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!isPadConnected@{isPadConnected}}
+\index{isPadConnected@{isPadConnected}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{isPadConnected()}{isPadConnected()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Advanced\+Pad\+::is\+Pad\+Connected (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1AdvancedPad_a0094a5dd02a307b6fe814b14732a36d0}{Pad}}}]{pad }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the state of a pad. 
+
+Returns the state of a pad. The state is a boolean value that is {\ttfamily true} if the pad is connected, and {\ttfamily false} otherwise.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pad} & The pad to query. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating whether the pad is connected. 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1AdvancedPad_ae2d8cf89ad5d1440258735796b27d173}\label{classpsyqo_1_1AdvancedPad_ae2d8cf89ad5d1440258735796b27d173} 
+\index{psyqo::AdvancedPad@{psyqo::AdvancedPad}!setOnEvent@{setOnEvent}}
+\index{setOnEvent@{setOnEvent}!psyqo::AdvancedPad@{psyqo::AdvancedPad}}
+\doxysubsubsection{\texorpdfstring{setOnEvent()}{setOnEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Advanced\+Pad\+::set\+On\+Event (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1AdvancedPad_1_1Event}{Event}})$>$ \&\&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the event callback function. 
+
+The event callback will be called for each pad-\/related event, such as pad connection / disconnection, or button press / release. The callback will only be called between frames.
+
+Scenes that are calling {\ttfamily set\+On\+Event} during their {\ttfamily start} method should call {\ttfamily set\+On\+Event} again in their {\ttfamily teardown} method with the {\ttfamily nullptr} value in order to unregister the event callback cleanly.
+
+Only one callback can be registered at a time, so setting a new callback will simply remove the previous one.
+
+Careful about what is called from the callback\+: pushing or popping scenes might call into {\ttfamily set\+On\+Event} as a result, and could end up corrupting memory as a result of the callback being deleted while being executed. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{advancedpad_8hh}{advancedpad.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{advancedpad_8cpp}{advancedpad.\+cpp}}\end{DoxyCompactItemize}

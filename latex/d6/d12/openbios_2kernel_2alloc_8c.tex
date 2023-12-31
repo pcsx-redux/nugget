@@ -1,0 +1,59 @@
+\doxysection{openbios/kernel/alloc.c File Reference}
+\hypertarget{openbios_2kernel_2alloc_8c}{}\label{openbios_2kernel_2alloc_8c}\index{openbios/kernel/alloc.c@{openbios/kernel/alloc.c}}
+{\ttfamily \#include "{}openbios/kernel/alloc.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for alloc.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d5/d05/openbios_2kernel_2alloc_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct__heap__t}{\+\_\+heap\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{struct__heap__t}{\+\_\+heap\+\_\+t}} \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62}{heap\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3}{heap}} \{ \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3abeec302258c70e51ebc93f62b68676f1}{HEAP\+\_\+\+USER}}
+, \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3a33a5c5888a1e2e734a4a3c02134bdf2a}{HEAP\+\_\+\+KERNEL}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{openbios_2kernel_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62}\label{openbios_2kernel_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62} 
+\index{alloc.c@{alloc.c}!heap\_t@{heap\_t}}
+\index{heap\_t@{heap\_t}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{heap\_t}{heap\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{struct__heap__t}{\+\_\+heap\+\_\+t}} \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a477db9e80c86b3b2d651a0170912ef62}{heap\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3}\label{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3} 
+\index{alloc.c@{alloc.c}!heap@{heap}}
+\index{heap@{heap}!alloc.c@{alloc.c}}
+\doxysubsubsection{\texorpdfstring{heap}{heap}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3}{heap}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HEAP\_USER@{HEAP\_USER}!alloc.c@{alloc.c}}\index{alloc.c@{alloc.c}!HEAP\_USER@{HEAP\_USER}}}\Hypertarget{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3abeec302258c70e51ebc93f62b68676f1}\label{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3abeec302258c70e51ebc93f62b68676f1} 
+HEAP\+\_\+\+USER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HEAP\_KERNEL@{HEAP\_KERNEL}!alloc.c@{alloc.c}}\index{alloc.c@{alloc.c}!HEAP\_KERNEL@{HEAP\_KERNEL}}}\Hypertarget{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3a33a5c5888a1e2e734a4a3c02134bdf2a}\label{openbios_2kernel_2alloc_8c_a52f37eb9bb0968a9a07c6cfc9b68d7a3a33a5c5888a1e2e734a4a3c02134bdf2a} 
+HEAP\+\_\+\+KERNEL&\\
+\hline
+
+\end{DoxyEnumFields}

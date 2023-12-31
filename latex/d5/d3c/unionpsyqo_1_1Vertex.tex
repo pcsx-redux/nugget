@@ -1,0 +1,111 @@
+\doxysection{psyqo\+::Vertex Union Reference}
+\hypertarget{unionpsyqo_1_1Vertex}{}\label{unionpsyqo_1_1Vertex}\index{psyqo::Vertex@{psyqo::Vertex}}
+
+
+The \doxylink{unionpsyqo_1_1Vertex}{Vertex} struct.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/common.\+hh$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>union \{\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_ac9faa6d7d097eebb21b32c866e17e0e2}{x}}\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_ae1af881aec213136b2bc0e30df4ab25f}{u}}\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_aa4faabdfda2ccfbe00fa0ed436eb4601}{s}}\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_aec80aad106f8e9cbafa2d34245349b39}{w}}\\
+\>\} \\
+\>union \{\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_a79f932a78959b236e1431e983fabf127}{y}}\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_aac46d0d597a91752a556f72988eb187d}{v}}\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_a816bed0228f1f63dbe907da1db056e77}{t}}\\
+\>\>int16\_t \mbox{\hyperlink{unionpsyqo_1_1Vertex_a0ebe03fb7bb8e213149217b7a8f4a170}{h}}\\
+\>\} \\
+\}; \\
+
+\end{tabbing}\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{unionpsyqo_1_1Vertex_af75eb12da9d010a951ca77b33d7fd885}{packed}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{unionpsyqo_1_1Vertex}{Vertex} struct. 
+
+Represents a vertex in the VRAM space. Its binary representation is meant to be the same as the vertices that \doxylink{classpsyqo_1_1GPU}{GPU} commands await. It should fit in a single register, and the MIPS ABI ought to pass it as argument or return value gracefully, making it a nice general purpose utility.
+
+Accessors can be either \{x, y\}, \{u, v\}, \{s, t\}, or \{w, h\}, for readability purposes.
+
+Using C++ list-\/initializations, one can create a vertex directly using such syntax\+:
+
+{\ttfamily \doxylink{unionpsyqo_1_1Vertex}{Vertex}\{\{.x = 18, .y = 42\}\};} 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{unionpsyqo_1_1Vertex_a96f857aa9c36da2a293050599654cace}\label{unionpsyqo_1_1Vertex_a96f857aa9c36da2a293050599654cace} 
+\doxysubsubsection{\texorpdfstring{[struct]}{[struct]}}
+{\footnotesize\ttfamily struct  \{ ... \}  \mbox{\hyperlink{unionpsyqo_1_1Vertex}{psyqo\+::\+Vertex}}}
+
+\Hypertarget{unionpsyqo_1_1Vertex_a0ebe03fb7bb8e213149217b7a8f4a170}\label{unionpsyqo_1_1Vertex_a0ebe03fb7bb8e213149217b7a8f4a170} 
+\index{psyqo::Vertex@{psyqo::Vertex}!h@{h}}
+\index{h@{h}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{h}{h}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::h}
+
+\Hypertarget{unionpsyqo_1_1Vertex_af75eb12da9d010a951ca77b33d7fd885}\label{unionpsyqo_1_1Vertex_af75eb12da9d010a951ca77b33d7fd885} 
+\index{psyqo::Vertex@{psyqo::Vertex}!packed@{packed}}
+\index{packed@{packed}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{packed}{packed}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+Vertex\+::packed}
+
+\Hypertarget{unionpsyqo_1_1Vertex_aa4faabdfda2ccfbe00fa0ed436eb4601}\label{unionpsyqo_1_1Vertex_aa4faabdfda2ccfbe00fa0ed436eb4601} 
+\index{psyqo::Vertex@{psyqo::Vertex}!s@{s}}
+\index{s@{s}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{s}{s}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::s}
+
+\Hypertarget{unionpsyqo_1_1Vertex_a816bed0228f1f63dbe907da1db056e77}\label{unionpsyqo_1_1Vertex_a816bed0228f1f63dbe907da1db056e77} 
+\index{psyqo::Vertex@{psyqo::Vertex}!t@{t}}
+\index{t@{t}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::t}
+
+\Hypertarget{unionpsyqo_1_1Vertex_ae1af881aec213136b2bc0e30df4ab25f}\label{unionpsyqo_1_1Vertex_ae1af881aec213136b2bc0e30df4ab25f} 
+\index{psyqo::Vertex@{psyqo::Vertex}!u@{u}}
+\index{u@{u}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{u}{u}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::u}
+
+\Hypertarget{unionpsyqo_1_1Vertex_aac46d0d597a91752a556f72988eb187d}\label{unionpsyqo_1_1Vertex_aac46d0d597a91752a556f72988eb187d} 
+\index{psyqo::Vertex@{psyqo::Vertex}!v@{v}}
+\index{v@{v}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{v}{v}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::v}
+
+\Hypertarget{unionpsyqo_1_1Vertex_aec80aad106f8e9cbafa2d34245349b39}\label{unionpsyqo_1_1Vertex_aec80aad106f8e9cbafa2d34245349b39} 
+\index{psyqo::Vertex@{psyqo::Vertex}!w@{w}}
+\index{w@{w}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{w}{w}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::w}
+
+\Hypertarget{unionpsyqo_1_1Vertex_ac9faa6d7d097eebb21b32c866e17e0e2}\label{unionpsyqo_1_1Vertex_ac9faa6d7d097eebb21b32c866e17e0e2} 
+\index{psyqo::Vertex@{psyqo::Vertex}!x@{x}}
+\index{x@{x}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::x}
+
+\Hypertarget{unionpsyqo_1_1Vertex_a79f932a78959b236e1431e983fabf127}\label{unionpsyqo_1_1Vertex_a79f932a78959b236e1431e983fabf127} 
+\index{psyqo::Vertex@{psyqo::Vertex}!y@{y}}
+\index{y@{y}!psyqo::Vertex@{psyqo::Vertex}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily int16\+\_\+t psyqo\+::\+Vertex\+::y}
+
+
+
+The documentation for this union was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{common_8hh}{common.\+hh}}\end{DoxyCompactItemize}

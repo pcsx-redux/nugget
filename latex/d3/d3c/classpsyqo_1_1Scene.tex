@@ -1,0 +1,183 @@
+\doxysection{psyqo\+::Scene Class Reference}
+\hypertarget{classpsyqo_1_1Scene}{}\label{classpsyqo_1_1Scene}\index{psyqo::Scene@{psyqo::Scene}}
+
+
+The \doxylink{classpsyqo_1_1Scene}{Scene} class.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/scene.\+hh$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1}{Start\+Reason}} \{ \mbox{\hyperlink{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1a686e697538050e4664636337cc3b834f}{Create}}
+, \mbox{\hyperlink{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1af1cefec9e2196c672a622347f1fbc325}{Resume}}
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977}{Tear\+Down\+Reason}} \{ \mbox{\hyperlink{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977a0e181f89f47654b86f3beb42f5cc08b8}{Destroy}}
+, \mbox{\hyperlink{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977a105b296a83f9c105355403f3332af50f}{Pause}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Scene_aabd7a37e3566beca906161436378487e}{start}} (\mbox{\hyperlink{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1}{Start\+Reason}} reason)
+\begin{DoxyCompactList}\small\item\em Starts the scene. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Scene_a56ed39dabe96b7c3a028348b48522468}{frame}} ()
+\begin{DoxyCompactList}\small\item\em Renders a frame. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Scene_a31be97a52f2e343f5438f1afa2fad325}{teardown}} (\mbox{\hyperlink{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977}{Tear\+Down\+Reason}} reason)
+\begin{DoxyCompactList}\small\item\em Tears down the scene. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1Scene_a81df1c8812b87316f9a822c5731229f6}{\texorpdfstring{$\sim$}{\string~}\+Scene}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1Scene_acd071652140c5fa172668d8cfe5f83bc}{push\+Scene}} (\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*}scene)
+\begin{DoxyCompactList}\small\item\em Alias for {\ttfamily \doxylink{classpsyqo_1_1Application_ad79cb4e1c998442f77f4c12602200fa8}{Application\+::push\+Scene}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsyqo_1_1Scene_ab970f9304a467718eb785ca357e00e7f}{pop\+Scene}} ()
+\begin{DoxyCompactList}\small\item\em Alias for {\ttfamily \doxylink{classpsyqo_1_1Application_a8b9d0b216a6e568c806c860409d0bc6b}{Application\+::pop\+Scene}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}} \& \mbox{\hyperlink{classpsyqo_1_1Scene_a556ab2b908c88ad4a87f7020143b7c91}{gpu}} ()
+\begin{DoxyCompactList}\small\item\em Alias for {\ttfamily \doxylink{classpsyqo_1_1Application_aa6b71fc82e255d1c12a3f8770c7d8885}{Application\+::gpu()}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1Scene_a23f25bcc02a0e94c2f5a4188496b04d0}{Application}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classpsyqo_1_1Scene}{Scene} class. 
+
+This class is the base class for all scenes. Rendering is supposed to be done by the scenes. Only one scene can be active at a time. There is a helper stack system for managing the scenes. See the {\ttfamily \doxylink{classpsyqo_1_1Application}{Application}} class for more information. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1}\label{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1} 
+\index{psyqo::Scene@{psyqo::Scene}!StartReason@{StartReason}}
+\index{StartReason@{StartReason}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{StartReason}{StartReason}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1}{psyqo\+::\+Scene\+::\+Start\+Reason}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Create@{Create}!psyqo::Scene@{psyqo::Scene}}\index{psyqo::Scene@{psyqo::Scene}!Create@{Create}}}\Hypertarget{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1a686e697538050e4664636337cc3b834f}\label{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1a686e697538050e4664636337cc3b834f} 
+Create&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Resume@{Resume}!psyqo::Scene@{psyqo::Scene}}\index{psyqo::Scene@{psyqo::Scene}!Resume@{Resume}}}\Hypertarget{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1af1cefec9e2196c672a622347f1fbc325}\label{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1af1cefec9e2196c672a622347f1fbc325} 
+Resume&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977}\label{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977} 
+\index{psyqo::Scene@{psyqo::Scene}!TearDownReason@{TearDownReason}}
+\index{TearDownReason@{TearDownReason}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{TearDownReason}{TearDownReason}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977}{psyqo\+::\+Scene\+::\+Tear\+Down\+Reason}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Destroy@{Destroy}!psyqo::Scene@{psyqo::Scene}}\index{psyqo::Scene@{psyqo::Scene}!Destroy@{Destroy}}}\Hypertarget{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977a0e181f89f47654b86f3beb42f5cc08b8}\label{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977a0e181f89f47654b86f3beb42f5cc08b8} 
+Destroy&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Pause@{Pause}!psyqo::Scene@{psyqo::Scene}}\index{psyqo::Scene@{psyqo::Scene}!Pause@{Pause}}}\Hypertarget{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977a105b296a83f9c105355403f3332af50f}\label{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977a105b296a83f9c105355403f3332af50f} 
+Pause&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1Scene_a81df1c8812b87316f9a822c5731229f6}\label{classpsyqo_1_1Scene_a81df1c8812b87316f9a822c5731229f6} 
+\index{psyqo::Scene@{psyqo::Scene}!````~Scene@{\texorpdfstring{$\sim$}{\string~}Scene}}
+\index{````~Scene@{\texorpdfstring{$\sim$}{\string~}Scene}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Scene()}{\string~Scene()}}
+{\footnotesize\ttfamily virtual psyqo\+::\+Scene\+::\texorpdfstring{$\sim$}{\string~}\+Scene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1Scene_a56ed39dabe96b7c3a028348b48522468}\label{classpsyqo_1_1Scene_a56ed39dabe96b7c3a028348b48522468} 
+\index{psyqo::Scene@{psyqo::Scene}!frame@{frame}}
+\index{frame@{frame}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{frame()}{frame()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Scene\+::frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Renders a frame. 
+
+This method will be called when the scene is active, every time a new frame is to be rendered. \Hypertarget{classpsyqo_1_1Scene_a556ab2b908c88ad4a87f7020143b7c91}\label{classpsyqo_1_1Scene_a556ab2b908c88ad4a87f7020143b7c91} 
+\index{psyqo::Scene@{psyqo::Scene}!gpu@{gpu}}
+\index{gpu@{gpu}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{gpu()}{gpu()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}} \& psyqo\+::\+Scene\+::gpu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Alias for {\ttfamily \doxylink{classpsyqo_1_1Application_aa6b71fc82e255d1c12a3f8770c7d8885}{Application\+::gpu()}}. 
+
+\Hypertarget{classpsyqo_1_1Scene_ab970f9304a467718eb785ca357e00e7f}\label{classpsyqo_1_1Scene_ab970f9304a467718eb785ca357e00e7f} 
+\index{psyqo::Scene@{psyqo::Scene}!popScene@{popScene}}
+\index{popScene@{popScene}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{popScene()}{popScene()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*} psyqo\+::\+Scene\+::pop\+Scene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Alias for {\ttfamily \doxylink{classpsyqo_1_1Application_a8b9d0b216a6e568c806c860409d0bc6b}{Application\+::pop\+Scene}}. 
+
+\Hypertarget{classpsyqo_1_1Scene_acd071652140c5fa172668d8cfe5f83bc}\label{classpsyqo_1_1Scene_acd071652140c5fa172668d8cfe5f83bc} 
+\index{psyqo::Scene@{psyqo::Scene}!pushScene@{pushScene}}
+\index{pushScene@{pushScene}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{pushScene()}{pushScene()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Scene\+::push\+Scene (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1Scene}{Scene}} \texorpdfstring{$\ast$}{*}}]{scene }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Alias for {\ttfamily \doxylink{classpsyqo_1_1Application_ad79cb4e1c998442f77f4c12602200fa8}{Application\+::push\+Scene}}. 
+
+\Hypertarget{classpsyqo_1_1Scene_aabd7a37e3566beca906161436378487e}\label{classpsyqo_1_1Scene_aabd7a37e3566beca906161436378487e} 
+\index{psyqo::Scene@{psyqo::Scene}!start@{start}}
+\index{start@{start}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Scene\+::start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1Scene_abccb5ab47ad0fb4a376c968fd03b81c1}{Start\+Reason}}}]{reason }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Starts the scene. 
+
+This method will be called when the scene is started. It is meant to set the environment in a suitable manner. A scene starts when it becomes the active scene, either when being pushed or when the previous scene is popped. The argument will indicate whether the scene is started because it just got pushed, or because another one is getting popped. 
+\begin{DoxyParams}{Parameters}
+{\em reason} & The reason why the scene is started. Create or Resume. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1Scene_a31be97a52f2e343f5438f1afa2fad325}\label{classpsyqo_1_1Scene_a31be97a52f2e343f5438f1afa2fad325} 
+\index{psyqo::Scene@{psyqo::Scene}!teardown@{teardown}}
+\index{teardown@{teardown}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{teardown()}{teardown()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Scene\+::teardown (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1Scene_a83d424fdc0bb443c2a417e510bd70977}{Tear\+Down\+Reason}}}]{reason }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Tears down the scene. 
+
+This method will be called when the scene is no longer the active scene. It is meant to clean up the environment, basically reversing the effects of {\ttfamily start}. The argument will indicate whether the scene is being popped, or if another scene is pushed on the stack. 
+\begin{DoxyParams}{Parameters}
+{\em reason} & The reason why the scene is being torn down. DESTROY or PAUSE. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1Scene_a23f25bcc02a0e94c2f5a4188496b04d0}\label{classpsyqo_1_1Scene_a23f25bcc02a0e94c2f5a4188496b04d0} 
+\index{psyqo::Scene@{psyqo::Scene}!Application@{Application}}
+\index{Application@{Application}!psyqo::Scene@{psyqo::Scene}}
+\doxysubsubsection{\texorpdfstring{Application}{Application}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classpsyqo_1_1Application}{Application}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{scene_8hh}{scene.\+hh}}\end{DoxyCompactItemize}

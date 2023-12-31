@@ -1,0 +1,28 @@
+\chapter{Nugget}
+\hypertarget{md_doc_2README}{}\label{md_doc_2README}\index{Nugget@{Nugget}}
+\label{md_doc_2README_autotoc_md4}%
+\Hypertarget{md_doc_2README_autotoc_md4}%
+ \hypertarget{md_doc_2README_autotoc_md5}{}\doxysection{\texorpdfstring{Where}{Where}}\label{md_doc_2README_autotoc_md5}
+There are two canonical ways to access the code located here. First is to access the full \href{https://github.com/grumpycoders/pcsx-redux/tree/main/src/mips}{\texttt{ PCSX-\/\+Redux repository}}, which is in read-\/write mode. The second is to access the \href{https://github.com/pcsx-redux/nugget}{\texttt{ Nugget mirror}}, which is read only. The purpose of the mirror is to have a smaller set of sources and dependencies if somebody wants to only access the mips code of PCSX-\/\+Redux. It is suitable for using as a submodule.\hypertarget{md_doc_2README_autotoc_md6}{}\doxysection{\texorpdfstring{What}{What}}\label{md_doc_2README_autotoc_md6}
+This is a collection of several projects that are intended for running on the Play\+Station 1, either through the official hardware or emulators.
+
+This can serve as a base for other projects, or as a reference for how to write code for the Play\+Station 1.
+
+
+\begin{DoxyItemize}
+\item \href{../common}{\texttt{ common}} -\/ Common code for all projects. Highly recommended to be used by other projects.
+\item \href{../crc32}{\texttt{ crc32}} A CRC32 implementation that is optimized for the Play\+Station 1, using the scratchpad as a speedup.
+\item \href{../cube}{\texttt{ cube}} A small demo that\textquotesingle{}s demonstrating the use of the converted psyq libraries.
+\item \href{../cxxhello}{\texttt{ cxxhello}} A very quick hello world using C++.
+\item \href{../helloworld}{\texttt{ helloworld}} A very simple hello world.
+\item \href{../modplayer}{\texttt{ modplayer}} A MOD player from the reverse engineering of HITMEN\textquotesingle{}s modplayer.
+\item \href{../openbios}{\texttt{ openbios}} A fully functional BIOS implementation for the Play\+Station 1, based on the reverse engineering of Sony\textquotesingle{}s BIOS.
+\item \href{../psyq}{\texttt{ psyq}} Some additional code for the converted psyq libraries.
+\item \href{../psyqo}{\texttt{ psyqo}} The PSYQo project. This is a new SDK for the Play\+Station 1, written from scratch in C++, using modern paradigms. This is probably where the most complete documentation exists for this project, and should be used as a reference for how to write code for the Play\+Station 1.
+\item \href{../shell}{\texttt{ shell}} The tiny shell project. This is currently the shell software that Open\+BIOS uses to have a boot logo and chime.
+\item \href{../tests}{\texttt{ tests}} A collection of tests to verify emulators behavior.
+\end{DoxyItemize}\hypertarget{md_doc_2README_autotoc_md7}{}\doxysection{\texorpdfstring{How}{How}}\label{md_doc_2README_autotoc_md7}
+A toolchain will need to be installed before any of the projects can be built. The \doxysectlink{md_psyqo_2GETTING__STARTED}{PSYQo\textquotesingle{}s Getting Started}{0} documentation has instructions on how to install the toolchain.
+
+Use the {\ttfamily Makefile} in each project to build that project.\hypertarget{md_doc_2README_autotoc_md8}{}\doxysection{\texorpdfstring{Who}{Who}}\label{md_doc_2README_autotoc_md8}
+The PCSX-\/\+Redux project\textquotesingle{}s authors are also the main authors and maintainers of this code. To discuss Play\+Station 1 development, hacking, and reverse engineering in general, please join the PSX.\+Dev Discord server\+: \href{https://discord.gg/QByKPpH}{\texttt{ }} 

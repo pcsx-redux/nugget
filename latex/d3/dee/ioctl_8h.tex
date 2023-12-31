@@ -1,0 +1,152 @@
+\doxysection{common/psxlibc/ioctl.h File Reference}
+\hypertarget{ioctl_8h}{}\label{ioctl_8h}\index{common/psxlibc/ioctl.h@{common/psxlibc/ioctl.h}}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d6/da7/ioctl_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}},  \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}})~((\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}} $<$$<$ 8 \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}))
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a39f91754909c0508796e9e5cacb7c71a}{PSXFIOCNBLOCK}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}f\textquotesingle{}, 1)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a4f6578a3bfb400cbab7524f9130ee60f}{PSXFIOCSCAN}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}f\textquotesingle{}, 2)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_aba97cb713f5ef877f68057bfec8208d9}{PSXTIOCRAW}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 1)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a080a840bc494c23f4ae5847e4f973819}{PSXTIOCFLUSH}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 2)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_ace155f8bf4e01ce1ec71ffbca54692d3}{PSXTIOCREOPEN}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 3)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a002c9ceca1299f5b7b199a894fc0b5dd}{PSXTIOCBAUD}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 4)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a6ddc7d8b5dace559cf1e694060e7fa64}{PSXTIOCEXIT}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 5)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a5ae5219202bd08a943fc7c162303d716}{PSXTIOCDTR}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 6)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_ae578dcb5eb431cb36dc38302dc4f80d9}{PSXTIOCRTS}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 7)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a44198fa8b26d042b93aff4d38a0235f3}{PSXTIOCLEN}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 8)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_aa75638acae7b2a83b17f4635f1f874e7}{PSXTIOCPARITY}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 9)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a38255999d6d89f256ed137bd044f228d}{PSXTIOSTATUS}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 10)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a34b2843005f1e026e0210210c83e255d}{PSXTIOERRRST}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 11)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a42d97170a9a1a820311d8f3b1b0a2d44}{PSXTIOEXIST}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 12)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_af185e1dd0345b6a9da8681c7fea52c43}{PSXTIORLEN}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 13)
+\item 
+\#define \mbox{\hyperlink{ioctl_8h_a64683e02c482dd3ca91cdc574568868c}{PSXDIOFORMAT}}~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}d\textquotesingle{}, 1)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}\label{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178} 
+\index{ioctl.h@{ioctl.h}!MAKEIOCTL@{MAKEIOCTL}}
+\index{MAKEIOCTL@{MAKEIOCTL}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{MAKEIOCTL}{MAKEIOCTL}}
+{\footnotesize\ttfamily \#define MAKEIOCTL(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}},  }\item[{}]{\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}} }\end{DoxyParamCaption})~((\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}} $<$$<$ 8 \texorpdfstring{$\vert$}{|} \mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}))}
+
+\Hypertarget{ioctl_8h_a64683e02c482dd3ca91cdc574568868c}\label{ioctl_8h_a64683e02c482dd3ca91cdc574568868c} 
+\index{ioctl.h@{ioctl.h}!PSXDIOFORMAT@{PSXDIOFORMAT}}
+\index{PSXDIOFORMAT@{PSXDIOFORMAT}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXDIOFORMAT}{PSXDIOFORMAT}}
+{\footnotesize\ttfamily \#define PSXDIOFORMAT~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}d\textquotesingle{}, 1)}
+
+\Hypertarget{ioctl_8h_a39f91754909c0508796e9e5cacb7c71a}\label{ioctl_8h_a39f91754909c0508796e9e5cacb7c71a} 
+\index{ioctl.h@{ioctl.h}!PSXFIOCNBLOCK@{PSXFIOCNBLOCK}}
+\index{PSXFIOCNBLOCK@{PSXFIOCNBLOCK}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXFIOCNBLOCK}{PSXFIOCNBLOCK}}
+{\footnotesize\ttfamily \#define PSXFIOCNBLOCK~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}f\textquotesingle{}, 1)}
+
+\Hypertarget{ioctl_8h_a4f6578a3bfb400cbab7524f9130ee60f}\label{ioctl_8h_a4f6578a3bfb400cbab7524f9130ee60f} 
+\index{ioctl.h@{ioctl.h}!PSXFIOCSCAN@{PSXFIOCSCAN}}
+\index{PSXFIOCSCAN@{PSXFIOCSCAN}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXFIOCSCAN}{PSXFIOCSCAN}}
+{\footnotesize\ttfamily \#define PSXFIOCSCAN~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}f\textquotesingle{}, 2)}
+
+\Hypertarget{ioctl_8h_a002c9ceca1299f5b7b199a894fc0b5dd}\label{ioctl_8h_a002c9ceca1299f5b7b199a894fc0b5dd} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCBAUD@{PSXTIOCBAUD}}
+\index{PSXTIOCBAUD@{PSXTIOCBAUD}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCBAUD}{PSXTIOCBAUD}}
+{\footnotesize\ttfamily \#define PSXTIOCBAUD~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 4)}
+
+\Hypertarget{ioctl_8h_a5ae5219202bd08a943fc7c162303d716}\label{ioctl_8h_a5ae5219202bd08a943fc7c162303d716} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCDTR@{PSXTIOCDTR}}
+\index{PSXTIOCDTR@{PSXTIOCDTR}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCDTR}{PSXTIOCDTR}}
+{\footnotesize\ttfamily \#define PSXTIOCDTR~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 6)}
+
+\Hypertarget{ioctl_8h_a6ddc7d8b5dace559cf1e694060e7fa64}\label{ioctl_8h_a6ddc7d8b5dace559cf1e694060e7fa64} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCEXIT@{PSXTIOCEXIT}}
+\index{PSXTIOCEXIT@{PSXTIOCEXIT}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCEXIT}{PSXTIOCEXIT}}
+{\footnotesize\ttfamily \#define PSXTIOCEXIT~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 5)}
+
+\Hypertarget{ioctl_8h_a080a840bc494c23f4ae5847e4f973819}\label{ioctl_8h_a080a840bc494c23f4ae5847e4f973819} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCFLUSH@{PSXTIOCFLUSH}}
+\index{PSXTIOCFLUSH@{PSXTIOCFLUSH}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCFLUSH}{PSXTIOCFLUSH}}
+{\footnotesize\ttfamily \#define PSXTIOCFLUSH~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 2)}
+
+\Hypertarget{ioctl_8h_a44198fa8b26d042b93aff4d38a0235f3}\label{ioctl_8h_a44198fa8b26d042b93aff4d38a0235f3} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCLEN@{PSXTIOCLEN}}
+\index{PSXTIOCLEN@{PSXTIOCLEN}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCLEN}{PSXTIOCLEN}}
+{\footnotesize\ttfamily \#define PSXTIOCLEN~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 8)}
+
+\Hypertarget{ioctl_8h_aa75638acae7b2a83b17f4635f1f874e7}\label{ioctl_8h_aa75638acae7b2a83b17f4635f1f874e7} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCPARITY@{PSXTIOCPARITY}}
+\index{PSXTIOCPARITY@{PSXTIOCPARITY}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCPARITY}{PSXTIOCPARITY}}
+{\footnotesize\ttfamily \#define PSXTIOCPARITY~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 9)}
+
+\Hypertarget{ioctl_8h_aba97cb713f5ef877f68057bfec8208d9}\label{ioctl_8h_aba97cb713f5ef877f68057bfec8208d9} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCRAW@{PSXTIOCRAW}}
+\index{PSXTIOCRAW@{PSXTIOCRAW}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCRAW}{PSXTIOCRAW}}
+{\footnotesize\ttfamily \#define PSXTIOCRAW~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 1)}
+
+\Hypertarget{ioctl_8h_ace155f8bf4e01ce1ec71ffbca54692d3}\label{ioctl_8h_ace155f8bf4e01ce1ec71ffbca54692d3} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCREOPEN@{PSXTIOCREOPEN}}
+\index{PSXTIOCREOPEN@{PSXTIOCREOPEN}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCREOPEN}{PSXTIOCREOPEN}}
+{\footnotesize\ttfamily \#define PSXTIOCREOPEN~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 3)}
+
+\Hypertarget{ioctl_8h_ae578dcb5eb431cb36dc38302dc4f80d9}\label{ioctl_8h_ae578dcb5eb431cb36dc38302dc4f80d9} 
+\index{ioctl.h@{ioctl.h}!PSXTIOCRTS@{PSXTIOCRTS}}
+\index{PSXTIOCRTS@{PSXTIOCRTS}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOCRTS}{PSXTIOCRTS}}
+{\footnotesize\ttfamily \#define PSXTIOCRTS~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 7)}
+
+\Hypertarget{ioctl_8h_a34b2843005f1e026e0210210c83e255d}\label{ioctl_8h_a34b2843005f1e026e0210210c83e255d} 
+\index{ioctl.h@{ioctl.h}!PSXTIOERRRST@{PSXTIOERRRST}}
+\index{PSXTIOERRRST@{PSXTIOERRRST}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOERRRST}{PSXTIOERRRST}}
+{\footnotesize\ttfamily \#define PSXTIOERRRST~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 11)}
+
+\Hypertarget{ioctl_8h_a42d97170a9a1a820311d8f3b1b0a2d44}\label{ioctl_8h_a42d97170a9a1a820311d8f3b1b0a2d44} 
+\index{ioctl.h@{ioctl.h}!PSXTIOEXIST@{PSXTIOEXIST}}
+\index{PSXTIOEXIST@{PSXTIOEXIST}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOEXIST}{PSXTIOEXIST}}
+{\footnotesize\ttfamily \#define PSXTIOEXIST~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 12)}
+
+\Hypertarget{ioctl_8h_af185e1dd0345b6a9da8681c7fea52c43}\label{ioctl_8h_af185e1dd0345b6a9da8681c7fea52c43} 
+\index{ioctl.h@{ioctl.h}!PSXTIORLEN@{PSXTIORLEN}}
+\index{PSXTIORLEN@{PSXTIORLEN}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIORLEN}{PSXTIORLEN}}
+{\footnotesize\ttfamily \#define PSXTIORLEN~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 13)}
+
+\Hypertarget{ioctl_8h_a38255999d6d89f256ed137bd044f228d}\label{ioctl_8h_a38255999d6d89f256ed137bd044f228d} 
+\index{ioctl.h@{ioctl.h}!PSXTIOSTATUS@{PSXTIOSTATUS}}
+\index{PSXTIOSTATUS@{PSXTIOSTATUS}!ioctl.h@{ioctl.h}}
+\doxysubsubsection{\texorpdfstring{PSXTIOSTATUS}{PSXTIOSTATUS}}
+{\footnotesize\ttfamily \#define PSXTIOSTATUS~\mbox{\hyperlink{ioctl_8h_ac06f2c5e31ced4cd6e8a331364ef2178}{MAKEIOCTL}}(\textquotesingle{}\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\textquotesingle{}, 10)}
+

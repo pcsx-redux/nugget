@@ -1,0 +1,89 @@
+\doxysection{common/hardware/dma.h File Reference}
+\hypertarget{dma_8h}{}\label{dma_8h}\index{common/hardware/dma.h@{common/hardware/dma.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for dma.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{df/d36/dma_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d9/db7/dma_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structDMARegisters}{DMARegisters}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{dma_8h_a5d5aacf18793eba82b736c160d30f0db}{DMA\+\_\+\+CTRL}}~((\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDMARegisters}{DMARegisters}} \texorpdfstring{$\ast$}{*})0x1f801080)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a7f2934845704217f921f680091bc53dc}{DMA\+\_\+\+MDECIN}} = 0
+, \mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a59b400acf5056d91137f599459efc0e9}{DMA\+\_\+\+MDECOUT}} = 1
+, \mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a69fe2188696d60a284ccfc665e6ccdfb}{DMA\+\_\+\+GPU}} = 2
+, \mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7aded2a93064f25851b0fd33f50032df95}{DMA\+\_\+\+CDROM}} = 3
+, \newline
+\mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7ad2e9cb46679bd9792fedbe92218b0c79}{DMA\+\_\+\+SPU}} = 4
+, \mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7ac47baa9c20116544ef1e158a433b1b13}{DMA\+\_\+\+PIO}} = 5
+, \mbox{\hyperlink{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a263b33fad623b9d9354f0dc2dbfe66da}{DMA\+\_\+\+GPUOTC}} = 6
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{dma_8h_a5d5aacf18793eba82b736c160d30f0db}\label{dma_8h_a5d5aacf18793eba82b736c160d30f0db} 
+\index{dma.h@{dma.h}!DMA\_CTRL@{DMA\_CTRL}}
+\index{DMA\_CTRL@{DMA\_CTRL}!dma.h@{dma.h}}
+\doxysubsubsection{\texorpdfstring{DMA\_CTRL}{DMA\_CTRL}}
+{\footnotesize\ttfamily DMA\+\_\+\+CTRL~((\mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDMARegisters}{DMARegisters}} \texorpdfstring{$\ast$}{*})0x1f801080)}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_MDECIN@{DMA\_MDECIN}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_MDECIN@{DMA\_MDECIN}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a7f2934845704217f921f680091bc53dc}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a7f2934845704217f921f680091bc53dc} 
+DMA\+\_\+\+MDECIN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_MDECOUT@{DMA\_MDECOUT}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_MDECOUT@{DMA\_MDECOUT}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a59b400acf5056d91137f599459efc0e9}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a59b400acf5056d91137f599459efc0e9} 
+DMA\+\_\+\+MDECOUT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_GPU@{DMA\_GPU}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_GPU@{DMA\_GPU}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a69fe2188696d60a284ccfc665e6ccdfb}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a69fe2188696d60a284ccfc665e6ccdfb} 
+DMA\+\_\+\+GPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_CDROM@{DMA\_CDROM}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_CDROM@{DMA\_CDROM}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7aded2a93064f25851b0fd33f50032df95}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7aded2a93064f25851b0fd33f50032df95} 
+DMA\+\_\+\+CDROM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_SPU@{DMA\_SPU}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_SPU@{DMA\_SPU}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7ad2e9cb46679bd9792fedbe92218b0c79}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7ad2e9cb46679bd9792fedbe92218b0c79} 
+DMA\+\_\+\+SPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_PIO@{DMA\_PIO}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_PIO@{DMA\_PIO}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7ac47baa9c20116544ef1e158a433b1b13}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7ac47baa9c20116544ef1e158a433b1b13} 
+DMA\+\_\+\+PIO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA\_GPUOTC@{DMA\_GPUOTC}!dma.h@{dma.h}}\index{dma.h@{dma.h}!DMA\_GPUOTC@{DMA\_GPUOTC}}}\Hypertarget{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a263b33fad623b9d9354f0dc2dbfe66da}\label{dma_8h_adf764cbdea00d65edcd07bb9953ad2b7a263b33fad623b9d9354f0dc2dbfe66da} 
+DMA\+\_\+\+GPUOTC&\\
+\hline
+
+\end{DoxyEnumFields}

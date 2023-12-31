@@ -1,0 +1,96 @@
+\doxysection{openbios/cdrom/filesystem.c File Reference}
+\hypertarget{cdrom_2filesystem_8c}{}\label{cdrom_2filesystem_8c}\index{openbios/cdrom/filesystem.c@{openbios/cdrom/filesystem.c}}
+{\ttfamily \#include "{}openbios/cdrom/filesystem.\+h"{}}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$memory.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}common/psxlibc/direntry.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+{\ttfamily \#include "{}common/util/util.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/helpers.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/util.\+h"{}}\newline
+Include dependency graph for filesystem.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/d6b/cdrom_2filesystem_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structPathTableEntry}{Path\+Table\+Entry}}
+\item 
+struct \mbox{\hyperlink{structDirectoryEntry}{Directory\+Entry}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{cdrom_2filesystem_8c_a0e69e5c2a0dcd7784c72fcdc241d6620}{cdrom\+Read\+Path\+Table}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{cdrom_2filesystem_8c_a0996a3bc6f9ce5cb630d6baf2cd6138f}{dev\+\_\+cd\+\_\+open}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{cdrom_2filesystem_8c_a6d177de2253f4d5d940b7088dabed17b}{dev\+\_\+cd\+\_\+read}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}buffer\+\_\+, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cdrom_2filesystem_8c_a3cd244b5a7e420ad6a6afb019169b27d}{dev\+\_\+cd\+\_\+first\+File}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cdrom_2filesystem_8c_a0787923c5c10fbb207b0773cf393999d}{dev\+\_\+cd\+\_\+next\+File}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{cdrom_2filesystem_8c_a96d5d034758cc8eff91ea707b3001a2d}{dev\+\_\+cd\+\_\+chdir}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}file, char \texorpdfstring{$\ast$}{*}name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{cdrom_2filesystem_8c_ac56123e6c67e26fb52b1d5e80928d4b8}{g\+\_\+cdrom\+CWD}} \mbox{[}128\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{cdrom_2filesystem_8c_a0e69e5c2a0dcd7784c72fcdc241d6620}\label{cdrom_2filesystem_8c_a0e69e5c2a0dcd7784c72fcdc241d6620} 
+\index{filesystem.c@{filesystem.c}!cdromReadPathTable@{cdromReadPathTable}}
+\index{cdromReadPathTable@{cdromReadPathTable}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{cdromReadPathTable()}{cdromReadPathTable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} cdrom\+Read\+Path\+Table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{cdrom_2filesystem_8c_a96d5d034758cc8eff91ea707b3001a2d}\label{cdrom_2filesystem_8c_a96d5d034758cc8eff91ea707b3001a2d} 
+\index{filesystem.c@{filesystem.c}!dev\_cd\_chdir@{dev\_cd\_chdir}}
+\index{dev\_cd\_chdir@{dev\_cd\_chdir}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{dev\_cd\_chdir()}{dev\_cd\_chdir()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} dev\+\_\+cd\+\_\+chdir (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})}
+
+\Hypertarget{cdrom_2filesystem_8c_a3cd244b5a7e420ad6a6afb019169b27d}\label{cdrom_2filesystem_8c_a3cd244b5a7e420ad6a6afb019169b27d} 
+\index{filesystem.c@{filesystem.c}!dev\_cd\_firstFile@{dev\_cd\_firstFile}}
+\index{dev\_cd\_firstFile@{dev\_cd\_firstFile}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{dev\_cd\_firstFile()}{dev\_cd\_firstFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} dev\+\_\+cd\+\_\+first\+File (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}}]{entry }\end{DoxyParamCaption})}
+
+\Hypertarget{cdrom_2filesystem_8c_a0787923c5c10fbb207b0773cf393999d}\label{cdrom_2filesystem_8c_a0787923c5c10fbb207b0773cf393999d} 
+\index{filesystem.c@{filesystem.c}!dev\_cd\_nextFile@{dev\_cd\_nextFile}}
+\index{dev\_cd\_nextFile@{dev\_cd\_nextFile}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{dev\_cd\_nextFile()}{dev\_cd\_nextFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} dev\+\_\+cd\+\_\+next\+File (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}}]{entry }\end{DoxyParamCaption})}
+
+\Hypertarget{cdrom_2filesystem_8c_a0996a3bc6f9ce5cb630d6baf2cd6138f}\label{cdrom_2filesystem_8c_a0996a3bc6f9ce5cb630d6baf2cd6138f} 
+\index{filesystem.c@{filesystem.c}!dev\_cd\_open@{dev\_cd\_open}}
+\index{dev\_cd\_open@{dev\_cd\_open}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{dev\_cd\_open()}{dev\_cd\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} dev\+\_\+cd\+\_\+open (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{mode }\end{DoxyParamCaption})}
+
+\Hypertarget{cdrom_2filesystem_8c_a6d177de2253f4d5d940b7088dabed17b}\label{cdrom_2filesystem_8c_a6d177de2253f4d5d940b7088dabed17b} 
+\index{filesystem.c@{filesystem.c}!dev\_cd\_read@{dev\_cd\_read}}
+\index{dev\_cd\_read@{dev\_cd\_read}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{dev\_cd\_read()}{dev\_cd\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} dev\+\_\+cd\+\_\+read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structFile}{File}} \texorpdfstring{$\ast$}{*}}]{file,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer\+\_\+,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{size }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{cdrom_2filesystem_8c_ac56123e6c67e26fb52b1d5e80928d4b8}\label{cdrom_2filesystem_8c_ac56123e6c67e26fb52b1d5e80928d4b8} 
+\index{filesystem.c@{filesystem.c}!g\_cdromCWD@{g\_cdromCWD}}
+\index{g\_cdromCWD@{g\_cdromCWD}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{g\_cdromCWD}{g\_cdromCWD}}
+{\footnotesize\ttfamily char g\+\_\+cdrom\+CWD\mbox{[}128\mbox{]}}
+

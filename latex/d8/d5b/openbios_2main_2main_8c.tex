@@ -1,0 +1,153 @@
+\doxysection{openbios/main/main.c File Reference}
+\hypertarget{openbios_2main_2main_8c}{}\label{openbios_2main_2main_8c}\index{openbios/main/main.c@{openbios/main/main.c}}
+{\ttfamily \#include "{}openbios/main/main.\+h"{}}\newline
+{\ttfamily \#include $<$alloca.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/cop0.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/spu.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/openbios.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/handlers.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/cdrom/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/fileio/fileio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/globals.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/handlers.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/libcmisc.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/psxexe.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/setjmp.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/threads.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/util.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/main/splash.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/pio/pio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/shell/shell.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/tty/tty.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d8/d7f/openbios_2main_2main_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structConfiguration}{Configuration}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{openbios_2main_2main_8c_acfe044392e6bcedd7da320ff2e326523}{SETJMPFATAL}}(code)
+\item 
+\#define \mbox{\hyperlink{openbios_2main_2main_8c_a1b45302695680930829cac31d65e41e1}{HEAP\+\_\+\+SIZE}}~0x2000
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2main_2main_8c_a4b083d770c7e3f7b93736b2ecba05ec1}{boot\+Thunk}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2main_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{openbios_2main_2main_8c_ac11bfa0eec490e64bbc44827b0a2966f}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((long\+\_\+call))
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2main_2main_8c_af039802c3c7409288bf781807e8ece8e}{game\+Main\+Thunk}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}binary\+Info, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2main_2main_8c_af3a3813d6509047ef815802ffdd8e03f}{set\+Configuration}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} events\+Count, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} task\+Count, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}stack\+Base)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2main_2main_8c_a0155947f6f7f496df701e9da9ee6e57e}{get\+Configuration}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}events\+Count, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}task\+Count, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}stack\+Base)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structConfiguration}{Configuration}} \mbox{\hyperlink{openbios_2main_2main_8c_a258a492eaabb7797fdcd1999d19518d3}{g\+\_\+default\+Configuration}}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} \mbox{\hyperlink{openbios_2main_2main_8c_a00f295aa85c29d97b00873de8f334658}{g\+\_\+io\+Abort\+Jmp\+Buf}}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuildId}{Build\+Id}} \mbox{\hyperlink{handlers_8c_a5d999f0e8f987cb5f769a6c0cfac94f2}{\+\_\+\+\_\+build\+\_\+id}} \mbox{\hyperlink{openbios_2main_2main_8c_a4d9744402257e9d089a4287cf0244656}{\+\_\+\+\_\+build\+\_\+id\+\_\+end}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{openbios_2main_2main_8c_a1b45302695680930829cac31d65e41e1}\label{openbios_2main_2main_8c_a1b45302695680930829cac31d65e41e1} 
+\index{main.c@{main.c}!HEAP\_SIZE@{HEAP\_SIZE}}
+\index{HEAP\_SIZE@{HEAP\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{HEAP\_SIZE}{HEAP\_SIZE}}
+{\footnotesize\ttfamily \#define HEAP\+\_\+\+SIZE~0x2000}
+
+\Hypertarget{openbios_2main_2main_8c_acfe044392e6bcedd7da320ff2e326523}\label{openbios_2main_2main_8c_acfe044392e6bcedd7da320ff2e326523} 
+\index{main.c@{main.c}!SETJMPFATAL@{SETJMPFATAL}}
+\index{SETJMPFATAL@{SETJMPFATAL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SETJMPFATAL}{SETJMPFATAL}}
+{\footnotesize\ttfamily \#define SETJMPFATAL(\begin{DoxyParamCaption}\item[{}]{code }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (psxsetjmp(\&\mbox{\hyperlink{openbios_2main_2main_8c_a00f295aa85c29d97b00873de8f334658}{g\_ioAbortJmpBuf}}))\ fatal(code);\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2main_2main_8c_ac11bfa0eec490e64bbc44827b0a2966f}\label{openbios_2main_2main_8c_ac11bfa0eec490e64bbc44827b0a2966f} 
+\index{main.c@{main.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(long\+\_\+call)}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2main_2main_8c_a4b083d770c7e3f7b93736b2ecba05ec1}\label{openbios_2main_2main_8c_a4b083d770c7e3f7b93736b2ecba05ec1} 
+\index{main.c@{main.c}!bootThunk@{bootThunk}}
+\index{bootThunk@{bootThunk}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{bootThunk()}{bootThunk()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} boot\+Thunk (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2main_2main_8c_af039802c3c7409288bf781807e8ece8e}\label{openbios_2main_2main_8c_af039802c3c7409288bf781807e8ece8e} 
+\index{main.c@{main.c}!gameMainThunk@{gameMainThunk}}
+\index{gameMainThunk@{gameMainThunk}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{gameMainThunk()}{gameMainThunk()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} game\+Main\+Thunk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}}]{binary\+Info,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2main_2main_8c_a0155947f6f7f496df701e9da9ee6e57e}\label{openbios_2main_2main_8c_a0155947f6f7f496df701e9da9ee6e57e} 
+\index{main.c@{main.c}!getConfiguration@{getConfiguration}}
+\index{getConfiguration@{getConfiguration}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{getConfiguration()}{getConfiguration()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} get\+Configuration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{events\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{task\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{stack\+Base }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2main_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{openbios_2main_2main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} main (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2main_2main_8c_af3a3813d6509047ef815802ffdd8e03f}\label{openbios_2main_2main_8c_af3a3813d6509047ef815802ffdd8e03f} 
+\index{main.c@{main.c}!setConfiguration@{setConfiguration}}
+\index{setConfiguration@{setConfiguration}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{setConfiguration()}{setConfiguration()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} set\+Configuration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{events\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{task\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{stack\+Base }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{openbios_2main_2main_8c_a4d9744402257e9d089a4287cf0244656}\label{openbios_2main_2main_8c_a4d9744402257e9d089a4287cf0244656} 
+\index{main.c@{main.c}!\_\_build\_id\_end@{\_\_build\_id\_end}}
+\index{\_\_build\_id\_end@{\_\_build\_id\_end}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{\_\_build\_id\_end}{\_\_build\_id\_end}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuildId}{Build\+Id}} \mbox{\hyperlink{handlers_8c_a5d999f0e8f987cb5f769a6c0cfac94f2}{\+\_\+\+\_\+build\+\_\+id}} \+\_\+\+\_\+build\+\_\+id\+\_\+end\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{openbios_2main_2main_8c_a258a492eaabb7797fdcd1999d19518d3}\label{openbios_2main_2main_8c_a258a492eaabb7797fdcd1999d19518d3} 
+\index{main.c@{main.c}!g\_defaultConfiguration@{g\_defaultConfiguration}}
+\index{g\_defaultConfiguration@{g\_defaultConfiguration}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{g\_defaultConfiguration}{g\_defaultConfiguration}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structConfiguration}{Configuration}} g\+\_\+default\+Configuration\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{openbios_2main_2main_8c_a00f295aa85c29d97b00873de8f334658}\label{openbios_2main_2main_8c_a00f295aa85c29d97b00873de8f334658} 
+\index{main.c@{main.c}!g\_ioAbortJmpBuf@{g\_ioAbortJmpBuf}}
+\index{g\_ioAbortJmpBuf@{g\_ioAbortJmpBuf}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{g\_ioAbortJmpBuf}{g\_ioAbortJmpBuf}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structJmpBuf}{Jmp\+Buf}} g\+\_\+io\+Abort\+Jmp\+Buf}
+

@@ -1,0 +1,65 @@
+\doxysection{openbios/u\+C-\/sdk-\/glue/\+Board\+Console.h File Reference}
+\hypertarget{openbios_2uC-sdk-glue_2BoardConsole_8h}{}\label{openbios_2uC-sdk-glue_2BoardConsole_8h}\index{openbios/uC-\/sdk-\/glue/BoardConsole.h@{openbios/uC-\/sdk-\/glue/BoardConsole.h}}
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+Include dependency graph for Board\+Console.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{d2/dba/openbios_2uC-sdk-glue_2BoardConsole_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{d5/d3b/openbios_2uC-sdk-glue_2BoardConsole_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2uC-sdk-glue_2BoardConsole_8h_a57dcfebd495a128956bd06bbc4b03451}{Board\+Console\+Init}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2uC-sdk-glue_2BoardConsole_8h_a324da61e2ee0d867175bd2ee4624e710}{Board\+Console\+Puts}} (const char \texorpdfstring{$\ast$}{*}str)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2uC-sdk-glue_2BoardConsole_8h_a302f170b422362f5f14b01cb3e856daf}{Board\+Console\+Putc}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2uC-sdk-glue_2BoardConsole_8h_a4c89e77b42372a3e3a79e957c9c4845f}{Board\+Console\+Printf}} (const char \texorpdfstring{$\ast$}{*}fmt,...) \mbox{\hyperlink{cxxglue_8c_af9aace1b44b73111e15aa39f06f43456}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}}((\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}(\mbox{\hyperlink{demo_8c_a3cb9f0894fab1c8fbb0753c9c7c2a8d9}{printf}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2uC-sdk-glue_2BoardConsole_8h_ad9f80dc07cba2271255db46315c01d72}{Board\+Console\+VPrintf}} (const char \texorpdfstring{$\ast$}{*}fmt, va\+\_\+list ap)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2uC-sdk-glue_2BoardConsole_8h_a57dcfebd495a128956bd06bbc4b03451}\label{openbios_2uC-sdk-glue_2BoardConsole_8h_a57dcfebd495a128956bd06bbc4b03451} 
+\index{BoardConsole.h@{BoardConsole.h}!BoardConsoleInit@{BoardConsoleInit}}
+\index{BoardConsoleInit@{BoardConsoleInit}!BoardConsole.h@{BoardConsole.h}}
+\doxysubsubsection{\texorpdfstring{BoardConsoleInit()}{BoardConsoleInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} Board\+Console\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2uC-sdk-glue_2BoardConsole_8h_a4c89e77b42372a3e3a79e957c9c4845f}\label{openbios_2uC-sdk-glue_2BoardConsole_8h_a4c89e77b42372a3e3a79e957c9c4845f} 
+\index{BoardConsole.h@{BoardConsole.h}!BoardConsolePrintf@{BoardConsolePrintf}}
+\index{BoardConsolePrintf@{BoardConsolePrintf}!BoardConsole.h@{BoardConsole.h}}
+\doxysubsubsection{\texorpdfstring{BoardConsolePrintf()}{BoardConsolePrintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} Board\+Console\+Printf (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2uC-sdk-glue_2BoardConsole_8h_a302f170b422362f5f14b01cb3e856daf}\label{openbios_2uC-sdk-glue_2BoardConsole_8h_a302f170b422362f5f14b01cb3e856daf} 
+\index{BoardConsole.h@{BoardConsole.h}!BoardConsolePutc@{BoardConsolePutc}}
+\index{BoardConsolePutc@{BoardConsolePutc}!BoardConsole.h@{BoardConsole.h}}
+\doxysubsubsection{\texorpdfstring{BoardConsolePutc()}{BoardConsolePutc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} Board\+Console\+Putc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{c }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2uC-sdk-glue_2BoardConsole_8h_a324da61e2ee0d867175bd2ee4624e710}\label{openbios_2uC-sdk-glue_2BoardConsole_8h_a324da61e2ee0d867175bd2ee4624e710} 
+\index{BoardConsole.h@{BoardConsole.h}!BoardConsolePuts@{BoardConsolePuts}}
+\index{BoardConsolePuts@{BoardConsolePuts}!BoardConsole.h@{BoardConsole.h}}
+\doxysubsubsection{\texorpdfstring{BoardConsolePuts()}{BoardConsolePuts()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} Board\+Console\+Puts (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2uC-sdk-glue_2BoardConsole_8h_ad9f80dc07cba2271255db46315c01d72}\label{openbios_2uC-sdk-glue_2BoardConsole_8h_ad9f80dc07cba2271255db46315c01d72} 
+\index{BoardConsole.h@{BoardConsole.h}!BoardConsoleVPrintf@{BoardConsoleVPrintf}}
+\index{BoardConsoleVPrintf@{BoardConsoleVPrintf}!BoardConsole.h@{BoardConsole.h}}
+\doxysubsubsection{\texorpdfstring{BoardConsoleVPrintf()}{BoardConsoleVPrintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} Board\+Console\+VPrintf (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+

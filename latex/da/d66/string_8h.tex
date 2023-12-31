@@ -1,0 +1,70 @@
+\doxysection{common/psxlibc/string.h File Reference}
+\hypertarget{string_8h}{}\label{string_8h}\index{common/psxlibc/string.h@{common/psxlibc/string.h}}
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for string.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{db/dfb/string_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d2f/string_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{string_8h_a792b74e425aed986667541818f0d5bed}{if}} (!\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}\texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|}\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}$<$=0) \mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} NULL
+\item 
+\mbox{\hyperlink{string_8h_aadc9642f1d347f3f0608507b2d0aec76}{for}} (;\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}} $>$ 0;\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}++)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}
+\item 
+uint8\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{string_8h_ace0896fab934157e802741196eb3378f}{orig}} = \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{string_8h_aadc9642f1d347f3f0608507b2d0aec76}\label{string_8h_aadc9642f1d347f3f0608507b2d0aec76} 
+\index{string.h@{string.h}!for@{for}}
+\index{for@{for}!string.h@{string.h}}
+\doxysubsubsection{\texorpdfstring{for()}{for()}}
+{\footnotesize\ttfamily for (\begin{DoxyParamCaption}\item[{;}]{size,  }\item[{0;\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}++}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{string_8h_a792b74e425aed986667541818f0d5bed}\label{string_8h_a792b74e425aed986667541818f0d5bed} 
+\index{string.h@{string.h}!if@{if}}
+\index{if@{if}!string.h@{string.h}}
+\doxysubsubsection{\texorpdfstring{if()}{if()}}
+{\footnotesize\ttfamily if (\begin{DoxyParamCaption}\item[{!\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}\texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|}\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}$<$=}]{0 }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{string_8h_ace0896fab934157e802741196eb3378f}\label{string_8h_ace0896fab934157e802741196eb3378f} 
+\index{string.h@{string.h}!orig@{orig}}
+\index{orig@{orig}!string.h@{string.h}}
+\doxysubsubsection{\texorpdfstring{orig}{orig}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} orig = \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}}
+
+\Hypertarget{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}\label{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6} 
+\index{string.h@{string.h}!size@{size}}
+\index{size@{size}!string.h@{string.h}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} size}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ uint8\_t*\ \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}\ =\ (uint8\_t*)ptr\_}
+
+\end{DoxyCode}

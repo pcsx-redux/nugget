@@ -1,0 +1,69 @@
+\doxysection{openbios/shell/shell.c File Reference}
+\hypertarget{shell_8c}{}\label{shell_8c}\index{openbios/shell/shell.c@{openbios/shell/shell.c}}
+{\ttfamily \#include "{}openbios/shell/shell.\+h"{}}\newline
+{\ttfamily \#include $<$memory.\+h$>$}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}openbios/kernel/flushcache.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/main/main.\+h"{}}\newline
+Include dependency graph for shell.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d51/shell_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{shell_8c_a16abb5c91395187518387ddb7afc5527}{start\+Shell}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} arg)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{shell_8c_a1a819fec1099debdf4083782426b6e2c}{\+\_\+binary\+\_\+shell\+\_\+bin\+\_\+start}} \mbox{[}$\,$\mbox{]}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{shell_8c_a4561267e1fdd590fb3ccadaa69eb7328}{\+\_\+binary\+\_\+shell\+\_\+bin\+\_\+end}} \mbox{[}$\,$\mbox{]}
+\item 
+const \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{shell_8c_adbd75f738e1b7fbe7b304efa213dccdb}{\+\_\+binary\+\_\+psexe\+\_\+bin\+\_\+start}} \mbox{[}$\,$\mbox{]}
+\item 
+const \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{shell_8c_ae3f7a0d9f59f8b78082719231c031400}{\+\_\+binary\+\_\+psexe\+\_\+bin\+\_\+end}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{shell_8c_a16abb5c91395187518387ddb7afc5527}\label{shell_8c_a16abb5c91395187518387ddb7afc5527} 
+\index{shell.c@{shell.c}!startShell@{startShell}}
+\index{startShell@{startShell}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{startShell()}{startShell()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} start\+Shell (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{arg }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{shell_8c_ae3f7a0d9f59f8b78082719231c031400}\label{shell_8c_ae3f7a0d9f59f8b78082719231c031400} 
+\index{shell.c@{shell.c}!\_binary\_psexe\_bin\_end@{\_binary\_psexe\_bin\_end}}
+\index{\_binary\_psexe\_bin\_end@{\_binary\_psexe\_bin\_end}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{\_binary\_psexe\_bin\_end}{\_binary\_psexe\_bin\_end}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+binary\+\_\+psexe\+\_\+bin\+\_\+end\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{shell_8c_adbd75f738e1b7fbe7b304efa213dccdb}\label{shell_8c_adbd75f738e1b7fbe7b304efa213dccdb} 
+\index{shell.c@{shell.c}!\_binary\_psexe\_bin\_start@{\_binary\_psexe\_bin\_start}}
+\index{\_binary\_psexe\_bin\_start@{\_binary\_psexe\_bin\_start}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{\_binary\_psexe\_bin\_start}{\_binary\_psexe\_bin\_start}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \+\_\+binary\+\_\+psexe\+\_\+bin\+\_\+start\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{shell_8c_a4561267e1fdd590fb3ccadaa69eb7328}\label{shell_8c_a4561267e1fdd590fb3ccadaa69eb7328} 
+\index{shell.c@{shell.c}!\_binary\_shell\_bin\_end@{\_binary\_shell\_bin\_end}}
+\index{\_binary\_shell\_bin\_end@{\_binary\_shell\_bin\_end}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{\_binary\_shell\_bin\_end}{\_binary\_shell\_bin\_end}}
+{\footnotesize\ttfamily const uint8\+\_\+t \+\_\+binary\+\_\+shell\+\_\+bin\+\_\+end\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{shell_8c_a1a819fec1099debdf4083782426b6e2c}\label{shell_8c_a1a819fec1099debdf4083782426b6e2c} 
+\index{shell.c@{shell.c}!\_binary\_shell\_bin\_start@{\_binary\_shell\_bin\_start}}
+\index{\_binary\_shell\_bin\_start@{\_binary\_shell\_bin\_start}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{\_binary\_shell\_bin\_start}{\_binary\_shell\_bin\_start}}
+{\footnotesize\ttfamily const uint8\+\_\+t \+\_\+binary\+\_\+shell\+\_\+bin\+\_\+start\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+

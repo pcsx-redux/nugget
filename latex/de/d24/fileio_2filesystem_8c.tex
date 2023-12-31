@@ -1,0 +1,45 @@
+\doxysection{openbios/fileio/filesystem.c File Reference}
+\hypertarget{fileio_2filesystem_8c}{}\label{fileio_2filesystem_8c}\index{openbios/fileio/filesystem.c@{openbios/fileio/filesystem.c}}
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include "{}common/psxlibc/device.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/direntry.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/fileio/fileio.\+h"{}}\newline
+Include dependency graph for filesystem.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/de0/fileio_2filesystem_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{fileio_2filesystem_8c_a27038a3a14fcca6676c12550a981bc16}{first\+File}} (const char \texorpdfstring{$\ast$}{*}filepath, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{fileio_2filesystem_8c_ae2cca047b30743028fcbb704091936ef}{next\+File}} (\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}entry)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{fileio_2filesystem_8c_a713b90d1b14b83c8dcdc36c7da32a004}{format}} (const char \texorpdfstring{$\ast$}{*}device\+Name)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{fileio_2filesystem_8c_a27038a3a14fcca6676c12550a981bc16}\label{fileio_2filesystem_8c_a27038a3a14fcca6676c12550a981bc16} 
+\index{filesystem.c@{filesystem.c}!firstFile@{firstFile}}
+\index{firstFile@{firstFile}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{firstFile()}{firstFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} first\+File (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filepath,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}}]{entry }\end{DoxyParamCaption})}
+
+\Hypertarget{fileio_2filesystem_8c_a713b90d1b14b83c8dcdc36c7da32a004}\label{fileio_2filesystem_8c_a713b90d1b14b83c8dcdc36c7da32a004} 
+\index{filesystem.c@{filesystem.c}!format@{format}}
+\index{format@{format}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} format (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{device\+Name }\end{DoxyParamCaption})}
+
+\Hypertarget{fileio_2filesystem_8c_ae2cca047b30743028fcbb704091936ef}\label{fileio_2filesystem_8c_ae2cca047b30743028fcbb704091936ef} 
+\index{filesystem.c@{filesystem.c}!nextFile@{nextFile}}
+\index{nextFile@{nextFile}!filesystem.c@{filesystem.c}}
+\doxysubsubsection{\texorpdfstring{nextFile()}{nextFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*} next\+File (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structDirEntry}{Dir\+Entry}} \texorpdfstring{$\ast$}{*}}]{entry }\end{DoxyParamCaption})}
+

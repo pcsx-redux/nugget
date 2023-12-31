@@ -1,0 +1,73 @@
+\doxysection{psyqo/gpu.hh File Reference}
+\hypertarget{gpu_8hh}{}\label{gpu_8hh}\index{psyqo/gpu.hh@{psyqo/gpu.hh}}
+{\ttfamily \#include $<$EASTL/array.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/atomic.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/fixed\+\_\+list.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/functional.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/utility.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}psyqo/fragment-\/concept.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/hardware/gpu.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/kernel.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/ordering-\/table.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/primitive-\/concept.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/primitives/common.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/primitives/control.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/primitives/misc.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/internal/gpu/configuration.\+hh"{}}\newline
+Include dependency graph for gpu.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/dca/gpu_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/d2a/gpu_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}}
+\begin{DoxyCompactList}\small\item\em The singleton \doxylink{classpsyqo_1_1GPU}{GPU} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo}{psyqo}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1DMA}{psyqo\+::\+DMA}}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1timer__literals}{psyqo\+::timer\+\_\+literals}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{psyqo\+::\+DMA\+::\+Dma\+Callback}} \{ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99af617fc1f013e92619c0008a5e6ff07eb}{psyqo\+::\+DMA\+::\+FROM\+\_\+\+ISR}}
+, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{psyqo\+::\+DMA\+::\+FROM\+\_\+\+MAIN\+\_\+\+LOOP}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_ad2afbc127e356da1239b3ce1ce54bd64}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+ns}} (unsigned long long \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\begin{DoxyCompactList}\small\item\em Literal operators for time units. \end{DoxyCompactList}\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_a66534ab82c45d3ae92c3ac8e729dd681}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+us}} (unsigned long long \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_a93e5c37f7c9312842aa7b6fe1378dc73}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+ms}} (unsigned long long \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_afd7ea086fc8ba0539ed884e87cec863f}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+s}} (unsigned long long \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_ae0d44ea93f161a0bcc32cb1d03b67ae0}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+ns}} (long double \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_a43acc8add72817c1453589989dc75149}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+us}} (long double \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_afdb96dc8b48c875e68f2e0b55dc8d5df}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+ms}} (long double \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+consteval \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1timer__literals_a2b0292b09ec8988193fc7df1a568163f}{psyqo\+::timer\+\_\+literals\+::operator"{}"{}\+\_\+s}} (long double \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\end{DoxyCompactItemize}

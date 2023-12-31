@@ -1,0 +1,51 @@
+\doxysection{psyqo\+::paths\+::CDRom\+Loader Class Reference}
+\hypertarget{classpsyqo_1_1paths_1_1CDRomLoader}{}\label{classpsyqo_1_1paths_1_1CDRomLoader}\index{psyqo::paths::CDRomLoader@{psyqo::paths::CDRomLoader}}
+
+
+A class that reads files from the \doxylink{classpsyqo_1_1CDRom}{CDRom}.  
+
+
+
+
+{\ttfamily \#include $<$psyqo-\/paths/cdrom-\/loader.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1paths_1_1CDRomLoader_a241a965c6649887bb36211bbbfff2208}{read\+File}} (eastl\+::string\+\_\+view path, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser}{ISO9660\+Parser}} \&parser, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(eastl\+::vector$<$ uint8\+\_\+t $>$ \&\&)$>$ \&\&callback)
+\begin{DoxyCompactList}\small\item\em Reads a file from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class that reads files from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. 
+
+This class provides a PSYQo path to read files from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. The way to use it is to instantiate the class somewhere persistent, and then call \doxylink{classpsyqo_1_1paths_1_1CDRomLoader_a241a965c6649887bb36211bbbfff2208}{read\+File()} with a callback. The callback will be called with the data of the file, or an empty vector if the file could not be read. This is going to allocate memory in different places. Only one file can be read at a time, but it is safe to call \doxylink{classpsyqo_1_1paths_1_1CDRomLoader_a241a965c6649887bb36211bbbfff2208}{read\+File()} again from the callback. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1paths_1_1CDRomLoader_a241a965c6649887bb36211bbbfff2208}\label{classpsyqo_1_1paths_1_1CDRomLoader_a241a965c6649887bb36211bbbfff2208} 
+\index{psyqo::paths::CDRomLoader@{psyqo::paths::CDRomLoader}!readFile@{readFile}}
+\index{readFile@{readFile}!psyqo::paths::CDRomLoader@{psyqo::paths::CDRomLoader}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::paths\+::\+CDRom\+Loader\+::read\+File (\begin{DoxyParamCaption}\item[{eastl\+::string\+\_\+view}]{path,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{classpsyqo_1_1ISO9660Parser}{ISO9660\+Parser}} \&}]{parser,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(eastl\+::vector$<$ uint8\+\_\+t $>$ \&\&)$>$ \&\&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Reads a file from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path to the file to read. The view must be persistent until the callback is called. \\
+\hline
+{\em gpu} & The \doxylink{classpsyqo_1_1GPU}{GPU} class used by the application, in order to set timers. \\
+\hline
+{\em parser} & The \doxylink{classpsyqo_1_1ISO9660Parser}{ISO9660\+Parser} to use for reading the file. \\
+\hline
+{\em callback} & The callback to call when the file is read. The callback will be called with the data of the file, or an empty vector if the file could not be read. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo-\/paths/\mbox{\hyperlink{cdrom-loader_8hh}{cdrom-\/loader.\+hh}}\item 
+psyqo-\/paths/src/\mbox{\hyperlink{cdrom-loader_8cpp}{cdrom-\/loader.\+cpp}}\end{DoxyCompactItemize}

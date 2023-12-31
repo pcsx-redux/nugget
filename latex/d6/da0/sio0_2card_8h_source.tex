@@ -1,0 +1,74 @@
+\doxysection{card.\+h}
+\hypertarget{sio0_2card_8h_source}{}\label{sio0_2card_8h_source}\index{openbios/sio0/card.h@{openbios/sio0/card.h}}
+\mbox{\hyperlink{sio0_2card_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_ab4b9c5aba62f9a12628e7be605d802ab}{initCard}}(\textcolor{keywordtype}{int}\ padStarted);}
+\DoxyCodeLine{00032\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a921eba27b0470bab3711665f680e0608}{startCard}}();}
+\DoxyCodeLine{00033\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a1aea792ad4f74a46742224a6d3c0a5f4}{stopCard}}();}
+\DoxyCodeLine{00034\ uint8\_t\ \mbox{\hyperlink{sio0_2card_8h_a7ec4cb6833364a31a795fe559b7e22ee}{getCardStatus}}(\textcolor{keywordtype}{int}\ port);}
+\DoxyCodeLine{00035\ uint8\_t\ \mbox{\hyperlink{sio0_2card_8h_a0e9b0e18355b9021d887754e195186d2}{waitCardStatus}}(\textcolor{keywordtype}{int}\ port);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sio0_2card_8h_a8dba320d84621370cba6c5df8c541250}{mcResetStatus}}();}
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a5ce1306dffa036f3e3b0bf8fe8328265}{mcWaitForStatus}}();}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a601c3567184862e6a457d746f74444f9}{mcWaitForStatusAndReturnIndex}}();}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{sio0_2card_8h_a7a6726365c63505f865c166150f42ae3}{mcAllowNewCard}}();}
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a1f9d5714aac8669b097fe172e1da3117}{mcGetLastDevice}}();}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_acb72edebd0d4c14e6aeacbeb1f9c6f1b}{mcReadSector}}(\textcolor{keywordtype}{int}\ deviceId,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}},\ uint8\_t*\ \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}});}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a764b813475c7aeb45ee8a290f8d102c1}{mcWriteSector}}(\textcolor{keywordtype}{int}\ deviceId,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}},\ uint8\_t*\ \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}});}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_aeb00faaa9355abead1a4d3ac12a70a82}{cardInfoInternal}}(\textcolor{keywordtype}{int}\ deviceId);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ internals}}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a5782388092a12bfbbe149fc79bff15cb}{mcReadHandler}}();}
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a85255efe10aca77c3cae44d18123123d}{mcWriteHandler}}();}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a331baccb0e746e2b5b08c4f1a21c27c1}{mcInfoHandler}}();}
+\DoxyCodeLine{00050\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_ad60a29fdab59e6526cec7f81c5d94c40}{g\_mcOperation}};}
+\DoxyCodeLine{00051\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a6a7b3a3a934a685414c44a6d0fcf6d4d}{g\_mcPortFlipping}};}
+\DoxyCodeLine{00052\ \textcolor{keyword}{extern}\ uint8\_t*\ \mbox{\hyperlink{sio0_2card_8h_a85673583acb16b00f06b6426065cde31}{g\_mcUserBuffers}}[2];}
+\DoxyCodeLine{00053\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{sio0_2card_8h_a0115e97a8db4f2c8660c0d09f4004bff}{g\_mcChecksum}}[2];}
+\DoxyCodeLine{00054\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a269e7137df0f79f9fcb40146c7778460}{g\_mcSector}}[2];}
+\DoxyCodeLine{00055\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a2ed59072c3ddd84d3fc779353834ea3b}{g\_mcDeviceId}}[2];}
+\DoxyCodeLine{00056\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a2ef26af29af60c8cab27c02be6f83714}{g\_mcActionInProgress}};}
+\DoxyCodeLine{00057\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_ae6551f1cc2ad35b2013975590689d9ad}{g\_skipErrorOnNewCard}};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{extern}\ uint8\_t\ \mbox{\hyperlink{sio0_2card_8h_a52a74ed4b2bd9a8b4b7a4f36c92343dc}{g\_mcFlags}}[2];}
+\DoxyCodeLine{00059\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a6a7b3a3a934a685414c44a6d0fcf6d4d}{g\_mcPortFlipping}};}
+\DoxyCodeLine{00060\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a575fc96b90b86405d444eb21d2e83585}{g\_mcLastPort}};}
+\DoxyCodeLine{00061\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a60bfb6c9dcaca96921584844d191aca7}{g\_mcGotError}};}
+\DoxyCodeLine{00062\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_ad8b9fb284b4bc7a49eba3771e37c7eac}{g\_mcFastTrackActive}};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a5d5e1ed257f97038f734c7780d32a524}{g\_mcOverallSuccess}};}
+\DoxyCodeLine{00065\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_ad1f5cba7d4cf7f9c878f04d00df907cc}{g\_mcErrors}}[4];}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_a27b2b68cf113c2bc7c73bcb4d82f09d6}{g\_mcHandlerDelayPatch}};}
+\DoxyCodeLine{00068\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{sio0_2card_8h_acdfc6a08c55328a64e4fda9b02ec4b73}{g\_mcCardInfoPatchActivated}};}
+
+\end{DoxyCode}

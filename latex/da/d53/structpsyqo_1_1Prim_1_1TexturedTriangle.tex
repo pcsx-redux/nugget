@@ -1,0 +1,155 @@
+\doxysection{psyqo\+::Prim\+::Textured\+Triangle Struct Reference}
+\hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle}{}\label{structpsyqo_1_1Prim_1_1TexturedTriangle}\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+
+
+A textured triangle.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/triangles.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::Prim\+::Textured\+Triangle\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d1/df1/structpsyqo_1_1Prim_1_1TexturedTriangle__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_ae21e0c89f13b076557de4205833907b4}{Textured\+Triangle}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a98e1cfc9db4a785e3bc13b597554bd1a}{Textured\+Triangle}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{Textured\+Triangle}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a89491e849f1689b16d6cda2d69e76cf9}{set\+Color}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{Textured\+Triangle}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_afb846a8d8e4b81d4ea078e607e0301d5}{set\+Opaque}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{Textured\+Triangle}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a3e2391baa34fe4ac74655bd805ef8fe4}{set\+Semi\+Trans}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a74d5a805dc2bedc697b90cf6525c67d3}{pointA}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{Prim\+Pieces\+::\+UVCoords}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a48b896f2501cfa5260e93c451bfb985b}{uvA}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{Prim\+Pieces\+::\+Clut\+Index}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a2fe36c96ae3ab8770692c484bd12a3a9}{clut\+Index}}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a036771b6c895fabd3b466fa01192164c}{pointB}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{Prim\+Pieces\+::\+UVCoords}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a4e6ce8c6b2b0e3edc187fced2fd33a69}{uvB}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{Prim\+Pieces\+::\+TPage\+Attr}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_a384a8487ddd457cb03e5ade9401ca867}{tpage}}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_adc951e4bc1c545d9ce68008062ad327e}{pointC}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{Prim\+Pieces\+::\+UVCoords\+Padded}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle_ae0c0d4805edd9d8821579e324488a79a}{uvC}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A textured triangle. 
+
+This primitive will draw a textured triangle. It will be drawn between the {\ttfamily pointA}, {\ttfamily pointB}, and {\ttfamily pointC} vertices. The primitive has weird-\/looking ordering of members, but it is necessary to accommodate the way the hardware wants the triangle information to be sent to it. The attributes of the primitive can be better visualized with this order\+:
+\begin{DoxyItemize}
+\item {\ttfamily pointA}, {\ttfamily pointB}, {\ttfamily pointC}
+\item {\ttfamily uvA}, {\ttfamily uvB}, {\ttfamily uvC}
+\item {\ttfamily clut\+Index}, {\ttfamily tpage} 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_ae21e0c89f13b076557de4205833907b4}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_ae21e0c89f13b076557de4205833907b4} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!TexturedTriangle@{TexturedTriangle}}
+\index{TexturedTriangle@{TexturedTriangle}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{TexturedTriangle()}{TexturedTriangle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Textured\+Triangle\+::\+Textured\+Triangle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a98e1cfc9db4a785e3bc13b597554bd1a}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a98e1cfc9db4a785e3bc13b597554bd1a} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!TexturedTriangle@{TexturedTriangle}}
+\index{TexturedTriangle@{TexturedTriangle}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{TexturedTriangle()}{TexturedTriangle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Textured\+Triangle\+::\+Textured\+Triangle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a89491e849f1689b16d6cda2d69e76cf9}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a89491e849f1689b16d6cda2d69e76cf9} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!setColor@{setColor}}
+\index{setColor@{setColor}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{Textured\+Triangle}} \& psyqo\+::\+Prim\+::\+Textured\+Triangle\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_afb846a8d8e4b81d4ea078e607e0301d5}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_afb846a8d8e4b81d4ea078e607e0301d5} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!setOpaque@{setOpaque}}
+\index{setOpaque@{setOpaque}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{setOpaque()}{setOpaque()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{Textured\+Triangle}} \& psyqo\+::\+Prim\+::\+Textured\+Triangle\+::set\+Opaque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a3e2391baa34fe4ac74655bd805ef8fe4}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a3e2391baa34fe4ac74655bd805ef8fe4} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!setSemiTrans@{setSemiTrans}}
+\index{setSemiTrans@{setSemiTrans}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{setSemiTrans()}{setSemiTrans()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TexturedTriangle}{Textured\+Triangle}} \& psyqo\+::\+Prim\+::\+Textured\+Triangle\+::set\+Semi\+Trans (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a2fe36c96ae3ab8770692c484bd12a3a9}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a2fe36c96ae3ab8770692c484bd12a3a9} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!clutIndex@{clutIndex}}
+\index{clutIndex@{clutIndex}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{clutIndex}{clutIndex}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1ClutIndex}{Prim\+Pieces\+::\+Clut\+Index}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::clut\+Index}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a74d5a805dc2bedc697b90cf6525c67d3}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a74d5a805dc2bedc697b90cf6525c67d3} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!pointA@{pointA}}
+\index{pointA@{pointA}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{pointA}{pointA}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::pointA}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a036771b6c895fabd3b466fa01192164c}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a036771b6c895fabd3b466fa01192164c} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!pointB@{pointB}}
+\index{pointB@{pointB}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{pointB}{pointB}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::pointB}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_adc951e4bc1c545d9ce68008062ad327e}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_adc951e4bc1c545d9ce68008062ad327e} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!pointC@{pointC}}
+\index{pointC@{pointC}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{pointC}{pointC}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::pointC}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a384a8487ddd457cb03e5ade9401ca867}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a384a8487ddd457cb03e5ade9401ca867} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!tpage@{tpage}}
+\index{tpage@{tpage}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{tpage}{tpage}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{Prim\+Pieces\+::\+TPage\+Attr}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::tpage}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a48b896f2501cfa5260e93c451bfb985b}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a48b896f2501cfa5260e93c451bfb985b} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!uvA@{uvA}}
+\index{uvA@{uvA}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{uvA}{uvA}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{Prim\+Pieces\+::\+UVCoords}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::uvA}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_a4e6ce8c6b2b0e3edc187fced2fd33a69}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_a4e6ce8c6b2b0e3edc187fced2fd33a69} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!uvB@{uvB}}
+\index{uvB@{uvB}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{uvB}{uvB}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoords}{Prim\+Pieces\+::\+UVCoords}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::uvB}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1TexturedTriangle_ae0c0d4805edd9d8821579e324488a79a}\label{structpsyqo_1_1Prim_1_1TexturedTriangle_ae0c0d4805edd9d8821579e324488a79a} 
+\index{psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}!uvC@{uvC}}
+\index{uvC@{uvC}!psyqo::Prim::TexturedTriangle@{psyqo::Prim::TexturedTriangle}}
+\doxysubsubsection{\texorpdfstring{uvC}{uvC}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1UVCoordsPadded}{Prim\+Pieces\+::\+UVCoords\+Padded}} psyqo\+::\+Prim\+::\+Textured\+Triangle\+::uvC}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{triangles_8hh}{triangles.\+hh}}\end{DoxyCompactItemize}

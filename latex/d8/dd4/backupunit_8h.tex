@@ -1,0 +1,116 @@
+\doxysection{openbios/card/backupunit.h File Reference}
+\hypertarget{backupunit_8h}{}\label{backupunit_8h}\index{openbios/card/backupunit.h@{openbios/card/backupunit.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for backupunit.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{d0/d7c/backupunit_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d8/d2a/backupunit_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structBuDirectoryEntry}{Bu\+Directory\+Entry}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8h_a00d5bd2590765bfa62ad75ab8b5f36a3}{bu\+Init}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8h_a1dd1e221dd3fcdd0896264b0cf6e644c}{bu\+Format}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8h_aeb817a32968330a77aac2e8fc8777d74}{bu\+Write\+TOC}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}bitmap)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8h_a7c3ee292f71b4a8de1ae39c685e6bb6c}{bu\+Reallocate\+Broken\+Sector\+And\+Retry}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} device\+Id, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{backupunit_8h_aed1cacafe4d5d83c8a4f8baa2fd857db}{bu\+Finish\+And\+Trigger}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} port, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuDirectoryEntry}{Bu\+Directory\+Entry}} \mbox{\hyperlink{backupunit_8h_ad9d91d7a509b2cc66f9b5e55117a5508}{g\+\_\+bu\+Dir\+Entries}} \mbox{[}2\mbox{]}\mbox{[}15\mbox{]}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{backupunit_8h_ae151fb4985646225908f06265c21143c}{g\+\_\+bu\+Buffer}} \mbox{[}2\mbox{]}\mbox{[}128\mbox{]}
+\item 
+int32\+\_\+t \mbox{\hyperlink{backupunit_8h_a24bb3c1152d97480a011266ccf088db7}{g\+\_\+bu\+Broken}} \mbox{[}2\mbox{]}\mbox{[}20\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8h_a08f730feedc20125593a0556b1b630c2}{g\+\_\+bu\+Operation}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{backupunit_8h_a9c1c1f399e80de7d02624d982c93dce8}{g\+\_\+bu\+Auto\+Format}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{backupunit_8h_aed1cacafe4d5d83c8a4f8baa2fd857db}\label{backupunit_8h_aed1cacafe4d5d83c8a4f8baa2fd857db} 
+\index{backupunit.h@{backupunit.h}!buFinishAndTrigger@{buFinishAndTrigger}}
+\index{buFinishAndTrigger@{buFinishAndTrigger}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{buFinishAndTrigger()}{buFinishAndTrigger()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} bu\+Finish\+And\+Trigger (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{port,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{spec }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8h_a1dd1e221dd3fcdd0896264b0cf6e644c}\label{backupunit_8h_a1dd1e221dd3fcdd0896264b0cf6e644c} 
+\index{backupunit.h@{backupunit.h}!buFormat@{buFormat}}
+\index{buFormat@{buFormat}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{buFormat()}{buFormat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8h_a00d5bd2590765bfa62ad75ab8b5f36a3}\label{backupunit_8h_a00d5bd2590765bfa62ad75ab8b5f36a3} 
+\index{backupunit.h@{backupunit.h}!buInit@{buInit}}
+\index{buInit@{buInit}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{buInit()}{buInit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8h_a7c3ee292f71b4a8de1ae39c685e6bb6c}\label{backupunit_8h_a7c3ee292f71b4a8de1ae39c685e6bb6c} 
+\index{backupunit.h@{backupunit.h}!buReallocateBrokenSectorAndRetry@{buReallocateBrokenSectorAndRetry}}
+\index{buReallocateBrokenSectorAndRetry@{buReallocateBrokenSectorAndRetry}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{buReallocateBrokenSectorAndRetry()}{buReallocateBrokenSectorAndRetry()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Reallocate\+Broken\+Sector\+And\+Retry (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{sector,  }\item[{char \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+\Hypertarget{backupunit_8h_aeb817a32968330a77aac2e8fc8777d74}\label{backupunit_8h_aeb817a32968330a77aac2e8fc8777d74} 
+\index{backupunit.h@{backupunit.h}!buWriteTOC@{buWriteTOC}}
+\index{buWriteTOC@{buWriteTOC}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{buWriteTOC()}{buWriteTOC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} bu\+Write\+TOC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{device\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{bitmap }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{backupunit_8h_a9c1c1f399e80de7d02624d982c93dce8}\label{backupunit_8h_a9c1c1f399e80de7d02624d982c93dce8} 
+\index{backupunit.h@{backupunit.h}!g\_buAutoFormat@{g\_buAutoFormat}}
+\index{g\_buAutoFormat@{g\_buAutoFormat}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{g\_buAutoFormat}{g\_buAutoFormat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+bu\+Auto\+Format\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{backupunit_8h_a24bb3c1152d97480a011266ccf088db7}\label{backupunit_8h_a24bb3c1152d97480a011266ccf088db7} 
+\index{backupunit.h@{backupunit.h}!g\_buBroken@{g\_buBroken}}
+\index{g\_buBroken@{g\_buBroken}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{g\_buBroken}{g\_buBroken}}
+{\footnotesize\ttfamily int32\+\_\+t g\+\_\+bu\+Broken\mbox{[}2\mbox{]}\mbox{[}20\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{backupunit_8h_ae151fb4985646225908f06265c21143c}\label{backupunit_8h_ae151fb4985646225908f06265c21143c} 
+\index{backupunit.h@{backupunit.h}!g\_buBuffer@{g\_buBuffer}}
+\index{g\_buBuffer@{g\_buBuffer}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{g\_buBuffer}{g\_buBuffer}}
+{\footnotesize\ttfamily uint8\+\_\+t g\+\_\+bu\+Buffer\mbox{[}2\mbox{]}\mbox{[}128\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{backupunit_8h_ad9d91d7a509b2cc66f9b5e55117a5508}\label{backupunit_8h_ad9d91d7a509b2cc66f9b5e55117a5508} 
+\index{backupunit.h@{backupunit.h}!g\_buDirEntries@{g\_buDirEntries}}
+\index{g\_buDirEntries@{g\_buDirEntries}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{g\_buDirEntries}{g\_buDirEntries}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structBuDirectoryEntry}{Bu\+Directory\+Entry}} g\+\_\+bu\+Dir\+Entries\mbox{[}2\mbox{]}\mbox{[}15\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{backupunit_8h_a08f730feedc20125593a0556b1b630c2}\label{backupunit_8h_a08f730feedc20125593a0556b1b630c2} 
+\index{backupunit.h@{backupunit.h}!g\_buOperation@{g\_buOperation}}
+\index{g\_buOperation@{g\_buOperation}!backupunit.h@{backupunit.h}}
+\doxysubsubsection{\texorpdfstring{g\_buOperation}{g\_buOperation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} g\+\_\+bu\+Operation\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+

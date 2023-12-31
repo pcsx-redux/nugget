@@ -1,0 +1,79 @@
+\doxysection{spu.\+h}
+\hypertarget{common_2hardware_2spu_8h_source}{}\label{common_2hardware_2spu_8h_source}\index{common/hardware/spu.h@{common/hardware/spu.h}}
+\mbox{\hyperlink{common_2hardware_2spu_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2019\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{hwregs_8h}{hwregs.h}}"{}}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSPUVoice}{SPUVoice}}\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_a386ec7a22f1ece12e16dbacb01bf7d84}{volumeLeft}};}
+\DoxyCodeLine{00033\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_a4da3c73f5358e10f411a536cf8050063}{volumeRight}};}
+\DoxyCodeLine{00034\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_ad390043b28c3d96608835cdaf5effa28}{sampleRate}};}
+\DoxyCodeLine{00035\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_ad8320e219e58635f9373858a558415bf}{sampleStartAddr}};}
+\DoxyCodeLine{00036\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_a3b2c3935ac73bb3c7393981d070dac0e}{ad}};}
+\DoxyCodeLine{00037\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_a740e8c94458fb48edbc63b54afcf4cbd}{sr}};}
+\DoxyCodeLine{00038\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_ab02c264432be8bf602fc482d06097879}{currentVolume}};}
+\DoxyCodeLine{00039\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSPUVoice_ab565c43dab929e47b316972f767cbf29}{sampleRepeatAddr}};}
+\DoxyCodeLine{00040\ \};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ SPU\_VOICES\ ((volatile\ struct\ SPUVoice\ *)0x1f801c00)}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ SPU\_VOL\_MAIN\_LEFT\ HW\_U16(0x1f801d80)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ SPU\_VOL\_MAIN\_RIGHT\ HW\_U16(0x1f801d82)}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ SPU\_REVERB\_LEFT\ HW\_U16(0x1f801d84)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ SPU\_REVERB\_RIGHT\ HW\_U16(0x1f801d86)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ SPU\_KEY\_ON\_LOW\ HW\_U16(0x1f801d88)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ SPU\_KEY\_ON\_HIGH\ HW\_U16(0x1f801d8a)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ SPU\_KEY\_OFF\_LOW\ HW\_U16(0x1f801d8c)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ SPU\_KEY\_OFF\_HIGH\ HW\_U16(0x1f801d8e)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ SPU\_PITCH\_MOD\_LOW\ HW\_U16(0x1f801d90)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ SPU\_PITCH\_MOD\_HIGH\ HW\_U16(0x1f801d92)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ SPU\_NOISE\_EN\_LOW\ HW\_U16(0x1f801d94)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ SPU\_NOISE\_EN\_HIGH\ HW\_U16(0x1f801d96)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ SPU\_REVERB\_EN\_LOW\ HW\_U16(0x1f801d98)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ SPU\_REVERB\_EN\_HIGH\ HW\_U16(0x1f801d9a)}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ SPU\_RAM\_DTA\ HW\_U16(0x1f801da6)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ SPU\_CTRL\ HW\_U16(0x1f801daa)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ SPU\_RAM\_DTC\ HW\_U16(0x1f801dac)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ SPU\_STATUS\ HW\_U16(0x1f801dae)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ SPU\_VOL\_CD\_LEFT\ HW\_U16(0x1f801db0)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ SPU\_VOL\_CD\_RIGHT\ HW\_U16(0x1f801db2)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ SPU\_VOL\_EXT\_LEFT\ HW\_U16(0x1f801db4)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ SPU\_VOL\_EXT\_RIGHT\ HW\_U16(0x1f801db6)}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{static}\ \_\_inline\_\_\ \textcolor{keywordtype}{void}\ muteSpu()\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2spu_8h_a21aa9a86abfb7d2a99d3f768969d512e}{SPU\_REVERB\_RIGHT}}\ =\ 0;}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2spu_8h_ace9f013429a279705a4f8f5a7665a9ea}{SPU\_REVERB\_LEFT}}\ =\ 0;}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2spu_8h_a596fbddfcbfda2e7f3873f1ae5a3377a}{SPU\_VOL\_MAIN\_RIGHT}}\ =\ 0;}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{common_2hardware_2spu_8h_a1fc3c63ccf0f7b8b23c076cd7184b504}{SPU\_VOL\_MAIN\_LEFT}}\ =\ 0;}
+\DoxyCodeLine{00073\ \}}
+
+\end{DoxyCode}

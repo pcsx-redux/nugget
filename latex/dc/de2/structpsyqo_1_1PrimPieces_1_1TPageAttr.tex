@@ -1,0 +1,85 @@
+\doxysection{psyqo\+::Prim\+Pieces\+::TPage\+Attr Struct Reference}
+\hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr}{}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr}\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+
+
+A primitive\textquotesingle{}s tpage attribute.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/common.\+hh$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_af5bc0812819b1454ca8174111a4e584d}{set\+PageX}} (uint8\+\_\+t x)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_ab8313ffdf23500ceeea6574586a88649}{set\+PageY}} (uint8\+\_\+t y)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_af08f64de1a841e77fe423f64f001cd30}{set}} (\mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1f}{Prim\+::\+TPage\+Attr\+::\+Semi\+Trans}} trans)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5980db3a92ae4c828fcdab7752c5dda9}{set}} (\mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19}{Prim\+::\+TPage\+Attr\+::\+Color\+Mode}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_afa64122a3e3b69ff7c74356ac765ac20}{set\+Dithering}} (bool dithering)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5319e216eb31cac435edc16608fe8f11}{disable\+Display\+Area}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr_a2e0988f52d61648f233683b4f00a6361}{enable\+Display\+Area}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A primitive\textquotesingle{}s tpage attribute. 
+
+This is a common building block piece used in primitives. The binary representation is meant to be the same as the 16-\/bits tpage argument for \doxylink{classpsyqo_1_1GPU}{GPU} commands. See the {\ttfamily TPage} struct for actual usage, or the various triangle and quad primitives.
+
+When dealing with tpage attributes, it can be more efficient to create a new {\ttfamily \doxylink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} object on the stack, setting its properties, and then assigning it to the primitive\textquotesingle{}s attribute, instead of directly manipulating the existing one, as the compiler will better optimize the former sequence of operations. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5319e216eb31cac435edc16608fe8f11}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5319e216eb31cac435edc16608fe8f11} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!disableDisplayArea@{disableDisplayArea}}
+\index{disableDisplayArea@{disableDisplayArea}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{disableDisplayArea()}{disableDisplayArea()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::disable\+Display\+Area (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_a2e0988f52d61648f233683b4f00a6361}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_a2e0988f52d61648f233683b4f00a6361} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!enableDisplayArea@{enableDisplayArea}}
+\index{enableDisplayArea@{enableDisplayArea}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{enableDisplayArea()}{enableDisplayArea()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::enable\+Display\+Area (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5980db3a92ae4c828fcdab7752c5dda9}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_a5980db3a92ae4c828fcdab7752c5dda9} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!set@{set}}
+\index{set@{set}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a0f0f02dbac0866b9411ac1d3cb351e19}{Prim\+::\+TPage\+Attr\+::\+Color\+Mode}}}]{mode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_af08f64de1a841e77fe423f64f001cd30}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_af08f64de1a841e77fe423f64f001cd30} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!set@{set}}
+\index{set@{set}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_1_1Prim_1_1TPageAttr_a8dc34de7fa3be802e3df96de3b6e3c1f}{Prim\+::\+TPage\+Attr\+::\+Semi\+Trans}}}]{trans }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_afa64122a3e3b69ff7c74356ac765ac20}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_afa64122a3e3b69ff7c74356ac765ac20} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!setDithering@{setDithering}}
+\index{setDithering@{setDithering}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{setDithering()}{setDithering()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::set\+Dithering (\begin{DoxyParamCaption}\item[{bool}]{dithering }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_af5bc0812819b1454ca8174111a4e584d}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_af5bc0812819b1454ca8174111a4e584d} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!setPageX@{setPageX}}
+\index{setPageX@{setPageX}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{setPageX()}{setPageX()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::set\+PageX (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1PrimPieces_1_1TPageAttr_ab8313ffdf23500ceeea6574586a88649}\label{structpsyqo_1_1PrimPieces_1_1TPageAttr_ab8313ffdf23500ceeea6574586a88649} 
+\index{psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}!setPageY@{setPageY}}
+\index{setPageY@{setPageY}!psyqo::PrimPieces::TPageAttr@{psyqo::PrimPieces::TPageAttr}}
+\doxysubsubsection{\texorpdfstring{setPageY()}{setPageY()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TPageAttr}{TPage\+Attr}} \& psyqo\+::\+Prim\+Pieces\+::\+TPage\+Attr\+::set\+PageY (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{common_8hh}{common.\+hh}}\end{DoxyCompactItemize}

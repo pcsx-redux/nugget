@@ -1,0 +1,89 @@
+\doxysection{iso9660-\/parser.hh}
+\hypertarget{iso9660-parser_8hh_source}{}\label{iso9660-parser_8hh_source}\index{psyqo/iso9660-\/parser.hh@{psyqo/iso9660-\/parser.hh}}
+\mbox{\hyperlink{iso9660-parser_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/fixed\_string.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <EASTL/string\_view.h>}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cdrom_8hh}{psyqo/cdrom.hh}}"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{task_8hh}{psyqo/task.hh}}"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1ISO9660Parser}{ISO9660Parser}}\ \{}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{DirEntry}}\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a7d2f703e6ef799ce2d80932712c13d62}{LBA}}\ =\ 0;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_a015a8119b576a8230fe205e257288f49}{size}}\ =\ 0;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ eastl::fixed\_string<char,\ 15,\ false>\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aa8ac32885aa2c2997d12bd10436a9fda}{name}};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \{\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a245d3bd1ce417b459edf2ce0303124e9}{INVALID}},\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91aa8a84f42186db4a82d2050b8df8ed150}{FILE}},\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91af3eb69f2c2156511dc9711643d0b5a36}{DIRECTORY}},\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a3efe6dd0131931286d13a0f3895fbbb9}{CURRENT\_DIR}},\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a0065b7a602d7de80584ab6bd0e6210ce}{PARENT\_DIR}}\ \}\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_aee93c5ec10c9d12fb5fc6af54d67933b}{type}}\ =\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry_ad1e480bc2b3bf76248ae5ba15eba9c91a245d3bd1ce417b459edf2ce0303124e9}{INVALID}};}
+\DoxyCodeLine{00059\ \ \ \ \ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest}{ReadRequest}}\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1DirEntry}{DirEntry}}\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_aa49f7439e4828240baf1d2f79920b390}{entry}};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{structpsyqo_1_1ISO9660Parser_1_1ReadRequest_a175b82bb39e37e77db37120a86d2b629}{buffer}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00075\ \ \ \ \ \};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a705489fddc6b3720aa5782cb5c0e99b8}{ISO9660Parser}}(\mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}}*\ cdrom)\ :\ m\_cdrom(cdrom)\ \{\}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a846b6e1e7cdb99f58fc8f26b12c9d23f}{initialize}}(eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool}\ success)>\ callback);}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{TaskQueue::Task}}\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a098cfc6b9dcc50582e17b15134772b1a}{scheduleInitialize}}();}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_ae93f45c5e3a4cec5154d609677aa1241}{getDirentry}}(eastl::string\_view\ path,\ \mbox{\hyperlink{structDirEntry}{DirEntry}}*\ entry,\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool}\ success)>\ callback);}
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{TaskQueue::Task}}\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a46270c6e74259fa7537c54cb1ebe4202}{scheduleGetDirentry}}(eastl::string\_view\ path,\ \mbox{\hyperlink{structDirEntry}{DirEntry}}*\ entry);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{TaskQueue::Task}}\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a65c64c1aab69f5d76c4a83e4fa7a72c9}{scheduleReadRequest}}(ReadRequest*\ request);}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a426bcd52052266e3a37d0b8ba2f17d35}{initialized}}()\ \{\ \textcolor{keywordflow}{return}\ m\_initialized;\ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00142\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}}*\ \mbox{\hyperlink{classpsyqo_1_1ISO9660Parser_a996095836bb53e89d8c667700deee30c}{getCDRom}}()\ \{\ \textcolor{keywordflow}{return}\ m\_cdrom;\ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ parseDirEntry(\textcolor{keyword}{const}\ uint8\_t*\ data,\ \mbox{\hyperlink{structDirEntry}{DirEntry}}*\ entry);}
+\DoxyCodeLine{00146\ \ \ \ \ eastl::string\_view\ getEntryName(\textcolor{keyword}{const}\ uint8\_t*\ data);}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ findDirEntry();}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ uint8\_t\ m\_buffer[2048];}
+\DoxyCodeLine{00150\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\textcolor{keywordtype}{bool}\ success)>\ m\_callback\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00151\ \ \ \ \ eastl::string\_view\ m\_path;}
+\DoxyCodeLine{00152\ \ \ \ \ \mbox{\hyperlink{structDirEntry}{DirEntry}}*\ m\_dirEntry\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00153\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}}*\ m\_cdrom\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00154\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ m\_cachedLBA\ =\ 0;}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{structDirEntry}{DirEntry}}\ m\_root;}
+\DoxyCodeLine{00156\ \ \ \ \ \mbox{\hyperlink{structDirEntry}{DirEntry}}\ m\_cachedEntry;}
+\DoxyCodeLine{00157\ \ \ \ \ eastl::fixed\_string<char,\ 128>\ m\_cachedPath;}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_initialized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00159\ \};}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

@@ -1,0 +1,108 @@
+\doxysection{stdio.\+h}
+\hypertarget{stdio_8h_source}{}\label{stdio_8h_source}\index{common/psxlibc/stdio.h@{common/psxlibc/stdio.h}}
+\mbox{\hyperlink{stdio_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2020\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{device_8h}{common/psxlibc/device.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600affd0b1f4c66a74d7a210ac1cea055910}{PSXENOERR}},}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a9b101520f337ace81c70254e22841d70}{PSXEPERM}},}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ab6d2a01a9bfd5825680d98ba4655de39}{PSXENOENT}},}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a4d44e891aeb62d49e3dbd24f2de6360b}{PSXESRCH}},}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a5e9ee957cdd9dc1998fea969b0207d71}{PSXEINTR}},}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ab8371ee2c51dd27c555dfe45cb1ce396}{PSXEIO}},}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a6a0da1d003e0bf8de172c02603c2e0e2}{PSXENXIO}},}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a5fb3be8a6c0331b7faa3a6543f0b779b}{PSXE2BIG}},}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ad1708a1fc4d9358d2963a3074db8b430}{PSXENOEXEC}},}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a703bf98393f1d72a6eb0bbd360eb225c}{PSXEBADF}},}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a2be2995c02416055a3f0a2ce08e80cab}{PSXECHILD}},}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a5324efe5dc3ed24a0dc218a0819bed35}{PSXEAGAIN}},}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a7c4142d3cb4d84d8deb165c49b5610dc}{PSXENOMEM}},}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a870a0a17c803e0a5002b8bae471e7363}{PSXEACCESS}},}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600addcb6cf51fb12b7f0dc99d63d7034347}{PSXEFAULT}},}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600aec4122b2d88c4fa8af36be529e83d4f7}{PSXENOTBLK}},}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a74ef7c38c9c05df3990df5815b6548fe}{PSXEBUSY}},}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ace94aaeb9455b3efae6916947dbc7fa7}{PSXEEXIST}},}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600af26016fa39648b6be2b7985edaa17d39}{PSXEXDEV}},}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a39420f17d632b1e6a802244cc45cf777}{PSXENODEV}},}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a7f21d96ef34dc15056d6b598fb239227}{PSXENOTDIR}},}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a1379f0c9680358882c9b404a484fd46a}{PSXEISDIR}},}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a1fad71477fc36394602e67bf0cb296b9}{PSXEINVAL}},}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600af87ab51115c197c133a9b6b15112ce67}{PSXENFILE}},}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ab52fec3c0ad4b77b092936818aa44652}{PSXEMFILE}},}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a94bf8ae611db8da883ef1684afa37b05}{PSXENOTTY}},}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ac701aafbec93113ad6e7731550ad4729}{PSXETXTBSY}},}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ab5f9a66176c8d3a75174abc6eadeec15}{PSXEFBIG}},}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ac0fc6896ce3c7704ddbdf45826f51761}{PSXENOSPC}},}
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a5d7ce14f04c35567d73f8908c84e324f}{PSXESPIPE}},}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600adacc6b918d8e7646649f044a111430d7}{PSXEROFS}},}
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600abbc7d5d299250fd58ea91fb30bca769c}{PSXEFORMAT}},}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a78973393bd33394714e8f1d34fdadc2b}{PSXEPIPE}},}
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600aad1da5bfc6a3277e509998003731c95d}{PSXEDOM}},}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a111c6b30100e60d3b00b270bd4fa2bd6}{PSXERANGE}},}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a0baa78dc266b439e91652aa4d954d1f4}{PSXEWOULDBLOCK}},}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600ab0e24d5aea280c8626c5c9edf53e4066}{PSXEINPROGRESS}},}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{stdio_8h_abed82baf7f470b522273a3e37c24c600a311c52092cb40beb981f812da17c9ddb}{PSXEALREADY}},}
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a42fb8e23accd7871819d0b8ed238fe77}{PSXF\_READ}}\ =\ 0x0001,}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57aca713b419a46dd191e83e907fde4c9d5}{PSXF\_WRITE}}\ =\ 0x0002,}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57ad537e2f3aec58c6cea6e8098ae0d374a}{PSXF\_NBLOCK}}\ =\ 0x0004,}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57ae8082f3d9c356e40780fa5f6570f7625}{PSXF\_SCAN}}\ =\ 0x0008,}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57ad367f94f8fc16e051cf23134f6ae50a3}{PSXF\_RLOCK}}\ =\ 0x0010,}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a50ab03dd051bee5d362077cca8130312}{PSXF\_WLOCK}}\ =\ 0x0020,}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a1b116cb9d6780959c25d4833eaf41af7}{PSXF\_APPEND}}\ =\ 0x0100,}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57aa5b244b45398b527a3e678fd81363c15}{PSXF\_CREAT}}\ =\ 0x0200,}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a7adf017f33eccfd751ed8d12560c7665}{PSXF\_TRUNC}}\ =\ 0x0400,}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a9b7a55a8ce14a6b90f3e06d48cd65349}{PSXF\_SCAN2}}\ =\ 0x1000,}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57aabb84911070b9b1564d1d99b669183fc}{PSXF\_RCOM}}\ =\ 0x2000,}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a4ff539e7d97775959e5a16dd01b8796c}{PSXF\_NBUF}}\ =\ 0x4000,}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{stdio_8h_ab04a0655cd1e3bcac5e8f48c18df1a57a511a107e3e23a6177b5a3a578eab9d2f}{PSXF\_ASYNC}}\ =\ 0x8000,}
+\DoxyCodeLine{00088\ \};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{stdio_8h_a385c44f6fb256e5716a2302a5b940388a561e25c554fb395aceacd1fa71d6452e}{PSXSEEK\_SET}}\ =\ 0,}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{stdio_8h_a385c44f6fb256e5716a2302a5b940388a0ebce9a5e6497ae9a5dfd74f6088ea97}{PSXSEEK\_CUR}}\ =\ 1,}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{stdio_8h_a385c44f6fb256e5716a2302a5b940388a421326a3fdac4c0118142c4e532b7988}{PSXSEEK\_END}}\ =\ 2,}
+\DoxyCodeLine{00094\ \};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFile}{File}}\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structFile_a51a7ab8130b2de2d66a4f5e1dd995662}{flags}}\ \textcolor{comment}{/*\ PSXF\_*\ */},\ \mbox{\hyperlink{structFile_ab41b49239a26b21b9ca9fe156b554e80}{deviceId}};}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{structFile_a9fb0314136f3fb507a220d2e537e31ed}{buffer}};}
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structFile_a4fb8da0c3a68ad988f6ba3090d0994b5}{count}},\ \mbox{\hyperlink{structFile_a88a7bae4f19cfdcbaa68f267ad79e762}{offset}},\ \mbox{\hyperlink{structFile_af18a25eb341dff623314389dd88d37f8}{deviceFlags}},\ \mbox{\hyperlink{structFile_a1a537e5a4c18168feea223de9a66fde3}{errno}};}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structDevice}{Device}}*\ \mbox{\hyperlink{structFile_a8bac47c363ec03f315bd908c507a6000}{device}};}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structFile_a9f679f313d239c5c7416d1c77fc49304}{length}},\ \mbox{\hyperlink{structFile_a98aebc5f89e1cc0d7b341be909459c21}{LBA}},\ \mbox{\hyperlink{structFile_ab8b42ca503d50813876d9089a9e19427}{fd}};}
+\DoxyCodeLine{00102\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,31 @@
+\doxysection{psyqo\+::Fragment Concept Reference}
+\hypertarget{conceptpsyqo_1_1Fragment}{}\label{conceptpsyqo_1_1Fragment}\index{psyqo::Fragment@{psyqo::Fragment}}
+
+
+The Fragment concept.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/fragment-\/concept.\+hh$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Frag>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptpsyqo_1_1Fragment}{psyqo::Fragment}}\ =\ \ \textcolor{keyword}{requires}(Frag\ frag)\ \{}
+\DoxyCodeLine{\ \ \ \ \{\ (\textcolor{keyword}{alignof}(Frag)\ \&\ 3)\ ==\ 0\ \};}
+\DoxyCodeLine{\ \ \ \ \{\ (\textcolor{keyword}{sizeof}(Frag)\ \&\ 3)\ ==\ 0\ \};}
+\DoxyCodeLine{\ \ \ \ \{\ (\textcolor{keyword}{sizeof}(frag.head))\ ==\ 4\ \};}
+\DoxyCodeLine{\ \ \ \ \{\ ((offsetof(Frag,\ head))\ \&\ 3)\ ==\ 0\ \};}
+\DoxyCodeLine{\ \ \ \ \{\ has\_explicit\_copy\_constructor<Frag>()\ \}\ -\/>\ std::convertible\_to<std::true\_type>;}
+\DoxyCodeLine{\ \ \ \ \{\ frag.getActualFragmentSize()\ \}\ -\/>\ std::convertible\_to<size\_t>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+The Fragment concept. 
+
+This concept can be used as a template type constraint to ensure that a type is a valid fragment. 

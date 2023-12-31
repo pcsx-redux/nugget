@@ -1,0 +1,53 @@
+\doxysection{tests/cop0/exceptions.cpp File Reference}
+\hypertarget{exceptions_8cpp}{}\label{exceptions_8cpp}\index{tests/cop0/exceptions.cpp@{tests/cop0/exceptions.cpp}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/util/encoder.\+hh"{}}\newline
+Include dependency graph for exceptions.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{d4/d68/exceptions_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structHandler}{Handler$<$ addr $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{exceptions_8cpp_a9ef3ae35904ca34d799bb365d93f17ea}{install\+Exception\+Handlers}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}(\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}regs, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} from))
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{exceptions_8cpp_acb6d7feac7aed30b256867be51890fa0}{uninstall\+Exception\+Handlers}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{exceptions_8cpp_a3fe3211ca1fb02208fc3b26399cac3f5}{Handler\+Asm}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{exceptions_8cpp_a9ef3ae35904ca34d799bb365d93f17ea}\label{exceptions_8cpp_a9ef3ae35904ca34d799bb365d93f17ea} 
+\index{exceptions.cpp@{exceptions.cpp}!installExceptionHandlers@{installExceptionHandlers}}
+\index{installExceptionHandlers@{installExceptionHandlers}!exceptions.cpp@{exceptions.cpp}}
+\doxysubsubsection{\texorpdfstring{installExceptionHandlers()}{installExceptionHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} install\+Exception\+Handlers (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}regs, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} from)}]{handler }\end{DoxyParamCaption})}
+
+\Hypertarget{exceptions_8cpp_acb6d7feac7aed30b256867be51890fa0}\label{exceptions_8cpp_acb6d7feac7aed30b256867be51890fa0} 
+\index{exceptions.cpp@{exceptions.cpp}!uninstallExceptionHandlers@{uninstallExceptionHandlers}}
+\index{uninstallExceptionHandlers@{uninstallExceptionHandlers}!exceptions.cpp@{exceptions.cpp}}
+\doxysubsubsection{\texorpdfstring{uninstallExceptionHandlers()}{uninstallExceptionHandlers()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} uninstall\+Exception\+Handlers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{exceptions_8cpp_a3fe3211ca1fb02208fc3b26399cac3f5}\label{exceptions_8cpp_a3fe3211ca1fb02208fc3b26399cac3f5} 
+\index{exceptions.cpp@{exceptions.cpp}!HandlerAsm@{HandlerAsm}}
+\index{HandlerAsm@{HandlerAsm}!exceptions.cpp@{exceptions.cpp}}
+\doxysubsubsection{\texorpdfstring{HandlerAsm}{HandlerAsm}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} Handler\+Asm\hspace{0.3cm}{\ttfamily [extern]}}
+

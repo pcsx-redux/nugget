@@ -1,0 +1,181 @@
+\doxysection{modplayer.\+h}
+\hypertarget{modplayer_8h_source}{}\label{modplayer_8h_source}\index{modplayer/modplayer.h@{modplayer/modplayer.h}}
+\mbox{\hyperlink{modplayer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ Once\ MOD\_Load\ returns,\ these\ values\ will\ be\ valid.}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ Unless\ specified,\ consider\ them\ read\ only,\ but}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ modifying\ them\ might\ be\ doable\ if\ you\ know\ what\ you\ are\ doing.}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_afc44fa34e0ff835beab61fc14463c4c0}{MOD\_Channels}};}
+\DoxyCodeLine{00035\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_af9f90bcb1ae3c98f65ee74811af6f3a5}{MOD\_SongLength}};}
+\DoxyCodeLine{00036\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_accd5abc32159d8a388f2444cb80b386f}{MOD\_CurrentOrder}};}
+\DoxyCodeLine{00037\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_ab9d3ee3cb181e15bac3e0526cd6b7326}{MOD\_CurrentPattern}};}
+\DoxyCodeLine{00038\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_a2f231af3b4045ab8172f05379614318a}{MOD\_CurrentRow}};}
+\DoxyCodeLine{00039\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_abcd0dcfd1cdea660c328fd7131bde1a7}{MOD\_Speed}};}
+\DoxyCodeLine{00040\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_a37158096733cc8c19eda74e3d4153cf4}{MOD\_Tick}};}
+\DoxyCodeLine{00041\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_aee11aa2f3f9669729131591da949ff29}{MOD\_BPM}};}
+\DoxyCodeLine{00042\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_aeea74cdc433af3753a1c2d1bac9a8965}{MOD\_LoopStart}};}
+\DoxyCodeLine{00043\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_a2a892d81014e89ed04382e8312281e2a}{MOD\_LoopCount}};}
+\DoxyCodeLine{00044\ \textcolor{keyword}{extern}\ uint8\_t\ \mbox{\hyperlink{modplayer_8h_a3dddd80e59ba66f93513c082e28adc30}{MOD\_PatternDelay}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ This\ is\ a\ pointer\ to\ the\ current\ row\ that's}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ being\ played.\ Used\ for\ decoding.\ The\ number}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ of\ relevant\ bytes\ for\ a\ row\ is\ 4\ *\ MOD\_Channels.}}
+\DoxyCodeLine{00049\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ uint8\_t*\ \mbox{\hyperlink{modplayer_8h_a81b060bcb7f872a60023d8861d12b2bd}{MOD\_RowPointer}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ These\ four\ are\ fine\ to\ change\ outside\ of\ MOD\_Poll.}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ The\ first\ two\ are\ booleans,\ and\ the\ next\ two\ are\ the\ values}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ you\ need\ them\ to\ be\ set\ at\ when\ MOD\_Poll\ is\ called\ next.}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ If\ you\ need\ immediate\ row\ /\ pattern\ change,\ also\ set}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ MOD\_Tick\ to\ MOD\_Speed.}}
+\DoxyCodeLine{00056\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{modplayer_8h_a2b08956ade76bf1012f628e013990b0f}{MOD\_ChangeRowNextTick}};}
+\DoxyCodeLine{00057\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{modplayer_8h_a6e2cb5e4b3ebeb1b8994d41e69ffd80d}{MOD\_ChangeOrderNextTick}};}
+\DoxyCodeLine{00058\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_a9361921b4d21ec212e33d3c96384c55d}{MOD\_NextRow}};}
+\DoxyCodeLine{00059\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_acc2fdac12568a6811d5eb6f408e2ab58}{MOD\_NextOrder}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ This\ can\ be\ used\ to\ decode\ MOD\_RowPointer.}}
+\DoxyCodeLine{00062\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ uint16\_t\ \mbox{\hyperlink{modplayer_8h_a76b0d0efcfcc81b5f0a29b331d738862}{MOD\_PeriodTable}}[];}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ Internal\ HIT\ file\ structure,\ but\ conformant\ to}}
+\DoxyCodeLine{00065\ \textcolor{comment}{//\ http://www.aes.id.au/modformat.html}}
+\DoxyCodeLine{00066\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMODFileFormat}{MODFileFormat}};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{//\ Returns\ the\ number\ of\ channel\ from\ this\ module,}}
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ or\ 0\ if\ the\ module\ is\ invalid.}}
+\DoxyCodeLine{00070\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_aaf8b4cd9861f45a4964c294ec59c5d0d}{MOD\_Check}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMODFileFormat}{MODFileFormat}}*\ module);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ Loads\ the\ specified\ module\ and\ gets\ it\ ready\ for}}
+\DoxyCodeLine{00073\ \textcolor{comment}{//\ playback.\ Returns\ the\ number\ of\ bytes\ needed\ if}}
+\DoxyCodeLine{00074\ \textcolor{comment}{//\ relocation\ is\ desired.\ The\ pointer\ has\ to\ be}}
+\DoxyCodeLine{00075\ \textcolor{comment}{//\ aligned\ to\ a\ 4-\/bytes\ boundary.\ Will\ also\ setup}}
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ the\ SPU.}}
+\DoxyCodeLine{00077\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{modplayer_8h_acf2ccef61f11e60551c29737642b8394}{MOD\_Load}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMODFileFormat}{MODFileFormat}}*\ module);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ Loads\ the\ specified\ module\ and\ gets\ it\ ready\ for}}
+\DoxyCodeLine{00080\ \textcolor{comment}{//\ playback.\ The\ pointers\ have\ to\ be\ aligned\ to\ a}}
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ 4-\/bytes\ boundary.\ Will\ also\ setup\ the\ SPU.\ This}}
+\DoxyCodeLine{00082\ \textcolor{comment}{//\ call\ is\ meant\ to\ be\ used\ with\ the\ separate\ .smp}}
+\DoxyCodeLine{00083\ \textcolor{comment}{//\ file,\ which\ the\ new\ modconv.exe\ tool\ can\ generate.}}
+\DoxyCodeLine{00084\ \textcolor{comment}{//\ Returns\ the\ number\ of\ channels\ from\ the\ module,}}
+\DoxyCodeLine{00085\ \textcolor{comment}{//\ or\ 0\ if\ the\ module\ is\ invalid.\ No\ relocation\ is}}
+\DoxyCodeLine{00086\ \textcolor{comment}{//\ needed,\ and\ the\ sampleData\ pointer\ can\ simply\ be}}
+\DoxyCodeLine{00087\ \textcolor{comment}{//\ freed\ after\ this\ call.\ If\ sampleData\ is\ NULL,\ the}}
+\DoxyCodeLine{00088\ \textcolor{comment}{//\ function\ considers\ the\ samples\ are\ already\ loaded}}
+\DoxyCodeLine{00089\ \textcolor{comment}{//\ in\ the\ SPU.}}
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{modplayer_8h_a6cca9a5c00b3eea0e475e7bfba5a0111}{MOD\_LoadEx}}(\textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structMODFileFormat}{MODFileFormat}}*\ module,\ \textcolor{keyword}{const}\ uint8\_t*\ sampleData);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{comment}{//\ Call\ this\ function\ periodically\ to\ play\ sound.\ The}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ frequency\ at\ which\ this\ is\ called\ will\ determine\ the}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ actual\ playback\ speed\ of\ the\ module.\ Most\ modules\ will}}
+\DoxyCodeLine{00095\ \textcolor{comment}{//\ not\ change\ the\ default\ tempo,\ which\ requires\ calling}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//\ MOD\_Poll\ 50\ times\ per\ second,\ or\ exactly\ the\ vertical}}
+\DoxyCodeLine{00097\ \textcolor{comment}{//\ refresh\ rate\ in\ PAL.\ Preferably\ call\ this\ from\ timer1's}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//\ IRQ\ however,\ and\ look\ up\ MOD\_hblanks\ to\ decide\ of\ the}}
+\DoxyCodeLine{00099\ \textcolor{comment}{//\ next\ target\ value\ to\ use.}}
+\DoxyCodeLine{00100\ \textcolor{comment}{//\ To\ pause\ or\ stop\ playback,\ simply\ stop\ calling\ this}}
+\DoxyCodeLine{00101\ \textcolor{comment}{//\ function.\ The\ internal\ player\ doesn't\ need\ any}}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ sort\ of\ cleanup,\ and\ switching\ to\ another\ song\ simply}}
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ requires\ calling\ MOD\_Load\ with\ a\ new\ file.}}
+\DoxyCodeLine{00104\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{modplayer_8h_a6c177627e83cf69ba164748a38e795f7}{MOD\_Poll}}();}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ New\ APIs\ from\ the\ original\ code\ from\ there\ on.}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ Defaults\ to\ 0.\ This\ is\ a\ boolean\ indicating\ if\ we}}
+\DoxyCodeLine{00109\ \textcolor{comment}{//\ want\ the\ volume\ settings\ to\ be\ monaural\ or\ the\ same}}
+\DoxyCodeLine{00110\ \textcolor{comment}{//\ as\ the\ original\ Amiga's\ Paula\ chip.}}
+\DoxyCodeLine{00111\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{modplayer_8h_a737010ceae3484791d0d7b619458778e}{MOD\_Stereo}};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{comment}{//\ Indicates\ the\ number\ of\ hblank\ ticks\ to\ wait\ before}}
+\DoxyCodeLine{00114\ \textcolor{comment}{//\ calling\ MOD\_Poll.\ This\ value\ may\ or\ may\ not\ change}}
+\DoxyCodeLine{00115\ \textcolor{comment}{//\ after\ a\ call\ to\ MOD\_Poll,\ if\ the\ track\ requested\ a}}
+\DoxyCodeLine{00116\ \textcolor{comment}{//\ tempo\ change.}}
+\DoxyCodeLine{00117\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{modplayer_8h_af2f885fa4c67a6fbb385aa30b5f85c5d}{MOD\_hblanks}};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{comment}{//\ It\ is\ possible\ to\ reclaim\ memory\ from\ the\ initial\ call}}
+\DoxyCodeLine{00120\ \textcolor{comment}{//\ to\ MOD\_Load,\ in\ case\ the\ module\ was\ loaded\ from\ an}}
+\DoxyCodeLine{00121\ \textcolor{comment}{//\ external\ source.\ The\ number\ of\ bytes\ needed\ for\ the}}
+\DoxyCodeLine{00122\ \textcolor{comment}{//\ player\ will\ be\ returned\ by\ MOD\_Load.\ Call\ MOD\_Relocate}}
+\DoxyCodeLine{00123\ \textcolor{comment}{//\ with\ a\ new\ memory\ buffer\ that\ has\ at\ least\ this\ many\ bytes.}}
+\DoxyCodeLine{00124\ \textcolor{comment}{//\ Caller\ is\ responsible\ for\ managing\ the\ memory.}}
+\DoxyCodeLine{00125\ \textcolor{comment}{//\ It\ is\ fine\ to\ reuse\ the\ same\ buffer\ as\ the\ original\ input,}}
+\DoxyCodeLine{00126\ \textcolor{comment}{//\ if\ you\ wish\ to\ simply\ realloc\ it\ after\ relocating\ it,}}
+\DoxyCodeLine{00127\ \textcolor{comment}{//\ provided\ your\ realloc\ implementation\ guarantees\ that\ the}}
+\DoxyCodeLine{00128\ \textcolor{comment}{//\ shrunk\ buffer\ will\ remain\ at\ the\ same\ location.}}
+\DoxyCodeLine{00129\ \textcolor{comment}{//}}
+\DoxyCodeLine{00130\ \textcolor{comment}{//\ For\ example,\ this\ pseudo-\/code\ is\ valid:}}
+\DoxyCodeLine{00131\ \textcolor{comment}{//\ bool\ load\_mod\_file(File\ mod\_file)\ \{}}
+\DoxyCodeLine{00132\ \textcolor{comment}{//\ \ \ void\ *\ buffer\ =\ malloc(file\_size(mod\_file));}}
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ \ \ readfile(mod\_file,\ buffer);}}
+\DoxyCodeLine{00134\ \textcolor{comment}{//\ \ \ uint32\_t\ size\ =\ MOD\_Load(buffer);}}
+\DoxyCodeLine{00135\ \textcolor{comment}{//\ \ \ if\ (size\ ==\ 0)\ \{}}
+\DoxyCodeLine{00136\ \textcolor{comment}{//\ \ \ \ \ free(buffer);}}
+\DoxyCodeLine{00137\ \textcolor{comment}{//\ \ \ \ \ return\ false;}}
+\DoxyCodeLine{00138\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00139\ \textcolor{comment}{//\ \ \ MOD\_Relocate(buffer);}}
+\DoxyCodeLine{00140\ \textcolor{comment}{//\ \ \ void\ *\ newbuffer\ =\ realloc(buffer,\ size);}}
+\DoxyCodeLine{00141\ \textcolor{comment}{//\ \ \ if\ (newbuffer\ !=\ buffer)\ \{}}
+\DoxyCodeLine{00142\ \textcolor{comment}{//\ \ \ \ \ free(newbuffer);}}
+\DoxyCodeLine{00143\ \textcolor{comment}{//\ \ \ \ \ return\ false;}}
+\DoxyCodeLine{00144\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00145\ \textcolor{comment}{//\ \ \ return\ true;}}
+\DoxyCodeLine{00146\ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00147\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{modplayer_8h_a008c2eeffbde86ba44c03aac69866118}{MOD\_Relocate}}(uint8\_t*\ \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}});}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{comment}{//\ Set\ MOD\ Volume\ to\ musicVolume,\ where\ musicVolume\ is\ between\ 0\ and\ 65535.}}
+\DoxyCodeLine{00150\ \textcolor{comment}{//\ Defaults\ to\ 16384,\ and\ won't\ be\ reset\ by\ a\ subsequent\ MOD\_Load,\ as\ it}}
+\DoxyCodeLine{00151\ \textcolor{comment}{//\ behaves\ as\ a\ master\ music\ volume\ throughout\ the\ lifetime\ of\ the\ app.}}
+\DoxyCodeLine{00152\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{modplayer_8h_a8ecdc1d5d1385275206bd5870075689b}{MOD\_SetMusicVolume}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ musicVolume);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ Plays\ an\ arbitrary\ note\ from\ the\ MOD's\ samples\ bank.}}
+\DoxyCodeLine{00155\ \textcolor{comment}{//\ The\ volume\ will\ always\ be\ centered,\ so\ the\ sample\ will}}
+\DoxyCodeLine{00156\ \textcolor{comment}{//\ be\ monaural.\ The\ voiceID\ ideally\ should\ be\ set\ to\ a}}
+\DoxyCodeLine{00157\ \textcolor{comment}{//\ value\ that\ is\ above\ MOD\_Channels.\ Remember\ the\ PS1}}
+\DoxyCodeLine{00158\ \textcolor{comment}{//\ has\ 24\ channels\ total,\ so\ voiceID\ can\ be\ between\ 0\ and\ 23.}}
+\DoxyCodeLine{00159\ \textcolor{comment}{//\ The\ note\ is\ a\ value\ between\ 0\ and\ 35.\ The\ exact\ note\ played}}
+\DoxyCodeLine{00160\ \textcolor{comment}{//\ is\ on\ the\ normal\ 12-\/notes,\ C,\ C\#,\ D,\ ...\ scale,\ and\ there}}
+\DoxyCodeLine{00161\ \textcolor{comment}{//\ are\ three\ octaves\ available,\ which\ gives\ the\ 12*3=36}}
+\DoxyCodeLine{00162\ \textcolor{comment}{//\ interval\ value\ of\ the\ note\ argument.\ The\ volume\ argument}}
+\DoxyCodeLine{00163\ \textcolor{comment}{//\ is\ between\ 0\ and\ 63.\ You\ can\ simulate\ KeyOff\ by\ simply}}
+\DoxyCodeLine{00164\ \textcolor{comment}{//\ setting\ the\ volume\ of\ the\ voice\ to\ 0.\ The\ volume\ will}}
+\DoxyCodeLine{00165\ \textcolor{comment}{//\ be\ affected\ by\ the\ music\ volume\ as\ set\ by\ the\ function\ above.}}
+\DoxyCodeLine{00166\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{modplayer_8h_ac08117a4df0577f0c0ed7496bf556f1b}{MOD\_PlayNote}}(\textcolor{keywordtype}{unsigned}\ voiceID,\ \textcolor{keywordtype}{unsigned}\ sampleID,\ \textcolor{keywordtype}{unsigned}\ note,\ int16\_t\ volume);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \textcolor{comment}{//\ Plays\ a\ sound\ effect.}}
+\DoxyCodeLine{00169\ \textcolor{comment}{//\ As\ opposed\ to\ MOD\_PlayNote(),\ MOD\_PlaySoundEffect()'s\ volume}}
+\DoxyCodeLine{00170\ \textcolor{comment}{//\ won't\ be\ affected\ by\ the\ global\ volume\ setting.}}
+\DoxyCodeLine{00171\ \textcolor{comment}{//\ 0\ ==\ mute,\ 63\ ==\ max\ SPU\ voice\ volume}}
+\DoxyCodeLine{00172\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{modplayer_8h_ab38a98ab97b6a69f214a760adaa3bcfc}{MOD\_PlaySoundEffect}}(\textcolor{keywordtype}{unsigned}\ channel,\ \textcolor{keywordtype}{unsigned}\ sampleID,\ \textcolor{keywordtype}{unsigned}\ note,\ int16\_t\ volume);}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \textcolor{comment}{//\ Added\ API\ to\ reset\ the\ SPU\ and\ silence\ everything.}}
+\DoxyCodeLine{00175\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{modplayer_8h_a4e857806726e4901c0e4f26c951aff88}{MOD\_Silence}}();}
+
+\end{DoxyCode}

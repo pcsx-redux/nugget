@@ -1,0 +1,105 @@
+\doxysection{psyqo\+::Rect Struct Reference}
+\hypertarget{structpsyqo_1_1Rect}{}\label{structpsyqo_1_1Rect}\index{psyqo::Rect@{psyqo::Rect}}
+
+
+The \doxylink{structpsyqo_1_1Rect}{Rect} struct.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/common.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::Rect\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{d6/da8/structpsyqo_1_1Rect__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structpsyqo_1_1Rect_af5f9f1c8c32290f0f3db4dcf7b8b7931}{is\+Empty}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Rect_a7b0810fa7447b26ff7a6fddfa445414b}{a}}\\
+\>\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Rect_ac16a91bec53d0392db473ad766f14ea1}{pos}}\\
+\}; \\
+
+\end{tabbing}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Rect_a4a67e7f61d8e16649837671522bec295}{b}}\\
+\>\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Rect_a3f0286ac6d3e08f8aa771007929852ae}{size}}\\
+\}; \\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{structpsyqo_1_1Rect}{Rect} struct. 
+
+Represents a rectangle in the VRAM space. Its binary representation is meant to be the same as the rectangles that \doxylink{classpsyqo_1_1GPU}{GPU} commands await. It should fit in two registers, and the MIPS ABI ought to pass it as argument or return value gracefully, making it a nice general purpose utility.
+
+Accessors can be either \{a, b\}, or \{pos, size\}, for readability purposes.
+
+Using C++ list-\/initializations, one can create a rectangle directly using such syntax\+:
+
+{\ttfamily \doxylink{structpsyqo_1_1Rect}{Rect}\{.a = \{.x = 18, .y = 42\}, .b = \{\}\};} 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Rect_af5f9f1c8c32290f0f3db4dcf7b8b7931}\label{structpsyqo_1_1Rect_af5f9f1c8c32290f0f3db4dcf7b8b7931} 
+\index{psyqo::Rect@{psyqo::Rect}!isEmpty@{isEmpty}}
+\index{isEmpty@{isEmpty}!psyqo::Rect@{psyqo::Rect}}
+\doxysubsubsection{\texorpdfstring{isEmpty()}{isEmpty()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Rect\+::is\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Rect_ae6e722decf7c5fec87ad2965e64ab61c}\label{structpsyqo_1_1Rect_ae6e722decf7c5fec87ad2965e64ab61c} 
+\doxysubsubsection{\texorpdfstring{[union]}{[union]}}
+{\footnotesize\ttfamily union  \{ ... \}  \mbox{\hyperlink{structpsyqo_1_1Rect}{psyqo\+::\+Rect}}}
+
+\Hypertarget{structpsyqo_1_1Rect_af4536453a7dd29240220d4caeb6ae933}\label{structpsyqo_1_1Rect_af4536453a7dd29240220d4caeb6ae933} 
+\doxysubsubsection{\texorpdfstring{[union]}{[union]}}
+{\footnotesize\ttfamily union  \{ ... \}  \mbox{\hyperlink{structpsyqo_1_1Rect}{psyqo\+::\+Rect}}}
+
+\Hypertarget{structpsyqo_1_1Rect_a7b0810fa7447b26ff7a6fddfa445414b}\label{structpsyqo_1_1Rect_a7b0810fa7447b26ff7a6fddfa445414b} 
+\index{psyqo::Rect@{psyqo::Rect}!a@{a}}
+\index{a@{a}!psyqo::Rect@{psyqo::Rect}}
+\doxysubsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Rect\+::a}
+
+\Hypertarget{structpsyqo_1_1Rect_a4a67e7f61d8e16649837671522bec295}\label{structpsyqo_1_1Rect_a4a67e7f61d8e16649837671522bec295} 
+\index{psyqo::Rect@{psyqo::Rect}!b@{b}}
+\index{b@{b}!psyqo::Rect@{psyqo::Rect}}
+\doxysubsubsection{\texorpdfstring{b}{b}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Rect\+::b}
+
+\Hypertarget{structpsyqo_1_1Rect_ac16a91bec53d0392db473ad766f14ea1}\label{structpsyqo_1_1Rect_ac16a91bec53d0392db473ad766f14ea1} 
+\index{psyqo::Rect@{psyqo::Rect}!pos@{pos}}
+\index{pos@{pos}!psyqo::Rect@{psyqo::Rect}}
+\doxysubsubsection{\texorpdfstring{pos}{pos}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Rect\+::pos}
+
+\Hypertarget{structpsyqo_1_1Rect_a3f0286ac6d3e08f8aa771007929852ae}\label{structpsyqo_1_1Rect_a3f0286ac6d3e08f8aa771007929852ae} 
+\index{psyqo::Rect@{psyqo::Rect}!size@{size}}
+\index{size@{size}!psyqo::Rect@{psyqo::Rect}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Rect\+::size}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{common_8hh}{common.\+hh}}\end{DoxyCompactItemize}

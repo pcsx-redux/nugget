@@ -1,0 +1,49 @@
+\doxysection{openbios/kernel/psxexe.c File Reference}
+\hypertarget{psxexe_8c}{}\label{psxexe_8c}\index{openbios/kernel/psxexe.c@{openbios/kernel/psxexe.c}}
+{\ttfamily \#include "{}openbios/kernel/psxexe.\+h"{}}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$memory.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}common/psxlibc/stdio.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/fileio/fileio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/flushcache.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/util.\+h"{}}\newline
+Include dependency graph for psxexe.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d4b/psxexe_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{psxexe_8c_a1c4cb9e1c12c79cc9fcd39c231816a3f}{load\+Exe\+Header}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}header)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{psxexe_8c_af0b70e29e59b28e55247f493070e3768}{load\+Exe}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}header)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{psxexe_8c_abe64838e03bdd92e1a630ee9fb58d197}{load\+And\+Exec}} (const char \texorpdfstring{$\ast$}{*}filename, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} stack\+Start, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} stack\+Size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{psxexe_8c_abe64838e03bdd92e1a630ee9fb58d197}\label{psxexe_8c_abe64838e03bdd92e1a630ee9fb58d197} 
+\index{psxexe.c@{psxexe.c}!loadAndExec@{loadAndExec}}
+\index{loadAndExec@{loadAndExec}!psxexe.c@{psxexe.c}}
+\doxysubsubsection{\texorpdfstring{loadAndExec()}{loadAndExec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} load\+And\+Exec (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{stack\+Start,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{stack\+Size }\end{DoxyParamCaption})}
+
+\Hypertarget{psxexe_8c_af0b70e29e59b28e55247f493070e3768}\label{psxexe_8c_af0b70e29e59b28e55247f493070e3768} 
+\index{psxexe.c@{psxexe.c}!loadExe@{loadExe}}
+\index{loadExe@{loadExe}!psxexe.c@{psxexe.c}}
+\doxysubsubsection{\texorpdfstring{loadExe()}{loadExe()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} load\+Exe (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}}]{header }\end{DoxyParamCaption})}
+
+\Hypertarget{psxexe_8c_a1c4cb9e1c12c79cc9fcd39c231816a3f}\label{psxexe_8c_a1c4cb9e1c12c79cc9fcd39c231816a3f} 
+\index{psxexe.c@{psxexe.c}!loadExeHeader@{loadExeHeader}}
+\index{loadExeHeader@{loadExeHeader}!psxexe.c@{psxexe.c}}
+\doxysubsubsection{\texorpdfstring{loadExeHeader()}{loadExeHeader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} load\+Exe\+Header (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{filename,  }\item[{\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsxExeHeader}{psx\+Exe\+Header}} \texorpdfstring{$\ast$}{*}}]{header }\end{DoxyParamCaption})}
+

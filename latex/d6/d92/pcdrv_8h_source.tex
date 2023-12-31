@@ -1,0 +1,107 @@
+\doxysection{pcdrv.\+h}
+\hypertarget{pcdrv_8h_source}{}\label{pcdrv_8h_source}\index{common/kernel/pcdrv.h@{common/kernel/pcdrv.h}}
+\mbox{\hyperlink{pcdrv_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2021\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ This\ is\ a\ reverse\ of\ the\ libsn\ pcdrv\ API.\ It\ doesn't\ make\ a\ lot\ of\ sense.}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PCinit()\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00033\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x101\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(\mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}));}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PCcreat(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ perms)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *a0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a0"{}})\ =\ name;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *a1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a1"{}})\ =\ name;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a2\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a2"{}})\ =\ 0;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v1"{}});}
+\DoxyCodeLine{00043\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x102\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(v0),\ \textcolor{stringliteral}{"{}=r"{}}(v1)\ :\ \textcolor{stringliteral}{"{}r"{}}(a0),\ \textcolor{stringliteral}{"{}r"{}}(a1),\ \textcolor{stringliteral}{"{}r"{}}(a2));}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{if}\ (v0\ ==\ 0)\ \textcolor{keywordflow}{return}\ v1;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PCopen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9}{flags}},\ \textcolor{keywordtype}{int}\ perms)\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a2\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a2"{}})\ =\ \mbox{\hyperlink{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9}{flags}};}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *a0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a0"{}})\ =\ name;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *a1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a1"{}})\ =\ name;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v1"{}});}
+\DoxyCodeLine{00054\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x103\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(v0),\ \textcolor{stringliteral}{"{}=r"{}}(v1)\ :\ \textcolor{stringliteral}{"{}r"{}}(a0),\ \textcolor{stringliteral}{"{}r"{}}(a1),\ \textcolor{stringliteral}{"{}r"{}}(a2));}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (v0\ ==\ 0)\ \textcolor{keywordflow}{return}\ v1;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00057\ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PCclose(\textcolor{keywordtype}{int}\ fd)\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a0"{}})\ =\ fd;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a1"{}})\ =\ fd;}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00063\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x104\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(v0)\ :\ \textcolor{stringliteral}{"{}r"{}}(a0),\ \textcolor{stringliteral}{"{}r"{}}(a1)\ :\ \textcolor{stringliteral}{"{}v1"{}});}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{return}\ v0;}
+\DoxyCodeLine{00065\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PCread(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ \textcolor{keywordtype}{int}\ len)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a0"{}})\ =\ 0;}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a1"{}})\ =\ fd;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a2\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a2"{}})\ =\ len;}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{void}\ *a3\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a3"{}})\ =\ \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v1"{}});}
+\DoxyCodeLine{00074\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x105\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(v0),\ \textcolor{stringliteral}{"{}=r"{}}(v1)\ :\ \textcolor{stringliteral}{"{}r"{}}(a0),\ \textcolor{stringliteral}{"{}r"{}}(a1),\ \textcolor{stringliteral}{"{}r"{}}(a2),\ \textcolor{stringliteral}{"{}r"{}}(a3)\ :\ \textcolor{stringliteral}{"{}memory"{}});}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{if}\ (v0\ ==\ 0)\ \textcolor{keywordflow}{return}\ v1;}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00077\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PCwrite(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}},\ \textcolor{keywordtype}{int}\ len)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a0"{}})\ =\ 0;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a1"{}})\ =\ fd;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a2\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a2"{}})\ =\ len;}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *a3\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a3"{}})\ =\ \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}};}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v1"{}});}
+\DoxyCodeLine{00086\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x106\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(v0),\ \textcolor{stringliteral}{"{}=r"{}}(v1)\ :\ \textcolor{stringliteral}{"{}r"{}}(a0),\ \textcolor{stringliteral}{"{}r"{}}(a1),\ \textcolor{stringliteral}{"{}r"{}}(a2),\ \textcolor{stringliteral}{"{}r"{}}(a3));}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (v0\ ==\ 0)\ \textcolor{keywordflow}{return}\ v1;}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ PClseek(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{int}\ offset,\ \textcolor{keywordtype}{int}\ wheel)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a3\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a3"{}})\ =\ wheel;}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a2\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a2"{}})\ =\ offset;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a0"{}})\ =\ fd;}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ a1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}a1"{}})\ =\ fd;}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v0\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v0"{}});}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ v1\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}v1"{}});}
+\DoxyCodeLine{00098\ \ \ \ \ \_\_asm\_\_\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}break\ 0,\ 0x107\(\backslash\)n"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(v0),\ \textcolor{stringliteral}{"{}=r"{}}(v1)\ :\ \textcolor{stringliteral}{"{}r"{}}(a0),\ \textcolor{stringliteral}{"{}r"{}}(a1),\ \textcolor{stringliteral}{"{}r"{}}(a2),\ \textcolor{stringliteral}{"{}r"{}}(a3));}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordflow}{if}\ (v0\ ==\ 0)\ \textcolor{keywordflow}{return}\ v1;}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00101\ \}}
+
+\end{DoxyCode}

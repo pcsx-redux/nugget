@@ -1,0 +1,144 @@
+\doxysection{font.\+hh}
+\hypertarget{font_8hh_source}{}\label{font_8hh_source}\index{psyqo/font.hh@{psyqo/font.hh}}
+\mbox{\hyperlink{font_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/array.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <EASTL/string\_view.h>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <stdarg.h>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fragments_8hh}{psyqo/fragments.hh}}"{}}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpu_8hh}{psyqo/gpu.hh}}"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_8hh}{psyqo/primitives/common.hh}}"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{sprites_8hh}{psyqo/primitives/sprites.hh}}"{}}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ Fragments\ =\ 16>}
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }Font;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1FontBase}{FontBase}}\ \{}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a71459d24469bdc2bde507deb0eeb596d}{\string~FontBase}}()\ \{\}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a746052a5665c415227e2dcdfd02f3388}{uploadSystemFont}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ location\ =\ \{\{.\mbox{\hyperlink{unionpsyqo_1_1Vertex_ac9faa6d7d097eebb21b32c866e17e0e2}{x}}\ =\ 960,\ .y\ =\ 464\}\});}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_ac108563d510750dc7461df4d03a92ce3}{uploadKromFont}}(GPU\&\ gpu,\ Vertex\ location\ =\ \{\{.x\ =\ 960,\ .y\ =\ 422\}\});}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a3eab00b147b10b5dc145e04b0822afd4}{unpackFont}}(GPU\&\ gpu,\ \textcolor{keyword}{const}\ uint8\_t*\ data,\ Vertex\ location,\ Vertex\ textureSize);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_ac0f5dbac9ca4ed22bb86d0ce9332c84d}{initialize}}(GPU\&\ gpu,\ Vertex\ location,\ Vertex\ glyphSize);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56}{print}}(GPU\&\ gpu,\ eastl::string\_view\ text,\ Vertex\ pos,\ \mbox{\hyperlink{unionColor}{Color}}\ color);}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56}{print}}(GPU\&\ gpu,\ eastl::string\_view\ text,\ Vertex\ pos,\ \mbox{\hyperlink{unionColor}{Color}}\ color,\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ callback,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback);}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56}{print}}(GPU\&\ gpu,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,\ Vertex\ pos,\ \mbox{\hyperlink{unionColor}{Color}}\ color);}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56}{print}}(GPU\&\ gpu,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,\ Vertex\ pos,\ \mbox{\hyperlink{unionColor}{Color}}\ color,\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ callback,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback);}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a311f91b13fe23b2bf7545a41d8f95bd4}{printf}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ ...)\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ va\_list\ args;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ va\_start(args,\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}});}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17}{vprintf}}(gpu,\ pos,\ color,\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ args);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ va\_end(args);}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_af48f5328bb39a3abb675d29a818ba761}{printf}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ callback,\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ ...)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ va\_list\ args;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ va\_start(args,\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}});}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17}{vprintf}}(gpu,\ pos,\ color,\ eastl::move(callback),\ dmaCallback,\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ args);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ va\_end(args);}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17}{vprintf}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ va\_list\ ap);}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17}{vprintf}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ eastl::function<\textcolor{keywordtype}{void}()>\&\&\ callback,\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback,}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ va\_list\ ap);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a9b6ec25bbffbd4a1d7d6cca0f2a493b0}{chainprint}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ eastl::string\_view\ text,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color);}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a9b6ec25bbffbd4a1d7d6cca0f2a493b0}{chainprint}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color);}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a255b1d81394cbed2fde8fb82c2df1ce5}{chainprintf}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ ...)\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ va\_list\ args;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ va\_start(args,\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}});}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FontBase_a8ce3b59e21d2c0ec1f6460dfabae0941}{chainvprintf}}(gpu,\ pos,\ color,\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ args);}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ va\_end(args);}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a8ce3b59e21d2c0ec1f6460dfabae0941}{chainvprintf}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ va\_list\ ap);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue}{GlyphsFragmentPrologue}}\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1VRAMUpload}{Prim::VRAMUpload}}\ \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue_ae01cd1e051009d3b97df8f23a221d2d6}{upload}};}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue_a65d7ad2d995bf01ef79d0fc858f6ed4c}{pixel}};}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1FlushCache}{Prim::FlushCache}}\ \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue_adae8acd653252b242077acc845905689}{flushCache}};}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Prim_1_1TPage}{Prim::TPage}}\ \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue_ac90a2a42c190187552e673e987e03a78}{tpage}};}
+\DoxyCodeLine{00159\ \ \ \ \ \};}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{Fragments::FixedFragmentWithPrologue<GlyphsFragmentPrologue,\ Prim::Sprite,\ 48>}}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{GlyphsFragment}};}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{GlyphsFragment}}*\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a67c3e419ca53e99dcd6c5481197a4a86}{getGlyphFragment}}(\textcolor{keywordtype}{bool}\ increment)\ =\ 0;}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a69c1125ecfb0ce26bc8cf9d27d2cb805}{forEach}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{GlyphsFragment}}\&)>\&\&\ cb)\ =\ 0;}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a9f6dfba31b362a2cd2ceed24f12a93a7}{innerprint}}(\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{GlyphsFragment}}*\ fragment,\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ eastl::string\_view\ text,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color);}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a9f6dfba31b362a2cd2ceed24f12a93a7}{innerprint}}(\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{GlyphsFragment}}*\ fragment,\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color);}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a76442f7bf01c4bc0eec6bec41694aedc}{innervprintf}}(\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{GlyphsFragment}}*\ fragment,\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},\ va\_list\ ap);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1FontBase_1_1XPrintfInfo}{XPrintfInfo}};}
+\DoxyCodeLine{00170\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{GlyphsFragment}}\&\ printToFragment(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\&\ gpu,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ pos,\ \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ color);}
+\DoxyCodeLine{00171\ \ \ \ \ eastl::array<PrimPieces::TexInfo,\ 224>\ m\_lut;}
+\DoxyCodeLine{00172\ \ \ \ \ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}\ m\_glyphSize;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1FontBase_1_1XPrintfInfo}{XPrintfInfo}};}
+\DoxyCodeLine{00175\ \};}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00178\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1Font}{Font}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsyqo_1_1FontBase}{FontBase}}\ \{}
+\DoxyCodeLine{00179\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classpsyqo_1_1Font_af4e175256ee1ff94564c40448f25373b}{\string~Font}}()\ \{\ \textcolor{keyword}{static\_assert}(N\ >\ 0,\ \textcolor{stringliteral}{"{}Needs\ to\ have\ at\ least\ one\ fragment"{}});\ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{GlyphsFragment}}*\ getGlyphFragment(\textcolor{keywordtype}{bool}\ increment)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ fragment\ =\ \&m\_fragments[m\_index];}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (increment)\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (++m\_index\ ==\ N)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_index\ =\ 0;}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fragment;}
+\DoxyCodeLine{00191\ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ forEach(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{GlyphsFragment}}\&)>\&\&\ cb)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ fragment\ :\ m\_fragments)\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ cb(fragment);}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00196\ \ \ \ \ \}}
+\DoxyCodeLine{00197\ \ \ \ \ eastl::array<GlyphsFragment,\ N>\ m\_fragments;}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ m\_index\ =\ 0;}
+\DoxyCodeLine{00199\ \};}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

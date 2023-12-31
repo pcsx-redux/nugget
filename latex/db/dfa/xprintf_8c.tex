@@ -1,0 +1,261 @@
+\doxysection{psyqo/src/xprintf.c File Reference}
+\hypertarget{xprintf_8c}{}\label{xprintf_8c}\index{psyqo/src/xprintf.c@{psyqo/src/xprintf.c}}
+{\ttfamily \#include "{}psyqo/xprintf.\+h"{}}\newline
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}psyqo/alloc.\+h"{}}\newline
+Include dependency graph for xprintf.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d9/d52/xprintf_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structs__info}{s\+\_\+info}}
+\item 
+struct \mbox{\hyperlink{structs__strargument}{s\+\_\+strargument}}
+\item 
+struct \mbox{\hyperlink{structsgMprintf}{sg\+Mprintf}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{xprintf_8c_a86187d2f7ce80e824a24dee679c2c15c}{MAXDIG}}~20
+\item 
+\#define \mbox{\hyperlink{xprintf_8c_a2c99791078dc25960f78b09d606c68e5}{NINFO}}~(sizeof(fmtinfo) / sizeof(\mbox{\hyperlink{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e}{info}})) /\texorpdfstring{$\ast$}{*} Size of the fmtinfo table \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{xprintf_8c_aeca034f67218340ecb2261a22c2f3dcd}{BUFSIZE}}~100 /\texorpdfstring{$\ast$}{*} Size of the output \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}} \texorpdfstring{$\ast$}{*}/
+\item 
+\#define \mbox{\hyperlink{xprintf_8c_aed06ded0aa124b591f3abcf5668abb6e}{SPACESIZE}}~(sizeof(spaces) -\/ 1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structs__info}{s\+\_\+info}} \mbox{\hyperlink{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e}{info}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ad}{e\+\_\+type}} \{ \newline
+\mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9a4084441c1568887684a4e6acc91948}{RADIX}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9cf4a0866224b0bb4a7a895da27c9c4c}{FLOAT}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada25f966031f3630b7ea2a347fa376b757}{EXP}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9e022e6380da28dd73210ed34b137c36}{GENERIC}}
+, \newline
+\mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4aa71180778b711338785695df5d7c52}{SIZE}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701adaee847e634a4297b274316de8a8ca9921}{STRING}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada322ad1169a1de4a422a8447783954022}{PERCENT}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4618cf21306b3c647741afa7ebefcab8}{CHAR}}
+, \newline
+\mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada2fd6f336d08340583bd620a7f5694c90}{ERROR}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada974c987854bf41787236460179383493}{CHARLIT}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4166235662d23f2cb5c1324e66981286}{SEEIT}}
+, \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4504b38a523f16fb9f861e0259067f7f}{MEM\+\_\+\+STRING}}
+, \newline
+\mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada3426609c3bb8613d0298c05c6755359e}{ORDINAL}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{xprintf_8c_a12f2b6378f22b11fb61804ed4060c7a0}{vxprintf}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}func, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}arg, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}, va\+\_\+list ap)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{xprintf_8c_a2acd803179adb1bdd96c409c7cf6ddca}{vsprintf}} (char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, const char \texorpdfstring{$\ast$}{*}fmt, va\+\_\+list ap)
+\begin{DoxyCompactList}\small\item\em Prints a formatted string to a string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{xprintf_8c_af67cd10179bf7388f6190ad133aa3258}{vsnprintf}} (char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, size\+\_\+t n, const char \texorpdfstring{$\ast$}{*}fmt, va\+\_\+list ap)
+\begin{DoxyCompactList}\small\item\em Prints a formatted string to a length-\/limited string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{xprintf_8c_a4b16100330a6d8e99f05c4540d4de42a}{vasprintf}} (char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cpu_8c_afbf7ae9e32afbf15c7c3dfa572192ba6}{out}}, const char \texorpdfstring{$\ast$}{*}z\+Format, va\+\_\+list ap)
+\begin{DoxyCompactList}\small\item\em Prints a formatted string to a newly allocated string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{xprintf_8c_aeca034f67218340ecb2261a22c2f3dcd}\label{xprintf_8c_aeca034f67218340ecb2261a22c2f3dcd} 
+\index{xprintf.c@{xprintf.c}!BUFSIZE@{BUFSIZE}}
+\index{BUFSIZE@{BUFSIZE}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{BUFSIZE}{BUFSIZE}}
+{\footnotesize\ttfamily \#define BUFSIZE~100 /\texorpdfstring{$\ast$}{*} Size of the output \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}} \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{xprintf_8c_a86187d2f7ce80e824a24dee679c2c15c}\label{xprintf_8c_a86187d2f7ce80e824a24dee679c2c15c} 
+\index{xprintf.c@{xprintf.c}!MAXDIG@{MAXDIG}}
+\index{MAXDIG@{MAXDIG}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{MAXDIG}{MAXDIG}}
+{\footnotesize\ttfamily \#define MAXDIG~20}
+
+\Hypertarget{xprintf_8c_a2c99791078dc25960f78b09d606c68e5}\label{xprintf_8c_a2c99791078dc25960f78b09d606c68e5} 
+\index{xprintf.c@{xprintf.c}!NINFO@{NINFO}}
+\index{NINFO@{NINFO}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{NINFO}{NINFO}}
+{\footnotesize\ttfamily \#define NINFO~(sizeof(fmtinfo) / sizeof(\mbox{\hyperlink{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e}{info}})) /\texorpdfstring{$\ast$}{*} Size of the fmtinfo table \texorpdfstring{$\ast$}{*}/}
+
+\Hypertarget{xprintf_8c_aed06ded0aa124b591f3abcf5668abb6e}\label{xprintf_8c_aed06ded0aa124b591f3abcf5668abb6e} 
+\index{xprintf.c@{xprintf.c}!SPACESIZE@{SPACESIZE}}
+\index{SPACESIZE@{SPACESIZE}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{SPACESIZE}{SPACESIZE}}
+{\footnotesize\ttfamily \#define SPACESIZE~(sizeof(spaces) -\/ 1)}
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e}\label{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e} 
+\index{xprintf.c@{xprintf.c}!info@{info}}
+\index{info@{info}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{info}{info}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e}{info}}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x03}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ad}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ad} 
+\index{xprintf.c@{xprintf.c}!e\_type@{e\_type}}
+\index{e\_type@{e\_type}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{e\_type}{e\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ad}{e\+\_\+type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RADIX@{RADIX}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!RADIX@{RADIX}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9a4084441c1568887684a4e6acc91948}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9a4084441c1568887684a4e6acc91948} 
+RADIX&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FLOAT@{FLOAT}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!FLOAT@{FLOAT}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9cf4a0866224b0bb4a7a895da27c9c4c}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9cf4a0866224b0bb4a7a895da27c9c4c} 
+FLOAT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXP@{EXP}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!EXP@{EXP}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada25f966031f3630b7ea2a347fa376b757}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada25f966031f3630b7ea2a347fa376b757} 
+EXP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GENERIC@{GENERIC}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!GENERIC@{GENERIC}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9e022e6380da28dd73210ed34b137c36}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada9e022e6380da28dd73210ed34b137c36} 
+GENERIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SIZE@{SIZE}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!SIZE@{SIZE}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4aa71180778b711338785695df5d7c52}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4aa71180778b711338785695df5d7c52} 
+SIZE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STRING@{STRING}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!STRING@{STRING}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701adaee847e634a4297b274316de8a8ca9921}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701adaee847e634a4297b274316de8a8ca9921} 
+STRING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PERCENT@{PERCENT}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!PERCENT@{PERCENT}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada322ad1169a1de4a422a8447783954022}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada322ad1169a1de4a422a8447783954022} 
+PERCENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CHAR@{CHAR}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!CHAR@{CHAR}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4618cf21306b3c647741afa7ebefcab8}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4618cf21306b3c647741afa7ebefcab8} 
+CHAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR@{ERROR}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!ERROR@{ERROR}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada2fd6f336d08340583bd620a7f5694c90}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada2fd6f336d08340583bd620a7f5694c90} 
+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CHARLIT@{CHARLIT}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!CHARLIT@{CHARLIT}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada974c987854bf41787236460179383493}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada974c987854bf41787236460179383493} 
+CHARLIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEEIT@{SEEIT}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!SEEIT@{SEEIT}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4166235662d23f2cb5c1324e66981286}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4166235662d23f2cb5c1324e66981286} 
+SEEIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MEM\_STRING@{MEM\_STRING}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!MEM\_STRING@{MEM\_STRING}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4504b38a523f16fb9f861e0259067f7f}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada4504b38a523f16fb9f861e0259067f7f} 
+MEM\+\_\+\+STRING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ORDINAL@{ORDINAL}!xprintf.c@{xprintf.c}}\index{xprintf.c@{xprintf.c}!ORDINAL@{ORDINAL}}}\Hypertarget{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada3426609c3bb8613d0298c05c6755359e}\label{xprintf_8c_a07fb55fb8ca681eee25e1f632b6701ada3426609c3bb8613d0298c05c6755359e} 
+ORDINAL&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{xprintf_8c_a4b16100330a6d8e99f05c4540d4de42a}\label{xprintf_8c_a4b16100330a6d8e99f05c4540d4de42a} 
+\index{xprintf.c@{xprintf.c}!vasprintf@{vasprintf}}
+\index{vasprintf@{vasprintf}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{vasprintf()}{vasprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} vasprintf (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{out,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+
+
+
+Prints a formatted string to a newly allocated string. 
+
+This function is a helper around {\ttfamily vxprintf}, which will print to a string, and otherwise behaves the same as normal glibc (v)asprintf. The string will be allocated using {\ttfamily \doxylink{psyqo_2alloc_8h_a3804a7f46fcc70023cde5a3f007662da}{psyqo\+\_\+malloc()}}, and must be freed using {\ttfamily \doxylink{psyqo_2alloc_8h_a2e8fd619ab9a5b9581d93558dfb4ee76}{psyqo\+\_\+free()}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & The pointer to the string to allocate. \\
+\hline
+{\em fmt} & The format string. \\
+\hline
+{\em ap} & The vararg list of arguments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The number of bytes written. 
+\end{DoxyReturn}
+\Hypertarget{xprintf_8c_af67cd10179bf7388f6190ad133aa3258}\label{xprintf_8c_af67cd10179bf7388f6190ad133aa3258} 
+\index{xprintf.c@{xprintf.c}!vsnprintf@{vsnprintf}}
+\index{vsnprintf@{vsnprintf}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{vsnprintf()}{vsnprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} vsnprintf (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{size\+\_\+t}]{n,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+
+
+
+Prints a formatted string to a length-\/limited string. 
+
+This function is a helper around {\ttfamily vxprintf}, which will print to a string, and otherwise behaves the same as normal libc (v)snprintf.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & The buffer to print to. \\
+\hline
+{\em n} & The maximum number of bytes to write, including the terminating null byte. \\
+\hline
+{\em fmt} & The format string. \\
+\hline
+{\em ap} & The vararg list of arguments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The number of bytes written. 
+\end{DoxyReturn}
+\Hypertarget{xprintf_8c_a2acd803179adb1bdd96c409c7cf6ddca}\label{xprintf_8c_a2acd803179adb1bdd96c409c7cf6ddca} 
+\index{xprintf.c@{xprintf.c}!vsprintf@{vsprintf}}
+\index{vsprintf@{vsprintf}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{vsprintf()}{vsprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} vsprintf (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+
+
+
+Prints a formatted string to a string. 
+
+This function is a helper around {\ttfamily vxprintf}, which will print to a string, and otherwise behaves the same as normal libc (v)sprintf.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & The buffer to print to. \\
+\hline
+{\em fmt} & The format string. \\
+\hline
+{\em ap} & The vararg list of arguments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The number of bytes written. 
+\end{DoxyReturn}
+\Hypertarget{xprintf_8c_a12f2b6378f22b11fb61804ed4060c7a0}\label{xprintf_8c_a12f2b6378f22b11fb61804ed4060c7a0} 
+\index{xprintf.c@{xprintf.c}!vxprintf@{vxprintf}}
+\index{vxprintf@{vxprintf}!xprintf.c@{xprintf.c}}
+\doxysubsubsection{\texorpdfstring{vxprintf()}{vxprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} vxprintf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{func,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{arg,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+

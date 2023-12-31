@@ -1,0 +1,245 @@
+\doxysection{gpu.\+hh}
+\hypertarget{gpu_8hh_source}{}\label{gpu_8hh_source}\index{psyqo/gpu.hh@{psyqo/gpu.hh}}
+\mbox{\hyperlink{gpu_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/array.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <EASTL/atomic.h>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <EASTL/fixed\_list.h>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <EASTL/utility.h>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fragment-concept_8hh}{psyqo/fragment-\/concept.hh}}"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{hardware_2gpu_8hh}{psyqo/hardware/gpu.hh}}"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{kernel_8hh}{psyqo/kernel.hh}}"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ordering-table_8hh}{psyqo/ordering-\/table.hh}}"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{primitive-concept_8hh}{psyqo/primitive-\/concept.hh}}"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_8hh}{psyqo/primitives/common.hh}}"{}}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{control_8hh}{psyqo/primitives/control.hh}}"{}}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{misc_8hh}{psyqo/primitives/misc.hh}}"{}}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{namespace\ }DMA\ \{}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DmaCallback}}\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99af617fc1f013e92619c0008a5e6ff07eb}{FROM\_ISR}},}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{FROM\_MAIN\_LOOP}},}
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{namespace\ }timer\_literals\ \{}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_ns(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ /\ 1'000;\ \}}
+\DoxyCodeLine{00067\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_us(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00068\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_ms(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ *\ 1'000;\ \}}
+\DoxyCodeLine{00069\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_s(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ *\ 1'000'000;\ \}}
+\DoxyCodeLine{00070\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_ns(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ /\ 1'000;\ \}}
+\DoxyCodeLine{00071\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_us(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00072\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_ms(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ *\ 1'000;\ \}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_s(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ *\ 1'000'000;\ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \}\ \ \textcolor{comment}{//\ namespace\ timer\_literals}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \{}
+\DoxyCodeLine{00086\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1GPU_1_1Configuration}{Configuration}};}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02}{Resolution}}\ \{\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a20a3b192080fe5233724856fd1fdd4ff}{W256}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02ad2799ae4d9532e75c7b76f8fe7c80560}{W320}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a75db877e0a3a32172f0092fe627dd8c0}{W368}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a6dd107a6ff2544895b9e016397f25417}{W512}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad9467abab41694f0596bbacf7a238b02a016b20118d27be1be483198a0b0ba5fb}{W640}}\ \};}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696}{VideoMode}}\ \{\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696ae1f2d5134ed2543d38a0de9751cf75d9}{AUTO}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696a4b38da225171e1781308c764b6b3b172}{NTSC}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae208ebd940147f5f5a9a9b50b1be6696acf4f483867e0c770dda73062a492b370}{PAL}}\ \};}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3e}{ColorMode}}\ \{\ \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eafd93ed15ae10316f799cee8d5e6e24c0}{C15BITS}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ac42f63ffdde29ec0ceb3e6e24e559c3eab5a2a5fa6b37cce974ea28abaa8f2daa}{C24BITS}}\ \};}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306a}{Interlace}}\ \{\ \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa9bc5e7fe934fe08249e3aa2e0d3678ed}{PROGRESSIVE}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_a48806496d1618b7e7abd57e57829306aa8472c10b48f63928211bd72d1888071f}{INTERLACED}}\ \};}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52}{MiscSetting}}\ \{\ \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a897b839b365f010ba0cd41905200fc65}{CLEAR\_VRAM}},\ \mbox{\hyperlink{classpsyqo_1_1GPU_ab2f4d34cb5628ab408375c05e49fde52a31b2c4669316d9f9e021bd8850049a08}{KEEP\_VRAM}}\ \};}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a94b2f5f2dccbfaf5b80662d567e1ce2a}{initialize}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structConfiguration}{Configuration}}\ \&config);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a285c1eb933d75eea4d10eb798d78e97d}{US\_PER\_HBLANK}}\ =\ 64;}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{classpsyqo_1_1GPU_af55c8dc9b5e9065ab43b092b7c13f0b1}{c\_chainThreshold}}\ =\ 56;}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{classpsyqo_1_1GPU_aa6cecf7edc1d353b0571063b92e9b95b}{getRefreshRate}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_refreshRate;\ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a43245681eb3f72817ab68f0c24e2d04b}{getFrameCount}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_frameCount;\ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a1aed0f1c3f98303bdee3dbf282e7301f}{getParity}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_parity;\ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_aebfd00fab546616d9719222ae9e1593a}{clear}}(\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}\ bg\ =\ \{\{0,\ 0,\ 0\}\});}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a770c1be99910abc621ca46a809da7c47}{getClear}}(Prim::FastFill\ \&ff,\ \mbox{\hyperlink{unionColor}{Color}}\ bg\ =\ \{\{0,\ 0,\ 0\}\})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae426061894708be02f7c980a2c19f4e8}{getNextClear}}(Prim::FastFill\ \&ff,\ \mbox{\hyperlink{unionColor}{Color}}\ bg\ =\ \{\{0,\ 0,\ 0\}\})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae2e03a4798418feb963eb30de516de03}{uploadToVRAM}}(\textcolor{keyword}{const}\ uint16\_t\ *data,\ Rect\ region);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae2e03a4798418feb963eb30de516de03}{uploadToVRAM}}(\textcolor{keyword}{const}\ uint16\_t\ *data,\ Rect\ region,\ eastl::function<\textcolor{keywordtype}{void}()>\ \&\&callback,}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback\ =\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA::FROM\_MAIN\_LOOP}});}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keyword}{template}\ <Fragment\ Frag>}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}{sendFragment}}(\textcolor{keyword}{const}\ Frag\ \&fragment)\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}{sendFragment}}(\&fragment.head\ +\ 1,\ fragment.getActualFragmentSize());}
+\DoxyCodeLine{00213\ \ \ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keyword}{template}\ <Fragment\ Frag>}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a56226bf7b304aeb1c959bdadeb67040f}{sendFragment}}(\textcolor{keyword}{const}\ Frag\ \&fragment,\ eastl::function<\textcolor{keywordtype}{void}()>\ \&\&callback,}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback\ =\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA::FROM\_MAIN\_LOOP}})\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}{sendFragment}}(\&fragment.head\ +\ 1,\ fragment.getActualFragmentSize(),\ eastl::move(callback),\ dmaCallback);}
+\DoxyCodeLine{00228\ \ \ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a60d5174f36f7fcbd41385e4e8b1b3fbd}{disableScissor}}();}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a833d7512de2c2f839442ffcb36fe45d3}{enableScissor}}();}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_afb216e98b53f375b6a117a6944a2d2fd}{getScissor}}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Scissor}{Prim::Scissor}}\ \&scissor);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a8c3b5968057b8c2b48f2ae9ea06d21c7}{getNextScissor}}(\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Scissor}{Prim::Scissor}}\ \&scissor);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a85873df29f9526d153dd31a8fe76c76e}{waitReady}}();}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae96d300f26b67e9ef313a25273e90384}{waitFifo}}();}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae4a0f1dd3e18ea6c1a632c6102c9f79b}{sendRaw}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ data)\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1GPU_ab96e2781e37eb3ed7201c961bda95f7c}{Hardware::GPU::Data}}\ =\ data;\ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keyword}{template}\ <Primitive\ Prim>}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a318caff55f8649cbaf430e3e2bed39b6}{sendPrimitive}}(\textcolor{keyword}{const}\ Prim\ \&primitive)\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_a85873df29f9526d153dd31a8fe76c76e}{waitReady}}();}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}\ =\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *\textcolor{keyword}{>}(\&primitive);}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}\ =\ \textcolor{keyword}{sizeof}(Prim)\ /\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}});}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}};\ i++)\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}(Prim)\ >\ \mbox{\hyperlink{classpsyqo_1_1GPU_af55c8dc9b5e9065ab43b092b7c13f0b1}{c\_chainThreshold}})\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae96d300f26b67e9ef313a25273e90384}{waitFifo}}();}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_ae4a0f1dd3e18ea6c1a632c6102c9f79b}{sendRaw}}(*\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}++);}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keyword}{template}\ <Fragment\ Frag>}
+\DoxyCodeLine{00308\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}{chain}}(Frag\ \&fragment)\ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}{chain}}(\&fragment.head,\ \&fragment.head,\ fragment.getActualFragmentSize());}
+\DoxyCodeLine{00310\ \ \ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keyword}{template}\ <Fragment\ Frag1,\ Fragment\ Frag2>}
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a7831fbe354d4cc48b83303ed828ec70d}{chain}}(Frag1\ *first,\ Frag2\ *last)\ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}\ =\ last-\/>getActualFragmentSize();}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a280bdda777ef203032ff0767b5063ff1}{Kernel::assert}}(\mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}\ <=\ (\mbox{\hyperlink{classpsyqo_1_1GPU_af55c8dc9b5e9065ab43b092b7c13f0b1}{c\_chainThreshold}}\ /\ 4),\ \textcolor{stringliteral}{"{}Last\ element\ of\ the\ chain\ is\ too\ big"{}});}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}{chain}}(\&first-\/>head,\ \&last-\/>head,\ last-\/>getActualFragmentSize());}
+\DoxyCodeLine{00326\ \ \ \ \ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_acf456b99ae3277804395e4ab10cf5ee0}{chain}}(\mbox{\hyperlink{classpsyqo_1_1OrderingTable}{OrderingTable<N>}}\ \&table)\ \{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}{chain}}(\&table.m\_table[N],\ \&table.m\_table[0],\ 0);}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ scheduleOTC(\&table.m\_table[N],\ N\ +\ 1);}
+\DoxyCodeLine{00340\ \ \ \ \ \}}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_abbb163bd353a0c1a0f74f984f4cf3035}{sendChain}}();}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_abbb163bd353a0c1a0f74f984f4cf3035}{sendChain}}(eastl::function<\textcolor{keywordtype}{void}()>\ \&\&callback,\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback\ =\ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99a6dd9eba1412f0bdb4301a54ba7a6c5c5}{DMA::FROM\_MAIN\_LOOP}});}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a15468babe6e97d899eb454c50f97a6b7}{isChainIdle}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00370\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1GPU_aeb958e3445245f03236d1cc259e0ed31}{isChainTransferring}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae17401ed52bb5d197aac16364ca577cf}{isChainTransferred}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a3d4519352164c43fab4c6b6a9655d628}{waitChainIdle}}()\ \{}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{classpsyqo_1_1GPU_aeb958e3445245f03236d1cc259e0ed31}{isChainTransferring}}())\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad1f347688a7668c878b2aa0c1a9c4b9b}{pumpCallbacks}}();}
+\DoxyCodeLine{00385\ \ \ \ \ \}}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00404\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a8f9c350c46e0b138867bb2289c407012}{now}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_currentTime;\ \}}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00423\ \ \ \ \ uintptr\_t\ \mbox{\hyperlink{classpsyqo_1_1GPU_a538a75a41d5d2d7dee36257624c7141e}{armTimer}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ deadline,\ eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})>\ \&\&callback);}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a7c072d5f10214000446131827711f605}{armPeriodicTimer}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ period,\ eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})>\ \&\&callback);}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ac4e51005b198453448a9333f4287c1f9}{changeTimerPeriod}}(uintptr\_t\ \textcolor{keywordtype}{id},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ period,\ \textcolor{keywordtype}{bool}\ reset\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad05cb9a39bb2f85d74fea992cf92cd8b}{pauseTimer}}(uintptr\_t\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ae991de5c89c011d38bfcd8f21c80f929}{resumeTimer}}(uintptr\_t\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00475\ }
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ada42e9681f9ce7b6d8ed54b379c07ab8}{cancelTimer}}(uintptr\_t\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_ad1f347688a7668c878b2aa0c1a9c4b9b}{pumpCallbacks}}();}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00496\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}();}
+\DoxyCodeLine{00497\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00498\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00499\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00500\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&operator=(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}{sendFragment}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}});}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_a22963ff4aec6a8d701ab04710c073631}{sendFragment}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *data,\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}},\ eastl::function<\textcolor{keywordtype}{void}()>\ \&\&callback,}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA::DmaCallback}}\ dmaCallback);}
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keywordtype}{void}\ scheduleNormalDMA(uintptr\_t\ data,\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}});}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordtype}{void}\ scheduleChainedDMA(uintptr\_t\ head);}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1GPU_aef7c45c161127c03bc707f96497b28ce}{chain}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *first,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *last,\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}});}
+\DoxyCodeLine{00507\ \ \ \ \ \textcolor{keywordtype}{void}\ scheduleOTC(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *start,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}});}
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keywordtype}{void}\ checkOTCAndTriggerCallback();}
+\DoxyCodeLine{00509\ \ \ \ \ \textcolor{keywordtype}{void}\ prepareForTakeover();}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\textcolor{keywordtype}{void})>\ m\_dmaCallback\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00512\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ m\_refreshRate\ =\ 0;}
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_width\ =\ 0;}
+\DoxyCodeLine{00514\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_height\ =\ 0;}
+\DoxyCodeLine{00515\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ m\_currentTime\ =\ 0;}
+\DoxyCodeLine{00516\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ m\_frameCount\ =\ 0;}
+\DoxyCodeLine{00517\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ m\_previousFrameCount\ =\ 0;}
+\DoxyCodeLine{00518\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ m\_parity\ =\ 0;}
+\DoxyCodeLine{00519\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *m\_chainHead\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00520\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *m\_chainTail\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00521\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ m\_chainTailCount\ =\ 0;}
+\DoxyCodeLine{00522\ \ \ \ \ \textcolor{keyword}{enum}\ \{\ CHAIN\_IDLE,\ CHAIN\_TRANSFERRING,\ CHAIN\_TRANSFERRED\ \}\ m\_chainStatus\ =\ CHAIN\_IDLE;}
+\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keyword}{struct\ }Timer\ \{}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})>\ callback;}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ deadline;}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ period;}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ int32\_t\ pausedRemaining;}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ periodic;}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ paused\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00530\ \ \ \ \ \};}
+\DoxyCodeLine{00531\ \ \ \ \ eastl::fixed\_list<Timer,\ 32>\ m\_timers;}
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keyword}{struct\ }ScheduledOTC\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *start;}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}};}
+\DoxyCodeLine{00535\ \ \ \ \ \};}
+\DoxyCodeLine{00536\ \ \ \ \ eastl::fixed\_list<ScheduledOTC,\ 32>\ m\_OTCs[2];}
+\DoxyCodeLine{00537\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *m\_chainNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ uint16\_t\ m\_lastHSyncCounter\ =\ 0;}
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_interlaced\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00541\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_fromISR\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00542\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_flushCacheAfterDMA\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keywordtype}{void}\ flip();}
+\DoxyCodeLine{00545\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1Application}{Application}};}
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a}{psyqo::Kernel::takeOverKernel}}();}
+\DoxyCodeLine{00547\ \};}
+\DoxyCodeLine{00548\ }
+\DoxyCodeLine{00549\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{configuration_8hh}{psyqo/internal/gpu/configuration.hh}}"{}}}
+
+\end{DoxyCode}

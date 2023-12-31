@@ -1,0 +1,97 @@
+\doxysection{openbios/gpu/gpu.h File Reference}
+\hypertarget{openbios_2gpu_2gpu_8h}{}\label{openbios_2gpu_2gpu_8h}\index{openbios/gpu/gpu.h@{openbios/gpu/gpu.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for gpu.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=192pt]{de/d21/openbios_2gpu_2gpu_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d8c/openbios_2gpu_2gpu_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_a6d4d6a933a40316d65a10c4ab575522a}{GPU\+\_\+dw}} (unsigned x, unsigned y, unsigned w, unsigned h, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_ace6302499d922a257a5fd10836f09484}{GPU\+\_\+mem2vram}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_a1f16b13f2204ca12588987c39369c611}{GPU\+\_\+send}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{dma_8c_a5e9712b08d7cbf6091f9e5334ff97b5d}{cmd}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_af94cbcd6c7ae0d5ad84860558c157005}{GPU\+\_\+cw}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{dma_8c_a5e9712b08d7cbf6091f9e5334ff97b5d}{cmd}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_a25fb1a53e50c202e99e602742b24fe3a}{GPU\+\_\+cwb}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}cmds, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_a679ee454b0b5fd962f67f2051e17bd7b}{GPU\+\_\+send\+Packets}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}start)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_a9e8e89844275888f7086df0026221966}{GPU\+\_\+abort}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_aa2a63eda235285965fc0ce323a787b1f}{GPU\+\_\+get\+Status}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{openbios_2gpu_2gpu_8h_a047ff6af8568de66d4b05d4927817213}{GPU\+\_\+sync}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2gpu_2gpu_8h_a9e8e89844275888f7086df0026221966}\label{openbios_2gpu_2gpu_8h_a9e8e89844275888f7086df0026221966} 
+\index{gpu.h@{gpu.h}!GPU\_abort@{GPU\_abort}}
+\index{GPU\_abort@{GPU\_abort}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_abort()}{GPU\_abort()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} GPU\+\_\+abort (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_af94cbcd6c7ae0d5ad84860558c157005}\label{openbios_2gpu_2gpu_8h_af94cbcd6c7ae0d5ad84860558c157005} 
+\index{gpu.h@{gpu.h}!GPU\_cw@{GPU\_cw}}
+\index{GPU\_cw@{GPU\_cw}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_cw()}{GPU\_cw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} GPU\+\_\+cw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{cmd }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_a25fb1a53e50c202e99e602742b24fe3a}\label{openbios_2gpu_2gpu_8h_a25fb1a53e50c202e99e602742b24fe3a} 
+\index{gpu.h@{gpu.h}!GPU\_cwb@{GPU\_cwb}}
+\index{GPU\_cwb@{GPU\_cwb}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_cwb()}{GPU\_cwb()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} GPU\+\_\+cwb (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cmds,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{count }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_a6d4d6a933a40316d65a10c4ab575522a}\label{openbios_2gpu_2gpu_8h_a6d4d6a933a40316d65a10c4ab575522a} 
+\index{gpu.h@{gpu.h}!GPU\_dw@{GPU\_dw}}
+\index{GPU\_dw@{GPU\_dw}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_dw()}{GPU\_dw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} GPU\+\_\+dw (\begin{DoxyParamCaption}\item[{unsigned}]{x,  }\item[{unsigned}]{y,  }\item[{unsigned}]{w,  }\item[{unsigned}]{h,  }\item[{const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{src }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_aa2a63eda235285965fc0ce323a787b1f}\label{openbios_2gpu_2gpu_8h_aa2a63eda235285965fc0ce323a787b1f} 
+\index{gpu.h@{gpu.h}!GPU\_getStatus@{GPU\_getStatus}}
+\index{GPU\_getStatus@{GPU\_getStatus}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_getStatus()}{GPU\_getStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} GPU\+\_\+get\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_ace6302499d922a257a5fd10836f09484}\label{openbios_2gpu_2gpu_8h_ace6302499d922a257a5fd10836f09484} 
+\index{gpu.h@{gpu.h}!GPU\_mem2vram@{GPU\_mem2vram}}
+\index{GPU\_mem2vram@{GPU\_mem2vram}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_mem2vram()}{GPU\_mem2vram()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} GPU\+\_\+mem2vram (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_a1f16b13f2204ca12588987c39369c611}\label{openbios_2gpu_2gpu_8h_a1f16b13f2204ca12588987c39369c611} 
+\index{gpu.h@{gpu.h}!GPU\_send@{GPU\_send}}
+\index{GPU\_send@{GPU\_send}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_send()}{GPU\_send()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} GPU\+\_\+send (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{cmd }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_a679ee454b0b5fd962f67f2051e17bd7b}\label{openbios_2gpu_2gpu_8h_a679ee454b0b5fd962f67f2051e17bd7b} 
+\index{gpu.h@{gpu.h}!GPU\_sendPackets@{GPU\_sendPackets}}
+\index{GPU\_sendPackets@{GPU\_sendPackets}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_sendPackets()}{GPU\_sendPackets()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} GPU\+\_\+send\+Packets (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{start }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2gpu_2gpu_8h_a047ff6af8568de66d4b05d4927817213}\label{openbios_2gpu_2gpu_8h_a047ff6af8568de66d4b05d4927817213} 
+\index{gpu.h@{gpu.h}!GPU\_sync@{GPU\_sync}}
+\index{GPU\_sync@{GPU\_sync}!gpu.h@{gpu.h}}
+\doxysubsubsection{\texorpdfstring{GPU\_sync()}{GPU\_sync()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} GPU\+\_\+sync (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+

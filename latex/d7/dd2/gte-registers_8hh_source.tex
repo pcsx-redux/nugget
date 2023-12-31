@@ -1,0 +1,820 @@
+\doxysection{gte-\/registers.hh}
+\hypertarget{gte-registers_8hh_source}{}\label{gte-registers_8hh_source}\index{psyqo/gte-\/registers.hh@{psyqo/gte-\/registers.hh}}
+\mbox{\hyperlink{gte-registers_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed-point_8hh}{psyqo/fixed-\/point.hh}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{matrix_8hh}{psyqo/matrix.hh}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{vector_8hh}{psyqo/vector.hh}}"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{namespace\ }GTE\ \{}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<12>}}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ae792b7c00d9386fbbd07ef2e9a1e45ba}{Long}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<12,\ int16\_t>}}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a06e0b5eccc9e7d320d5358be0c85b735}{x}},\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_ab6f8032fbbfff0e8c1caac9dbc289858}{y}},\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a35349735475c9b8107589daed3a1dd3a}{z}};}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_aec5ceb5e47a23d262bdf2a530cad0af0}{PackedVec3}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_abc467efe5a622257275cd64140c482fa}{PackedVec3}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ :\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a06e0b5eccc9e7d320d5358be0c85b735}{x}}(x\_),\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_ab6f8032fbbfff0e8c1caac9dbc289858}{y}}(y\_),\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a35349735475c9b8107589daed3a1dd3a}{z}}(z\_)\ \{\}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_ae205d25089120f4a6cd331671e47f640}{PackedVec3}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ v)\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a06e0b5eccc9e7d320d5358be0c85b735}{x}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(v.\mbox{\hyperlink{structpsyqo_1_1Vector_a30770e7635c3a2e93cd9d1e868e59c7f}{x}});}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_ab6f8032fbbfff0e8c1caac9dbc289858}{y}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(v.\mbox{\hyperlink{structpsyqo_1_1Vector_ab2db5db203704f65740e8e951f1d2905}{y}});}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a35349735475c9b8107589daed3a1dd3a}{z}}\ =\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(v.\mbox{\hyperlink{structpsyqo_1_1Vector_a027611bfe8ccce60bfd604a50ac6acdf}{z}});}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{operator}\ \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{structpsyqo_1_1Vector_a30770e7635c3a2e93cd9d1e868e59c7f}{x}}\ =\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<>}}(\mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a06e0b5eccc9e7d320d5358be0c85b735}{x}});}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.y\ =\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<>}}(\mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_ab6f8032fbbfff0e8c1caac9dbc289858}{y}});}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.z\ =\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<>}}(\mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3_a35349735475c9b8107589daed3a1dd3a}{z}});}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5}{Register}}\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ad786a1efceae0307f74916c474931057}{VXY0}},\ \textcolor{comment}{/*\ Vector\ 0\ (X,Y)\ */}}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a3b89a14bfe070d8d6cb041c31490c176}{VZ0}},\ \textcolor{comment}{/*\ Vector\ 0\ (Z)\ */}}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5afb0551e60912cbcd5c76320d7a67486f}{VXY1}},\ \textcolor{comment}{/*\ Vector\ 1\ (X,Y)\ */}}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a3cb2da34afc6ad84b31b782765103324}{VZ1}},\ \textcolor{comment}{/*\ Vector\ 1\ (Z)\ */}}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ab5c9cae1ca26be1e3abd011e09bb4439}{VXY2}},\ \textcolor{comment}{/*\ Vector\ 2\ (X,Y)\ */}}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5acb5718d1b03e62b7dd70350e44bf5717}{VZ2}},\ \textcolor{comment}{/*\ Vector\ 2\ (Z)\ */}}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a889574aebacda6bfd3e534e2b49b8028}{RGB}},\ \textcolor{comment}{/*\ Color/code\ value\ */}}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5acf23dfd8157f2562747a10065c17a4bc}{OTZ}},\ \textcolor{comment}{/*\ Average\ Z\ value\ (for\ Ordering\ Table)\ */}}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a27dc3527ddc57f0019ae5c0145e5f057}{IR0}},\ \textcolor{comment}{/*\ 16bit\ Accumulator\ 0\ (Interpolate)\ */}}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a6ca5fff5d25b251040b4ca7f269e5604}{IR1}},\ \textcolor{comment}{/*\ 16bit\ Accumulator\ 1\ (Vector)\ */}}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a7b639efe24310482363ff1322d4404ad}{IR2}},\ \textcolor{comment}{/*\ 16bit\ Accumulator\ 2\ (Vector)\ */}}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ae32f620c39436819bc0bef90ca86f596}{IR3}},\ \textcolor{comment}{/*\ 16bit\ Accumulator\ 3\ (Vector)\ */}}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a7ac3b99634ac8ef076a4f00c7cc13310}{SXY0}},\ \textcolor{comment}{/*\ Screen\ XY-\/coordinate\ 0\ FIFO\ */}}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4541ba03f771f410b18f80418330efcf}{SXY1}},\ \textcolor{comment}{/*\ Screen\ XY-\/coordinate\ 1\ FIFO\ */}}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a27dbece0fd36c42292ba57ec6b405194}{SXY2}},\ \textcolor{comment}{/*\ Screen\ XY-\/coordinate\ 2\ FIFO\ */}}
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac90e639fa7c1b12976b21bc3c8ec2c5b}{SXYP}},\ \textcolor{comment}{/*\ Screen\ XY-\/coordinate\ P\ FIFO\ */}}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aafceca130ae256a39c6da97c3235f4a7}{SZ0}},\ \textcolor{comment}{/*\ Screen\ Z-\/coordinate\ 0\ FIFO\ */}}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a560a8ba49f00d2773a4e382dcea256fe}{SZ1}},\ \textcolor{comment}{/*\ Screen\ Z-\/coordinate\ 1\ FIFO\ */}}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a87fbb7b483173f1578c2322ae77adc4b}{SZ2}},\ \textcolor{comment}{/*\ Screen\ Z-\/coordinate\ 2\ FIFO\ */}}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a2e9f6a0acfb2cd81aec76fba29b53a02}{SZ3}},\ \textcolor{comment}{/*\ Screen\ Z-\/coordinate\ 3\ FIFO\ */}}
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5adfb00f75c13032a12d19409bbd6d42c0}{RGB0}},\ \textcolor{comment}{/*\ Color\ CRGB-\/code/color\ 0\ FIFO\ */}}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a971a6425b55c4188ad633e7a1ce83063}{RGB1}},\ \textcolor{comment}{/*\ Color\ CRGB-\/code/color\ 1\ FIFO\ */}}
+\DoxyCodeLine{00096\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a9be6725fbd753062550a86e9cba3d5b6}{RGB2}},\ \textcolor{comment}{/*\ Color\ CRGB-\/code/color\ 2\ FIFO\ */}}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a35c3a4fbfd3c3b02e8f91e11855e8844}{RES1}},\ \textcolor{comment}{/*\ Prohibited\ */}}
+\DoxyCodeLine{00098\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac82730eafa75a87520c9b6d0f0995679}{MAC0}},\ \textcolor{comment}{/*\ 32bit\ Maths\ Accumulators\ 0\ (Value)\ */}}
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65a6e8006a9c2042e8aa78e5d9014d37}{MAC1}},\ \textcolor{comment}{/*\ 32bit\ Maths\ Accumulators\ 1\ (Vector)\ */}}
+\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ae2a627d3f27a8e5be841984f25f6c7ff}{MAC2}},\ \textcolor{comment}{/*\ 32bit\ Maths\ Accumulators\ 2\ (Vector)\ */}}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ab4e60350d6c70ba07d8716dd0aac9659}{MAC3}},\ \textcolor{comment}{/*\ 32bit\ Maths\ Accumulators\ 3\ (Vector)\ */}}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ad0a5f9cf1a494f33e35eadfd857bf35f}{IRGB}},\ \textcolor{comment}{/*\ Convert\ RGB\ Color\ (48bit\ vs\ 15bit)\ */}}
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac017fce4a92260e1ccd683cfa12aa7c1}{ORGB}},\ \textcolor{comment}{/*\ Convert\ RGB\ Color\ (48bit\ vs\ 15bit)\ */}}
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a17a6f59d82b273cd250b31657c58c7ef}{LZCS}},\ \textcolor{comment}{/*\ Count\ Leading-\/Zeroes/Ones\ (sign\ bits)\ */}}
+\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5acd1b6334b5d01e0b28b288d10a261e62}{LZCR}},\ \textcolor{comment}{/*\ Count\ Leading-\/Zeroes/Ones\ (sign\ bits)\ */}}
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{R11R12}},\ \textcolor{comment}{/*\ Rotation\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a5d5aa56a8a3fe517d1b1451a1ad7829e}{R13R21}},\ \textcolor{comment}{/*\ Rotation\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a0358ca1528bded56ef3aeea3d40309b9}{R22R23}},\ \textcolor{comment}{/*\ Rotation\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00109\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a198cb730249450b98adf6e90a9e4e7a7}{R31R32}},\ \textcolor{comment}{/*\ Rotation\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a82cb69e5e0ee0f05e2f0b4da9918c971}{R33}},\ \textcolor{comment}{/*\ Rotation\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a364e6beb127ef9ae8d1cdf6c1d5699b7}{TRX}},\ \textcolor{comment}{/*\ Translation\ vector\ (X)\ */}}
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a59dfb83f7cac4e3c8ee91700ef2ad90d}{TRY}},\ \textcolor{comment}{/*\ Translation\ vector\ (Y)\ */}}
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a9b529ca41c807db0eab58fbaf9588cb7}{TRZ}},\ \textcolor{comment}{/*\ Translation\ vector\ (Z)\ */}}
+\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a2b2001660147573f57c951e783f7a89a}{L11L12}},\ \textcolor{comment}{/*\ Light\ source\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a6af48d7a6f1a826092e1fc0dd8ab1850}{L13L21}},\ \textcolor{comment}{/*\ Light\ source\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a3392c367165562fdb49f5b5291c15c6d}{L22L23}},\ \textcolor{comment}{/*\ Light\ source\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aa8a37c96342226f77151dd6575b7771d}{L31L32}},\ \textcolor{comment}{/*\ Light\ source\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00118\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a700049ae9f8cb7635bf38ea93d450c00}{L33}},\ \textcolor{comment}{/*\ Light\ source\ matrix\ (3x3)\ */}}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aee9348767867521ca3da6763646f9de6}{RBK}},\ \textcolor{comment}{/*\ Background\ color(R)\ */}}
+\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ab9e45b5f8ceece0ac2581898270e2aac}{GBK}},\ \textcolor{comment}{/*\ Background\ color(G)\ */}}
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ad492abdf85ce2bfb651e28d11c70de69}{BBK}},\ \textcolor{comment}{/*\ Background\ color(B)\ */}}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a1929bc29df7024053fce91ebe6a13bb1}{LR1LR2}},\ \textcolor{comment}{/*\ Light\ color\ matrix\ source\ (3x3)\ \ */}}
+\DoxyCodeLine{00123\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5aa2bd2b89d93074c6647f7c7fe7b085f8}{LR3LG1}},\ \textcolor{comment}{/*\ Light\ color\ matrix\ source\ (3x3)\ \ */}}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4d018274d936dde69b9bce64975074fd}{LG2LG3}},\ \textcolor{comment}{/*\ Light\ color\ matrix\ source\ (3x3)\ \ */}}
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4b7d95dc15f9bea89dfa0352bb2598f5}{LB1LB2}},\ \textcolor{comment}{/*\ Light\ color\ matrix\ source\ (3x3)\ \ */}}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a969e88b64bd57ee1155c7c63d1cfbf36}{LB3}},\ \textcolor{comment}{/*\ Light\ color\ matrix\ source\ (3x3)\ \ */}}
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a54bde4340555e534de2f4b6329ee925b}{RFC}},\ \textcolor{comment}{/*\ Far\ color\ (R)\ */}}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a222ccc8cf6221f9b6d72f95d65777b68}{GFC}},\ \textcolor{comment}{/*\ Far\ color\ (G)\ */}}
+\DoxyCodeLine{00129\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a4f2ab5061f6f4676367b7acaf2182f3f}{BFC}},\ \textcolor{comment}{/*\ Far\ color\ (B)\ */}}
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a02ce7359524bef8a1b4d7a2502165400}{OFX}},\ \textcolor{comment}{/*\ Screen\ offset\ (X)\ */}}
+\DoxyCodeLine{00131\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a5a157de6a3833b410eac48c745591b2b}{OFY}},\ \textcolor{comment}{/*\ Screen\ offset\ (Y)\ */}}
+\DoxyCodeLine{00132\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac1d9f50f86825a1a2302ec2449c17196}{H}},\ \textcolor{comment}{/*\ Projection\ plane\ distance.\ */}}
+\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac831f0740af8296ce34e67c8efbfc5d2}{DQA}},\ \textcolor{comment}{/*\ Depth\ queing\ parameter\ A\ (coeff)\ */}}
+\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac921be34eb193ccf22dc6b9dc7e70f79}{DQB}},\ \textcolor{comment}{/*\ Depth\ queing\ parameter\ B\ (offset)\ */}}
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5ac97b588958ef3170651c412f1aa1022f}{ZSF3}},\ \textcolor{comment}{/*\ Average\ Z\ scale\ factors\ */}}
+\DoxyCodeLine{00136\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a010e4df231c3e02a7cac2dc70f840ac2}{ZSF4}},\ \textcolor{comment}{/*\ Average\ Z\ scale\ factors\ */}}
+\DoxyCodeLine{00137\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a0f4d0db3668dd58cabb9eb409657eaa8}{FLAG}},\ \textcolor{comment}{/*\ Returns\ any\ calculation\ errors\ */}}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdd}{Safety}}\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cddab2ced2ac707caf305ce22409ef5826e4}{Unsafe}},\ \textcolor{comment}{/*\ avoid\ nops\ */}}
+\DoxyCodeLine{00153\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{Safe}},\ \textcolor{comment}{/*\ insert\ nops\ */}}
+\DoxyCodeLine{00154\ \};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{template}\ <Register\ reg,\ Safety\ safety\ =\ Safe>}
+\DoxyCodeLine{00163\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ clear()\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}mtc2\ \$0,\ \$\%0"{}}\ ::\textcolor{stringliteral}{"{}i"{}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(reg)));}
+\DoxyCodeLine{00166\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ >=\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}ctc2\ \$0,\ \$\%0"{}}\ ::\textcolor{stringliteral}{"{}i"{}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(reg)\ -\/\ 32));}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{Safe}})\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}nop;\ nop"{}});}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{template}\ <Register\ reg,\ Safety\ safety\ =\ Safe>}
+\DoxyCodeLine{00182\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ write(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_builtin\_constant\_p(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ \&\&\ (\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ ==\ 0))\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ clear<reg,\ safety>();}
+\DoxyCodeLine{00185\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}mtc2\ \%0,\ \$\%1"{}}\ ::\textcolor{stringliteral}{"{}r"{}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}),\ \textcolor{stringliteral}{"{}i"{}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(reg)));}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ >=\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}ctc2\ \%0,\ \$\%1"{}}\ ::\textcolor{stringliteral}{"{}r"{}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}),\ \textcolor{stringliteral}{"{}i"{}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(reg)\ -\/\ 32));}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{Safe}})\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}nop;\ nop"{}});}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00204\ \textcolor{keyword}{template}\ <Register\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00205\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeSafe(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}\ fp)\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ single\ fixed\ point\ to\ register"{}});}
+\DoxyCodeLine{00207\ \}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00216\ \textcolor{keyword}{template}\ <Register\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00217\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeUnsafe(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}\ fp)\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ single\ fixed\ point\ to\ register"{}});}
+\DoxyCodeLine{00219\ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00228\ \textcolor{keyword}{template}\ <Register\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00229\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeSafe(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}\ low,\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}\ \mbox{\hyperlink{cpu_8c_a45e38b330fdfee8a01aafd8639e61d56}{hi}})\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ double\ fixed\ point\ to\ register"{}});}
+\DoxyCodeLine{00231\ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00241\ \textcolor{keyword}{template}\ <Register\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00242\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeUnsafe(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}\ low,\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}\ \mbox{\hyperlink{cpu_8c_a45e38b330fdfee8a01aafd8639e61d56}{hi}})\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ double\ fixed\ point\ to\ register"{}});}
+\DoxyCodeLine{00244\ \}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00249\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0}{PseudoRegister}}\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0af1a42bd417390fc63b030a519624607a}{Rotation}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ rotation\ matrix,\ mapped\ to\ registers\ R11R12-\/R33\ */}}
+\DoxyCodeLine{00251\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a9914a0ce04a7b7b6a8e39bec55064b82}{Light}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ light\ matrix,\ mapped\ to\ registers\ L11L12-\/L33\ */}}
+\DoxyCodeLine{00252\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0acb5feb1b7314637725a2e73bdc9f7295}{Color}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ light\ color\ matrix,\ mapped\ to\ registers\ LR1LR2-\/LB3\ */}}
+\DoxyCodeLine{00253\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a16514e6f648a594f5399a6b3a58e9c93}{V0}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ Vector\ 0,\ mapped\ to\ registers\ VXY0\ and\ VZ0\ */}}
+\DoxyCodeLine{00254\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0ab4daca084ad9eabfc8de231929477ed6}{V1}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ Vector\ 1,\ mapped\ to\ registers\ VXY1\ and\ VZ1\ */}}
+\DoxyCodeLine{00255\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0aec765f1adc3b4253f2d3b131a4a8618f}{V2}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ Vector\ 2,\ mapped\ to\ registers\ VXY2\ and\ VZ2\ */}}
+\DoxyCodeLine{00256\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0ad38212a0c0e98f678feaaa5a8b9167f5}{SV}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ 16bit\ Accumulator\ Vector,\ mapped\ to\ registers\ IR1-\/IR3\ */}\ }
+\DoxyCodeLine{00257\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0aa7bdee32cb21f0abbf9f878cb06cfe16}{LV}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ 32bit\ Maths\ Accumulator\ Vector,\ mapped\ to\ registers\ MAC1-\/MAC3\ */}}
+\DoxyCodeLine{00258\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a6dd08874f83507e9c7b23f1a46b7fa7c}{Translation}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ Translation\ vector,\ mapped\ to\ registers\ TRX-\/TRZ\ */}}
+\DoxyCodeLine{00259\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aece3033312029ece5a90f80a093e45e0a046b836c79b7be91e94ba86265a44977}{ScreenOffset}},\ \textcolor{comment}{/*\ pseudo\ register\ for\ full\ Screen\ offset,\ mapped\ to\ registers\ OFX\ and\ OFY\ */}}
+\DoxyCodeLine{00260\ \};}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00269\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00270\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeSafe(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ matrix\ to\ pseudo\ register"{}});}
+\DoxyCodeLine{00272\ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00281\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00282\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeUnsafe(\textcolor{keyword}{const}\ Matrix33\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ matrix\ to\ pseudo\ register"{}});}
+\DoxyCodeLine{00284\ \}}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00293\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00294\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeSafe(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ vector\ to\ pseudo\ register"{}});}
+\DoxyCodeLine{00296\ \}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00305\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00306\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeSafe(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ vector\ to\ pseudo\ register"{}});}
+\DoxyCodeLine{00308\ \}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00317\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00318\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeUnsafe(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ vector\ to\ pseudo\ register"{}});}
+\DoxyCodeLine{00320\ \}}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00329\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00330\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ writeUnsafe(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00331\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ write\ vector\ to\ pseudo\ register"{}});}
+\DoxyCodeLine{00332\ \}}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00341\ \textcolor{keyword}{template}\ <Register\ reg,\ Safety\ safety\ =\ Safe>}
+\DoxyCodeLine{00342\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ write(\textcolor{keyword}{const}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\ \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})\ \{}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keyword}{static\_assert}(reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}},\ \textcolor{stringliteral}{"{}Unable\ to\ write\ to\ register\ from\ memory\ directly"{}});}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}lwc2\ \$\%1,\ 0(\%0)"{}}\ ::\textcolor{stringliteral}{"{}r"{}}(\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}),\ \textcolor{stringliteral}{"{}i"{}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(reg)));}
+\DoxyCodeLine{00346\ \ \ \ \ \}}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{Safe}})\ \{}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}nop;\ nop"{}});}
+\DoxyCodeLine{00350\ \ \ \ \ \}}
+\DoxyCodeLine{00351\ \}}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00360\ \textcolor{keyword}{template}\ <Register\ reg,\ Safety\ safety\ =\ Safe>}
+\DoxyCodeLine{00361\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ readRaw()\ \{}
+\DoxyCodeLine{00362\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{Safe}})\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}mfc2\ \%0,\ \$\%1;\ nop"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ :\ \textcolor{stringliteral}{"{}i"{}}(static\_cast<\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}>(reg)));}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cddab2ced2ac707caf305ce22409ef5826e4}{Unsafe}})\ \{}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}mfc2\ \%0,\ \$\%1"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ :\ \textcolor{stringliteral}{"{}i"{}}(static\_cast<\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}>(reg)));}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00369\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ >=\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cdda3a3452a67c7e4498e32007b4c956b08a}{Safe}})\ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cfc2\ \%0,\ \$\%1;\ nop"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ :\ \textcolor{stringliteral}{"{}i"{}}(static\_cast<\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}>(reg)\ -\/\ 32));}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (safety\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3ca05f759f05211cf2402c10e6ca7cddab2ced2ac707caf305ce22409ef5826e4}{Unsafe}})\ \{}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cfc2\ \%0,\ \$\%1"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\ :\ \textcolor{stringliteral}{"{}i"{}}(static\_cast<\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}>(reg)\ -\/\ 32));}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00375\ \ \ \ \ \}}
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00377\ \}}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00385\ \textcolor{keyword}{template}\ <Register\ reg>}
+\DoxyCodeLine{00386\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ read(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\ \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})\ \{}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keyword}{static\_assert}(reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}},\ \textcolor{stringliteral}{"{}Unable\ to\ read\ from\ register\ to\ memory\ directly"{}});}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (reg\ <\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4bd840ae2805bf43c706c3a100c260e5a65d8f9421a584398de8769ce1a9e401a}{Register::R11R12}})\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}swc2\ \$\%1,\ 0(\%0)"{}}\ ::\textcolor{stringliteral}{"{}r"{}}(\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}),\ \textcolor{stringliteral}{"{}i"{}}(\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\textcolor{keyword}{>}(reg)));}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ \}}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00400\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00401\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ PackedVec3\ readSafe()\ \{}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ read\ pseudo\ register\ as\ vector"{}});}
+\DoxyCodeLine{00403\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}{\_\_builtin\_unreachable}}();}
+\DoxyCodeLine{00404\ \}}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00413\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00414\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ PackedVec3\ readUnsafe()\ \{}
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ read\ pseudo\ register\ as\ vector"{}});}
+\DoxyCodeLine{00416\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}{\_\_builtin\_unreachable}}();}
+\DoxyCodeLine{00417\ \}}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00420\ [[deprecated(\textcolor{stringliteral}{"{}Use\ the\ reference\ version\ instead"{}})]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ read(\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}}*\ \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})\ \{}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ read\ pseudo\ register\ as\ vector"{}});}
+\DoxyCodeLine{00422\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}{\_\_builtin\_unreachable}}();}
+\DoxyCodeLine{00423\ \}}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \textcolor{keyword}{template}\ <PseudoRegister\ reg,\ \textcolor{keywordtype}{bool}\ val\textcolor{keywordtype}{id}\ =\ false>}
+\DoxyCodeLine{00426\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ read(\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}}\&\ vec)\ \{}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keyword}{static\_assert}(valid,\ \textcolor{stringliteral}{"{}Unable\ to\ read\ pseudo\ register\ as\ vector"{}});}
+\DoxyCodeLine{00428\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}{\_\_builtin\_unreachable}}();}
+\DoxyCodeLine{00429\ \}}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \textcolor{comment}{//\ The\ following\ are\ template\ specializations\ for\ the\ various\ GTE\ registers.}}
+\DoxyCodeLine{00432\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00433\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2db2958f4562bc1f87500d9193ed4438}{writeSafe<Register::VXY0>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00434\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00435\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00436\ \ \ \ \ write<Register::VXY0,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00437\ \}}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00439\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00440\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4f04572112e8a735c620a3143a9d91e5}{writeSafe<Register::VZ0>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00441\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00442\ \ \ \ \ write<Register::VZ0,\ Safe>(z);}
+\DoxyCodeLine{00443\ \}}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00446\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a34a3aee4b00120b4520d7e267c467f45}{writeSafe<Register::VXY1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00447\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00448\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00449\ \ \ \ \ write<Register::VXY1,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00450\ \}}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00453\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6b484f816047d2002ea8d2992fc820ba}{writeSafe<Register::VZ1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00454\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00455\ \ \ \ \ write<Register::VZ1,\ Safe>(z);}
+\DoxyCodeLine{00456\ \}}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00459\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2a07d3b43d4ac53a919241c847949f2b}{writeSafe<Register::VXY2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00461\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00462\ \ \ \ \ write<Register::VXY2,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00463\ \}}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00466\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a597734afbf8efffc9a10d8cc2ec35aca}{writeSafe<Register::VZ2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00467\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00468\ \ \ \ \ write<Register::VZ2,\ Safe>(z);}
+\DoxyCodeLine{00469\ \}}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00472\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a74e4dbd6df3aee7b99781bc07b056ba3}{writeSafe<Register::OTZ>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00473\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00474\ \ \ \ \ write<Register::OTZ,\ Safe>(z);}
+\DoxyCodeLine{00475\ \}}
+\DoxyCodeLine{00476\ }
+\DoxyCodeLine{00477\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00478\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa2399f0ba6d5643be40ecfa562846d55}{writeSafe<Register::IR0>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00480\ \ \ \ \ write<Register::IR0,\ Safe>(x);}
+\DoxyCodeLine{00481\ \}}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00484\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a275160192e7a6870a9c28c6983757a10}{writeSafe<Register::IR1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00486\ \ \ \ \ write<Register::IR1,\ Safe>(x);}
+\DoxyCodeLine{00487\ \}}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00490\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_abf47f30400b72926c6f7dd6cc36cf53f}{writeSafe<Register::IR2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00491\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00492\ \ \ \ \ write<Register::IR2,\ Safe>(x);}
+\DoxyCodeLine{00493\ \}}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00496\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6243c963da6bb109a9d9e3bc3292a0f2}{writeSafe<Register::IR3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00497\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00498\ \ \ \ \ write<Register::IR3,\ Safe>(x);}
+\DoxyCodeLine{00499\ \}}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00502\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac7a2c122c9c87ef7934ccfb98e9f293a}{writeSafe<Register::R11R12>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00503\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00504\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00505\ \ \ \ \ write<Register::R11R12,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00506\ \}}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00509\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a66b853638f3ab6fb42c86eb23c6b1ebd}{writeSafe<Register::R13R21>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00510\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00511\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00512\ \ \ \ \ write<Register::R13R21,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00513\ \}}
+\DoxyCodeLine{00514\ }
+\DoxyCodeLine{00515\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00516\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a568f5ba54774b97d03093acafcc6d630}{writeSafe<Register::R22R23>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00518\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00519\ \ \ \ \ write<Register::R22R23,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00520\ \}}
+\DoxyCodeLine{00521\ }
+\DoxyCodeLine{00522\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00523\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a602b7af6780cca31b6890787e73a52b9}{writeSafe<Register::R31R32>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00524\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00525\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00526\ \ \ \ \ write<Register::R31R32,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00527\ \}}
+\DoxyCodeLine{00528\ }
+\DoxyCodeLine{00529\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00530\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_adbfae11fb1b5cf4a66c2b93c6404549e}{writeSafe<Register::R33>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00531\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00532\ \ \ \ \ write<Register::R33,\ Safe>(z);}
+\DoxyCodeLine{00533\ \}}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00536\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1584d861e5f35f0b5a20d3e55818671a}{writeSafe<Register::L11L12>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00537\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00538\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00539\ \ \ \ \ write<Register::L11L12,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00540\ \}}
+\DoxyCodeLine{00541\ }
+\DoxyCodeLine{00542\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00543\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a5ccd35180f23a49d3b49871b959f91ff}{writeSafe<Register::L13L21>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00544\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00545\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00546\ \ \ \ \ write<Register::L13L21,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00547\ \}}
+\DoxyCodeLine{00548\ }
+\DoxyCodeLine{00549\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00550\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac0508013fc6caba657bf55257ea3e47c}{writeSafe<Register::L22L23>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00551\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00552\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00553\ \ \ \ \ write<Register::L22L23,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00554\ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00557\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a5fd422c34548fd066728ab5bc231dadc}{writeSafe<Register::L31L32>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00558\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00559\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00560\ \ \ \ \ write<Register::L31L32,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00561\ \}}
+\DoxyCodeLine{00562\ }
+\DoxyCodeLine{00563\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00564\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a131ef786e2a6166460f07824fa774f16}{writeSafe<Register::L33>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00565\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00566\ \ \ \ \ write<Register::L33,\ Safe>(z);}
+\DoxyCodeLine{00567\ \}}
+\DoxyCodeLine{00568\ }
+\DoxyCodeLine{00569\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00570\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_adc038e2e0a693c91ff748101427f7433}{writeSafe<Register::LR1LR2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00571\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00572\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00573\ \ \ \ \ write<Register::LR1LR2,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00574\ \}}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00577\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a27fc6bee3831e36b0edf255d5010e5e1}{writeSafe<Register::LR3LG1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00579\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00580\ \ \ \ \ write<Register::LR3LG1,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00581\ \}}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00584\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a272071c54807b55ada9b7faccfeaa3fa}{writeSafe<Register::LG2LG3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00585\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00586\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00587\ \ \ \ \ write<Register::LG2LG3,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00588\ \}}
+\DoxyCodeLine{00589\ }
+\DoxyCodeLine{00590\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00591\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a576b687bb2773b11a610976b286f4bb4}{writeSafe<Register::LB1LB2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00592\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00593\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00594\ \ \ \ \ write<Register::LB1LB2,\ Safe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00595\ \}}
+\DoxyCodeLine{00596\ }
+\DoxyCodeLine{00597\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00598\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab7910ca0ee18bdfcc1f112646e59b920}{writeSafe<Register::LB3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00599\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00600\ \ \ \ \ write<Register::LB3,\ Safe>(z);}
+\DoxyCodeLine{00601\ \}}
+\DoxyCodeLine{00602\ }
+\DoxyCodeLine{00603\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00604\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a59cb4138b7e8afa9ca9dab7fab606a2f}{writeSafe<Register::ZSF3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00605\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00606\ \ \ \ \ write<Register::ZSF3,\ Safe>(z);}
+\DoxyCodeLine{00607\ \}}
+\DoxyCodeLine{00608\ }
+\DoxyCodeLine{00609\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00610\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a76c29a159f6ae8abed8c9b1648a954ec}{writeSafe<Register::ZSF4>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00611\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00612\ \ \ \ \ write<Register::ZSF4,\ Safe>(z);}
+\DoxyCodeLine{00613\ \}}
+\DoxyCodeLine{00614\ }
+\DoxyCodeLine{00615\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00616\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab65a9783fa6d41f1ed25e0701ea92888}{writeUnsafe<Register::VXY0>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00617\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00618\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00619\ \ \ \ \ write<Register::VXY0,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00620\ \}}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00622\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00623\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1db5fa5c8e70effee696b71461912316}{writeUnsafe<Register::VZ0>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00624\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00625\ \ \ \ \ write<Register::VZ0,\ Unsafe>(z);}
+\DoxyCodeLine{00626\ \}}
+\DoxyCodeLine{00627\ }
+\DoxyCodeLine{00628\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00629\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a04179b343a9a749d02cf0c89991b176c}{writeUnsafe<Register::VXY1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00630\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00631\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00632\ \ \ \ \ write<Register::VXY1,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00633\ \}}
+\DoxyCodeLine{00634\ }
+\DoxyCodeLine{00635\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00636\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a304cfe29299a5c55d15868baa54114ba}{writeUnsafe<Register::VZ1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00637\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00638\ \ \ \ \ write<Register::VZ1,\ Unsafe>(z);}
+\DoxyCodeLine{00639\ \}}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00642\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2d9f2e476e04764cd121c953e5b25f42}{writeUnsafe<Register::VXY2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00643\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00644\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00645\ \ \ \ \ write<Register::VXY2,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00646\ \}}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00649\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a925ff613910463a1b882eaa1063e2d77}{writeUnsafe<Register::VZ2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00650\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00651\ \ \ \ \ write<Register::VZ2,\ Unsafe>(z);}
+\DoxyCodeLine{00652\ \}}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00655\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_abdfec1bfea702e9d08a109ce977bf2f6}{writeUnsafe<Register::OTZ>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00656\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00657\ \ \ \ \ write<Register::OTZ,\ Unsafe>(z);}
+\DoxyCodeLine{00658\ \}}
+\DoxyCodeLine{00659\ }
+\DoxyCodeLine{00660\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00661\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a04430e53b0b6dd6e8cf19f6b526a7f80}{writeUnsafe<Register::IR0>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00662\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00663\ \ \ \ \ write<Register::IR0,\ Unsafe>(x);}
+\DoxyCodeLine{00664\ \}}
+\DoxyCodeLine{00665\ }
+\DoxyCodeLine{00666\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00667\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ae8b844ee233b75594ef9ccaa4b29c37f}{writeUnsafe<Register::IR1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00668\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00669\ \ \ \ \ write<Register::IR1,\ Unsafe>(x);}
+\DoxyCodeLine{00670\ \}}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00673\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ae8bf29033712ed8f5a41d8104273b959}{writeUnsafe<Register::IR2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00674\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00675\ \ \ \ \ write<Register::IR2,\ Unsafe>(x);}
+\DoxyCodeLine{00676\ \}}
+\DoxyCodeLine{00677\ }
+\DoxyCodeLine{00678\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00679\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1b14bf2ea7ecf1a8627e157ba9e0432a}{writeUnsafe<Register::IR3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_)\ \{}
+\DoxyCodeLine{00680\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00681\ \ \ \ \ write<Register::IR3,\ Unsafe>(x);}
+\DoxyCodeLine{00682\ \}}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00685\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35e0f1dfca1177e9d6925dd531b3737c}{writeUnsafe<Register::R11R12>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00686\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00687\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00688\ \ \ \ \ write<Register::R11R12,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00689\ \}}
+\DoxyCodeLine{00690\ }
+\DoxyCodeLine{00691\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00692\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0e7cb1de6bd1e017c0b39f9d87d174e6}{writeUnsafe<Register::R13R21>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00693\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00694\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00695\ \ \ \ \ write<Register::R13R21,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00696\ \}}
+\DoxyCodeLine{00697\ }
+\DoxyCodeLine{00698\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00699\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a839c98ad1be800d28aab2859701e7f5a}{writeUnsafe<Register::R22R23>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00700\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00701\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00702\ \ \ \ \ write<Register::R22R23,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00703\ \}}
+\DoxyCodeLine{00704\ }
+\DoxyCodeLine{00705\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00706\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35f1ec75cb9529bea71817ef01f6b3dd}{writeUnsafe<Register::R31R32>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00707\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00708\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00709\ \ \ \ \ write<Register::R31R32,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00710\ \}}
+\DoxyCodeLine{00711\ }
+\DoxyCodeLine{00712\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00713\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3a4e0aadc0b471dc6e853f97a4f766fe}{writeUnsafe<Register::R33>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00714\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00715\ \ \ \ \ write<Register::R33,\ Unsafe>(z);}
+\DoxyCodeLine{00716\ \}}
+\DoxyCodeLine{00717\ }
+\DoxyCodeLine{00718\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00719\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a00eb2271349f151937a0fd0ce50ced1a}{writeUnsafe<Register::L11L12>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00720\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00721\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00722\ \ \ \ \ write<Register::L11L12,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00723\ \}}
+\DoxyCodeLine{00724\ }
+\DoxyCodeLine{00725\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00726\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a36d9efe9e0e74e2bcf621a4a88af9b8e}{writeUnsafe<Register::L13L21>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00727\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00728\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00729\ \ \ \ \ write<Register::L13L21,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00730\ \}}
+\DoxyCodeLine{00731\ }
+\DoxyCodeLine{00732\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00733\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa60c173d1b3a3b0419554a78f0cb421e}{writeUnsafe<Register::L22L23>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00734\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00735\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00736\ \ \ \ \ write<Register::L22L23,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00737\ \}}
+\DoxyCodeLine{00738\ }
+\DoxyCodeLine{00739\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00740\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a016588e081d7ea5a323bd42b64516bd1}{writeUnsafe<Register::L31L32>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00741\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00742\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00743\ \ \ \ \ write<Register::L31L32,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00744\ \}}
+\DoxyCodeLine{00745\ }
+\DoxyCodeLine{00746\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00747\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a459c8b0059e29971646cb8e62fee06e1}{writeUnsafe<Register::L33>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00748\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00749\ \ \ \ \ write<Register::L33,\ Unsafe>(z);}
+\DoxyCodeLine{00750\ \}}
+\DoxyCodeLine{00751\ }
+\DoxyCodeLine{00752\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00753\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a979269721aaedf9ebd9df4c024fa802e}{writeUnsafe<Register::LR1LR2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00754\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00755\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00756\ \ \ \ \ write<Register::LR1LR2,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00757\ \}}
+\DoxyCodeLine{00758\ }
+\DoxyCodeLine{00759\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00760\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_af8f5fccfa8ad816fc7014061e5ae86f5}{writeUnsafe<Register::LR3LG1>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00761\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00762\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00763\ \ \ \ \ write<Register::LR3LG1,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00764\ \}}
+\DoxyCodeLine{00765\ }
+\DoxyCodeLine{00766\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00767\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac9524d0636f8f071a79376300fa7e891}{writeUnsafe<Register::LG2LG3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00768\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00769\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00770\ \ \ \ \ write<Register::LG2LG3,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00771\ \}}
+\DoxyCodeLine{00772\ }
+\DoxyCodeLine{00773\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00774\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0aea9fd321ba9bd691c6f287b926ce70}{writeUnsafe<Register::LB1LB2>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ x\_,\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ y\_)\ \{}
+\DoxyCodeLine{00775\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ x\ =\ uint16\_t(x\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00776\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ y\ =\ uint16\_t(y\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00777\ \ \ \ \ write<Register::LB1LB2,\ Unsafe>(x\ |\ (y\ <<\ 16));}
+\DoxyCodeLine{00778\ \}}
+\DoxyCodeLine{00779\ }
+\DoxyCodeLine{00780\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00781\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab662228b579f5ee5f347dbb3f46cdc12}{writeUnsafe<Register::LB3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00782\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00783\ \ \ \ \ write<Register::LB3,\ Unsafe>(z);}
+\DoxyCodeLine{00784\ \}}
+\DoxyCodeLine{00785\ }
+\DoxyCodeLine{00786\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00787\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6a790fe88b162ddcef9ed84dda375077}{writeUnsafe<Register::ZSF3>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00788\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00789\ \ \ \ \ write<Register::ZSF3,\ Unsafe>(z);}
+\DoxyCodeLine{00790\ \}}
+\DoxyCodeLine{00791\ }
+\DoxyCodeLine{00792\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00793\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a58ab3e959310ee25cf9accf4016125bd}{writeUnsafe<Register::ZSF4>}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}\ z\_)\ \{}
+\DoxyCodeLine{00794\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ z\ =\ uint16\_t(z\_.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_acffe7b69544b88da935fb05f56b9b2b8}{raw}}());}
+\DoxyCodeLine{00795\ \ \ \ \ write<Register::ZSF4,\ Unsafe>(z);}
+\DoxyCodeLine{00796\ \}}
+\DoxyCodeLine{00797\ }
+\DoxyCodeLine{00798\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00799\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a77c010b374d1523224706f4be6223ad3}{writeSafe<PseudoRegister::Rotation>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00800\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35e0f1dfca1177e9d6925dd531b3737c}{writeUnsafe<Register::R11R12>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].y));}
+\DoxyCodeLine{00801\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0e7cb1de6bd1e017c0b39f9d87d174e6}{writeUnsafe<Register::R13R21>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].z),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].x));}
+\DoxyCodeLine{00802\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a839c98ad1be800d28aab2859701e7f5a}{writeUnsafe<Register::R22R23>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].y),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].z));}
+\DoxyCodeLine{00803\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35f1ec75cb9529bea71817ef01f6b3dd}{writeUnsafe<Register::R31R32>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].y));}
+\DoxyCodeLine{00804\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_adbfae11fb1b5cf4a66c2b93c6404549e}{writeSafe<Register::R33>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].z));}
+\DoxyCodeLine{00805\ \}}
+\DoxyCodeLine{00806\ }
+\DoxyCodeLine{00807\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00808\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aed540df728ebedcc5ca9307d39b9478e}{writeSafe<PseudoRegister::Light>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00809\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a00eb2271349f151937a0fd0ce50ced1a}{writeUnsafe<Register::L11L12>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].y));}
+\DoxyCodeLine{00810\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a36d9efe9e0e74e2bcf621a4a88af9b8e}{writeUnsafe<Register::L13L21>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].z),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].x));}
+\DoxyCodeLine{00811\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa60c173d1b3a3b0419554a78f0cb421e}{writeUnsafe<Register::L22L23>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].y),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].z));}
+\DoxyCodeLine{00812\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a016588e081d7ea5a323bd42b64516bd1}{writeUnsafe<Register::L31L32>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].y));}
+\DoxyCodeLine{00813\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a131ef786e2a6166460f07824fa774f16}{writeSafe<Register::L33>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].z));}
+\DoxyCodeLine{00814\ \}}
+\DoxyCodeLine{00815\ }
+\DoxyCodeLine{00816\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00817\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a32e2272a619329bc7f947ae129c2bc0f}{writeSafe<PseudoRegister::Color>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00818\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a979269721aaedf9ebd9df4c024fa802e}{writeUnsafe<Register::LR1LR2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].y));}
+\DoxyCodeLine{00819\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_af8f5fccfa8ad816fc7014061e5ae86f5}{writeUnsafe<Register::LR3LG1>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].z),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].x));}
+\DoxyCodeLine{00820\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac9524d0636f8f071a79376300fa7e891}{writeUnsafe<Register::LG2LG3>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].y),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].z));}
+\DoxyCodeLine{00821\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0aea9fd321ba9bd691c6f287b926ce70}{writeUnsafe<Register::LB1LB2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].y));}
+\DoxyCodeLine{00822\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab7910ca0ee18bdfcc1f112646e59b920}{writeSafe<Register::LB3>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].z));}
+\DoxyCodeLine{00823\ \}}
+\DoxyCodeLine{00824\ }
+\DoxyCodeLine{00825\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00826\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6bee53c778125000a6e2ea01adf8f068}{writeSafe<PseudoRegister::V0>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00827\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab65a9783fa6d41f1ed25e0701ea92888}{writeUnsafe<Register::VXY0>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y));}
+\DoxyCodeLine{00828\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a4f04572112e8a735c620a3143a9d91e5}{writeSafe<Register::VZ0>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z));}
+\DoxyCodeLine{00829\ \}}
+\DoxyCodeLine{00830\ }
+\DoxyCodeLine{00831\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00832\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa53086d37b5b48e9f49c6f12f539a568}{writeSafe<PseudoRegister::V1>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00833\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a04179b343a9a749d02cf0c89991b176c}{writeUnsafe<Register::VXY1>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y));}
+\DoxyCodeLine{00834\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6b484f816047d2002ea8d2992fc820ba}{writeSafe<Register::VZ1>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z));}
+\DoxyCodeLine{00835\ \}}
+\DoxyCodeLine{00836\ }
+\DoxyCodeLine{00837\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00838\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab349d509bdcfb0e98772e98d01de0187}{writeSafe<PseudoRegister::V2>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00839\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2d9f2e476e04764cd121c953e5b25f42}{writeUnsafe<Register::VXY2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y));}
+\DoxyCodeLine{00840\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a597734afbf8efffc9a10d8cc2ec35aca}{writeSafe<Register::VZ2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z));}
+\DoxyCodeLine{00841\ \}}
+\DoxyCodeLine{00842\ }
+\DoxyCodeLine{00843\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00844\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a626e23fbe8f2aa06c0674726c5643604}{writeSafe<PseudoRegister::Translation>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00845\ \ \ \ \ write<Register::TRX,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x.raw());}
+\DoxyCodeLine{00846\ \ \ \ \ write<Register::TRX,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y.raw());}
+\DoxyCodeLine{00847\ \ \ \ \ write<Register::TRZ,\ Safe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z.raw());}
+\DoxyCodeLine{00848\ \}}
+\DoxyCodeLine{00849\ }
+\DoxyCodeLine{00850\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00851\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_af1ccaabd8906f46cb3ebf5460784ebb4}{writeSafe<PseudoRegister::ScreenOffset>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec2}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00852\ \ \ \ \ write<Register::OFX,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x.raw());}
+\DoxyCodeLine{00853\ \ \ \ \ write<Register::OFY,\ Safe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y.raw());}
+\DoxyCodeLine{00854\ \}}
+\DoxyCodeLine{00855\ }
+\DoxyCodeLine{00856\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00857\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a690b27fe2ae78ee3e47f49d5f70c2ba7}{writeUnsafe<PseudoRegister::Rotation>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00858\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35e0f1dfca1177e9d6925dd531b3737c}{writeUnsafe<Register::R11R12>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].y));}
+\DoxyCodeLine{00859\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0e7cb1de6bd1e017c0b39f9d87d174e6}{writeUnsafe<Register::R13R21>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].z),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].x));}
+\DoxyCodeLine{00860\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a839c98ad1be800d28aab2859701e7f5a}{writeUnsafe<Register::R22R23>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].y),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].z));}
+\DoxyCodeLine{00861\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a35f1ec75cb9529bea71817ef01f6b3dd}{writeUnsafe<Register::R31R32>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].y));}
+\DoxyCodeLine{00862\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a3a4e0aadc0b471dc6e853f97a4f766fe}{writeUnsafe<Register::R33>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].z));}
+\DoxyCodeLine{00863\ \}}
+\DoxyCodeLine{00864\ }
+\DoxyCodeLine{00865\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00866\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aae582cf8e0f02aa1f0112c47329dcd65}{writeUnsafe<PseudoRegister::Light>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00867\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a00eb2271349f151937a0fd0ce50ced1a}{writeUnsafe<Register::L11L12>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].y));}
+\DoxyCodeLine{00868\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a36d9efe9e0e74e2bcf621a4a88af9b8e}{writeUnsafe<Register::L13L21>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].z),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].x));}
+\DoxyCodeLine{00869\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa60c173d1b3a3b0419554a78f0cb421e}{writeUnsafe<Register::L22L23>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].y),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].z));}
+\DoxyCodeLine{00870\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a016588e081d7ea5a323bd42b64516bd1}{writeUnsafe<Register::L31L32>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].y));}
+\DoxyCodeLine{00871\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a459c8b0059e29971646cb8e62fee06e1}{writeUnsafe<Register::L33>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].z));}
+\DoxyCodeLine{00872\ \}}
+\DoxyCodeLine{00873\ }
+\DoxyCodeLine{00874\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00875\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a11f47a522e5e24d6ff07116106cb3b6a}{writeUnsafe<PseudoRegister::Color>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Matrix33}{Matrix33}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00876\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a979269721aaedf9ebd9df4c024fa802e}{writeUnsafe<Register::LR1LR2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].y));}
+\DoxyCodeLine{00877\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_af8f5fccfa8ad816fc7014061e5ae86f5}{writeUnsafe<Register::LR3LG1>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[0].z),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].x));}
+\DoxyCodeLine{00878\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac9524d0636f8f071a79376300fa7e891}{writeUnsafe<Register::LG2LG3>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].y),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[1].z));}
+\DoxyCodeLine{00879\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a0aea9fd321ba9bd691c6f287b926ce70}{writeUnsafe<Register::LB1LB2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].y));}
+\DoxyCodeLine{00880\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab662228b579f5ee5f347dbb3f46cdc12}{writeUnsafe<Register::LB3>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.vs[2].z));}
+\DoxyCodeLine{00881\ \}}
+\DoxyCodeLine{00882\ }
+\DoxyCodeLine{00883\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00884\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ac5743af6af34833d3e32b0fd7731697e}{writeUnsafe<PseudoRegister::V0>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00885\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab65a9783fa6d41f1ed25e0701ea92888}{writeUnsafe<Register::VXY0>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y));}
+\DoxyCodeLine{00886\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a1db5fa5c8e70effee696b71461912316}{writeUnsafe<Register::VZ0>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z));}
+\DoxyCodeLine{00887\ \}}
+\DoxyCodeLine{00888\ }
+\DoxyCodeLine{00889\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00890\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aa800707fc7c343dd6bb2f1cbe0cdd6b8}{writeUnsafe<PseudoRegister::V1>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00891\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a04179b343a9a749d02cf0c89991b176c}{writeUnsafe<Register::VXY1>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y));}
+\DoxyCodeLine{00892\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a304cfe29299a5c55d15868baa54114ba}{writeUnsafe<Register::VZ1>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z));}
+\DoxyCodeLine{00893\ \}}
+\DoxyCodeLine{00894\ }
+\DoxyCodeLine{00895\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00896\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a68ebf1d896595268520d6393c152b437}{writeUnsafe<PseudoRegister::V2>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00897\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2d9f2e476e04764cd121c953e5b25f42}{writeUnsafe<Register::VXY2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y));}
+\DoxyCodeLine{00898\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a925ff613910463a1b882eaa1063e2d77}{writeUnsafe<Register::VZ2>}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z));}
+\DoxyCodeLine{00899\ \}}
+\DoxyCodeLine{00900\ }
+\DoxyCodeLine{00901\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00902\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ab6952c4c3261fe8c4432ff4836639aab}{writeUnsafe<PseudoRegister::Translation>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00903\ \ \ \ \ write<Register::TRX,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x.raw());}
+\DoxyCodeLine{00904\ \ \ \ \ write<Register::TRY,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y.raw());}
+\DoxyCodeLine{00905\ \ \ \ \ write<Register::TRZ,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.z.raw());}
+\DoxyCodeLine{00906\ \}}
+\DoxyCodeLine{00907\ }
+\DoxyCodeLine{00908\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00909\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2d8c7b7c6fd3c10b54e3789e0bd7c129}{writeUnsafe<PseudoRegister::ScreenOffset>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vec2}}\&\ \mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}})\ \{}
+\DoxyCodeLine{00910\ \ \ \ \ write<Register::OFX,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.x.raw());}
+\DoxyCodeLine{00911\ \ \ \ \ write<Register::OFY,\ Unsafe>(\mbox{\hyperlink{memcpy_8c_a04101103c7f46fe1b9c91ead3b10f228}{in}}.y.raw());}
+\DoxyCodeLine{00912\ \}}
+\DoxyCodeLine{00913\ }
+\DoxyCodeLine{00914\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00915\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a2f6212a616c93eb396b45d902907d72f}{readSafe<PseudoRegister::SV>}}()\ \{}
+\DoxyCodeLine{00916\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::IR1,\ Safe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00917\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::IR2,\ Safe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00918\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::IR3,\ Safe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}));}
+\DoxyCodeLine{00919\ \}}
+\DoxyCodeLine{00920\ }
+\DoxyCodeLine{00921\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00922\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_ad986ead08bc822a07a64b38520b8eb87}{readSafe<PseudoRegister::LV>}}()\ \{}
+\DoxyCodeLine{00923\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::MAC1,\ Safe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::MAC2,\ Safe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::MAC3,\ Safe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}));}
+\DoxyCodeLine{00926\ \}}
+\DoxyCodeLine{00927\ }
+\DoxyCodeLine{00928\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00929\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c2cf3af1a3a15acdbc0d693a025325a}{readUnsafe<PseudoRegister::SV>}}()\ \{}
+\DoxyCodeLine{00930\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::IR1,\ Unsafe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::IR2,\ Unsafe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::IR3,\ Unsafe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}));}
+\DoxyCodeLine{00933\ \}}
+\DoxyCodeLine{00934\ }
+\DoxyCodeLine{00935\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00936\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_aee7d65ec97b10c9bf7b0e8b9e1b96784}{readUnsafe<PseudoRegister::LV>}}()\ \{}
+\DoxyCodeLine{00937\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1GTE_1_1PackedVec3}{PackedVec3}}(\mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::MAC1,\ Unsafe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::MAC2,\ Unsafe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}),}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a6c12876883c17e3fab9687c173c44837}{Short}}(readRaw<Register::MAC3,\ Unsafe>(),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint_a6d38737746984bcb2254469781a94837a4a3a147ffb77560874c48249e39fc505}{Short::RAW}}));}
+\DoxyCodeLine{00940\ \}}
+\DoxyCodeLine{00941\ }
+\DoxyCodeLine{00942\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00943\ [[deprecated(\textcolor{stringliteral}{"{}Use\ the\ reference\ version\ instead"{}})]]\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a9418d0ca64d0c37acfb0718b758ecd58}{read<PseudoRegister::LV>}}(\mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}*\ \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})\ \{}
+\DoxyCodeLine{00944\ \ \ \ \ read<Register::MAC1>(\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\textcolor{keyword}{>}(\&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}-\/>x));}
+\DoxyCodeLine{00945\ \ \ \ \ read<Register::MAC2>(\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\textcolor{keyword}{>}(\&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}-\/>y));}
+\DoxyCodeLine{00946\ \ \ \ \ read<Register::MAC3>(\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\textcolor{keyword}{>}(\&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}-\/>z));}
+\DoxyCodeLine{00947\ \}}
+\DoxyCodeLine{00948\ }
+\DoxyCodeLine{00949\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00950\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_a9418d0ca64d0c37acfb0718b758ecd58}{read<PseudoRegister::LV>}}(\mbox{\hyperlink{structpsyqo_1_1Vector}{Vec3}}\&\ \mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})\ \{}
+\DoxyCodeLine{00951\ \ \ \ \ read<Register::MAC1>(\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\textcolor{keyword}{>}(\&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}.x));}
+\DoxyCodeLine{00952\ \ \ \ \ read<Register::MAC2>(\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\textcolor{keyword}{>}(\&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}.y));}
+\DoxyCodeLine{00953\ \ \ \ \ read<Register::MAC3>(\textcolor{keyword}{reinterpret\_cast<}\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}*\textcolor{keyword}{>}(\&\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}.z));}
+\DoxyCodeLine{00954\ \}}
+\DoxyCodeLine{00955\ }
+\DoxyCodeLine{00956\ \}\ \ \textcolor{comment}{//\ namespace\ GTE}}
+\DoxyCodeLine{00957\ }
+\DoxyCodeLine{00958\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

@@ -1,0 +1,86 @@
+\doxysection{simplepad.\+hh}
+\hypertarget{simplepad_8hh_source}{}\label{simplepad_8hh_source}\index{psyqo/simplepad.hh@{psyqo/simplepad.hh}}
+\mbox{\hyperlink{simplepad_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1SimplePad}{SimplePad}}\ \{}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}\ \{\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaf122d3c82ecc3848fb8245d8c14b48f1}{Pad1}},\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddbaa40fd15c31564d277f70c734df0df1a2}{Pad2}}\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{Button}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa8149cd8992a1379e9172d7295c29edd0}{Select}}\ =\ 0,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa3f2123bdf4efba8725be98bfc7062d7e}{L3}}\ =\ 1,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae00854945d722882c87d2dec90147991}{R3}}\ =\ 2,}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacfc178d7659457668aff9c6f56243668}{Start}}\ =\ 3,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa5bc9b3f5f32cc2d93fdbe0c66a85ea1b}{Up}}\ =\ 4,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa6b94316a55cb830187eec6bd1cd16fab}{Right}}\ =\ 5,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaacc0d4ebc6831f584fe6732dfdf1de5e0}{Down}}\ =\ 6,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae70d8a3f3b816052ec5dfb8a209c74dc}{Left}}\ =\ 7,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa0df69fbdb7a6a50f1a74026ed3ae5528}{L2}}\ =\ 8,}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa78b5f1eba5393fa577ad19c7da656097}{R2}}\ =\ 9,}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaad1f38aababf564bcc2f13523b4889bf3}{L1}}\ =\ 10,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaae3658d40c9b8d141abf90d7484a8862e}{R1}}\ =\ 11,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7b5456d9cfe306d07dc6a00fc9d749d9}{Triangle}}\ =\ 12,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa94cf448dfe8ad9a5b9e5b22d643dd77a}{Circle}}\ =\ 13,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa7bdaed75a42a5ce0121a021c0ddbcc8a}{Cross}}\ =\ 14,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166ebaa172ddffa87a90693d4e86e9dd0f331ff}{Square}}\ =\ 15,}
+\DoxyCodeLine{00068\ \ \ \ \ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event}{Event}}\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum}\ \{\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_ae27db96f7b1f25eff069642ab16e7ae9a7345aeae81b2323021b1db064f40cd6f}{PadConnected}},\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_ae27db96f7b1f25eff069642ab16e7ae9ac9a339036f083ec28657fce348f015ef}{PadDisconnected}},\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_ae27db96f7b1f25eff069642ab16e7ae9ae208a546848e28722bb478e86738cf10}{ButtonPressed}},\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_ae27db96f7b1f25eff069642ab16e7ae9a38ee1be8f618dd071e49043cb842ec04}{ButtonReleased}}\ \}\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_abab665b471ff2d390ec16a33caf151f0}{type}};}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_a8e47114db41d196e439c68cf52815907}{pad}};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{Button}}\ \mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event_a65cd427f1bbd2d9421c7da3a8882fa96}{button}};}
+\DoxyCodeLine{00074\ \ \ \ \ \};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_afc63e92e96f137e5e6d16f6e59fd8780}{initialize}}();}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a61644340c98acec0356d9c787d110d73}{setOnEvent}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{structpsyqo_1_1SimplePad_1_1Event}{Event}})>\&\&\ callback)\ \{\ m\_callback\ =\ eastl::move(callback);\ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_aaf48c255a56848c351227cc64c851762}{isPadConnected}}(\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}\ pad)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (m\_padData[pad][0]\ \&\ 0xff)\ ==\ 0;\ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_ac89250ec5a4a3a871f6cd088706b541a}{isButtonPressed}}(\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}\ pad,\ \mbox{\hyperlink{classpsyqo_1_1SimplePad_a51b7a7fbe9a4f46d74327085c8166eba}{Button}}\ button)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (m\_padData[pad][1]\ \&\ (1\ <<\ button))\ ==\ 0;\ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{void}\ processChanges(\mbox{\hyperlink{classpsyqo_1_1SimplePad_a3f0e1653db906a186acc3b8d810f7ddb}{Pad}}\ pad);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ uint16\_t\ m\_padData[2][0x11];}
+\DoxyCodeLine{00135\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(Event)>\ m\_callback;}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_connected[2]\ =\ \{\textcolor{keyword}{false},\ \textcolor{keyword}{false}\};}
+\DoxyCodeLine{00137\ \ \ \ \ uint16\_t\ m\_buttons[2]\ =\ \{0xffff,\ 0xffff\};}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

@@ -1,0 +1,62 @@
+\doxysection{openbios/kernel/threads.c File Reference}
+\hypertarget{threads_8c}{}\label{threads_8c}\index{openbios/kernel/threads.c@{openbios/kernel/threads.c}}
+{\ttfamily \#include "{}openbios/kernel/threads.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/fileio/fileio.\+h"{}}\newline
+{\ttfamily \#include "{}openbios/kernel/globals.\+h"{}}\newline
+Include dependency graph for threads.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d7/dee/threads_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{threads_8c_a56bfd8dd6d8a2d880435c5c55889b02d}{init\+Threads}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} process\+Count, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} thread\+Count)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{threads_8c_af79c0d0c967bea61e59b0592f911e0d5}{get\+Free\+TCBslot}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{threads_8c_a1b1a6ef033a553876e280eba81f073c7}{open\+Thread}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} pc, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} sp, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} gp)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{threads_8c_a326c179dea559e34aa6b10fc7f7df3a2}{close\+Thread}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} thread\+Id)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{threads_8c_aed2bf6469e5dc1772d4208a6fa0ef38e}{change\+Thread}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} thread\+Id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{threads_8c_aed2bf6469e5dc1772d4208a6fa0ef38e}\label{threads_8c_aed2bf6469e5dc1772d4208a6fa0ef38e} 
+\index{threads.c@{threads.c}!changeThread@{changeThread}}
+\index{changeThread@{changeThread}!threads.c@{threads.c}}
+\doxysubsubsection{\texorpdfstring{changeThread()}{changeThread()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} change\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{thread\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{threads_8c_a326c179dea559e34aa6b10fc7f7df3a2}\label{threads_8c_a326c179dea559e34aa6b10fc7f7df3a2} 
+\index{threads.c@{threads.c}!closeThread@{closeThread}}
+\index{closeThread@{closeThread}!threads.c@{threads.c}}
+\doxysubsubsection{\texorpdfstring{closeThread()}{closeThread()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} close\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{thread\+Id }\end{DoxyParamCaption})}
+
+\Hypertarget{threads_8c_af79c0d0c967bea61e59b0592f911e0d5}\label{threads_8c_af79c0d0c967bea61e59b0592f911e0d5} 
+\index{threads.c@{threads.c}!getFreeTCBslot@{getFreeTCBslot}}
+\index{getFreeTCBslot@{getFreeTCBslot}!threads.c@{threads.c}}
+\doxysubsubsection{\texorpdfstring{getFreeTCBslot()}{getFreeTCBslot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} get\+Free\+TCBslot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{threads_8c_a56bfd8dd6d8a2d880435c5c55889b02d}\label{threads_8c_a56bfd8dd6d8a2d880435c5c55889b02d} 
+\index{threads.c@{threads.c}!initThreads@{initThreads}}
+\index{initThreads@{initThreads}!threads.c@{threads.c}}
+\doxysubsubsection{\texorpdfstring{initThreads()}{initThreads()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Threads (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{process\+Count,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{thread\+Count }\end{DoxyParamCaption})}
+
+\Hypertarget{threads_8c_a1b1a6ef033a553876e280eba81f073c7}\label{threads_8c_a1b1a6ef033a553876e280eba81f073c7} 
+\index{threads.c@{threads.c}!openThread@{openThread}}
+\index{openThread@{openThread}!threads.c@{threads.c}}
+\doxysubsubsection{\texorpdfstring{openThread()}{openThread()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} open\+Thread (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{pc,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sp,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{gp }\end{DoxyParamCaption})}
+

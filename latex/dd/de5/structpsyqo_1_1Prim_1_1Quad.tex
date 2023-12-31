@@ -1,0 +1,150 @@
+\doxysection{psyqo\+::Prim\+::Quad Struct Reference}
+\hypertarget{structpsyqo_1_1Prim_1_1Quad}{}\label{structpsyqo_1_1Prim_1_1Quad}\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+
+
+A flat-\/colored quad.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/quads.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::Prim\+::Quad\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=186pt]{da/dc0/structpsyqo_1_1Prim_1_1Quad__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a79e8dca7cfb0c681ce6b90262ccb7006}{Quad}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a52492a3a699f8f4fb7318cd50e903cd5}{Quad}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ae448d05938f804f983ee6d670960f148}{set\+Color}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_aa99fd814cfc61de3f43cc0ad5465e5c4}{set\+Opaque}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a88704b4b592c5a920ae8b1cba25c3684}{set\+Semi\+Trans}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ad4f129cdd051490b4a057b4cd51165db}{set\+PointA}} (\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} v)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ae41a865d9cf1918288d63c85b3b782fe}{set\+PointB}} (\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} v)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_ab15c6b86929b6f1538b5f441f74207a4}{set\+PointC}} (\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} v)
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_af78f9c1d9f7c90282fdfd5d7ab6d49a6}{set\+PointD}} (\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} v)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a23dd02011e956324429b658532f1c5ba}{pointA}}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_afe6d3fe90379b78bdc90fa186b9ebff3}{pointB}}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a8d35b97bdeaf5260a0d722a0612d427d}{pointC}}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad_a1b6647b157a04b507ffd1c8e706d9d66}{pointD}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A flat-\/colored quad. 
+
+This primitive will draw a flat-\/colored quad. It will be drawn between the {\ttfamily pointA}, {\ttfamily pointB}, {\ttfamily pointC}, and {\ttfamily pointD} vertices. Note that the ordering of the vertices matters for proper rendering, and it is not intuitive. The quad will be drawn using two triangles\+: the first triangle will be drawn with the {\ttfamily pointA}, {\ttfamily pointB}, and {\ttfamily pointC} vertices, and the second triangle will be drawn with the {\ttfamily pointB}, {\ttfamily pointC}, and {\ttfamily pointD} vertices. This means that the vertices of the quad need to be sent in a Z pattern to be drawn properly. Failure to do so will result in a weird looking 5-\/edged polygon resembling a M envelope, which is not what you want. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_a79e8dca7cfb0c681ce6b90262ccb7006}\label{structpsyqo_1_1Prim_1_1Quad_a79e8dca7cfb0c681ce6b90262ccb7006} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!Quad@{Quad}}
+\index{Quad@{Quad}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{Quad()}{Quad()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Quad\+::\+Quad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_a52492a3a699f8f4fb7318cd50e903cd5}\label{structpsyqo_1_1Prim_1_1Quad_a52492a3a699f8f4fb7318cd50e903cd5} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!Quad@{Quad}}
+\index{Quad@{Quad}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{Quad()}{Quad()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Quad\+::\+Quad (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_ae448d05938f804f983ee6d670960f148}\label{structpsyqo_1_1Prim_1_1Quad_ae448d05938f804f983ee6d670960f148} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setColor@{setColor}}
+\index{setColor@{setColor}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_aa99fd814cfc61de3f43cc0ad5465e5c4}\label{structpsyqo_1_1Prim_1_1Quad_aa99fd814cfc61de3f43cc0ad5465e5c4} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setOpaque@{setOpaque}}
+\index{setOpaque@{setOpaque}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setOpaque()}{setOpaque()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+Opaque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_ad4f129cdd051490b4a057b4cd51165db}\label{structpsyqo_1_1Prim_1_1Quad_ad4f129cdd051490b4a057b4cd51165db} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setPointA@{setPointA}}
+\index{setPointA@{setPointA}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setPointA()}{setPointA()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+PointA (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_ae41a865d9cf1918288d63c85b3b782fe}\label{structpsyqo_1_1Prim_1_1Quad_ae41a865d9cf1918288d63c85b3b782fe} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setPointB@{setPointB}}
+\index{setPointB@{setPointB}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setPointB()}{setPointB()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+PointB (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_ab15c6b86929b6f1538b5f441f74207a4}\label{structpsyqo_1_1Prim_1_1Quad_ab15c6b86929b6f1538b5f441f74207a4} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setPointC@{setPointC}}
+\index{setPointC@{setPointC}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setPointC()}{setPointC()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+PointC (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_af78f9c1d9f7c90282fdfd5d7ab6d49a6}\label{structpsyqo_1_1Prim_1_1Quad_af78f9c1d9f7c90282fdfd5d7ab6d49a6} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setPointD@{setPointD}}
+\index{setPointD@{setPointD}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setPointD()}{setPointD()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+PointD (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_a88704b4b592c5a920ae8b1cba25c3684}\label{structpsyqo_1_1Prim_1_1Quad_a88704b4b592c5a920ae8b1cba25c3684} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!setSemiTrans@{setSemiTrans}}
+\index{setSemiTrans@{setSemiTrans}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{setSemiTrans()}{setSemiTrans()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Quad}{Quad}} \& psyqo\+::\+Prim\+::\+Quad\+::set\+Semi\+Trans (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_a23dd02011e956324429b658532f1c5ba}\label{structpsyqo_1_1Prim_1_1Quad_a23dd02011e956324429b658532f1c5ba} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!pointA@{pointA}}
+\index{pointA@{pointA}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{pointA}{pointA}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Quad\+::pointA}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_afe6d3fe90379b78bdc90fa186b9ebff3}\label{structpsyqo_1_1Prim_1_1Quad_afe6d3fe90379b78bdc90fa186b9ebff3} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!pointB@{pointB}}
+\index{pointB@{pointB}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{pointB}{pointB}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Quad\+::pointB}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_a8d35b97bdeaf5260a0d722a0612d427d}\label{structpsyqo_1_1Prim_1_1Quad_a8d35b97bdeaf5260a0d722a0612d427d} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!pointC@{pointC}}
+\index{pointC@{pointC}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{pointC}{pointC}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Quad\+::pointC}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Quad_a1b6647b157a04b507ffd1c8e706d9d66}\label{structpsyqo_1_1Prim_1_1Quad_a1b6647b157a04b507ffd1c8e706d9d66} 
+\index{psyqo::Prim::Quad@{psyqo::Prim::Quad}!pointD@{pointD}}
+\index{pointD@{pointD}!psyqo::Prim::Quad@{psyqo::Prim::Quad}}
+\doxysubsubsection{\texorpdfstring{pointD}{pointD}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Quad\+::pointD}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{quads_8hh}{quads.\+hh}}\end{DoxyCompactItemize}

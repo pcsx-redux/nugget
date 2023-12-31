@@ -1,0 +1,89 @@
+\doxysection{openbios/kernel/alloc.h File Reference}
+\hypertarget{openbios_2kernel_2alloc_8h}{}\label{openbios_2kernel_2alloc_8h}\index{openbios/kernel/alloc.h@{openbios/kernel/alloc.h}}
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+Include dependency graph for alloc.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=209pt]{d9/d91/openbios_2kernel_2alloc_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/d81/openbios_2kernel_2alloc_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a4bca043427da3a6795439010c911c3f3}{user\+\_\+malloc}} (size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a171ecd0e708f1d26344cf3ee011d285f}{user\+\_\+free}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a5652fc95de054abdf0f8d8556ea25b08}{user\+\_\+realloc}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a50206b207e39ff45d2a730eaf37942c8}{user\+\_\+initheap}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}base, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a78ec0c0c04e0b91a753c97aeb0196545}{kern\+\_\+malloc}} (size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a5fa3d1f0d4013cbe1e922c12d5deb8c9}{kern\+\_\+free}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a75f77695ac28fe7db8faac7c6ce6b3f9}{kern\+\_\+realloc}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{openbios_2kernel_2alloc_8h_a34b2bca281463f4444a2dfa1de3e9454}{kern\+\_\+initheap}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}base, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{openbios_2kernel_2alloc_8h_a5fa3d1f0d4013cbe1e922c12d5deb8c9}\label{openbios_2kernel_2alloc_8h_a5fa3d1f0d4013cbe1e922c12d5deb8c9} 
+\index{alloc.h@{alloc.h}!kern\_free@{kern\_free}}
+\index{kern\_free@{kern\_free}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{kern\_free()}{kern\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} kern\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a34b2bca281463f4444a2dfa1de3e9454}\label{openbios_2kernel_2alloc_8h_a34b2bca281463f4444a2dfa1de3e9454} 
+\index{alloc.h@{alloc.h}!kern\_initheap@{kern\_initheap}}
+\index{kern\_initheap@{kern\_initheap}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{kern\_initheap()}{kern\_initheap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} kern\+\_\+initheap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{base,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a78ec0c0c04e0b91a753c97aeb0196545}\label{openbios_2kernel_2alloc_8h_a78ec0c0c04e0b91a753c97aeb0196545} 
+\index{alloc.h@{alloc.h}!kern\_malloc@{kern\_malloc}}
+\index{kern\_malloc@{kern\_malloc}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{kern\_malloc()}{kern\_malloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} kern\+\_\+malloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a75f77695ac28fe7db8faac7c6ce6b3f9}\label{openbios_2kernel_2alloc_8h_a75f77695ac28fe7db8faac7c6ce6b3f9} 
+\index{alloc.h@{alloc.h}!kern\_realloc@{kern\_realloc}}
+\index{kern\_realloc@{kern\_realloc}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{kern\_realloc()}{kern\_realloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} kern\+\_\+realloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a171ecd0e708f1d26344cf3ee011d285f}\label{openbios_2kernel_2alloc_8h_a171ecd0e708f1d26344cf3ee011d285f} 
+\index{alloc.h@{alloc.h}!user\_free@{user\_free}}
+\index{user\_free@{user\_free}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{user\_free()}{user\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} user\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a50206b207e39ff45d2a730eaf37942c8}\label{openbios_2kernel_2alloc_8h_a50206b207e39ff45d2a730eaf37942c8} 
+\index{alloc.h@{alloc.h}!user\_initheap@{user\_initheap}}
+\index{user\_initheap@{user\_initheap}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{user\_initheap()}{user\_initheap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} user\+\_\+initheap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{base,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a4bca043427da3a6795439010c911c3f3}\label{openbios_2kernel_2alloc_8h_a4bca043427da3a6795439010c911c3f3} 
+\index{alloc.h@{alloc.h}!user\_malloc@{user\_malloc}}
+\index{user\_malloc@{user\_malloc}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{user\_malloc()}{user\_malloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} user\+\_\+malloc (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{openbios_2kernel_2alloc_8h_a5652fc95de054abdf0f8d8556ea25b08}\label{openbios_2kernel_2alloc_8h_a5652fc95de054abdf0f8d8556ea25b08} 
+\index{alloc.h@{alloc.h}!user\_realloc@{user\_realloc}}
+\index{user\_realloc@{user\_realloc}!alloc.h@{alloc.h}}
+\doxysubsubsection{\texorpdfstring{user\_realloc()}{user\_realloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} user\+\_\+realloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+

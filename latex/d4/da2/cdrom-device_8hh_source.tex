@@ -1,0 +1,196 @@
+\doxysection{cdrom-\/device.hh}
+\hypertarget{cdrom-device_8hh_source}{}\label{cdrom-device_8hh_source}\index{psyqo/cdrom-\/device.hh@{psyqo/cdrom-\/device.hh}}
+\mbox{\hyperlink{cdrom-device_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/fixed\_vector.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <EASTL/functional.h>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cdrom_8hh}{psyqo/cdrom.hh}}"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{msf_8hh}{psyqo/msf.hh}}"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{task_8hh}{psyqo/task.hh}}"{}}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{class\ }\mbox{\hyperlink{namespacepsyqo_1_1Hardware_1_1CPU_a5e559e4a3e46769a21208e7465adc152a52f9ec21735243ad9917cda3ca077d32}{GPU}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{namespace\ }Concepts\ \{}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00048\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Concepts_1_1CDRomDeviceStateEnumHasIdle}{CDRomDeviceStateEnumHasIdle}}\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00051\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Concepts_1_1CDRomDeviceStateEnumHasIdle}{CDRomDeviceStateEnumHasIdle}}<T,\ std::enable\_if\_t<T::IDLE\ ==\ T(0)>>\ :\ std::true\_type\ \{\};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00054\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptpsyqo_1_1Concepts_1_1IsCDRomDeviceStateEnum}{IsCDRomDeviceStateEnum}}\ =}
+\DoxyCodeLine{00055\ \ \ \ \ std::is\_enum\_v<T>\ \&\&\ std::is\_same\_v<uint8\_t,\ std::underlying\_type\_t<T>>\ \&\&\ CDRomDeviceStateEnumHasIdle<T>::value;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \}\ \ \textcolor{comment}{//\ namespace\ Concepts}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1CDRomDevice}{CDRomDevice}}\ final\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsyqo_1_1CDRom}{CDRom}}\ \{}
+\DoxyCodeLine{00076\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{typedef}\ eastl::fixed\_vector<uint8\_t,\ 16,\ false>\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{Response}};}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation_a131c23f2f505bf19e6995f0f1ab07beb}{relative}};}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation_a197b6ae66587641d33c11954f1eb9ff4}{absolute}};}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation_afa061a94789c51090027c610c702936d}{track}};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation_a7c93b03b0dfa7fdd1b79576825510138}{index}};}
+\DoxyCodeLine{00083\ \ \ \ \ \};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe}{ActionBase}}\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ m\_name;\ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ ActionBase(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keyword}{const}\ name)\ :\ m\_name(name)\ \{\}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~ActionBase()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ dataReady(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{Response}}\ \&response);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ complete(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{Response}}\ \&response);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ acknowledge(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{Response}}\ \&response);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ end(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ae0c07c247feef24fd65ff0d2ce46045f}{Response}}\ \&response);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setCallback(eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ queueCallbackFromISR(\textcolor{keywordtype}{bool}\ success);}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setSuccess(\textcolor{keywordtype}{bool}\ success);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ isn't\ really\ a\ great\ way\ to\ do\ this,\ but\ it's\ the\ best\ I\ can\ come\ up\ with}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ that\ doesn't\ involve\ friending\ a\ bunch\ of\ classes.}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ PlaybackLocation\ *getPendingLocationPtr()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ queueGetLocationCallback(\textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }CDRomDevice;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ CDRomDevice\ *m\_device\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keyword}{const}\ m\_name\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00109\ \ \ \ \ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a65b772b0c245453770df37739e78b419}{\string~CDRomDevice}}();}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ac314de0acbe9ef208876c40e16fc163b}{prepare}}();}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a6b88625927a4d11678b6621370480110}{reset}}(eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00134\ \ \ \ \ TaskQueue::Task\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a4a3646a4cd6e92d32c5efdc84039f4d5}{scheduleReset}}();}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a893b785afd538694f25255b032003eca}{resetBlocking}}(GPU\ \&);}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a9a8a933248e9a03cdcbdb7b3ac2af4db}{readSectors}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}},\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00154\ \ \ \ \ TaskQueue::Task\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a9e073f427b41d72dc2d63fdb8857757b}{scheduleReadSectors}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}},\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}});}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_af9e899781794aa02e25ac12ef252af30}{readSectorsBlocking}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}},\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}},\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}},\ GPU\ \&);}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_abaef15e9cdbb2589efb9ee4f19f55513}{getTOCSize}}(\textcolor{keywordtype}{unsigned}\ *\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}},\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00167\ \ \ \ \ TaskQueue::Task\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a39771790e804dfa3fdde26b57b242b89}{scheduleGetTOCSize}}(\textcolor{keywordtype}{unsigned}\ *\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a0fe4012bd2533b10770cedd0d5ae111e}{getTOCSizeBlocking}}(GPU\ \&);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afd2dd5c6a776779aa73f6d948287c9c4}{readTOC}}(MSF\ *toc,\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}},\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00188\ \ \ \ \ TaskQueue::Task\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a734b041b585e7b1dfc6a4e2cceffb20b}{scheduleReadTOC}}(MSF\ *toc,\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}});}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a2d94308843587ba611114f422f8d0599}{readTOCBlocking}}(MSF\ *toc,\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}},\ GPU\ \&);}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5d0484342abc164a65270ec785813b50}{mute}}(eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00197\ \ \ \ \ TaskQueue::Task\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_aa07080bf266a6ce39b09115bc5d42436}{scheduleMute}}();}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a2340868641ad78f8dd83c0dd3badec35}{muteBlocking}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a00ff1ce6e66c9de5d949f1caa966d354}{unmute}}(eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00206\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{TaskQueue::Task}}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ad4c6bb9c3039fe801d9fdd35c9ae3ae7}{scheduleUnmute}}();}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_ad470fc9ce1e05d588d8a8154140e48cd}{unmuteBlocking}}(\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&);}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a957870d212d6edf68656a7cfc9e4698a}{playCDDATrack}}(\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ start,\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a957870d212d6edf68656a7cfc9e4698a}{playCDDATrack}}(\textcolor{keywordtype}{unsigned}\ track,\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5914f4a4de3b3a7a3c0c5efb0da4f768}{playCDDADisc}}(\mbox{\hyperlink{structpsyqo_1_1MSF}{MSF}}\ start,\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5914f4a4de3b3a7a3c0c5efb0da4f768}{playCDDADisc}}(\textcolor{keywordtype}{unsigned}\ track,\ eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a054eb5af43ec96db42fd616464b5a589}{resumeCDDA}}(eastl::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{bool})>\ \&\&callback);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a80dd1d94cd48a3442bc79e74da83825f}{pauseCDDA}}();}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afaf72332efdab89410042b9c139e331e}{stopCDDA}}();}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afca1c28a598bf8641449c929182b41b0}{getPlaybackLocation}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ *location,\ eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ *)>\ \&\&callback);}
+\DoxyCodeLine{00276\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_afca1c28a598bf8641449c929182b41b0}{getPlaybackLocation}}(eastl::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ *)>\ \&\&callback);}
+\DoxyCodeLine{00277\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{TaskQueue::Task}}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a888ac387d2d4b01509f1714c81f8a738}{scheduleGetPlaybackLocation}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ *location);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a55591c0279ddd76b58050bdfad53d15b}{setVolume}}(uint8\_t\ leftToLeft,\ uint8\_t\ rightToLeft,\ uint8\_t\ leftToRight,\ uint8\_t\ rightToRight);}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keyword}{template}\ <Concepts::IsCDRomDeviceStateEnum\ S>}
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1CDRomDevice_1_1Action}{Action}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe}{ActionBase}}\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_1_1Action_a242adf9e910913e8129ae2ac60c9cca4}{Action}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keyword}{const}\ name)\ :\ ActionBase(name)\ \{\}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_1_1Action_a9e9cdacf53fb84dc07d5511a9c8a58ca}{registerMe}}(\mbox{\hyperlink{classpsyqo_1_1CDRomDevice}{CDRomDevice}}\ *device)\ \{}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ device-\/>switchAction(\textcolor{keyword}{this});}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ m\_device\ =\ device;}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_1_1Action_aaea54fe05b39ca4bae5f4d6e971481ed}{setState}}(S\ state)\ \{\ m\_device-\/>m\_state\ =\ \textcolor{keyword}{static\_cast<}uint8\_t\textcolor{keyword}{>}(state);\ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ S\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_1_1Action_a2509217a1da308b6662feb6a43fa7679}{getState}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}S\textcolor{keyword}{>}(m\_device-\/>m\_state);\ \}}
+\DoxyCodeLine{00322\ \ \ \ \ \};}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00328\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a59a1f45fb5026ac799d7c4b1e8deeac9}{isIdle}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m\_state\ ==\ 0;}
+\DoxyCodeLine{00330\ \ \ \ \ \}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordtype}{void}\ switchAction(ActionBase\ *action);}
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{keywordtype}{void}\ irq();}
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordtype}{void}\ actionComplete();}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe}{ActionBase}};}
+\DoxyCodeLine{00338\ }
+\DoxyCodeLine{00339\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\textcolor{keywordtype}{bool})>\ m\_callback;}
+\DoxyCodeLine{00340\ \ \ \ \ eastl::function<\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ *)>\ m\_locationCallback;}
+\DoxyCodeLine{00341\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ m\_locationStorage;}
+\DoxyCodeLine{00342\ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1CDRomDevice_1_1PlaybackLocation}{PlaybackLocation}}\ *m\_locationPtr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00343\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ m\_event\ =\ 0;}
+\DoxyCodeLine{00344\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a5ffc8a85dc48348a7db8853a376be6fe}{ActionBase}}\ *m\_action\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00345\ \ \ \ \ uint8\_t\ m\_state\ =\ 0;}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_blocking\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_pendingGetLocation\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keyword}{struct\ }BlockingAction\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ BlockingAction(\mbox{\hyperlink{classpsyqo_1_1CDRomDevice}{CDRomDevice}}\ *,\ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&);}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \string~BlockingAction();}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1CDRomDevice}{CDRomDevice}}\ *m\_device;}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\ \&m\_gpu;}
+\DoxyCodeLine{00357\ \ \ \ \ \};}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keyword}{struct\ }MaskedIRQ\ \{}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ MaskedIRQ();}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \string~MaskedIRQ();}
+\DoxyCodeLine{00362\ \ \ \ \ \};}
+\DoxyCodeLine{00363\ \};}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

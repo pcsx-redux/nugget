@@ -1,0 +1,134 @@
+\doxysection{cester-\/cop0.c}
+\hypertarget{cester-cop0_8c_source}{}\label{cester-cop0_8c_source}\index{tests/cop0/cester-\/cop0.c@{tests/cop0/cester-\/cop0.c}}
+\mbox{\hyperlink{cester-cop0_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2022\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ This\ file\ isn't\ to\ be\ compiled\ directly.\ It's\ to\ be\ included\ in\ every}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ sub\ test\ .c\ file\ that\ requires\ access\ to\ the\ exception\ handler\ test\ system.}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \mbox{\hyperlink{cester-cop0_8c_a2deaa551a7e055bfb3ff415ab913ca02}{CESTER\_BODY}}(}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\_got40}};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\_got80}};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_adc21b06b78bc0568f5910c3dae513199}{s\_cause}};}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\_epc}};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\_from}};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *\ \mbox{\hyperlink{cester-cop0_8c_adaee9bf8adecc707155c15a82388a0cb}{s\_resume}};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *\ \mbox{\hyperlink{cester-cop0_8c_a240aa05f66bcd988a9797baa56d080bd}{s\_regs}};}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ (*\mbox{\hyperlink{cester-cop0_8c_a7095de6440daa1e164b80ebfc775ef18}{s\_customhandler}})()\ =\ NULL;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_af68997acabe43b888c12807f6fea8513}{s\_oldIMASK}};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_a77548a3041c30e2c9e3cec0d818dec61}{s\_oldDPCR}};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_ae64a8b4835e3882a9b39407aecd52777}{s\_oldDICR}};}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *\ regs,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ from)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (from\ ==\ 0x40)\ \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\_got40}}\ =\ 1;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (from\ ==\ 0x80)\ \mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\_got80}}\ =\ 1;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cause;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ epc;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\_from}}\ =\ from;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}mfc0\ \%0,\ \$13\(\backslash\)nnop\(\backslash\)nmfc0\ \%1,\ \$14\(\backslash\)nnop"{}}\ :\ \textcolor{stringliteral}{"{}=r"{}}(cause),\ \textcolor{stringliteral}{"{}=r"{}}(epc));}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_adc21b06b78bc0568f5910c3dae513199}{s\_cause}}\ =\ cause;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\_epc}}\ =\ epc;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{cester-cop0_8c_a7095de6440daa1e164b80ebfc775ef18}{s\_customhandler}})\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{cester-cop0_8c_a7095de6440daa1e164b80ebfc775ef18}{s\_customhandler}}();}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{cester-cop0_8c_adaee9bf8adecc707155c15a82388a0cb}{s\_resume}}\ ?\ ((\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}})\mbox{\hyperlink{cester-cop0_8c_adaee9bf8adecc707155c15a82388a0cb}{s\_resume}})\ :\ (epc\ +\ 4);}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{exceptions_8cpp_a9ef3ae35904ca34d799bb365d93f17ea}{installExceptionHandlers}}(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ (*\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ *\ regs,\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ from));}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{exceptions_8cpp_acb6d7feac7aed30b256867be51890fa0}{uninstallExceptionHandlers}}();}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ branchbranch1();}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ branchbranch2();}
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ jumpjump1();}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ jumpjump2();}
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_LWR\_LWL\_half(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ initial);}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_LWR\_LWL\_nodelay(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ initial);}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_LWR\_LWL\_delayed(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ initial);}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_LWR\_LWL\_load\_different(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ initial);}
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_LW\_LWR(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ initial);}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_delayed\_load(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{override});}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ cpu\_delayed\_load\_cancelled(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{override});}
+\DoxyCodeLine{00078\ \ \ \ \ uint64\_t\ cpu\_delayed\_load\_load(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cpu_8c_a1f1891fe24211db7a302098a1b116e7c}{buff}}[],\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \textcolor{keyword}{override});}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ linkandload();}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ lwandlink();}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ nolink();}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ s\_interruptsWereEnabled;}
+\DoxyCodeLine{00084\ )}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ CESTER\_BEFORE\_EACH(\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\_tests}},\ \mbox{\hyperlink{cester-cop0_8c_a21c87b43c890389947373b311d2b8c13}{testname}},\ \mbox{\hyperlink{cester-cop0_8c_abe57503d3f43092acd595e8140052a53}{testindex}},}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_af68997acabe43b888c12807f6fea8513}{s\_oldIMASK}}\ =\ \mbox{\hyperlink{cester-cop0_8c_ad227ebbc662f0025985c217873fd9246}{IMASK}};}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a77548a3041c30e2c9e3cec0d818dec61}{s\_oldDPCR}}\ =\ \mbox{\hyperlink{cester-cop0_8c_ad7b4fd55cdec0c99174c68abba9ac01c}{DPCR}};}
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_ae64a8b4835e3882a9b39407aecd52777}{s\_oldDICR}}\ =\ \mbox{\hyperlink{cester-cop0_8c_aa82fd9195b8b348bafa9edd87320dc0b}{DICR}};}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_ad227ebbc662f0025985c217873fd9246}{IMASK}}\ =\ 0;}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a5d2a811d28fc6fff0127cf09edb84f3b}{IREG}}\ =\ 0;}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ 7;\ i++)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dma_8h_a5d5aacf18793eba82b736c160d30f0db}{DMA\_CTRL}}[i].CHCR\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dma_8h_a5d5aacf18793eba82b736c160d30f0db}{DMA\_CTRL}}[i].BCR\ =\ 0;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{dma_8h_a5d5aacf18793eba82b736c160d30f0db}{DMA\_CTRL}}[i].MADR\ =\ 0;}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_ad7b4fd55cdec0c99174c68abba9ac01c}{DPCR}}\ =\ 0;}
+\DoxyCodeLine{00098\ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cester-cop0_8c_abf96899658810c71ee55337f12cc8912}{dicr}}\ =\ \mbox{\hyperlink{cester-cop0_8c_aa82fd9195b8b348bafa9edd87320dc0b}{DICR}};}
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_aa82fd9195b8b348bafa9edd87320dc0b}{DICR}}\ =\ \mbox{\hyperlink{cester-cop0_8c_abf96899658810c71ee55337f12cc8912}{dicr}};}
+\DoxyCodeLine{00100\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_aa82fd9195b8b348bafa9edd87320dc0b}{DICR}}\ =\ 0;}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a108abb1e3f7969cd6c9cc686cede65cf}{s\_got40}}\ =\ 0;}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a07074082ee876efd08edc0cd92965380}{s\_got80}}\ =\ 0;}
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_adc21b06b78bc0568f5910c3dae513199}{s\_cause}}\ =\ 0;}
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a70c6c7887376ff65852f2f2b11dea9b6}{s\_epc}}\ =\ 0;}
+\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a548a874a36876f275c24b7a3ea9f8253}{s\_from}}\ =\ 0;}
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_adaee9bf8adecc707155c15a82388a0cb}{s\_resume}}\ =\ NULL;}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a240aa05f66bcd988a9797baa56d080bd}{s\_regs}}\ =\ NULL;}
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_a7095de6440daa1e164b80ebfc775ef18}{s\_customhandler}}\ =\ NULL;}
+\DoxyCodeLine{00109\ )}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ CESTER\_AFTER\_EACH(\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\_tests}},\ \mbox{\hyperlink{cester-cop0_8c_a21c87b43c890389947373b311d2b8c13}{testname}},\ \mbox{\hyperlink{cester-cop0_8c_abe57503d3f43092acd595e8140052a53}{testindex}},}
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_ad227ebbc662f0025985c217873fd9246}{IMASK}}\ =\ \mbox{\hyperlink{cester-cop0_8c_af68997acabe43b888c12807f6fea8513}{s\_oldIMASK}};}
+\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_ad7b4fd55cdec0c99174c68abba9ac01c}{DPCR}}\ =\ \mbox{\hyperlink{cester-cop0_8c_a77548a3041c30e2c9e3cec0d818dec61}{s\_oldDPCR}};}
+\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{cester-cop0_8c_aa82fd9195b8b348bafa9edd87320dc0b}{DICR}}\ =\ \mbox{\hyperlink{cester-cop0_8c_ae64a8b4835e3882a9b39407aecd52777}{s\_oldDICR}};}
+\DoxyCodeLine{00115\ )}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ CESTER\_BEFORE\_ALL(\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\_tests}},}
+\DoxyCodeLine{00118\ \ \ \ \ s\_interruptsWereEnabled\ =\ enterCriticalSection();}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{exceptions_8cpp_a9ef3ae35904ca34d799bb365d93f17ea}{installExceptionHandlers}}(\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}});}
+\DoxyCodeLine{00120\ \ \ \ \ syscall\_flushCache();}
+\DoxyCodeLine{00121\ )}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ CESTER\_AFTER\_ALL(\mbox{\hyperlink{cop0_8c_a7ce7c7c55a28d77467a6806678c0b5ab}{cpu\_tests}},}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{exceptions_8cpp_acb6d7feac7aed30b256867be51890fa0}{uninstallExceptionHandlers}}();}
+\DoxyCodeLine{00125\ \ \ \ \ syscall\_flushCache();}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\_interruptsWereEnabled)\ leaveCriticalSection();}
+\DoxyCodeLine{00127\ )}
+\DoxyCodeLine{00128\ }
+
+\end{DoxyCode}

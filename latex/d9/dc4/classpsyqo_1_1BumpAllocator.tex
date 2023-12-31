@@ -1,0 +1,69 @@
+\doxysection{psyqo\+::Bump\+Allocator\texorpdfstring{$<$}{<} N \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsyqo_1_1BumpAllocator}{}\label{classpsyqo_1_1BumpAllocator}\index{psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}}
+
+
+A bump allocator for fragments.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/bump-\/allocator.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Primitive P$>$ }\\\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment}{Fragments\+::\+Simple\+Fragment}}$<$ P $>$ \& \mbox{\hyperlink{classpsyqo_1_1BumpAllocator_a1ba5dca9e76560fa21e198fce521a892}{allocate}} ()
+\item 
+{\footnotesize template$<$Fragment F$>$ }\\F \& \mbox{\hyperlink{classpsyqo_1_1BumpAllocator_a2fe7b6c7bbeeac7a01239965e320e0b9}{allocate}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1BumpAllocator_a5739380ffc3194b5311b01c1b6ed4666}{reset}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$size\+\_\+t N$>$\newline
+class psyqo\+::\+Bump\+Allocator$<$ N $>$}
+A bump allocator for fragments. 
+
+This allocator is used to allocate fragments without the need for dynamic memory allocation. It is useful for allocating fragments to render in a complex scene, where the number of fragments isn\textquotesingle{}t known at compile time.
+
+The allocator will need to be reset at the beginning of each frame, to ensure that the memory is properly reused. Also, don\textquotesingle{}t forget to double buffer the allocator when chaining fragments allocated with it.
+
+The allocate method works with both primitives, and custom fragments. It will always return a reference to the allocated fragment.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em N} & The size of the memory buffer in bytes. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1BumpAllocator_a1ba5dca9e76560fa21e198fce521a892}\label{classpsyqo_1_1BumpAllocator_a1ba5dca9e76560fa21e198fce521a892} 
+\index{psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N$>$ \\
+template$<$Primitive P$>$ \\
+\mbox{\hyperlink{structpsyqo_1_1Fragments_1_1SimpleFragment}{Fragments\+::\+Simple\+Fragment}}$<$ P $>$ \& \mbox{\hyperlink{classpsyqo_1_1BumpAllocator}{psyqo\+::\+Bump\+Allocator}}$<$ N $>$\+::allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1BumpAllocator_a2fe7b6c7bbeeac7a01239965e320e0b9}\label{classpsyqo_1_1BumpAllocator_a2fe7b6c7bbeeac7a01239965e320e0b9} 
+\index{psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N$>$ \\
+template$<$Fragment F$>$ \\
+F \& \mbox{\hyperlink{classpsyqo_1_1BumpAllocator}{psyqo\+::\+Bump\+Allocator}}$<$ N $>$\+::allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1BumpAllocator_a5739380ffc3194b5311b01c1b6ed4666}\label{classpsyqo_1_1BumpAllocator_a5739380ffc3194b5311b01c1b6ed4666} 
+\index{psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}!reset@{reset}}
+\index{reset@{reset}!psyqo::BumpAllocator$<$ N $>$@{psyqo::BumpAllocator$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1BumpAllocator}{psyqo\+::\+Bump\+Allocator}}$<$ N $>$\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{bump-allocator_8h}{bump-\/allocator.\+h}}\end{DoxyCompactItemize}

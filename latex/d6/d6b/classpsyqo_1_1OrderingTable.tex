@@ -1,0 +1,119 @@
+\doxysection{psyqo\+::Ordering\+Table\texorpdfstring{$<$}{<} N \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsyqo_1_1OrderingTable}{}\label{classpsyqo_1_1OrderingTable}\index{psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}}
+
+
+The ordering table. Used to sort fragments before sending them to the \doxylink{classpsyqo_1_1GPU}{GPU}.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/ordering-\/table.\+hh$>$}
+
+
+
+Inheritance diagram for psyqo\+::Ordering\+Table\texorpdfstring{$<$}{<} N \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{d0/d41/classpsyqo_1_1OrderingTable__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for psyqo\+::Ordering\+Table\texorpdfstring{$<$}{<} N \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{de/d42/classpsyqo_1_1OrderingTable__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classpsyqo_1_1OrderingTable_a3db9291d76bcc308624ed1e28bfd1660}{Ordering\+Table}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1OrderingTable_a339255198914a8e4bce70e47f8ce240c}{clear}} ()
+\begin{DoxyCompactList}\small\item\em Clears the ordering table. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Fragment Frag$>$ }\\\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1OrderingTable_a17d116e2eb5998f327df26353911e728}{insert}} (Frag \&frag, int32\+\_\+t z)
+\begin{DoxyCompactList}\small\item\em Inserts a fragment into the ordering table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsyqo_1_1OrderingTable_ab538784ac98715df6b95da3be67e8e1a}{GPU}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$size\+\_\+t N = 4096$>$\newline
+class psyqo\+::\+Ordering\+Table$<$ N $>$}
+The ordering table. Used to sort fragments before sending them to the \doxylink{classpsyqo_1_1GPU}{GPU}. 
+
+This class is used to sort fragments before sending them to the \doxylink{classpsyqo_1_1GPU}{GPU}. The \doxylink{classpsyqo_1_1GPU}{GPU} will then process the fragments in the order specified by the ordering table. Since the PS1 \doxylink{classpsyqo_1_1GPU}{GPU} doesn\textquotesingle{}t have any depth buffer, the ordering table is used to roughly sort the fragments by their Z value. Each fragment is assigned a "{}bucket"{} based on its Z value. The fragments inside a bucket are NOT sorted. The {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class {\ttfamily chain} function can be used to schedule an ordering table to be sent to the \doxylink{classpsyqo_1_1GPU}{GPU}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em N} & The number of buckets in the ordering table. The larger the number, the more precise the sorting will be, but the more memory will be used. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1OrderingTable_a3db9291d76bcc308624ed1e28bfd1660}\label{classpsyqo_1_1OrderingTable_a3db9291d76bcc308624ed1e28bfd1660} 
+\index{psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}!OrderingTable@{OrderingTable}}
+\index{OrderingTable@{OrderingTable}!psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{OrderingTable()}{OrderingTable()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N = 4096$>$ \\
+\mbox{\hyperlink{classpsyqo_1_1OrderingTable}{psyqo\+::\+Ordering\+Table}}$<$ N $>$\+::\+Ordering\+Table (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1OrderingTable_a339255198914a8e4bce70e47f8ce240c}\label{classpsyqo_1_1OrderingTable_a339255198914a8e4bce70e47f8ce240c} 
+\index{psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}!clear@{clear}}
+\index{clear@{clear}!psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N = 4096$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1OrderingTable}{psyqo\+::\+Ordering\+Table}}$<$ N $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Clears the ordering table. 
+
+This function clears the ordering table. The table is automatically cleared by the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class after it has been sent to the \doxylink{classpsyqo_1_1GPU}{GPU}, so this function is only useful if you want to clear the ordering table without sending it to the \doxylink{classpsyqo_1_1GPU}{GPU}, which should be a rare use case. \Hypertarget{classpsyqo_1_1OrderingTable_a17d116e2eb5998f327df26353911e728}\label{classpsyqo_1_1OrderingTable_a17d116e2eb5998f327df26353911e728} 
+\index{psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}!insert@{insert}}
+\index{insert@{insert}!psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N = 4096$>$ \\
+template$<$Fragment Frag$>$ \\
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1OrderingTable}{psyqo\+::\+Ordering\+Table}}$<$ N $>$\+::insert (\begin{DoxyParamCaption}\item[{Frag \&}]{frag,  }\item[{int32\+\_\+t}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts a fragment into the ordering table. 
+
+This function inserts a fragment into the ordering table. The fragment will be inserted into the bucket corresponding to its Z value. Any value outside of the range \mbox{[}0, N -\/ 1\mbox{]} will be clamped to the nearest valid value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em frag} & The fragment to insert. \\
+\hline
+{\em z} & The Z value of the fragment. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1OrderingTable_ab538784ac98715df6b95da3be67e8e1a}\label{classpsyqo_1_1OrderingTable_ab538784ac98715df6b95da3be67e8e1a} 
+\index{psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}!GPU@{GPU}}
+\index{GPU@{GPU}!psyqo::OrderingTable$<$ N $>$@{psyqo::OrderingTable$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{GPU}{GPU}}
+{\footnotesize\ttfamily template$<$size\+\_\+t N = 4096$>$ \\
+friend class \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{ordering-table_8hh}{ordering-\/table.\+hh}}\end{DoxyCompactItemize}

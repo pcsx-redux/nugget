@@ -1,0 +1,128 @@
+\doxysection{openbios/sio0/pad.h File Reference}
+\hypertarget{pad_8h}{}\label{pad_8h}\index{openbios/sio0/pad.h@{openbios/sio0/pad.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for pad.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{dc/d1d/pad_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d1/de6/pad_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{pad_8h_a6f8d55faaf01a1ac4b0383a7769e746b}{init\+Pad\+High\+Level}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} pad\+Type, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} d)
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{pad_8h_ae00811da96b1635d635ab7ed3e6c01f5}{read\+Pad\+High\+Level}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{pad_8h_a21a9b830d90739175eb5456f7c92ff88}{init\+Pad}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}pad1\+Buffer, size\+\_\+t pad1\+Buffer\+Size, uint8\+\_\+t \texorpdfstring{$\ast$}{*}pad2\+Buffer, size\+\_\+t pad2\+Buffer\+Size)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{pad_8h_a0e7ddf542e1a8a561b1a11ef144d271e}{start\+Pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a9c2254c385237583ac69d918c25e1d23}{stop\+Pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a8b82954196b76d11dad6ffaa81c70bb0}{patch\+\_\+remove\+\_\+\+Chgclr\+PAD}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a3f1bd000bde18b871294e352e1f21718}{patch\+\_\+disable\+\_\+slot\+Change\+On\+Abort}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a05edef5ff263b46e2b0b0752b4a96d8b}{patch\+\_\+start\+Pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a9a0c26542d389222eaca351f423801d5}{patch\+\_\+stop\+Pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a3ddba8e7f9aba4fc49ab3d174a74ead0}{patch\+\_\+send\+\_\+pad}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{pad_8h_a9408ee936d88bac7caa59947e14679d4}{patch\+\_\+set\+Pad\+Output\+Data}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}pad1\+Output\+Buffer, size\+\_\+t pad1\+Output\+Size, uint8\+\_\+t \texorpdfstring{$\ast$}{*}pad2\+Output\+Buffer, size\+\_\+t pad2\+Output\+Size)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{pad_8h_ab5d01669d660fa6201d1aa1e46a71fdf}{g\+\_\+user\+Pad\+Buffer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{pad_8h_a21a9b830d90739175eb5456f7c92ff88}\label{pad_8h_a21a9b830d90739175eb5456f7c92ff88} 
+\index{pad.h@{pad.h}!initPad@{initPad}}
+\index{initPad@{initPad}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{initPad()}{initPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Pad (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{pad1\+Buffer,  }\item[{size\+\_\+t}]{pad1\+Buffer\+Size,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{pad2\+Buffer,  }\item[{size\+\_\+t}]{pad2\+Buffer\+Size }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a6f8d55faaf01a1ac4b0383a7769e746b}\label{pad_8h_a6f8d55faaf01a1ac4b0383a7769e746b} 
+\index{pad.h@{pad.h}!initPadHighLevel@{initPadHighLevel}}
+\index{initPadHighLevel@{initPadHighLevel}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{initPadHighLevel()}{initPadHighLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} init\+Pad\+High\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{pad\+Type,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{c,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{d }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a3f1bd000bde18b871294e352e1f21718}\label{pad_8h_a3f1bd000bde18b871294e352e1f21718} 
+\index{pad.h@{pad.h}!patch\_disable\_slotChangeOnAbort@{patch\_disable\_slotChangeOnAbort}}
+\index{patch\_disable\_slotChangeOnAbort@{patch\_disable\_slotChangeOnAbort}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{patch\_disable\_slotChangeOnAbort()}{patch\_disable\_slotChangeOnAbort()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+disable\+\_\+slot\+Change\+On\+Abort (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a8b82954196b76d11dad6ffaa81c70bb0}\label{pad_8h_a8b82954196b76d11dad6ffaa81c70bb0} 
+\index{pad.h@{pad.h}!patch\_remove\_ChgclrPAD@{patch\_remove\_ChgclrPAD}}
+\index{patch\_remove\_ChgclrPAD@{patch\_remove\_ChgclrPAD}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{patch\_remove\_ChgclrPAD()}{patch\_remove\_ChgclrPAD()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+remove\+\_\+\+Chgclr\+PAD (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a3ddba8e7f9aba4fc49ab3d174a74ead0}\label{pad_8h_a3ddba8e7f9aba4fc49ab3d174a74ead0} 
+\index{pad.h@{pad.h}!patch\_send\_pad@{patch\_send\_pad}}
+\index{patch\_send\_pad@{patch\_send\_pad}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{patch\_send\_pad()}{patch\_send\_pad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+send\+\_\+pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a9408ee936d88bac7caa59947e14679d4}\label{pad_8h_a9408ee936d88bac7caa59947e14679d4} 
+\index{pad.h@{pad.h}!patch\_setPadOutputData@{patch\_setPadOutputData}}
+\index{patch\_setPadOutputData@{patch\_setPadOutputData}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{patch\_setPadOutputData()}{patch\_setPadOutputData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+set\+Pad\+Output\+Data (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{pad1\+Output\+Buffer,  }\item[{size\+\_\+t}]{pad1\+Output\+Size,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{pad2\+Output\+Buffer,  }\item[{size\+\_\+t}]{pad2\+Output\+Size }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a05edef5ff263b46e2b0b0752b4a96d8b}\label{pad_8h_a05edef5ff263b46e2b0b0752b4a96d8b} 
+\index{pad.h@{pad.h}!patch\_startPad@{patch\_startPad}}
+\index{patch\_startPad@{patch\_startPad}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{patch\_startPad()}{patch\_startPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+start\+Pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a9a0c26542d389222eaca351f423801d5}\label{pad_8h_a9a0c26542d389222eaca351f423801d5} 
+\index{pad.h@{pad.h}!patch\_stopPad@{patch\_stopPad}}
+\index{patch\_stopPad@{patch\_stopPad}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{patch\_stopPad()}{patch\_stopPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} patch\+\_\+stop\+Pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_ae00811da96b1635d635ab7ed3e6c01f5}\label{pad_8h_ae00811da96b1635d635ab7ed3e6c01f5} 
+\index{pad.h@{pad.h}!readPadHighLevel@{readPadHighLevel}}
+\index{readPadHighLevel@{readPadHighLevel}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{readPadHighLevel()}{readPadHighLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} read\+Pad\+High\+Level (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a0e7ddf542e1a8a561b1a11ef144d271e}\label{pad_8h_a0e7ddf542e1a8a561b1a11ef144d271e} 
+\index{pad.h@{pad.h}!startPad@{startPad}}
+\index{startPad@{startPad}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{startPad()}{startPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} start\+Pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8h_a9c2254c385237583ac69d918c25e1d23}\label{pad_8h_a9c2254c385237583ac69d918c25e1d23} 
+\index{pad.h@{pad.h}!stopPad@{stopPad}}
+\index{stopPad@{stopPad}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{stopPad()}{stopPad()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} stop\+Pad (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{pad_8h_ab5d01669d660fa6201d1aa1e46a71fdf}\label{pad_8h_ab5d01669d660fa6201d1aa1e46a71fdf} 
+\index{pad.h@{pad.h}!g\_userPadBuffer@{g\_userPadBuffer}}
+\index{g\_userPadBuffer@{g\_userPadBuffer}!pad.h@{pad.h}}
+\doxysubsubsection{\texorpdfstring{g\_userPadBuffer}{g\_userPadBuffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}\texorpdfstring{$\ast$}{*} g\+\_\+user\+Pad\+Buffer\hspace{0.3cm}{\ttfamily [extern]}}
+

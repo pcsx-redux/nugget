@@ -1,0 +1,289 @@
+\doxysection{psyqo\+::Font\+Base Class Reference}
+\hypertarget{classpsyqo_1_1FontBase}{}\label{classpsyqo_1_1FontBase}\index{psyqo::FontBase@{psyqo::FontBase}}
+
+
+The \doxylink{classpsyqo_1_1Font}{Font} drawing class.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/font.\+hh$>$}
+
+
+
+Inheritance diagram for psyqo\+::Font\+Base\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{d8/d4f/classpsyqo_1_1FontBase__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue}{Glyphs\+Fragment\+Prologue}}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1XPrintfInfo}{XPrintf\+Info}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1FontBase_a71459d24469bdc2bde507deb0eeb596d}{\texorpdfstring{$\sim$}{\string~}\+Font\+Base}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a746052a5665c415227e2dcdfd02f3388}{upload\+System\+Font}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} location=\{\{.x=960,.y=464\}\})
+\begin{DoxyCompactList}\small\item\em Uploads the system font to VRAM, and initializes the object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_ac108563d510750dc7461df4d03a92ce3}{upload\+Krom\+Font}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} location=\{\{.x=960,.y=422\}\})
+\begin{DoxyCompactList}\small\item\em Uploads the \doxylink{namespacepsyqo_1_1Kernel}{Kernel} rom font to VRAM, and initializes the object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_ac0f5dbac9ca4ed22bb86d0ce9332c84d}{initialize}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} location, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} glyph\+Size)
+\begin{DoxyCompactList}\small\item\em Initializes the object for use. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56}{print}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, eastl\+::string\+\_\+view text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color)
+\begin{DoxyCompactList}\small\item\em These method immediately print text to the screen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a49dde6b98399445ed3d48aa771b43d40}{print}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, eastl\+::string\+\_\+view text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a9c11f6b0c3650f0e4f6b44364a3ef54a}{print}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, const char \texorpdfstring{$\ast$}{*}text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a0725325623a63f8e544d167dd6d3f9c9}{print}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, const char \texorpdfstring{$\ast$}{*}text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a311f91b13fe23b2bf7545a41d8f95bd4}{printf}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},...)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_af48f5328bb39a3abb675d29a818ba761}{printf}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},...)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17}{vprintf}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}, va\+\_\+list ap)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_ae55022cc2a34b9e24fefafcd7520093e}{vprintf}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&callback, \mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}} dma\+Callback, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}, va\+\_\+list ap)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a9b6ec25bbffbd4a1d7d6cca0f2a493b0}{chainprint}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, eastl\+::string\+\_\+view text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color)
+\begin{DoxyCompactList}\small\item\em These methods use the \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining system to print text to the screen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_ac4962e3d17d78dd088eec41ca2e6b0dd}{chainprint}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, const char \texorpdfstring{$\ast$}{*}text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a255b1d81394cbed2fde8fb82c2df1ce5}{chainprintf}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}},...)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a8ce3b59e21d2c0ec1f6460dfabae0941}{chainvprintf}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}, va\+\_\+list ap)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a3eab00b147b10b5dc145e04b0822afd4}{unpack\+Font}} (\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} location, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} texture\+Size)
+\begin{DoxyCompactList}\small\item\em Unpacks and uploads a font to VRAM. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{Fragments\+::\+Fixed\+Fragment\+With\+Prologue}}$<$ \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue}{Glyphs\+Fragment\+Prologue}}, \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Prim\+::\+Sprite}}, 48 $>$ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsyqo_1_1FontBase_a67c3e419ca53e99dcd6c5481197a4a86}{get\+Glyph\+Fragment}} (bool increment)=0
+\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a69c1125ecfb0ce26bc8cf9d27d2cb805}{for\+Each}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \&)$>$ \&\&cb)=0
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a9f6dfba31b362a2cd2ceed24f12a93a7}{innerprint}} (\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*}fragment, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, eastl\+::string\+\_\+view text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_ab424dec6316aa632ba42d7cbee829d01}{innerprint}} (\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*}fragment, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, const char \texorpdfstring{$\ast$}{*}text, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a76442f7bf01c4bc0eec6bec41694aedc}{innervprintf}} (\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*}fragment, \mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&gpu, \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} pos, \mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} color, const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{fileio_8h_a713b90d1b14b83c8dcdc36c7da32a004}{format}}, va\+\_\+list ap)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{classpsyqo_1_1FontBase_a68d5500039741779a6185b311db1093b}{XPrintf\+Info}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classpsyqo_1_1Font}{Font} drawing class. 
+
+This class is used to draw text to the screen. It is a template class that takes a number of fragments as a template parameter. The number of fragments determines how many times a chainprint can be called. If not using chainprint, then the number of fragments is irrelevant, and should be set to 1. The font is expected to be uploaded to VRAM before use. It is expected to be a 4bpp texture, 256 pixels wide. While the location and size are user-\/defined, it is the user\textquotesingle{}s responsibility to ensure that the font properly fits in a texture page. It should be in ASCII order, with the first character being ASCII 0x20 (space), which has to be completely transparent. Even though the font is 4bpp, it really should be monochrome, with the color being set by the color parameter of the various print methods. 
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}\label{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306} 
+\index{psyqo::FontBase@{psyqo::FontBase}!GlyphsFragment@{GlyphsFragment}}
+\index{GlyphsFragment@{GlyphsFragment}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{GlyphsFragment}{GlyphsFragment}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue}{Fragments\+::\+Fixed\+Fragment\+With\+Prologue}}$<$\mbox{\hyperlink{structpsyqo_1_1FontBase_1_1GlyphsFragmentPrologue}{Glyphs\+Fragment\+Prologue}}, \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Prim\+::\+Sprite}}, 48$>$ \mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{psyqo\+::\+Font\+Base\+::\+Glyphs\+Fragment}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1FontBase_a71459d24469bdc2bde507deb0eeb596d}\label{classpsyqo_1_1FontBase_a71459d24469bdc2bde507deb0eeb596d} 
+\index{psyqo::FontBase@{psyqo::FontBase}!````~FontBase@{\texorpdfstring{$\sim$}{\string~}FontBase}}
+\index{````~FontBase@{\texorpdfstring{$\sim$}{\string~}FontBase}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}FontBase()}{\string~FontBase()}}
+{\footnotesize\ttfamily virtual psyqo\+::\+Font\+Base\+::\texorpdfstring{$\sim$}{\string~}\+Font\+Base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1FontBase_ac4962e3d17d78dd088eec41ca2e6b0dd}\label{classpsyqo_1_1FontBase_ac4962e3d17d78dd088eec41ca2e6b0dd} 
+\index{psyqo::FontBase@{psyqo::FontBase}!chainprint@{chainprint}}
+\index{chainprint@{chainprint}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{chainprint()}{chainprint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::chainprint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1FontBase_a9b6ec25bbffbd4a1d7d6cca0f2a493b0}\label{classpsyqo_1_1FontBase_a9b6ec25bbffbd4a1d7d6cca0f2a493b0} 
+\index{psyqo::FontBase@{psyqo::FontBase}!chainprint@{chainprint}}
+\index{chainprint@{chainprint}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{chainprint()}{chainprint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::chainprint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{eastl\+::string\+\_\+view}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color }\end{DoxyParamCaption})}
+
+
+
+These methods use the \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining system to print text to the screen. 
+
+These methods use the \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining system to print text to the screen. They are meant to be used when constructing a frame using \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining. When not using \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining, you should use the {\ttfamily print} method family instead. See the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class for more details on \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining. \Hypertarget{classpsyqo_1_1FontBase_a255b1d81394cbed2fde8fb82c2df1ce5}\label{classpsyqo_1_1FontBase_a255b1d81394cbed2fde8fb82c2df1ce5} 
+\index{psyqo::FontBase@{psyqo::FontBase}!chainprintf@{chainprintf}}
+\index{chainprintf@{chainprintf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{chainprintf()}{chainprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::chainprintf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{}]{... }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_a8ce3b59e21d2c0ec1f6460dfabae0941}\label{classpsyqo_1_1FontBase_a8ce3b59e21d2c0ec1f6460dfabae0941} 
+\index{psyqo::FontBase@{psyqo::FontBase}!chainvprintf@{chainvprintf}}
+\index{chainvprintf@{chainvprintf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{chainvprintf()}{chainvprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::chainvprintf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1FontBase_a69c1125ecfb0ce26bc8cf9d27d2cb805}\label{classpsyqo_1_1FontBase_a69c1125ecfb0ce26bc8cf9d27d2cb805} 
+\index{psyqo::FontBase@{psyqo::FontBase}!forEach@{forEach}}
+\index{forEach@{forEach}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{forEach()}{forEach()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::for\+Each (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \&)$>$ \&\&}]{cb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_a67c3e419ca53e99dcd6c5481197a4a86}\label{classpsyqo_1_1FontBase_a67c3e419ca53e99dcd6c5481197a4a86} 
+\index{psyqo::FontBase@{psyqo::FontBase}!getGlyphFragment@{getGlyphFragment}}
+\index{getGlyphFragment@{getGlyphFragment}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{getGlyphFragment()}{getGlyphFragment()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*} psyqo\+::\+Font\+Base\+::get\+Glyph\+Fragment (\begin{DoxyParamCaption}\item[{bool}]{increment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_ac0f5dbac9ca4ed22bb86d0ce9332c84d}\label{classpsyqo_1_1FontBase_ac0f5dbac9ca4ed22bb86d0ce9332c84d} 
+\index{psyqo::FontBase@{psyqo::FontBase}!initialize@{initialize}}
+\index{initialize@{initialize}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{location,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{glyph\+Size }\end{DoxyParamCaption})}
+
+
+
+Initializes the object for use. 
+
+When using your own font, you should call this method to initialize the \doxylink{classpsyqo_1_1Font}{Font} object. This includes when using the {\ttfamily unpack\+Font} method. This method should not be called if you are using the {\ttfamily upload\+System\+Font} method. 
+\begin{DoxyParams}{Parameters}
+{\em location} & The location of the font in VRAM. \\
+\hline
+{\em glyph\+Size} & The size of each glyph in the font. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsyqo_1_1FontBase_ab424dec6316aa632ba42d7cbee829d01}\label{classpsyqo_1_1FontBase_ab424dec6316aa632ba42d7cbee829d01} 
+\index{psyqo::FontBase@{psyqo::FontBase}!innerprint@{innerprint}}
+\index{innerprint@{innerprint}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{innerprint()}{innerprint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::innerprint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*}}]{fragment,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_a9f6dfba31b362a2cd2ceed24f12a93a7}\label{classpsyqo_1_1FontBase_a9f6dfba31b362a2cd2ceed24f12a93a7} 
+\index{psyqo::FontBase@{psyqo::FontBase}!innerprint@{innerprint}}
+\index{innerprint@{innerprint}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{innerprint()}{innerprint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::innerprint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*}}]{fragment,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{eastl\+::string\+\_\+view}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_a76442f7bf01c4bc0eec6bec41694aedc}\label{classpsyqo_1_1FontBase_a76442f7bf01c4bc0eec6bec41694aedc} 
+\index{psyqo::FontBase@{psyqo::FontBase}!innervprintf@{innervprintf}}
+\index{innervprintf@{innervprintf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{innervprintf()}{innervprintf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::innervprintf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1FontBase_a6684c55b93a38312bd61000801b6a306}{Glyphs\+Fragment}} \texorpdfstring{$\ast$}{*}}]{fragment,  }\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_a9c11f6b0c3650f0e4f6b44364a3ef54a}\label{classpsyqo_1_1FontBase_a9c11f6b0c3650f0e4f6b44364a3ef54a} 
+\index{psyqo::FontBase@{psyqo::FontBase}!print@{print}}
+\index{print@{print}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1FontBase_a0725325623a63f8e544d167dd6d3f9c9}\label{classpsyqo_1_1FontBase_a0725325623a63f8e544d167dd6d3f9c9} 
+\index{psyqo::FontBase@{psyqo::FontBase}!print@{print}}
+\index{print@{print}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56}\label{classpsyqo_1_1FontBase_a3a9808452a0a58f302bcb47403d18b56} 
+\index{psyqo::FontBase@{psyqo::FontBase}!print@{print}}
+\index{print@{print}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{eastl\+::string\+\_\+view}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color }\end{DoxyParamCaption})}
+
+
+
+These method immediately print text to the screen. 
+
+These methods immediately print text to the screen. They are meant to be used when not using \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining. When using \doxylink{namespacepsyqo_1_1DMA}{DMA} chaining, you should use the {\ttfamily chainprint} method family instead. When a callback is provided, it will be called when the text has been printed, while the method will return immediately. See the {\ttfamily \doxylink{classpsyqo_1_1GPU}{GPU}} class for more details on \doxylink{namespacepsyqo_1_1DMA}{DMA} callbacks. \Hypertarget{classpsyqo_1_1FontBase_a49dde6b98399445ed3d48aa771b43d40}\label{classpsyqo_1_1FontBase_a49dde6b98399445ed3d48aa771b43d40} 
+\index{psyqo::FontBase@{psyqo::FontBase}!print@{print}}
+\index{print@{print}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{eastl\+::string\+\_\+view}]{text,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1FontBase_a311f91b13fe23b2bf7545a41d8f95bd4}\label{classpsyqo_1_1FontBase_a311f91b13fe23b2bf7545a41d8f95bd4} 
+\index{psyqo::FontBase@{psyqo::FontBase}!printf@{printf}}
+\index{printf@{printf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{printf()}{printf()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::printf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{}]{... }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_af48f5328bb39a3abb675d29a818ba761}\label{classpsyqo_1_1FontBase_af48f5328bb39a3abb675d29a818ba761} 
+\index{psyqo::FontBase@{psyqo::FontBase}!printf@{printf}}
+\index{printf@{printf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{printf()}{printf()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::printf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{}]{... }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsyqo_1_1FontBase_a3eab00b147b10b5dc145e04b0822afd4}\label{classpsyqo_1_1FontBase_a3eab00b147b10b5dc145e04b0822afd4} 
+\index{psyqo::FontBase@{psyqo::FontBase}!unpackFont@{unpackFont}}
+\index{unpackFont@{unpackFont}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{unpackFont()}{unpackFont()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::unpack\+Font (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{location,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{texture\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Unpacks and uploads a font to VRAM. 
+
+This method unpacks and uploads a font to VRAM. The compressed font data is expected to be in the format generated by the {\ttfamily font-\/compress.\+lua} script. See this script for more details. \Hypertarget{classpsyqo_1_1FontBase_ac108563d510750dc7461df4d03a92ce3}\label{classpsyqo_1_1FontBase_ac108563d510750dc7461df4d03a92ce3} 
+\index{psyqo::FontBase@{psyqo::FontBase}!uploadKromFont@{uploadKromFont}}
+\index{uploadKromFont@{uploadKromFont}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{uploadKromFont()}{uploadKromFont()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::upload\+Krom\+Font (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{psyqo\+::\+Vertex}}}]{location = {\ttfamily \{\{.x~=~960,~.y~=~422\}\}} }\end{DoxyParamCaption})}
+
+
+
+Uploads the \doxylink{namespacepsyqo_1_1Kernel}{Kernel} rom font to VRAM, and initializes the object. 
+
+This method uploads the built-\/in \doxylink{namespacepsyqo_1_1Kernel}{Kernel} rom font to VRAM, and initializes the object. There is no need to call this method if you are using your own font. Also, when using this method, you should not call \doxylink{classpsyqo_1_1FontBase_ac0f5dbac9ca4ed22bb86d0ce9332c84d}{initialize()} afterwards. The \doxylink{namespacepsyqo_1_1Kernel}{Kernel} rom font is a 16x15 font created by Sony, and built into the PSX rom chip. Its appearance is variable, depending on the version of the PSX bios. It may not be available on all PSX models. The footprint for this font is 192 bytes of read-\/only data, and a 256x90x4bpp texture. This font isn\textquotesingle{}t going to work if psyqo took over the kernel. See the {\ttfamily \doxylink{namespacepsyqo_1_1Kernel}{Kernel}} namespace for more information. \Hypertarget{classpsyqo_1_1FontBase_a746052a5665c415227e2dcdfd02f3388}\label{classpsyqo_1_1FontBase_a746052a5665c415227e2dcdfd02f3388} 
+\index{psyqo::FontBase@{psyqo::FontBase}!uploadSystemFont@{uploadSystemFont}}
+\index{uploadSystemFont@{uploadSystemFont}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{uploadSystemFont()}{uploadSystemFont()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::upload\+System\+Font (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{psyqo\+::\+GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{psyqo\+::\+Vertex}}}]{location = {\ttfamily \{\{.x~=~960,~.y~=~464\}\}} }\end{DoxyParamCaption})}
+
+
+
+Uploads the system font to VRAM, and initializes the object. 
+
+This method uploads the built-\/in system font to VRAM, and initializes the object. There is no need to call this method if you are using your own font. Also, when using this method, you should not call \doxylink{classpsyqo_1_1FontBase_ac0f5dbac9ca4ed22bb86d0ce9332c84d}{initialize()} afterwards. The footprint for this font is 877 bytes of read-\/only data, and a 256x48x4bpp texture. It is a 8x16 clean and simple ASCII font called mig68000, available for free with attribution, made by Zingot Games. See \href{https://www.zingot.com/}{\texttt{ https\+://www.\+zingot.\+com/}} and \href{https://zingot.itch.io/fontpack}{\texttt{ https\+://zingot.\+itch.\+io/fontpack}} \Hypertarget{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17}\label{classpsyqo_1_1FontBase_a6fccb92b4aac5b5b60de38e0e1c5fa17} 
+\index{psyqo::FontBase@{psyqo::FontBase}!vprintf@{vprintf}}
+\index{vprintf@{vprintf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{vprintf()}{vprintf()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::vprintf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsyqo_1_1FontBase_ae55022cc2a34b9e24fefafcd7520093e}\label{classpsyqo_1_1FontBase_ae55022cc2a34b9e24fefafcd7520093e} 
+\index{psyqo::FontBase@{psyqo::FontBase}!vprintf@{vprintf}}
+\index{vprintf@{vprintf}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{vprintf()}{vprintf()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Font\+Base\+::vprintf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsyqo_1_1GPU}{GPU}} \&}]{gpu,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}}]{pos,  }\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{color,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{callback,  }\item[{\mbox{\hyperlink{namespacepsyqo_1_1DMA_a76aae5416b7695a001e2168d02143a99}{DMA\+::\+Dma\+Callback}}}]{dma\+Callback,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{va\+\_\+list}]{ap }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsyqo_1_1FontBase_a68d5500039741779a6185b311db1093b}\label{classpsyqo_1_1FontBase_a68d5500039741779a6185b311db1093b} 
+\index{psyqo::FontBase@{psyqo::FontBase}!XPrintfInfo@{XPrintfInfo}}
+\index{XPrintfInfo@{XPrintfInfo}!psyqo::FontBase@{psyqo::FontBase}}
+\doxysubsubsection{\texorpdfstring{XPrintfInfo}{XPrintfInfo}}
+{\footnotesize\ttfamily friend \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structpsyqo_1_1FontBase_1_1XPrintfInfo}{XPrintf\+Info}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{font_8hh}{font.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{font_8cpp}{font.\+cpp}}\end{DoxyCompactItemize}

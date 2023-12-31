@@ -1,0 +1,171 @@
+\doxysection{hwregs.\+hh}
+\hypertarget{hwregs_8hh_source}{}\label{hwregs_8hh_source}\index{psyqo/hardware/hwregs.hh@{psyqo/hardware/hwregs.hh}}
+\mbox{\hyperlink{hwregs_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo_1_1Hardware}{psyqo::Hardware}}\ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6}{WriteQueue}}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6aad8783089f828b927473fb61d51940ec}{Use}}\ =\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6a5ce88c4d66118388a69c6fd4262ca3a1}{Bypass}}\ =\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <u\textcolor{keywordtype}{int}32\_t\ offset,\ u\textcolor{keywordtype}{int}32\_t\ BaseAddress,\ \textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00039\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess}{BasicAccess}}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ T\&\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess_a21ebac5950e9ae1342a5afd39807e2b7}{access}}(\textcolor{keywordtype}{int}\ index\ =\ 0)\ \{\ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{volatile\ }T*\textcolor{keyword}{>}(BaseAddress\ +\ offset\ +\ index);\ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{volatile}\ T*\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1BasicAccess_a28f915bb10d3646932a2498169696b4f}{accessPtr}}(\textcolor{keywordtype}{int}\ index\ =\ 0)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{volatile\ }T*\textcolor{keyword}{>}(BaseAddress\ +\ offset\ +\ index);\ \}}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{template}\ <\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ offset,\ \textcolor{keyword}{typename}\ T\ =\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}},\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6}{WriteQueue}}\ writeQueue\ =\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6aad8783089f828b927473fb61d51940ec}{WriteQueue::Use}},}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ Access\ =\ BasicAccess<offset,\ writeQueue\ ==\ WriteQueue::Use\ ?\ 0x1f801000\ :\ 0xbf801000,\ T>>}
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register}{Register}}\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a5266b9000368d32c0b3efda1c04e04cb}{BaseAddress}}\ =\ writeQueue\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1Hardware_a4b9451ca8d6b5b11a2540edf1ae02ff6aad8783089f828b927473fb61d51940ec}{WriteQueue::Use}}\ ?\ 0x1f801000\ :\ 0xbf801000;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ac6df4bac11d39f3c4954bee9e711b152}{throwAway}}()\textcolor{keyword}{\ const\ }\{\ *Access::accessPtr();\ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{operator}\ T()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();\ \}}
+\DoxyCodeLine{00050\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a0bb51f06ca7abf449b2a41d82a681592}{operator=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a8629d77c178d45edd11166a86ca150b3}{operator|=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ tmp\ |=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a18fe75418de7531432ce8491d1361101}{operator\&=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ tmp\ \&=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a128f315c41d49c24aba62c9509dd336b}{operator\string^=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ tmp\ \string^=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ae97bb4c518ac622616379de573ee1368}{operator++}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ tmp++;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a0313ac7fddd9ab2e11e4535c670b01fd}{operator++}}(\textcolor{keywordtype}{int})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ T\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ tmp;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ tmp++;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a6e1a268ba7ba9a62ce0b8b87f45392d6}{operator-\/-\/}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ tmp-\/-\/;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a9d4fe11b01966eb6afeb169af1535c6b}{operator-\/-\/}}(\textcolor{keywordtype}{int})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ T\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}\ =\ tmp;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ tmp-\/-\/;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a3283b03eaa73a052beb816b7e867dcd7}{operator+=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ tmp\ +=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00103\ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ad26a155b892d94c75aa55eb0ec5a5a00}{operator-\/=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ tmp\ -\/=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a791d1397aa6a9cdbdb91b4bffa05713b}{operator*=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ tmp\ *=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ac3192e3555c39564a146028b89e82176}{operator/=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ tmp\ /=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a03da716733e727311cd12fa8edde7222}{operator\%=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ tmp\ \%=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_afee5b8145304f1f9d1dac7c5cbbd5564}{operator<<=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ tmp\ <<=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_afd34da8257bdf681b0bbf500ff96757c}{operator>>=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ T\ tmp\ =\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ tmp\ >>=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ =\ tmp;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ad851a452cacb5713bd9504e87213f844}{operator+}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ +\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00141\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_af6dd5bc7e3e504111902e848e201f8d3}{operator-\/}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ -\/\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00142\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a7689204e98e9273630706e4eebaeba8d}{operator*}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ *\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00143\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_aabd633b28772ea8fa984d284052773e9}{operator/}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ /\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00144\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ad82ddd145fc523340da1194da7f06fa6}{operator\%}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ \%\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00145\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_abf930cdf03f1b6fd833c98e797e8971c}{operator<<}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ <<\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00146\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_aca29ff66011a1d2907e5aed31e99f031}{operator>>}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ >>\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00147\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a4e6ea7774dd470e434f42364c0e15a90}{operator\&}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ \&\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00148\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_adfc9a0044fb367cb2bb9072b1bac2700}{operator|}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ |\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00149\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a2c513f42753d873e7b6bb6a8c591f1dd}{operator\string^}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ \string^\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00150\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a0a4347ba6ab143f556b82b1a1172e881}{operator\string~}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \string~access();\ \}}
+\DoxyCodeLine{00151\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_aeaee6d78ad0b5303d35bdb0716ba00f8}{operator!}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !\mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}();\ \}}
+\DoxyCodeLine{00152\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_acadadd1ad5e909ef356cab95e72aa110}{operator\&\&}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ \&\&\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00153\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a7ee0635174f4bb22a76e909528cfd31c}{operator||}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ ||\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a0bad70d20f3ce1d4681348da6d486d01}{operator==}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ ==\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_ab6161db6e228530605e715686dc38164}{operator!=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ !=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a0a2d26a05643238319b9a2e20d28c6f2}{operator<}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ <\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_aff0b666248e477f43ae314fde93f7e81}{operator>}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ >\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a30c5f38b6fa55186c2f38ce58db80d09}{operator<=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ <=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a2a8f31ae2e4248ef5e8107178517211a}{operator>=}}(T\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}()\ >=\ \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};\ \}}
+\DoxyCodeLine{00160\ \ \ \ \ T\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a0a5d5337e01c6c689ffba23de25832a7}{operator[]}}(\textcolor{keywordtype}{int}\ index)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}(index);\ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{volatile}\ T\&\ \mbox{\hyperlink{structpsyqo_1_1Hardware_1_1Register_a76dcd877bed76ed2192cfef372e6716d}{access}}(\textcolor{keywordtype}{int}\ index\ =\ 0)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ Access::access(index);\ \}}
+\DoxyCodeLine{00163\ \};}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo::Hardware}}
+
+\end{DoxyCode}

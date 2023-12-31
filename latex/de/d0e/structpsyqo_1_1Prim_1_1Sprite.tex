@@ -1,0 +1,123 @@
+\doxysection{psyqo\+::Prim\+::Sprite Struct Reference}
+\hypertarget{structpsyqo_1_1Prim_1_1Sprite}{}\label{structpsyqo_1_1Prim_1_1Sprite}\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+
+
+The \doxylink{structpsyqo_1_1Prim_1_1Sprite}{Sprite} primitive.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/primitives/sprites.\+hh$>$}
+
+
+
+Collaboration diagram for psyqo\+::Prim\+::Sprite\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{da/df2/structpsyqo_1_1Prim_1_1Sprite__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_aff536a27e06dedaf950723948f2a89ff}{Sprite}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_a73c5d05c0e69acd897b11b689a7c68e5}{Sprite}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Sprite}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_adca9d0049a07eb8c58b894c78ff5c2c6}{set\+Color}} (\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Sprite}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_a141b3da7a722f0ab063aff04e5119af7}{set\+Opaque}} ()
+\item 
+\mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Sprite}} \& \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_a73c2162533bc4fe1c6e62a2321ab9f8f}{set\+Semi\+Trans}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_a6855f11ba7939587008296380a2bd0b6}{position}}
+\item 
+\mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo}{Prim\+Pieces\+::\+Tex\+Info}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_ac174e9b2af65e87a8572748839cf3010}{tex\+Info}}
+\item 
+\mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_acd40b854ee67e9eef60e958e118ca25a}{size}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite_aedb590cebf5a9675b5ee355d4afab4aa}{BASE}} = 0b011\textquotesingle{}00\textquotesingle{}1 $<$$<$ 26
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{structpsyqo_1_1Prim_1_1Sprite}{Sprite} primitive. 
+
+This primitive will draw a sprite of arbitrary size. The {\ttfamily position} member describes the location within the screen where the sprite will be blitted. The {\ttfamily tex\+Info}member indicates where the source sprite is blitted from, and the {\ttfamily size} member specifies actual sprite size to blit.
+
+The texture information needs to be specified with a \doxylink{structpsyqo_1_1Prim_1_1TPage}{TPage} primitive beforehand. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_aff536a27e06dedaf950723948f2a89ff}\label{structpsyqo_1_1Prim_1_1Sprite_aff536a27e06dedaf950723948f2a89ff} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!Sprite@{Sprite}}
+\index{Sprite@{Sprite}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{Sprite()}{Sprite()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Sprite\+::\+Sprite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_a73c5d05c0e69acd897b11b689a7c68e5}\label{structpsyqo_1_1Prim_1_1Sprite_a73c5d05c0e69acd897b11b689a7c68e5} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!Sprite@{Sprite}}
+\index{Sprite@{Sprite}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{Sprite()}{Sprite()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily psyqo\+::\+Prim\+::\+Sprite\+::\+Sprite (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_adca9d0049a07eb8c58b894c78ff5c2c6}\label{structpsyqo_1_1Prim_1_1Sprite_adca9d0049a07eb8c58b894c78ff5c2c6} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!setColor@{setColor}}
+\index{setColor@{setColor}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{setColor()}{setColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Sprite}} \& psyqo\+::\+Prim\+::\+Sprite\+::set\+Color (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{unionpsyqo_1_1Color}{Color}}}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_a141b3da7a722f0ab063aff04e5119af7}\label{structpsyqo_1_1Prim_1_1Sprite_a141b3da7a722f0ab063aff04e5119af7} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!setOpaque@{setOpaque}}
+\index{setOpaque@{setOpaque}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{setOpaque()}{setOpaque()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Sprite}} \& psyqo\+::\+Prim\+::\+Sprite\+::set\+Opaque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_a73c2162533bc4fe1c6e62a2321ab9f8f}\label{structpsyqo_1_1Prim_1_1Sprite_a73c2162533bc4fe1c6e62a2321ab9f8f} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!setSemiTrans@{setSemiTrans}}
+\index{setSemiTrans@{setSemiTrans}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{setSemiTrans()}{setSemiTrans()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1Prim_1_1Sprite}{Sprite}} \& psyqo\+::\+Prim\+::\+Sprite\+::set\+Semi\+Trans (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_aedb590cebf5a9675b5ee355d4afab4aa}\label{structpsyqo_1_1Prim_1_1Sprite_aedb590cebf5a9675b5ee355d4afab4aa} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!BASE@{BASE}}
+\index{BASE@{BASE}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+Prim\+::\+Sprite\+::\+BASE = 0b011\textquotesingle{}00\textquotesingle{}1 $<$$<$ 26\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_a6855f11ba7939587008296380a2bd0b6}\label{structpsyqo_1_1Prim_1_1Sprite_a6855f11ba7939587008296380a2bd0b6} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!position@{position}}
+\index{position@{position}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Sprite\+::position}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_acd40b854ee67e9eef60e958e118ca25a}\label{structpsyqo_1_1Prim_1_1Sprite_acd40b854ee67e9eef60e958e118ca25a} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!size@{size}}
+\index{size@{size}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}} psyqo\+::\+Prim\+::\+Sprite\+::size}
+
+\Hypertarget{structpsyqo_1_1Prim_1_1Sprite_ac174e9b2af65e87a8572748839cf3010}\label{structpsyqo_1_1Prim_1_1Sprite_ac174e9b2af65e87a8572748839cf3010} 
+\index{psyqo::Prim::Sprite@{psyqo::Prim::Sprite}!texInfo@{texInfo}}
+\index{texInfo@{texInfo}!psyqo::Prim::Sprite@{psyqo::Prim::Sprite}}
+\doxysubsubsection{\texorpdfstring{texInfo}{texInfo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsyqo_1_1PrimPieces_1_1TexInfo}{Prim\+Pieces\+::\+Tex\+Info}} psyqo\+::\+Prim\+::\+Sprite\+::tex\+Info}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/primitives/\mbox{\hyperlink{sprites_8hh}{sprites.\+hh}}\end{DoxyCompactItemize}

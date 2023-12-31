@@ -1,0 +1,381 @@
+\doxysection{psyqo\+::Kernel Namespace Reference}
+\hypertarget{namespacepsyqo_1_1Kernel}{}\label{namespacepsyqo_1_1Kernel}\index{psyqo::Kernel@{psyqo::Kernel}}
+
+
+The \doxylink{namespacepsyqo_1_1Kernel}{Kernel} namespace for internal use.  
+
+
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsyqo_1_1Kernel_1_1Internal}{Internal}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}} \+: unsigned \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a7d401456f9594b8f3b41aaa05b8473dc}{MDECin}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a581f36dfb2eac8e05acde5f9d65aca48}{MDECout}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a52f9ec21735243ad9917cda3ca077d32}{GPU}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98aa9d0190c0b85654779d96e011d0b6d07}{CDRom}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ada8a0d4a6c802e4d0bb48065258582b1}{SPU}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ad77d49c13fa357d3e951da9cfd01270d}{EXP1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a99d34e1cefc7f86f9f4470d74e29e052}{OTC}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a6a061313d22e51e0f25b7cd4dc065233}{Max}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189}{IRQ}} \+: unsigned \{ \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ad23364186c9aa9bca9ea12f6a7d2ecd5}{VBlank}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a52f9ec21735243ad9917cda3ca077d32}{GPU}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa9d0190c0b85654779d96e011d0b6d07}{CDRom}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a33fd5f6391f2f0cb4c91179d7f521949}{DMA}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aee8d7ab96a578300058b217be0b6e4b5}{Timer0}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a520b0824cea8417f3fde566f0019a2a7}{Timer1}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa3df64ca11c5bfc17207d0db3b782e96}{Timer2}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a9bbf373797bf7cf7ba62c80023682e25}{Controller}}
+, \newline
+\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ab2a303bb948b58961895b9797ee116c8}{SIO}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ada8a0d4a6c802e4d0bb48065258582b1}{SPU}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a7a876fbec890f829703bc77a76e8ef45}{PIO}}
+, \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a6a061313d22e51e0f25b7cd4dc065233}{Max}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a270226339ad92b0643f247b3079066c1}{abort}} (const char \texorpdfstring{$\ast$}{*}msg, std\+::source\+\_\+location location=std\+::source\+\_\+location\+::current())
+\begin{DoxyCompactList}\small\item\em Stops the execution of the application. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a}{take\+Over\+Kernel}} ()
+\begin{DoxyCompactList}\small\item\em Takes over the kernel. Can only be called once inside the main function. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aa9f275c991805498a256274623da6459}{is\+Kernel\+Taken\+Over}} ()
+\begin{DoxyCompactList}\small\item\em Returns whether the kernel has been taken over. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aaeb7cdf1f775ac70cc620f6855c3a8c3}{queue\+IRQHandler}} (\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189}{IRQ}} irq, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&lambda)
+\begin{DoxyCompactList}\small\item\em Queues an IRQ handler to be called from the exception handler. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a08a2e5ec19c2fc81f09b2c298bdead6e}{open\+Event}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} class\+Id, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}}, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&lambda)
+\begin{DoxyCompactList}\small\item\em A C++ wrapper around the {\ttfamily open\+Event} syscall. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a2b637b2a1916306cd06c949dd5052c1c}{register\+Dma\+Event}} (\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}} channel, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&lambda)
+\begin{DoxyCompactList}\small\item\em Sets an ISR callback for a given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a5e42e7c13d0e282fa5521032b2f61885}{flush\+Cache}} ()
+\begin{DoxyCompactList}\small\item\em Flushes the i-\/cache. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aac8e91701eacd417e8e12a3c8ea98046}{enable\+Dma}} (\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}} channel, unsigned priority=7)
+\begin{DoxyCompactList}\small\item\em Enables the given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a4b73aa87334a1770afc9b33af3d42ddd}{disable\+Dma}} (\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}} channel)
+\begin{DoxyCompactList}\small\item\em Disables the given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_aa72643d64b318dae4e7875d0e3a74007}{unregister\+Dma\+Event}} (unsigned slot)
+\begin{DoxyCompactList}\small\item\em Frees the given \doxylink{namespacepsyqo_1_1DMA}{DMA} callback slot. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a884c0743af3b1284f6708359deb192d5}{queue\+Callback}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&lambda)
+\begin{DoxyCompactList}\small\item\em Queues a callback to be called from the main thead. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a154b2576841e7edcdb7d414c66059fe8}{queue\+Callback\+From\+ISR}} (eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&lambda)
+\begin{DoxyCompactList}\small\item\em Queues a callback to be called from the main thead. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a5af4fedc050cfb0ca1dd509eb4451186}{set\+Break\+Handler}} (unsigned category, eastl\+::function$<$ bool(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})
+\begin{DoxyCompactList}\small\item\em Sets a break handler for a given category. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a455444ce0a60f9799624ace6219a0d36}{queue\+Psyqo\+Break\+Handler}} (eastl\+::function$<$ bool(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&\mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}})
+\begin{DoxyCompactList}\small\item\em Queues a break handler for psyqo\textquotesingle{}s reserved category. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a280bdda777ef203032ff0767b5063ff1}{assert}} (bool condition, const char \texorpdfstring{$\ast$}{*}message, std\+::source\+\_\+location location=std\+::source\+\_\+location\+::current())
+\begin{DoxyCompactList}\small\item\em A simple {\ttfamily assert} macro. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{namespacepsyqo_1_1Kernel}{Kernel} namespace for internal use. 
+
+The \doxylink{namespacepsyqo_1_1Kernel}{Kernel} namespace is technically for internal use only, but it is included in the public API for convenience. It contains various glue to the actual PS1 kernel, as well as some useful utility functions. 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98} 
+\index{psyqo::Kernel@{psyqo::Kernel}!DMA@{DMA}}
+\index{DMA@{DMA}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{DMA}{DMA}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{psyqo\+::\+Kernel\+::\+DMA}} \+: unsigned\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDECin@{MDECin}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!MDECin@{MDECin}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a7d401456f9594b8f3b41aaa05b8473dc}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a7d401456f9594b8f3b41aaa05b8473dc} 
+MDECin&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDECout@{MDECout}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!MDECout@{MDECout}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a581f36dfb2eac8e05acde5f9d65aca48}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a581f36dfb2eac8e05acde5f9d65aca48} 
+MDECout&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GPU@{GPU}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!GPU@{GPU}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a52f9ec21735243ad9917cda3ca077d32}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a52f9ec21735243ad9917cda3ca077d32} 
+GPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CDRom@{CDRom}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!CDRom@{CDRom}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98aa9d0190c0b85654779d96e011d0b6d07}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98aa9d0190c0b85654779d96e011d0b6d07} 
+CDRom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SPU@{SPU}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!SPU@{SPU}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ada8a0d4a6c802e4d0bb48065258582b1}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ada8a0d4a6c802e4d0bb48065258582b1} 
+SPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXP1@{EXP1}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!EXP1@{EXP1}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ad77d49c13fa357d3e951da9cfd01270d}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98ad77d49c13fa357d3e951da9cfd01270d} 
+EXP1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OTC@{OTC}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!OTC@{OTC}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a99d34e1cefc7f86f9f4470d74e29e052}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a99d34e1cefc7f86f9f4470d74e29e052} 
+OTC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!Max@{Max}}}\Hypertarget{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a6a061313d22e51e0f25b7cd4dc065233}\label{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98a6a061313d22e51e0f25b7cd4dc065233} 
+Max&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189} 
+\index{psyqo::Kernel@{psyqo::Kernel}!IRQ@{IRQ}}
+\index{IRQ@{IRQ}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{IRQ}{IRQ}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189}{psyqo\+::\+Kernel\+::\+IRQ}} \+: unsigned\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VBlank@{VBlank}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!VBlank@{VBlank}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ad23364186c9aa9bca9ea12f6a7d2ecd5}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ad23364186c9aa9bca9ea12f6a7d2ecd5} 
+VBlank&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GPU@{GPU}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!GPU@{GPU}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a52f9ec21735243ad9917cda3ca077d32}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a52f9ec21735243ad9917cda3ca077d32} 
+GPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CDRom@{CDRom}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!CDRom@{CDRom}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa9d0190c0b85654779d96e011d0b6d07}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa9d0190c0b85654779d96e011d0b6d07} 
+CDRom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DMA@{DMA}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!DMA@{DMA}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a33fd5f6391f2f0cb4c91179d7f521949}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a33fd5f6391f2f0cb4c91179d7f521949} 
+DMA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Timer0@{Timer0}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!Timer0@{Timer0}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aee8d7ab96a578300058b217be0b6e4b5}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aee8d7ab96a578300058b217be0b6e4b5} 
+Timer0&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Timer1@{Timer1}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!Timer1@{Timer1}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a520b0824cea8417f3fde566f0019a2a7}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a520b0824cea8417f3fde566f0019a2a7} 
+Timer1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Timer2@{Timer2}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!Timer2@{Timer2}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa3df64ca11c5bfc17207d0db3b782e96}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189aa3df64ca11c5bfc17207d0db3b782e96} 
+Timer2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Controller@{Controller}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!Controller@{Controller}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a9bbf373797bf7cf7ba62c80023682e25}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a9bbf373797bf7cf7ba62c80023682e25} 
+Controller&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SIO@{SIO}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!SIO@{SIO}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ab2a303bb948b58961895b9797ee116c8}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ab2a303bb948b58961895b9797ee116c8} 
+SIO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SPU@{SPU}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!SPU@{SPU}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ada8a0d4a6c802e4d0bb48065258582b1}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189ada8a0d4a6c802e4d0bb48065258582b1} 
+SPU&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PIO@{PIO}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!PIO@{PIO}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a7a876fbec890f829703bc77a76e8ef45}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a7a876fbec890f829703bc77a76e8ef45} 
+PIO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!psyqo::Kernel@{psyqo::Kernel}}\index{psyqo::Kernel@{psyqo::Kernel}!Max@{Max}}}\Hypertarget{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a6a061313d22e51e0f25b7cd4dc065233}\label{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189a6a061313d22e51e0f25b7cd4dc065233} 
+Max&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacepsyqo_1_1Kernel_a270226339ad92b0643f247b3079066c1}\label{namespacepsyqo_1_1Kernel_a270226339ad92b0643f247b3079066c1} 
+\index{psyqo::Kernel@{psyqo::Kernel}!abort@{abort}}
+\index{abort@{abort}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{abort()}{abort()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::abort (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{msg,  }\item[{std\+::source\+\_\+location}]{location = {\ttfamily std\+:\+:source\+\_\+location\+:\+:current()} }\end{DoxyParamCaption})}
+
+
+
+Stops the execution of the application. 
+
+\Hypertarget{namespacepsyqo_1_1Kernel_a280bdda777ef203032ff0767b5063ff1}\label{namespacepsyqo_1_1Kernel_a280bdda777ef203032ff0767b5063ff1} 
+\index{psyqo::Kernel@{psyqo::Kernel}!assert@{assert}}
+\index{assert@{assert}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{assert()}{assert()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::assert (\begin{DoxyParamCaption}\item[{bool}]{condition,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{message,  }\item[{std\+::source\+\_\+location}]{location = {\ttfamily std\+:\+:source\+\_\+location\+:\+:current()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+A simple {\ttfamily assert} macro. 
+
+\Hypertarget{namespacepsyqo_1_1Kernel_a4b73aa87334a1770afc9b33af3d42ddd}\label{namespacepsyqo_1_1Kernel_a4b73aa87334a1770afc9b33af3d42ddd} 
+\index{psyqo::Kernel@{psyqo::Kernel}!disableDma@{disableDma}}
+\index{disableDma@{disableDma}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{disableDma()}{disableDma()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::disable\+Dma (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}}]{channel }\end{DoxyParamCaption})}
+
+
+
+Disables the given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em channel} & the \doxylink{namespacepsyqo_1_1DMA}{DMA} channel to disable. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1Kernel_aac8e91701eacd417e8e12a3c8ea98046}\label{namespacepsyqo_1_1Kernel_aac8e91701eacd417e8e12a3c8ea98046} 
+\index{psyqo::Kernel@{psyqo::Kernel}!enableDma@{enableDma}}
+\index{enableDma@{enableDma}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{enableDma()}{enableDma()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::enable\+Dma (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}}]{channel,  }\item[{unsigned}]{priority = {\ttfamily 7} }\end{DoxyParamCaption})}
+
+
+
+Enables the given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em channel} & the \doxylink{namespacepsyqo_1_1DMA}{DMA} channel to enable. \\
+\hline
+{\em priority} & the priority of the channel. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1Kernel_a5e42e7c13d0e282fa5521032b2f61885}\label{namespacepsyqo_1_1Kernel_a5e42e7c13d0e282fa5521032b2f61885} 
+\index{psyqo::Kernel@{psyqo::Kernel}!flushCache@{flushCache}}
+\index{flushCache@{flushCache}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{flushCache()}{flushCache()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::flush\+Cache (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Flushes the i-\/cache. 
+
+This function is used to flush the i-\/cache. This is required when the application has written some code to memory. \Hypertarget{namespacepsyqo_1_1Kernel_aa9f275c991805498a256274623da6459}\label{namespacepsyqo_1_1Kernel_aa9f275c991805498a256274623da6459} 
+\index{psyqo::Kernel@{psyqo::Kernel}!isKernelTakenOver@{isKernelTakenOver}}
+\index{isKernelTakenOver@{isKernelTakenOver}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{isKernelTakenOver()}{isKernelTakenOver()}}
+{\footnotesize\ttfamily bool psyqo\+::\+Kernel\+::is\+Kernel\+Taken\+Over (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns whether the kernel has been taken over. 
+
+\Hypertarget{namespacepsyqo_1_1Kernel_a08a2e5ec19c2fc81f09b2c298bdead6e}\label{namespacepsyqo_1_1Kernel_a08a2e5ec19c2fc81f09b2c298bdead6e} 
+\index{psyqo::Kernel@{psyqo::Kernel}!openEvent@{openEvent}}
+\index{openEvent@{openEvent}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{openEvent()}{openEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psyqo\+::\+Kernel\+::open\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{class\+Id,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{spec,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{mode,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+
+
+A C++ wrapper around the {\ttfamily open\+Event} syscall. 
+
+This enables the application to register a C++ lambda for the kernel\textquotesingle{}s Open\+Event call. This will allocate an internal slot, with currently no mechanism to free it. This means that calling {\ttfamily close\+Event} on the resulting event will leak resources. If psyqo took over the kernel, this function will no longer work. \Hypertarget{namespacepsyqo_1_1Kernel_a884c0743af3b1284f6708359deb192d5}\label{namespacepsyqo_1_1Kernel_a884c0743af3b1284f6708359deb192d5} 
+\index{psyqo::Kernel@{psyqo::Kernel}!queueCallback@{queueCallback}}
+\index{queueCallback@{queueCallback}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{queueCallback()}{queueCallback()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::queue\+Callback (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+
+
+Queues a callback to be called from the main thead. 
+
+This function is used to queue a callback to be called from the main thread, during idle moments like various blocking operations. This variant is safe to call from the main thread only. Its usefulness from the main thread is limited, and could be considered the same as Java\+Script\textquotesingle{}s {\ttfamily process.\+next\+Tick()}, meaning it\textquotesingle{}s a great way to avoid get out of a deep callstack. \Hypertarget{namespacepsyqo_1_1Kernel_a154b2576841e7edcdb7d414c66059fe8}\label{namespacepsyqo_1_1Kernel_a154b2576841e7edcdb7d414c66059fe8} 
+\index{psyqo::Kernel@{psyqo::Kernel}!queueCallbackFromISR@{queueCallbackFromISR}}
+\index{queueCallbackFromISR@{queueCallbackFromISR}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{queueCallbackFromISR()}{queueCallbackFromISR()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::queue\+Callback\+From\+ISR (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+
+
+Queues a callback to be called from the main thead. 
+
+This function is used to queue a callback to be called from the main thead, during idle moments like various blocking operations. This variant is safe to call from an interrupt handler. This is how to idiomatically execute something safely from an interrupt handler. \Hypertarget{namespacepsyqo_1_1Kernel_aaeb7cdf1f775ac70cc620f6855c3a8c3}\label{namespacepsyqo_1_1Kernel_aaeb7cdf1f775ac70cc620f6855c3a8c3} 
+\index{psyqo::Kernel@{psyqo::Kernel}!queueIRQHandler@{queueIRQHandler}}
+\index{queueIRQHandler@{queueIRQHandler}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{queueIRQHandler()}{queueIRQHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::queue\+IRQHandler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a7b35e9b2bf1bbd73555bcd9ce8bb0189}{IRQ}}}]{irq,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+
+
+Queues an IRQ handler to be called from the exception handler. 
+
+This function is used to queue an IRQ handler to be called from the exception handler when the kernel has been taken over. The VBlank IRQ is excluded from this function, as it is handled by the \doxylink{classpsyqo_1_1GPU}{GPU} object instead. Also, note that the kernel has its own \doxylink{namespacepsyqo_1_1DMA}{DMA} IRQ handler, and that the {\ttfamily register\+Dma\+Event} function should be used instead of trying to queue a handler for the \doxylink{namespacepsyqo_1_1DMA}{DMA} IRQ. The specified handler will be called from the exception handler, with the same restrictions as for any other interrupt handler.
+
+
+\begin{DoxyParams}{Parameters}
+{\em irq} & The IRQ to handle. \\
+\hline
+{\em lambda} & The function to call when the IRQ is triggered. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1Kernel_a455444ce0a60f9799624ace6219a0d36}\label{namespacepsyqo_1_1Kernel_a455444ce0a60f9799624ace6219a0d36} 
+\index{psyqo::Kernel@{psyqo::Kernel}!queuePsyqoBreakHandler@{queuePsyqoBreakHandler}}
+\index{queuePsyqoBreakHandler@{queuePsyqoBreakHandler}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{queuePsyqoBreakHandler()}{queuePsyqoBreakHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::queue\+Psyqo\+Break\+Handler (\begin{DoxyParamCaption}\item[{eastl\+::function$<$ bool(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&}]{handler }\end{DoxyParamCaption})}
+
+
+
+Queues a break handler for psyqo\textquotesingle{}s reserved category. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handler} & The handler to call when a break occurs. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1Kernel_a2b637b2a1916306cd06c949dd5052c1c}\label{namespacepsyqo_1_1Kernel_a2b637b2a1916306cd06c949dd5052c1c} 
+\index{psyqo::Kernel@{psyqo::Kernel}!registerDmaEvent@{registerDmaEvent}}
+\index{registerDmaEvent@{registerDmaEvent}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{registerDmaEvent()}{registerDmaEvent()}}
+{\footnotesize\ttfamily unsigned psyqo\+::\+Kernel\+::register\+Dma\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsyqo_1_1Kernel_a3fc8b0e7ce6de455589c212b024cdb98}{DMA}}}]{channel,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}()$>$ \&\&}]{lambda }\end{DoxyParamCaption})}
+
+
+
+Sets an ISR callback for a given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. 
+
+The PSYQo kernel registers a dispatcher interrupt handler for \doxylink{namespacepsyqo_1_1DMA}{DMA} interrupts, and this function registers a callback function for a given \doxylink{namespacepsyqo_1_1DMA}{DMA} channel. Multiple callbacks can be registered for a given channel. All the callbacks registered will be called sequentially during the dispatcher interrupt handler. Note this means the callbacks will be called from the interrupt handler, with the same restrictions as for any other interrupt handler. \begin{DoxyReturn}{Returns}
+unsigned A slot id for the given callback. 
+\end{DoxyReturn}
+\Hypertarget{namespacepsyqo_1_1Kernel_a5af4fedc050cfb0ca1dd509eb4451186}\label{namespacepsyqo_1_1Kernel_a5af4fedc050cfb0ca1dd509eb4451186} 
+\index{psyqo::Kernel@{psyqo::Kernel}!setBreakHandler@{setBreakHandler}}
+\index{setBreakHandler@{setBreakHandler}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{setBreakHandler()}{setBreakHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::set\+Break\+Handler (\begin{DoxyParamCaption}\item[{unsigned}]{category,  }\item[{eastl\+::function$<$ bool(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})$>$ \&\&}]{handler }\end{DoxyParamCaption})}
+
+
+
+Sets a break handler for a given category. 
+
+This function is used to set a break handler for a given category. The category is technically the upper 10 bits of the break code, and the handler is a function that takes the lower 10 bits of the break code. The handler should return true if it handled the break, and false otherwise. The handler will be called from the exception handler, with the same restrictions as for any other interrupt handler. Note that the category is actually limited to 16 categories by psyqo, from 0 to 15. It is also worth noting that category 0 is usually reserved for pcdrv, category 7 is reserved by the compiler to emit division by zero checks, and psyqo uses category 14 for its own purposes. Only one handler can be set per category, and trying to set a handler for a category that already has a handler will cause an assertion failure.
+
+
+\begin{DoxyParams}{Parameters}
+{\em category} & The category to handle. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a}\label{namespacepsyqo_1_1Kernel_aaf45f27dff984791bbdca08f459b691a} 
+\index{psyqo::Kernel@{psyqo::Kernel}!takeOverKernel@{takeOverKernel}}
+\index{takeOverKernel@{takeOverKernel}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{takeOverKernel()}{takeOverKernel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::take\+Over\+Kernel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Takes over the kernel. Can only be called once inside the main function. 
+
+This function will make psyqo take over the retail kernel. This means the application will no longer be able to call any of the kernel functions, and will have to rely on the psyqo kernel instead. Debugging features from third party addons which hook into the kernel will no longer work. Most calls to the kernel will either be no-\/ops or will crash the application. Most notably, only the {\ttfamily printf} call will be redirected to psyqo\textquotesingle{}s printf, but will not be printing anywhere, so only emulators hooking into A0 calls will be able to see the output.
+
+Disabling the kernel is a one-\/way operation, and cannot be undone. The kernel will be taken over before the first call to {\ttfamily prepare}. The exception handler that psyqo installs will not be able to catch problems, but is much more lightweight and faster than the retail one. Also, 60kB of memory can be reclaimed, and linking the binary with -\/Xlinker --defsym=TLOAD\+\_\+\+ADDR=0x80001000 will allow the application to do just that. This requires a loader able to write into the kernel while disabling interrupts. The ps1-\/packer tool can achieve that. The first 4kB of memory is reserved for the psyqo kernel.
+
+It is noteworthy that while the pros of taking over the kernel are significant, the cons are also significant. The loss of debugging, flexibility, and retail kernel features may not be worth it for most application cases, and should be considered carefully.
+
+Last but not least, like with most psyqo features, the added payload to the binary to support the feature will only occur if this function is called. \Hypertarget{namespacepsyqo_1_1Kernel_aa72643d64b318dae4e7875d0e3a74007}\label{namespacepsyqo_1_1Kernel_aa72643d64b318dae4e7875d0e3a74007} 
+\index{psyqo::Kernel@{psyqo::Kernel}!unregisterDmaEvent@{unregisterDmaEvent}}
+\index{unregisterDmaEvent@{unregisterDmaEvent}!psyqo::Kernel@{psyqo::Kernel}}
+\doxysubsubsection{\texorpdfstring{unregisterDmaEvent()}{unregisterDmaEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+Kernel\+::unregister\+Dma\+Event (\begin{DoxyParamCaption}\item[{unsigned}]{slot }\end{DoxyParamCaption})}
+
+
+
+Frees the given \doxylink{namespacepsyqo_1_1DMA}{DMA} callback slot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em slot} & The slot to free, as returned by {\ttfamily register\+Dma\+Event}. \\
+\hline
+\end{DoxyParams}

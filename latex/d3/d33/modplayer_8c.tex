@@ -1,0 +1,297 @@
+\doxysection{modplayer/modplayer.c File Reference}
+\hypertarget{modplayer_8c}{}\label{modplayer_8c}\index{modplayer/modplayer.c@{modplayer/modplayer.c}}
+{\ttfamily \#include "{}modplayer/modplayer.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/dma.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/spu.\+h"{}}\newline
+Include dependency graph for modplayer.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/dd7/modplayer_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structMODSampleData}{MODSample\+Data}}
+\item 
+struct \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}}
+\item 
+struct \mbox{\hyperlink{structSPUChannelData}{SPUChannel\+Data}}
+\item 
+struct \mbox{\hyperlink{structSpuInstrumentData}{Spu\+Instrument\+Data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{modplayer_8c_a25bd33969a423688013ed6e03909ddd9}{SETVOICESAMPLERATE}}(channel,  new\+Period)~    SPUSet\+Voice\+Sample\+Rate(channel, ((7093789 / (new\+Period \texorpdfstring{$\ast$}{*} 2)) $<$$<$ 12) / 44100)
+\item 
+\#define \mbox{\hyperlink{modplayer_8c_aecdaa1461b6904b9d79fa67f46b71c7e}{SETVOICEVOLUME}}(channel,  volume)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_aaf8b4cd9861f45a4964c294ec59c5d0d}{MOD\+\_\+\+Check}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \texorpdfstring{$\ast$}{*}module)
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{modplayer_8c_acf2ccef61f11e60551c29737642b8394}{MOD\+\_\+\+Load}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \texorpdfstring{$\ast$}{*}module)
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_a6cca9a5c00b3eea0e475e7bfba5a0111}{MOD\+\_\+\+Load\+Ex}} (const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \texorpdfstring{$\ast$}{*}module, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}sample\+Data)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{modplayer_8c_a4e857806726e4901c0e4f26c951aff88}{MOD\+\_\+\+Silence}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{modplayer_8c_a990896c472880f95565eaacce53fa787}{MOD\+\_\+\+Relocate}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}s1)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{modplayer_8c_a6c177627e83cf69ba164748a38e795f7}{MOD\+\_\+\+Poll}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{modplayer_8c_ad9747d2b2727f70304f280aa3ef8c9f0}{MOD\+\_\+\+Play\+Note}} (unsigned channel, unsigned sample\+ID, unsigned note, int16\+\_\+t volume)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{modplayer_8c_ab38a98ab97b6a69f214a760adaa3bcfc}{MOD\+\_\+\+Play\+Sound\+Effect}} (unsigned channel, unsigned sample\+ID, unsigned note, int16\+\_\+t volume)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{modplayer_8c_a8ecdc1d5d1385275206bd5870075689b}{MOD\+\_\+\+Set\+Music\+Volume}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} music\+Volume)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_afc44fa34e0ff835beab61fc14463c4c0}{MOD\+\_\+\+Channels}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_af9f90bcb1ae3c98f65ee74811af6f3a5}{MOD\+\_\+\+Song\+Length}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_accd5abc32159d8a388f2444cb80b386f}{MOD\+\_\+\+Current\+Order}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_ab9d3ee3cb181e15bac3e0526cd6b7326}{MOD\+\_\+\+Current\+Pattern}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_a2f231af3b4045ab8172f05379614318a}{MOD\+\_\+\+Current\+Row}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_abcd0dcfd1cdea660c328fd7131bde1a7}{MOD\+\_\+\+Speed}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_a37158096733cc8c19eda74e3d4153cf4}{MOD\+\_\+\+Tick}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_aee11aa2f3f9669729131591da949ff29}{MOD\+\_\+\+BPM}} = 0
+\item 
+const uint8\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{modplayer_8c_a81b060bcb7f872a60023d8861d12b2bd}{MOD\+\_\+\+Row\+Pointer}} = NULL
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{modplayer_8c_a2b08956ade76bf1012f628e013990b0f}{MOD\+\_\+\+Change\+Row\+Next\+Tick}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_a9361921b4d21ec212e33d3c96384c55d}{MOD\+\_\+\+Next\+Row}} = 0
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{modplayer_8c_a6e2cb5e4b3ebeb1b8994d41e69ffd80d}{MOD\+\_\+\+Change\+Order\+Next\+Tick}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_acc2fdac12568a6811d5eb6f408e2ab58}{MOD\+\_\+\+Next\+Order}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{modplayer_8c_a3dddd80e59ba66f93513c082e28adc30}{MOD\+\_\+\+Pattern\+Delay}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_aeea74cdc433af3753a1c2d1bac9a8965}{MOD\+\_\+\+Loop\+Start}} = 0
+\item 
+unsigned \mbox{\hyperlink{modplayer_8c_a2a892d81014e89ed04382e8312281e2a}{MOD\+\_\+\+Loop\+Count}} = 0
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{modplayer_8c_a737010ceae3484791d0d7b619458778e}{MOD\+\_\+\+Stereo}} = 0
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{modplayer_8c_af2f885fa4c67a6fbb385aa30b5f85c5d}{MOD\+\_\+hblanks}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{modplayer_8c_af1172fcd022381732d7a7616b13c81a3}{MOD\+\_\+\+Period\+Table}} \mbox{[}36 \texorpdfstring{$\ast$}{*}16\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{modplayer_8c_a25bd33969a423688013ed6e03909ddd9}\label{modplayer_8c_a25bd33969a423688013ed6e03909ddd9} 
+\index{modplayer.c@{modplayer.c}!SETVOICESAMPLERATE@{SETVOICESAMPLERATE}}
+\index{SETVOICESAMPLERATE@{SETVOICESAMPLERATE}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{SETVOICESAMPLERATE}{SETVOICESAMPLERATE}}
+{\footnotesize\ttfamily \#define SETVOICESAMPLERATE(\begin{DoxyParamCaption}\item[{}]{channel,  }\item[{}]{new\+Period }\end{DoxyParamCaption})~    SPUSet\+Voice\+Sample\+Rate(channel, ((7093789 / (new\+Period \texorpdfstring{$\ast$}{*} 2)) $<$$<$ 12) / 44100)}
+
+\Hypertarget{modplayer_8c_aecdaa1461b6904b9d79fa67f46b71c7e}\label{modplayer_8c_aecdaa1461b6904b9d79fa67f46b71c7e} 
+\index{modplayer.c@{modplayer.c}!SETVOICEVOLUME@{SETVOICEVOLUME}}
+\index{SETVOICEVOLUME@{SETVOICEVOLUME}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{SETVOICEVOLUME}{SETVOICEVOLUME}}
+{\footnotesize\ttfamily \#define SETVOICEVOLUME(\begin{DoxyParamCaption}\item[{}]{channel,  }\item[{}]{volume }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ volume\ <<=\ 8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ if\ (\mbox{\hyperlink{modplayer_8c_a737010ceae3484791d0d7b619458778e}{MOD\_Stereo}})\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pan\ =\ (channel\ \&\ 1)\ \string^\ (channel\ >>\ 1);\ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ int16\_t\ left\ =\ pan\ ==\ 0\ ?\ volume\ :\ 0;\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ int16\_t\ right\ =\ pan\ ==\ 0\ ?\ 0\ :\ volume;\ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ SPUSetVoiceVolume(channel,\ left,\ right);\ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ SPUSetVoiceVolume(channel,\ volume,\ volume);\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{modplayer_8c_aaf8b4cd9861f45a4964c294ec59c5d0d}\label{modplayer_8c_aaf8b4cd9861f45a4964c294ec59c5d0d} 
+\index{modplayer.c@{modplayer.c}!MOD\_Check@{MOD\_Check}}
+\index{MOD\_Check@{MOD\_Check}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Check()}{MOD\_Check()}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Check (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \texorpdfstring{$\ast$}{*}}]{module }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_acf2ccef61f11e60551c29737642b8394}\label{modplayer_8c_acf2ccef61f11e60551c29737642b8394} 
+\index{modplayer.c@{modplayer.c}!MOD\_Load@{MOD\_Load}}
+\index{MOD\_Load@{MOD\_Load}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Load()}{MOD\_Load()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} MOD\+\_\+\+Load (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \texorpdfstring{$\ast$}{*}}]{module }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_a6cca9a5c00b3eea0e475e7bfba5a0111}\label{modplayer_8c_a6cca9a5c00b3eea0e475e7bfba5a0111} 
+\index{modplayer.c@{modplayer.c}!MOD\_LoadEx@{MOD\_LoadEx}}
+\index{MOD\_LoadEx@{MOD\_LoadEx}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_LoadEx()}{MOD\_LoadEx()}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Load\+Ex (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structMODFileFormat}{MODFile\+Format}} \texorpdfstring{$\ast$}{*}}]{module,  }\item[{const uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{sample\+Data }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_ad9747d2b2727f70304f280aa3ef8c9f0}\label{modplayer_8c_ad9747d2b2727f70304f280aa3ef8c9f0} 
+\index{modplayer.c@{modplayer.c}!MOD\_PlayNote@{MOD\_PlayNote}}
+\index{MOD\_PlayNote@{MOD\_PlayNote}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_PlayNote()}{MOD\_PlayNote()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} MOD\+\_\+\+Play\+Note (\begin{DoxyParamCaption}\item[{unsigned}]{channel,  }\item[{unsigned}]{sample\+ID,  }\item[{unsigned}]{note,  }\item[{int16\+\_\+t}]{volume }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_ab38a98ab97b6a69f214a760adaa3bcfc}\label{modplayer_8c_ab38a98ab97b6a69f214a760adaa3bcfc} 
+\index{modplayer.c@{modplayer.c}!MOD\_PlaySoundEffect@{MOD\_PlaySoundEffect}}
+\index{MOD\_PlaySoundEffect@{MOD\_PlaySoundEffect}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_PlaySoundEffect()}{MOD\_PlaySoundEffect()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} MOD\+\_\+\+Play\+Sound\+Effect (\begin{DoxyParamCaption}\item[{unsigned}]{channel,  }\item[{unsigned}]{sample\+ID,  }\item[{unsigned}]{note,  }\item[{int16\+\_\+t}]{volume }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_a6c177627e83cf69ba164748a38e795f7}\label{modplayer_8c_a6c177627e83cf69ba164748a38e795f7} 
+\index{modplayer.c@{modplayer.c}!MOD\_Poll@{MOD\_Poll}}
+\index{MOD\_Poll@{MOD\_Poll}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Poll()}{MOD\_Poll()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} MOD\+\_\+\+Poll (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_a990896c472880f95565eaacce53fa787}\label{modplayer_8c_a990896c472880f95565eaacce53fa787} 
+\index{modplayer.c@{modplayer.c}!MOD\_Relocate@{MOD\_Relocate}}
+\index{MOD\_Relocate@{MOD\_Relocate}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Relocate()}{MOD\_Relocate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} MOD\+\_\+\+Relocate (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{s1 }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_a8ecdc1d5d1385275206bd5870075689b}\label{modplayer_8c_a8ecdc1d5d1385275206bd5870075689b} 
+\index{modplayer.c@{modplayer.c}!MOD\_SetMusicVolume@{MOD\_SetMusicVolume}}
+\index{MOD\_SetMusicVolume@{MOD\_SetMusicVolume}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_SetMusicVolume()}{MOD\_SetMusicVolume()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} MOD\+\_\+\+Set\+Music\+Volume (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{music\+Volume }\end{DoxyParamCaption})}
+
+\Hypertarget{modplayer_8c_a4e857806726e4901c0e4f26c951aff88}\label{modplayer_8c_a4e857806726e4901c0e4f26c951aff88} 
+\index{modplayer.c@{modplayer.c}!MOD\_Silence@{MOD\_Silence}}
+\index{MOD\_Silence@{MOD\_Silence}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Silence()}{MOD\_Silence()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} MOD\+\_\+\+Silence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{modplayer_8c_aee11aa2f3f9669729131591da949ff29}\label{modplayer_8c_aee11aa2f3f9669729131591da949ff29} 
+\index{modplayer.c@{modplayer.c}!MOD\_BPM@{MOD\_BPM}}
+\index{MOD\_BPM@{MOD\_BPM}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_BPM}{MOD\_BPM}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+BPM = 0}
+
+\Hypertarget{modplayer_8c_a6e2cb5e4b3ebeb1b8994d41e69ffd80d}\label{modplayer_8c_a6e2cb5e4b3ebeb1b8994d41e69ffd80d} 
+\index{modplayer.c@{modplayer.c}!MOD\_ChangeOrderNextTick@{MOD\_ChangeOrderNextTick}}
+\index{MOD\_ChangeOrderNextTick@{MOD\_ChangeOrderNextTick}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_ChangeOrderNextTick}{MOD\_ChangeOrderNextTick}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} MOD\+\_\+\+Change\+Order\+Next\+Tick = 0}
+
+\Hypertarget{modplayer_8c_a2b08956ade76bf1012f628e013990b0f}\label{modplayer_8c_a2b08956ade76bf1012f628e013990b0f} 
+\index{modplayer.c@{modplayer.c}!MOD\_ChangeRowNextTick@{MOD\_ChangeRowNextTick}}
+\index{MOD\_ChangeRowNextTick@{MOD\_ChangeRowNextTick}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_ChangeRowNextTick}{MOD\_ChangeRowNextTick}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} MOD\+\_\+\+Change\+Row\+Next\+Tick = 0}
+
+\Hypertarget{modplayer_8c_afc44fa34e0ff835beab61fc14463c4c0}\label{modplayer_8c_afc44fa34e0ff835beab61fc14463c4c0} 
+\index{modplayer.c@{modplayer.c}!MOD\_Channels@{MOD\_Channels}}
+\index{MOD\_Channels@{MOD\_Channels}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Channels}{MOD\_Channels}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Channels = 0}
+
+\Hypertarget{modplayer_8c_accd5abc32159d8a388f2444cb80b386f}\label{modplayer_8c_accd5abc32159d8a388f2444cb80b386f} 
+\index{modplayer.c@{modplayer.c}!MOD\_CurrentOrder@{MOD\_CurrentOrder}}
+\index{MOD\_CurrentOrder@{MOD\_CurrentOrder}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_CurrentOrder}{MOD\_CurrentOrder}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Current\+Order = 0}
+
+\Hypertarget{modplayer_8c_ab9d3ee3cb181e15bac3e0526cd6b7326}\label{modplayer_8c_ab9d3ee3cb181e15bac3e0526cd6b7326} 
+\index{modplayer.c@{modplayer.c}!MOD\_CurrentPattern@{MOD\_CurrentPattern}}
+\index{MOD\_CurrentPattern@{MOD\_CurrentPattern}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_CurrentPattern}{MOD\_CurrentPattern}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Current\+Pattern = 0}
+
+\Hypertarget{modplayer_8c_a2f231af3b4045ab8172f05379614318a}\label{modplayer_8c_a2f231af3b4045ab8172f05379614318a} 
+\index{modplayer.c@{modplayer.c}!MOD\_CurrentRow@{MOD\_CurrentRow}}
+\index{MOD\_CurrentRow@{MOD\_CurrentRow}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_CurrentRow}{MOD\_CurrentRow}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Current\+Row = 0}
+
+\Hypertarget{modplayer_8c_af2f885fa4c67a6fbb385aa30b5f85c5d}\label{modplayer_8c_af2f885fa4c67a6fbb385aa30b5f85c5d} 
+\index{modplayer.c@{modplayer.c}!MOD\_hblanks@{MOD\_hblanks}}
+\index{MOD\_hblanks@{MOD\_hblanks}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_hblanks}{MOD\_hblanks}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} MOD\+\_\+hblanks}
+
+\Hypertarget{modplayer_8c_a2a892d81014e89ed04382e8312281e2a}\label{modplayer_8c_a2a892d81014e89ed04382e8312281e2a} 
+\index{modplayer.c@{modplayer.c}!MOD\_LoopCount@{MOD\_LoopCount}}
+\index{MOD\_LoopCount@{MOD\_LoopCount}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_LoopCount}{MOD\_LoopCount}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Loop\+Count = 0}
+
+\Hypertarget{modplayer_8c_aeea74cdc433af3753a1c2d1bac9a8965}\label{modplayer_8c_aeea74cdc433af3753a1c2d1bac9a8965} 
+\index{modplayer.c@{modplayer.c}!MOD\_LoopStart@{MOD\_LoopStart}}
+\index{MOD\_LoopStart@{MOD\_LoopStart}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_LoopStart}{MOD\_LoopStart}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Loop\+Start = 0}
+
+\Hypertarget{modplayer_8c_acc2fdac12568a6811d5eb6f408e2ab58}\label{modplayer_8c_acc2fdac12568a6811d5eb6f408e2ab58} 
+\index{modplayer.c@{modplayer.c}!MOD\_NextOrder@{MOD\_NextOrder}}
+\index{MOD\_NextOrder@{MOD\_NextOrder}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_NextOrder}{MOD\_NextOrder}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Next\+Order = 0}
+
+\Hypertarget{modplayer_8c_a9361921b4d21ec212e33d3c96384c55d}\label{modplayer_8c_a9361921b4d21ec212e33d3c96384c55d} 
+\index{modplayer.c@{modplayer.c}!MOD\_NextRow@{MOD\_NextRow}}
+\index{MOD\_NextRow@{MOD\_NextRow}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_NextRow}{MOD\_NextRow}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Next\+Row = 0}
+
+\Hypertarget{modplayer_8c_a3dddd80e59ba66f93513c082e28adc30}\label{modplayer_8c_a3dddd80e59ba66f93513c082e28adc30} 
+\index{modplayer.c@{modplayer.c}!MOD\_PatternDelay@{MOD\_PatternDelay}}
+\index{MOD\_PatternDelay@{MOD\_PatternDelay}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_PatternDelay}{MOD\_PatternDelay}}
+{\footnotesize\ttfamily uint8\+\_\+t MOD\+\_\+\+Pattern\+Delay = 0}
+
+\Hypertarget{modplayer_8c_af1172fcd022381732d7a7616b13c81a3}\label{modplayer_8c_af1172fcd022381732d7a7616b13c81a3} 
+\index{modplayer.c@{modplayer.c}!MOD\_PeriodTable@{MOD\_PeriodTable}}
+\index{MOD\_PeriodTable@{MOD\_PeriodTable}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_PeriodTable}{MOD\_PeriodTable}}
+{\footnotesize\ttfamily const uint16\+\_\+t MOD\+\_\+\+Period\+Table\mbox{[}36 \texorpdfstring{$\ast$}{*}16\mbox{]}}
+
+\Hypertarget{modplayer_8c_a81b060bcb7f872a60023d8861d12b2bd}\label{modplayer_8c_a81b060bcb7f872a60023d8861d12b2bd} 
+\index{modplayer.c@{modplayer.c}!MOD\_RowPointer@{MOD\_RowPointer}}
+\index{MOD\_RowPointer@{MOD\_RowPointer}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_RowPointer}{MOD\_RowPointer}}
+{\footnotesize\ttfamily const uint8\+\_\+t\texorpdfstring{$\ast$}{*} MOD\+\_\+\+Row\+Pointer = NULL}
+
+\Hypertarget{modplayer_8c_af9f90bcb1ae3c98f65ee74811af6f3a5}\label{modplayer_8c_af9f90bcb1ae3c98f65ee74811af6f3a5} 
+\index{modplayer.c@{modplayer.c}!MOD\_SongLength@{MOD\_SongLength}}
+\index{MOD\_SongLength@{MOD\_SongLength}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_SongLength}{MOD\_SongLength}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Song\+Length = 0}
+
+\Hypertarget{modplayer_8c_abcd0dcfd1cdea660c328fd7131bde1a7}\label{modplayer_8c_abcd0dcfd1cdea660c328fd7131bde1a7} 
+\index{modplayer.c@{modplayer.c}!MOD\_Speed@{MOD\_Speed}}
+\index{MOD\_Speed@{MOD\_Speed}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Speed}{MOD\_Speed}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Speed = 0}
+
+\Hypertarget{modplayer_8c_a737010ceae3484791d0d7b619458778e}\label{modplayer_8c_a737010ceae3484791d0d7b619458778e} 
+\index{modplayer.c@{modplayer.c}!MOD\_Stereo@{MOD\_Stereo}}
+\index{MOD\_Stereo@{MOD\_Stereo}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Stereo}{MOD\_Stereo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} MOD\+\_\+\+Stereo = 0}
+
+\Hypertarget{modplayer_8c_a37158096733cc8c19eda74e3d4153cf4}\label{modplayer_8c_a37158096733cc8c19eda74e3d4153cf4} 
+\index{modplayer.c@{modplayer.c}!MOD\_Tick@{MOD\_Tick}}
+\index{MOD\_Tick@{MOD\_Tick}!modplayer.c@{modplayer.c}}
+\doxysubsubsection{\texorpdfstring{MOD\_Tick}{MOD\_Tick}}
+{\footnotesize\ttfamily unsigned MOD\+\_\+\+Tick = 0}
+

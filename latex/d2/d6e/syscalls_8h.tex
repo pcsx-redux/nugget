@@ -1,0 +1,536 @@
+\doxysection{common/syscalls/syscalls.h File Reference}
+\hypertarget{syscalls_8h}{}\label{syscalls_8h}\index{common/syscalls/syscalls.h@{common/syscalls/syscalls.h}}
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/psxlibc/circularbuffer.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/device.\+h"{}}\newline
+{\ttfamily \#include "{}common/psxlibc/handlers.\+h"{}}\newline
+Include dependency graph for syscalls.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d80/syscalls_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d4/d83/syscalls_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}{volatile}} ("{}"{} \+:"{}=r"{}(n) \+:"{}r"{}(n))
+\item 
+\mbox{\hyperlink{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}{return}} ((size\+\_\+t(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, size\+\_\+t)) 0xa0)(fd
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} (\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}, \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}})
+\item 
+\mbox{\hyperlink{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}{\+\_\+\+\_\+builtin\+\_\+unreachable}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_abf0abc907f18e5f4002c352951e16208}{return}} ((char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*})) 0xa0)(dst
+\item 
+\mbox{\hyperlink{syscalls_8h_abfa2a5302b66308e29c12a17a2fff7f6}{return}} ((char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}, size\+\_\+t)) 0xa0)(dst
+\item 
+\mbox{\hyperlink{syscalls_8h_aedfe38abe2b3b4de8d1efe70f669d462}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*})) 0xa0)(s1
+\item 
+\mbox{\hyperlink{syscalls_8h_a683cba47986cb33fc257b93d8c923c59}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}, size\+\_\+t)) 0xa0)(s1
+\item 
+\mbox{\hyperlink{syscalls_8h_aa59a0052fed480cfae86506ae955754a}{return}} ((char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})) 0xa0)(\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}
+\item 
+\mbox{\hyperlink{syscalls_8h_a76dd42b59ab5fef7bff75007ed6b766b}{return}} ((\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, size\+\_\+t)) 0xa0)(dst
+\item 
+\mbox{\hyperlink{syscalls_8h_a1937eba9d5d0b77140dbffcd01173e60}{return}} ((\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, size\+\_\+t)) 0xa0)(dst
+\item 
+void \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} (\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a122c3b60b3bb0f91ffe661d0f870f1a2}{romsyscall\+\_\+printf}} (const char \texorpdfstring{$\ast$}{*}fmt,...)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a477113d382c45a2be70450b73cf090c1}{ramsyscall\+\_\+printf}} (const char \texorpdfstring{$\ast$}{*}fmt,...)
+\item 
+\mbox{\hyperlink{syscalls_8h_a8c7febd2ebec061a6f3afb621708030a}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}})) 0xa0)(\mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} (code1, \mbox{\hyperlink{syscalls_8h_afb2f781cdf667ab7e73bef3dae1bf947}{code2}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ab4de149baff079e5e3a24860d9f80742}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}, uint16\+\_\+t, uint16\+\_\+t)) 0xb0)(timer
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} (class\+Id, \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}})
+\item 
+void \mbox{\hyperlink{syscalls_8h_a69aa6c61c991e615b8180068d0c14953}{void}} (buffer1, \mbox{\hyperlink{syscalls_8h_a54a36a5beeeba81d0718715cbb6f72b2}{size1}}, \mbox{\hyperlink{syscalls_8h_ac25a1d1a077025c700c78b55ce42092f}{buffer2}}, \mbox{\hyperlink{syscalls_8h_a85030e26250a2679f7fcd44bbb02de5f}{size2}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_a888f35871537a8355e41067d7e16cf47}{uint32\+\_\+t}} (class\+Id, \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}})
+\item 
+\mbox{\hyperlink{syscalls_8h_a21575bb52e82cfa3cdb79c6693c15caa}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}})) 0xb0)(filename
+\item 
+\mbox{\hyperlink{syscalls_8h_a92b681fb9903219ae8026d3c6d6ea38e}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}})) 0xb0)(fd
+\item 
+\mbox{\hyperlink{syscalls_8h_ab45b946978867c2944ae6d7805322b05}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, const uint8\+\_\+t \texorpdfstring{$\ast$}{*})) 0xb0)(device\+ID
+\item 
+\mbox{\hyperlink{syscalls_8h_ae65e4b812aba874433a18339def86076}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*})) 0xb0)(device\+ID
+\item 
+\mbox{\hyperlink{syscalls_8h_a84eaeff90714c074e9110d206ac1b802}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*})) 0xc0)(priority
+\item 
+void \mbox{\hyperlink{syscalls_8h_a93f9d295d58490b97832234d96bd1417}{void}} (base, \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ad7271cf9f485b4ccfb28ffc05bf5492e}{return}} ((\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}})) 0xc0)(timer
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_a604ecf33d25d72ee3bf09c439c2ff87a}{uint32\+\_\+t}} (irq, \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_aa26272e370901e105f356cdda8e3d976}{struct}} (circ, \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}} = \{ 0, 0, 0, 0 \}
+\item 
+static const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} size\+\_\+t \mbox{\hyperlink{syscalls_8h_a854352f53b148adc24983a58a1866d66}{size}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}
+\item 
+static const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}
+\item 
+static const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_a6393b4d05b222b4a5b750288ddb27ef5}{s2}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}
+\item 
+static const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} size\+\_\+t \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}
+\item 
+static size\+\_\+t \mbox{\hyperlink{syscalls_8h_a4e1339b726af003bcf3dc2caa7842a16}{nel}}
+\item 
+static size\+\_\+t size\+\_\+t \mbox{\hyperlink{syscalls_8h_a53eb70190ec04b3a001eb45404a18886}{width}}
+\item 
+static size\+\_\+t size\+\_\+t \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_ab8d27de826195874e13eef7952e63c0e}{compar}} )(const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}))
+\item 
+static \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_afb2f781cdf667ab7e73bef3dae1bf947}{code2}}
+\item 
+static uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_a5d2c023108742a1ce78ba9823c06ea35}{target}}
+\item 
+static uint16\+\_\+t uint16\+\_\+t \mbox{\hyperlink{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9}{flags}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}{handler}} )())
+\item 
+static size\+\_\+t \mbox{\hyperlink{syscalls_8h_a54a36a5beeeba81d0718715cbb6f72b2}{size1}}
+\item 
+static size\+\_\+t \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_ac25a1d1a077025c700c78b55ce42092f}{buffer2}}
+\item 
+static size\+\_\+t \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} size\+\_\+t \mbox{\hyperlink{syscalls_8h_a85030e26250a2679f7fcd44bbb02de5f}{size2}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{syscalls_8h_a7b16a542aaeea764362f9dc2249ae63c}{info}}
+\item 
+static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd}\label{syscalls_8h_a1fef78cee26441cdd1df991bfed79bcd} 
+\index{syscalls.h@{syscalls.h}!\_\_builtin\_unreachable@{\_\_builtin\_unreachable}}
+\index{\_\_builtin\_unreachable@{\_\_builtin\_unreachable}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{\_\_builtin\_unreachable()}{\_\_builtin\_unreachable()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+builtin\+\_\+unreachable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}\label{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f} 
+\index{syscalls.h@{syscalls.h}!int@{int}}
+\index{int@{int}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{int()}{int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} int (\begin{DoxyParamCaption}\item[{code1}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_afb2f781cdf667ab7e73bef3dae1bf947}{code2}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a477113d382c45a2be70450b73cf090c1}\label{syscalls_8h_a477113d382c45a2be70450b73cf090c1} 
+\index{syscalls.h@{syscalls.h}!ramsyscall\_printf@{ramsyscall\_printf}}
+\index{ramsyscall\_printf@{ramsyscall\_printf}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{ramsyscall\_printf()}{ramsyscall\_printf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} ramsyscall\+\_\+printf (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_abf0abc907f18e5f4002c352951e16208}\label{syscalls_8h_abf0abc907f18e5f4002c352951e16208} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [1/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_abfa2a5302b66308e29c12a17a2fff7f6}\label{syscalls_8h_abfa2a5302b66308e29c12a17a2fff7f6} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [2/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}, size\+\_\+t))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_aa59a0052fed480cfae86506ae955754a}\label{syscalls_8h_aa59a0052fed480cfae86506ae955754a} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [3/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(char \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_aedfe38abe2b3b4de8d1efe70f669d462}\label{syscalls_8h_aedfe38abe2b3b4de8d1efe70f669d462} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [4/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a683cba47986cb33fc257b93d8c923c59}\label{syscalls_8h_a683cba47986cb33fc257b93d8c923c59} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [5/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}, size\+\_\+t))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a21575bb52e82cfa3cdb79c6693c15caa}\label{syscalls_8h_a21575bb52e82cfa3cdb79c6693c15caa} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [6/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}))}]{0xb0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_ab45b946978867c2944ae6d7805322b05}\label{syscalls_8h_ab45b946978867c2944ae6d7805322b05} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [7/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, const uint8\+\_\+t \texorpdfstring{$\ast$}{*}))}]{0xb0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_ae65e4b812aba874433a18339def86076}\label{syscalls_8h_ae65e4b812aba874433a18339def86076} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [8/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}))}]{0xb0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a84eaeff90714c074e9110d206ac1b802}\label{syscalls_8h_a84eaeff90714c074e9110d206ac1b802} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [9/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}{struct}} \mbox{\hyperlink{structHandlerInfo}{Handler\+Info}} \texorpdfstring{$\ast$}{*}))}]{0xc0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a92b681fb9903219ae8026d3c6d6ea38e}\label{syscalls_8h_a92b681fb9903219ae8026d3c6d6ea38e} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [10/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}))}]{0xb0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a8c7febd2ebec061a6f3afb621708030a}\label{syscalls_8h_a8c7febd2ebec061a6f3afb621708030a} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [11/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_ad7271cf9f485b4ccfb28ffc05bf5492e}\label{syscalls_8h_ad7271cf9f485b4ccfb28ffc05bf5492e} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [12/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}))}]{0xc0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_ab4de149baff079e5e3a24860d9f80742}\label{syscalls_8h_ab4de149baff079e5e3a24860d9f80742} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [13/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}, uint16\+\_\+t, uint16\+\_\+t))}]{0xb0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5}\label{syscalls_8h_a824f953d16a038199b92ab0fa2d04ba5} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [14/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(size\+\_\+t(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, size\+\_\+t))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a76dd42b59ab5fef7bff75007ed6b766b}\label{syscalls_8h_a76dd42b59ab5fef7bff75007ed6b766b} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [15/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, size\+\_\+t))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a1937eba9d5d0b77140dbffcd01173e60}\label{syscalls_8h_a1937eba9d5d0b77140dbffcd01173e60} 
+\index{syscalls.h@{syscalls.h}!return@{return}}
+\index{return@{return}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{return()}{return()}\hspace{0.1cm}{\footnotesize\ttfamily [16/16]}}
+{\footnotesize\ttfamily return (\begin{DoxyParamCaption}\item[{(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}, size\+\_\+t))}]{0xa0 }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a122c3b60b3bb0f91ffe661d0f870f1a2}\label{syscalls_8h_a122c3b60b3bb0f91ffe661d0f870f1a2} 
+\index{syscalls.h@{syscalls.h}!romsyscall\_printf@{romsyscall\_printf}}
+\index{romsyscall\_printf@{romsyscall\_printf}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{romsyscall\_printf()}{romsyscall\_printf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} romsyscall\+\_\+printf (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{fmt,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172}\label{syscalls_8h_acaa374fc20c472fab2389d9fa1b04172} 
+\index{syscalls.h@{syscalls.h}!struct@{struct}}
+\index{struct@{struct}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{struct()}{struct()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} struct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}{buf}}}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_aa26272e370901e105f356cdda8e3d976}\label{syscalls_8h_aa26272e370901e105f356cdda8e3d976} 
+\index{syscalls.h@{syscalls.h}!struct@{struct}}
+\index{struct@{struct}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{struct()}{struct()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} struct (\begin{DoxyParamCaption}\item[{circ}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a888f35871537a8355e41067d7e16cf47}\label{syscalls_8h_a888f35871537a8355e41067d7e16cf47} 
+\index{syscalls.h@{syscalls.h}!uint32\_t@{uint32\_t}}
+\index{uint32\_t@{uint32\_t}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{uint32\_t()}{uint32\_t()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} uint32\+\_\+t (\begin{DoxyParamCaption}\item[{class\+Id}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}{mode}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}\label{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1} 
+\index{syscalls.h@{syscalls.h}!uint32\_t@{uint32\_t}}
+\index{uint32\_t@{uint32\_t}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{uint32\_t()}{uint32\_t()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} uint32\+\_\+t (\begin{DoxyParamCaption}\item[{class\+Id}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}{spec}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a604ecf33d25d72ee3bf09c439c2ff87a}\label{syscalls_8h_a604ecf33d25d72ee3bf09c439c2ff87a} 
+\index{syscalls.h@{syscalls.h}!uint32\_t@{uint32\_t}}
+\index{uint32\_t@{uint32\_t}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{uint32\_t()}{uint32\_t()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} uint32\+\_\+t (\begin{DoxyParamCaption}\item[{irq}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a93f9d295d58490b97832234d96bd1417}\label{syscalls_8h_a93f9d295d58490b97832234d96bd1417} 
+\index{syscalls.h@{syscalls.h}!void@{void}}
+\index{void@{void}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{void()}{void()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void void (\begin{DoxyParamCaption}\item[{base}]{,  }\item[{\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a69aa6c61c991e615b8180068d0c14953}\label{syscalls_8h_a69aa6c61c991e615b8180068d0c14953} 
+\index{syscalls.h@{syscalls.h}!void@{void}}
+\index{void@{void}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{void()}{void()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily void void (\begin{DoxyParamCaption}\item[{buffer1}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a54a36a5beeeba81d0718715cbb6f72b2}{size1}}}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_ac25a1d1a077025c700c78b55ce42092f}{buffer2}}}]{,  }\item[{\mbox{\hyperlink{syscalls_8h_a85030e26250a2679f7fcd44bbb02de5f}{size2}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}\label{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3} 
+\index{syscalls.h@{syscalls.h}!void@{void}}
+\index{void@{void}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{void()}{void()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily void void (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}}]{,  }\item[{\mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8}\label{syscalls_8h_ac8115d5e5b72b3b5ea869665bd942ba8} 
+\index{syscalls.h@{syscalls.h}!volatile@{volatile}}
+\index{volatile@{volatile}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{volatile()}{volatile()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad}\label{syscalls_8h_a7b601d9dce7e54692f79b91250a4e5ad} 
+\index{syscalls.h@{syscalls.h}!buf@{buf}}
+\index{buf@{buf}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{buf}{buf}}
+{\footnotesize\ttfamily char buf = \{ 0, 0, 0, 0 \}}
+
+\Hypertarget{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}\label{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a} 
+\index{syscalls.h@{syscalls.h}!buffer@{buffer}}
+\index{buffer@{buffer}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{buffer}{buffer}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} uint8\+\_\+t \texorpdfstring{$\ast$}{*} buffer}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x4e}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_ac25a1d1a077025c700c78b55ce42092f}\label{syscalls_8h_ac25a1d1a077025c700c78b55ce42092f} 
+\index{syscalls.h@{syscalls.h}!buffer2@{buffer2}}
+\index{buffer2@{buffer2}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{buffer2}{buffer2}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}\texorpdfstring{$\ast$}{*} buffer2}
+
+\Hypertarget{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}\label{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da} 
+\index{syscalls.h@{syscalls.h}!c@{c}}
+\index{c@{c}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{c}{c}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} c}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x1c}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_afb2f781cdf667ab7e73bef3dae1bf947}\label{syscalls_8h_afb2f781cdf667ab7e73bef3dae1bf947} 
+\index{syscalls.h@{syscalls.h}!code2@{code2}}
+\index{code2@{code2}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{code2}{code2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} code2}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0xa1}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_ab8d27de826195874e13eef7952e63c0e}\label{syscalls_8h_ab8d27de826195874e13eef7952e63c0e} 
+\index{syscalls.h@{syscalls.h}!compar@{compar}}
+\index{compar@{compar}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{compar}{compar}}
+{\footnotesize\ttfamily size\+\_\+t size\+\_\+t \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*} compar) (const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*})) (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{,  }\item[{const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}\label{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421} 
+\index{syscalls.h@{syscalls.h}!count@{count}}
+\index{count@{count}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily unsigned count}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x2a}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9}\label{syscalls_8h_ab6b306ef981f5e21bb41ea2c2dbe8cd9} 
+\index{syscalls.h@{syscalls.h}!flags@{flags}}
+\index{flags@{flags}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{flags}{flags}}
+{\footnotesize\ttfamily flags}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x02}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06}\label{syscalls_8h_a6dc4d0fa003a7621b96fcbd614845e06} 
+\index{syscalls.h@{syscalls.h}!handler@{handler}}
+\index{handler@{handler}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{handler}{handler}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(\texorpdfstring{$\ast$}{*} handler) ()) (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{syscalls_8h_a7b16a542aaeea764362f9dc2249ae63c}\label{syscalls_8h_a7b16a542aaeea764362f9dc2249ae63c} 
+\index{syscalls.h@{syscalls.h}!info@{info}}
+\index{info@{info}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{info}{info}}
+{\footnotesize\ttfamily \mbox{\hyperlink{xprintf_8c_a8478b249c067f00b77ca1763b9a2ac6e}{info}}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x02}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03}\label{syscalls_8h_a8256fc5e2bb23abe5773b0310011eb03} 
+\index{syscalls.h@{syscalls.h}!mode@{mode}}
+\index{mode@{mode}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{mode}{mode}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} mode}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x7e}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a4e1339b726af003bcf3dc2caa7842a16}\label{syscalls_8h_a4e1339b726af003bcf3dc2caa7842a16} 
+\index{syscalls.h@{syscalls.h}!nel@{nel}}
+\index{nel@{nel}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{nel}{nel}}
+{\footnotesize\ttfamily size\+\_\+t nel}
+
+\Hypertarget{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}\label{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203} 
+\index{syscalls.h@{syscalls.h}!ret@{ret}}
+\index{ret@{ret}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{ret}{ret}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} ret}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x14}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a6393b4d05b222b4a5b750288ddb27ef5}\label{syscalls_8h_a6393b4d05b222b4a5b750288ddb27ef5} 
+\index{syscalls.h@{syscalls.h}!s2@{s2}}
+\index{s2@{s2}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{s2}{s2}}
+{\footnotesize\ttfamily static const char \texorpdfstring{$\ast$}{*} s2}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x17}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}\label{syscalls_8h_a81f8e855b5b4d4e039067379678432aa} 
+\index{syscalls.h@{syscalls.h}!sector@{sector}}
+\index{sector@{sector}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{sector}{sector}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} sector}
+
+\Hypertarget{syscalls_8h_a854352f53b148adc24983a58a1866d66}\label{syscalls_8h_a854352f53b148adc24983a58a1866d66} 
+\index{syscalls.h@{syscalls.h}!size@{size}}
+\index{size@{size}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily size\+\_\+t size}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x03}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a54a36a5beeeba81d0718715cbb6f72b2}\label{syscalls_8h_a54a36a5beeeba81d0718715cbb6f72b2} 
+\index{syscalls.h@{syscalls.h}!size1@{size1}}
+\index{size1@{size1}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{size1}{size1}}
+{\footnotesize\ttfamily size\+\_\+t size1}
+
+\Hypertarget{syscalls_8h_a85030e26250a2679f7fcd44bbb02de5f}\label{syscalls_8h_a85030e26250a2679f7fcd44bbb02de5f} 
+\index{syscalls.h@{syscalls.h}!size2@{size2}}
+\index{size2@{size2}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{size2}{size2}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} size\+\_\+t size2}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x12}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a47df0658857c8a762f1811b9f868f34f}\label{syscalls_8h_a47df0658857c8a762f1811b9f868f34f} 
+\index{syscalls.h@{syscalls.h}!spec@{spec}}
+\index{spec@{spec}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{spec}{spec}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} spec}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x07}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}\label{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5} 
+\index{syscalls.h@{syscalls.h}!src@{src}}
+\index{src@{src}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{src}{src}}
+{\footnotesize\ttfamily static const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} src}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x15}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a5d2c023108742a1ce78ba9823c06ea35}\label{syscalls_8h_a5d2c023108742a1ce78ba9823c06ea35} 
+\index{syscalls.h@{syscalls.h}!target@{target}}
+\index{target@{target}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{target}{target}}
+{\footnotesize\ttfamily target}
+
+\Hypertarget{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}\label{syscalls_8h_a1c6a9d4653e050269971b2e65f043746} 
+\index{syscalls.h@{syscalls.h}!value@{value}}
+\index{value@{value}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} value}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ n\ \textcolor{keyword}{asm}(\textcolor{stringliteral}{"{}t1"{}})\ =\ 0x0a}
+
+\end{DoxyCode}
+\Hypertarget{syscalls_8h_a53eb70190ec04b3a001eb45404a18886}\label{syscalls_8h_a53eb70190ec04b3a001eb45404a18886} 
+\index{syscalls.h@{syscalls.h}!width@{width}}
+\index{width@{width}!syscalls.h@{syscalls.h}}
+\doxysubsubsection{\texorpdfstring{width}{width}}
+{\footnotesize\ttfamily size\+\_\+t size\+\_\+t width}
+

@@ -1,0 +1,50 @@
+\doxysection{openbios/sio0/pad.c File Reference}
+\hypertarget{pad_8c}{}\label{pad_8c}\index{openbios/sio0/pad.c@{openbios/sio0/pad.c}}
+{\ttfamily \#include "{}openbios/sio0/pad.\+h"{}}\newline
+{\ttfamily \#include $<$memory.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+Include dependency graph for pad.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/ded/pad_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{pad_8c_ab11fa8568e1b953769234e05a72eddf3}{fast\+Memset}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}, size\+\_\+t num)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{pad_8c_ab151df91b30cd246680f3497fe0d7fff}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section("{}.ramtext"{})))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{pad_8c_ab5d01669d660fa6201d1aa1e46a71fdf}{g\+\_\+user\+Pad\+Buffer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{pad_8c_ab151df91b30cd246680f3497fe0d7fff}\label{pad_8c_ab151df91b30cd246680f3497fe0d7fff} 
+\index{pad.c@{pad.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!pad.c@{pad.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(section("{}.ramtext"{}))}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{pad_8c_ab11fa8568e1b953769234e05a72eddf3}\label{pad_8c_ab11fa8568e1b953769234e05a72eddf3} 
+\index{pad.c@{pad.c}!fastMemset@{fastMemset}}
+\index{fastMemset@{fastMemset}!pad.c@{pad.c}}
+\doxysubsubsection{\texorpdfstring{fastMemset()}{fastMemset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} fast\+Memset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{value,  }\item[{size\+\_\+t}]{num }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{pad_8c_ab5d01669d660fa6201d1aa1e46a71fdf}\label{pad_8c_ab5d01669d660fa6201d1aa1e46a71fdf} 
+\index{pad.c@{pad.c}!g\_userPadBuffer@{g\_userPadBuffer}}
+\index{g\_userPadBuffer@{g\_userPadBuffer}!pad.c@{pad.c}}
+\doxysubsubsection{\texorpdfstring{g\_userPadBuffer}{g\_userPadBuffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}\texorpdfstring{$\ast$}{*} g\+\_\+user\+Pad\+Buffer}
+

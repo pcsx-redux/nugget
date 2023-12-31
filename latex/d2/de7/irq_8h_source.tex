@@ -1,0 +1,60 @@
+\doxysection{irq.\+h}
+\hypertarget{irq_8h_source}{}\label{irq_8h_source}\index{common/hardware/irq.h@{common/hardware/irq.h}}
+\mbox{\hyperlink{irq_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2019\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24}{IRQ}}\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24adf239d8c5d5184509fc225674d243d01}{IRQ\_VBLANK\_NUMBER}}\ =\ 0,}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a38af5b8afc08fd0c0423b74f1e944ff9}{IRQ\_VBLANK}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24adf239d8c5d5184509fc225674d243d01}{IRQ\_VBLANK\_NUMBER}},}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a90729841f36adec784ac8641460560c0}{IRQ\_GPU\_NUMBER}}\ =\ 1,}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2bae573d0dfb5c2bc5721dd28a31b620}{IRQ\_GPU}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a90729841f36adec784ac8641460560c0}{IRQ\_GPU\_NUMBER}},}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a8fb8408bf0b76d7fbe82819d8b46bb48}{IRQ\_CDROM\_NUMBER}}\ =\ 2,}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a9dbb60d6b8c3868829a3c51b01ff4d05}{IRQ\_CDROM}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a8fb8408bf0b76d7fbe82819d8b46bb48}{IRQ\_CDROM\_NUMBER}},}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24acc5a36dd9d65fb5e298140b87e7de0e7}{IRQ\_DMA\_NUMBER}}\ =\ 3,}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a14941626cea2786d32dae9c75edb4df1}{IRQ\_DMA}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24acc5a36dd9d65fb5e298140b87e7de0e7}{IRQ\_DMA\_NUMBER}},}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a97196f410e18ca633708644b08a8a632}{IRQ\_TIMER0\_NUMBER}}\ =\ 4,}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2618469a68d84d93cbc690683d166cfd}{IRQ\_TIMER0}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a97196f410e18ca633708644b08a8a632}{IRQ\_TIMER0\_NUMBER}},}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a56afcda2a53a5d64507c844d9a3a4351}{IRQ\_TIMER1\_NUMBER}}\ =\ 5,}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a8c39cc59e699744d2ec759fe14ff4e98}{IRQ\_TIMER1}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a56afcda2a53a5d64507c844d9a3a4351}{IRQ\_TIMER1\_NUMBER}},}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a9230648d3e1732553dae539cf594514a}{IRQ\_TIMER2\_NUMBER}}\ =\ 6,}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a0e01d49d80b56430de0f28a700a1cf40}{IRQ\_TIMER2}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a9230648d3e1732553dae539cf594514a}{IRQ\_TIMER2\_NUMBER}},}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a4cb55ab9c8808692b3e3bc7dd09c31b4}{IRQ\_CONTROLLER\_NUMBER}}\ =\ 7,}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24ae4d5e5696df66051d248a56f00f6f17d}{IRQ\_CONTROLLER}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a4cb55ab9c8808692b3e3bc7dd09c31b4}{IRQ\_CONTROLLER\_NUMBER}},}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2f5933658c819e1ecd1323770bf13f00}{IRQ\_SIO\_NUMBER}}\ =\ 8,}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24ae627969c3506f20c959271b694985587}{IRQ\_SIO}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a2f5933658c819e1ecd1323770bf13f00}{IRQ\_SIO\_NUMBER}},}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a7680f97c4af8b1f4c39908617025f1dd}{IRQ\_SPU\_NUMBER}}\ =\ 9,}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24afd145f7190299c92ab3d8c9100dc6681}{IRQ\_SPU}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a7680f97c4af8b1f4c39908617025f1dd}{IRQ\_SPU\_NUMBER}},}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24afd7bb3cc8a3ccd4dc2c5ac34670db9bd}{IRQ\_PIO\_NUMBER}}\ =\ 10,}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24a73f9000df681d407d397e5b7a9642a16}{IRQ\_PIO}}\ =\ 1\ <<\ \mbox{\hyperlink{irq_8h_a891c9036e6872ed134c185addd341b24afd7bb3cc8a3ccd4dc2c5ac34670db9bd}{IRQ\_PIO\_NUMBER}},}
+\DoxyCodeLine{00054\ \};}
+
+\end{DoxyCode}

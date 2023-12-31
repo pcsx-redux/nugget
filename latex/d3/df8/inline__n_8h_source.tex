@@ -1,0 +1,1523 @@
+\doxysection{inline\+\_\+n.\+h}
+\hypertarget{inline__n_8h_source}{}\label{inline__n_8h_source}\index{psyq/include/inline\_n.h@{psyq/include/inline\_n.h}}
+\mbox{\hyperlink{inline__n_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ \ \ \ \ \ GTE\ Macro\ definitions\ -\/\ special\ version\ for\ Nugget\ (NO\ DMPSX)}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ Type\ 1\ functions}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ gte\_ldv0(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$0,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 4(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ gte\_ldv1(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$2,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$3,\ 4(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ gte\_ldv2(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$4,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$5,\ 4(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ gte\_ldv3(r0,\ r1,\ r2)\ \ \(\backslash\)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$0,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$2,\ 0(\ \%1\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$3,\ 4(\ \%1\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$4,\ 0(\ \%2\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$5,\ 4(\ \%2\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ gte\_ldv3c(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$0,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$2,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$3,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$4,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$5,\ 20(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ gte\_ldv3c\_vertc(r0)\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$0,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$2,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$3,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$4,\ 24(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$5,\ 28(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ gte\_ldv01(r0,\ r1)\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$0,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$2,\ 0(\ \%1\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$3,\ 4(\ \%1\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1))}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ gte\_ldv01c(r0)\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$0,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$2,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$3,\ 12(\ \%0\ )"{}\ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ gte\_ldrgb(r0)\ \_\_asm\_\_\ volatile("{}lwc2\ \ \ \$6,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ gte\_ldrgb3(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$20,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$21,\ 0(\ \%1\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$22,\ 0(\ \%2\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$6,\ 0(\ \%2\ )"{}\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ gte\_ldrgb3c(r0)\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$20,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$21,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$22,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$6,\ 8(\ \%0\ )"{}\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ gte\_ldlv0(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}or\ \ \ \ \ \$12,\ \$12,\ \$13;"{}\ \(\backslash\)}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$1,\ 8(\ \%0\ )"{}\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ gte\_ldlvl(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$9,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$10,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$11,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ gte\_ldsv(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$13,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$14,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$14,\ \$11"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ gte\_ldbv(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ gte\_ldcv(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$14,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$14,\ \$11"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ gte\_ldclmv(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$13,\ 6(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lhu\ \ \ \ \$14,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$14,\ \$11"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ gte\_lddp(r0)\ \_\_asm\_\_\ volatile("{}mtc2\ \ \ \%0,\ \$8"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ gte\_ldsxy0(r0)\ \_\_asm\_\_\ volatile("{}mtc2\ \ \ \%0,\ \$12"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ gte\_ldsxy1(r0)\ \_\_asm\_\_\ volatile("{}mtc2\ \ \ \%0,\ \$13"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ gte\_ldsxy2(r0)\ \_\_asm\_\_\ volatile("{}mtc2\ \ \ \%0,\ \$14"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ gte\_ldsxy3(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%0,\ \$12;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%2,\ \$14;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%1,\ \$13"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ gte\_ldsxy3c(r0)\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$14,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ gte\_ldsz3(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%0,\ \$17;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%1,\ \$18;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%2,\ \$19"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ gte\_ldsz4(r0,\ r1,\ r2,\ r3)\ \(\backslash\)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%0,\ \$16;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%1,\ \$17;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%2,\ \$18;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \%3,\ \$19"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2),\ "{}r"{}(r3))}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ gte\_ldopv1(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$2;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$4"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ gte\_ldopv2(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$11,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$9,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lwc2\ \ \ \$10,\ 4(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ gte\_ldlzc(r0)\ \_\_asm\_\_\ volatile("{}mtc2\ \ \ \%0,\ \$30"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ gte\_SetRGBcd(r0)\ \_\_asm\_\_\ volatile("{}lwc2\ \ \ \$6,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ gte\_ldbkdir(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%0,\ \$13;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%1,\ \$14;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%2,\ \$15"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#define\ gte\_SetBackColor(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$12,\ \%0,\ 4;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$13,\ \%1,\ 4;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$14,\ \%2,\ 4;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$13;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$14;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$15"{}\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \ \(\backslash\)}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ gte\_ldfcdir(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%0,\ \$21;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%1,\ \$22;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%2,\ \$23"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ gte\_SetFarColor(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$12,\ \%0,\ 4;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$13,\ \%1,\ 4;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$14,\ \%2,\ 4;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$22;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$23"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ gte\_SetGeomOffset(r0,\ r1)\ \(\backslash\)}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$12,\ \%0,\ 16;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$13,\ \%1,\ 16;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$24;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$25"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1)\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#define\ gte\_SetGeomScreen(r0)\ \_\_asm\_\_\ volatile("{}ctc2\ \ \ \%0,\ \$26"{}\ :\ :\ "{}r"{}(r0))}}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ gte\_ldsvrtrow0(r0)\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00288\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$1"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ gte\_SetRotMatrix(r0)\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$1;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00301\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$2;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$3;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00305\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$4"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#define\ gte\_ldsvllrow0(r0)\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00314\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$8;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00315\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$9"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00318\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#define\ gte\_SetLightMatrix(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00321\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00322\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00323\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$8;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00325\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$9;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00327\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00329\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$10;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$11;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00331\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$12"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00332\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00333\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\#define\ gte\_ldsvlcrow0(r0)\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00337\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00339\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00340\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$16;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$17"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00342\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00343\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00344\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \textcolor{preprocessor}{\#define\ gte\_SetColorMatrix(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00348\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00350\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00351\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$17;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00352\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00354\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00355\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$18;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00356\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$19;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00357\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$20"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#define\ gte\_SetTransMatrix(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00363\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00364\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 20(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 24(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00366\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$5;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 28(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00368\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$6;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00369\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$7"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00370\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00371\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00372\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \textcolor{preprocessor}{\#define\ gte\_ldtr(r0,\ r1,\ r2)\ \(\backslash\)}}
+\DoxyCodeLine{00375\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00376\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%0,\ \$5;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00377\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%1,\ \$6;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00378\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \%2,\ \$7"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00379\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00380\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2))}}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \textcolor{preprocessor}{\#define\ gte\_SetTransVector(r0)\ \(\backslash\)}}
+\DoxyCodeLine{00383\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00384\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00385\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00386\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00387\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$5;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00388\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$6;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00389\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$7"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00390\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00391\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00392\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \textcolor{preprocessor}{\#define\ gte\_ld\_intpol\_uv0(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00395\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00396\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00397\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00398\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00399\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$22"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00400\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00401\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00402\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00403\ }
+\DoxyCodeLine{00404\ \textcolor{preprocessor}{\#define\ gte\_ld\_intpol\_uv1(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00405\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00406\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00407\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00408\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00410\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00411\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00412\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00414\ \textcolor{preprocessor}{\#define\ gte\_ld\_intpol\_bv0(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00415\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00416\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00417\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00418\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00419\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$22"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00420\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00421\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00422\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00424\ \textcolor{preprocessor}{\#define\ gte\_ld\_intpol\_bv1(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00425\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00426\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00427\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lbu\ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00428\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00429\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00430\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00431\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00432\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{})}}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00434\ \textcolor{preprocessor}{\#define\ gte\_ld\_intpol\_sv0(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00435\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00436\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00437\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$13,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00438\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$14,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00439\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00440\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$22;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00441\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$23"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00442\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00443\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00444\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \textcolor{preprocessor}{\#define\ gte\_ld\_intpol\_sv1(r0)\ \ \(\backslash\)}}
+\DoxyCodeLine{00447\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00448\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00449\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$13,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00450\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$14,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00451\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00452\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00453\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$14,\ \$11"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00454\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00455\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00456\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \textcolor{preprocessor}{\#define\ gte\_ldfc(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00459\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00460\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00461\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00462\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$14,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00463\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00464\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$22;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00465\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$23"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00466\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00467\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00468\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \textcolor{preprocessor}{\#define\ gte\_ldopv2SV(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00471\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00472\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00473\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$13,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00474\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$14,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00475\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00476\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00477\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$14,\ \$11"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00478\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00479\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00480\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00481\ }
+\DoxyCodeLine{00482\ \textcolor{preprocessor}{\#define\ gte\_ldopv1SV(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00483\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00484\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00485\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$13,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00486\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00487\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lh\ \ \ \ \ \$14,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00488\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$2;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00489\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$4"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00490\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00491\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00492\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{00493\ }
+\DoxyCodeLine{00494\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00495\ \textcolor{comment}{\ *\ Type\ 2\ functions}}
+\DoxyCodeLine{00496\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00497\ }
+\DoxyCodeLine{00498\ \textcolor{preprocessor}{\#define\ gte\_rtps()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00499\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00500\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00501\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00502\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0180001;"{})}}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#define\ gte\_rtpt()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00505\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00506\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00507\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00508\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0280030;"{})}}
+\DoxyCodeLine{00509\ }
+\DoxyCodeLine{00510\ \textcolor{preprocessor}{\#define\ gte\_rt()\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00511\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00512\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00513\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00514\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0480012;"{})}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \textcolor{preprocessor}{\#define\ gte\_rtv0()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00517\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00518\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00519\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00520\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0486012;"{})}}
+\DoxyCodeLine{00521\ }
+\DoxyCodeLine{00522\ \textcolor{preprocessor}{\#define\ gte\_rtv1()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00523\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00524\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00525\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00526\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x048E012;"{})}}
+\DoxyCodeLine{00527\ }
+\DoxyCodeLine{00528\ \textcolor{preprocessor}{\#define\ gte\_rtv2()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00529\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00530\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00531\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00532\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0496012;"{})}}
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \textcolor{preprocessor}{\#define\ gte\_rtir()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00535\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00536\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00537\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00538\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x049E012;"{})}}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00540\ \textcolor{preprocessor}{\#define\ gte\_rtir\_sf0()\ \(\backslash\)}}
+\DoxyCodeLine{00541\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \(\backslash\)}}
+\DoxyCodeLine{00542\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00543\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00544\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x041E012;"{})}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \textcolor{preprocessor}{\#define\ gte\_rtv0tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00547\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00548\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00549\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00550\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0480012;"{})}}
+\DoxyCodeLine{00551\ }
+\DoxyCodeLine{00552\ \textcolor{preprocessor}{\#define\ gte\_rtv1tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00553\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00554\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00555\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00556\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0488012;"{})}}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \textcolor{preprocessor}{\#define\ gte\_rtv2tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00559\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00560\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00561\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00562\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0490012;"{})}}
+\DoxyCodeLine{00563\ }
+\DoxyCodeLine{00564\ \textcolor{preprocessor}{\#define\ gte\_rtirtr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00565\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00566\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00567\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00568\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0498012;"{})}}
+\DoxyCodeLine{00569\ }
+\DoxyCodeLine{00570\ \textcolor{preprocessor}{\#define\ gte\_rtv0bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00571\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00572\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00573\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00574\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0482012;"{})}}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \textcolor{preprocessor}{\#define\ gte\_rtv1bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00577\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00578\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00579\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00580\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x048A012;"{})}}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ \textcolor{preprocessor}{\#define\ gte\_rtv2bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00583\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00584\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00585\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00586\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0492012;"{})}}
+\DoxyCodeLine{00587\ }
+\DoxyCodeLine{00588\ \textcolor{preprocessor}{\#define\ gte\_rtirbk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00589\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00590\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00591\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00592\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x049A012;"{})}}
+\DoxyCodeLine{00593\ }
+\DoxyCodeLine{00594\ \textcolor{preprocessor}{\#define\ gte\_ll()\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00595\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00596\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00597\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00598\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04A6412;"{})}}
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00600\ \textcolor{preprocessor}{\#define\ gte\_llv0()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00601\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00602\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00603\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00604\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04A6012;"{})}}
+\DoxyCodeLine{00605\ }
+\DoxyCodeLine{00606\ \textcolor{preprocessor}{\#define\ gte\_llv1()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00607\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00608\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00609\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00610\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04AE012;"{})}}
+\DoxyCodeLine{00611\ }
+\DoxyCodeLine{00612\ \textcolor{preprocessor}{\#define\ gte\_llv2()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00613\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00614\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00615\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00616\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04B6012;"{})}}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ \textcolor{preprocessor}{\#define\ gte\_llir()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00619\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00620\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00621\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00622\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04BE012;"{})}}
+\DoxyCodeLine{00623\ }
+\DoxyCodeLine{00624\ \textcolor{preprocessor}{\#define\ gte\_llv0tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00625\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00626\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00627\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00628\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04A0012;"{})}}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \textcolor{preprocessor}{\#define\ gte\_llv1tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00631\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00632\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00633\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00634\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04A8012;"{})}}
+\DoxyCodeLine{00635\ }
+\DoxyCodeLine{00636\ \textcolor{preprocessor}{\#define\ gte\_llv2tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00637\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00638\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00639\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00640\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04B0012;"{})}}
+\DoxyCodeLine{00641\ }
+\DoxyCodeLine{00642\ \textcolor{preprocessor}{\#define\ gte\_llirtr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00643\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00644\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00645\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00646\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04B8012;"{})}}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \textcolor{preprocessor}{\#define\ gte\_llv0bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00649\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00650\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00651\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00652\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04A2012;"{})}}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \textcolor{preprocessor}{\#define\ gte\_llv1bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00655\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00656\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00657\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00658\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04AA012;"{})}}
+\DoxyCodeLine{00659\ }
+\DoxyCodeLine{00660\ \textcolor{preprocessor}{\#define\ gte\_llv2bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00661\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00662\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00663\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00664\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04B2012;"{})}}
+\DoxyCodeLine{00665\ }
+\DoxyCodeLine{00666\ \textcolor{preprocessor}{\#define\ gte\_llirbk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00667\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00668\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00669\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00670\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04BA012;"{})}}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \textcolor{preprocessor}{\#define\ gte\_lc()\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00673\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00674\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00675\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00676\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04DA412;"{})}}
+\DoxyCodeLine{00677\ }
+\DoxyCodeLine{00678\ \textcolor{preprocessor}{\#define\ gte\_lcv0()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00679\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00680\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00681\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00682\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04C6012;"{})}}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ \textcolor{preprocessor}{\#define\ gte\_lcv1()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00685\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00686\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00687\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00688\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04CE012;"{})}}
+\DoxyCodeLine{00689\ }
+\DoxyCodeLine{00690\ \textcolor{preprocessor}{\#define\ gte\_lcv2()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00691\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00692\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00693\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00694\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04D6012;"{})}}
+\DoxyCodeLine{00695\ }
+\DoxyCodeLine{00696\ \textcolor{preprocessor}{\#define\ gte\_lcir()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00697\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00698\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00699\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00700\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04DE012;"{})}}
+\DoxyCodeLine{00701\ }
+\DoxyCodeLine{00702\ \textcolor{preprocessor}{\#define\ gte\_lcv0tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00703\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00704\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00705\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00706\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04C0012;"{})}}
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00708\ \textcolor{preprocessor}{\#define\ gte\_lcv1tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00709\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00710\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00711\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00712\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04C8012;"{})}}
+\DoxyCodeLine{00713\ }
+\DoxyCodeLine{00714\ \textcolor{preprocessor}{\#define\ gte\_lcv2tr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00715\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00716\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00717\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00718\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04D0012;"{})}}
+\DoxyCodeLine{00719\ }
+\DoxyCodeLine{00720\ \textcolor{preprocessor}{\#define\ gte\_lcirtr()\ \ \(\backslash\)}}
+\DoxyCodeLine{00721\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00722\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00723\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00724\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04D8012;"{})}}
+\DoxyCodeLine{00725\ }
+\DoxyCodeLine{00726\ \textcolor{preprocessor}{\#define\ gte\_lcv0bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00727\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00728\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00729\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00730\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04C2012;"{})}}
+\DoxyCodeLine{00731\ }
+\DoxyCodeLine{00732\ \textcolor{preprocessor}{\#define\ gte\_lcv1bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00733\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00734\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00735\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00736\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04CA012;"{})}}
+\DoxyCodeLine{00737\ }
+\DoxyCodeLine{00738\ \textcolor{preprocessor}{\#define\ gte\_lcv2bk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00739\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00740\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00741\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00742\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04D2012;"{})}}
+\DoxyCodeLine{00743\ }
+\DoxyCodeLine{00744\ \textcolor{preprocessor}{\#define\ gte\_lcirbk()\ \ \(\backslash\)}}
+\DoxyCodeLine{00745\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00746\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00747\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00748\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x04DA012;"{})}}
+\DoxyCodeLine{00749\ }
+\DoxyCodeLine{00750\ \textcolor{preprocessor}{\#define\ gte\_dpcl()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00751\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00752\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00753\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00754\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0680029;"{})}}
+\DoxyCodeLine{00755\ }
+\DoxyCodeLine{00756\ \textcolor{preprocessor}{\#define\ gte\_dpcs()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00757\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00758\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00759\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00760\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0780010;"{})}}
+\DoxyCodeLine{00761\ }
+\DoxyCodeLine{00762\ \textcolor{preprocessor}{\#define\ gte\_dpct()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00763\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00764\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00765\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00766\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0F8002A;"{})}}
+\DoxyCodeLine{00767\ }
+\DoxyCodeLine{00768\ \textcolor{preprocessor}{\#define\ gte\_intpl()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00769\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00770\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00771\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00772\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0980011;"{})}}
+\DoxyCodeLine{00773\ }
+\DoxyCodeLine{00774\ \textcolor{preprocessor}{\#define\ gte\_sqr12()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00775\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00776\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00777\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00778\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0A80428;"{})}}
+\DoxyCodeLine{00779\ }
+\DoxyCodeLine{00780\ \textcolor{preprocessor}{\#define\ gte\_sqr0()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00781\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00782\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00783\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00784\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0A00428;"{})}}
+\DoxyCodeLine{00785\ }
+\DoxyCodeLine{00786\ \textcolor{preprocessor}{\#define\ gte\_ncs()\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00787\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00788\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00789\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00790\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0C8041E;"{})}}
+\DoxyCodeLine{00791\ }
+\DoxyCodeLine{00792\ \textcolor{preprocessor}{\#define\ gte\_nct()\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00793\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00794\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00795\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00796\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0D80420;"{})}}
+\DoxyCodeLine{00797\ }
+\DoxyCodeLine{00798\ \textcolor{preprocessor}{\#define\ gte\_ncds()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00799\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00800\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00801\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00802\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0E80413;"{})}}
+\DoxyCodeLine{00803\ }
+\DoxyCodeLine{00804\ \textcolor{preprocessor}{\#define\ gte\_ncdt()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00805\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00806\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00807\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00808\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0F80416;"{})}}
+\DoxyCodeLine{00809\ }
+\DoxyCodeLine{00810\ \textcolor{preprocessor}{\#define\ gte\_nccs()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00811\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00812\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00813\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00814\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0108041B;"{})}}
+\DoxyCodeLine{00815\ }
+\DoxyCodeLine{00816\ \textcolor{preprocessor}{\#define\ gte\_ncct()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00817\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00818\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00819\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00820\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0118043F;"{})}}
+\DoxyCodeLine{00821\ }
+\DoxyCodeLine{00822\ \textcolor{preprocessor}{\#define\ gte\_cdp()\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00823\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00824\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00825\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00826\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x01280414;"{})}}
+\DoxyCodeLine{00827\ }
+\DoxyCodeLine{00828\ \textcolor{preprocessor}{\#define\ gte\_cc()\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00829\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00830\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00831\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00832\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0138041C;"{})}}
+\DoxyCodeLine{00833\ }
+\DoxyCodeLine{00834\ \textcolor{preprocessor}{\#define\ gte\_nclip()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00835\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00836\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00837\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00838\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x01400006;"{})}}
+\DoxyCodeLine{00839\ }
+\DoxyCodeLine{00840\ \textcolor{preprocessor}{\#define\ gte\_avsz3()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00841\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00842\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00843\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00844\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0158002D;"{})}}
+\DoxyCodeLine{00845\ }
+\DoxyCodeLine{00846\ \textcolor{preprocessor}{\#define\ gte\_avsz4()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00847\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00848\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00849\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00850\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0168002E;"{})}}
+\DoxyCodeLine{00851\ }
+\DoxyCodeLine{00852\ \textcolor{preprocessor}{\#define\ gte\_op12()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00853\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00854\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00855\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00856\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0178000C;"{})}}
+\DoxyCodeLine{00857\ }
+\DoxyCodeLine{00858\ \textcolor{preprocessor}{\#define\ gte\_op0()\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00859\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00860\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00861\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00862\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0170000C;"{})}}
+\DoxyCodeLine{00863\ }
+\DoxyCodeLine{00864\ \textcolor{preprocessor}{\#define\ gte\_gpf12()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00865\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00866\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00867\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00868\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0198003D;"{})}}
+\DoxyCodeLine{00869\ }
+\DoxyCodeLine{00870\ \textcolor{preprocessor}{\#define\ gte\_gpf0()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00871\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00872\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00873\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00874\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x0190003D;"{})}}
+\DoxyCodeLine{00875\ }
+\DoxyCodeLine{00876\ \textcolor{preprocessor}{\#define\ gte\_gpl12()\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00877\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00878\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00879\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00880\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x01A8003E;"{})}}
+\DoxyCodeLine{00881\ }
+\DoxyCodeLine{00882\ \textcolor{preprocessor}{\#define\ gte\_gpl0()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00883\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \(\backslash\)}}
+\DoxyCodeLine{00884\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00885\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00886\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ 0x01A0003E0"{})}}
+\DoxyCodeLine{00887\ }
+\DoxyCodeLine{00888\ \textcolor{preprocessor}{\#define\ gte\_mvmva\_core(r0)\ \(\backslash\)}}
+\DoxyCodeLine{00889\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00890\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00891\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00892\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cop2\ \%0"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00893\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00894\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}g"{}(r0))}}
+\DoxyCodeLine{00895\ }
+\DoxyCodeLine{00896\ \textcolor{preprocessor}{\#define\ gte\_mvmva(sf,\ mx,\ v,\ cv,\ lm)\ \(\backslash\)}}
+\DoxyCodeLine{00897\ \textcolor{preprocessor}{\ \ \ \ gte\_mvmva\_core(0x0400012\ |\ ((sf)\ <<\ 19)\ |\ ((mx)\ <<\ 17)\ |\ ((v)\ <<\ 15)\ |\ ((cv)\ <<\ 13)\ |\ ((lm)\ <<\ 10))}}
+\DoxyCodeLine{00898\ }
+\DoxyCodeLine{00899\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00900\ \textcolor{comment}{\ *\ Type\ 2\ functions\ without\ nop}}
+\DoxyCodeLine{00901\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00902\ }
+\DoxyCodeLine{00903\ \textcolor{preprocessor}{\#define\ gte\_rtps\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0180001;"{})}}
+\DoxyCodeLine{00904\ \textcolor{preprocessor}{\#define\ gte\_rtpt\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0280030;"{})}}
+\DoxyCodeLine{00905\ \textcolor{preprocessor}{\#define\ gte\_rt\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0480012;"{})}}
+\DoxyCodeLine{00906\ \textcolor{preprocessor}{\#define\ gte\_rtv0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0486012;"{})}}
+\DoxyCodeLine{00907\ \textcolor{preprocessor}{\#define\ gte\_rtv1\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x048E012;"{})}}
+\DoxyCodeLine{00908\ \textcolor{preprocessor}{\#define\ gte\_rtv2\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0496012;"{})}}
+\DoxyCodeLine{00909\ \textcolor{preprocessor}{\#define\ gte\_rtir\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x049E012;"{})}}
+\DoxyCodeLine{00910\ \textcolor{preprocessor}{\#define\ gte\_rtir\_sf0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x041E012;"{})}}
+\DoxyCodeLine{00911\ \textcolor{preprocessor}{\#define\ gte\_rtv0tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0480012;"{})}}
+\DoxyCodeLine{00912\ \textcolor{preprocessor}{\#define\ gte\_rtv1tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0488012;"{})}}
+\DoxyCodeLine{00913\ \textcolor{preprocessor}{\#define\ gte\_rtv2tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0490012;"{})}}
+\DoxyCodeLine{00914\ \textcolor{preprocessor}{\#define\ gte\_rtirtr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0498012;"{})}}
+\DoxyCodeLine{00915\ \textcolor{preprocessor}{\#define\ gte\_rtv0bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0482012;"{})}}
+\DoxyCodeLine{00916\ \textcolor{preprocessor}{\#define\ gte\_rtv1bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x048A012;"{})}}
+\DoxyCodeLine{00917\ \textcolor{preprocessor}{\#define\ gte\_rtv2bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0492012;"{})}}
+\DoxyCodeLine{00918\ \textcolor{preprocessor}{\#define\ gte\_rtirbk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x049A012;"{})}}
+\DoxyCodeLine{00919\ \textcolor{preprocessor}{\#define\ gte\_ll\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04A6412;"{})}}
+\DoxyCodeLine{00920\ \textcolor{preprocessor}{\#define\ gte\_llv0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04A6012;"{})}}
+\DoxyCodeLine{00921\ \textcolor{preprocessor}{\#define\ gte\_llv1\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04AE012;"{})}}
+\DoxyCodeLine{00922\ \textcolor{preprocessor}{\#define\ gte\_llv2\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04B6012;"{})}}
+\DoxyCodeLine{00923\ \textcolor{preprocessor}{\#define\ gte\_llir\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04BE012;"{})}}
+\DoxyCodeLine{00924\ \textcolor{preprocessor}{\#define\ gte\_llv0tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04A0012;"{})}}
+\DoxyCodeLine{00925\ \textcolor{preprocessor}{\#define\ gte\_llv1tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04A8012;"{})}}
+\DoxyCodeLine{00926\ \textcolor{preprocessor}{\#define\ gte\_llv2tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04B0012;"{})}}
+\DoxyCodeLine{00927\ \textcolor{preprocessor}{\#define\ gte\_llirtr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04B8012;"{})}}
+\DoxyCodeLine{00928\ \textcolor{preprocessor}{\#define\ gte\_llv0bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04A2012;"{})}}
+\DoxyCodeLine{00929\ \textcolor{preprocessor}{\#define\ gte\_llv1bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04AA012;"{})}}
+\DoxyCodeLine{00930\ \textcolor{preprocessor}{\#define\ gte\_llv2bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04B2012;"{})}}
+\DoxyCodeLine{00931\ \textcolor{preprocessor}{\#define\ gte\_llirbk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04BA012;"{})}}
+\DoxyCodeLine{00932\ \textcolor{preprocessor}{\#define\ gte\_lc\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04DA412;"{})}}
+\DoxyCodeLine{00933\ \textcolor{preprocessor}{\#define\ gte\_lcv0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04C6012;"{})}}
+\DoxyCodeLine{00934\ \textcolor{preprocessor}{\#define\ gte\_lcv1\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04CE012;"{})}}
+\DoxyCodeLine{00935\ \textcolor{preprocessor}{\#define\ gte\_lcv2\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04D6012;"{})}}
+\DoxyCodeLine{00936\ \textcolor{preprocessor}{\#define\ gte\_lcir\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04DE012;"{})}}
+\DoxyCodeLine{00937\ \textcolor{preprocessor}{\#define\ gte\_lcv0tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04C0012;"{})}}
+\DoxyCodeLine{00938\ \textcolor{preprocessor}{\#define\ gte\_lcv1tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04C8012;"{})}}
+\DoxyCodeLine{00939\ \textcolor{preprocessor}{\#define\ gte\_lcv2tr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04D0012;"{})}}
+\DoxyCodeLine{00940\ \textcolor{preprocessor}{\#define\ gte\_lcirtr\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04D8012;"{})}}
+\DoxyCodeLine{00941\ \textcolor{preprocessor}{\#define\ gte\_lcv0bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04C2012;"{})}}
+\DoxyCodeLine{00942\ \textcolor{preprocessor}{\#define\ gte\_lcv1bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04CA012;"{})}}
+\DoxyCodeLine{00943\ \textcolor{preprocessor}{\#define\ gte\_lcv2bk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04D2012;"{})}}
+\DoxyCodeLine{00944\ \textcolor{preprocessor}{\#define\ gte\_lcirbk\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x04DA012;"{})}}
+\DoxyCodeLine{00945\ \textcolor{preprocessor}{\#define\ gte\_dpcl\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0680029;"{})}}
+\DoxyCodeLine{00946\ \textcolor{preprocessor}{\#define\ gte\_dpcs\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0780010;"{})}}
+\DoxyCodeLine{00947\ \textcolor{preprocessor}{\#define\ gte\_dpct\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0F8002A;"{})}}
+\DoxyCodeLine{00948\ \textcolor{preprocessor}{\#define\ gte\_intpl\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0980011;"{})}}
+\DoxyCodeLine{00949\ \textcolor{preprocessor}{\#define\ gte\_sqr12\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0A80428;"{})}}
+\DoxyCodeLine{00950\ \textcolor{preprocessor}{\#define\ gte\_sqr0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0A00428;"{})}}
+\DoxyCodeLine{00951\ \textcolor{preprocessor}{\#define\ gte\_ncs\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0C8041E;"{})}}
+\DoxyCodeLine{00952\ \textcolor{preprocessor}{\#define\ gte\_nct\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0D80420;"{})}}
+\DoxyCodeLine{00953\ \textcolor{preprocessor}{\#define\ gte\_ncds\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0E80413;"{})}}
+\DoxyCodeLine{00954\ \textcolor{preprocessor}{\#define\ gte\_ncdt\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0F80416;"{})}}
+\DoxyCodeLine{00955\ \textcolor{preprocessor}{\#define\ gte\_nccs\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0108041B;"{})}}
+\DoxyCodeLine{00956\ \textcolor{preprocessor}{\#define\ gte\_ncct\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0118043F;"{})}}
+\DoxyCodeLine{00957\ \textcolor{preprocessor}{\#define\ gte\_cdp\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x01280414;"{})}}
+\DoxyCodeLine{00958\ \textcolor{preprocessor}{\#define\ gte\_cc\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0138041C;"{})}}
+\DoxyCodeLine{00959\ \textcolor{preprocessor}{\#define\ gte\_nclip\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x01400006;"{})}}
+\DoxyCodeLine{00960\ \textcolor{preprocessor}{\#define\ gte\_avsz3\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0158002D;"{})}}
+\DoxyCodeLine{00961\ \textcolor{preprocessor}{\#define\ gte\_avsz4\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0168002E;"{})}}
+\DoxyCodeLine{00962\ \textcolor{preprocessor}{\#define\ gte\_op12\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0178000C;"{})}}
+\DoxyCodeLine{00963\ \textcolor{preprocessor}{\#define\ gte\_op0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0170000C;"{})}}
+\DoxyCodeLine{00964\ \textcolor{preprocessor}{\#define\ gte\_gpf12\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0198003D;"{})}}
+\DoxyCodeLine{00965\ \textcolor{preprocessor}{\#define\ gte\_gpf0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x0190003D;"{})}}
+\DoxyCodeLine{00966\ \textcolor{preprocessor}{\#define\ gte\_gpl12\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x01A8003E;"{})}}
+\DoxyCodeLine{00967\ \textcolor{preprocessor}{\#define\ gte\_gpl0\_b()\ \_\_asm\_\_\ volatile("{}cop2\ 0x01A0003E0;"{})}}
+\DoxyCodeLine{00968\ \textcolor{preprocessor}{\#define\ gte\_mvmva\_core\_b(r0)\ \_\_asm\_\_\ volatile("{}cop2\ \%0"{}\ :\ :\ "{}g"{}(r0))}}
+\DoxyCodeLine{00969\ \textcolor{preprocessor}{\#define\ gte\_mvmva\_b(sf,\ mx,\ v,\ cv,\ lm)\ \(\backslash\)}}
+\DoxyCodeLine{00970\ \textcolor{preprocessor}{\ \ \ \ gte\_mvmva\_core\_b(0x0400012\ |\ ((sf)\ <<\ 19)\ |\ ((mx)\ <<\ 17)\ |\ ((v)\ <<\ 15)\ |\ ((cv)\ <<\ 13)\ |\ ((lm)\ <<\ 10))}}
+\DoxyCodeLine{00971\ }
+\DoxyCodeLine{00972\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00973\ \textcolor{comment}{\ *\ Type\ 3\ functions}}
+\DoxyCodeLine{00974\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00975\ }
+\DoxyCodeLine{00976\ \textcolor{preprocessor}{\#define\ gte\_stsxy(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$14,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{00977\ }
+\DoxyCodeLine{00978\ \textcolor{preprocessor}{\#define\ gte\_stsxy3(r0,\ r1,\ r2)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00979\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00980\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00981\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00982\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00983\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00984\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{00985\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{00986\ }
+\DoxyCodeLine{00987\ \textcolor{preprocessor}{\#define\ gte\_stsxy3c(r0)\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00988\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00989\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00990\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{00991\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{00992\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00993\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00994\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{00995\ }
+\DoxyCodeLine{00996\ \textcolor{preprocessor}{\#define\ gte\_stsxy2(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$14,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{00997\ }
+\DoxyCodeLine{00998\ \textcolor{preprocessor}{\#define\ gte\_stsxy1(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$13,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{00999\ }
+\DoxyCodeLine{01000\ \textcolor{preprocessor}{\#define\ gte\_stsxy0(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$12,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01001\ }
+\DoxyCodeLine{01002\ \textcolor{preprocessor}{\#define\ gte\_stsxy01(r0,\ r1)\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01003\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01004\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01005\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 0(\ \%1\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01006\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01007\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1)\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01008\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01009\ }
+\DoxyCodeLine{01010\ \textcolor{preprocessor}{\#define\ gte\_stsxy01c(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01011\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01012\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01013\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 4(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01014\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01015\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01016\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01017\ }
+\DoxyCodeLine{01018\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_f3(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01019\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01020\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01021\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01022\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 16(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01023\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01024\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01025\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01026\ }
+\DoxyCodeLine{01027\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_g3(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01028\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01029\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01030\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01031\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 24(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01032\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01033\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01034\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01035\ }
+\DoxyCodeLine{01036\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_ft3(r0)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01037\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01038\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01039\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01040\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 24(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01041\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01042\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01043\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01044\ }
+\DoxyCodeLine{01045\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_gt3(r0)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01046\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01047\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01048\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 20(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01049\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 32(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01050\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01051\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01052\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01053\ }
+\DoxyCodeLine{01054\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_f4(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01055\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01056\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01057\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01058\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 16(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01059\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01060\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01061\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01062\ }
+\DoxyCodeLine{01063\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_g4(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01064\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01065\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01066\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01067\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 24(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01068\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01069\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01070\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01071\ }
+\DoxyCodeLine{01072\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_ft4(r0)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01073\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01074\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01075\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01076\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 24(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01077\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01080\ }
+\DoxyCodeLine{01081\ \textcolor{preprocessor}{\#define\ gte\_stsxy3\_gt4(r0)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01082\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01083\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01084\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$13,\ 20(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01085\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$14,\ 32(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01086\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01087\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01088\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01089\ }
+\DoxyCodeLine{01090\ \textcolor{preprocessor}{\#define\ gte\_stdp(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$8,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01091\ }
+\DoxyCodeLine{01092\ \textcolor{preprocessor}{\#define\ gte\_stflg(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01093\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01094\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$31;"{}\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01095\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01096\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ )"{}\ \(\backslash\)}}
+\DoxyCodeLine{01097\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01098\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01099\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}memory"{})}}
+\DoxyCodeLine{01100\ }
+\DoxyCodeLine{01101\ \textcolor{preprocessor}{\#define\ gte\_stflg\_4(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01102\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01103\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$31;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01104\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}addi\ \ \ \$13,\ \$0,\ 4;"{}\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01105\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01106\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}and\ \ \ \ \$12,\ \$12,\ \$13;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01107\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ )"{}\ \ \ \(\backslash\)}}
+\DoxyCodeLine{01108\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01109\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01110\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}memory"{})}}
+\DoxyCodeLine{01111\ }
+\DoxyCodeLine{01112\ \textcolor{preprocessor}{\#define\ gte\_stsz(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$19,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01113\ }
+\DoxyCodeLine{01114\ \textcolor{preprocessor}{\#define\ gte\_stsz3(r0,\ r1,\ r2)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01115\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01116\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$17,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01117\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$18,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01118\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$19,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01119\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01120\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{01121\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01122\ }
+\DoxyCodeLine{01123\ \textcolor{preprocessor}{\#define\ gte\_stsz4(r0,\ r1,\ r2,\ r3)\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01124\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01125\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$16,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01126\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$17,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01127\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$18,\ 0(\ \%2\ );"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01128\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$19,\ 0(\ \%3\ )"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01129\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01130\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2),\ "{}r"{}(r3)\ \(\backslash\)}}
+\DoxyCodeLine{01131\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01132\ }
+\DoxyCodeLine{01133\ \textcolor{preprocessor}{\#define\ gte\_stsz3c(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01134\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01135\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$17,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01136\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$18,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01137\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$19,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01138\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01139\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01140\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01141\ }
+\DoxyCodeLine{01142\ \textcolor{preprocessor}{\#define\ gte\_stsz4c(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01143\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01144\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$16,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01145\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$17,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01146\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$18,\ 8(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01147\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$19,\ 12(\ \%0\ )"{}\ \(\backslash\)}}
+\DoxyCodeLine{01148\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01149\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01150\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01151\ }
+\DoxyCodeLine{01152\ \textcolor{preprocessor}{\#define\ gte\_stszotz(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01153\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01154\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$19;"{}\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01155\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01156\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$12,\ \$12,\ 2;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01157\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ )"{}\ \(\backslash\)}}
+\DoxyCodeLine{01158\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01159\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01160\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}memory"{})}}
+\DoxyCodeLine{01161\ }
+\DoxyCodeLine{01162\ \textcolor{preprocessor}{\#define\ gte\_stotz(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$7,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01163\ }
+\DoxyCodeLine{01164\ \textcolor{preprocessor}{\#define\ gte\_stopz(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$24,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01165\ }
+\DoxyCodeLine{01166\ \textcolor{preprocessor}{\#define\ gte\_stlvl(r0)\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01167\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01168\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$9,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01169\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$10,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01170\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$11,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01171\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01172\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01173\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01174\ }
+\DoxyCodeLine{01175\ \textcolor{preprocessor}{\#define\ gte\_stlvnl(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01176\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01177\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$25,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01178\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$26,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01179\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$27,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01180\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01181\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01182\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01183\ }
+\DoxyCodeLine{01184\ \textcolor{preprocessor}{\#define\ gte\_stlvnl0(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$25,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01185\ }
+\DoxyCodeLine{01186\ \textcolor{preprocessor}{\#define\ gte\_stlvnl1(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$26,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01187\ }
+\DoxyCodeLine{01188\ \textcolor{preprocessor}{\#define\ gte\_stlvnl2(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$27,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01189\ }
+\DoxyCodeLine{01190\ \textcolor{preprocessor}{\#define\ gte\_stsv(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01191\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01192\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01193\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01194\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$14,\ \$11;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01195\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01196\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$13,\ 2(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01197\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$14,\ 4(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01198\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01199\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01200\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01201\ }
+\DoxyCodeLine{01202\ \textcolor{preprocessor}{\#define\ gte\_stclmv(r0)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01203\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01204\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01205\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01206\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$14,\ \$11;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01207\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01208\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$13,\ 6(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01209\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$14,\ 12(\ \%0\ )"{}\ \(\backslash\)}}
+\DoxyCodeLine{01210\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01211\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01212\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01213\ }
+\DoxyCodeLine{01214\ \textcolor{preprocessor}{\#define\ gte\_stbv(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01215\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01216\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01217\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01218\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sb\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01219\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sb\ \ \ \ \ \$13,\ 1(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01220\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01221\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01222\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}memory"{})}}
+\DoxyCodeLine{01223\ }
+\DoxyCodeLine{01224\ \textcolor{preprocessor}{\#define\ gte\_stcv(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01225\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01226\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01227\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01228\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$14,\ \$11;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01229\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sb\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01230\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sb\ \ \ \ \ \$13,\ 1(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01231\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sb\ \ \ \ \ \$14,\ 2(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01232\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01233\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01234\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01235\ }
+\DoxyCodeLine{01236\ \textcolor{preprocessor}{\#define\ gte\_strgb(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$22,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01237\ }
+\DoxyCodeLine{01238\ \textcolor{preprocessor}{\#define\ gte\_strgb3(r0,\ r1,\ r2)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01239\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01240\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$20,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01241\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$21,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01242\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$22,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01243\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01244\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{01245\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01246\ }
+\DoxyCodeLine{01247\ \textcolor{preprocessor}{\#define\ gte\_strgb3\_g3(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01248\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01249\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$20,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01250\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$21,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01251\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$22,\ 20(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01252\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01253\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01254\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01255\ }
+\DoxyCodeLine{01256\ \textcolor{preprocessor}{\#define\ gte\_strgb3\_gt3(r0)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01257\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01258\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$20,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01259\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$21,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01260\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$22,\ 28(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01261\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01262\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01263\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01264\ }
+\DoxyCodeLine{01265\ \textcolor{preprocessor}{\#define\ gte\_strgb3\_g4(r0)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01266\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01267\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$20,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01268\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$21,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01269\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$22,\ 20(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01270\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01271\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01272\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01273\ }
+\DoxyCodeLine{01274\ \textcolor{preprocessor}{\#define\ gte\_strgb3\_gt4(r0)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01275\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01276\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$20,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01277\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$21,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01278\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}swc2\ \ \ \$22,\ 28(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01279\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01280\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01281\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}memory"{})}}
+\DoxyCodeLine{01282\ }
+\DoxyCodeLine{01283\ \textcolor{preprocessor}{\#define\ gte\_ReadGeomOffset(r0,\ r1)\ \(\backslash\)}}
+\DoxyCodeLine{01284\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01285\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$24;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01286\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$25;"{}\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01287\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$12,\ \$12,\ 16;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01288\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01289\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01290\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 0(\ \%1\ )"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01291\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01292\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1)\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01293\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}memory"{})}}
+\DoxyCodeLine{01294\ }
+\DoxyCodeLine{01295\ \textcolor{preprocessor}{\#define\ gte\_ReadGeomScreen(r0)\ \(\backslash\)}}
+\DoxyCodeLine{01296\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01297\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$26;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01298\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01299\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01300\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01301\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01302\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}memory"{})}}
+\DoxyCodeLine{01303\ }
+\DoxyCodeLine{01304\ \textcolor{preprocessor}{\#define\ gte\_ReadRotMatrix(r0)\ \ \ \(\backslash\)}}
+\DoxyCodeLine{01305\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01306\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01307\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$1;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01308\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01309\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01310\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$2;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01311\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$3;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01312\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$4;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01313\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01314\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01315\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01316\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$5;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01317\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$6;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01318\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$7;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01319\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 20(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01320\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 24(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01321\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 28(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01322\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01323\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01324\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01325\ }
+\DoxyCodeLine{01326\ \textcolor{preprocessor}{\#define\ gte\_sttr(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01327\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01328\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$5;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01329\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$6;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01330\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$7;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01331\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01332\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01333\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01334\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01335\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01336\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01337\ }
+\DoxyCodeLine{01338\ \textcolor{preprocessor}{\#define\ gte\_ReadLightMatrix(r0)\ \(\backslash\)}}
+\DoxyCodeLine{01339\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01340\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$8;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01341\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$9;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01342\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01343\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01344\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$10;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01345\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$11;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01346\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$12;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01347\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01348\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01349\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01350\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$13;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01351\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$14;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01352\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$15;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01353\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 20(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01354\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 24(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01355\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 28(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01356\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01357\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01358\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01359\ }
+\DoxyCodeLine{01360\ \textcolor{preprocessor}{\#define\ gte\_ReadColorMatrix(r0)\ \(\backslash\)}}
+\DoxyCodeLine{01361\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01362\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01363\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$17;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01364\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01365\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01366\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$18;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01367\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$19;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01368\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$20;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01369\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 8(\ \%0\ );"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01370\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 12(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01371\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 16(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01372\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01373\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$22;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01374\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$23;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01375\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 20(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01376\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 24(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01377\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 28(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01378\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01379\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01380\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01381\ }
+\DoxyCodeLine{01382\ \textcolor{preprocessor}{\#define\ gte\_stlzc(r0)\ \_\_asm\_\_\ volatile("{}swc2\ \ \ \$31,\ 0(\ \%0\ )"{}\ :\ :\ "{}r"{}(r0)\ :\ "{}memory"{})}}
+\DoxyCodeLine{01383\ }
+\DoxyCodeLine{01384\ \textcolor{preprocessor}{\#define\ gte\_stfc(r0)\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01385\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01386\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$21;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01387\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$22;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01388\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$14,\ \$23;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01389\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01390\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$13,\ 4(\ \%0\ );"{}\ \(\backslash\)}}
+\DoxyCodeLine{01391\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$14,\ 8(\ \%0\ )"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01392\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01393\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01394\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}memory"{})}}
+\DoxyCodeLine{01395\ }
+\DoxyCodeLine{01396\ \textcolor{preprocessor}{\#define\ gte\_mvlvtr()\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01397\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01398\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$25;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01399\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$26;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01400\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$14,\ \$27;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01401\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$5;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01402\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$13,\ \$6;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01403\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$7"{}\ \ \ \(\backslash\)}}
+\DoxyCodeLine{01404\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01405\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01406\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{})}}
+\DoxyCodeLine{01407\ }
+\DoxyCodeLine{01408\ \textcolor{preprocessor}{\#define\ gte\_nop()\ \_\_asm\_\_\ volatile("{}nop"{})}}
+\DoxyCodeLine{01409\ }
+\DoxyCodeLine{01410\ \textcolor{preprocessor}{\#define\ gte\_subdvl(r0,\ r1,\ r2)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01411\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01412\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01413\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01414\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01415\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01416\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$12,\ \$12,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01417\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01418\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$15,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01419\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01420\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01421\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$15,\ 4(\ \%2\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01422\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$12,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01423\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01424\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01425\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{01426\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}\$15"{},\ "{}memory"{})}}
+\DoxyCodeLine{01427\ }
+\DoxyCodeLine{01428\ \textcolor{preprocessor}{\#define\ gte\_subdvd(r0,\ r1,\ r2)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01429\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01430\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01431\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01432\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01433\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01434\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$12,\ \$12,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01435\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01436\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$15,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01437\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01438\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01439\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$15,\ 2(\ \%2\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01440\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$12,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01441\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$12,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01442\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01443\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{01444\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}\$15"{},\ "{}memory"{})}}
+\DoxyCodeLine{01445\ }
+\DoxyCodeLine{01446\ \textcolor{preprocessor}{\#define\ gte\_adddvl(r0,\ r1,\ r2)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01447\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01448\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01449\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01450\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01451\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01452\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$12,\ \$12,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01453\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01454\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}addu\ \ \ \$15,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01455\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01456\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01457\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$15,\ 4(\ \%2\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01458\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}addu\ \ \ \$12,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01459\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sw\ \ \ \ \ \$12,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01460\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01461\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{01462\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}\$15"{},\ "{}memory"{})}}
+\DoxyCodeLine{01463\ }
+\DoxyCodeLine{01464\ \textcolor{preprocessor}{\#define\ gte\_adddvd(r0,\ r1,\ r2)\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01465\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01466\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$12,\ 0(\ \%0\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01467\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}lw\ \ \ \ \ \$13,\ 0(\ \%1\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01468\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01469\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mtc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01470\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$12,\ \$12,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01471\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$13,\ \$13,\ 16;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01472\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}addu\ \ \ \$15,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01473\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$12,\ \$9;"{}\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01474\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}mfc2\ \ \ \$13,\ \$10;"{}\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01475\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$15,\ 2(\ \%2\ );"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01476\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}addu\ \ \ \$12,\ \$12,\ \$13;"{}\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01477\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sh\ \ \ \ \ \$12,\ 0(\ \%2\ )"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01478\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01479\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}r"{}(r0),\ "{}r"{}(r1),\ "{}r"{}(r2)\ \(\backslash\)}}
+\DoxyCodeLine{01480\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}\$15"{},\ "{}memory"{})}}
+\DoxyCodeLine{01481\ }
+\DoxyCodeLine{01482\ \textcolor{preprocessor}{\#define\ gte\_FlipRotMatrixX()\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01483\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01484\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$0;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01485\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$13,\ \$1;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01486\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$14,\ \$12,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01487\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$14,\ \$14,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01488\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$14,\ \$0,\ \$14;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01489\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$15,\ \$12,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01490\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$15,\ \$0,\ \$15;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01491\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$15,\ \$15,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01492\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$14,\ \$14,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01493\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}srl\ \ \ \ \$14,\ \$14,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01494\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}or\ \ \ \ \ \$14,\ \$14,\ \$15;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01495\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$0;"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01496\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$14,\ \$13,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01497\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$14,\ \$14,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01498\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$14,\ \$0,\ \$14;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01499\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sra\ \ \ \ \$15,\ \$13,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01500\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$15,\ \$15,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01501\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}sll\ \ \ \ \$14,\ \$14,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01502\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}srl\ \ \ \ \$14,\ \$14,\ 16;"{}\ \ \(\backslash\)}}
+\DoxyCodeLine{01503\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}or\ \ \ \ \ \$14,\ \$14,\ \$15;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01504\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$14,\ \$1"{}\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01505\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01506\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01507\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{},\ "{}\$13"{},\ "{}\$14"{},\ "{}\$15"{})}}
+\DoxyCodeLine{01508\ }
+\DoxyCodeLine{01509\ \textcolor{preprocessor}{\#define\ gte\_FlipTRX()\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01510\ \textcolor{preprocessor}{\ \ \ \ \_\_asm\_\_\ volatile(\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01511\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}cfc2\ \ \ \$12,\ \$5;"{}\ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01512\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}nop;"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01513\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}subu\ \ \ \$12,\ \$0,\ \$12;"{}\ \(\backslash\)}}
+\DoxyCodeLine{01514\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ "{}ctc2\ \ \ \$12,\ \$5"{}\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01515\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01516\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{01517\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ :\ "{}\$12"{})}}
+
+\end{DoxyCode}

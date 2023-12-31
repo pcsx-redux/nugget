@@ -1,0 +1,12 @@
+<map id="psyqo/cdrom.hh" name="psyqo/cdrom.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="79,5,205,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,152,148,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,33,114,54,98,80,87,110,82,139,77,138,82,108,93,78,110,51,128,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="107,79,177,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,31,145,65,139,65,139,31"/>
+<area shape="rect" id="Node000004" href="$d5/d45/task_8hh.html" title=" " alt="" coords="201,79,315,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="162,28,229,69,226,74,159,33"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="230,107,120,149,118,144,228,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="179,152,337,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="261,104,261,138,255,138,255,104"/>
+</map>

@@ -1,0 +1,57 @@
+\doxysection{psyqo/src/kernel.cpp File Reference}
+\hypertarget{kernel_8cpp}{}\label{kernel_8cpp}\index{psyqo/src/kernel.cpp@{psyqo/src/kernel.cpp}}
+{\ttfamily \#include "{}psyqo/kernel.\+hh"{}}\newline
+{\ttfamily \#include $<$EASTL/array.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/atomic.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/bonus/fixed\+\_\+ring\+\_\+buffer.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/fixed\+\_\+vector.\+h$>$}\newline
+{\ttfamily \#include $<$EASTL/functional.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}common/hardware/dma.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/pcsxhw.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/events.\+h"{}}\newline
+{\ttfamily \#include "{}common/kernel/threads.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}common/util/encoder.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/application.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/hardware/cpu.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/spu.\+hh"{}}\newline
+{\ttfamily \#include "{}psyqo/xprintf.\+h"{}}\newline
+Include dependency graph for kernel.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d9/d79/kernel_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{kernel_8cpp_a52f06d422e2b73e33ba901f531b42a50}{psyqo\+Exception\+Handler}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} ireg)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{kernel_8cpp_a518008ea3a1e57929e3a0a5a9654dbe1}{psyqo\+Break\+Handler}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} code)
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{kernel_8cpp_a12647ae8aa817c3ac513842101b3b18f}{psyqo\+Assembly\+Exception\+Handler}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{kernel_8cpp_a12647ae8aa817c3ac513842101b3b18f}\label{kernel_8cpp_a12647ae8aa817c3ac513842101b3b18f} 
+\index{kernel.cpp@{kernel.cpp}!psyqoAssemblyExceptionHandler@{psyqoAssemblyExceptionHandler}}
+\index{psyqoAssemblyExceptionHandler@{psyqoAssemblyExceptionHandler}!kernel.cpp@{kernel.cpp}}
+\doxysubsubsection{\texorpdfstring{psyqoAssemblyExceptionHandler()}{psyqoAssemblyExceptionHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+Assembly\+Exception\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_8cpp_a518008ea3a1e57929e3a0a5a9654dbe1}\label{kernel_8cpp_a518008ea3a1e57929e3a0a5a9654dbe1} 
+\index{kernel.cpp@{kernel.cpp}!psyqoBreakHandler@{psyqoBreakHandler}}
+\index{psyqoBreakHandler@{psyqoBreakHandler}!kernel.cpp@{kernel.cpp}}
+\doxysubsubsection{\texorpdfstring{psyqoBreakHandler()}{psyqoBreakHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+Break\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{code }\end{DoxyParamCaption})}
+
+\Hypertarget{kernel_8cpp_a52f06d422e2b73e33ba901f531b42a50}\label{kernel_8cpp_a52f06d422e2b73e33ba901f531b42a50} 
+\index{kernel.cpp@{kernel.cpp}!psyqoExceptionHandler@{psyqoExceptionHandler}}
+\index{psyqoExceptionHandler@{psyqoExceptionHandler}!kernel.cpp@{kernel.cpp}}
+\doxysubsubsection{\texorpdfstring{psyqoExceptionHandler()}{psyqoExceptionHandler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+Exception\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{ireg }\end{DoxyParamCaption})}
+

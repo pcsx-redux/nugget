@@ -1,0 +1,131 @@
+\doxysection{psyqo\+::CDRom Class Reference}
+\hypertarget{classpsyqo_1_1CDRom}{}\label{classpsyqo_1_1CDRom}\index{psyqo::CDRom@{psyqo::CDRom}}
+
+
+The base \doxylink{classpsyqo_1_1CDRom}{CDRom} class.  
+
+
+
+
+{\ttfamily \#include $<$psyqo/cdrom.\+hh$>$}
+
+
+
+Inheritance diagram for psyqo\+::CDRom\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{da/df1/classpsyqo_1_1CDRom__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest}{Read\+Request}}
+\begin{DoxyCompactList}\small\item\em An asynchronous read request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classpsyqo_1_1CDRom_a36cde538cac3c78d13a7d44f60784154}{\texorpdfstring{$\sim$}{\string~}\+CDRom}} ()
+\item 
+virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{classpsyqo_1_1CDRom_a121b5efb6f051c3d6715fdce8568fbd8}{read\+Sectors}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}}, eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&callback)=0
+\begin{DoxyCompactList}\small\item\em Read a sector from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRom_aecc18d997ba0987b64288ad6a5c1bcf1}{schedule\+Read\+Sectors}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a81f8e855b5b4d4e039067379678432aa}{sector}}, \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{syscalls_8h_a6a9e89d63eb610dfe238b0a840979421}{count}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a2a3418cf8aed42752bba465ac9373b7a}{buffer}})
+\begin{DoxyCompactList}\small\item\em Schedule a read operation. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{Task\+Queue\+::\+Task}} \mbox{\hyperlink{classpsyqo_1_1CDRom_a0bf9778ff8287dbd97a870bd7ba7dc09}{schedule\+Read\+Request}} (\mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest}{Read\+Request}} \texorpdfstring{$\ast$}{*}request)
+\begin{DoxyCompactList}\small\item\em Schedule a read operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The base \doxylink{classpsyqo_1_1CDRom}{CDRom} class. 
+
+The \doxylink{classpsyqo_1_1CDRom}{CDRom} system is meant to be swappable between multiple implementations, so the base class is a pure abstraction. This allows the ISO9660 parser to be used with any \doxylink{classpsyqo_1_1CDRom}{CDRom} implementation. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsyqo_1_1CDRom_a36cde538cac3c78d13a7d44f60784154}\label{classpsyqo_1_1CDRom_a36cde538cac3c78d13a7d44f60784154} 
+\index{psyqo::CDRom@{psyqo::CDRom}!````~CDRom@{\texorpdfstring{$\sim$}{\string~}CDRom}}
+\index{````~CDRom@{\texorpdfstring{$\sim$}{\string~}CDRom}!psyqo::CDRom@{psyqo::CDRom}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}CDRom()}{\string~CDRom()}}
+{\footnotesize\ttfamily virtual psyqo\+::\+CDRom\+::\texorpdfstring{$\sim$}{\string~}\+CDRom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsyqo_1_1CDRom_a121b5efb6f051c3d6715fdce8568fbd8}\label{classpsyqo_1_1CDRom_a121b5efb6f051c3d6715fdce8568fbd8} 
+\index{psyqo::CDRom@{psyqo::CDRom}!readSectors@{readSectors}}
+\index{readSectors@{readSectors}!psyqo::CDRom@{psyqo::CDRom}}
+\doxysubsubsection{\texorpdfstring{readSectors()}{readSectors()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psyqo\+::\+CDRom\+::read\+Sectors (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sector,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{eastl\+::function$<$ \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}}(bool)$>$ \&\&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Read a sector from the \doxylink{classpsyqo_1_1CDRom}{CDRom}. 
+
+The function will make reasonable attempts at reading the disk, but it is not guaranteed to succeed. Failures may be caused by the disk being faulty, the lid being opened, or no valid disk being present. Only one operation can be in progress at a time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sector} & The sector to read. \\
+\hline
+{\em buffer} & The buffer to read into. \\
+\hline
+{\em size} & The size of the buffer. \\
+\hline
+{\em callback} & The callback to call when the read is done. It will be called from the main thread when possible. Its one argument is a boolean indicating whether the read was successful. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classpsyqo_1_1CDRomDevice_a9a8a933248e9a03cdcbdb7b3ac2af4db}{psyqo\+::\+CDRom\+Device}}.
+
+\Hypertarget{classpsyqo_1_1CDRom_a0bf9778ff8287dbd97a870bd7ba7dc09}\label{classpsyqo_1_1CDRom_a0bf9778ff8287dbd97a870bd7ba7dc09} 
+\index{psyqo::CDRom@{psyqo::CDRom}!scheduleReadRequest@{scheduleReadRequest}}
+\index{scheduleReadRequest@{scheduleReadRequest}!psyqo::CDRom@{psyqo::CDRom}}
+\doxysubsubsection{\texorpdfstring{scheduleReadRequest()}{scheduleReadRequest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+::schedule\+Read\+Request (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsyqo_1_1CDRom_1_1ReadRequest}{Read\+Request}} \texorpdfstring{$\ast$}{*}}]{request }\end{DoxyParamCaption})}
+
+
+
+Schedule a read operation. 
+
+This is a convenience function that will schedule a read operation and return a task that can be waited on. The difference with {\ttfamily schedule\+Read\+Sectors} is that this method will read its arguments right before the operation is processed, so the request data can be filled in at the last moment.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em request} & The request to schedule. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A task that can be queued into a {\ttfamily \doxylink{classpsyqo_1_1TaskQueue}{Task\+Queue}} 
+\end{DoxyReturn}
+\Hypertarget{classpsyqo_1_1CDRom_aecc18d997ba0987b64288ad6a5c1bcf1}\label{classpsyqo_1_1CDRom_aecc18d997ba0987b64288ad6a5c1bcf1} 
+\index{psyqo::CDRom@{psyqo::CDRom}!scheduleReadSectors@{scheduleReadSectors}}
+\index{scheduleReadSectors@{scheduleReadSectors}!psyqo::CDRom@{psyqo::CDRom}}
+\doxysubsubsection{\texorpdfstring{scheduleReadSectors()}{scheduleReadSectors()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsyqo_1_1TaskQueue_1_1Task}{psyqo\+::\+Task\+Queue\+::\+Task}} psyqo\+::\+CDRom\+::schedule\+Read\+Sectors (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{sector,  }\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{count,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{buffer }\end{DoxyParamCaption})}
+
+
+
+Schedule a read operation. 
+
+This is a convenience function that will schedule a read operation and return a task that can be waited on.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sector} & The sector to read. \\
+\hline
+{\em buffer} & The buffer to read into. \\
+\hline
+{\em size} & The size of the buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A task that can be queued into a {\ttfamily \doxylink{classpsyqo_1_1TaskQueue}{Task\+Queue}} 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+psyqo/\mbox{\hyperlink{cdrom_8hh}{cdrom.\+hh}}\item 
+psyqo/src/\mbox{\hyperlink{cdrom_8cpp}{cdrom.\+cpp}}\end{DoxyCompactItemize}

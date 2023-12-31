@@ -1,0 +1,14 @@
+\doxysection{psyqo\+::Concepts\+::Is\+CDRom\+Device\+State\+Enum Concept Reference}
+\hypertarget{conceptpsyqo_1_1Concepts_1_1IsCDRomDeviceStateEnum}{}\label{conceptpsyqo_1_1Concepts_1_1IsCDRomDeviceStateEnum}\index{psyqo::Concepts::IsCDRomDeviceStateEnum@{psyqo::Concepts::IsCDRomDeviceStateEnum}}
+
+
+{\ttfamily \#include $<$psyqo/cdrom-\/device.\+hh$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptpsyqo_1_1Concepts_1_1IsCDRomDeviceStateEnum}{psyqo::Concepts::IsCDRomDeviceStateEnum}}\ =\ }
+\DoxyCodeLine{\ \ \ \ std::is\_enum\_v<T>\ \&\&\ std::is\_same\_v<uint8\_t,\ std::underlying\_type\_t<T>>\ \&\&\ CDRomDeviceStateEnumHasIdle<T>::value}
+
+\end{DoxyCode}

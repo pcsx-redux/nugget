@@ -1,0 +1,154 @@
+\doxysection{openbios/kernel/libcmisc.h File Reference}
+\hypertarget{libcmisc_8h}{}\label{libcmisc_8h}\index{openbios/kernel/libcmisc.h@{openbios/kernel/libcmisc.h}}
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for libcmisc.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{d1/d24/libcmisc_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d8/d8c/libcmisc_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{libcmisc_8h_aab08c59620f2fc2a132e864826c649dd}{psxdummy}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{libcmisc_8h_a9c7e418a1dbe41c3188ff69014d1d400}{psxtodigit}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{syscalls_8h_a6fa33b6bca5496c4844a4467ea3457da}{c}})
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{libcmisc_8h_aa0abecedd2526cbcc950ae52d9efc504}{psxatof}} (const char \texorpdfstring{$\ast$}{*}str)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{libcmisc_8h_ac21272913768a102a3bb14ddb98344aa}{psxabs}} (\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} j)
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_a73f1c5607248087e42b91e76cb28dc3e}{psxatob}} (char \texorpdfstring{$\ast$}{*}str, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}})
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_a2c3c698f873f3d0d31e7dae1ab95e853}{psxstrpbrk}} (const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}, const char \texorpdfstring{$\ast$}{*}accepted)
+\item 
+unsigned \mbox{\hyperlink{libcmisc_8h_a7a0ee7197b4fbaeabb0fcaa9de344163}{psxstrspn}} (const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}, const char \texorpdfstring{$\ast$}{*}accepted)
+\item 
+unsigned \mbox{\hyperlink{libcmisc_8h_a9403cdbda481b7ed504558bfdebf8286}{psxstrcspn}} (const char \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{string_8c_a506da415c9307c897ca9be93acfe1d0f}{s}}, const char \texorpdfstring{$\ast$}{*}rejected)
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_adea80e3feaf058a41222d18490b6f76b}{psxstrtok}} (char \texorpdfstring{$\ast$}{*}str, const char \texorpdfstring{$\ast$}{*}delim)
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_a44f75d960fde32e0ecc8636e86fdfb6a}{psxbcopy}} (const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_ad77c77086579a4841f6c4c2949ca01a5}{src}}, \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}dst, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} n)
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_a883014f4f9fb987d27b6e5cac8d32cb0}{psxbzero}} (\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{cop0_8c_a9d08db2e7a99d650ace90f02ea93108b}{ptr}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} n)
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{libcmisc_8h_a2442b993835231f9ed76dba4dbc9d3a2}{psxbcmp}} (const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}s1, const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_a6393b4d05b222b4a5b750288ddb27ef5}{s2}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} n)
+\item 
+\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} \mbox{\hyperlink{libcmisc_8h_a730c730fcdb4a62fd06bdf5bdd4be7c6}{psxrand}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{libcmisc_8h_afb9a01ff863596068aa35c4d5ae63975}{psxsrand}} (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} seed)
+\item 
+const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_a0ec6351cc223caa052e75bdba2973aa4}{psxlsearch}} (const char \texorpdfstring{$\ast$}{*}key, const char \texorpdfstring{$\ast$}{*}base, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} nmemb, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_ab8d27de826195874e13eef7952e63c0e}{compar}})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}))
+\item 
+const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{libcmisc_8h_aa16dad5f5576aa84cf7dae45c5e617f8}{psxbsearch}} (const char \texorpdfstring{$\ast$}{*}key, const char \texorpdfstring{$\ast$}{*}base, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} nmemb, size\+\_\+t \mbox{\hyperlink{string_8h_a5f7e6e4c3b7c99f918ede1bd5a5828e6}{size}}, \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{syscalls_8h_ab8d27de826195874e13eef7952e63c0e}{compar}})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{libcmisc_8h_ac21272913768a102a3bb14ddb98344aa}\label{libcmisc_8h_ac21272913768a102a3bb14ddb98344aa} 
+\index{libcmisc.h@{libcmisc.h}!psxabs@{psxabs}}
+\index{psxabs@{psxabs}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxabs()}{psxabs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} psxabs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{j }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a73f1c5607248087e42b91e76cb28dc3e}\label{libcmisc_8h_a73f1c5607248087e42b91e76cb28dc3e} 
+\index{libcmisc.h@{libcmisc.h}!psxatob@{psxatob}}
+\index{psxatob@{psxatob}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxatob()}{psxatob()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} psxatob (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \texorpdfstring{$\ast$}{*}}]{result }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_aa0abecedd2526cbcc950ae52d9efc504}\label{libcmisc_8h_aa0abecedd2526cbcc950ae52d9efc504} 
+\index{libcmisc.h@{libcmisc.h}!psxatof@{psxatof}}
+\index{psxatof@{psxatof}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxatof()}{psxatof()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psxatof (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a2442b993835231f9ed76dba4dbc9d3a2}\label{libcmisc_8h_a2442b993835231f9ed76dba4dbc9d3a2} 
+\index{libcmisc.h@{libcmisc.h}!psxbcmp@{psxbcmp}}
+\index{psxbcmp@{psxbcmp}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxbcmp()}{psxbcmp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} psxbcmp (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{s1,  }\item[{const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{s2,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{n }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a44f75d960fde32e0ecc8636e86fdfb6a}\label{libcmisc_8h_a44f75d960fde32e0ecc8636e86fdfb6a} 
+\index{libcmisc.h@{libcmisc.h}!psxbcopy@{psxbcopy}}
+\index{psxbcopy@{psxbcopy}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxbcopy()}{psxbcopy()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} psxbcopy (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{src,  }\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{dst,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{n }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_aa16dad5f5576aa84cf7dae45c5e617f8}\label{libcmisc_8h_aa16dad5f5576aa84cf7dae45c5e617f8} 
+\index{libcmisc.h@{libcmisc.h}!psxbsearch@{psxbsearch}}
+\index{psxbsearch@{psxbsearch}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxbsearch()}{psxbsearch()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psxbsearch (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{base,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{nmemb,  }\item[{size\+\_\+t}]{size,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*})}]{compar }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a883014f4f9fb987d27b6e5cac8d32cb0}\label{libcmisc_8h_a883014f4f9fb987d27b6e5cac8d32cb0} 
+\index{libcmisc.h@{libcmisc.h}!psxbzero@{psxbzero}}
+\index{psxbzero@{psxbzero}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxbzero()}{psxbzero()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} psxbzero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*}}]{ptr,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{n }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_aab08c59620f2fc2a132e864826c649dd}\label{libcmisc_8h_aab08c59620f2fc2a132e864826c649dd} 
+\index{libcmisc.h@{libcmisc.h}!psxdummy@{psxdummy}}
+\index{psxdummy@{psxdummy}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxdummy()}{psxdummy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} psxdummy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a0ec6351cc223caa052e75bdba2973aa4}\label{libcmisc_8h_a0ec6351cc223caa052e75bdba2973aa4} 
+\index{libcmisc.h@{libcmisc.h}!psxlsearch@{psxlsearch}}
+\index{psxlsearch@{psxlsearch}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxlsearch()}{psxlsearch()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \texorpdfstring{$\ast$}{*} psxlsearch (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{base,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{nmemb,  }\item[{size\+\_\+t}]{size,  }\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}(\texorpdfstring{$\ast$}{*})(const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*})}]{compar }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a730c730fcdb4a62fd06bdf5bdd4be7c6}\label{libcmisc_8h_a730c730fcdb4a62fd06bdf5bdd4be7c6} 
+\index{libcmisc.h@{libcmisc.h}!psxrand@{psxrand}}
+\index{psxrand@{psxrand}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxrand()}{psxrand()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}} psxrand (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_afb9a01ff863596068aa35c4d5ae63975}\label{libcmisc_8h_afb9a01ff863596068aa35c4d5ae63975} 
+\index{libcmisc.h@{libcmisc.h}!psxsrand@{psxsrand}}
+\index{psxsrand@{psxsrand}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxsrand()}{psxsrand()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} psxsrand (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\+\_\+t}}}]{seed }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a9403cdbda481b7ed504558bfdebf8286}\label{libcmisc_8h_a9403cdbda481b7ed504558bfdebf8286} 
+\index{libcmisc.h@{libcmisc.h}!psxstrcspn@{psxstrcspn}}
+\index{psxstrcspn@{psxstrcspn}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxstrcspn()}{psxstrcspn()}}
+{\footnotesize\ttfamily unsigned psxstrcspn (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{rejected }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a2c3c698f873f3d0d31e7dae1ab95e853}\label{libcmisc_8h_a2c3c698f873f3d0d31e7dae1ab95e853} 
+\index{libcmisc.h@{libcmisc.h}!psxstrpbrk@{psxstrpbrk}}
+\index{psxstrpbrk@{psxstrpbrk}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxstrpbrk()}{psxstrpbrk()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} psxstrpbrk (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{accepted }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a7a0ee7197b4fbaeabb0fcaa9de344163}\label{libcmisc_8h_a7a0ee7197b4fbaeabb0fcaa9de344163} 
+\index{libcmisc.h@{libcmisc.h}!psxstrspn@{psxstrspn}}
+\index{psxstrspn@{psxstrspn}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxstrspn()}{psxstrspn()}}
+{\footnotesize\ttfamily unsigned psxstrspn (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{s,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{accepted }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_adea80e3feaf058a41222d18490b6f76b}\label{libcmisc_8h_adea80e3feaf058a41222d18490b6f76b} 
+\index{libcmisc.h@{libcmisc.h}!psxstrtok@{psxstrtok}}
+\index{psxstrtok@{psxstrtok}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxstrtok()}{psxstrtok()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} psxstrtok (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{delim }\end{DoxyParamCaption})}
+
+\Hypertarget{libcmisc_8h_a9c7e418a1dbe41c3188ff69014d1d400}\label{libcmisc_8h_a9c7e418a1dbe41c3188ff69014d1d400} 
+\index{libcmisc.h@{libcmisc.h}!psxtodigit@{psxtodigit}}
+\index{psxtodigit@{psxtodigit}!libcmisc.h@{libcmisc.h}}
+\doxysubsubsection{\texorpdfstring{psxtodigit()}{psxtodigit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} psxtodigit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}}}]{c }\end{DoxyParamCaption})}
+

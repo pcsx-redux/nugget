@@ -1,0 +1,22 @@
+<map id="psyqo/bezier.hh" name="psyqo/bezier.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="147,5,272,31"/>
+<area shape="rect" id="Node000002" href="$dc/d61/vector_8hh.html" title=" " alt="" coords="146,79,273,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,31,212,65,207,65,207,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,225,85,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,106,70,218,67,214,194,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="110,225,202,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="204,105,180,153,163,212,158,211,175,151,200,103"/>
+<area shape="rect" id="Node000005" href="$da/dbc/fixed-point_8hh.html" title=" " alt="" coords="190,152,346,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="221,103,252,140,248,143,217,106"/>
+<area shape="rect" id="Node000009" href="$d7/d7c/common_8hh.html" title=" " alt="" coords="398,152,610,177"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="257,101,444,146,443,151,256,107"/>
+<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="233,180,95,224,93,219,231,175"/>
+<area shape="poly" id="edge9_Node000005_Node000004" title=" " alt="" coords="251,180,188,220,185,215,249,175"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="329,225,471,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="290,175,368,216,365,221,288,180"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="495,225,566,251"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="311,175,483,221,481,226,310,180"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="226,225,305,251"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="270,178,269,212,264,212,265,178"/>
+<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="511,177,524,212,519,214,506,179"/>
+</map>

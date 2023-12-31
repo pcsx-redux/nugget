@@ -1,0 +1,82 @@
+\doxysection{hwregs.\+h}
+\hypertarget{hwregs_8h_source}{}\label{hwregs_8h_source}\index{common/hardware/hwregs.h@{common/hardware/hwregs.h}}
+\mbox{\hyperlink{hwregs_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2019\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{counters_8h}{common/hardware/counters.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSIO}{SIO}}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structSIO_acc5985d02722ba2dd538197cf94a56c1}{fifo}};}
+\DoxyCodeLine{00035\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structSIO_a1c1ece5f24139a0b2ecf42a88836c52d}{preview}}[3];}
+\DoxyCodeLine{00036\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSIO_a019335f5461108b971558f570e8d57d8}{stat}};}
+\DoxyCodeLine{00037\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSIO_aa454f4f486d378e1a4e71050eefa5af1}{padding}};}
+\DoxyCodeLine{00038\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSIO_a562d39f46fcf59d28e51865ca69a7a75}{mode}};}
+\DoxyCodeLine{00039\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSIO_a589bb04e5176db91269fdaf2baa1ea9f}{ctrl}};}
+\DoxyCodeLine{00040\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSIO_a54fcd8acbc1b9a6ba4122c19341fd5d4}{reserved}};}
+\DoxyCodeLine{00041\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structSIO_ab3741648869444aedbab31c936f4c63b}{baudRate}};}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ HW\_U8(x)\ (*(volatile\ uint8\_t\ *)(x))}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ HW\_U16(x)\ (*(volatile\ uint16\_t\ *)(x))}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ HW\_U32(x)\ (*(volatile\ uint32\_t\ *)(x))}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ HW\_S8(x)\ (*(volatile\ int8\_t\ *)(x))}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ HW\_S16(x)\ (*(volatile\ int16\_t\ *)(x))}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ HW\_S32(x)\ (*(volatile\ int32\_t\ *)(x))}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ SBUS\_DEV4\_CTRL\ HW\_U32(0x1f801014)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ SBUS\_DEV5\_CTRL\ HW\_U32(0x1f801018)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ SBUS\_COM\_CTRL\ HW\_U32(0x1f801020)}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ SIOS\ ((volatile\ struct\ SIO\ *)0x1f801040)}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ RAM\_SIZE\ HW\_U32(0x1f801060)}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ IREG\ HW\_U32(0xbf801070)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ IMASK\ HW\_U32(0xbf801074)}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ DPCR\ HW\_U32(0x1f8010f0)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ DICR\ HW\_U32(0x1f8010f4)}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ GPU\_DATA\ HW\_U32(0x1f801810)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ GPU\_STATUS\ HW\_U32(0x1f801814)}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ ATCONS\_STAT\ HW\_U8(0x1f802000)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ ATCONS\_FIFO\ HW\_U8(0x1f802002)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ ATCONS\_IRQ\ HW\_U8(0x1f802030)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ ATCONS\_IRQ2\ HW\_U8(0x1f802032)}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ SYS573\_WATCHDOG\ HW\_U16(0x1f5c0000)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ SYS573\_7SEG\_POST\ HW\_U16(0x1f640010)}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ POST\ HW\_U8(0xbf802041)}}
+
+\end{DoxyCode}

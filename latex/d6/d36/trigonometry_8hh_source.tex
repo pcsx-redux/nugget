@@ -1,0 +1,93 @@
+\doxysection{trigonometry.\+hh}
+\hypertarget{trigonometry_8hh_source}{}\label{trigonometry_8hh_source}\index{psyqo/trigonometry.hh@{psyqo/trigonometry.hh}}
+\mbox{\hyperlink{trigonometry_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <EASTL/array.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed-point_8hh}{psyqo/fixed-\/point.hh}}"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{namespace\ }TrigInternals\ \{}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1TrigInternals_ace71e7143532200dfcdd0fbfde7f7026}{generateTable}}(eastl::array<int32\_t,\ 512>\&\ table,\ \textcolor{keywordtype}{unsigned}\ precisionBits);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<10>}}\ \mbox{\hyperlink{namespacepsyqo_a8e4f1306c579659eece0d750863da522}{Angle}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{namespace\ }trig\_literals\ \{}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{consteval}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Angle}}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_pi(\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{double}\ angle)\ \{\ \textcolor{keywordflow}{return}\ angle;\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \}\ \ \textcolor{comment}{//\ namespace\ trig\_literals}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12>}
+\DoxyCodeLine{00074\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsyqo_1_1Trig}{Trig}}\ \{}
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1Trig_a3aed3cf507b575c32274951471e96f04}{Trig}}()\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1TrigInternals_ace71e7143532200dfcdd0fbfde7f7026}{TrigInternals::generateTable}}(table,\ precisionBits);\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits>}}\ \mbox{\hyperlink{classpsyqo_1_1Trig_a5644be4fbbd7df5250b321fcaad83dce}{cos}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Angle}}\ a)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }trig\_literals;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ =\ a.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ \%=\ (2.0\_pi).\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ a.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}};}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ int32\_t\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a\ <\ 0.5\_pi)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ table[\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}];}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (a\ <\ 1.0\_pi)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ -\/table[(1.0\_pi).\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/\ 1\ -\/\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}];}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (a\ <\ 1.5\_pi)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ -\/table[\mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}\ -\/\ (1.0\_pi).\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}];}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}}\ =\ table[(2.0\_pi).\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}}\ -\/\ 1\ -\/\ \mbox{\hyperlink{cop0_8c_ae96c939a2a46590dc79c7d9ca8331dfe}{t}}];}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits>}}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}}.\mbox{\hyperlink{classpsyqo_1_1FixedPoint_a1c009580f517b4b00cbed523efbbf181}{value}}\ =\ \mbox{\hyperlink{cpu_8c_a514f1b439f404f86f77090fa9edc96ce}{r}};}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{syscalls_8h_a6baa346e44f4c2158d2be4f9b77b8203}{ret}};}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits>}}\ \mbox{\hyperlink{classpsyqo_1_1Trig_a16ac3952ed2302554d76ac0ca3f42d65}{sin}}(\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{Angle}}\ a)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }trig\_literals;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsyqo_1_1Trig_a5644be4fbbd7df5250b321fcaad83dce}{cos}}(a\ -\/\ 0.5\_pi);}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00119\ \ \ \ \ eastl::array<int32\_t,\ 512>\ table;}
+\DoxyCodeLine{00120\ \};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

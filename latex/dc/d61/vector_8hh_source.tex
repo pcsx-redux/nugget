@@ -1,0 +1,247 @@
+\doxysection{vector.\+hh}
+\hypertarget{vector_8hh_source}{}\label{vector_8hh_source}\index{psyqo/vector.hh@{psyqo/vector.hh}}
+\mbox{\hyperlink{vector_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed-point_8hh}{psyqo/fixed-\/point.hh}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{common_8hh}{psyqo/primitives/common.hh}}"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ N,\ \textcolor{keywordtype}{unsigned}\ precisionBits\ =\ 12,\ std::\textcolor{keywordtype}{int}egral\ T\ =\ \textcolor{keywordtype}{int}32\_t>}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{requires}((N\ >=\ 2)\ \&\&\ (N\ <=\ 4))}
+\DoxyCodeLine{00039\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_aec2de1e2c49e30b990f04504aabcda32}{FixedPointType}};}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a30770e7635c3a2e93cd9d1e868e59c7f}{x}},\ y;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Vector_1_1EmptyZ}{EmptyZ}}\ \{\};}
+\DoxyCodeLine{00043\ \ \ \ \ [[no\_unique\_address]]\ std::conditional\_t<(N\ >\ 2),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}},\ \mbox{\hyperlink{structpsyqo_1_1Vector_1_1EmptyZ}{EmptyZ}}>\ z;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsyqo_1_1Vector_1_1EmptyW}{EmptyW}}\ \{\};}
+\DoxyCodeLine{00045\ \ \ \ \ [[no\_unique\_address]]\ std::conditional\_t<(N\ >\ 3),\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPoint<precisionBits,\ T>}},\ \mbox{\hyperlink{structpsyqo_1_1Vector_1_1EmptyW}{EmptyW}}>\ w;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(\textcolor{keywordtype}{unsigned}\ i)\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (i\ ==\ 0)\ ?\ x\ :\ y;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (i\ ==\ 0)\ ?\ x\ :\ (i\ ==\ 1)\ ?\ y\ :\ z;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (i\ ==\ 0)\ ?\ x\ :\ (i\ ==\ 1)\ ?\ y\ :\ (i\ ==\ 2)\ ?\ z\ :\ w;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_ae666db156863c6f117cd5d2db2ed16b1}{get}}(\textcolor{keywordtype}{unsigned}\ i)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (i\ ==\ 0)\ ?\ x\ :\ y;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (i\ ==\ 0)\ ?\ x\ :\ (i\ ==\ 1)\ ?\ y\ :\ z;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (i\ ==\ 0)\ ?\ x\ :\ (i\ ==\ 1)\ ?\ y\ :\ (i\ ==\ 2)\ ?\ z\ :\ w;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_a4bc5ae69a4171537acfdee8c8c12ab4d}{operator[]}}(\textcolor{keywordtype}{unsigned}\ i)\ \{\ \textcolor{keywordflow}{return}\ get(i);\ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ \mbox{\hyperlink{unionpsyqo_1_1Vertex}{Vertex}}()\ const}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ requires((N\ ==\ 2)\ \&\&\ std::is\_signed<T>::\mbox{\hyperlink{syscalls_8h_a1c6a9d4653e050269971b2e65f043746}{value}})}
+\DoxyCodeLine{00067\ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\{.\mbox{\hyperlink{unionpsyqo_1_1Vertex_ac9faa6d7d097eebb21b32c866e17e0e2}{x}}\ =\ x.template\ integer<int16\_t>(),\ .y\ =\ y.template\ integer<int16\_t>()\}\};}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_a719951e160786200373cb44c548b47ef}{operator+=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ rhs)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ get(i)\ +=\ rhs.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_aa57f80ff461cbff89b27927c3591ddf1}{operator-\/=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ rhs)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ get(i)\ -\/=\ rhs.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_af0a1b0dbe3e5bc8ebd390c8588a6faf4}{operator*=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ rhs)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ get(i)\ *=\ rhs;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_af1773fcdd762f1234f572e58ac94ecee}{operator/=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ rhs)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ get(i)\ /=\ rhs;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_aa4efee00a1638a1eb24be5f821e616c8}{operator*=}}(U\ rhs)\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ get(i)\ *=\ rhs;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ \mbox{\hyperlink{structpsyqo_1_1Vector_a34039d3ba41694ef6fa44aed28b971ba}{operator/=}}(U\ rhs)\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ get(i)\ /=\ rhs;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00107\ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a4243233dffca288d32b6d0ca86137a7c}{operator-\/}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ -\/get(i);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_adcd9b20c33721cc3e6452970a8475f9e}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ get(i)\ +\ rhs.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i);}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a767209a59d56d1667f92cb8e289eb14b}{operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\&\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ get(i)\ -\/\ rhs.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00128\ \ \ \ \ \}}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_ad1d7eeeb0f3fe3e1b8f7e771ff78df35}{operator*}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ get(i)\ *\ rhs;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_ad231260b3b58450e5bd42af18f791a50}{operator/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}\&\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ get(i)\ /\ rhs;}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a23ad3bc5a9b6b34625a4bfb5d2aedbb7}{operator*}}(U\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ get(i)\ *\ rhs;}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ U>}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a348e92fe2f3c0e1bdcaf53de21b6f45d}{operator/}}(U\ rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ get(i)\ /\ rhs;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a075346603b5cc36e628fc4b76dd0eb63}{ZERO}}()}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ <=\ 3)}
+\DoxyCodeLine{00161\ \ \ \ \ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00167\ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a339db81af0782ea5cbc9a2d3475070e4}{ONE}}()}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ <=\ 3)}
+\DoxyCodeLine{00170\ \ \ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0);}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00176\ \ \ \ \ \}}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_ab667268bf48dd6d051a1db50bb52c39f}{UP}}()}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ <=\ 3)}
+\DoxyCodeLine{00179\ \ \ \ \ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ (i\ ==\ 1)\ ?\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0)\ :\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_ad3d122f87d23e02a859b33d77f2be099}{DOWN}}()}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ <=\ 3)}
+\DoxyCodeLine{00188\ \ \ \ \ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ (i\ ==\ 1)\ ?\ -\/\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0)\ :\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a204c817a235d3bdeaeb0564b1bdab542}{LEFT}}()}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ <=\ 3)}
+\DoxyCodeLine{00197\ \ \ \ \ \{}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ (i\ ==\ 0)\ ?\ -\/\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0)\ :\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00203\ \ \ \ \ \}}
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_ab5172149f54a87affc716a9d3401c21d}{RIGHT}}()}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ <=\ 3)}
+\DoxyCodeLine{00206\ \ \ \ \ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ (i\ ==\ 0)\ ?\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0)\ :\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_aeea3b7937d34943c6d3596313ddc8e7d}{FORWARD}}()}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ ==\ 3)}
+\DoxyCodeLine{00215\ \ \ \ \ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ (i\ ==\ 2)\ ?\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0)\ :\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00221\ \ \ \ \ \}}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{structpsyqo_1_1Vector_a9e9f3d6d339b1c26293615d00f347906}{BACKWARD}}()}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(N\ ==\ 3)}
+\DoxyCodeLine{00224\ \ \ \ \ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector}}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ N;\ i++)\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}}.\mbox{\hyperlink{structpsyqo_1_1Vector_aeefef6aab44191ee61187dd99058f17d}{get}}(i)\ =\ (i\ ==\ 2)\ ?\ -\/\mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(1.0)\ :\ \mbox{\hyperlink{classpsyqo_1_1FixedPoint}{FixedPointType}}(0.0);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{memcpy_8c_aa2d4d3baa28317485d4a7c2911034b2a}{result}};}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \};}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector<2>}}\ \mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}};}
+\DoxyCodeLine{00234\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector<3>}}\ \mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}};}
+\DoxyCodeLine{00235\ \textcolor{keyword}{typedef}\ \mbox{\hyperlink{structpsyqo_1_1Vector}{Vector<4>}}\ \mbox{\hyperlink{namespacepsyqo_a946c63c095abeb51436d85b3310ed72e}{Vec4}};}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{namespacepsyqo_aa27336f9135fcb37bb6bfd3fb9070f13}{Vec2}})\ ==\ 8);}
+\DoxyCodeLine{00238\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{namespacepsyqo_a96ac6ec163bcf591d3fa9dcc1f3f4684}{Vec3}})\ ==\ 12);}
+\DoxyCodeLine{00239\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{namespacepsyqo_a946c63c095abeb51436d85b3310ed72e}{Vec4}})\ ==\ 16);}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}

@@ -1,0 +1,176 @@
+\doxysection{shell/cdrom.c File Reference}
+\hypertarget{shell_2cdrom_8c}{}\label{shell_2cdrom_8c}\index{shell/cdrom.c@{shell/cdrom.c}}
+{\ttfamily \#include "{}shell/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/cdrom.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/dma.\+h"{}}\newline
+{\ttfamily \#include "{}common/hardware/hwregs.\+h"{}}\newline
+{\ttfamily \#include "{}common/syscalls/syscalls.\+h"{}}\newline
+{\ttfamily \#include "{}common/util/util.\+h"{}}\newline
+Include dependency graph for cdrom.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d1/d9e/shell_2cdrom_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{shell_2cdrom_8c_ad2eb277496af160238e7306fff780ad2}{printf}}(...)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357}{Cd\+State}} \{ \newline
+\mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357af7d15ab64f66a29a433542d39cb55bc4}{CD\+\_\+\+ERROR}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357aed26036c6918a63dab69e492f006b4a1}{CD\+\_\+\+RESET}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357af7d1cb2409eaf4dfdf6f4f7dc2ce4261}{CD\+\_\+\+INIT}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a61d04dd5a8caaf1bc8bca224890659ec}{CD\+\_\+\+GETTN}}
+, \newline
+\mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a70aecdb9603cf944f266eb62001f16bf}{CD\+\_\+\+GETID}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a9222ce9145a706e6a116d14232c40e5c}{CD\+\_\+\+SETMODE}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a26ca138811cc0c43cd653cc81de11239}{CD\+\_\+\+SETLOC\+\_\+\+TO\+\_\+\+PVD}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a802dcfb428bbcbd080dd6b43832ef66e}{CD\+\_\+\+READ\+\_\+\+PVD}}
+, \newline
+\mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357aa33074c882deee5584d37d70eeff8cb7}{CD\+\_\+\+READ\+\_\+\+PVD\+\_\+\+DMA}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a5d1293ad0e946cae2f48d4c353f001ad}{CD\+\_\+\+READ\+\_\+\+PVD\+\_\+\+PAUSE}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357ae58571cbdda6a4f2bf081c116c9b5905}{CD\+\_\+\+SETLOC\+\_\+\+TO\+\_\+\+ROOT}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a43b01086cd88e65832135c5365c12984}{CD\+\_\+\+READ\+\_\+\+ROOT}}
+, \newline
+\mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a4e46647c7aa369cc473740bd9e90e284}{CD\+\_\+\+READ\+\_\+\+ROOT\+\_\+\+DMA}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a46e7acce810caef000a2bb1995f04aaa}{CD\+\_\+\+READ\+\_\+\+ROOT\+\_\+\+PAUSE}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357ad19164ef74d53d0d0993955b8cdfeb0d}{CD\+\_\+\+SUCCESS\+\_\+\+DATA}}
+, \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357afc3e3c88c81bb789a75558a58e0bdf0b}{CD\+\_\+\+SUCCESS\+\_\+\+AUDIO}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{shell_2cdrom_8c_a29730e9240c5e8018c1e66e5b1186a2f}{init\+CD}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{shell_2cdrom_8c_a983b5b915cd66000cf644669411eb7d5}{is\+CDError}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{shell_2cdrom_8c_a8ff5b754296c9609fa684a2e80f07587}{is\+CDSuccess}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} \mbox{\hyperlink{shell_2cdrom_8c_a1cfb4f6481f94a421e388c981ce19d86}{is\+CDAudio}} ()
+\item 
+\mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} \mbox{\hyperlink{shell_2cdrom_8c_aae9b4331c58b43cb786efe0f9fa89a4f}{check\+CD}} (unsigned fps)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{shell_2cdrom_8c_ad2eb277496af160238e7306fff780ad2}\label{shell_2cdrom_8c_ad2eb277496af160238e7306fff780ad2} 
+\index{cdrom.c@{cdrom.c}!printf@{printf}}
+\index{printf@{printf}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{printf}{printf}}
+{\footnotesize\ttfamily \#define printf(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357} 
+\index{cdrom.c@{cdrom.c}!CdState@{CdState}}
+\index{CdState@{CdState}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{CdState}{CdState}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357}{Cd\+State}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_ERROR@{CD\_ERROR}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_ERROR@{CD\_ERROR}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357af7d15ab64f66a29a433542d39cb55bc4}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357af7d15ab64f66a29a433542d39cb55bc4} 
+CD\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_RESET@{CD\_RESET}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_RESET@{CD\_RESET}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357aed26036c6918a63dab69e492f006b4a1}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357aed26036c6918a63dab69e492f006b4a1} 
+CD\+\_\+\+RESET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_INIT@{CD\_INIT}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_INIT@{CD\_INIT}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357af7d1cb2409eaf4dfdf6f4f7dc2ce4261}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357af7d1cb2409eaf4dfdf6f4f7dc2ce4261} 
+CD\+\_\+\+INIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_GETTN@{CD\_GETTN}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_GETTN@{CD\_GETTN}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a61d04dd5a8caaf1bc8bca224890659ec}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a61d04dd5a8caaf1bc8bca224890659ec} 
+CD\+\_\+\+GETTN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_GETID@{CD\_GETID}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_GETID@{CD\_GETID}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a70aecdb9603cf944f266eb62001f16bf}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a70aecdb9603cf944f266eb62001f16bf} 
+CD\+\_\+\+GETID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_SETMODE@{CD\_SETMODE}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_SETMODE@{CD\_SETMODE}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a9222ce9145a706e6a116d14232c40e5c}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a9222ce9145a706e6a116d14232c40e5c} 
+CD\+\_\+\+SETMODE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_SETLOC\_TO\_PVD@{CD\_SETLOC\_TO\_PVD}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_SETLOC\_TO\_PVD@{CD\_SETLOC\_TO\_PVD}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a26ca138811cc0c43cd653cc81de11239}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a26ca138811cc0c43cd653cc81de11239} 
+CD\+\_\+\+SETLOC\+\_\+\+TO\+\_\+\+PVD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_READ\_PVD@{CD\_READ\_PVD}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_READ\_PVD@{CD\_READ\_PVD}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a802dcfb428bbcbd080dd6b43832ef66e}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a802dcfb428bbcbd080dd6b43832ef66e} 
+CD\+\_\+\+READ\+\_\+\+PVD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_READ\_PVD\_DMA@{CD\_READ\_PVD\_DMA}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_READ\_PVD\_DMA@{CD\_READ\_PVD\_DMA}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357aa33074c882deee5584d37d70eeff8cb7}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357aa33074c882deee5584d37d70eeff8cb7} 
+CD\+\_\+\+READ\+\_\+\+PVD\+\_\+\+DMA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_READ\_PVD\_PAUSE@{CD\_READ\_PVD\_PAUSE}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_READ\_PVD\_PAUSE@{CD\_READ\_PVD\_PAUSE}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a5d1293ad0e946cae2f48d4c353f001ad}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a5d1293ad0e946cae2f48d4c353f001ad} 
+CD\+\_\+\+READ\+\_\+\+PVD\+\_\+\+PAUSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_SETLOC\_TO\_ROOT@{CD\_SETLOC\_TO\_ROOT}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_SETLOC\_TO\_ROOT@{CD\_SETLOC\_TO\_ROOT}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357ae58571cbdda6a4f2bf081c116c9b5905}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357ae58571cbdda6a4f2bf081c116c9b5905} 
+CD\+\_\+\+SETLOC\+\_\+\+TO\+\_\+\+ROOT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_READ\_ROOT@{CD\_READ\_ROOT}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_READ\_ROOT@{CD\_READ\_ROOT}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a43b01086cd88e65832135c5365c12984}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a43b01086cd88e65832135c5365c12984} 
+CD\+\_\+\+READ\+\_\+\+ROOT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_READ\_ROOT\_DMA@{CD\_READ\_ROOT\_DMA}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_READ\_ROOT\_DMA@{CD\_READ\_ROOT\_DMA}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a4e46647c7aa369cc473740bd9e90e284}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a4e46647c7aa369cc473740bd9e90e284} 
+CD\+\_\+\+READ\+\_\+\+ROOT\+\_\+\+DMA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_READ\_ROOT\_PAUSE@{CD\_READ\_ROOT\_PAUSE}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_READ\_ROOT\_PAUSE@{CD\_READ\_ROOT\_PAUSE}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a46e7acce810caef000a2bb1995f04aaa}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357a46e7acce810caef000a2bb1995f04aaa} 
+CD\+\_\+\+READ\+\_\+\+ROOT\+\_\+\+PAUSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_SUCCESS\_DATA@{CD\_SUCCESS\_DATA}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_SUCCESS\_DATA@{CD\_SUCCESS\_DATA}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357ad19164ef74d53d0d0993955b8cdfeb0d}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357ad19164ef74d53d0d0993955b8cdfeb0d} 
+CD\+\_\+\+SUCCESS\+\_\+\+DATA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CD\_SUCCESS\_AUDIO@{CD\_SUCCESS\_AUDIO}!cdrom.c@{cdrom.c}}\index{cdrom.c@{cdrom.c}!CD\_SUCCESS\_AUDIO@{CD\_SUCCESS\_AUDIO}}}\Hypertarget{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357afc3e3c88c81bb789a75558a58e0bdf0b}\label{shell_2cdrom_8c_afea05d372538a6ad81e1fc2bcc8ff357afc3e3c88c81bb789a75558a58e0bdf0b} 
+CD\+\_\+\+SUCCESS\+\_\+\+AUDIO&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{shell_2cdrom_8c_aae9b4331c58b43cb786efe0f9fa89a4f}\label{shell_2cdrom_8c_aae9b4331c58b43cb786efe0f9fa89a4f} 
+\index{cdrom.c@{cdrom.c}!checkCD@{checkCD}}
+\index{checkCD@{checkCD}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{checkCD()}{checkCD()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} check\+CD (\begin{DoxyParamCaption}\item[{unsigned}]{fps }\end{DoxyParamCaption})}
+
+\Hypertarget{shell_2cdrom_8c_a29730e9240c5e8018c1e66e5b1186a2f}\label{shell_2cdrom_8c_a29730e9240c5e8018c1e66e5b1186a2f} 
+\index{cdrom.c@{cdrom.c}!initCD@{initCD}}
+\index{initCD@{initCD}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{initCD()}{initCD()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_ac7b52b23779bbd71ccd936383c447ba3}{void}} init\+CD (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{shell_2cdrom_8c_a1cfb4f6481f94a421e388c981ce19d86}\label{shell_2cdrom_8c_a1cfb4f6481f94a421e388c981ce19d86} 
+\index{cdrom.c@{cdrom.c}!isCDAudio@{isCDAudio}}
+\index{isCDAudio@{isCDAudio}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{isCDAudio()}{isCDAudio()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} is\+CDAudio (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{shell_2cdrom_8c_a983b5b915cd66000cf644669411eb7d5}\label{shell_2cdrom_8c_a983b5b915cd66000cf644669411eb7d5} 
+\index{cdrom.c@{cdrom.c}!isCDError@{isCDError}}
+\index{isCDError@{isCDError}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{isCDError()}{isCDError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} is\+CDError (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{shell_2cdrom_8c_a8ff5b754296c9609fa684a2e80f07587}\label{shell_2cdrom_8c_a8ff5b754296c9609fa684a2e80f07587} 
+\index{cdrom.c@{cdrom.c}!isCDSuccess@{isCDSuccess}}
+\index{isCDSuccess@{isCDSuccess}!cdrom.c@{cdrom.c}}
+\doxysubsubsection{\texorpdfstring{isCDSuccess()}{isCDSuccess()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{syscalls_8h_af8538518d3dbeb0e2dcd97868289fc5f}{int}} is\+CDSuccess (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+

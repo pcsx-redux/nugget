@@ -1,0 +1,362 @@
+\doxysection{gte-\/kernels.hh}
+\hypertarget{gte-kernels_8hh_source}{}\label{gte-kernels_8hh_source}\index{psyqo/gte-\/kernels.hh@{psyqo/gte-\/kernels.hh}}
+\mbox{\hyperlink{gte-kernels_8hh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{MIT\ License}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{Copyright\ (c)\ 2023\ PCSX-\/Redux\ authors}}
+\DoxyCodeLine{00006\ \textcolor{comment}{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{00009\ \textcolor{comment}{in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{00010\ \textcolor{comment}{to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{00011\ \textcolor{comment}{copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{00012\ \textcolor{comment}{furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{00015\ \textcolor{comment}{copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{00016\ \textcolor{comment}{}}
+\DoxyCodeLine{00017\ \textcolor{comment}{THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{00018\ \textcolor{comment}{IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{00020\ \textcolor{comment}{AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{00021\ \textcolor{comment}{LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{00022\ \textcolor{comment}{OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{00023\ \textcolor{comment}{SOFTWARE.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{}}
+\DoxyCodeLine{00025\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsyqo}{psyqo}}\ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }GTE\ \{}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{namespace\ }Kernels\ \{}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ Shift\ factor:\ Unsigned\ (no\ change)\ or\ Shifted\ (>>\ 12)}}
+\DoxyCodeLine{00049\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261}{SF}}\ :\ \textcolor{keywordtype}{unsigned}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261a99ea4ca7335a3479d7f3641d3206ac48}{Unshifted}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261a6fc893961436fd19dfa091c973fae901}{Shifted}}\ \};}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ Low\ limit:\ Unlimited\ (-\/2\string^15)\ or\ Limited\ (0)}}
+\DoxyCodeLine{00051\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a04094cf8730b07ee3337dbaf660c2b3a}{LM}}\ :\ \textcolor{keywordtype}{unsigned}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a04094cf8730b07ee3337dbaf660c2b3aa3af73691514234a6c3df7aa934fff49b}{Unlimited}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a04094cf8730b07ee3337dbaf660c2b3aa0a91d33b00340b5ad2616bdae79cb394}{Limited}}\ \};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ Coordinate\ and\ Perspective\ Transformation}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ RTPS\ -\/\ Perspective\ Transformation\ (single)}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ \ \ pers(([rt]·[v0])\ >>\ 12\ +\ [tr])\ -\/>\ sxy2}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ \ \ \ \ 14\ cycles}}
+\DoxyCodeLine{00058\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtps()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0180001"{}});\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ RTPT\ -\/\ Perspective\ Transformation\ (triple)}}
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ \ \ pers(([rt]·[v0])\ >>\ 12\ +\ [tr])\ -\/>\ sxy0}}
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ \ \ pers(([rt]·[v1])\ >>\ 12\ +\ [tr])\ -\/>\ sxy1}}
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ \ \ pers(([rt]·[v2])\ >>\ 12\ +\ [tr])\ -\/>\ sxy2}}
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ \ \ \ \ 22\ cycles}}
+\DoxyCodeLine{00065\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtpt()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0280030"{}});\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{comment}{//\ Depth\ Queuing}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ DCPL\ -\/\ Depth\ Cue\ Color\ light}}
+\DoxyCodeLine{00070\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb·sv]\ +\ dp·[fc]\ -\/>\ rgb,\ lv,\ sv}}
+\DoxyCodeLine{00071\ \textcolor{comment}{//\ \ \ \ \ 8\ cycles}}
+\DoxyCodeLine{00072\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ dpcl()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0680029"{}});\ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{comment}{//\ DPCS\ -\/\ Depth\ Cueing\ (single)}}
+\DoxyCodeLine{00075\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb]\ +\ dp·[fc]\ -\/>\ rgb,\ lv,\ sv}}
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ \ \ \ \ 8\ cycles}}
+\DoxyCodeLine{00077\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ dpcs()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0780010"{}});\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ DPCT\ -\/\ Depth\ Cueing\ (triple)}}
+\DoxyCodeLine{00080\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb0]\ +\ dp·[fc]\ -\/>\ rgb0,\ lv,\ sv}}
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb1]\ +\ dp·[fc]\ -\/>\ rgb1,\ lv,\ sv}}
+\DoxyCodeLine{00082\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb2]\ +\ dp·[fc]\ -\/>\ rgb2,\ lv,\ sv}}
+\DoxyCodeLine{00083\ \textcolor{comment}{//\ \ \ \ \ 17\ cycles}}
+\DoxyCodeLine{00084\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ dpct()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0f8002a"{}});\ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{comment}{//\ INTPL\ -\/\ Interpolation\ of\ a\ vector\ and\ far\ color}}
+\DoxyCodeLine{00087\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[sv]\ +\ dp·[fc]\ -\/>\ rgb2,\ lv,\ sv}}
+\DoxyCodeLine{00088\ \textcolor{comment}{//\ \ \ \ \ 8\ cycles}}
+\DoxyCodeLine{00089\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ intpl()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0980011"{}});\ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ Termwise\ Vector\ Square}}
+\DoxyCodeLine{00092\ \textcolor{comment}{//\ \ \ [sv.x²\ >>\ 12,\ sv.y²\ >>\ 12,\ sv.z²\ >>\ 12]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ \ \ \ \ 5\ cycles}}
+\DoxyCodeLine{00094\ \textcolor{keyword}{template}\ <SF\ sf\ =\ Shifted>}
+\DoxyCodeLine{00095\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ sqr()\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (sf\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261a6fc893961436fd19dfa091c973fae901}{Shifted}})\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0a80428"{}});}
+\DoxyCodeLine{00098\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0a00428"{}});}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{comment}{//\ Light\ Source\ Calculations}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{comment}{//\ NCS\ -\/\ Normal\ color\ (single)}}
+\DoxyCodeLine{00106\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00107\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ rgb2}}
+\DoxyCodeLine{00108\ \textcolor{comment}{//\ \ \ \ \ 14\ cycles}}
+\DoxyCodeLine{00109\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ncs()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0c8041e"{}});\ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ NCT\ -\/\ Normal\ color\ (triple)}}
+\DoxyCodeLine{00112\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00113\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ rgb0}}
+\DoxyCodeLine{00114\ \textcolor{comment}{//\ \ \ limit(([ll]·[v1])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00115\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ rgb1}}
+\DoxyCodeLine{00116\ \textcolor{comment}{//\ \ \ limit(([ll]·[v2])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00117\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ rgb2}}
+\DoxyCodeLine{00118\ \textcolor{comment}{//\ \ \ \ \ 30\ cycles}}
+\DoxyCodeLine{00119\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ nct()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0d80420"{}});\ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{comment}{//\ NCDS\ -\/\ Normal\ color\ depth\ cue\ (single\ vector)}}
+\DoxyCodeLine{00122\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00123\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00124\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb·sv]\ +\ dp·[fc]\ -\/>\ rgb2}}
+\DoxyCodeLine{00125\ \textcolor{comment}{//\ \ \ \ \ 19\ cycles}}
+\DoxyCodeLine{00126\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ncds()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0e80413"{}});\ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{comment}{//\ NCDT\ -\/\ Normal\ color\ depth\ cue\ (triple\ vectors)}}
+\DoxyCodeLine{00129\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00130\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00131\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb·sv]\ +\ dp·[fc]\ -\/>\ rgb0}}
+\DoxyCodeLine{00132\ \textcolor{comment}{//\ \ \ limit(([ll]·[v1])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00134\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb·sv]\ +\ dp·[fc]\ -\/>\ rgb1}}
+\DoxyCodeLine{00135\ \textcolor{comment}{//\ \ \ limit(([ll]·[v2])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00136\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00137\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb·sv]\ +\ dp·[fc]\ -\/>\ rgb2}}
+\DoxyCodeLine{00138\ \textcolor{comment}{//\ \ \ \ \ 44\ cycles}}
+\DoxyCodeLine{00139\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ncdt()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0f80416"{}});\ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{comment}{//\ NCCS\ -\/\ Normal\ Color\ Color\ (single\ vector)}}
+\DoxyCodeLine{00142\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00143\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00144\ \textcolor{comment}{//\ \ \ [rgb·sv]\ -\/>\ rgb2}}
+\DoxyCodeLine{00145\ \textcolor{comment}{//\ \ \ \ \ 17\ cycles}}
+\DoxyCodeLine{00146\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ nccs()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0108041b"{}});\ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{comment}{//\ NCCT\ -\/\ Normal\ Color\ Color\ (triple\ vector)}}
+\DoxyCodeLine{00149\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00150\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00151\ \textcolor{comment}{//\ \ \ [rgb·sv]\ -\/>\ rgb0}}
+\DoxyCodeLine{00152\ \textcolor{comment}{//\ \ \ limit(([ll]·[v1])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00153\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00154\ \textcolor{comment}{//\ \ \ [rgb·sv]\ -\/>\ rgb1}}
+\DoxyCodeLine{00155\ \textcolor{comment}{//\ \ \ limit(([ll]·[v2])\ >>\ 12)\ -\/>\ sv}}
+\DoxyCodeLine{00156\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00157\ \textcolor{comment}{//\ \ \ [rgb·sv]\ -\/>\ rgb2}}
+\DoxyCodeLine{00158\ \textcolor{comment}{//\ \ \ \ \ 39\ cycles}}
+\DoxyCodeLine{00159\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ncct()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0118043f"{}});\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{comment}{//\ Color\ Depth\ Que}}
+\DoxyCodeLine{00162\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00163\ \textcolor{comment}{//\ \ \ (1\ -\/\ dp)·[rgb·sv]\ +\ dp·[fc]\ -\/>\ rgb2}}
+\DoxyCodeLine{00164\ \textcolor{comment}{//\ \ \ \ \ 13\ cycles}}
+\DoxyCodeLine{00165\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ cdp()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x01280414"{}});\ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{comment}{//\ Color\ Color}}
+\DoxyCodeLine{00168\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ sv}}
+\DoxyCodeLine{00169\ \textcolor{comment}{//\ \ \ [rgb·sv]\ -\/>\ rgb2}}
+\DoxyCodeLine{00170\ \textcolor{comment}{//\ \ \ \ \ 11\ cycles}}
+\DoxyCodeLine{00171\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ cc()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0138041c"{}});\ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{comment}{//\ NCLIP\ -\/\ Normal\ clipping}}
+\DoxyCodeLine{00174\ \textcolor{comment}{//\ \ \ sx0*sy1\ +\ sx1*sy2\ +\ sx2*sy0\ -\/\ sx0*sy2\ -\/\ sx1*sy0\ -\/\ sx2*sy1\ -\/>\ opz}}
+\DoxyCodeLine{00175\ \textcolor{comment}{//\ \ \ aka\ determinant\ of\ the\ matrix}}
+\DoxyCodeLine{00176\ \textcolor{comment}{//\ \ \ \ \ [sx1\ -\/\ sx0,\ sy1\ -\/\ sy0]}}
+\DoxyCodeLine{00177\ \textcolor{comment}{//\ \ \ \ \ [sx2\ -\/\ sx0,\ sy2\ -\/\ sy0]}}
+\DoxyCodeLine{00178\ \textcolor{comment}{//\ \ \ \ \ 8\ cycles}}
+\DoxyCodeLine{00179\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ nclip()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x01400006"{}});\ \}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{comment}{//\ Z\ Average}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \textcolor{comment}{//\ AVSZ3\ -\/\ Average\ of\ three\ Z\ values\ (for\ Triangles)}}
+\DoxyCodeLine{00184\ \textcolor{comment}{//\ \ \ zsf3\ *\ (sz0\ +\ sz1\ +\ sz2)\ -\/>\ otz}}
+\DoxyCodeLine{00185\ \textcolor{comment}{//\ \ \ \ \ 5\ cycles}}
+\DoxyCodeLine{00186\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ avsz3()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0158002d"{}});\ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \textcolor{comment}{//\ AVSZ4\ -\/\ Average\ of\ four\ Z\ values\ (for\ Quads)}}
+\DoxyCodeLine{00189\ \textcolor{comment}{//\ \ \ zsf4\ *\ (sz0\ +\ sz1\ +\ sz2\ +\ sz4)\ -\/>\ otz}}
+\DoxyCodeLine{00190\ \textcolor{comment}{//\ \ \ \ \ 6\ cycles}}
+\DoxyCodeLine{00191\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ avsz4()\ \{\ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0168002e"{}});\ \}}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \textcolor{comment}{//\ Cross\ Product\ (improperly\ named\ Outer\ Product\ in\ Sony's\ lingo)}}
+\DoxyCodeLine{00194\ \textcolor{comment}{//\ \ \ rt.22\ *\ ir3\ -\/\ rt.33\ *\ ir2\ -\/>\ ir1}}
+\DoxyCodeLine{00195\ \textcolor{comment}{//\ \ \ rt.33\ *\ ir1\ -\/\ rt.11\ *\ ir3\ -\/>\ ir2}}
+\DoxyCodeLine{00196\ \textcolor{comment}{//\ \ \ rt.11\ *\ ir2\ -\/\ rt.22\ *\ ir1\ -\/>\ ir3}}
+\DoxyCodeLine{00197\ \textcolor{comment}{//\ \ \ \ \ 6\ cycles}}
+\DoxyCodeLine{00198\ \textcolor{keyword}{template}\ <SF\ sf\ =\ Shifted>}
+\DoxyCodeLine{00199\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ cp()\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (sf\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261a6fc893961436fd19dfa091c973fae901}{Shifted}})\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0178000c"{}});}
+\DoxyCodeLine{00202\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0170000c"{}});}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ \}}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \textcolor{comment}{//\ General\ Interpolation}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \textcolor{comment}{//\ General\ purpose\ interpolation}}
+\DoxyCodeLine{00210\ \textcolor{comment}{//\ \ \ dp·[sv]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00211\ \textcolor{comment}{//\ \ \ \ \ 5\ cycles}}
+\DoxyCodeLine{00212\ \textcolor{keyword}{template}\ <SF\ sf\ =\ Shifted>}
+\DoxyCodeLine{00213\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ gpf()\ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (sf\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261a6fc893961436fd19dfa091c973fae901}{Shifted}})\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0198003d"{}});}
+\DoxyCodeLine{00216\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x0190003d"{}});}
+\DoxyCodeLine{00218\ \ \ \ \ \}}
+\DoxyCodeLine{00219\ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \textcolor{comment}{//\ General\ purpose\ interpolation\ with\ base}}
+\DoxyCodeLine{00222\ \textcolor{comment}{//\ \ \ [lv]\ +\ dp·[sv]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00223\ \textcolor{comment}{//\ \ \ \ \ 5\ cycles}}
+\DoxyCodeLine{00224\ \textcolor{keyword}{template}\ <SF\ sf\ =\ Shifted>}
+\DoxyCodeLine{00225\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ gpl()\ \{}
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (sf\ ==\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_a497f20dbe0ad20c5c3f895b956a43261a6fc893961436fd19dfa091c973fae901}{Shifted}})\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x01a8003e"{}});}
+\DoxyCodeLine{00228\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ 0x01a0003e"{}});}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \textcolor{comment}{//\ All\ of\ the\ MVMVA\ operations\ take\ 8\ cycles\ to\ complete.}}
+\DoxyCodeLine{00234\ \textcolor{comment}{//\ The\ MVMVA\ operation\ is\ the\ basis\ for\ the\ matrix\ math\ operations.}}
+\DoxyCodeLine{00235\ \textcolor{comment}{//\ The\ functions\ defined\ right\ underneath\ are\ simply\ aliases.\ They}}
+\DoxyCodeLine{00236\ \textcolor{comment}{//\ are\ provided\ for\ convenience,\ as\ programmers\ may\ know\ them\ from}}
+\DoxyCodeLine{00237\ \textcolor{comment}{//\ the\ original\ PS1\ SDK\ documentation,\ but\ using\ the\ MVMVA\ operation}}
+\DoxyCodeLine{00238\ \textcolor{comment}{//\ directly\ may\ actually\ be\ more\ readable.}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{comment}{//\ Multiplication\ Matrix:\ Rotation,\ Light\ Source\ Direction,\ Light\ Source\ Color}}
+\DoxyCodeLine{00241\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_afcefda9a44d1007230a5822618a6be02}{MX}}\ :\ \textcolor{keywordtype}{unsigned}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_afcefda9a44d1007230a5822618a6be02a705610ed3e5ec724f5cb0d76a5fd3aa1}{RT}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_afcefda9a44d1007230a5822618a6be02a67824ecf84f5816f07b74fa956bdbcd2}{LL}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_afcefda9a44d1007230a5822618a6be02a6907b8692fb04b36ab78f1238a876284}{LC}}\ \};}
+\DoxyCodeLine{00242\ \textcolor{comment}{//\ Multiplication\ Vector}}
+\DoxyCodeLine{00243\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_af0ac4922221256639c0af745742df7b5}{MV}}\ :\ \textcolor{keywordtype}{unsigned}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_af0ac4922221256639c0af745742df7b5a16514e6f648a594f5399a6b3a58e9c93}{V0}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_af0ac4922221256639c0af745742df7b5ab4daca084ad9eabfc8de231929477ed6}{V1}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_af0ac4922221256639c0af745742df7b5aec765f1adc3b4253f2d3b131a4a8618f}{V2}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_af0ac4922221256639c0af745742df7b5a4f74d343f26bbd58a8cbbad2cab6a704}{IR}}\ \};}
+\DoxyCodeLine{00244\ \textcolor{comment}{//\ Translation\ Vector:\ Translation,\ Back\ Color,\ Front\ Color,\ Zero}}
+\DoxyCodeLine{00245\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_aaf9405083bf11ee50ca4020b31546eb6}{TV}}\ :\ \textcolor{keywordtype}{unsigned}\ \{\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_aaf9405083bf11ee50ca4020b31546eb6aebe021079e5a3c4f42ca6119eab92633}{TR}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_aaf9405083bf11ee50ca4020b31546eb6a3b16c9d4c4c856ce7fff405e3b6c43ab}{BK}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_aaf9405083bf11ee50ca4020b31546eb6a6b8f0029ce30f9b4d5fe0def33875511}{FC}},\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_aaf9405083bf11ee50ca4020b31546eb6ad7ed4ee1df437474d005188535f74875}{Zero}}\ \};}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \textcolor{comment}{//\ Multiply\ vector\ by\ matrix\ and\ add\ vector}}
+\DoxyCodeLine{00248\ \textcolor{keyword}{template}\ <MX\ mx,\ MV\ v,\ TV\ cv\ =\ TV::Zero,\ SF\ sf\ =\ Shifted,\ LM\ lm\ =\ Unlimited>}
+\DoxyCodeLine{00249\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsyqo_1_1GTE_1_1Kernels_aed4a1c3c48c4e3356257209f1dac4212}{mvmva}}()\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}\ op\ =}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ (4\ <<\ 20)\ |\ (sf\ <<\ 19)\ |\ (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}(mx)\ <<\ 17)\ |\ (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}(v)\ <<\ 15)\ |\ (\mbox{\hyperlink{syscalls_8h_afc8cf906e2f0373da36f37c55ce569a1}{uint32\_t}}(cv)\ <<\ 13)\ |\ (lm\ <<\ 10)\ |\ 18;}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keyword}{asm}\ \textcolor{keyword}{volatile}(\textcolor{stringliteral}{"{}cop2\ \%0"{}}\ :\ :\ \textcolor{stringliteral}{"{}i"{}}(op));}
+\DoxyCodeLine{00253\ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \textcolor{comment}{//\ Coordinate\ Conversion,\ Light\ Source\ Calculations}}
+\DoxyCodeLine{00256\ \textcolor{comment}{//\ \ \ ([rt]·[v0])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00257\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rt()\ \{\ mvmva<MX::RT,\ MV::V0,\ TV::TR>();\ \}}
+\DoxyCodeLine{00258\ \textcolor{comment}{//\ \ \ limit(([ll]·[v0])\ >>\ 12)\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00259\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ll()\ \{\ mvmva<MX::LL,\ MV::V0,\ TV::Zero,\ SF::Shifted,\ LM::Limited>();\ \}}
+\DoxyCodeLine{00260\ \textcolor{comment}{//\ \ \ limit(([lc]·[sv])\ >>\ 12)\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00261\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lc()\ \{\ mvmva<MX::LC,\ MV::IR,\ TV::BK,\ SF::Shifted,\ LM::Limited>();\ \}}
+\DoxyCodeLine{00262\ \textcolor{comment}{//\ \ \ [rt]·[sv]\ -\/>\ lv}}
+\DoxyCodeLine{00263\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtir\_sf0()\ \{\ mvmva<MX::RT,\ MV::IR,\ TV::Zero,\ SF::Unshifted>();\ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \textcolor{comment}{//\ General\ Matrix\ Operations}}
+\DoxyCodeLine{00266\ \textcolor{comment}{//\ \ \ ([rt]·[v0])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00267\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv0()\ \{\ mvmva<MX::RT,\ MV::V0,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00268\ \textcolor{comment}{//\ \ \ ([rt]·[v1])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00269\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv1()\ \{\ mvmva<MX::RT,\ MV::V1,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00270\ \textcolor{comment}{//\ \ \ ([rt]·[v2])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00271\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv2()\ \{\ mvmva<MX::RT,\ MV::V2,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00272\ \textcolor{comment}{//\ \ \ ([rt]·[sv])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00273\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtir()\ \{\ mvmva<MX::RT,\ MV::IR,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00274\ \textcolor{comment}{//\ \ \ ([rt]·[v0])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00275\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv0tr()\ \{\ mvmva<MX::RT,\ MV::V0,\ TV::TR>();\ \}}
+\DoxyCodeLine{00276\ \textcolor{comment}{//\ \ \ ([rt]·[v1])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00277\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv1tr()\ \{\ mvmva<MX::RT,\ MV::V1,\ TV::TR>();\ \}}
+\DoxyCodeLine{00278\ \textcolor{comment}{//\ \ \ ([rt]·[v2])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00279\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv2tr()\ \{\ mvmva<MX::RT,\ MV::V2,\ TV::TR>();\ \}}
+\DoxyCodeLine{00280\ \textcolor{comment}{//\ \ \ ([rt]·[sv])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00281\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtirtr()\ \{\ mvmva<MX::RT,\ MV::IR,\ TV::TR>();\ \}}
+\DoxyCodeLine{00282\ \textcolor{comment}{//\ \ \ ([rt]·[v0])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00283\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv0bk()\ \{\ mvmva<MX::RT,\ MV::V0,\ TV::BK>();\ \}}
+\DoxyCodeLine{00284\ \textcolor{comment}{//\ \ \ ([rt]·[v1])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00285\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv1bk()\ \{\ mvmva<MX::RT,\ MV::V1,\ TV::BK>();\ \}}
+\DoxyCodeLine{00286\ \textcolor{comment}{//\ \ \ ([rt]·[v2])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00287\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv2bk()\ \{\ mvmva<MX::RT,\ MV::V2,\ TV::BK>();\ \}}
+\DoxyCodeLine{00288\ \textcolor{comment}{//\ \ \ ([rt]·[sv])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00289\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtirbk()\ \{\ mvmva<MX::RT,\ MV::IR,\ TV::BK>();\ \}}
+\DoxyCodeLine{00290\ \textcolor{comment}{//\ \ \ ([rt]·[v0])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00291\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv0fc()\ \{\ mvmva<MX::RT,\ MV::V0,\ TV::FC>();\ \}}
+\DoxyCodeLine{00292\ \textcolor{comment}{//\ \ \ ([rt]·[v1])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00293\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv1fc()\ \{\ mvmva<MX::RT,\ MV::V1,\ TV::FC>();\ \}}
+\DoxyCodeLine{00294\ \textcolor{comment}{//\ \ \ ([rt]·[v2])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00295\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtv2fc()\ \{\ mvmva<MX::RT,\ MV::V2,\ TV::FC>();\ \}}
+\DoxyCodeLine{00296\ \textcolor{comment}{//\ \ \ ([rt]·[sv])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00297\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ rtirfc()\ \{\ mvmva<MX::RT,\ MV::IR,\ TV::FC>();\ \}}
+\DoxyCodeLine{00298\ \textcolor{comment}{//\ \ \ ([ll]·[v0])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00299\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv0()\ \{\ mvmva<MX::LL,\ MV::V0,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00300\ \textcolor{comment}{//\ \ \ ([ll]·[v1])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00301\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv1()\ \{\ mvmva<MX::LL,\ MV::V1,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00302\ \textcolor{comment}{//\ \ \ ([ll]·[v2])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00303\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv2()\ \{\ mvmva<MX::LL,\ MV::V2,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00304\ \textcolor{comment}{//\ \ \ ([ll]·[sv])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00305\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llir()\ \{\ mvmva<MX::LL,\ MV::IR,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00306\ \textcolor{comment}{//\ \ \ ([ll]·[v0])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00307\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv0tr()\ \{\ mvmva<MX::LL,\ MV::V0,\ TV::TR>();\ \}}
+\DoxyCodeLine{00308\ \textcolor{comment}{//\ \ \ ([ll]·[v1])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00309\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv1tr()\ \{\ mvmva<MX::LL,\ MV::V1,\ TV::TR>();\ \}}
+\DoxyCodeLine{00310\ \textcolor{comment}{//\ \ \ ([ll]·[v2])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00311\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv2tr()\ \{\ mvmva<MX::LL,\ MV::V2,\ TV::TR>();\ \}}
+\DoxyCodeLine{00312\ \textcolor{comment}{//\ \ \ ([ll]·[sv])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00313\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llirtr()\ \{\ mvmva<MX::LL,\ MV::IR,\ TV::TR>();\ \}}
+\DoxyCodeLine{00314\ \textcolor{comment}{//\ \ \ ([ll]·[v0])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00315\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv0bk()\ \{\ mvmva<MX::LL,\ MV::V0,\ TV::BK>();\ \}}
+\DoxyCodeLine{00316\ \textcolor{comment}{//\ \ \ ([ll]·[v1])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00317\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv1bk()\ \{\ mvmva<MX::LL,\ MV::V1,\ TV::BK>();\ \}}
+\DoxyCodeLine{00318\ \textcolor{comment}{//\ \ \ ([ll]·[v2])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00319\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv2bk()\ \{\ mvmva<MX::LL,\ MV::V2,\ TV::BK>();\ \}}
+\DoxyCodeLine{00320\ \textcolor{comment}{//\ \ \ ([ll]·[sv])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00321\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llirbk()\ \{\ mvmva<MX::LL,\ MV::IR,\ TV::BK>();\ \}}
+\DoxyCodeLine{00322\ \textcolor{comment}{//\ \ \ ([ll]·[v0])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00323\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv0fc()\ \{\ mvmva<MX::LL,\ MV::V0,\ TV::FC>();\ \}}
+\DoxyCodeLine{00324\ \textcolor{comment}{//\ \ \ ([ll]·[v1])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00325\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv1fc()\ \{\ mvmva<MX::LL,\ MV::V1,\ TV::FC>();\ \}}
+\DoxyCodeLine{00326\ \textcolor{comment}{//\ \ \ ([ll]·[v2])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00327\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llv2fc()\ \{\ mvmva<MX::LL,\ MV::V2,\ TV::FC>();\ \}}
+\DoxyCodeLine{00328\ \textcolor{comment}{//\ \ \ ([ll]·[sv])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00329\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ llirfc()\ \{\ mvmva<MX::LL,\ MV::IR,\ TV::FC>();\ \}}
+\DoxyCodeLine{00330\ \textcolor{comment}{//\ \ \ ([lc]·[v0])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00331\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv0()\ \{\ mvmva<MX::LC,\ MV::V0,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00332\ \textcolor{comment}{//\ \ \ ([lc]·[v1])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00333\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv1()\ \{\ mvmva<MX::LC,\ MV::V1,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00334\ \textcolor{comment}{//\ \ \ ([lc]·[v2])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00335\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv2()\ \{\ mvmva<MX::LC,\ MV::V2,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00336\ \textcolor{comment}{//\ \ \ ([lc]·[sv])\ >>\ 12\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00337\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcir()\ \{\ mvmva<MX::LC,\ MV::IR,\ TV::Zero>();\ \}}
+\DoxyCodeLine{00338\ \textcolor{comment}{//\ \ \ ([lc]·[v0])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00339\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv0tr()\ \{\ mvmva<MX::LC,\ MV::V0,\ TV::TR>();\ \}}
+\DoxyCodeLine{00340\ \textcolor{comment}{//\ \ \ ([lc]·[v1])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00341\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv1tr()\ \{\ mvmva<MX::LC,\ MV::V1,\ TV::TR>();\ \}}
+\DoxyCodeLine{00342\ \textcolor{comment}{//\ \ \ ([lc]·[v2])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00343\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv2tr()\ \{\ mvmva<MX::LC,\ MV::V2,\ TV::TR>();\ \}}
+\DoxyCodeLine{00344\ \textcolor{comment}{//\ \ \ ([lc]·[sv])\ >>\ 12\ +\ [tr]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00345\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcirtr()\ \{\ mvmva<MX::LC,\ MV::IR,\ TV::TR>();\ \}}
+\DoxyCodeLine{00346\ \textcolor{comment}{//\ \ \ ([lc]·[v0])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00347\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv0bk()\ \{\ mvmva<MX::LC,\ MV::V0,\ TV::BK>();\ \}}
+\DoxyCodeLine{00348\ \textcolor{comment}{//\ \ \ ([lc]·[v1])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00349\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv1bk()\ \{\ mvmva<MX::LC,\ MV::V1,\ TV::BK>();\ \}}
+\DoxyCodeLine{00350\ \textcolor{comment}{//\ \ \ ([lc]·[v2])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00351\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv2bk()\ \{\ mvmva<MX::LC,\ MV::V2,\ TV::BK>();\ \}}
+\DoxyCodeLine{00352\ \textcolor{comment}{//\ \ \ ([lc]·[sv])\ >>\ 12\ +\ [bk]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00353\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcirbk()\ \{\ mvmva<MX::LC,\ MV::IR,\ TV::BK>();\ \}}
+\DoxyCodeLine{00354\ \textcolor{comment}{//\ \ \ ([lc]·[v0])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00355\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv0fc()\ \{\ mvmva<MX::LC,\ MV::V0,\ TV::FC>();\ \}}
+\DoxyCodeLine{00356\ \textcolor{comment}{//\ \ \ ([lc]·[v1])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00357\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv1fc()\ \{\ mvmva<MX::LC,\ MV::V1,\ TV::FC>();\ \}}
+\DoxyCodeLine{00358\ \textcolor{comment}{//\ \ \ ([lc]·[v2])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00359\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcv2fc()\ \{\ mvmva<MX::LC,\ MV::V2,\ TV::FC>();\ \}}
+\DoxyCodeLine{00360\ \textcolor{comment}{//\ \ \ ([lc]·[sv])\ >>\ 12\ +\ [fc]\ -\/>\ lv,\ sv}}
+\DoxyCodeLine{00361\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ lcirfc()\ \{\ mvmva<MX::LC,\ MV::IR,\ TV::FC>();\ \}}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \}\ \ \textcolor{comment}{//\ namespace\ Kernels}}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \}\ \ \textcolor{comment}{//\ namespace\ GTE}}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \}\ \ \textcolor{comment}{//\ namespace\ psyqo}}
+
+\end{DoxyCode}
