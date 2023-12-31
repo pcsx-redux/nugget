@@ -1,0 +1,15 @@
+<map id="psyqo::FontBase::GlyphsFragmentPrologue" name="psyqo::FontBase::GlyphsFragmentPrologue">
+<area shape="rect" id="Node000001" title=" " alt="" coords="191,313,435,353"/>
+<area shape="rect" id="Node000002" href="$df/d43/structpsyqo_1_1Prim_1_1VRAMUpload.html" title="Initiates a VRAM upload." alt="" coords="5,225,197,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,254,272,311,270,316,139,259"/>
+<area shape="rect" id="Node000003" href="$d0/d6d/structpsyqo_1_1Rect.html" title="The Rect struct." alt="" coords="52,137,151,163"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="104,177,104,225,99,225,99,177"/>
+<area shape="rect" id="Node000004" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="45,5,157,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="104,44,104,137,99,137,99,44"/>
+<area shape="rect" id="Node000005" href="$d6/df9/structpsyqo_1_1Prim_1_1FlushCache.html" title="The FlushCache primitive." alt="" coords="222,225,405,251"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="316,264,316,313,311,313,311,264"/>
+<area shape="rect" id="Node000006" href="$de/dcb/structpsyqo_1_1Prim_1_1TPage.html" title=" " alt="" coords="429,225,576,251"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="468,259,353,316,350,311,466,254"/>
+<area shape="rect" id="Node000007" href="$dd/d6f/structpsyqo_1_1Prim_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="417,137,588,163"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="505,177,505,225,500,225,500,177"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="common/hardware/dma.h" name="common/hardware/dma.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="929,5,1118,31"/>
+<area shape="rect" id="Node000002" href="$d3/d33/modplayer_8c.html" title=" " alt="" coords="5,86,183,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="915,26,592,44,393,60,194,81,149,89,148,83,194,76,393,54,591,38,915,21"/>
+<area shape="rect" id="Node000003" href="$d2/d31/statemachine_8c.html" title=" " alt="" coords="207,86,437,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="915,32,700,53,449,81,396,89,395,83,448,76,699,48,915,26"/>
+<area shape="rect" id="Node000004" href="$d5/dc7/openbios_2gpu_2gpu_8c.html" title=" " alt="" coords="461,86,609,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="921,35,779,55,621,81,585,89,584,83,620,76,778,50,920,30"/>
+<area shape="rect" id="Node000005" href="$d6/d09/torus_8cpp.html" title=" " alt="" coords="633,79,800,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="966,37,791,81,790,76,965,31"/>
+<area shape="rect" id="Node000006" href="$d7/df1/cdrom-device_8cpp.html" title=" " alt="" coords="824,86,1028,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1000,41,942,88,939,84,997,37"/>
+<area shape="rect" id="Node000007" href="$dc/d4a/gpu_8cpp.html" title=" " alt="" coords="1053,86,1191,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1050,37,1109,84,1106,88,1047,41"/>
+<area shape="rect" id="Node000008" href="$da/d48/shell_2cdrom_8c.html" title=" " alt="" coords="1215,86,1325,111"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1073,32,1235,83,1233,89,1071,37"/>
+<area shape="rect" id="Node000009" href="$d6/d71/cop0_8c.html" title=" " alt="" coords="1349,86,1484,111"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1102,31,1337,76,1370,83,1369,89,1336,81,1101,36"/>
+<area shape="rect" id="Node000010" href="$d6/d5d/cpu_8c.html" title=" " alt="" coords="1508,86,1627,111"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1132,26,1304,46,1497,76,1529,83,1527,89,1496,81,1304,51,1132,31"/>
+<area shape="rect" id="Node000011" href="$d8/d51/dma_8c.html" title=" " alt="" coords="1650,86,1781,111"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1132,22,1366,41,1503,56,1640,76,1674,83,1673,89,1639,81,1503,61,1366,46,1132,28"/>
+</map>

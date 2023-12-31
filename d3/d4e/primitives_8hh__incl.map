@@ -1,0 +1,36 @@
+<map id="psyqo/primitives.hh" name="psyqo/primitives.hh">
+<area shape="rect" id="Node000001" title="This file is a convenience header that includes all the primitive headers." alt="" coords="706,5,857,31"/>
+<area shape="rect" id="Node000002" href="$dc/d1f/control_8hh.html" title=" " alt="" coords="1140,79,1340,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="855,28,1153,74,1152,79,855,33"/>
+<area shape="rect" id="Node000005" href="$d1/dbe/lines_8hh.html" title=" " alt="" coords="1364,79,1551,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="857,24,1351,76,1350,81,857,30"/>
+<area shape="rect" id="Node000007" href="$de/da0/misc_8hh.html" title=" " alt="" coords="5,79,192,104"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="706,30,206,81,206,76,705,24"/>
+<area shape="rect" id="Node000008" href="$d1/d6b/quads_8hh.html" title=" " alt="" coords="216,79,411,104"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="707,33,403,79,402,74,706,28"/>
+<area shape="rect" id="Node000009" href="$dd/de5/rectangles_8hh.html" title=" " alt="" coords="435,79,658,104"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="744,33,598,77,597,72,743,28"/>
+<area shape="rect" id="Node000010" href="$d6/d1b/sprites_8hh.html" title=" " alt="" coords="682,79,881,104"/>
+<area shape="poly" id="edge18_Node000001_Node000010" title=" " alt="" coords="784,31,784,65,779,65,779,31"/>
+<area shape="rect" id="Node000011" href="$da/dd8/triangles_8hh.html" title=" " alt="" coords="905,79,1117,104"/>
+<area shape="poly" id="edge21_Node000001_Node000011" title=" " alt="" coords="819,28,961,72,959,77,817,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="695,225,766,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1204,107,957,180,780,227,779,222,955,175,1203,101"/>
+<area shape="rect" id="Node000004" href="$d7/d7c/common_8hh.html" title=" " alt="" coords="697,152,909,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1170,107,887,152,886,147,1169,101"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="793,180,754,218,750,214,789,176"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="1460,104,1456,142,1448,162,1434,179,1396,194,1330,206,1144,223,939,233,780,238,780,233,938,228,1144,218,1330,201,1395,189,1430,175,1443,160,1450,140,1455,104"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="1364,105,922,153,921,148,1364,100"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="1309,152,1419,177"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1444,106,1392,146,1388,141,1441,102"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="149,101,683,223,682,228,148,107"/>
+<area shape="poly" id="edge11_Node000007_Node000004" title=" " alt="" coords="193,100,204,101,684,149,683,154,204,107,192,105"/>
+<area shape="poly" id="edge13_Node000008_Node000003" title=" " alt="" coords="347,102,686,218,684,223,346,107"/>
+<area shape="poly" id="edge14_Node000008_Node000004" title=" " alt="" coords="392,101,711,147,710,153,392,107"/>
+<area shape="poly" id="edge16_Node000009_Node000003" title=" " alt="" coords="563,102,707,214,703,219,560,107"/>
+<area shape="poly" id="edge17_Node000009_Node000004" title=" " alt="" coords="589,101,749,146,748,151,587,107"/>
+<area shape="poly" id="edge19_Node000010_Node000003" title=" " alt="" coords="747,106,713,125,698,138,686,153,683,169,687,184,708,214,704,217,682,187,677,169,682,151,694,134,710,120,745,102"/>
+<area shape="poly" id="edge20_Node000010_Node000004" title=" " alt="" coords="787,104,798,138,793,140,782,105"/>
+<area shape="poly" id="edge22_Node000011_Node000003" title=" " alt="" coords="1003,106,970,142,921,180,886,197,849,211,780,230,779,225,847,206,884,192,919,175,966,138,999,102"/>
+<area shape="poly" id="edge23_Node000011_Node000004" title=" " alt="" coords="978,107,850,150,849,145,976,101"/>
+</map>

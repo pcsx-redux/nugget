@@ -1,0 +1,15 @@
+<map id="psyqo/cdrom&#45;device.hh" name="psyqo/cdrom&#45;device.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,180,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="20,152,91,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,32,71,79,60,138,55,137,66,78,85,30"/>
+<area shape="rect" id="Node000003" href="$d1/dab/cdrom_8hh.html" title=" " alt="" coords="80,79,207,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="103,29,129,66,125,69,99,33"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="131,106,82,145,79,141,128,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="64,225,207,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="145,105,139,212,134,211,140,104"/>
+<area shape="rect" id="Node000005" href="$d5/d45/task_8hh.html" title=" " alt="" coords="173,152,287,177"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="159,102,207,141,204,145,156,106"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="216,179,163,219,160,215,213,175"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="231,225,389,251"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="245,175,289,214,285,218,241,179"/>
+</map>
