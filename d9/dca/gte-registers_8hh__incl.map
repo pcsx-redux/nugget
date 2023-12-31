@@ -1,0 +1,24 @@
+<map id="psyqo/gte&#45;registers.hh" name="psyqo/gte&#45;registers.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="68,5,236,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="33,299,103,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,33,106,53,78,80,51,117,34,148,22,181,11,226,8,238,11,250,24,271,41,288,38,292,20,274,6,252,3,238,6,225,16,180,29,146,47,114,74,77,102,49,131,29"/>
+<area shape="rect" id="Node000003" href="$da/dbc/fixed-point_8hh.html" title=" " alt="" coords="255,225,411,251"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,29,200,50,230,77,259,112,285,148,323,212,319,215,281,151,255,115,226,81,197,54,169,33"/>
+<area shape="rect" id="Node000008" href="$d3/d4b/matrix_8hh.html" title=" " alt="" coords="88,79,216,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="155,31,155,65,149,65,149,31"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="291,253,118,300,116,294,290,248"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="127,299,270,324"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="313,253,234,294,232,290,311,248"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="294,299,373,324"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="336,251,336,285,331,285,331,251"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="397,299,477,324"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="352,248,410,288,407,293,349,253"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="502,299,594,324"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="369,248,501,292,500,297,367,253"/>
+<area shape="rect" id="Node000009" href="$dc/d61/vector_8hh.html" title=" " alt="" coords="89,152,215,177"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="155,104,155,138,149,138,149,104"/>
+<area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="182,175,292,218,290,223,180,180"/>
+<area shape="rect" id="Node000010" href="$d7/d7c/common_8hh.html" title=" " alt="" coords="19,225,231,251"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="150,179,137,214,132,212,145,177"/>
+<area shape="poly" id="edge12_Node000010_Node000002" title=" " alt="" coords="118,253,88,290,84,286,114,249"/>
+</map>

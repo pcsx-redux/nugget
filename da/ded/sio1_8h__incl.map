@@ -1,0 +1,11 @@
+<map id="common/hardware/sio1.h" name="common/hardware/sio1.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,192,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="43,225,114,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,33,70,53,56,80,50,115,53,151,61,184,70,212,65,214,55,186,47,151,45,114,51,78,66,50,84,29"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="66,79,273,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,29,150,67,146,71,108,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="154,106,129,127,106,153,93,183,85,212,80,211,88,181,102,151,125,123,150,102"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="116,152,332,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="180,103,209,140,205,143,176,106"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="202,180,116,222,113,217,199,175"/>
+</map>

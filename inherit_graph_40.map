@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$d0/d00/classpsyqo_1_1Application.html" title="The application class." alt="" coords="5,31,148,56"/>
+<area shape="rect" id="Node000001" href="$d2/d5a/classHello.html" title=" " alt="" coords="197,5,253,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="161,26,196,20,197,25,162,31"/>
+<area shape="rect" id="Node000003" href="$dd/ddb/classTetris.html" title=" " alt="" coords="196,55,253,80"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="162,55,196,60,195,65,161,60"/>
+<area shape="rect" id="Node000002" href="$d5/d61/classHelloWorld.html" title=" " alt="" coords="301,5,396,31"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="266,15,301,15,301,21,266,21"/>
+</map>

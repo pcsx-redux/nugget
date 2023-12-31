@@ -1,0 +1,13 @@
+<map id="psyqo/fragments.hh" name="psyqo/fragments.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="99,5,251,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,116,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,33,92,74,90,69,156,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="140,79,211,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,31,178,65,173,65,173,31"/>
+<area shape="rect" id="Node000004" href="$dd/d53/primitive-concept_8hh.html" title=" " alt="" coords="234,79,434,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,28,297,71,295,75,200,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="243,152,323,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="328,106,302,142,297,139,323,103"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="348,152,419,177"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="344,103,370,139,365,142,340,106"/>
+</map>

@@ -1,0 +1,15 @@
+<map id="psyqo::Prim::GouraudTexturedQuad" name="psyqo::Prim::GouraudTexturedQuad">
+<area shape="rect" id="Node000001" title="A textured, blended quad." alt="" coords="337,163,589,189"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="59,19,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,44,249,61,314,84,389,123,446,161,443,165,386,128,312,89,247,66,184,49"/>
+<area shape="rect" id="Node000003" href="$d5/d4b/structpsyqo_1_1Prim_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="29,78,200,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,104,225,112,314,133,417,161,415,166,313,139,223,117,187,109"/>
+<area shape="rect" id="Node000004" href="$dd/d5d/structpsyqo_1_1Prim_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="30,127,199,153"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,147,340,161,339,166,213,153"/>
+<area shape="rect" id="Node000005" href="$dd/d74/unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="63,199,166,225"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="180,212,244,213,313,208,368,199,418,186,420,191,369,204,314,213,245,218,180,218"/>
+<area shape="rect" id="Node000006" href="$dd/d6f/structpsyqo_1_1Prim_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="29,249,200,274"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="213,251,313,233,380,211,435,186,437,191,382,216,314,239,214,256"/>
+<area shape="rect" id="Node000007" href="$dd/d0a/structpsyqo_1_1Prim_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,307,224,333"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="237,304,275,295,312,282,353,260,391,234,447,187,451,191,395,238,356,265,314,286,277,300,238,309"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="psyqo::Prim::GouraudQuad" name="psyqo::Prim::GouraudQuad">
+<area shape="rect" id="Node000001" title="A gouraud&#45;shaded quad." alt="" coords="29,137,225,163"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="5,5,117,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,42,123,136,118,138,71,44"/>
+<area shape="rect" id="Node000003" href="$dd/d74/unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="142,5,245,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,45,179,79,162,115,142,139,138,136,158,112,174,77,185,43"/>
+</map>

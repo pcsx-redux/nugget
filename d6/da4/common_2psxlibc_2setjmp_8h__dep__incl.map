@@ -1,0 +1,29 @@
+<map id="common/psxlibc/setjmp.h" name="common/psxlibc/setjmp.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="478,5,669,31"/>
+<area shape="rect" id="Node000002" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="5,152,205,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="464,32,312,52,244,65,196,81,171,97,148,117,116,153,112,150,144,113,167,93,194,76,242,60,311,46,464,27"/>
+<area shape="rect" id="Node000003" href="$de/d5a/fileio_2misc_8c.html" title=" " alt="" coords="230,152,394,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="464,25,388,30,312,40,248,57,225,68,209,80,203,91,204,100,209,110,219,119,247,136,278,149,276,154,244,141,215,123,205,113,198,102,198,89,205,77,222,63,246,52,311,35,388,25,464,19"/>
+<area shape="rect" id="Node000004" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="609,152,805,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="596,39,631,77,698,150,694,154,627,80,592,43"/>
+<area shape="rect" id="Node000005" href="$dd/d6c/openbios_2kernel_2setjmp_8h.html" title=" " alt="" coords="219,79,405,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="519,37,355,81,354,76,517,32"/>
+<area shape="rect" id="Node000006" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="418,152,585,177"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="595,40,613,71,615,88,610,105,597,122,580,136,544,154,542,149,577,131,593,118,606,103,610,88,608,72,591,42"/>
+<area shape="rect" id="Node000007" href="$d4/dbf/main_8h.html" title=" " alt="" coords="430,79,597,104"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="557,43,525,80,521,77,553,40"/>
+<area shape="rect" id="Node000008" href="$dd/d3e/longjmp_8c.html" title=" " alt="" coords="723,79,872,104"/>
+<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="623,32,762,76,760,81,621,37"/>
+<area shape="rect" id="Node000010" href="$d1/db0/string_8c.html" title=" " alt="" coords="896,79,1029,104"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="650,30,900,76,899,81,649,36"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="267,111,140,154,138,149,265,106"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="315,118,315,152,309,152,309,118"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="389,104,643,149,642,155,388,109"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="356,106,471,149,469,154,354,111"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="469,111,346,154,344,149,467,106"/>
+<area shape="poly" id="edge12_Node000007_Node000004" title=" " alt="" coords="558,106,676,149,674,154,556,111"/>
+<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="512,118,506,152,501,151,506,117"/>
+<area shape="rect" id="Node000009" href="$de/d78/libc_8c.html" title=" " alt="" coords="866,152,985,177"/>
+<area shape="poly" id="edge15_Node000008_Node000009" title=" " alt="" coords="831,108,906,149,903,154,829,113"/>
+<area shape="poly" id="edge17_Node000010_Node000009" title=" " alt="" coords="953,117,934,153,929,151,948,115"/>
+</map>

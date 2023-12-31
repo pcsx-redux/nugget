@@ -1,0 +1,15 @@
+<map id="psyqo::Prim::GouraudTexturedTriangle" name="psyqo::Prim::GouraudTexturedTriangle">
+<area shape="rect" id="Node000001" title="A textured, blended triangle." alt="" coords="337,137,556,177"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="59,7,171,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,30,249,46,314,70,373,102,421,135,418,139,370,106,312,74,247,51,183,35"/>
+<area shape="rect" id="Node000003" href="$d5/d4b/structpsyqo_1_1Prim_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="29,66,200,91"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,92,314,119,375,135,374,140,313,124,191,97"/>
+<area shape="rect" id="Node000004" href="$dd/d5d/structpsyqo_1_1Prim_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="30,115,199,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,134,337,145,337,150,213,139"/>
+<area shape="rect" id="Node000005" href="$dd/d74/unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="63,171,166,197"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="180,185,244,186,313,183,364,175,364,180,314,188,244,192,180,191"/>
+<area shape="rect" id="Node000006" href="$dd/d6f/structpsyqo_1_1Prim_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="29,221,200,246"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="213,224,313,207,359,192,401,175,403,180,361,197,314,212,214,229"/>
+<area shape="rect" id="Node000007" href="$dd/d0a/structpsyqo_1_1Prim_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,270,224,295"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="228,265,271,254,312,240,371,209,419,175,422,180,374,213,314,245,272,259,229,270"/>
+</map>
