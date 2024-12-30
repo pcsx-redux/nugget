@@ -159,7 +159,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
             }
             case 2: {  // was a linked DMA
                 uint32_t madr = DMA_CTRL[DMA_GPU].MADR;
-                if (madr != 0xff0000) {
+                if ((madr & 0xff0000) != 0xff0000) {
                     madr &= 0x7fffff;
                     // Did we get interrupted in the middle of a chain?
                     // It means we linked a node too big for the DMA engine to handle,
@@ -168,7 +168,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
                     uint32_t head = *next;
                     uint32_t count = head >> 24;
                     head &= 0xffffff;
-                    if (head != 0xff0000) {
+                    if ((head & 0xff0000) != 0xff0000) {
                         m_chainNext = reinterpret_cast<uint32_t *>(head & 0x7fffff);
                     }
                     scheduleNormalDMA(madr + 4, count);
