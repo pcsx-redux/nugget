@@ -1,3 +1,6 @@
 [submodule "third_party/uC-sdk"]
 	path = third_party/uC-sdk
 	url = https://github.com/grumpycoders/uC-sdk.git
+[submodule "third_party/psxlua"]
+	path = third_party/psxlua
+	url = https://github.com/grumpycoders/psxlua.git
