@@ -1,0 +1,15 @@
+<map id="openbios/kernel/libcmisc.h" name="openbios/kernel/libcmisc.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="525,5,719,31"/>
+<area shape="rect" id="Node000002" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="5,79,204,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="526,35,188,81,188,76,525,30"/>
+<area shape="rect" id="Node000003" href="$d5/d96/device_8c.html" title=" " alt="" coords="229,79,399,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="560,36,364,81,363,76,559,31"/>
+<area shape="rect" id="Node000004" href="$d8/dda/openbios_2cdrom_2cdrom_8c.html" title=" " alt="" coords="424,79,607,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="595,40,534,81,531,76,592,36"/>
+<area shape="rect" id="Node000005" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="631,79,827,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="652,36,713,76,710,81,649,40"/>
+<area shape="rect" id="Node000006" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="851,79,1017,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="686,31,884,76,883,81,685,36"/>
+<area shape="rect" id="Node000007" href="$dc/d03/tty_8c.html" title=" " alt="" coords="1041,79,1176,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="714,30,1042,78,1041,83,713,35"/>
+</map>
