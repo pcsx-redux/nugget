@@ -1,0 +1,14 @@
+<map id="openbios/card/card.h" name="openbios/card/card.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="156,5,313,31"/>
+<area shape="rect" id="Node000002" href="$d1/d1f/direntry_8h.html" title=" " alt="" coords="5,152,200,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,33,125,143,121,140,222,29"/>
+<area shape="rect" id="Node000004" href="$d6/dd1/stdio_8h.html" title=" " alt="" coords="214,79,391,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,29,284,67,280,70,244,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="202,225,273,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="126,175,204,216,202,221,123,180"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="296,106,265,153,245,213,240,211,260,151,291,103"/>
+<area shape="rect" id="Node000005" href="$db/de9/device_8h.html" title=" " alt="" coords="275,152,463,177"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="309,103,344,141,340,144,305,106"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="349,180,272,221,270,216,347,175"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="363,154,328,115,332,111,367,150"/>
+</map>
