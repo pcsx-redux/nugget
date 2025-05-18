@@ -1,0 +1,17 @@
+<map id="psyqo/hardware/cdrom.hh" name="psyqo/hardware/cdrom.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="195,5,386,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="205,152,275,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,32,251,140,246,138,284,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="352,152,432,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="295,30,302,64,320,103,339,125,362,142,359,147,336,128,315,105,297,66,289,31"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="505,152,597,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="387,24,444,31,500,42,547,57,564,66,577,77,584,93,583,110,570,141,565,139,578,109,579,94,573,80,561,71,545,62,498,47,443,37,386,29"/>
+<area shape="rect" id="Node000005" href="$d6/ddc/cdrom-commandbuffer_8hh.html" title=" " alt="" coords="329,79,562,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="317,28,409,70,407,75,314,33"/>
+<area shape="rect" id="Node000006" href="$d8/d02/hwregs_8hh.html" title=" " alt="" coords="5,79,203,104"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="262,33,148,76,146,71,260,28"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="413,107,287,150,285,145,411,101"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="439,106,411,143,407,140,434,103"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="464,102,524,142,521,147,461,106"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="127,102,207,143,205,148,125,106"/>
+</map>

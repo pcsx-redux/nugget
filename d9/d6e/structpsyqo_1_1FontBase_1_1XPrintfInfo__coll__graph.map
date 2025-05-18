@@ -1,0 +1,13 @@
+<map id="psyqo::FontBase::XPrintfInfo" name="psyqo::FontBase::XPrintfInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="509,95,716,121"/>
+<area shape="rect" id="Node000002" href="$d1/d69/structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue.html" title="A maximum fixed sized fragment of similar primitives." alt="" coords="153,5,396,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="377,46,486,72,565,93,563,98,485,77,376,51"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,13,44,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="58,23,153,23,153,28,58,28"/>
+<area shape="rect" id="Node000004" href="$db/dcc/classpsyqo_1_1GPU.html" title="The singleton GPU class." alt="" coords="226,70,323,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="337,85,509,98,509,103,337,90"/>
+<area shape="rect" id="Node000005" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="219,119,330,145"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="344,130,485,124,536,118,536,123,486,129,344,135"/>
+<area shape="rect" id="Node000006" href="$d9/db4/classpsyqo_1_1FontBase.html" title="The Font drawing class." alt="" coords="210,169,339,194"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="353,171,418,161,485,148,578,118,580,123,486,153,419,167,354,176"/>
+</map>
