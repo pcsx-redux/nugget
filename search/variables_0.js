@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['_5f_5fbss_5flen_0',['__bss_len',['../dc/dea/handlers_8c.html#a01d28e390f2cfeba14a5099d1fe03d74',1,'handlers.c']]],
+  ['_5f_5fbss_5fstart_1',['__bss_start',['../dc/dea/handlers_8c.html#af213076a56bd1666772f7e3a2e340c03',1,'handlers.c']]],
+  ['_5f_5fbuild_5fid_2',['__build_id',['../dc/dea/handlers_8c.html#a5d999f0e8f987cb5f769a6c0cfac94f2',1,'handlers.c']]],
+  ['_5f_5fbuild_5fid_5fend_3',['__build_id_end',['../d8/d5b/openbios_2main_2main_8c.html#a4d9744402257e9d089a4287cf0244656',1,'main.c']]],
+  ['_5f_5fdata_5flen_4',['__data_len',['../dc/dea/handlers_8c.html#ad858e89a0dee021130ca334ee02ec687',1,'handlers.c']]],
+  ['_5f_5fdata_5fstart_5',['__data_start',['../dc/dea/handlers_8c.html#af4bc07887672145e5b08984970e47257',1,'handlers.c']]],
+  ['_5f_5fglobals_6',['__globals',['../d5/d87/globals_8h.html#abc6a912d553bdf13f9f28f4f3fbe14cb',1,'globals.h']]],
+  ['_5f_5fglobals60_7',['__globals60',['../d5/d87/globals_8h.html#ae0f669d357c922a2b9a50e2570f895d5',1,'globals.h']]],
+  ['_5f_5fheap_5fstart_8',['__heap_start',['../dd/d44/psyqo_2src_2alloc_8c.html#a6f0660655a57403adb006d3a00999fa8',1,'alloc.c']]],
+  ['_5f_5frama0table_9',['__ramA0table',['../dc/dea/handlers_8c.html#a55b140ebc7aec8d669a115cda633911d',1,'handlers.c']]],
+  ['_5f_5from_5fdata_5fstart_10',['__rom_data_start',['../dc/dea/handlers_8c.html#ae313342455e0d770a762ca41a0ad9ec1',1,'handlers.c']]],
+  ['_5f_5fstack_5fstart_11',['__stack_start',['../dd/d44/psyqo_2src_2alloc_8c.html#aee68e9c7d29d05b22e428a2d141bc4cc',1,'alloc.c']]],
+  ['_5f_5fvector_5f00_12',['__vector_00',['../d8/dda/openbios_2cdrom_2cdrom_8c.html#a9e1ec482c348197d3801825c3aa3e332',1,'__vector_00:&#160;cdrom.c'],['../d2/d31/statemachine_8c.html#a9e1ec482c348197d3801825c3aa3e332',1,'__vector_00:&#160;statemachine.c']]],
+  ['_5fbinary_5fblip_5fhit_5fstart_13',['_binary_blip_hit_start',['../db/d54/spu_8c.html#aae6ddda0d63d0cf65d5b75545dcec579',1,'spu.c']]],
+  ['_5fbinary_5fpsexe_5fbin_5fend_14',['_binary_psexe_bin_end',['../d6/d4f/shell_8c.html#ae3f7a0d9f59f8b78082719231c031400',1,'shell.c']]],
+  ['_5fbinary_5fpsexe_5fbin_5fstart_15',['_binary_psexe_bin_start',['../d6/d4f/shell_8c.html#adbd75f738e1b7fbe7b304efa213dccdb',1,'shell.c']]],
+  ['_5fbinary_5fshell_5fbin_5fend_16',['_binary_shell_bin_end',['../d6/d4f/shell_8c.html#a4561267e1fdd590fb3ccadaa69eb7328',1,'shell.c']]],
+  ['_5fbinary_5fshell_5fbin_5fstart_17',['_binary_shell_bin_start',['../d6/d4f/shell_8c.html#a1a819fec1099debdf4083782426b6e2c',1,'shell.c']]],
+  ['_5fbinary_5ftimewarped_5fhit_5fstart_18',['_binary_timewarped_hit_start',['../de/d15/demo_8c.html#ae03cd876b2a59c08948aa002390b241f',1,'demo.c']]],
+  ['_5freset_19',['_reset',['../df/ddd/pio_8c.html#a20ea143179f537fb93aec5ff5a4cbaa7',1,'pio.c']]]
+];
