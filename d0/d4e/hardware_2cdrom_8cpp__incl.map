@@ -1,0 +1,19 @@
+<map id="psyqo/src/hardware/cdrom.cpp" name="psyqo/src/hardware/cdrom.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,5,365,45"/>
+<area shape="rect" id="Node000002" href="$de/dd7/hardware_2cdrom_8hh.html" title=" " alt="" coords="195,93,386,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="293,46,293,79,288,79,288,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="205,240,275,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="289,120,251,228,246,226,284,118"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="352,240,432,265"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="295,118,302,152,320,191,339,213,362,230,359,235,336,216,315,193,297,154,289,119"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="505,240,597,265"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="387,112,444,119,500,130,547,145,564,154,577,165,584,181,583,198,570,229,565,227,578,197,579,182,573,168,561,159,545,150,498,135,443,125,386,117"/>
+<area shape="rect" id="Node000006" href="$d6/ddc/cdrom-commandbuffer_8hh.html" title=" " alt="" coords="329,167,562,192"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="317,116,409,158,407,163,314,121"/>
+<area shape="rect" id="Node000007" href="$d8/d02/hwregs_8hh.html" title=" " alt="" coords="5,167,203,192"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="262,121,148,164,146,159,260,116"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="413,195,287,238,285,233,411,189"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="439,194,411,231,407,228,434,191"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="464,190,524,230,521,235,461,194"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="127,190,207,231,205,236,125,194"/>
+</map>
