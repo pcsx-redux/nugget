@@ -1,0 +1,7 @@
+<map id="psyqo::Prim::VRAMUpload" name="psyqo::Prim::VRAMUpload">
+<area shape="rect" id="Node000001" title="Initiates a VRAM upload." alt="" coords="5,225,197,251"/>
+<area shape="rect" id="Node000002" href="$d0/d6d/structpsyqo_1_1Rect.html" title="The Rect struct." alt="" coords="52,137,151,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,177,104,225,99,225,99,177"/>
+<area shape="rect" id="Node000003" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="46,5,157,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="104,44,104,137,99,137,99,44"/>
+</map>

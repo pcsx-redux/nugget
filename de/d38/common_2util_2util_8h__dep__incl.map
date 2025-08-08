@@ -1,0 +1,22 @@
+<map id="common/util/util.h" name="common/util/util.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="403,5,545,31"/>
+<area shape="rect" id="Node000002" href="$d4/d87/bitfield_8hh.html" title=" " alt="" coords="171,79,345,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="427,37,294,81,292,76,425,32"/>
+<area shape="rect" id="Node000009" href="$da/d5a/cdrom_2filesystem_8c.html" title=" " alt="" coords="369,79,579,104"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="477,44,477,79,471,79,471,44"/>
+<area shape="rect" id="Node000010" href="$da/d48/shell_2cdrom_8c.html" title=" " alt="" coords="603,79,713,104"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="517,33,629,76,627,81,515,38"/>
+<area shape="rect" id="Node000003" href="$d3/da5/common_2util_2buffer_8hh.html" title=" " alt="" coords="115,152,281,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="241,116,210,154,206,150,237,113"/>
+<area shape="rect" id="Node000005" href="$db/d86/archive-manager_8hh.html" title=" " alt="" coords="241,299,395,339"/>
+<area shape="poly" id="edge8_Node000002_Node000005" title=" " alt="" coords="276,114,295,151,307,191,314,232,320,298,315,299,309,233,301,193,290,153,272,117"/>
+<area shape="rect" id="Node000004" href="$dd/dbd/psyqo_2buffer_8hh.html" title=" " alt="" coords="137,225,259,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="201,191,201,225,195,225,195,191"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="229,256,291,296,288,301,226,261"/>
+<area shape="rect" id="Node000007" href="$d1/dcc/cdrom-loader_8hh.html" title=" " alt="" coords="5,306,217,331"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="177,262,126,308,122,304,173,258"/>
+<area shape="rect" id="Node000006" href="$d0/d9e/archive-manager_8cpp.html" title=" " alt="" coords="229,387,407,427"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="321,353,321,386,315,386,315,353"/>
+<area shape="rect" id="Node000008" href="$d8/d24/cdrom-loader_8cpp.html" title=" " alt="" coords="26,387,197,427"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="114,345,114,386,109,386,109,345"/>
+</map>
