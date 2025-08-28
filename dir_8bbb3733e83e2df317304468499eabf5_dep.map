@@ -1,0 +1,10 @@
+<map id="tests/cpu" name="tests/cpu">
+<area shape="rect" id="node1" href="dir_805af0f7c9a5c0fe7a97a55e8007ea05.html" title="cop0" alt="" coords="27,125,80,151"/>
+<area shape="rect" id="node2" href="dir_8bbb3733e83e2df317304468499eabf5.html" title="cpu" alt="" coords="32,52,77,77"/>
+<area shape="poly" id="edge1" href="dir_000006_000005.html" alt="" coords="57,78,56,112,51,112,52,78"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000006_000005.html" title="1" alt="" coords="58,100,67,115"/>
+<area shape="rect" id="node3" href="dir_bdd9a5d540de89e9fe90efdfc6973a4f.html" title="common" alt="" coords="105,125,183,151"/>
+<area shape="poly" id="edge2" href="dir_000006_000004.html" alt="" coords="71,75,120,114,117,119,67,79"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000006_000004.html" title="3" alt="" coords="116,100,125,115"/>
+<area shape="rect" id="clust1" href="dir_59425e443f801f1f2fd8bbe4959a3ccf.html" title="tests" alt="" coords="16,16,91,161"/>
+</map>

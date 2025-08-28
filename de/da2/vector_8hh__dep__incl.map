@@ -1,0 +1,26 @@
+<map id="psyqo/vector.hh" name="psyqo/vector.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="420,5,545,31"/>
+<area shape="rect" id="Node000002" href="$db/dc6/bezier_8hh.html" title=" " alt="" coords="238,79,362,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="442,38,331,81,329,76,440,33"/>
+<area shape="rect" id="Node000004" href="$d7/dd2/gte-registers_8hh.html" title=" " alt="" coords="359,152,527,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="474,44,460,79,451,119,446,152,441,151,446,118,455,78,469,42"/>
+<area shape="rect" id="Node000009" href="$d3/d4b/matrix_8hh.html" title=" " alt="" coords="469,79,597,104"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="501,41,527,77,523,80,497,44"/>
+<area shape="rect" id="Node000010" href="$dc/d60/soft-math_8hh.html" title=" " alt="" coords="561,152,709,177"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="543,33,579,51,611,77,623,95,631,116,637,151,631,152,625,117,618,98,607,80,577,55,541,38"/>
+<area shape="rect" id="Node000003" href="$dc/d35/bezier_8cpp.html" title=" " alt="" coords="180,152,335,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="288,117,267,153,262,151,284,114"/>
+<area shape="rect" id="Node000005" href="$d1/d6b/quads_8hh.html" title=" " alt="" coords="5,225,200,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="375,183,158,228,157,223,374,177"/>
+<area shape="rect" id="Node000007" href="$da/dd8/triangles_8hh.html" title=" " alt="" coords="225,225,437,251"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="414,187,350,227,348,223,411,183"/>
+<area shape="rect" id="Node000008" href="$df/d7b/application_8cpp.html" title=" " alt="" coords="461,225,648,251"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="474,183,538,223,535,227,471,187"/>
+<area shape="rect" id="Node000006" href="$db/d99/primitives_8hh.html" title="This file is a convenience header that includes all the primitive headers." alt="" coords="141,299,291,324"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="134,256,199,296,196,301,131,260"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="302,260,236,301,233,296,299,255"/>
+<area shape="poly" id="edge10_Node000009_Node000004" title=" " alt="" coords="509,115,459,154,456,150,506,110"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="562,110,620,150,617,154,559,114"/>
+<area shape="rect" id="Node000011" href="$d1/df5/soft-math_8cpp.html" title=" " alt="" coords="672,225,851,251"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="668,182,742,223,739,227,666,186"/>
+</map>

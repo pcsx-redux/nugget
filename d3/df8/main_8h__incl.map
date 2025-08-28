@@ -1,0 +1,13 @@
+<map id="openbios/main/main.h" name="openbios/main/main.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="118,5,285,31"/>
+<area shape="rect" id="Node000002" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="27,79,234,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,33,154,71,150,67,188,29"/>
+<area shape="rect" id="Node000005" href="$dc/df3/common_2psxlibc_2setjmp_8h.html" title=" " alt="" coords="263,152,454,177"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="216,29,338,140,334,144,212,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="95,225,166,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="81,107,43,124,26,137,13,153,9,165,9,175,24,194,51,209,83,221,81,226,49,214,21,198,4,177,3,164,8,151,22,134,40,120,79,102"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="23,152,239,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="133,104,133,138,128,138,128,104"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="133,178,133,212,128,212,128,178"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="323,180,180,224,178,219,321,175"/>
+</map>

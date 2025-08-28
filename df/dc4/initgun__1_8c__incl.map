@@ -1,0 +1,8 @@
+<map id="openbios/patches/initgun_1.c" name="openbios/patches/initgun_1.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,216,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="75,152,146,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,32,83,53,69,79,68,96,72,112,91,141,86,143,67,114,62,96,64,78,79,50,97,29"/>
+<area shape="rect" id="Node000003" href="$d9/d29/patches_8h.html" title=" " alt="" coords="79,79,281,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,29,161,67,157,71,120,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="170,106,133,144,129,140,167,102"/>
+</map>

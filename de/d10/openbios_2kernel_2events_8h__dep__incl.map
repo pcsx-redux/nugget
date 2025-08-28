@@ -1,0 +1,41 @@
+<map id="openbios/kernel/events.h" name="openbios/kernel/events.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1515,5,1700,31"/>
+<area shape="rect" id="Node000002" href="$d6/d85/openbios_2cdrom_2events_8h.html" title=" " alt="" coords="423,79,610,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1501,29,610,87,610,81,1501,24"/>
+<area shape="rect" id="Node000007" href="$dd/de7/irq_8c.html" title=" " alt="" coords="1214,79,1387,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1545,36,1351,81,1350,76,1544,31"/>
+<area shape="rect" id="Node000008" href="$db/dd8/syscall_8c.html" title=" " alt="" coords="891,152,1092,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1558,37,1503,57,1445,81,1423,94,1400,106,1343,121,1264,134,1093,156,1092,150,1263,129,1342,116,1398,102,1420,90,1442,76,1501,52,1556,32"/>
+<area shape="rect" id="Node000009" href="$df/dfd/kernel_2events_8c.html" title=" " alt="" coords="1117,152,1301,177"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1576,40,1505,78,1444,106,1354,135,1270,155,1269,149,1352,130,1442,102,1502,73,1573,35"/>
+<area shape="rect" id="Node000010" href="$d5/d87/globals_8h.html" title=" " alt="" coords="1513,79,1701,104"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1610,44,1610,79,1605,79,1605,44"/>
+<area shape="rect" id="Node000013" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="2136,152,2332,177"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="1641,35,1711,74,1772,101,1919,124,2136,150,2135,155,1919,130,1771,107,1709,78,1638,40"/>
+<area shape="rect" id="Node000016" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="2356,152,2523,177"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="1654,33,1764,76,1790,90,1816,101,1894,121,1961,132,2021,138,2077,140,2195,140,2345,149,2356,151,2355,156,2344,155,2195,146,2077,145,2021,143,1961,137,1893,126,1814,107,1788,95,1762,81,1652,38"/>
+<area shape="rect" id="Node000017" href="$d7/d8f/card_8c.html" title=" " alt="" coords="1827,79,1982,104"/>
+<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="1669,31,1857,76,1856,81,1668,36"/>
+<area shape="rect" id="Node000018" href="$d1/d56/driver_8c.html" title=" " alt="" coords="2007,79,2171,104"/>
+<area shape="poly" id="edge21_Node000001_Node000018" title=" " alt="" coords="1699,30,2012,76,2011,81,1698,35"/>
+<area shape="rect" id="Node000003" href="$d8/dda/openbios_2cdrom_2cdrom_8c.html" title=" " alt="" coords="5,152,188,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="436,109,165,155,164,149,435,104"/>
+<area shape="rect" id="Node000004" href="$d9/d7d/cdrom_2events_8c.html" title=" " alt="" coords="212,152,397,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="471,111,340,154,338,149,469,106"/>
+<area shape="rect" id="Node000005" href="$d1/d02/helpers_8c.html" title=" " alt="" coords="422,152,611,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="519,118,519,152,514,152,514,118"/>
+<area shape="rect" id="Node000006" href="$d2/d31/statemachine_8c.html" title=" " alt="" coords="636,152,867,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="568,105,714,149,713,154,567,110"/>
+<area shape="poly" id="edge12_Node000010_Node000008" title=" " alt="" coords="1500,108,1090,155,1090,149,1499,102"/>
+<area shape="poly" id="edge13_Node000010_Node000009" title=" " alt="" coords="1530,109,1274,155,1273,149,1529,104"/>
+<area shape="rect" id="Node000011" href="$de/d5a/fileio_2misc_8c.html" title=" " alt="" coords="1325,152,1487,177"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1563,111,1440,154,1438,149,1561,106"/>
+<area shape="rect" id="Node000012" href="$d2/d2e/setup_8c.html" title=" " alt="" coords="1511,152,1703,177"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="1610,118,1610,152,1605,152,1605,118"/>
+<area shape="poly" id="edge14_Node000010_Node000013" title=" " alt="" coords="1715,102,2136,150,2135,155,1715,107"/>
+<area shape="rect" id="Node000014" href="$de/d98/kernel_2misc_8c.html" title=" " alt="" coords="1727,152,1898,177"/>
+<area shape="poly" id="edge15_Node000010_Node000014" title=" " alt="" coords="1654,106,1780,149,1779,154,1652,111"/>
+<area shape="rect" id="Node000015" href="$d3/d18/threads_8c.html" title=" " alt="" coords="1922,152,2111,177"/>
+<area shape="poly" id="edge16_Node000010_Node000015" title=" " alt="" coords="1687,104,1951,149,1950,155,1686,109"/>
+<area shape="poly" id="edge17_Node000010_Node000016" title=" " alt="" coords="1715,97,2000,119,2345,149,2356,150,2355,156,2344,155,2000,124,1715,103"/>
+</map>

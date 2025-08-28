@@ -1,0 +1,18 @@
+<map id="psyqo/matrix.hh" name="psyqo/matrix.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="469,5,597,31"/>
+<area shape="rect" id="Node000002" href="$d7/dd2/gte-registers_8hh.html" title=" " alt="" coords="359,79,527,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="509,41,459,81,456,76,506,37"/>
+<area shape="rect" id="Node000007" href="$dc/d60/soft-math_8hh.html" title=" " alt="" coords="619,79,767,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="572,34,668,76,666,81,570,39"/>
+<area shape="rect" id="Node000003" href="$d1/d6b/quads_8hh.html" title=" " alt="" coords="5,152,200,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,109,158,155,157,149,374,104"/>
+<area shape="rect" id="Node000005" href="$da/dd8/triangles_8hh.html" title=" " alt="" coords="225,152,437,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="414,114,350,154,348,150,411,109"/>
+<area shape="rect" id="Node000006" href="$df/d7b/application_8cpp.html" title=" " alt="" coords="461,152,648,177"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="474,109,538,150,535,154,471,114"/>
+<area shape="rect" id="Node000004" href="$db/d99/primitives_8hh.html" title="This file is a convenience header that includes all the primitive headers." alt="" coords="141,225,291,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="134,183,199,223,196,227,131,187"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="302,187,236,227,233,223,299,182"/>
+<area shape="rect" id="Node000008" href="$d1/df5/soft-math_8cpp.html" title=" " alt="" coords="672,152,851,177"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="716,112,752,150,748,154,712,116"/>
+</map>
