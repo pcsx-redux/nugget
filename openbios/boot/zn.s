@@ -96,7 +96,9 @@ _boot:
     li    $t0, 0x1734ff
     sw    $t0, SBUS_DEV0_CTRL
 
-    li    $t0, 0x200931e1
+    /* Read/write waitstates increased to 15 cycles from the default value in
+       psx.s (for ZN-2, the ZN-1 BIOS uses the same configuration as psx.s) */
+    li    $t0, 0x200931ff
     sw    $t0, SBUS_DEV4_CTRL
 
     /* 1 byte with an 8-bit bus, different value from the default one in psx.s
@@ -110,11 +112,11 @@ _boot:
     sw    $t0, SBUS_DEV1_CTRL
 
     /* 256 bytes with a 16-bit bus, different value from the default one in psx.s
-       (the ZN BIOS actually uses 0x71011 here, but it needs to be extended from
-       128 to 256 bytes in order for the writes to 0x1f802080 not to crash on
-       real hardware)
+       (the ZN-1/ZN-2 kernels actually use 0x71011/0x71077 respectively here, but
+       it needs to be extended from 128 to 256 bytes in order for the writes to
+       0x1f802080 not to crash on real hardware)
      */
-    li    $t0, 0x81011
+    li    $t0, 0x81077
     sw    $t0, SBUS_DEV8_CTRL
 
     /* The ZN BIOS probes the board configuration register to determine the RAM
