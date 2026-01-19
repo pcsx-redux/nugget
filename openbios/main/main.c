@@ -314,11 +314,11 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     POST = 1;
     writeCOP0Status(readCOP0Status() & ~0x401);
     muteSpu();
+    clearZNRegisters();
     POST = 2;
     // The 573 kernel kicks the watchdog before, after and in the middle of
     // copyDataAndInitializeBSS(), as it is by far the slowest part of the
-    // initialization sequence. clearWatchdog() is an inline function that does
-    // nothing in non-573 builds (see main.h).
+    // initialization sequence.
     clearWatchdog();
     copyDataAndInitializeBSS();
     POST = 3;
