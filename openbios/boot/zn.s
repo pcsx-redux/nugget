@@ -38,7 +38,7 @@ _reset:
     sw    $t0, SBUS_DEV2_CTRL
 
     /* psx.s configures the DRAM controller here, but we are going to do that
-       after setting up DEV0/EXP1 as we have to probe a bit in there first. */
+       after setting up DEV1/EXP3 as we have to probe a bit in there first. */
     nop
     nop
     nop
@@ -81,7 +81,9 @@ _reset:
 
 _boot:
     /* initializing all of the buses now */
-    li    $t0, 0x31125
+
+    /* Floating time increased by 1 cycle from the default value in psx.s */
+    li    $t0, 0x31225
     sw    $t0, SBUS_COM_CTRL
 
     li    $t0, 0x1f000000
@@ -91,42 +93,44 @@ _boot:
     sw    $t0, SBUS_DEV8_ADDR
 
     /* 8 MB with a 16-bit bus, different value from the default one in psx.s */
-    li    $t0, 0x24173f47
+    li    $t0, 0x1734ff
     sw    $t0, SBUS_DEV0_CTRL
 
     li    $t0, 0x200931e1
     sw    $t0, SBUS_DEV4_CTRL
 
-    li    $t0, 0x20843
+    /* 1 byte with an 8-bit bus, different value from the default one in psx.s
+       (probably a failed attempt to set the CD-ROM region size to 0 bytes so
+       that any access would have generated an exception) */
+    li    $t0, 0x843
     sw    $t0, SBUS_DEV5_CTRL
 
-    li    $t0, 0x3022
+    /* 2 MB with a 16-bit bus, different value from the default one in psx.s */
+    li    $t0, 0x153410
     sw    $t0, SBUS_DEV1_CTRL
 
-    /* The original code uses 70777 here, but we have
-       some debugging routines hitting 0x1f802080,
-       beyond the normal range, so we need to extend it,
-       to avoid crashes on the real hardware. */
-    li    $t0, 0x80777
+    /* 256 bytes with a 16-bit bus, different value from the default one in psx.s
+       (the ZN BIOS actually uses 0x71011 here, but it needs to be extended from
+       128 to 256 bytes in order for the writes to 0x1f802080 not to crash on
+       real hardware)
+     */
+    li    $t0, 0x81011
     sw    $t0, SBUS_DEV8_CTRL
 
-    /* Clear the watchdog. */
-    sh    $0, SYS573_WATCHDOG
+    /* The ZN BIOS probes the board configuration register to determine the RAM
+       layout and sets up both the DRAM controller and __globals60.ramsize
+       accordingly. */
+    lbu   $t1, ZN_BOARD_CONFIG
+    la    $t0, _zn_ram_configs
+    andi  $t1, 3
+    sll   $t1, 2
+    addu  $t1, $t0
 
-    /* The 700B01 BIOS probes the ASIC revision bit to determine whether the
-       board is an older one with eight 512 KB RAM chips or a revision D
-       populated with two 4 MB (?) chips. The 700A01 BIOS predates revision D
-       and simply uses a hardcoded DRAM controller configuration instead. */
-    lhu   $t1, SYS573_JAMMA_P2_EXT
-    li    $t0, 0xc80
-    andi  $t1, 1 << 10
-    bnez  $t1, old_board_revision
-
-new_board_revision:
-    li    $t0, 0x4788
-
-old_board_revision:
+    lhu   $t0, 0($t1)
+    lhu   $t1, 2($t1)
     sw    $t0, RAM_SIZE
+    nop
+    sw    $t1, 0x60($0)
 
     /* clearing out all registers */
     .set push
@@ -228,10 +232,6 @@ bss_init_skip:
     la    $sp, __sp
     move  $fp, $sp
 
-    /* set __globals60.ramsize to 4 MB */
-    li    $t0, 4
-    sw    $t0, 0x60($0)
-
     jal   _ucsdk_start
 
     li    $t0, 0x1f802080
@@ -240,3 +240,16 @@ bss_init_skip:
     sb    $t1, 1($t0)
 stop:
     b     stop
+
+    .section .rodata._zn_ram_configs, "a", @progbits
+    .align 2
+
+_zn_ram_configs:
+    /* Configuration 00: two 2 MB banks, bit 3 set */
+    .hword 0xcbc, 4
+    /* Configuration 01: two 2 MB banks */
+    .hword 0xcb4, 4
+    /* Configuration 10: single 8 MB bank */
+    .hword 0xbb4, 8
+    /* Configuration 11: two 8 MB banks */
+    .hword 0xfa4, 16
