@@ -193,3 +193,46 @@ MAKE_CTRL_TEST(nct_lb3,    scene_setup, OP_NCT_SF1_LM1, 20, CANARY_LMAT, "NCT LB
 MAKE_CTRL_TEST(nct_rbk, scene_setup, OP_NCT_SF1_LM1, 13, CANARY_BK, "NCT RBK")
 MAKE_CTRL_TEST(nct_gbk, scene_setup, OP_NCT_SF1_LM1, 14, CANARY_BK, "NCT GBK")
 MAKE_CTRL_TEST(nct_bbk, scene_setup, OP_NCT_SF1_LM1, 15, CANARY_BK, "NCT BBK")
+
+// ==========================================================================
+// NCDT (Normal Color Depth-cue Triple): adds a depth-cue stage on top of
+// the NCC pipeline, blending the lit color toward FC by IR0. 44 cycles.
+//
+// Scene tweaks via scene_setup_ncdt(): set IR0 to 0x800 (mid blend, 0.5
+// in 1.12), set FC to a non-zero value so depth-cue output differs from
+// the lit color path. RGBC stays the same.
+// ==========================================================================
+#ifndef NCDT_HELPERS_DEFINED
+#define NCDT_HELPERS_DEFINED
+static inline void scene_setup_ncdt(void) {
+    scene_setup();
+    cop2_putc(21, 0x1000);   // RFC = 0x1000
+    cop2_putc(22, 0x1000);   // GFC
+    cop2_putc(23, 0x1000);   // BFC
+    cop2_put(8,  0x0800);    // IR0 = 0.5 in 1.12
+}
+#endif
+
+MAKE_DATA_TEST(ncdt_vxy0, scene_setup_ncdt, OP_NCDT_SF1_LM1, 0, CANARY_VXY,  "NCDT VXY0")
+MAKE_DATA_TEST(ncdt_vz0,  scene_setup_ncdt, OP_NCDT_SF1_LM1, 1, CANARY_VZ,   "NCDT VZ0")
+MAKE_DATA_TEST(ncdt_vxy1, scene_setup_ncdt, OP_NCDT_SF1_LM1, 2, CANARY_VXY,  "NCDT VXY1")
+MAKE_DATA_TEST(ncdt_vz1,  scene_setup_ncdt, OP_NCDT_SF1_LM1, 3, CANARY_VZ,   "NCDT VZ1")
+MAKE_DATA_TEST(ncdt_vxy2, scene_setup_ncdt, OP_NCDT_SF1_LM1, 4, CANARY_VXY,  "NCDT VXY2")
+MAKE_DATA_TEST(ncdt_vz2,  scene_setup_ncdt, OP_NCDT_SF1_LM1, 5, CANARY_VZ,   "NCDT VZ2")
+MAKE_DATA_TEST(ncdt_rgbc, scene_setup_ncdt, OP_NCDT_SF1_LM1, 6, CANARY_RGBC, "NCDT RGBC")
+MAKE_CTRL_TEST(ncdt_l11l12, scene_setup_ncdt, OP_NCDT_SF1_LM1,  8, CANARY_LMAT, "NCDT L11L12")
+MAKE_CTRL_TEST(ncdt_l13l21, scene_setup_ncdt, OP_NCDT_SF1_LM1,  9, CANARY_LMAT, "NCDT L13L21")
+MAKE_CTRL_TEST(ncdt_l22l23, scene_setup_ncdt, OP_NCDT_SF1_LM1, 10, CANARY_LMAT, "NCDT L22L23")
+MAKE_CTRL_TEST(ncdt_l31l32, scene_setup_ncdt, OP_NCDT_SF1_LM1, 11, CANARY_LMAT, "NCDT L31L32")
+MAKE_CTRL_TEST(ncdt_l33,    scene_setup_ncdt, OP_NCDT_SF1_LM1, 12, CANARY_LMAT, "NCDT L33")
+MAKE_CTRL_TEST(ncdt_lr1lr2, scene_setup_ncdt, OP_NCDT_SF1_LM1, 16, CANARY_LMAT, "NCDT LR1LR2")
+MAKE_CTRL_TEST(ncdt_lr3lg1, scene_setup_ncdt, OP_NCDT_SF1_LM1, 17, CANARY_LMAT, "NCDT LR3LG1")
+MAKE_CTRL_TEST(ncdt_lg2lg3, scene_setup_ncdt, OP_NCDT_SF1_LM1, 18, CANARY_LMAT, "NCDT LG2LG3")
+MAKE_CTRL_TEST(ncdt_lb1lb2, scene_setup_ncdt, OP_NCDT_SF1_LM1, 19, CANARY_LMAT, "NCDT LB1LB2")
+MAKE_CTRL_TEST(ncdt_lb3,    scene_setup_ncdt, OP_NCDT_SF1_LM1, 20, CANARY_LMAT, "NCDT LB3")
+MAKE_CTRL_TEST(ncdt_rbk, scene_setup_ncdt, OP_NCDT_SF1_LM1, 13, CANARY_BK, "NCDT RBK")
+MAKE_CTRL_TEST(ncdt_gbk, scene_setup_ncdt, OP_NCDT_SF1_LM1, 14, CANARY_BK, "NCDT GBK")
+MAKE_CTRL_TEST(ncdt_bbk, scene_setup_ncdt, OP_NCDT_SF1_LM1, 15, CANARY_BK, "NCDT BBK")
+MAKE_CTRL_TEST(ncdt_rfc, scene_setup_ncdt, OP_NCDT_SF1_LM1, 21, CANARY_FC, "NCDT RFC")
+MAKE_CTRL_TEST(ncdt_gfc, scene_setup_ncdt, OP_NCDT_SF1_LM1, 22, CANARY_FC, "NCDT GFC")
+MAKE_CTRL_TEST(ncdt_bfc, scene_setup_ncdt, OP_NCDT_SF1_LM1, 23, CANARY_FC, "NCDT BFC")
