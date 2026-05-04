@@ -53,12 +53,16 @@ SOFTWARE.
 // A captured GTE output snapshot. We compare the perturbed output's full
 // state against the unperturbed baseline; any field changing means the
 // perturbation reached the GTE before the latch.
+//
+// All FIFO entries are captured because triple-vertex instructions
+// (RTPT/NCDT/etc.) push three results - perturbing V0 only changes the
+// V0 slot (oldest), so comparing only the newest slot misses it.
 typedef struct {
     uint32_t rgb0, rgb1, rgb2;
     int32_t  mac0, mac1, mac2, mac3;
     int32_t  ir0, ir1, ir2, ir3;
-    uint32_t sxyp;     // SXY FIFO (read = SXY2)
-    uint32_t sz3;      // SZ FIFO newest
+    uint32_t sxy0, sxy1, sxy2;
+    uint32_t sz0, sz1, sz2, sz3;
     uint32_t flag;
 } probe_result_t;
 
@@ -98,8 +102,13 @@ static inline void read_full_state(probe_result_t* r) {
     cop2_get( 9, v); r->ir1 = v;
     cop2_get(10, v); r->ir2 = v;
     cop2_get(11, v); r->ir3 = v;
-    cop2_get(15, r->sxyp);   // SXY2 (FIFO read)
-    cop2_get(19, r->sz3);    // SZ3
+    cop2_get(12, r->sxy0);
+    cop2_get(13, r->sxy1);
+    cop2_get(14, r->sxy2);
+    cop2_get(16, r->sz0);
+    cop2_get(17, r->sz1);
+    cop2_get(18, r->sz2);
+    cop2_get(19, r->sz3);
     cop2_getc(31, r->flag);
 }
 
@@ -109,7 +118,9 @@ static inline int results_equal(const probe_result_t* a, const probe_result_t* b
         && a->mac2 == b->mac2 && a->mac3 == b->mac3
         && a->ir0  == b->ir0  && a->ir1  == b->ir1
         && a->ir2  == b->ir2  && a->ir3  == b->ir3
-        && a->sxyp == b->sxyp && a->sz3  == b->sz3
+        && a->sxy0 == b->sxy0 && a->sxy1 == b->sxy1 && a->sxy2 == b->sxy2
+        && a->sz0  == b->sz0  && a->sz1  == b->sz1
+        && a->sz2  == b->sz2  && a->sz3  == b->sz3
         && a->flag == b->flag;
 }
 
