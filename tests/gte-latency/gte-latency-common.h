@@ -43,9 +43,12 @@ SOFTWARE.
 // clang-format off
 
 // Maximum number of nops to sweep between cop2 op and perturbation.
-// We extend a few past the longest documented instruction (NCDT at 44
-// cycles) to confirm boundaries are well inside the execution window.
-#define MAX_N 48
+// All NCCT boundaries observed so far are <= 13; longer instructions
+// (NCDT at 44 cycles) push later but inputs are typically read in the
+// first half of execution. 32 has comfortable margin and keeps the
+// per-test code size manageable so multiple instructions fit in one
+// 2 MB ps-exe.
+#define MAX_N 32
 
 // A captured GTE output snapshot. We compare the perturbed output's full
 // state against the unperturbed baseline; any field changing means the
@@ -264,22 +267,6 @@ static inline int results_equal(const probe_result_t* a, const probe_result_t* b
         setup_fn(); PROBE_DATA_AT_OFFSET(30, op_imm, dst_reg, canary); read_full_state(&(results)[30]); \
         setup_fn(); PROBE_DATA_AT_OFFSET(31, op_imm, dst_reg, canary); read_full_state(&(results)[31]); \
         setup_fn(); PROBE_DATA_AT_OFFSET(32, op_imm, dst_reg, canary); read_full_state(&(results)[32]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(33, op_imm, dst_reg, canary); read_full_state(&(results)[33]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(34, op_imm, dst_reg, canary); read_full_state(&(results)[34]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(35, op_imm, dst_reg, canary); read_full_state(&(results)[35]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(36, op_imm, dst_reg, canary); read_full_state(&(results)[36]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(37, op_imm, dst_reg, canary); read_full_state(&(results)[37]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(38, op_imm, dst_reg, canary); read_full_state(&(results)[38]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(39, op_imm, dst_reg, canary); read_full_state(&(results)[39]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(40, op_imm, dst_reg, canary); read_full_state(&(results)[40]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(41, op_imm, dst_reg, canary); read_full_state(&(results)[41]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(42, op_imm, dst_reg, canary); read_full_state(&(results)[42]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(43, op_imm, dst_reg, canary); read_full_state(&(results)[43]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(44, op_imm, dst_reg, canary); read_full_state(&(results)[44]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(45, op_imm, dst_reg, canary); read_full_state(&(results)[45]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(46, op_imm, dst_reg, canary); read_full_state(&(results)[46]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(47, op_imm, dst_reg, canary); read_full_state(&(results)[47]); \
-        setup_fn(); PROBE_DATA_AT_OFFSET(48, op_imm, dst_reg, canary); read_full_state(&(results)[48]); \
     } while (0)
 
 #define DO_SWEEP_CTRL(setup_fn, op_imm, dst_reg, canary, results)          \
@@ -317,22 +304,6 @@ static inline int results_equal(const probe_result_t* a, const probe_result_t* b
         setup_fn(); PROBE_CTRL_AT_OFFSET(30, op_imm, dst_reg, canary); read_full_state(&(results)[30]); \
         setup_fn(); PROBE_CTRL_AT_OFFSET(31, op_imm, dst_reg, canary); read_full_state(&(results)[31]); \
         setup_fn(); PROBE_CTRL_AT_OFFSET(32, op_imm, dst_reg, canary); read_full_state(&(results)[32]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(33, op_imm, dst_reg, canary); read_full_state(&(results)[33]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(34, op_imm, dst_reg, canary); read_full_state(&(results)[34]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(35, op_imm, dst_reg, canary); read_full_state(&(results)[35]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(36, op_imm, dst_reg, canary); read_full_state(&(results)[36]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(37, op_imm, dst_reg, canary); read_full_state(&(results)[37]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(38, op_imm, dst_reg, canary); read_full_state(&(results)[38]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(39, op_imm, dst_reg, canary); read_full_state(&(results)[39]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(40, op_imm, dst_reg, canary); read_full_state(&(results)[40]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(41, op_imm, dst_reg, canary); read_full_state(&(results)[41]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(42, op_imm, dst_reg, canary); read_full_state(&(results)[42]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(43, op_imm, dst_reg, canary); read_full_state(&(results)[43]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(44, op_imm, dst_reg, canary); read_full_state(&(results)[44]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(45, op_imm, dst_reg, canary); read_full_state(&(results)[45]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(46, op_imm, dst_reg, canary); read_full_state(&(results)[46]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(47, op_imm, dst_reg, canary); read_full_state(&(results)[47]); \
-        setup_fn(); PROBE_CTRL_AT_OFFSET(48, op_imm, dst_reg, canary); read_full_state(&(results)[48]); \
     } while (0)
 
 // ==========================================================================

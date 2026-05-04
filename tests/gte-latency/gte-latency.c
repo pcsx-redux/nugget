@@ -92,7 +92,12 @@ static inline void scene_setup(void) {
 // Canary values: chosen to be wildly different from baseline and to
 // produce clearly different outputs.
 #define CANARY_VXY  0x40004000u   // VX=0x4000, VY=0x4000
-#define CANARY_VZ   0x00004000u   // VZ=0x4000
+// VZ canary chosen smaller than baseline (0x1000) so the perturbed
+// pipeline doesn't saturate to the same RGB value as the baseline.
+// 0x4000 was too large for NCT (no per-vertex color tint to shrink the
+// pipeline output), causing the sanity-pre output to saturate to the
+// same 0xff as baseline.
+#define CANARY_VZ   0x00000100u
 #define CANARY_RGBC 0x00404040u   // R=G=B=0x40 (half intensity)
 #define CANARY_LMAT 0x00000800u   // 0.5 in matrix entry (vs identity 1.0=0x1000)
 #define CANARY_BK   0x00010000u   // BK = 65536 (16.0)
@@ -164,3 +169,27 @@ MAKE_CTRL_TEST(ncct_lb3,    scene_setup, OP_NCCT_SF1_LM1, 20, CANARY_LMAT, "NCCT
 MAKE_CTRL_TEST(ncct_rbk, scene_setup, OP_NCCT_SF1_LM1, 13, CANARY_BK, "NCCT RBK")
 MAKE_CTRL_TEST(ncct_gbk, scene_setup, OP_NCCT_SF1_LM1, 14, CANARY_BK, "NCCT GBK")
 MAKE_CTRL_TEST(ncct_bbk, scene_setup, OP_NCCT_SF1_LM1, 15, CANARY_BK, "NCCT BBK")
+
+// ==========================================================================
+// NCT (Normal Color Triple): same vertex/matrix inputs as NCCT but no
+// per-vertex color tint (no RGBC stage). 30 cycles, 3 sub-passes.
+// ==========================================================================
+MAKE_DATA_TEST(nct_vxy0, scene_setup, OP_NCT_SF1_LM1, 0, CANARY_VXY,  "NCT VXY0")
+MAKE_DATA_TEST(nct_vz0,  scene_setup, OP_NCT_SF1_LM1, 1, CANARY_VZ,   "NCT VZ0")
+MAKE_DATA_TEST(nct_vxy1, scene_setup, OP_NCT_SF1_LM1, 2, CANARY_VXY,  "NCT VXY1")
+MAKE_DATA_TEST(nct_vz1,  scene_setup, OP_NCT_SF1_LM1, 3, CANARY_VZ,   "NCT VZ1")
+MAKE_DATA_TEST(nct_vxy2, scene_setup, OP_NCT_SF1_LM1, 4, CANARY_VXY,  "NCT VXY2")
+MAKE_DATA_TEST(nct_vz2,  scene_setup, OP_NCT_SF1_LM1, 5, CANARY_VZ,   "NCT VZ2")
+MAKE_CTRL_TEST(nct_l11l12, scene_setup, OP_NCT_SF1_LM1,  8, CANARY_LMAT, "NCT L11L12")
+MAKE_CTRL_TEST(nct_l13l21, scene_setup, OP_NCT_SF1_LM1,  9, CANARY_LMAT, "NCT L13L21")
+MAKE_CTRL_TEST(nct_l22l23, scene_setup, OP_NCT_SF1_LM1, 10, CANARY_LMAT, "NCT L22L23")
+MAKE_CTRL_TEST(nct_l31l32, scene_setup, OP_NCT_SF1_LM1, 11, CANARY_LMAT, "NCT L31L32")
+MAKE_CTRL_TEST(nct_l33,    scene_setup, OP_NCT_SF1_LM1, 12, CANARY_LMAT, "NCT L33")
+MAKE_CTRL_TEST(nct_lr1lr2, scene_setup, OP_NCT_SF1_LM1, 16, CANARY_LMAT, "NCT LR1LR2")
+MAKE_CTRL_TEST(nct_lr3lg1, scene_setup, OP_NCT_SF1_LM1, 17, CANARY_LMAT, "NCT LR3LG1")
+MAKE_CTRL_TEST(nct_lg2lg3, scene_setup, OP_NCT_SF1_LM1, 18, CANARY_LMAT, "NCT LG2LG3")
+MAKE_CTRL_TEST(nct_lb1lb2, scene_setup, OP_NCT_SF1_LM1, 19, CANARY_LMAT, "NCT LB1LB2")
+MAKE_CTRL_TEST(nct_lb3,    scene_setup, OP_NCT_SF1_LM1, 20, CANARY_LMAT, "NCT LB3")
+MAKE_CTRL_TEST(nct_rbk, scene_setup, OP_NCT_SF1_LM1, 13, CANARY_BK, "NCT RBK")
+MAKE_CTRL_TEST(nct_gbk, scene_setup, OP_NCT_SF1_LM1, 14, CANARY_BK, "NCT GBK")
+MAKE_CTRL_TEST(nct_bbk, scene_setup, OP_NCT_SF1_LM1, 15, CANARY_BK, "NCT BBK")
