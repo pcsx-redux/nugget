@@ -2,6 +2,7 @@ all:
 	$(MAKE) -C basic all
 	$(MAKE) -C cpu all
 	$(MAKE) -C cop0 all
+	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
 	$(MAKE) -C gte all
 	$(MAKE) -C libc all
@@ -15,6 +16,7 @@ clean:
 	$(MAKE) -C basic clean
 	$(MAKE) -C cpu clean
 	$(MAKE) -C cop0 clean
+	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
 	$(MAKE) -C gte clean
 	$(MAKE) -C libc clean
