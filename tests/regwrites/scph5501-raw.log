@@ -1,0 +1,375 @@
+=== PS1 MMIO Partial-Word Write Masking Probe ===
+Compiled: May  6 2026 15:21:22
+Format:
+  <reg> <op>  +<off> base=<seed> src=<src> got=<readback> [neigh=<next-reg>]
+  AdES rows: faulting instruction trapped (cause/epc/badvaddr).
+
+--- IMASK @ 0xbf801074 (on-die, 32-bit) ---
+IMASK           sw  +0 base=0x00000000 src=0xaabbccdd got=0x240704dd
+IMASK           sb  +0 base=0x00000000 src=0xaabbccdd got=0xbf8004dd
+IMASK           sb  +1 base=0x00000000 src=0xaabbccdd got=0xbf800500
+IMASK           sb  +2 base=0x00000000 src=0xaabbccdd got=0xbf800000
+IMASK           sb  +3 base=0x00000000 src=0xaabbccdd got=0xbf800000
+IMASK           sh  +0 base=0x00000000 src=0xaabbccdd got=0xbf8004dd
+IMASK           sh  +2 base=0x00000000 src=0xaabbccdd got=0xbf800000
+IMASK           sh  +1 base=0x00000000 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801075
+IMASK           sh  +3 base=0x00000000 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801077
+IMASK           swl +0 base=0x00000000 src=0xaabbccdd got=0xbf8000aa
+IMASK           swl +1 base=0x00000000 src=0xaabbccdd got=0xbf8002bb
+IMASK           swl +2 base=0x00000000 src=0xaabbccdd got=0xbf8003cc
+IMASK           swl +3 base=0x00000000 src=0xaabbccdd got=0xbf8004dd
+IMASK           swr +0 base=0x00000000 src=0xaabbccdd got=0xbf8004dd
+IMASK           swr +1 base=0x00000000 src=0xaabbccdd got=0xbf800500
+IMASK           swr +2 base=0x00000000 src=0xaabbccdd got=0xbf800000
+IMASK           swr +3 base=0x00000000 src=0xaabbccdd got=0xbf800000
+IMASK           sw  +0 base=0x00000000 src=0xfedcba98 got=0xbf800298
+IMASK           sb  +0 base=0x00000000 src=0xfedcba98 got=0xbf800298
+IMASK           sb  +1 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           sb  +2 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           sb  +3 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           sh  +0 base=0x00000000 src=0xfedcba98 got=0xbf800298
+IMASK           sh  +2 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           sh  +1 base=0x00000000 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801075
+IMASK           sh  +3 base=0x00000000 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801077
+IMASK           swl +0 base=0x00000000 src=0xfedcba98 got=0xbf8000fe
+IMASK           swl +1 base=0x00000000 src=0xfedcba98 got=0xbf8006dc
+IMASK           swl +2 base=0x00000000 src=0xfedcba98 got=0xbf8004ba
+IMASK           swl +3 base=0x00000000 src=0xfedcba98 got=0xbf800298
+IMASK           swr +0 base=0x00000000 src=0xfedcba98 got=0xbf800298
+IMASK           swr +1 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           swr +2 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           swr +3 base=0x00000000 src=0xfedcba98 got=0xbf800000
+IMASK           sw  +0 base=0xffffffff src=0xaabbccdd got=0xbf8004dd
+IMASK           sb  +0 base=0xffffffff src=0xaabbccdd got=0xbf8004dd
+IMASK           sb  +1 base=0xffffffff src=0xaabbccdd got=0xbf800500
+IMASK           sb  +2 base=0xffffffff src=0xaabbccdd got=0xbf800000
+IMASK           sb  +3 base=0xffffffff src=0xaabbccdd got=0xbf800000
+IMASK           sh  +0 base=0xffffffff src=0xaabbccdd got=0xbf8004dd
+IMASK           sh  +2 base=0xffffffff src=0xaabbccdd got=0xbf800000
+IMASK           sh  +1 base=0xffffffff src=0xaabbccdd AdES cause=0x10000414 epc=0x80010a74 badvaddr=0xbf801075
+IMASK           sh  +3 base=0xffffffff src=0xaabbccdd AdES cause=0x10000414 epc=0x80010a74 badvaddr=0xbf801077
+IMASK           swl +0 base=0xffffffff src=0xaabbccdd got=0xbf8000aa
+IMASK           swl +1 base=0xffffffff src=0xaabbccdd got=0xbf8002bb
+IMASK           swl +2 base=0xffffffff src=0xaabbccdd got=0xbf8003cc
+IMASK           swl +3 base=0xffffffff src=0xaabbccdd got=0xbf8004dd
+IMASK           swr +0 base=0xffffffff src=0xaabbccdd got=0xbf8004dd
+IMASK           swr +1 base=0xffffffff src=0xaabbccdd got=0xbf800500
+IMASK           swr +2 base=0xffffffff src=0xaabbccdd got=0xbf800000
+IMASK           swr +3 base=0xffffffff src=0xaabbccdd got=0xbf800000
+IMASK           sw  +0 base=0xffffffff src=0xfedcba98 got=0xbf800298
+IMASK           sb  +0 base=0xffffffff src=0xfedcba98 got=0xbf800298
+IMASK           sb  +1 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           sb  +2 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           sb  +3 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           sh  +0 base=0xffffffff src=0xfedcba98 got=0xbf800298
+IMASK           sh  +2 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           sh  +1 base=0xffffffff src=0xfedcba98 AdES cause=0x10000414 epc=0x80010a74 badvaddr=0xbf801075
+IMASK           sh  +3 base=0xffffffff src=0xfedcba98 AdES cause=0x10000414 epc=0x80010a74 badvaddr=0xbf801077
+IMASK           swl +0 base=0xffffffff src=0xfedcba98 got=0xbf8000fe
+IMASK           swl +1 base=0xffffffff src=0xfedcba98 got=0xbf8006dc
+IMASK           swl +2 base=0xffffffff src=0xfedcba98 got=0xbf8004ba
+IMASK           swl +3 base=0xffffffff src=0xfedcba98 got=0xbf800298
+IMASK           swr +0 base=0xffffffff src=0xfedcba98 got=0xbf800298
+IMASK           swr +1 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           swr +2 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           swr +3 base=0xffffffff src=0xfedcba98 got=0xbf800000
+IMASK           sw  +0 base=0x11223344 src=0xaabbccdd got=0xbf8004dd
+IMASK           sb  +0 base=0x11223344 src=0xaabbccdd got=0xbf8004dd
+IMASK           sb  +1 base=0x11223344 src=0xaabbccdd got=0xbf800500
+IMASK           sb  +2 base=0x11223344 src=0xaabbccdd got=0xbf800000
+IMASK           sb  +3 base=0x11223344 src=0xaabbccdd got=0xbf800000
+IMASK           sh  +0 base=0x11223344 src=0xaabbccdd got=0xbf8004dd
+IMASK           sh  +2 base=0x11223344 src=0xaabbccdd got=0xbf800000
+IMASK           sh  +1 base=0x11223344 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801075
+IMASK           sh  +3 base=0x11223344 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801077
+IMASK           swl +0 base=0x11223344 src=0xaabbccdd got=0xbf8000aa
+IMASK           swl +1 base=0x11223344 src=0xaabbccdd got=0xbf8002bb
+IMASK           swl +2 base=0x11223344 src=0xaabbccdd got=0xbf8003cc
+IMASK           swl +3 base=0x11223344 src=0xaabbccdd got=0xbf8004dd
+IMASK           swr +0 base=0x11223344 src=0xaabbccdd got=0xbf8004dd
+IMASK           swr +1 base=0x11223344 src=0xaabbccdd got=0xbf800500
+IMASK           swr +2 base=0x11223344 src=0xaabbccdd got=0xbf800000
+IMASK           swr +3 base=0x11223344 src=0xaabbccdd got=0xbf800000
+IMASK           sw  +0 base=0x11223344 src=0xfedcba98 got=0xbf800298
+IMASK           sb  +0 base=0x11223344 src=0xfedcba98 got=0xbf800298
+IMASK           sb  +1 base=0x11223344 src=0xfedcba98 got=0xbf800000
+IMASK           sb  +2 base=0x11223344 src=0xfedcba98 got=0xbf800000
+IMASK           sb  +3 base=0x11223344 src=0xfedcba98 got=0xbf800000
+IMASK           sh  +0 base=0x11223344 src=0xfedcba98 got=0xbf800298
+IMASK           sh  +2 base=0x11223344 src=0xfedcba98 got=0xbf800000
+IMASK           sh  +1 base=0x11223344 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801075
+IMASK           sh  +3 base=0x11223344 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf801077
+IMASK           swl +0 base=0x11223344 src=0xfedcba98 got=0xbf8000fe
+IMASK           swl +1 base=0x11223344 src=0xfedcba98 got=0xbf8006dc
+IMASK           swl +2 base=0x11223344 src=0xfedcba98 got=0xbf8004ba
+IMASK           swl +3 base=0x11223344 src=0xfedcba98 got=0xbf800298
+IMASK           swr +0 base=0x11223344 src=0xfedcba98 got=0xbf800298
+IMASK           swr +1 base=0x11223344 src=0xfedcba98 got=0xbf800000
+IMASK           swr +2 base=0x11223344 src=0xfedcba98 got=0xbf800000
+IMASK           swr +3 base=0x11223344 src=0xfedcba98 got=0xbf800000
+
+--- DPCR @ 0xbf8010f0 (on-die, 32-bit) ---
+DPCR            sw  +0 base=0x00000000 src=0xaabbccdd got=0xaabbccdd
+DPCR            sb  +0 base=0x00000000 src=0xaabbccdd got=0xaabbccdd
+DPCR            sb  +1 base=0x00000000 src=0xaabbccdd got=0xbbccdd00
+DPCR            sb  +2 base=0x00000000 src=0xaabbccdd got=0xccdd0000
+DPCR            sb  +3 base=0x00000000 src=0xaabbccdd got=0xdd000000
+DPCR            sh  +0 base=0x00000000 src=0xaabbccdd got=0xaabbccdd
+DPCR            sh  +2 base=0x00000000 src=0xaabbccdd got=0xccdd0000
+DPCR            sh  +1 base=0x00000000 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f1
+DPCR            sh  +3 base=0x00000000 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f3
+DPCR            swl +0 base=0x00000000 src=0xaabbccdd got=0x000000aa
+DPCR            swl +1 base=0x00000000 src=0xaabbccdd got=0x0000aabb
+DPCR            swl +2 base=0x00000000 src=0xaabbccdd got=0x00aabbcc
+DPCR            swl +3 base=0x00000000 src=0xaabbccdd got=0xaabbccdd
+DPCR            swr +0 base=0x00000000 src=0xaabbccdd got=0xaabbccdd
+DPCR            swr +1 base=0x00000000 src=0xaabbccdd got=0xbbccdd00
+DPCR            swr +2 base=0x00000000 src=0xaabbccdd got=0xccdd0000
+DPCR            swr +3 base=0x00000000 src=0xaabbccdd got=0xdd000000
+DPCR            sw  +0 base=0x00000000 src=0xfedcba98 got=0xfedcba98
+DPCR            sb  +0 base=0x00000000 src=0xfedcba98 got=0xfedcba98
+DPCR            sb  +1 base=0x00000000 src=0xfedcba98 got=0xdcba9800
+DPCR            sb  +2 base=0x00000000 src=0xfedcba98 got=0xba980000
+DPCR            sb  +3 base=0x00000000 src=0xfedcba98 got=0x98000000
+DPCR            sh  +0 base=0x00000000 src=0xfedcba98 got=0xfedcba98
+DPCR            sh  +2 base=0x00000000 src=0xfedcba98 got=0xba980000
+DPCR            sh  +1 base=0x00000000 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f1
+DPCR            sh  +3 base=0x00000000 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f3
+DPCR            swl +0 base=0x00000000 src=0xfedcba98 got=0x000000fe
+DPCR            swl +1 base=0x00000000 src=0xfedcba98 got=0x0000fedc
+DPCR            swl +2 base=0x00000000 src=0xfedcba98 got=0x00fedcba
+DPCR            swl +3 base=0x00000000 src=0xfedcba98 got=0xfedcba98
+DPCR            swr +0 base=0x00000000 src=0xfedcba98 got=0xfedcba98
+DPCR            swr +1 base=0x00000000 src=0xfedcba98 got=0xdcba9800
+DPCR            swr +2 base=0x00000000 src=0xfedcba98 got=0xba980000
+DPCR            swr +3 base=0x00000000 src=0xfedcba98 got=0x98000000
+DPCR            sw  +0 base=0xffffffff src=0xaabbccdd got=0xaabbccdd
+DPCR            sb  +0 base=0xffffffff src=0xaabbccdd got=0xaabbccdd
+DPCR            sb  +1 base=0xffffffff src=0xaabbccdd got=0xbbccdd00
+DPCR            sb  +2 base=0xffffffff src=0xaabbccdd got=0xccdd0000
+DPCR            sb  +3 base=0xffffffff src=0xaabbccdd got=0xdd000000
+DPCR            sh  +0 base=0xffffffff src=0xaabbccdd got=0xaabbccdd
+DPCR            sh  +2 base=0xffffffff src=0xaabbccdd got=0xccdd0000
+DPCR            sh  +1 base=0xffffffff src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f1
+DPCR            sh  +3 base=0xffffffff src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f3
+DPCR            swl +0 base=0xffffffff src=0xaabbccdd got=0x000000aa
+DPCR            swl +1 base=0xffffffff src=0xaabbccdd got=0x0000aabb
+DPCR            swl +2 base=0xffffffff src=0xaabbccdd got=0x00aabbcc
+DPCR            swl +3 base=0xffffffff src=0xaabbccdd got=0xaabbccdd
+DPCR            swr +0 base=0xffffffff src=0xaabbccdd got=0xaabbccdd
+DPCR            swr +1 base=0xffffffff src=0xaabbccdd got=0xbbccdd00
+DPCR            swr +2 base=0xffffffff src=0xaabbccdd got=0xccdd0000
+DPCR            swr +3 base=0xffffffff src=0xaabbccdd got=0xdd000000
+DPCR            sw  +0 base=0xffffffff src=0xfedcba98 got=0xfedcba98
+DPCR            sb  +0 base=0xffffffff src=0xfedcba98 got=0xfedcba98
+DPCR            sb  +1 base=0xffffffff src=0xfedcba98 got=0xdcba9800
+DPCR            sb  +2 base=0xffffffff src=0xfedcba98 got=0xba980000
+DPCR            sb  +3 base=0xffffffff src=0xfedcba98 got=0x98000000
+DPCR            sh  +0 base=0xffffffff src=0xfedcba98 got=0xfedcba98
+DPCR            sh  +2 base=0xffffffff src=0xfedcba98 got=0xba980000
+DPCR            sh  +1 base=0xffffffff src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f1
+DPCR            sh  +3 base=0xffffffff src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f3
+DPCR            swl +0 base=0xffffffff src=0xfedcba98 got=0x000000fe
+DPCR            swl +1 base=0xffffffff src=0xfedcba98 got=0x0000fedc
+DPCR            swl +2 base=0xffffffff src=0xfedcba98 got=0x00fedcba
+DPCR            swl +3 base=0xffffffff src=0xfedcba98 got=0xfedcba98
+DPCR            swr +0 base=0xffffffff src=0xfedcba98 got=0xfedcba98
+DPCR            swr +1 base=0xffffffff src=0xfedcba98 got=0xdcba9800
+DPCR            swr +2 base=0xffffffff src=0xfedcba98 got=0xba980000
+DPCR            swr +3 base=0xffffffff src=0xfedcba98 got=0x98000000
+DPCR            sw  +0 base=0x11223344 src=0xaabbccdd got=0xaabbccdd
+DPCR            sb  +0 base=0x11223344 src=0xaabbccdd got=0xaabbccdd
+DPCR            sb  +1 base=0x11223344 src=0xaabbccdd got=0xbbccdd00
+DPCR            sb  +2 base=0x11223344 src=0xaabbccdd got=0xccdd0000
+DPCR            sb  +3 base=0x11223344 src=0xaabbccdd got=0xdd000000
+DPCR            sh  +0 base=0x11223344 src=0xaabbccdd got=0xaabbccdd
+DPCR            sh  +2 base=0x11223344 src=0xaabbccdd got=0xccdd0000
+DPCR            sh  +1 base=0x11223344 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f1
+DPCR            sh  +3 base=0x11223344 src=0xaabbccdd AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f3
+DPCR            swl +0 base=0x11223344 src=0xaabbccdd got=0x000000aa
+DPCR            swl +1 base=0x11223344 src=0xaabbccdd got=0x0000aabb
+DPCR            swl +2 base=0x11223344 src=0xaabbccdd got=0x00aabbcc
+DPCR            swl +3 base=0x11223344 src=0xaabbccdd got=0xaabbccdd
+DPCR            swr +0 base=0x11223344 src=0xaabbccdd got=0xaabbccdd
+DPCR            swr +1 base=0x11223344 src=0xaabbccdd got=0xbbccdd00
+DPCR            swr +2 base=0x11223344 src=0xaabbccdd got=0xccdd0000
+DPCR            swr +3 base=0x11223344 src=0xaabbccdd got=0xdd000000
+DPCR            sw  +0 base=0x11223344 src=0xfedcba98 got=0xfedcba98
+DPCR            sb  +0 base=0x11223344 src=0xfedcba98 got=0xfedcba98
+DPCR            sb  +1 base=0x11223344 src=0xfedcba98 got=0xdcba9800
+DPCR            sb  +2 base=0x11223344 src=0xfedcba98 got=0xba980000
+DPCR            sb  +3 base=0x11223344 src=0xfedcba98 got=0x98000000
+DPCR            sh  +0 base=0x11223344 src=0xfedcba98 got=0xfedcba98
+DPCR            sh  +2 base=0x11223344 src=0xfedcba98 got=0xba980000
+DPCR            sh  +1 base=0x11223344 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f1
+DPCR            sh  +3 base=0x11223344 src=0xfedcba98 AdES cause=0x10000014 epc=0x80010a74 badvaddr=0xbf8010f3
+DPCR            swl +0 base=0x11223344 src=0xfedcba98 got=0x000000fe
+DPCR            swl +1 base=0x11223344 src=0xfedcba98 got=0x0000fedc
+DPCR            swl +2 base=0x11223344 src=0xfedcba98 got=0x00fedcba
+DPCR            swl +3 base=0x11223344 src=0xfedcba98 got=0xfedcba98
+DPCR            swr +0 base=0x11223344 src=0xfedcba98 got=0xfedcba98
+DPCR            swr +1 base=0x11223344 src=0xfedcba98 got=0xdcba9800
+DPCR            swr +2 base=0x11223344 src=0xfedcba98 got=0xba980000
+DPCR            swr +3 base=0x11223344 src=0xfedcba98 got=0x98000000
+
+--- SPU_MAINVOL_L @ 0xbf801d80 (SBUS, 16-bit) ---
+SPU_MAINVOL_L   sh  +0 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0x0000
+SPU_MAINVOL_L   sb  +0 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0x0000
+SPU_MAINVOL_L   sb  +1 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0x0000
+SPU_MAINVOL_L   sb  +2 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0xccdd
+SPU_MAINVOL_L   sb  +3 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0x0000
+SPU_MAINVOL_L   swl +0 base=0x00000000 src=0xaabbccdd got=0x00aa neigh=0x0000
+SPU_MAINVOL_L   swl +1 base=0x00000000 src=0xaabbccdd got=0xaabb neigh=0x0000
+SPU_MAINVOL_L   swl +2 base=0x00000000 src=0xaabbccdd got=0xbbcc neigh=0x0000
+SPU_MAINVOL_L   swl +3 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_MAINVOL_L   swr +0 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_MAINVOL_L   swr +1 base=0x00000000 src=0xaabbccdd got=0xdd00 neigh=0x0000
+SPU_MAINVOL_L   swr +2 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0xccdd
+SPU_MAINVOL_L   swr +3 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0x0000
+SPU_MAINVOL_L   sh  +0 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0x0000
+SPU_MAINVOL_L   sb  +0 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0x0000
+SPU_MAINVOL_L   sb  +1 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0x0000
+SPU_MAINVOL_L   sb  +2 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0xba98
+SPU_MAINVOL_L   sb  +3 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0x0000
+SPU_MAINVOL_L   swl +0 base=0x00000000 src=0xfedcba98 got=0x00fe neigh=0x0000
+SPU_MAINVOL_L   swl +1 base=0x00000000 src=0xfedcba98 got=0xfedc neigh=0x0000
+SPU_MAINVOL_L   swl +2 base=0x00000000 src=0xfedcba98 got=0xdcba neigh=0x0000
+SPU_MAINVOL_L   swl +3 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_MAINVOL_L   swr +0 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_MAINVOL_L   swr +1 base=0x00000000 src=0xfedcba98 got=0x9800 neigh=0x0000
+SPU_MAINVOL_L   swr +2 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0xba98
+SPU_MAINVOL_L   swr +3 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0x0000
+SPU_MAINVOL_L   sh  +0 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xffff
+SPU_MAINVOL_L   sb  +0 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xffff
+SPU_MAINVOL_L   sb  +1 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xffff
+SPU_MAINVOL_L   sb  +2 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xccdd
+SPU_MAINVOL_L   sb  +3 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xffff
+SPU_MAINVOL_L   swl +0 base=0xffffffff src=0xaabbccdd got=0x00aa neigh=0xffff
+SPU_MAINVOL_L   swl +1 base=0xffffffff src=0xaabbccdd got=0xaabb neigh=0xffff
+SPU_MAINVOL_L   swl +2 base=0xffffffff src=0xaabbccdd got=0xbbcc neigh=0xffff
+SPU_MAINVOL_L   swl +3 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xaabb
+SPU_MAINVOL_L   swr +0 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_MAINVOL_L   swr +1 base=0xffffffff src=0xaabbccdd got=0xdd00 neigh=0xffff
+SPU_MAINVOL_L   swr +2 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xccdd
+SPU_MAINVOL_L   swr +3 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xffff
+SPU_MAINVOL_L   sh  +0 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xffff
+SPU_MAINVOL_L   sb  +0 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xffff
+SPU_MAINVOL_L   sb  +1 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xffff
+SPU_MAINVOL_L   sb  +2 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xba98
+SPU_MAINVOL_L   sb  +3 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xffff
+SPU_MAINVOL_L   swl +0 base=0xffffffff src=0xfedcba98 got=0x00fe neigh=0xffff
+SPU_MAINVOL_L   swl +1 base=0xffffffff src=0xfedcba98 got=0xfedc neigh=0xffff
+SPU_MAINVOL_L   swl +2 base=0xffffffff src=0xfedcba98 got=0xdcba neigh=0xffff
+SPU_MAINVOL_L   swl +3 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_MAINVOL_L   swr +0 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_MAINVOL_L   swr +1 base=0xffffffff src=0xfedcba98 got=0x9800 neigh=0xffff
+SPU_MAINVOL_L   swr +2 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xba98
+SPU_MAINVOL_L   swr +3 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xffff
+SPU_MAINVOL_L   sh  +0 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0x3344
+SPU_MAINVOL_L   sb  +0 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0x3344
+SPU_MAINVOL_L   sb  +1 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0x3344
+SPU_MAINVOL_L   sb  +2 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0xccdd
+SPU_MAINVOL_L   sb  +3 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0x3344
+SPU_MAINVOL_L   swl +0 base=0x11223344 src=0xaabbccdd got=0x00aa neigh=0x3344
+SPU_MAINVOL_L   swl +1 base=0x11223344 src=0xaabbccdd got=0xaabb neigh=0x3344
+SPU_MAINVOL_L   swl +2 base=0x11223344 src=0xaabbccdd got=0xbbcc neigh=0x3344
+SPU_MAINVOL_L   swl +3 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_MAINVOL_L   swr +0 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_MAINVOL_L   swr +1 base=0x11223344 src=0xaabbccdd got=0xdd00 neigh=0x3344
+SPU_MAINVOL_L   swr +2 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0xccdd
+SPU_MAINVOL_L   swr +3 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0x3344
+SPU_MAINVOL_L   sh  +0 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0x3344
+SPU_MAINVOL_L   sb  +0 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0x3344
+SPU_MAINVOL_L   sb  +1 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0x3344
+SPU_MAINVOL_L   sb  +2 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0xba98
+SPU_MAINVOL_L   sb  +3 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0x3344
+SPU_MAINVOL_L   swl +0 base=0x11223344 src=0xfedcba98 got=0x00fe neigh=0x3344
+SPU_MAINVOL_L   swl +1 base=0x11223344 src=0xfedcba98 got=0xfedc neigh=0x3344
+SPU_MAINVOL_L   swl +2 base=0x11223344 src=0xfedcba98 got=0xdcba neigh=0x3344
+SPU_MAINVOL_L   swl +3 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_MAINVOL_L   swr +0 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_MAINVOL_L   swr +1 base=0x11223344 src=0xfedcba98 got=0x9800 neigh=0x3344
+SPU_MAINVOL_L   swr +2 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0xba98
+SPU_MAINVOL_L   swr +3 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0x3344
+
+--- SPU_V0_VOL_L @ 0xbf801c00 (SBUS, 16-bit) ---
+SPU_V0_VOL_L    sh  +0 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0x0000
+SPU_V0_VOL_L    sb  +0 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0x0000
+SPU_V0_VOL_L    sb  +1 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0x0000
+SPU_V0_VOL_L    sb  +2 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0xccdd
+SPU_V0_VOL_L    sb  +3 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0x0000
+SPU_V0_VOL_L    swl +0 base=0x00000000 src=0xaabbccdd got=0x00aa neigh=0x0000
+SPU_V0_VOL_L    swl +1 base=0x00000000 src=0xaabbccdd got=0xaabb neigh=0x0000
+SPU_V0_VOL_L    swl +2 base=0x00000000 src=0xaabbccdd got=0xbbcc neigh=0x0000
+SPU_V0_VOL_L    swl +3 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_V0_VOL_L    swr +0 base=0x00000000 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_V0_VOL_L    swr +1 base=0x00000000 src=0xaabbccdd got=0xdd00 neigh=0x0000
+SPU_V0_VOL_L    swr +2 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0xccdd
+SPU_V0_VOL_L    swr +3 base=0x00000000 src=0xaabbccdd got=0x0000 neigh=0x0000
+SPU_V0_VOL_L    sh  +0 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0x0000
+SPU_V0_VOL_L    sb  +0 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0x0000
+SPU_V0_VOL_L    sb  +1 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0x0000
+SPU_V0_VOL_L    sb  +2 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0xba98
+SPU_V0_VOL_L    sb  +3 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0x0000
+SPU_V0_VOL_L    swl +0 base=0x00000000 src=0xfedcba98 got=0x00fe neigh=0x0000
+SPU_V0_VOL_L    swl +1 base=0x00000000 src=0xfedcba98 got=0xfedc neigh=0x0000
+SPU_V0_VOL_L    swl +2 base=0x00000000 src=0xfedcba98 got=0xdcba neigh=0x0000
+SPU_V0_VOL_L    swl +3 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_V0_VOL_L    swr +0 base=0x00000000 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_V0_VOL_L    swr +1 base=0x00000000 src=0xfedcba98 got=0x9800 neigh=0x0000
+SPU_V0_VOL_L    swr +2 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0xba98
+SPU_V0_VOL_L    swr +3 base=0x00000000 src=0xfedcba98 got=0x0000 neigh=0x0000
+SPU_V0_VOL_L    sh  +0 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xffff
+SPU_V0_VOL_L    sb  +0 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xffff
+SPU_V0_VOL_L    sb  +1 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xffff
+SPU_V0_VOL_L    sb  +2 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xccdd
+SPU_V0_VOL_L    sb  +3 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xffff
+SPU_V0_VOL_L    swl +0 base=0xffffffff src=0xaabbccdd got=0x00aa neigh=0xffff
+SPU_V0_VOL_L    swl +1 base=0xffffffff src=0xaabbccdd got=0xaabb neigh=0xffff
+SPU_V0_VOL_L    swl +2 base=0xffffffff src=0xaabbccdd got=0xbbcc neigh=0xffff
+SPU_V0_VOL_L    swl +3 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_V0_VOL_L    swr +0 base=0xffffffff src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_V0_VOL_L    swr +1 base=0xffffffff src=0xaabbccdd got=0xdd00 neigh=0xffff
+SPU_V0_VOL_L    swr +2 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xccdd
+SPU_V0_VOL_L    swr +3 base=0xffffffff src=0xaabbccdd got=0xffff neigh=0xffff
+SPU_V0_VOL_L    sh  +0 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xffff
+SPU_V0_VOL_L    sb  +0 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xffff
+SPU_V0_VOL_L    sb  +1 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xffff
+SPU_V0_VOL_L    sb  +2 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xba98
+SPU_V0_VOL_L    sb  +3 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xffff
+SPU_V0_VOL_L    swl +0 base=0xffffffff src=0xfedcba98 got=0x00fe neigh=0xffff
+SPU_V0_VOL_L    swl +1 base=0xffffffff src=0xfedcba98 got=0xfedc neigh=0xffff
+SPU_V0_VOL_L    swl +2 base=0xffffffff src=0xfedcba98 got=0xdcba neigh=0xffff
+SPU_V0_VOL_L    swl +3 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_V0_VOL_L    swr +0 base=0xffffffff src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_V0_VOL_L    swr +1 base=0xffffffff src=0xfedcba98 got=0x9800 neigh=0xffff
+SPU_V0_VOL_L    swr +2 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xba98
+SPU_V0_VOL_L    swr +3 base=0xffffffff src=0xfedcba98 got=0xffff neigh=0xffff
+SPU_V0_VOL_L    sh  +0 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0x3344
+SPU_V0_VOL_L    sb  +0 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0x3344
+SPU_V0_VOL_L    sb  +1 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0x3344
+SPU_V0_VOL_L    sb  +2 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0xccdd
+SPU_V0_VOL_L    sb  +3 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0x3344
+SPU_V0_VOL_L    swl +0 base=0x11223344 src=0xaabbccdd got=0x00aa neigh=0x3344
+SPU_V0_VOL_L    swl +1 base=0x11223344 src=0xaabbccdd got=0xaabb neigh=0x3344
+SPU_V0_VOL_L    swl +2 base=0x11223344 src=0xaabbccdd got=0xbbcc neigh=0x3344
+SPU_V0_VOL_L    swl +3 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_V0_VOL_L    swr +0 base=0x11223344 src=0xaabbccdd got=0xccdd neigh=0xaabb
+SPU_V0_VOL_L    swr +1 base=0x11223344 src=0xaabbccdd got=0xdd00 neigh=0x3344
+SPU_V0_VOL_L    swr +2 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0xccdd
+SPU_V0_VOL_L    swr +3 base=0x11223344 src=0xaabbccdd got=0x3344 neigh=0x3344
+SPU_V0_VOL_L    sh  +0 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0x3344
+SPU_V0_VOL_L    sb  +0 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0x3344
+SPU_V0_VOL_L    sb  +1 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0x3344
+SPU_V0_VOL_L    sb  +2 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0xba98
+SPU_V0_VOL_L    sb  +3 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0x3344
+SPU_V0_VOL_L    swl +0 base=0x11223344 src=0xfedcba98 got=0x00fe neigh=0x3344
+SPU_V0_VOL_L    swl +1 base=0x11223344 src=0xfedcba98 got=0xfedc neigh=0x3344
+SPU_V0_VOL_L    swl +2 base=0x11223344 src=0xfedcba98 got=0xdcba neigh=0x3344
+SPU_V0_VOL_L    swl +3 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_V0_VOL_L    swr +0 base=0x11223344 src=0xfedcba98 got=0xba98 neigh=0xfedc
+SPU_V0_VOL_L    swr +1 base=0x11223344 src=0xfedcba98 got=0x9800 neigh=0x3344
+SPU_V0_VOL_L    swr +2 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0xba98
+SPU_V0_VOL_L    swr +3 base=0x11223344 src=0xfedcba98 got=0x3344 neigh=0x3344
+
+=== Done ===
