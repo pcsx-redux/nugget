@@ -58,13 +58,23 @@ IMASK (`0x1F801074`, 32-bit, low 11 bits valid) shows the same shift
 pattern in its valid bits. Upper 21 bits read back as `0xBF800xxx` -
 open-bus / address-decoder echo of the IMASK address.
 
-## SBUS: 16-bit data path, BIU dispatches per-halfword
+## SBUS: per-device data width, BIU dispatches per-halfword
 
-The SPU sits behind the SBUS, a 16-bit-wide system bus (`SBUS.D0..D15`)
-shared with BIOS, CD-ROM, and Expansion ports. The bus has two write-strobe
-lines: `SBUS./WR0` (lower byte of halfword) and `SBUS./WR1` (upper byte).
-A 32-bit CPU access cannot fit in one SBUS cycle, so the bus interface
-unit (BIU) decomposes it. The complete model that fits every observation:
+The SPU sits behind the SBUS, an off-die system bus (`SBUS.D0..D15`,
+`SBUS.A0..A23`) shared with BIOS, CD-ROM, and Expansion ports. The bus's
+data path width is configured PER-DEVICE via bit 12 of each device's
+Delay/Size register (`0x1F801008..0x1F80101C`): CD-ROM and BIOS ROM are
+8-bit (using `SBUS.D[7:0]` only); SPU is 16-bit (using `SBUS.D[15:0]`);
+expansion can use either. The bus has two write-strobe lines: `SBUS./WR0`
+(lower byte of halfword) and `SBUS./WR1` (upper byte). For a 32-bit CPU
+access, the bus interface unit (BIU) decomposes the access into 2
+consecutive transactions on a 16-bit device, or 4 on an 8-bit device,
+keeping `/CS` active and stepping the address.
+
+The rules below were measured against the SPU (16-bit configured). The
+8-bit case (CD-ROM, BIOS ROM) issues a different number of transactions
+per access and was not measured here. The complete model that fits every
+SPU observation:
 
 **BIU dispatch (CPU access -> SBUS transactions):**
 
