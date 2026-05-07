@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2023 PCSX-Redux authors
+Copyright (c) 2026 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,33 +24,30 @@ SOFTWARE.
 
 */
 
-#pragma once
+#include "common/hardware/pcsxhw.h"
+#include "common/syscalls/syscalls.h"
 
-#include <stdint.h>
+#include "snitch_all.hpp"
 
-struct Counter {
-    uint16_t value;
-    uint16_t padding1;
-    uint16_t mode;
-    uint16_t padding2;
-    uint16_t target;
-    uint8_t padding[6];
-};
+static void psyqo_console_print(std::string_view message) noexcept {
+    for (char c : message) {
+        syscall_putchar(c);
+    }
+}
 
-#define COUNTERS ((volatile struct Counter *)0xbf801100)
+int main() {
+    snitch::cli::console_print = &psyqo_console_print;
+    snitch::tests.print_callback = &psyqo_console_print;
 
-enum {
-    TM_SYNC_EN      = 0x0001,
-    TM_RESET_TARGET = 0x0008,
-    TM_IRQ_TARGET   = 0x0010,
-    TM_IRQ_OVERFLOW = 0x0020,
-    TM_IRQ_REPEAT   = 0x0040,
-    TM_IRQ_TOGGLE   = 0x0080,
-    TM_CLK_EXTERNAL = 0x0100,
-    TM_CLK_DIV8     = 0x0200,
-    TM_IRQ_REQUEST  = 0x0400,
-    TM_HIT_TARGET   = 0x0800,
-    TM_HIT_OVERFLOW = 0x1000,
-};
+    bool success = snitch::tests.run_tests("psyqo");
 
-#define TM_SYNC_MODE(n) (((n) & 3) << 1)
+    if (success) {
+        ramsyscall_printf("All tests passed!\n");
+    } else {
+        ramsyscall_printf("Some tests FAILED!\n");
+    }
+
+    // Signal to the emulator via exit code.
+    pcsx_exit(success ? 0 : 1);
+    return success ? 0 : 1;
+}
