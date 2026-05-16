@@ -85,3 +85,4 @@ CESTER_AFTER_ALL(gpu_raster_phase4,
 )
 
 #include "texture-basic.c"
+#include "texture-window.c"
