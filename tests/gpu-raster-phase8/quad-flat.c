@@ -363,6 +363,44 @@ CESTER_TEST(qfd4_bottom_14_6, gpu_raster_phase8,
     ASSERT_PIXEL_EQ(QFD4_14_6, 14, 6);
 )
 
+/* Per-row UV drift probes for QFD4 parallelogram. The left edge slope
+   is 4/7 per row, so frac(leftX) cycles 0/0.57/0.14/0.71/0.29/0.86/0.43.
+   Predicted: rows where frac(leftX) lands in (0, 0.5] sample U one LSB
+   higher than rows where it lands in (0.5, 1) - the half-pixel-bias is
+   what the inner loop's posX init currently elides. */
+CESTER_TEST(qfd4_row1_4, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_4_1, 4, 1);
+)
+CESTER_TEST(qfd4_row1_10, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_10_1, 10, 1);
+)
+CESTER_TEST(qfd4_row2_4, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_4_2, 4, 2);
+)
+CESTER_TEST(qfd4_row2_10, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_10_2, 10, 2);
+)
+CESTER_TEST(qfd4_row4_4, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_4_4, 4, 4);
+)
+CESTER_TEST(qfd4_row4_10, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_10_4, 10, 4);
+)
+CESTER_TEST(qfd4_row5_4, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_4_5, 4, 5);
+)
+CESTER_TEST(qfd4_row5_10, gpu_raster_phase8,
+    drawQFD4();
+    ASSERT_PIXEL_EQ(QFD4_10_5, 10, 5);
+)
+
 // ============================================================================
 // QFD15: parallelogram-skewed 15-bit quad
 // ============================================================================
@@ -390,6 +428,42 @@ CESTER_TEST(qfd15_bottom_4_6, gpu_raster_phase8,
 CESTER_TEST(qfd15_bottom_14_6, gpu_raster_phase8,
     drawQFD15();
     ASSERT_PIXEL_EQ(QFD15_14_6, 14, 6);
+)
+
+/* Direct-15 mirror of the QFD4 per-row UV drift probes. Same geometry,
+   same per-row leftX slope, but 15-bit direct texel lookup so the U and
+   V values are both observable in the returned color word. */
+CESTER_TEST(qfd15_row1_4, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_4_1, 4, 1);
+)
+CESTER_TEST(qfd15_row1_10, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_10_1, 10, 1);
+)
+CESTER_TEST(qfd15_row2_4, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_4_2, 4, 2);
+)
+CESTER_TEST(qfd15_row2_10, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_10_2, 10, 2);
+)
+CESTER_TEST(qfd15_row4_4, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_4_4, 4, 4);
+)
+CESTER_TEST(qfd15_row4_10, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_10_4, 10, 4);
+)
+CESTER_TEST(qfd15_row5_4, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_4_5, 4, 5);
+)
+CESTER_TEST(qfd15_row5_10, gpu_raster_phase8,
+    drawQFD15();
+    ASSERT_PIXEL_EQ(QFD15_10_5, 10, 5);
 )
 
 // ============================================================================
