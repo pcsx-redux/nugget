@@ -3,6 +3,8 @@ all:
 	$(MAKE) -C cpu all
 	$(MAKE) -C cop0 all
 	$(MAKE) -C dma all
+	$(MAKE) -C gpu-raster-phase1 all
+	$(MAKE) -C gpu-raster-phase2 all
 	$(MAKE) -C gte all
 	$(MAKE) -C libc all
 	$(MAKE) -C memcpy all
@@ -16,6 +18,8 @@ clean:
 	$(MAKE) -C cpu clean
 	$(MAKE) -C cop0 clean
 	$(MAKE) -C dma clean
+	$(MAKE) -C gpu-raster-phase1 clean
+	$(MAKE) -C gpu-raster-phase2 clean
 	$(MAKE) -C gte clean
 	$(MAKE) -C libc clean
 	$(MAKE) -C memcpy clean
