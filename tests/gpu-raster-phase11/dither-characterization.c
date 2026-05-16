@@ -221,3 +221,42 @@ CESTER_TEST(dt_sat_high_rfc_8_8,  gpu_raster_phase11, drawCanonicalAt(rgb24(0xfc
 CESTER_TEST(dt_sat_high_rfc_9_8,  gpu_raster_phase11, drawCanonicalAt(rgb24(0xfc, 0, 0)); ASSERT_PIXEL_EQ(DT_SAT_HIGH_RFC_9_8,  9,  8); )
 CESTER_TEST(dt_sat_high_rfc_10_8, gpu_raster_phase11, drawCanonicalAt(rgb24(0xfc, 0, 0)); ASSERT_PIXEL_EQ(DT_SAT_HIGH_RFC_10_8, 10, 8); )
 CESTER_TEST(dt_sat_high_rfc_11_8, gpu_raster_phase11, drawCanonicalAt(rgb24(0xfc, 0, 0)); ASSERT_PIXEL_EQ(DT_SAT_HIGH_RFC_11_8, 11, 8); )
+
+// ============================================================================
+// DT_SAT_CROSS: probes the cells where the Bayer offset would push
+// the dithered value across the channel boundary, distinguishing
+// clamp-vs-wrap policy.
+//
+// Cells (0, 0) and (2, 2) have offset -4 - at screen positions (8, 8)
+// and (10, 10). Cells (2, 1) and (0, 3) have offset +3 - at screen
+// (10, 9) and (8, 11).
+// ============================================================================
+
+CESTER_TEST(dt_sat_cross_under_r3_8_8, gpu_raster_phase11,
+    /* R=3 at cell offset -4 = -1 raw. Clamp: 0 -> R5=0. Wrap: 255 -> R5=31. */
+    drawCanonicalAt(rgb24(0x03, 0, 0));
+    ASSERT_PIXEL_EQ(DT_SAT_CROSS_UNDER_R3_8_8, 8, 8);
+)
+CESTER_TEST(dt_sat_cross_under_r3_10_10, gpu_raster_phase11,
+    drawCanonicalAt(rgb24(0x03, 0, 0));
+    ASSERT_PIXEL_EQ(DT_SAT_CROSS_UNDER_R3_10_10, 10, 10);
+)
+CESTER_TEST(dt_sat_cross_land_r4_8_8, gpu_raster_phase11,
+    /* R=4 at cell offset -4 = 0. Output R5=0 regardless of policy. */
+    drawCanonicalAt(rgb24(0x04, 0, 0));
+    ASSERT_PIXEL_EQ(DT_SAT_CROSS_LAND_R4_8_8, 8, 8);
+)
+CESTER_TEST(dt_sat_cross_over_r255_10_9, gpu_raster_phase11,
+    /* R=255 at cell offset +3 = 258 raw. Clamp: 255 -> R5=31. Wrap: 2 -> R5=0. */
+    drawCanonicalAt(rgb24(0xff, 0, 0));
+    ASSERT_PIXEL_EQ(DT_SAT_CROSS_OVER_R255_10_9, 10, 9);
+)
+CESTER_TEST(dt_sat_cross_over_r255_8_11, gpu_raster_phase11,
+    drawCanonicalAt(rgb24(0xff, 0, 0));
+    ASSERT_PIXEL_EQ(DT_SAT_CROSS_OVER_R255_8_11, 8, 11);
+)
+CESTER_TEST(dt_sat_cross_land_r252_10_9, gpu_raster_phase11,
+    /* R=252 at cell offset +3 = 255 exactly. Output R5=31 regardless. */
+    drawCanonicalAt(rgb24(0xfc, 0, 0));
+    ASSERT_PIXEL_EQ(DT_SAT_CROSS_LAND_R252_10_9, 10, 9);
+)

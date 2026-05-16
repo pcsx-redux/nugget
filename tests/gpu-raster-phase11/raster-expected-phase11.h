@@ -214,3 +214,27 @@ SOFTWARE.
 #define DT_SAT_HIGH_RFC_9_8  0x001fu
 #define DT_SAT_HIGH_RFC_10_8 0x001fu
 #define DT_SAT_HIGH_RFC_11_8 0x001fu
+
+// ============================================================================
+// DT_SAT_CROSS: probes the cells where the Bayer offset pushes the
+// dithered value across 0 or 255. These are the diagnostic cases for
+// clamp-vs-wrap behavior at the channel boundary.
+//
+// Cell (0, 0) has offset -4 at screen (8, 8). At base R=3, output =
+// 3-4 = -1. Clamp policy: 0 -> R5=0. Wrap-as-uint8 policy: 255 ->
+// R5=31. The visible difference distinguishes the policies.
+//
+// Cell (2, 1) has offset +3 at screen (10, 9). At base R=255, output
+// = 258. Clamp policy: 255 -> R5=31. Wrap policy: 2 -> R5=0.
+//
+// Reference cells with offset 0 (no crossing) provide controls. The
+// "land exactly at boundary" cases (R=4 cell -4 -> 0, R=252 cell +3
+// -> 255) confirm the boundary itself doesn't shift.
+// ============================================================================
+
+#define DT_SAT_CROSS_UNDER_R3_8_8     0x0000u  /* offset -4 underflow, predict clamp */
+#define DT_SAT_CROSS_UNDER_R3_10_10   0x0000u  /* offset -4 underflow, predict clamp */
+#define DT_SAT_CROSS_LAND_R4_8_8      0x0000u  /* offset -4 lands at 0 exactly */
+#define DT_SAT_CROSS_OVER_R255_10_9   0x001fu  /* offset +3 overflow, predict clamp */
+#define DT_SAT_CROSS_OVER_R255_8_11   0x001fu  /* offset +3 overflow, predict clamp */
+#define DT_SAT_CROSS_LAND_R252_10_9   0x001fu  /* offset +3 lands at 255 exactly */
