@@ -326,6 +326,44 @@ static inline void rasterFlatRect(uint32_t cmdColor, int16_t x, int16_t y,
     GPU_DATA = ((uint32_t)(uint16_t)h << 16) | (uint32_t)(uint16_t)w;
 }
 
+// GP0(0x30) gouraud (per-vertex shaded) untextured triangle. The
+// command-color of vertex 0 is packed into the leading word; vertices 1
+// and 2 each have their own 24-bit color words preceding their position
+// words. Each cN argument is a 24-bit 8:8:8 command-color (use
+// rasterCmdColor() to build one with VRAM-friendly channel values).
+//
+// Word layout (six 32-bit words total):
+//   0: 0x30 << 24 | c0_24bit
+//   1: y0 << 16 | x0
+//   2: 0x00 << 24 | c1_24bit
+//   3: y1 << 16 | x1
+//   4: 0x00 << 24 | c2_24bit
+//   5: y2 << 16 | x2
+static inline void rasterGouraudTri(uint32_t c0, int16_t x0, int16_t y0,
+                                    uint32_t c1, int16_t x1, int16_t y1,
+                                    uint32_t c2, int16_t x2, int16_t y2) {
+    waitGPU();
+    GPU_DATA = 0x30000000u | (c0 & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = (c1 & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+    GPU_DATA = (c2 & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
+}
+
+// Toggle dither bit (E1, bit 9). Other E1 fields preserved at the test-
+// default state set by rasterReset/rasterFullReset. Test-cycle pattern:
+//   rasterReset();
+//   rasterSetDither(true);
+//   ... draw ...
+//   rasterSetDither(false);   // restore for next test
+static inline void rasterSetDither(int on) {
+    // E1 base: texpage 0, semi 0, depth 0, draw-to-display on (bit 10).
+    uint32_t e1 = 0xe1000400u;
+    if (on) e1 |= 0x00000200u;
+    sendGPUData(e1);
+}
+
 // Wait for the GPU to drain after a primitive. Used before reading back
 // VRAM so we know the rasterizer has finished writing.
 static inline void rasterFlushPrimitive(void) { waitGPU(); }
