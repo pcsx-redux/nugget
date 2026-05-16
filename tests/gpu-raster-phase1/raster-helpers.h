@@ -317,6 +317,41 @@ static inline void rasterFlatLine(uint32_t cmdColor, int16_t x0, int16_t y0,
     GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
 }
 
+// GP0(0x42) semi-trans flat line.
+static inline void rasterFlatLineSemi(uint32_t cmdColor,
+                                      int16_t x0, int16_t y0,
+                                      int16_t x1, int16_t y1) {
+    waitGPU();
+    GPU_DATA = 0x42000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+}
+
+// GP0(0x50) gouraud line (per-vertex color).
+static inline void rasterGouraudLine(uint32_t c0, int16_t x0, int16_t y0,
+                                     uint32_t c1, int16_t x1, int16_t y1) {
+    waitGPU();
+    GPU_DATA = 0x50000000u | (c0 & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = (c1 & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+}
+
+// GP0(0x48) flat polyline. 3-vertex variant (single 0x55555555
+// terminator after the third vertex). Higher-vertex polylines follow
+// the same pattern; we expose a 3-vertex form for the tests.
+static inline void rasterFlatPolyline3(uint32_t cmdColor,
+                                       int16_t x0, int16_t y0,
+                                       int16_t x1, int16_t y1,
+                                       int16_t x2, int16_t y2) {
+    waitGPU();
+    GPU_DATA = 0x48000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+    GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
+    GPU_DATA = 0x55555555u;  /* polyline terminator */
+}
+
 // GP0(0x60) flat variable-size rectangle.
 static inline void rasterFlatRect(uint32_t cmdColor, int16_t x, int16_t y,
                                   int16_t w, int16_t h) {
