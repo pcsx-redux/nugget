@@ -96,3 +96,12 @@ SOFTWARE.
 
 // ---- Per-vertex absolute coordinate ----
 #define CT_TRI_VERTEX_ABS_OVER  RASTER_SENTINEL  /* HW_TODO dropped */
+
+/* Pre-truncation probes. If hardware truncates vertex to 11-bit signed
+   first then applies per-edge cull, both probes render identically to
+   the baseline at anchor (RASTER_VRAM_RED). If a pre-truncation per-
+   vertex absolute-coord rule exists, probes drop and anchor reads
+   sentinel. Placeholders use RASTER_VRAM_RED - matches the "no extra
+   rule" hypothesis until hardware says otherwise. */
+#define CT_TRI_PRETRUNC_BIT11   RASTER_VRAM_RED
+#define CT_TRI_PRETRUNC_BIT15   RASTER_VRAM_RED

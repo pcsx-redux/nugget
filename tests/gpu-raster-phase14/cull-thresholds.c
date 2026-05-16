@@ -484,3 +484,46 @@ CESTER_TEST(ct_tri_vertex_abs_just_low_edges, gpu_raster_phase14,
     rasterFlushPrimitive();
     ASSERT_PIXEL_EQ(CT_TRI_VERTEX_ABS_OVER, ANCHOR_X, ANCHOR_Y);
 )
+
+/* Pre-truncation per-vertex absolute coord probes. The GP0 vertex
+   format stores x/y as int16 but the rasterizer interprets only the
+   low 11 bits as signed. We can test whether hardware enforces an
+   independent per-vertex absolute-coord rule BEFORE the 11-bit
+   truncation by sending the same effective post-truncation triangle
+   in two ways: one with all coords in the 11-bit range, one with a
+   vertex coord that has bits set above bit 10 but produces the same
+   low-11-bit result. If both render identically, no pre-truncation
+   rule. If the probe drops (sentinel at anchor), there IS one.
+   Baseline geometry: (0,0)-(20,0)-(0,20). Anchor (5,3) is inside
+   the post-truncation triangle in both cases. */
+CESTER_TEST(ct_tri_pretrunc_baseline, gpu_raster_phase14,
+    rasterReset();
+    rasterClearTestRegion(0, 0, 32, 32);
+    /* All low-11-bit vertices; should render at anchor. */
+    rasterFlatTri(RASTER_CMD_RED, 0, 0, 20, 0, 0, 20);
+    rasterFlushPrimitive();
+    ASSERT_PIXEL_EQ(RASTER_VRAM_RED, ANCHOR_X, ANCHOR_Y);
+)
+CESTER_TEST(ct_tri_pretrunc_bit11, gpu_raster_phase14,
+    rasterReset();
+    rasterClearTestRegion(0, 0, 32, 32);
+    /* Same effective triangle - v2.x = 2068 = 0x814 truncates to
+       low 11 bits = 0x14 = 20. If hardware truncates first then
+       checks per-edge, this renders identically to the baseline.
+       If a pre-truncation per-vertex absolute rule fires on |x| >
+       1023, the polygon drops and anchor is sentinel. */
+    rasterFlatTri(RASTER_CMD_RED, 0, 0, 2068, 0, 0, 20);
+    rasterFlushPrimitive();
+    ASSERT_PIXEL_EQ(CT_TRI_PRETRUNC_BIT11, ANCHOR_X, ANCHOR_Y);
+)
+CESTER_TEST(ct_tri_pretrunc_bit15, gpu_raster_phase14,
+    rasterReset();
+    rasterClearTestRegion(0, 0, 32, 32);
+    /* v2.x = -32748 = 0x8014 in 16-bit two's complement. Low 11
+       bits = 0x014 = 20. Maximum bit-pattern divergence from the
+       11-bit truncated value: every high bit set. If any per-vertex
+       rule fires above 11-bit range, this drops. */
+    rasterFlatTri(RASTER_CMD_RED, 0, 0, (int16_t)0x8014, 0, 0, 20);
+    rasterFlushPrimitive();
+    ASSERT_PIXEL_EQ(CT_TRI_PRETRUNC_BIT15, ANCHOR_X, ANCHOR_Y);
+)
