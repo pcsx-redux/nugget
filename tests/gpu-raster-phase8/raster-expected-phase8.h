@@ -49,6 +49,36 @@ SOFTWARE.
 //      quad with v3 == v2 produces interior pixels identical to a
 //      3-vert reference draw at every probed position. The 4-vert
 //      math collapses correctly when the fourth vertex is redundant.
+//
+//   4. QFD parallelogram half-pixel-bias bug (4-vert flat-textured):
+//      drawPoly4TEx4/TEx8/TD all init the inner-loop posX from m_leftU
+//      directly, which is the U value at the FRACTIONAL left edge
+//      m_leftX, not at the integer first-drawn-pixel center. When the
+//      top-left ceil rule (xmin = (m_leftX + 0xFFFF) >> 16) shifts the
+//      first pixel a fractional gap to the right of m_leftX, hardware
+//      samples U at the pixel center (xmin + 0.5) - which adds
+//      (xmin*65536 + 0x8000 - m_leftX) * (m_rightU - m_leftU) /
+//      (m_rightX - m_leftX) to posX. Redux skips that advance, so U
+//      is sampled at the m_leftX fractional position instead of the
+//      pixel center.
+//
+//      For QFD geometry (left edge slope 4/7 per row), frac(m_leftX)
+//      cycles 0/0.571/0.143/0.714/0.286/0.857/0.429 across rows 0..6.
+//      Drift fires when frac in (0, 0.5] (so the ceil-residue plus
+//      the half-pixel bias crosses 1.0 LSB in U): rows 2, 4, 6 fail
+//      by -1 LSB on U. Rows 0, 1, 3, 5 pass. Verified at x=4 and x=10
+//      for both QFD4 (4-bit indexed) and QFD15 (15-bit direct) - the
+//      drift is in U only, V is unaffected since the left edge has
+//      zero U/V slope in this geometry.
+//
+//      Same arithmetic family as the gouraud color precision finding
+//      (phases 7, 10), but operating on UV interpolation in the
+//      4-vertex flat-textured path rather than gouraud color in the
+//      3-vertex path. Affects all six drawPoly4TEx* bodies (opaque +
+//      semi-trans variants of TEx4, TEx8, TD). The pair-sampler
+//      terminal-odd-pixel question (audit finding #8) is structurally
+//      inert here - the bug is at the row-start posX init, not at the
+//      terminal sampler.
 
 #include "raster-helpers.h"
 #include "texture-fixtures.h"
@@ -101,12 +131,36 @@ SOFTWARE.
 #define QFD4_4_6     0x03c1u
 #define QFD4_14_6    0x028bu
 
+/* Per-row drift probes (added to characterize the QFD half-pixel-bias
+   bug). Predicted via U = floor(x + 0.5 - leftX[y]) with leftX[y]
+   advancing by 4/7 per row. Rows where frac(leftX) lands in (0, 0.5]
+   should expose the bug (Redux samples one LSB low on U). Locked
+   HW_VERIFIED once captured on SCPH-5501. */
+#define QFD4_4_1     0x0383u  /* leftX=0.571; HW U=3 (pass row) */
+#define QFD4_10_1    0x02c9u  /* HW U=9 (pass row) */
+#define QFD4_4_2     0x0383u  /* leftX=1.143; HW U=3, Redux U=2 (drift) */
+#define QFD4_10_2    0x02c9u  /* HW U=9, Redux U=8 (drift) */
+#define QFD4_4_4     0x03a2u  /* leftX=2.286; HW U=2, Redux U=1 (drift) */
+#define QFD4_10_4    0x02e8u  /* HW U=8, Redux U=7 (drift) */
+#define QFD4_4_5     0x03c1u  /* leftX=2.857; HW U=1 (pass row) */
+#define QFD4_10_5    0x0307u  /* HW U=7 (pass row) */
+
 #define QFD15_0_0    RASTER_SENTINEL  /* apex excluded by top-left */
 #define QFD15_8_0    0x2008u
 #define QFD15_4_3    0x1462u
 #define QFD15_10_3   0x2c68u
 #define QFD15_4_6    0x1cc1u
 #define QFD15_14_6   0x44cbu
+
+/* Direct-15 mirror probes. Texel(u,v) = vram555(u, v, (u+v)&31). */
+#define QFD15_4_1    0x1023u  /* HW u=3 v=1 (pass row) */
+#define QFD15_10_1   0x2829u  /* HW u=9 v=1 (pass row) */
+#define QFD15_4_2    0x1443u  /* HW u=3 v=2 (drift) */
+#define QFD15_10_2   0x2c49u  /* HW u=9 v=2 (drift) */
+#define QFD15_4_4    0x1882u  /* HW u=2 v=4 (drift) */
+#define QFD15_10_4   0x3088u  /* HW u=8 v=4 (drift) */
+#define QFD15_4_5    0x18a1u  /* HW u=1 v=5 (pass row) */
+#define QFD15_10_5   0x30a7u  /* HW u=7 v=5 (pass row) */
 
 // --------------------------------------------------------------------------
 // QFO[4|8|15]: 5x4 axis-aligned quad. The right-vertex column (x=4) is
