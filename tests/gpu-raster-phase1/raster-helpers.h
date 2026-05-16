@@ -294,6 +294,61 @@ static inline void rasterFlatTri(uint32_t cmdColor, int16_t x0, int16_t y0,
     GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
 }
 
+// GP0(0x22) semi-trans flat untextured triangle. Same layout as 0x20.
+// Blend mode comes from the current E1 ABR field (bits 5-6).
+static inline void rasterFlatTriSemi(uint32_t cmdColor, int16_t x0, int16_t y0,
+                                     int16_t x1, int16_t y1, int16_t x2,
+                                     int16_t y2) {
+    waitGPU();
+    GPU_DATA = 0x22000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+    GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
+}
+
+// GP0(0x2A) semi-trans flat untextured quad.
+static inline void rasterFlatQuadSemi(uint32_t cmdColor, int16_t x0, int16_t y0,
+                                      int16_t x1, int16_t y1, int16_t x2,
+                                      int16_t y2, int16_t x3, int16_t y3) {
+    waitGPU();
+    GPU_DATA = 0x2a000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+    GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
+    GPU_DATA = ((uint32_t)(uint16_t)y3 << 16) | (uint32_t)(uint16_t)x3;
+}
+
+// GP0(0x62) semi-trans variable-size rect.
+static inline void rasterFlatRectSemi(uint32_t cmdColor, int16_t x, int16_t y,
+                                      int16_t w, int16_t h) {
+    waitGPU();
+    GPU_DATA = 0x62000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y << 16) | (uint32_t)(uint16_t)x;
+    GPU_DATA = ((uint32_t)(uint16_t)h << 16) | (uint32_t)(uint16_t)w;
+}
+
+// Set the current ABR (semi-trans blend mode) via E1. ABR is bits 5-6;
+// other E1 fields preserved at the test-default state.
+//   0 = B/2 + F/2 (average)
+//   1 = B + F     (additive)
+//   2 = B - F     (subtractive)
+//   3 = B + F/4   (add quarter)
+static inline void rasterSetAbr(uint8_t abr) {
+    uint32_t e1 = 0xe1000400u | ((uint32_t)(abr & 3) << 5);
+    sendGPUData(e1);
+}
+
+// Set the E6 mask control bits.
+//   set_mask = 1 -> bit 15 of every drawn pixel is forced to 1
+//   check_mask = 1 -> pixels with bit 15 already set in VRAM are not
+//                     overwritten (semi-trans bypassed for those pixels)
+static inline void rasterSetMaskCtrl(int set_mask, int check_mask) {
+    uint32_t e6 = 0xe6000000u |
+                  ((uint32_t)(set_mask & 1)) |
+                  ((uint32_t)(check_mask & 1) << 1);
+    sendGPUData(e6);
+}
+
 // GP0(0x28) flat untextured quad. Vertex order matters - the GPU
 // decomposes 0,1,2 + 1,2,3 internally (or so the soft renderer believes;
 // hardware truth is among the things this suite characterizes).
