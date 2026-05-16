@@ -310,3 +310,61 @@ static inline void rasterTexTri(uint32_t cmdColor,
 // through unchanged (texel * 128 / 128 == texel, per the soft
 // renderer's modulation formula).
 #define TEX_MOD_NEUTRAL  0x808080u
+
+// GP0(0x2C) flat textured opaque quad. Word layout (9 words total):
+//   0: 0x2C << 24 | cmdColor
+//   1: y0 << 16 | x0
+//   2: clut_field << 16 | v0 << 8 | u0
+//   3: y1 << 16 | x1
+//   4: tpage_field << 16 | v1 << 8 | u1
+//   5: y2 << 16 | x2
+//   6: 0 | v2 << 8 | u2
+//   7: y3 << 16 | x3
+//   8: 0 | v3 << 8 | u3
+//
+// Vertex ordering matters: the GPU draws v0-v1-v2 and v1-v2-v3
+// triangles internally (soft renderer's 4-vertex setupSections path
+// uses the full quad; hardware's order independence is among the
+// things phase-8 characterizes).
+static inline void rasterFlatTexQuad(uint32_t cmdColor,
+                                     int16_t x0, int16_t y0, uint8_t u0, uint8_t v0,
+                                     int16_t x1, int16_t y1, uint8_t u1, uint8_t v1,
+                                     int16_t x2, int16_t y2, uint8_t u2, uint8_t v2,
+                                     int16_t x3, int16_t y3, uint8_t u3, uint8_t v3,
+                                     uint16_t clut_field, uint16_t tpage_field) {
+    waitGPU();
+    GPU_DATA = 0x2c000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = ((uint32_t)clut_field << 16) |
+               ((uint32_t)v0 << 8) | (uint32_t)u0;
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+    GPU_DATA = ((uint32_t)tpage_field << 16) |
+               ((uint32_t)v1 << 8) | (uint32_t)u1;
+    GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
+    GPU_DATA = (0u << 16) | ((uint32_t)v2 << 8) | (uint32_t)u2;
+    GPU_DATA = ((uint32_t)(uint16_t)y3 << 16) | (uint32_t)(uint16_t)x3;
+    GPU_DATA = (0u << 16) | ((uint32_t)v3 << 8) | (uint32_t)u3;
+}
+
+// GP0(0x2E) semi-trans flat textured quad. Same layout as 0x2C; only
+// the command opcode byte differs. ABR is read from the embedded tpage
+// field (bit 5-6 of texpageField).
+static inline void rasterFlatTexQuadSemi(uint32_t cmdColor,
+                                         int16_t x0, int16_t y0, uint8_t u0, uint8_t v0,
+                                         int16_t x1, int16_t y1, uint8_t u1, uint8_t v1,
+                                         int16_t x2, int16_t y2, uint8_t u2, uint8_t v2,
+                                         int16_t x3, int16_t y3, uint8_t u3, uint8_t v3,
+                                         uint16_t clut_field, uint16_t tpage_field) {
+    waitGPU();
+    GPU_DATA = 0x2e000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y0 << 16) | (uint32_t)(uint16_t)x0;
+    GPU_DATA = ((uint32_t)clut_field << 16) |
+               ((uint32_t)v0 << 8) | (uint32_t)u0;
+    GPU_DATA = ((uint32_t)(uint16_t)y1 << 16) | (uint32_t)(uint16_t)x1;
+    GPU_DATA = ((uint32_t)tpage_field << 16) |
+               ((uint32_t)v1 << 8) | (uint32_t)u1;
+    GPU_DATA = ((uint32_t)(uint16_t)y2 << 16) | (uint32_t)(uint16_t)x2;
+    GPU_DATA = (0u << 16) | ((uint32_t)v2 << 8) | (uint32_t)u2;
+    GPU_DATA = ((uint32_t)(uint16_t)y3 << 16) | (uint32_t)(uint16_t)x3;
+    GPU_DATA = (0u << 16) | ((uint32_t)v3 << 8) | (uint32_t)u3;
+}
