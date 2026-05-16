@@ -116,6 +116,22 @@ static inline void setTexpage(uint16_t tx, uint16_t ty, uint16_t depth) {
     sendGPUData(cmd);
 }
 
+// Variant that takes an explicit ABR field. Use for textured-rect
+// semi-trans tests where rasterSetAbr() would inadvertently reset the
+// texpage to (tx=0, ty=0) - rect commands carry no embedded tpage
+// word, so the current E1 state is load-bearing.
+static inline void setTexpageAbr(uint16_t tx, uint16_t ty, uint16_t depth,
+                                 uint16_t abr) {
+    uint32_t cmd = 0xe1000000u |
+                   ((tx & 0xf)) |
+                   ((ty & 1) << 4) |
+                   ((abr & 3) << 5) |
+                   ((depth & 3) << 7) |
+                   (0u << 9) |
+                   (1u << 10);
+    sendGPUData(cmd);
+}
+
 // Send GP0(E2) to set texture window. mask_x/mask_y are 5-bit "mask
 // after >>3" values (so logical mask = mask*8). offset_x/offset_y same.
 static inline void setTextureWindow(uint8_t mask_x, uint8_t mask_y,
@@ -344,6 +360,41 @@ static inline void rasterFlatTexQuad(uint32_t cmdColor,
     GPU_DATA = (0u << 16) | ((uint32_t)v2 << 8) | (uint32_t)u2;
     GPU_DATA = ((uint32_t)(uint16_t)y3 << 16) | (uint32_t)(uint16_t)x3;
     GPU_DATA = (0u << 16) | ((uint32_t)v3 << 8) | (uint32_t)u3;
+}
+
+// GP0(0x64) variable-size textured opaque rectangle.
+//   word 0: 0x64 << 24 | cmdColor (modulation, 0x808080 = neutral)
+//   word 1: y << 16 | x (top-left)
+//   word 2: clut_field << 16 | v << 8 | u (UV at top-left)
+//   word 3: h << 16 | w
+// Texture page state must be set via E1 (or recently-issued textured
+// primitive) - the rect command does NOT carry a tpage field word.
+static inline void rasterTexRect(uint32_t cmdColor,
+                                 int16_t x, int16_t y,
+                                 uint8_t u, uint8_t v,
+                                 int16_t w, int16_t h,
+                                 uint16_t clut_field) {
+    waitGPU();
+    GPU_DATA = 0x64000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y << 16) | (uint32_t)(uint16_t)x;
+    GPU_DATA = ((uint32_t)clut_field << 16) |
+               ((uint32_t)v << 8) | (uint32_t)u;
+    GPU_DATA = ((uint32_t)(uint16_t)h << 16) | (uint32_t)(uint16_t)w;
+}
+
+// GP0(0x66) semi-trans variable-size textured rectangle. Same layout
+// as 0x64; ABR blend mode comes from the current E1 tpage state.
+static inline void rasterTexRectSemi(uint32_t cmdColor,
+                                     int16_t x, int16_t y,
+                                     uint8_t u, uint8_t v,
+                                     int16_t w, int16_t h,
+                                     uint16_t clut_field) {
+    waitGPU();
+    GPU_DATA = 0x66000000u | (cmdColor & 0x00ffffffu);
+    GPU_DATA = ((uint32_t)(uint16_t)y << 16) | (uint32_t)(uint16_t)x;
+    GPU_DATA = ((uint32_t)clut_field << 16) |
+               ((uint32_t)v << 8) | (uint32_t)u;
+    GPU_DATA = ((uint32_t)(uint16_t)h << 16) | (uint32_t)(uint16_t)w;
 }
 
 // GP0(0x2E) semi-trans flat textured quad. Same layout as 0x2C; only
