@@ -150,12 +150,13 @@ CESTER_TEST(uv15_u255_v0, gpu_raster_phase16,
 // (which wraps via uint8 truncation back to V=0).
 // ============================================================================
 
-CESTER_TEST(uv8_u0_v255, gpu_raster_phase16,
+/* Reads row 255 of the TEX8 page, which is uninitialized VRAM on
+   real hardware (boot junk left over from BIOS / prior tests).
+   That value can't be reproduced under emulation, so the assertion
+   only holds when running against silicon. Skip in the emulator
+   build (PCSX_TESTS=1) and let the hardware harness gate it. */
+CESTER_MAYBE_TEST(uv8_u0_v255, gpu_raster_phase16,
     drawTex8At(0, 255);
-    /* Last in-page row. The TEX8 fixture only uploads v=0..15;
-       v=255 reads VRAM at row 255 of the TEX8 page, which is
-       uninitialized fixture region (filled with whatever was
-       there from prior tests or boot). Capture truth. */
     ASSERT_PIXEL_EQ(UV8_U0_V255, 0, 0);
 )
 
@@ -171,11 +172,12 @@ CESTER_TEST(uv4_u15_v0, gpu_raster_phase16,
     ASSERT_PIXEL_EQ(expectedClut4Color(15), 0, 0);
 )
 
-CESTER_TEST(uv4_u16_v0, gpu_raster_phase16,
+/* Reads u=16 of the TEX4 page, just past the fixture pattern
+   (which only writes u=0..15). The texel comes from uninitialized
+   VRAM, same boot-junk story as uv8_u0_v255. Skip in the emulator
+   build (PCSX_TESTS=1) and let the hardware harness gate it. */
+CESTER_MAYBE_TEST(uv4_u16_v0, gpu_raster_phase16,
     drawTex4At(16, 0);
-    /* Just past the fixture pattern (which spans u=0..15). The
-       4-bit page is 256 texels wide; u=16 is in-page but outside
-       fixture data. Reads whatever VRAM contains at that texel. */
     ASSERT_PIXEL_EQ(UV4_U16_V0, 0, 0);
 )
 
