@@ -41,6 +41,16 @@ SOFTWARE.
 //   - U past the boundary
 //   - V at row 255 vs 256 (wraps mod 256?)
 
+#ifndef PCSX_TESTS
+#define PCSX_TESTS 0
+#endif
+
+#if PCSX_TESTS
+#define CESTER_MAYBE_TEST CESTER_SKIP_TEST
+#else
+#define CESTER_MAYBE_TEST CESTER_TEST
+#endif
+
 #include "common/hardware/dma.h"
 #include "common/hardware/gpu.h"
 #include "common/hardware/hwregs.h"
