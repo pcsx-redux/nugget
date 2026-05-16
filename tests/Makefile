@@ -11,6 +11,7 @@ all:
 	$(MAKE) -C gpu-raster-phase6 all
 	$(MAKE) -C gpu-raster-phase7 all
 	$(MAKE) -C gpu-raster-phase8 all
+	$(MAKE) -C gpu-raster-phase9 all
 	$(MAKE) -C gte all
 	$(MAKE) -C libc all
 	$(MAKE) -C memcpy all
@@ -32,6 +33,7 @@ clean:
 	$(MAKE) -C gpu-raster-phase6 clean
 	$(MAKE) -C gpu-raster-phase7 clean
 	$(MAKE) -C gpu-raster-phase8 clean
+	$(MAKE) -C gpu-raster-phase9 clean
 	$(MAKE) -C gte clean
 	$(MAKE) -C libc clean
 	$(MAKE) -C memcpy clean
