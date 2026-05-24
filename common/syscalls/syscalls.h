@@ -100,6 +100,7 @@ static __attribute__((always_inline)) int syscall_strncmp(const char *s1, const 
     return ((int (*)(const char *, const char *, size_t))0xa0)(s1, s2, size);
 }
 
+__attribute__((deprecated("syscall_strcpy has no bounds checking; use syscall_strncpy instead")))
 static __attribute__((always_inline)) char *syscall_strcpy(char *dst, const char *src) {
     register int n asm("t1") = 0x19;
     __asm__ volatile("" : "=r"(n) : "r"(n));
