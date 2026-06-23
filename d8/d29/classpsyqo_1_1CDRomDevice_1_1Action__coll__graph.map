@@ -1,0 +1,9 @@
+<map id="psyqo::CDRomDevice::Action&lt; S &gt;" name="psyqo::CDRomDevice::Action&lt; S &gt;">
+<area shape="rect" id="Node000001" title="The action base class for the internal state machine." alt="" coords="5,257,168,297"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,168,168,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,222,89,257,84,257,84,222"/>
+<area shape="rect" id="Node000003" href="$d1/de1/classpsyqo_1_1CDRomDevice.html" title="A specialization of the CDRom interface." alt="" coords="5,80,168,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,119,89,168,84,168,84,119"/>
+<area shape="rect" id="Node000004" href="$d4/dad/classpsyqo_1_1CDRom.html" title="The base CDRom class." alt="" coords="27,5,146,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="89,45,89,80,84,80,84,45"/>
+</map>
