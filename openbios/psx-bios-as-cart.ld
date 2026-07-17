@@ -29,11 +29,19 @@ OUTPUT_ARCH(mips)
 EXTERN(_cartBoot)
 ENTRY(_cartBoot)
 
+/* Base and size of the region the image is linked to run from. Defaults to the
+   legacy cheat-cart target (EXP1 KSEG1, 0xbf000000, 512K) so the stock cart
+   build is unchanged. The H2x00 resident monitor overrides these via
+   --defsym to relink into the devkit SRAM (EXP3, 0xbfa00000, 2M). Mirrors the
+   DEFINED()-guarded TLOAD_ADDR pattern in ps-exe.ld. */
+ROM_BASE = DEFINED(ROM_BASE) ? ROM_BASE : 0xbf000000;
+ROM_SIZE = DEFINED(ROM_SIZE) ? ROM_SIZE : 512K;
+
 MEMORY {
     kseg0i(rwx): ORIGIN = 0x00000000, LENGTH = 0x500
     kseg0 (rwx): ORIGIN = 0x00000500, LENGTH = 0xdf80 - 0x500
     ram (rwx)  : ORIGIN = 0x80010000, LENGTH = 2M - 0x10000
-    rom (rx)   : ORIGIN = 0xbf000000, LENGTH = 512K
+    rom (rx)   : ORIGIN = ROM_BASE, LENGTH = ROM_SIZE
     dcache     : ORIGIN = 0x1f800000, LENGTH = 0x400
 }
 

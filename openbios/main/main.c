@@ -47,6 +47,7 @@ SOFTWARE.
 #include "openbios/kernel/threads.h"
 #include "openbios/kernel/util.h"
 #include "openbios/main/splash.h"
+#include "openbios/monitor/monitor.h"
 #include "openbios/pio/pio.h"
 #include "openbios/shell/shell.h"
 #include "openbios/tty/tty.h"
@@ -377,6 +378,16 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     // As a result, in the retail bios, the static value that's
     // always passed down to the shell is 0x07, due to the POST
     // set just above, and the way this is deterministic.
+#ifdef OPENBIOS_H2X00_MONITOR
+    // H2x00 resident debug monitor. The kernel is fully initialized at this
+    // point (heap, handlers array, syscall/IRQ handlers, events, threads, RCnt
+    // IRQs, and the exception handler are all installed), which is exactly the
+    // state the monitor needs in order to own the exception path. We skip the
+    // interactive shell and the CD/game boot entirely; monitorMain() brings up
+    // the ATCONS word-channel transport, announces HELLO, and runs the command
+    // loop. It never returns.
+    monitorMain();
+#else
     startShell(7);
 
 #ifndef OPENBIOS_BOOT_MODE_NO_CDROM
@@ -431,6 +442,7 @@ static void boot(char *systemCnfPath, char *binaryPath) {
 
     psxprintf("End of Main\n");
     fatal(0x38c);
+#endif
 }
 
 void setConfiguration(int eventsCount, int taskCount, void *stackBase) {

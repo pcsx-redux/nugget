@@ -139,6 +139,17 @@ ifneq ($(INSTALL_TTY_CONSOLE),)
 CPPFLAGS += -DOPENBIOS_INSTALL_TTY_CONSOLE
 endif
 
+# H2x00 resident debug monitor. Relinks OpenBIOS into the devkit SRAM (EXP3,
+# 0xbfa00000, 2M) via the DEFINED()-guarded ROM_BASE/ROM_SIZE overrides in
+# psx-bios-as-cart.ld, and swaps boot()'s terminal path (shell / CD boot) for
+# the monitor entry. Requires a cart build (BOOT=cart, i.e. BOOT != rom, which
+# selects psx-bios-as-cart.ld). Build with: make BOOT=cart MONITOR=1
+ifneq ($(MONITOR),)
+CPPFLAGS += -DOPENBIOS_H2X00_MONITOR
+LDFLAGS += -Wl,--defsym=ROM_BASE=0xbfa00000 -Wl,--defsym=ROM_SIZE=0x200000
+SRCS += monitor/monitor.c monitor/transport.c
+endif
+
 include ../common.mk
 
 ../shell/shell_data.o: shell
