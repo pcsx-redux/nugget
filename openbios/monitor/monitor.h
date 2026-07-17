@@ -76,12 +76,9 @@ SOFTWARE.
 
 #define MON_PROTO_VER 0x0001
 
-/* Resident SRAM base (EXP3) and the RAM size announced in HELLO. */
+/* Resident SRAM base (EXP3). The RAM size announced in HELLO is read live from
+   __globals60.ramsize (see emitHello), not hardcoded. */
 #define MON_SRAM_BASE 0x1fa00000u
-/* Devkit main RAM. TODO(bring-up): retail reports 2 MiB; the H2700 devkit
-   carries more (8 MiB). Announce the conservative retail value until the size
-   is probed for real. */
-#define MON_RAM_SIZE 0x00200000u
 
 /* Monitor entry. Never returns: it takes over from boot()'s terminal path,
    brings up the transport, announces HELLO, and runs the command loop. */

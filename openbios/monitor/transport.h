@@ -51,8 +51,27 @@ void transportInit(void);
    (bit2) for each word. */
 void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len);
 
+/* Streaming send, for responses whose payload is generated on the fly (e.g.
+   READ_MEM copying straight out of target memory without a staging buffer).
+   Call Begin with the exact word count, push exactly that many words with
+   SendWord, then End. Not reentrant: one frame at a time (the monitor is
+   single-threaded). */
+void transportSendBegin(uint16_t type, uint16_t len);
+void transportSendWord(uint16_t w);
+void transportSendEnd(void);
+
 /* Block until a full, checksum-valid frame arrives. On success returns
    TRANSPORT_OK and fills type/payload/lenOut; payload holds up to maxLen
    words. On a length overflow or checksum mismatch the frame is fully drained
    (both ends stay word-aligned) and a negative TRANSPORT_* code is returned. */
 int transportRecvFrame(uint16_t *type, uint16_t *payload, uint16_t maxLen, uint16_t *lenOut);
+
+/* Streaming receive, the counterpart to the streaming send. Lets a caller pull
+   a frame's payload word by word straight into its final destination (e.g.
+   PCread writing decoded bytes directly to the target's own buffer, no staging
+   RAM, no memcpy). Call Begin (returns TYPE and payload word count), pull
+   exactly `len` words with RecvWord, then End (validates the checksum). Not
+   reentrant: one frame at a time. */
+void transportRecvBegin(uint16_t *type, uint16_t *len);
+uint16_t transportRecvWord(void);
+int transportRecvEnd(void);

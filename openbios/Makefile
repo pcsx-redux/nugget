@@ -147,7 +147,7 @@ endif
 ifneq ($(MONITOR),)
 CPPFLAGS += -DOPENBIOS_H2X00_MONITOR
 LDFLAGS += -Wl,--defsym=ROM_BASE=0xbfa00000 -Wl,--defsym=ROM_SIZE=0x200000
-SRCS += monitor/monitor.c monitor/transport.c
+SRCS += monitor/monitor.c monitor/transport.c monitor/pcdrv.c
 endif
 
 include ../common.mk

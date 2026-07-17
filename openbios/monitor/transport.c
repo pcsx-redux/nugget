@@ -82,57 +82,76 @@ void transportInit(void) {
     flushWriteQueue();
 }
 
-void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len) {
-    uint32_t cksum = DJB2_SEED;
+/* Running checksum for the streaming send API. The monitor sends exactly one
+   frame at a time, so a single static accumulator is safe. */
+static uint32_t s_txCksum;
 
+void transportSendBegin(uint16_t type, uint16_t len) {
+    s_txCksum = DJB2_SEED;
     wordPut(FRAME_SYNC); /* SYNC is outside the checksum */
-
     wordPut(type);
-    cksum = djb2Word(cksum, type);
-
+    s_txCksum = djb2Word(s_txCksum, type);
     wordPut(len);
-    cksum = djb2Word(cksum, len);
+    s_txCksum = djb2Word(s_txCksum, len);
+}
 
-    for (uint16_t i = 0; i < len; i++) {
-        wordPut(payload[i]);
-        cksum = djb2Word(cksum, payload[i]);
+void transportSendWord(uint16_t w) {
+    wordPut(w);
+    s_txCksum = djb2Word(s_txCksum, w);
+}
+
+void transportSendEnd(void) {
+    wordPut((uint16_t)(s_txCksum & 0xffff));         /* low word first */
+    wordPut((uint16_t)((s_txCksum >> 16) & 0xffff)); /* high word */
+}
+
+void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len) {
+    transportSendBegin(type, len);
+    for (uint16_t i = 0; i < len; i++) transportSendWord(payload[i]);
+    transportSendEnd();
+}
+
+/* Running checksum for the streaming receive API. */
+static uint32_t s_rxCksum;
+
+void transportRecvBegin(uint16_t *type, uint16_t *len) {
+    while (wordGet() != FRAME_SYNC) {
+        /* resynchronize by hunting for the framing anchor */
     }
+    s_rxCksum = DJB2_SEED;
+    uint16_t t = wordGet();
+    s_rxCksum = djb2Word(s_rxCksum, t);
+    uint16_t l = wordGet();
+    s_rxCksum = djb2Word(s_rxCksum, l);
+    *type = t;
+    *len = l;
+}
 
-    wordPut((uint16_t)(cksum & 0xffff));        /* low word first */
-    wordPut((uint16_t)((cksum >> 16) & 0xffff));
+uint16_t transportRecvWord(void) {
+    uint16_t w = wordGet();
+    s_rxCksum = djb2Word(s_rxCksum, w);
+    return w;
+}
+
+int transportRecvEnd(void) {
+    uint32_t rxck = wordGet();
+    rxck |= ((uint32_t)wordGet()) << 16;
+    return (rxck == s_rxCksum) ? TRANSPORT_OK : TRANSPORT_ECKSUM;
 }
 
 int transportRecvFrame(uint16_t *type, uint16_t *payload, uint16_t maxLen, uint16_t *lenOut) {
-    /* Resynchronize by hunting for SYNC. */
-    while (wordGet() != FRAME_SYNC) {
-        /* discard until framing anchor */
-    }
-
-    uint32_t cksum = DJB2_SEED;
-
-    uint16_t t = wordGet();
-    cksum = djb2Word(cksum, t);
-
-    uint16_t len = wordGet();
-    cksum = djb2Word(cksum, len);
+    uint16_t t, len;
+    transportRecvBegin(&t, &len);
 
     if (len > maxLen) {
-        /* Drain the rest of the frame so both ends stay word-aligned. */
-        for (uint16_t i = 0; i < len; i++) wordGet();
-        wordGet();
-        wordGet();
+        for (uint16_t i = 0; i < len; i++) transportRecvWord(); /* drain, stay aligned */
+        transportRecvEnd();
         return TRANSPORT_EBADLEN;
     }
 
-    for (uint16_t i = 0; i < len; i++) {
-        uint16_t w = wordGet();
-        payload[i] = w;
-        cksum = djb2Word(cksum, w);
-    }
-
-    uint32_t rxck = wordGet();
-    rxck |= ((uint32_t)wordGet()) << 16;
-    if (rxck != cksum) return TRANSPORT_ECKSUM;
+    for (uint16_t i = 0; i < len; i++) payload[i] = transportRecvWord();
+    int rc = transportRecvEnd();
+    if (rc != TRANSPORT_OK) return rc;
 
     *type = t;
     *lenOut = len;
