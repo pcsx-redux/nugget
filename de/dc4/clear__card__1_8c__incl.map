@@ -1,0 +1,8 @@
+<map id="openbios/patches/clear_card_1.c" name="openbios/patches/clear_card_1.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,177,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="56,167,127,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,47,53,80,48,99,50,118,59,137,72,155,68,158,55,140,45,119,43,98,48,78,71,44"/>
+<area shape="rect" id="Node000003" href="$d9/d29/patches_8h.html" title=" " alt="" coords="59,93,262,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,44,143,81,139,84,106,47"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="151,121,114,159,110,155,147,117"/>
+</map>

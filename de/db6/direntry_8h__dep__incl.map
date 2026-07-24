@@ -1,0 +1,21 @@
+<map id="common/psxlibc/direntry.h" name="common/psxlibc/direntry.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="708,5,903,31"/>
+<area shape="rect" id="Node000002" href="$de/db5/card_2card_8h.html" title=" " alt="" coords="332,79,489,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="729,36,475,81,474,76,728,30"/>
+<area shape="rect" id="Node000006" href="$da/d5a/cdrom_2filesystem_8c.html" title=" " alt="" coords="850,152,1059,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="829,39,945,150,941,154,825,42"/>
+<area shape="rect" id="Node000007" href="$dd/dd8/filesystem_8h.html" title=" " alt="" coords="629,79,840,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="786,43,748,80,744,77,782,39"/>
+<area shape="rect" id="Node000009" href="$de/d24/fileio_2filesystem_8c.html" title=" " alt="" coords="915,79,1115,104"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="853,33,982,76,980,81,851,38"/>
+<area shape="rect" id="Node000003" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="201,152,399,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,114,320,154,317,150,380,109"/>
+<area shape="rect" id="Node000004" href="$d5/d96/device_8c.html" title=" " alt="" coords="5,152,176,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="347,110,143,154,142,149,346,104"/>
+<area shape="rect" id="Node000005" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="423,152,619,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="441,109,505,150,502,154,439,114"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="688,111,557,154,555,149,687,106"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="784,106,920,149,918,154,782,111"/>
+<area shape="rect" id="Node000008" href="$d8/dda/openbios_2cdrom_2cdrom_8c.html" title=" " alt="" coords="643,152,826,177"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="737,118,737,152,732,152,732,118"/>
+</map>

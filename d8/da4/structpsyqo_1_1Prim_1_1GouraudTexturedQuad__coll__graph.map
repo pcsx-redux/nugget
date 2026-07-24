@@ -1,0 +1,15 @@
+<map id="psyqo::Prim::GouraudTexturedQuad" name="psyqo::Prim::GouraudTexturedQuad">
+<area shape="rect" id="Node000001" title="A textured, blended quad." alt="" coords="268,171,520,197"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="25,23,135,49"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,50,196,65,245,86,321,129,378,169,375,173,318,133,243,90,194,70,145,55"/>
+<area shape="rect" id="Node000003" href="$dc/d89/structpsyqo_1_1PrimPieces_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,73,155,113"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,115,350,169,348,174,162,120"/>
+<area shape="rect" id="Node000004" href="$dc/d45/structpsyqo_1_1PrimPieces_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="5,137,155,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,162,268,171,267,176,168,167"/>
+<area shape="rect" id="Node000005" href="$dd/d74/unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="29,202,131,227"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="145,216,179,217,211,219,244,217,300,207,351,194,352,199,301,213,244,223,211,224,179,223,145,221"/>
+<area shape="rect" id="Node000006" href="$dc/de2/structpsyqo_1_1PrimPieces_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="5,252,155,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="168,257,243,240,309,217,364,194,366,199,311,222,245,245,169,262"/>
+<area shape="rect" id="Node000007" href="$d1/d1c/structpsyqo_1_1PrimPieces_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,316,155,356"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="167,316,206,305,243,290,283,267,321,241,377,195,380,199,324,245,286,272,245,294,207,310,169,321"/>
+</map>

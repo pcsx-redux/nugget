@@ -1,0 +1,7 @@
+<map id="psyqo::CDRom" name="psyqo::CDRom">
+<area shape="rect" id="Node000001" title="The base CDRom class." alt="" coords="119,5,238,31"/>
+<area shape="rect" id="Node000002" href="$d1/de1/classpsyqo_1_1CDRomDevice.html" title="A specialization of the CDRom interface." alt="" coords="5,79,168,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,41,103,81,100,76,152,37"/>
+<area shape="rect" id="Node000003" href="$dc/d9b/classpsyqo_1_1CDRomPCDrv.html" title=" " alt="" coords="193,79,351,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,37,258,76,255,81,203,41"/>
+</map>
