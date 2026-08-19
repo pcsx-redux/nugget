@@ -107,11 +107,15 @@ struct TorusTemplate {
     }
     // Similarly, we can easily look up the four faces adjacent to a vertex.
     static void getFacesForVertex(unsigned index, unsigned& f1, unsigned& f2, unsigned& f3, unsigned& f4) {
-        int circle = index / Points;
-        int point = index % Points;
-        f1 = ((circle - 1) % Circles) * Points + ((point - 1) % Points);
-        f2 = ((circle - 1) % Circles) * Points + point;
-        f3 = circle * Points + ((point - 1) % Points);
+        unsigned circle = index / Points;
+        unsigned point = index % Points;
+        // Add the modulus before subtracting, so that the wraparound happens on the low edge too. Plain
+        // (circle - 1) % Circles truncates towards zero and yields -1 rather than Circles - 1.
+        unsigned prevCircle = (circle + Circles - 1) % Circles;
+        unsigned prevPoint = (point + Points - 1) % Points;
+        f1 = prevCircle * Points + prevPoint;
+        f2 = prevCircle * Points + point;
+        f3 = circle * Points + prevPoint;
         f4 = circle * Points + point;
     }
     // Theoretically, the normals of a torus are easy to compute. But our torii have some animated ripples, so we're
