@@ -155,8 +155,11 @@ struct TorusTemplate {
             // A fast method to compute the square root is to use the inverse square root. And we're going to use
             // log2 of the square to get an approximation of the square root, before refining it with the inverse
             // square root method.
-            psyqo::GTE::write<psyqo::GTE::Register::LZCS, psyqo::GTE::Unsafe>(square.raw());
-            auto approx = 1 << (psyqo::GTE::readRaw<psyqo::GTE::Register::LZCR>() - 9);
+            // LZCS and LZCR don't stall the CPU the way the cop2 commands do, so the write needs its nops.
+            psyqo::GTE::write<psyqo::GTE::Register::LZCS, psyqo::GTE::Safe>(square.raw());
+            // The seed wants half the exponent, since we're after 1/sqrt(x) and not 1/x. With lzcr being
+            // 31 - floor(log2(square.raw())), that lands on (5 + lzcr) / 2 in 20.12.
+            auto approx = 1 << ((5 + psyqo::GTE::readRaw<psyqo::GTE::Register::LZCR>()) / 2);
             auto approxFP = psyqo::FixedPoint<>(approx, psyqo::FixedPoint<>::RAW);
             auto len = psyqo::SoftMath::inverseSquareRoot(square, approxFP);
             // We multiply the normal by the inverse square root of the square of the length of the normal in order to
