@@ -362,7 +362,14 @@ void psyqo::SoftMath::normalizeVec3(Vec3 *v) {
     auto y = v->y;
     auto z = v->z;
     auto s = x * x + y * y + z * z;
-    auto r = 1 / squareRoot(s);
+    // squareRoot returns 0 for a small enough argument, and dividing by that
+    // traps rather than producing a number, so a short vector took the whole
+    // program down. Short is not exotic input: the normalised difference of two
+    // nearby points is short by construction. A vector with no length has no
+    // direction either, so leave it alone rather than inventing one.
+    auto root = squareRoot(s);
+    if (root.raw() == 0) return;
+    auto r = 1 / root;
     x *= r;
     y *= r;
     z *= r;
@@ -376,6 +383,7 @@ void psyqo::SoftMath::fastNormalizeVec3(Vec3 *v) {
     auto y = v->y;
     auto z = v->z;
     auto s = x * x + y * y + z * z;
+    if (s.raw() == 0) return;
     auto r = inverseSquareRoot(s);
     x *= r;
     y *= r;
