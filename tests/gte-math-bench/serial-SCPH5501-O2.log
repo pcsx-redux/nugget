@@ -1,0 +1,203 @@
+TYPE : 6 free button or flying-V form
+PS-X Control PAD Driver  Ver 3.0
+*** GTE vs SoftMath throughput benchmark ***
+=== instrument check ===
+  256 nops: 259 cycles (expect ~256 + bracket)
+  empty bracket: 4 cycles
+  counter-2 system-clock mode: OK
+
+=== correctness / equivalence dump ===
+  matrixVecMul3 (raw 12.12):
+    in=(-1165,-1097,2173) cpu=(-460,-1531,2173) gte=(-461,-1533,2173) d=(-1,-2,0)
+    in=(-640,-1160,1979) cpu=(26,-1324,1979) gte=(25,-1325,1979) d=(-1,-1,0)
+    in=(1565,-965,2248) cpu=(1837,-53,2248) gte=(1837,-54,2248) d=(0,-1,0)
+    in=(1531,740,1006) cpu=(955,1405,1006) gte=(955,1406,1006) d=(0,1,0)
+    matrixVecMul3 FLAG=0x00000000 clean
+  Unsafe-vs-Safe V0 write before MVMVA:
+    0/64 mismatches -> Unsafe is correct here
+  crossProductVec3 (raw 12.12):
+    cpu=(-1086,-1881,-1531) gte=(-1087,-1882,-1533) d=(-1,-1,-2)
+    cpu=(-989,-1713,-1324) gte=(-990,-1714,-1325) d=(-1,-1,-1)
+    cpu=(-1124,-1946,-53) gte=(-1124,-1947,-54) d=(0,-1,-1)
+    crossProductVec3 FLAG=0x00000000 clean
+  project vs RTPS (NOT numerically equivalent by design):
+    cpu=(-2195,-2067) rtps sx=-34 sy=-113 sz3=2173
+    cpu=(-1324,-2400) rtps sx=2 sy=-108 sz3=1979
+    cpu=(2851,-1758) rtps sx=130 sy=-4 sz3=2248
+    RTPS FLAG=0x00000000 clean
+  normalize (raw 12.12, 4096 = 1.0; norm should be 4096):
+    |exact|=4097 |fast|=4097 |gte|=4087
+    |exact|=4095 |fast|=4053 |gte|=4097
+    |exact|=4097 |fast|=4097 |gte|=4095
+    |exact|=4097 |fast|=3474 |gte|=4097
+    normalize FLAG=0x00000000 clean
+  multiplyMatrix33 (row 0, raw 12.12):
+    cpu=(1221,305,555) gte=(1221,305,555)
+    cpu=(1763,2544,-1459) gte=(1764,2544,-1459)
+    multiplyMatrix33 FLAG=0x00000000 clean
+
+=== matrixVecMul3 (MVMVA) ===
+  raw cycles for the whole batch (min of 8 runs)
+      N       ctl      cpu     cold      hot     hotU
+      1        37      280      136       57       56
+      2        67      549      260      104      102
+      4       127     1090      508      198      194
+      8       247     2169     1007      386      378
+     16       493     4356     2016      765      750
+     64      1962    17386     8101     3048     2984
+    256      7862     wrap    32669    12165    11935
+  cycles per element
+      N       ctl      cpu     cold      hot     hotU
+      1    37.00  280.00  136.00   57.00   56.00
+      2    33.50  274.50  130.00   52.00   51.00
+      4    31.75  272.50  127.00   49.50   48.50
+      8    30.88  271.13  125.88   48.25   47.25
+     16    30.81  272.25  126.00   47.81   46.88
+     64    30.66  271.66  126.58   47.63   46.63
+    256    30.71   wrap   127.61   47.52   46.62
+  ANALYSIS (from N=64, all arms live):
+    ctl       30.66 cyc/el
+    cpu       271.66 cyc/el
+    cold      126.58 cyc/el
+    hot       47.63 cyc/el
+    hotU      46.63 cyc/el
+    setup cost S = cold - hot = 78.95 cyc
+    CROSSOVER: NONE NEEDED - cold GTE (126.58) already beats the CPU
+               (271.66) at N=1. A stateless free function wins outright.
+
+=== matrixVecMul3xy (MVMVA) ===
+  raw cycles for the whole batch (min of 8 runs)
+      N       cpu     cold      hot
+      1       180      134       55
+      2       349      256      100
+      4       694      500      190
+      8      1373      995      370
+     16      2732     1981      735
+     64     10932     7918     2926
+    256     43700    31642    11701
+  cycles per element
+      N       cpu     cold      hot
+      1   180.00  134.00   55.00
+      2   174.50  128.00   50.00
+      4   173.50  125.00   47.50
+      8   171.63  124.38   46.25
+     16   170.75  123.81   45.94
+     64   170.81  123.72   45.72
+    256   170.70  123.60   45.71
+  ANALYSIS (from N=256, all arms live):
+    cpu       170.70 cyc/el
+    cold      123.60 cyc/el
+    hot       45.71 cyc/el
+    setup cost S = cold - hot = 77.89 cyc
+    CROSSOVER: NONE NEEDED - cold GTE (123.60) already beats the CPU
+               (170.70) at N=1. A stateless free function wins outright.
+
+=== crossProductVec3 (CP) ===
+  raw cycles for the whole batch (min of 8 runs)
+      N       cpu     cold      hot
+      1       188       85       56
+      2       382      158      102
+      4       749      304      194
+      8      1510      597      383
+     16      3010     1182      751
+     64     12023     4699     2998
+    256     48067    18771    11920
+  cycles per element
+      N       cpu     cold      hot
+      1   188.00   85.00   56.00
+      2   191.00   79.00   51.00
+      4   187.25   76.00   48.50
+      8   188.75   74.63   47.88
+     16   188.13   73.88   46.94
+     64   187.86   73.42   46.84
+    256   187.76   73.32   46.56
+  ANALYSIS (from N=256, all arms live):
+    cpu       187.76 cyc/el
+    cold      73.32 cyc/el
+    hot       46.56 cyc/el
+    setup cost S = cold - hot = 26.76 cyc
+    CROSSOVER: NONE NEEDED - cold GTE (73.32) already beats the CPU
+               (187.76) at N=1. A stateless free function wins outright.
+
+=== project (RTPS) ===
+  raw cycles for the whole batch (min of 8 runs)
+      N       ctl      cpu     cold      hot     hotU
+      1        36      670      152       62       61
+      2        64     1363      291      114      112
+      4       120     2760      571      218      214
+      8       235     5533     1131      426      418
+     16       461    11130     2249      845      826
+     64      1821    45402     8962     3365     3278
+    256      7291     wrap    35813    13419    13099
+  cycles per element
+      N       ctl      cpu     cold      hot     hotU
+      1    36.00  670.00  152.00   62.00   61.00
+      2    32.00  681.50  145.50   57.00   56.00
+      4    30.00  690.00  142.75   54.50   53.50
+      8    29.38  691.63  141.38   53.25   52.25
+     16    28.81  695.63  140.56   52.81   51.63
+     64    28.45  709.41  140.03   52.58   51.22
+    256    28.48   wrap   139.89   52.42   51.17
+  ANALYSIS (from N=64, all arms live):
+    ctl       28.45 cyc/el
+    cpu       709.41 cyc/el
+    cold      140.03 cyc/el
+    hot       52.58 cyc/el
+    hotU      51.22 cyc/el
+    setup cost S = cold - hot = 87.45 cyc
+    CROSSOVER: NONE NEEDED - cold GTE (140.03) already beats the CPU
+               (709.41) at N=1. A stateless free function wins outright.
+
+=== normalizeVec3 / fastNormalizeVec3 (SQR+LZCS+Newton) ===
+  raw cycles for the whole batch (min of 8 runs)
+      N     exact     fast      gte
+      1      3436      498      318
+      2      6859      965      632
+      4     14257     1905     1254
+      8     28707     3766     2505
+     16      wrap     7463     4990
+     64      wrap    29788    19960
+    256      wrap     wrap     wrap
+  cycles per element
+      N     exact     fast      gte
+      1  3436.00  498.00  318.00
+      2  3429.50  482.50  316.00
+      4  3564.25  476.25  313.50
+      8  3588.38  470.75  313.13
+     16    wrap   466.44  311.88
+     64    wrap   465.44  311.88
+    256    wrap    wrap    wrap 
+  ANALYSIS (from N=8, all arms live):
+    exact     3588.38 cyc/el
+    fast      470.75 cyc/el
+    gte       313.13 cyc/el
+
+=== multiplyMatrix33 (3x MVMVA) ===
+  raw cycles for the whole batch (min of 8 runs)
+      N       cpu     cold      hot
+      1      1158      233      137
+      2      2307      439      264
+      4      4580      853      518
+      8      9155     1691     1026
+     16     18305     3350     2042
+     64      wrap     wrap     wrap
+    256      wrap     wrap     wrap
+  cycles per element
+      N       cpu     cold      hot
+      1  1158.00  233.00  137.00
+      2  1153.50  219.50  132.00
+      4  1145.00  213.25  129.50
+      8  1144.38  211.38  128.25
+     16  1144.06  209.38  127.63
+     64    wrap    wrap    wrap 
+    256    wrap    wrap    wrap 
+  ANALYSIS (from N=16, all arms live):
+    cpu       1144.06 cyc/el
+    cold      209.38 cyc/el
+    hot       127.63 cyc/el
+    setup cost S = cold - hot = 81.75 cyc
+    CROSSOVER: NONE NEEDED - cold GTE (209.38) already beats the CPU
+               (1144.06) at N=1. A stateless free function wins outright.
+
+sink=0x067361de
+*** benchmark complete ***
