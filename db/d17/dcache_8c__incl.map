@@ -1,0 +1,32 @@
+<map id="tests/dcache/dcache.c" name="tests/dcache/dcache.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="369,5,534,31"/>
+<area shape="rect" id="Node000002" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="30,152,236,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="427,33,171,149,169,144,425,28"/>
+<area shape="rect" id="Node000005" href="$d2/d6e/syscalls_8h.html" title=" " alt="" coords="350,79,553,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="454,31,454,65,449,65,449,31"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="578,79,694,104"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="482,28,593,71,592,76,480,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="396,299,467,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="92,180,57,193,26,209,15,219,9,228,9,238,15,249,39,267,77,280,124,291,178,299,288,306,382,308,382,313,288,312,177,304,123,296,76,286,37,271,11,252,4,239,4,227,11,215,23,205,55,188,90,175"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="25,225,241,251"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="136,178,136,212,130,212,130,178"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="181,248,383,296,382,301,180,253"/>
+<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="379,107,338,124,320,137,306,154,292,178,288,201,293,224,306,249,321,267,340,281,384,298,382,303,338,285,317,271,301,252,288,226,283,201,287,177,301,150,317,133,335,119,377,102"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="316,152,390,177"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="437,106,381,146,378,142,434,102"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="414,152,489,177"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="454,104,454,138,449,138,449,104"/>
+<area shape="rect" id="Node000008" href="$d0/d77/circularbuffer_8h.html" title=" " alt="" coords="316,225,547,251"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="468,102,484,117,498,135,506,156,503,178,487,202,466,220,463,216,483,198,498,176,501,157,493,138,480,120,465,106"/>
+<area shape="rect" id="Node000009" href="$db/de9/device_8h.html" title=" " alt="" coords="591,152,779,177"/>
+<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="490,101,635,145,633,151,488,107"/>
+<area shape="rect" id="Node000011" href="$dc/dea/common_2psxlibc_2handlers_8h.html" title=" " alt="" coords="824,225,1026,251"/>
+<area shape="poly" id="edge16_Node000005_Node000011" title=" " alt="" coords="539,101,680,123,745,136,791,150,853,181,902,215,899,219,850,185,789,154,743,141,679,129,538,107"/>
+<area shape="poly" id="edge10_Node000008_Node000003" title=" " alt="" coords="434,251,434,285,429,285,429,251"/>
+<area shape="poly" id="edge12_Node000009_Node000003" title=" " alt="" coords="671,180,622,214,560,253,472,296,470,291,557,248,619,209,668,175"/>
+<area shape="rect" id="Node000010" href="$d6/dd1/stdio_8h.html" title=" " alt="" coords="623,225,800,251"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="685,177,697,213,692,214,680,179"/>
+<area shape="poly" id="edge14_Node000010_Node000003" title=" " alt="" coords="667,253,481,300,479,295,666,248"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="712,226,700,190,705,189,717,224"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="846,253,481,306,480,300,845,248"/>
+</map>

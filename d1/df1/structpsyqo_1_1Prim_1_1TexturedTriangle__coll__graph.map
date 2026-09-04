@@ -1,0 +1,13 @@
+<map id="psyqo::Prim::TexturedTriangle" name="psyqo::Prim::TexturedTriangle">
+<area shape="rect" id="Node000001" title="A textured triangle." alt="" coords="268,134,483,159"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="25,11,135,37"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,37,197,51,245,68,308,100,357,132,354,136,305,105,243,73,195,56,148,42"/>
+<area shape="rect" id="Node000003" href="$dc/d89/structpsyqo_1_1PrimPieces_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,63,155,103"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,99,316,131,315,137,167,104"/>
+<area shape="rect" id="Node000004" href="$dc/d45/structpsyqo_1_1PrimPieces_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="5,127,155,167"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,144,268,144,268,149,168,149"/>
+<area shape="rect" id="Node000005" href="$dc/de2/structpsyqo_1_1PrimPieces_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="5,191,155,231"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="167,189,315,157,316,162,169,194"/>
+<area shape="rect" id="Node000006" href="$d1/d1c/structpsyqo_1_1PrimPieces_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="5,255,155,295"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="145,247,243,207,348,157,350,162,245,212,147,252"/>
+</map>

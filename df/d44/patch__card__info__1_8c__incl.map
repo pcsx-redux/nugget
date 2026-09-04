@@ -1,0 +1,12 @@
+<map id="openbios/patches/patch_card_info_1.c" name="openbios/patches/patch_card_info_1.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="35,5,211,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="18,167,89,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,48,37,67,12,95,8,110,12,125,32,155,28,158,7,128,3,110,7,92,33,63,66,43"/>
+<area shape="rect" id="Node000003" href="$d9/d29/patches_8h.html" title=" " alt="" coords="22,93,224,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,46,126,79,120,79,120,46"/>
+<area shape="rect" id="Node000004" href="$d6/da0/sio0_2card_8h.html" title=" " alt="" coords="249,93,405,119"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="173,43,285,86,283,91,171,48"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="113,121,76,159,72,155,110,117"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="292,167,362,192"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="330,119,330,153,324,153,324,119"/>
+</map>

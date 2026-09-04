@@ -1,0 +1,33 @@
+<map id="psyqo/cdrom&#45;commandbuffer.hh" name="psyqo/cdrom&#45;commandbuffer.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="983,5,1217,31"/>
+<area shape="rect" id="Node000002" href="$d4/da2/cdrom-device_8hh.html" title=" " alt="" coords="1013,79,1187,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1103,44,1103,79,1097,79,1097,44"/>
+<area shape="rect" id="Node000007" href="$dc/d56/cdrom-device-test_8cpp.html" title=" " alt="" coords="1594,152,1771,192"/>
+<area shape="poly" id="edge19_Node000001_Node000007" title=" " alt="" coords="1157,31,1611,149,1610,154,1156,37"/>
+<area shape="rect" id="Node000011" href="$de/dd7/hardware_2cdrom_8hh.html" title=" " alt="" coords="798,79,989,104"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1055,38,928,81,926,76,1053,33"/>
+<area shape="rect" id="Node000003" href="$db/dbd/cdrom-device-cdda_8cpp.html" title=" " alt="" coords="810,152,987,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1059,111,948,154,946,149,1057,106"/>
+<area shape="rect" id="Node000004" href="$db/d1b/cdrom-device-muteunmute_8cpp.html" title=" " alt="" coords="1011,152,1189,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1103,118,1103,152,1097,152,1097,118"/>
+<area shape="rect" id="Node000005" href="$d0/d6c/cdrom-device-readsectors_8cpp.html" title=" " alt="" coords="1213,152,1390,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="1143,106,1254,149,1252,154,1141,111"/>
+<area shape="rect" id="Node000006" href="$db/d16/cdrom-device-reset_8cpp.html" title=" " alt="" coords="179,152,357,192"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="999,107,820,120,681,127,543,136,368,155,357,156,356,151,368,149,543,130,681,122,820,115,998,101"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="1201,101,1379,121,1583,149,1594,151,1593,156,1582,155,1379,127,1201,106"/>
+<area shape="rect" id="Node000008" href="$db/d12/cdrom-device-toc_8cpp.html" title=" " alt="" coords="381,152,558,192"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="999,107,782,128,570,155,559,156,558,151,569,149,781,123,998,101"/>
+<area shape="rect" id="Node000009" href="$d7/df1/cdrom-device_8cpp.html" title=" " alt="" coords="582,159,786,185"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="1027,109,745,162,744,157,1026,104"/>
+<area shape="rect" id="Node000010" href="$db/d0e/cdrom_8cpp.html" title=" " alt="" coords="1414,159,1570,185"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="1173,104,1403,149,1439,157,1438,162,1402,155,1172,109"/>
+<area shape="poly" id="edge11_Node000011_Node000003" title=" " alt="" coords="898,118,900,152,895,152,892,118"/>
+<area shape="poly" id="edge12_Node000011_Node000004" title=" " alt="" coords="937,106,1051,149,1049,154,935,111"/>
+<area shape="poly" id="edge13_Node000011_Node000005" title=" " alt="" coords="966,104,1213,151,1212,156,965,109"/>
+<area shape="poly" id="edge14_Node000011_Node000006" title=" " alt="" coords="785,105,590,126,368,155,357,156,356,151,368,149,590,121,784,100"/>
+<area shape="poly" id="edge15_Node000011_Node000007" title=" " alt="" coords="1002,101,1167,114,1295,122,1422,131,1583,149,1594,151,1593,156,1582,155,1421,136,1294,127,1166,120,1002,107"/>
+<area shape="poly" id="edge16_Node000011_Node000008" title=" " alt="" coords="818,109,570,155,559,157,558,151,569,149,817,104"/>
+<area shape="poly" id="edge17_Node000011_Node000009" title=" " alt="" coords="851,111,715,162,714,157,849,106"/>
+<area shape="rect" id="Node000012" href="$d6/df6/hardware_2cdrom_8cpp.html" title=" " alt="" coords="5,152,155,192"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="784,100,504,118,335,133,167,155,155,157,155,151,166,149,335,128,503,112,784,94"/>
+</map>

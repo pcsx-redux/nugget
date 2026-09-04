@@ -1,0 +1,9 @@
+<map id="psyqo::Fragments::ChainEntryPS1" name="psyqo::Fragments::ChainEntryPS1">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,77,247,102"/>
+<area shape="rect" id="Node000002" href="$de/df6/structpsyqo_1_1Fragments_1_1FixedFragment.html" title="A maximum fixed sized fragment of similar primitives." alt="" coords="295,5,537,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,71,324,43,325,48,198,76"/>
+<area shape="rect" id="Node000003" href="$d1/d69/structpsyqo_1_1Fragments_1_1FixedFragmentWithPrologue.html" title="A maximum fixed sized fragment of similar primitives." alt="" coords="295,69,537,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="260,87,294,87,294,92,260,92"/>
+<area shape="rect" id="Node000004" href="$df/d69/structpsyqo_1_1Fragments_1_1SimpleFragment.html" title=" " alt="" coords="321,133,511,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="198,102,325,131,324,136,197,108"/>
+</map>

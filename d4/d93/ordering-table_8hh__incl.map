@@ -1,0 +1,26 @@
+<map id="psyqo/ordering&#45;table.hh" name="psyqo/ordering&#45;table.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="209,5,386,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,147,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,33,125,77,124,72,261,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="10,152,81,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,33,160,106,82,148,79,143,157,102,278,28"/>
+<area shape="rect" id="Node000004" href="$d4/d46/fragment-concept_8hh.html" title=" " alt="" coords="539,79,741,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="353,28,572,73,571,78,352,33"/>
+<area shape="rect" id="Node000008" href="$d4/db7/fragments_8hh.html" title=" " alt="" coords="221,79,373,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="300,31,300,65,295,65,295,31"/>
+<area shape="rect" id="Node000012" href="$d2/d1c/shared_8hh.html" title=" " alt="" coords="765,79,894,104"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="386,28,752,76,751,81,386,33"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="603,152,677,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="643,104,643,138,637,138,637,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="701,152,781,177"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="658,102,715,142,712,146,655,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="806,152,898,177"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="675,101,806,145,804,150,673,107"/>
+<area shape="poly" id="edge10_Node000008_Node000003" title=" " alt="" coords="258,107,95,152,93,147,256,101"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="105,152,215,177"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="276,106,196,148,193,143,274,102"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="240,152,355,177"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="300,104,300,138,295,138,295,104"/>
+<area shape="rect" id="Node000011" href="$dd/d53/primitive-concept_8hh.html" title=" " alt="" coords="379,152,579,177"/>
+<area shape="poly" id="edge11_Node000008_Node000011" title=" " alt="" coords="327,102,437,144,435,149,325,107"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="common/psxlibc/device.h" name="common/psxlibc/device.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="17,5,205,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="12,152,83,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,33,40,51,24,64,12,80,8,95,11,110,28,140,24,142,6,112,3,94,7,77,20,61,37,47,72,28"/>
+<area shape="rect" id="Node000003" href="$d6/dd1/stdio_8h.html" title=" " alt="" coords="23,79,200,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,31,105,65,100,65,102,31"/>
+<area shape="poly" id="edge4_Node000003_Node000001" title=" " alt="" coords="115,78,117,44,122,45,121,79"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="103,106,69,144,65,140,99,103"/>
+</map>
