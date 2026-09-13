@@ -1,0 +1,15 @@
+<map id="common/util/buffer.hh" name="common/util/buffer.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,171,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="39,225,110,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,32,67,53,56,79,51,115,53,150,68,211,63,213,48,151,46,114,51,78,62,51,77,29"/>
+<area shape="rect" id="Node000003" href="$d4/d87/bitfield_8hh.html" title=" " alt="" coords="65,79,239,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="101,29,135,67,131,70,97,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="141,106,121,127,102,153,90,183,82,212,77,211,85,181,98,151,117,124,137,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="112,152,192,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="155,104,155,138,149,138,149,104"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="217,152,309,177"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="171,102,234,142,231,147,168,106"/>
+<area shape="rect" id="Node000006" href="$d9/d59/common_2util_2util_8h.html" title=" " alt="" coords="333,152,387,177"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="186,101,321,147,319,152,185,107"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="333,177,322,180,124,228,123,223,321,175,332,172"/>
+</map>

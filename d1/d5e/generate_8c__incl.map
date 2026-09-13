@@ -1,0 +1,15 @@
+<map id="openbios/patches/generate.c" name="openbios/patches/generate.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="19,5,229,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="22,225,93,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,33,58,81,31,115,11,153,9,169,13,185,35,214,31,218,9,188,3,170,6,151,26,112,54,77,107,29"/>
+<area shape="rect" id="Node000003" href="$d6/dd1/stdio_8h.html" title=" " alt="" coords="91,79,157,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="127,31,127,65,121,65,121,31"/>
+<area shape="rect" id="Node000005" href="$db/dfb/hash_8h.html" title=" " alt="" coords="242,152,425,177"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="142,29,307,142,304,146,139,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="92,104,52,122,34,136,20,153,16,168,19,184,38,214,33,216,14,186,10,168,15,151,30,132,49,118,89,99"/>
+<area shape="rect" id="Node000004" href="$db/de9/device_8h.html" title=" " alt="" coords="30,152,218,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="120,104,118,139,113,138,115,104"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="115,179,80,217,76,213,111,176"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="128,152,130,118,135,118,134,152"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="290,180,107,227,105,222,288,175"/>
+</map>
