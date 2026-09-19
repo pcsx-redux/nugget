@@ -1,0 +1,7 @@
+<map id="openbios/sio0/pad.h" name="openbios/sio0/pad.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="11,5,163,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,76,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,32,58,69,54,66,77,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="100,79,171,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="97,30,122,66,118,69,93,33"/>
+</map>

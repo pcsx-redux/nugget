@@ -1,0 +1,9 @@
+<map id="common/hardware/cdrom.h" name="common/hardware/cdrom.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="227,5,428,31"/>
+<area shape="rect" id="Node000002" href="$d8/dda/openbios_2cdrom_2cdrom_8c.html" title=" " alt="" coords="5,79,188,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,37,135,81,133,76,276,32"/>
+<area shape="rect" id="Node000003" href="$d2/d31/statemachine_8c.html" title=" " alt="" coords="212,79,443,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="330,44,330,79,325,79,325,44"/>
+<area shape="rect" id="Node000004" href="$da/d48/shell_2cdrom_8c.html" title=" " alt="" coords="467,79,577,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="372,33,491,76,489,81,370,38"/>
+</map>

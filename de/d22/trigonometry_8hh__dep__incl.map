@@ -1,0 +1,25 @@
+<map id="psyqo/trigonometry.hh" name="psyqo/trigonometry.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="512,5,680,31"/>
+<area shape="rect" id="Node000002" href="$d8/d4f/atan2_8hh.html" title=" " alt="" coords="136,79,259,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="519,36,260,82,259,76,518,30"/>
+<area shape="rect" id="Node000004" href="$d5/d24/helix-selector_8hh.html" title=" " alt="" coords="311,79,484,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="552,38,431,81,429,76,550,33"/>
+<area shape="rect" id="Node000006" href="$dc/d60/soft-math_8hh.html" title=" " alt="" coords="522,79,670,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="599,44,599,79,593,79,593,44"/>
+<area shape="rect" id="Node000011" href="$d5/d52/trigonometry_8cpp.html" title=" " alt="" coords="694,79,893,104"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="641,33,762,76,760,81,640,38"/>
+<area shape="rect" id="Node000012" href="$dd/d06/test-trigonometry_8cpp.html" title=" " alt="" coords="917,79,1158,104"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="681,30,967,76,966,81,680,35"/>
+<area shape="rect" id="Node000003" href="$d3/d8b/atan2_8cpp.html" title=" " alt="" coords="5,159,157,185"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,114,100,161,97,157,167,110"/>
+<area shape="rect" id="Node000005" href="$db/d31/helix-selector_8cpp.html" title=" " alt="" coords="181,159,384,185"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="371,114,301,161,298,157,368,110"/>
+<area shape="rect" id="Node000007" href="$dc/deb/gte-math_8cpp.html" title=" " alt="" coords="409,159,583,185"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="572,115,512,161,509,157,569,111"/>
+<area shape="rect" id="Node000008" href="$d1/df5/soft-math_8cpp.html" title=" " alt="" coords="608,159,787,185"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="624,111,684,157,681,161,620,115"/>
+<area shape="rect" id="Node000009" href="$df/ded/test-gte-math_8cpp.html" title=" " alt="" coords="811,152,963,192"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="652,105,817,149,816,154,651,110"/>
+<area shape="rect" id="Node000010" href="$d3/dce/test-soft-math_8cpp.html" title=" " alt="" coords="987,152,1141,192"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="684,102,975,149,987,152,986,157,974,155,683,108"/>
+</map>
