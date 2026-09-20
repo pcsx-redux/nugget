@@ -851,9 +851,10 @@ void PSM_Poll(void) {
         const struct PsmEvent* ev = &s_events[PSM_currentEvent];
 
         // Wait out this event's delta BEFORE firing it. deltaTick is the gap since the
-        // previous event (PSM.md:43), so the event must not fire until that many ticks
-        // have elapsed. s_deltaConsumed records that the wait for this event is already
-        // armed, so we don't re-arm it when the wait expires and we revisit the event.
+        // previous event, per https://github.com/ps1dev/standards/blob/main/PSM.md,
+        // so it must not fire until that many ticks have elapsed. s_deltaConsumed
+        // records that the wait for this event is already armed, so we don't re-arm it
+        // when the wait expires and we revisit the event.
         if (ev->deltaTick > 0 && !s_deltaConsumed) {
             s_waitRemaining = ev->deltaTick - 1;  // -1 because this tick counts as the first
             s_deltaConsumed = 1;

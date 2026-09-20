@@ -32,8 +32,8 @@ SOFTWARE.
  * fills scratchpad at slot (load_byte_addr >> 2) & 0xff with the loaded
  * word. The suite verifies the exact mapping, sub-word load behavior,
  * KSEG1 bypass, store-side behavior, BIU bit interactions, and several
- * inverse-mode controls. See psx-spx memorycontrol.md for the documented
- * behavior.
+ * inverse-mode controls. The documented behavior is at
+ * https://psx-spx.consoledev.net/memorycontrol/
  */
 
 #ifndef PCSX_TESTS
@@ -683,9 +683,9 @@ CESTER_TEST(n08_sp0_with_address_offsets, dcache_tests,
 /* SECTION O / P (intentionally omitted from this binary): reads and writes
  * to the scratchpad address range (1F800XXX) in d-cache-only mode (RAM=0,
  * DS=1) deadlock the bus - a power cycle is required to recover. The
- * behavior is documented in psx-spx memorycontrol.md. If you want to
- * probe it, do so in a dedicated binary so a hang doesn't block the
- * rest of the suite. */
+ * behavior is documented at https://psx-spx.consoledev.net/memorycontrol/
+ * If you want to probe it, do so in a dedicated binary so a hang doesn't
+ * block the rest of the suite. */
 
 /* =========================================================================
  * SECTION Q. TAG / INV / LOCK bits combined with DS-only. These bits are
