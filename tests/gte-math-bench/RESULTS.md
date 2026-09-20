@@ -390,6 +390,17 @@ hazard (a cop2 op followed by a write to one of its inputs), which is what
 
 ### `fastNormalizeVec3` is both slower and less accurate than a GTE-assisted route
 
+> **The accuracy half of this section describes code that no longer exists.**
+> The `x * 2` seed was replaced in `f1f109cf6` with a software leading-zero seed
+> (`floor(log2(raw))` halved, sqrt(2) half-step on odd exponents), which is the
+> software-CLZ route this section's last paragraph asks for. Sweeping every
+> representable input through the shipped source now gives 0 inputs above 10%
+> error on either branch, worst 0.54%. The 3474 reading below was real when it
+> was taken; it is not reproducible against current `main`. **The CYCLE COUNTS
+> are unaffected** - the new seed is five compares and a multiply, and nothing
+> in the Newton loop changed - but they have not been re-measured on silicon
+> since, so treat the `fast` row as an upper bound rather than a fresh number.
+
 | route | cyc/el | measured norm (should be 4096) |
 |---|---:|---|
 | `SoftMath::normalizeVec3` | 3588.38 | 4095-4097 |
@@ -409,6 +420,8 @@ This is an algorithm change, not a hardware swap of the same algorithm, and it
 is reported as one. But the seed quality result stands independently of the
 GTE: **`fastNormalizeVec3`'s `x * 2` seed is the defect**, and an LZCS-derived
 or software-CLZ-derived seed would fix the accuracy on the CPU path too.
+(Done in `f1f109cf6`, software-CLZ route. See the note at the head of this
+section.)
 
 ### Compiler: psyqo's GTE wrappers do not inline at `-Os`
 
