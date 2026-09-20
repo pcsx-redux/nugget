@@ -458,7 +458,7 @@ class GPU {
      * @param callback The callback function to be called when the timer expires.
      * @return The id of the created timer.
      */
-    unsigned armPeriodicTimer(uint32_t period, eastl::function<void(uint32_t)> &&callback);
+    uintptr_t armPeriodicTimer(uint32_t period, eastl::function<void(uint32_t)> &&callback);
 
     /**
      * @brief Changes the period of a periodic timer.
