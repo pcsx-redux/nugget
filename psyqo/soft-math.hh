@@ -207,7 +207,7 @@ void crossProductVec3(const Vec3 &v1, const Vec3 &v2, Vec3 *out);
  * @param x The number to compute the inverse square root of.
  * @return psyqo::FixedPoint<> The inverse square root.
  */
-[[nodiscard]] static inline FixedPoint<> inverseSquareRoot(FixedPoint<> x) { return inverseSquareRoot(x, x * 2); }
+[[nodiscard]] FixedPoint<> inverseSquareRoot(FixedPoint<> x);
 
 /**
  * @brief Computes the norm of a 3D vector.

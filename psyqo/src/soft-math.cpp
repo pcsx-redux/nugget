@@ -300,6 +300,39 @@ psyqo::FixedPoint<> psyqo::SoftMath::squareRoot(psyqo::FixedPoint<> x, psyqo::Fi
     return x0;
 }
 
+namespace {
+
+// floor(log2(v)) for v >= 1. The R3000A has no count-leading-zeros instruction, so
+// this is a five-compare binary search rather than a CLZ; keeping it here is what
+// lets SoftMath stay off the GTE.
+constexpr unsigned floorLog2(uint32_t v) {
+    unsigned e = 0;
+    if (v >= (1u << 16)) { v >>= 16; e += 16; }
+    if (v >= (1u << 8)) { v >>= 8; e += 8; }
+    if (v >= (1u << 4)) { v >>= 4; e += 4; }
+    if (v >= (1u << 2)) { v >>= 2; e += 2; }
+    if (v >= (1u << 1)) { e += 1; }
+    return e;
+}
+
+}  // namespace
+
+psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x) {
+    // x is about 2^(e-12) with e = floor(log2(raw)), so 1/sqrt(x) is about 2^((12-e)/2).
+    // Halving the exponent lands within an octave of the root everywhere, which is what
+    // four Newton steps can actually close; an odd exponent takes the sqrt(2) half-step
+    // rather than rounding to a whole octave.
+    if (x.value <= 0) return 0.0_fp;
+    int k = 12 - static_cast<int>(floorLog2(static_cast<uint32_t>(x.value)));
+    int h = k >> 1;
+    int32_t seed = (h >= 0) ? static_cast<int32_t>(1u << (12 + h)) : static_cast<int32_t>(4096 >> (-h));
+    if (k & 1) seed = static_cast<int32_t>((static_cast<int64_t>(seed) * 5793) >> 12);
+    if (seed < 1) seed = 1;
+    FixedPoint<> y;
+    y.value = seed;
+    return inverseSquareRoot(x, y);
+}
+
 psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x, psyqo::FixedPoint<> y) {
     // Newton method, using f(y) = 1/y² - x
     // Meaning we want to calculate y - f(y)/f'(y)
