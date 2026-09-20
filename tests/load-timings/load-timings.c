@@ -75,6 +75,11 @@ SOFTWARE.
 #define EXIT_FAILURE 1
 #include "exotic/cester.h"
 
+/* R3000A cache/bus-interface control. The suite does not write it; the test
+   below pins what it reads, so every cost in this file names its regime. */
+#define BIU_CONFIG_ADDR 0xfffe0130u
+#define BIU_EXPECTED    0x0001e988u
+
 // clang-format off
 
 /* Back-to-back block size and spacing-sweep load count. 256 reads = 1 KiB of
@@ -349,6 +354,18 @@ CESTER_BEFORE_EACH(load_tests, testname, testindex,
 )
 
 CESTER_AFTER_EACH(load_tests, testname, testindex,
+)
+
+/* Every number below is a cost measured under one cache configuration, and the
+   suite never set it - it inherits whatever the runtime left in BIU_CONFIG. On
+   hardware that is 0x0001e988 (scratchpad enabled, RAM enabled), which is the
+   regime the figures describe. Assert it rather than assume it: a different
+   value means the rest of this file is measuring something else. */
+CESTER_TEST(biuConfigIsTheMeasuredRegime, load_tests,
+    uint32_t biu = *(volatile uint32_t *)BIU_CONFIG_ADDR;
+    ramsyscall_printf("=== BIU_CONFIG = 0x%08lx (expected 0x%08lx) ===\n",
+                      biu, (uint32_t)BIU_EXPECTED);
+    cester_assert_uint_eq((uint32_t)BIU_EXPECTED, biu);
 )
 
 /* Back-to-back load cost per target: scratchpad ~1, MMIO ~5, RAM ~7, BIOS tens
