@@ -43,7 +43,8 @@ SOFTWARE.
  * matching SoftMath.
  *
  * WHY THESE ARE FREE FUNCTIONS AND NOT A SCOPED, REGISTER-OWNING OBJECT.
- * Measured on hardware (src/mips/tests/gte-math-bench), cycles per element,
+ * Measured on hardware with a GTE-versus-SoftMath throughput benchmark,
+ * cycles per element,
  * SCPH-5501, caller at -O2, "cold" meaning the matrix upload is paid INSIDE the
  * call, once per element:
  *

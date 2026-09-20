@@ -44,7 +44,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 
 // Bring the GPU into a known polled-FIFO state. Modeled on the reset()
-// in src/mips/tests/gpu/gpu.c so subsequent transfers do not hang on
+// in tests/gpu/gpu.c so subsequent transfers do not hang on
 // bits that only advance under DMA.
 static inline void probeReset(void) {
     IMASK = 0;
@@ -134,7 +134,7 @@ static inline int fastFillHeightEff(int h) {
 // Multi-word GPU commands need exactly one waitGPU() at the start; bit 26
 // goes LOW after the first word and only returns high after the entire
 // transfer completes, so polling between sub-words hangs forever. This
-// matches the pattern in src/mips/tests/gpu/gpu.c::sendOnePolygon.
+// matches the pattern in tests/gpu/gpu.c::sendOnePolygon.
 //
 // All coordinate fields are passed through unmodified - we do NOT mask to
 // 16/9 bits because the masking behavior is part of what we are observing.

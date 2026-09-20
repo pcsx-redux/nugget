@@ -74,7 +74,7 @@ Controls:
 ## Build
 
 ```
-make -C src/mips/tests/gte-latency-lzcs TYPE=ps-exe
+make -C tests/gte-latency-lzcs TYPE=ps-exe
 ```
 
 If the link dies on `undefined reference to vdprintf`, an openbios build

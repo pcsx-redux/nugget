@@ -50,7 +50,7 @@ of that sentence is wrong, or at least does not generalise from IRGB.
 
 ## Consequence outside this directory
 
-`src/mips/psyqo/examples/torus/torus.cpp` writes LZCS with `GTE::Unsafe`
+`psyqo/examples/torus/torus.cpp` writes LZCS with `GTE::Unsafe`
 and reads LZCR on the next line. The emitted sequence in `torus.ps-exe`,
 read out of the disassembly rather than inferred from the source, is:
 

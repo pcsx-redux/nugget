@@ -61,7 +61,7 @@ rather than re-reading per sub-pass.
 ## Build
 
 ```
-make -C src/mips/tests/gte-latency TYPE=ps-exe
+make -C tests/gte-latency TYPE=ps-exe
 ```
 
 Produces `gte-latency.ps-exe`. Upload via Unirom + psxup.py and capture

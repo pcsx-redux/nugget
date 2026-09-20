@@ -28,7 +28,8 @@ SOFTWARE.
 
 // Shared bare-metal helpers for the GPU rasterizer edge-behavior test suite.
 //
-// VRAM I/O patterns lifted from src/mips/arcade-tests/probe-common.h, adapted
+// VRAM I/O patterns lifted from the arcade-tests probe helpers, whose surviving
+// sibling in this tree is tests/2mb-vram/probe-common.h. Adapted
 // for cester. The arcade-tests suite was characterizing 573 dual-bank VRAM
 // quirks via a custom PROBE_PASS / PROBE_FAIL log format; here we want
 // per-pixel cester assertions so failures surface as `expected X, received Y
@@ -133,7 +134,7 @@ static inline uint16_t rasterVram555(uint8_t r5, uint8_t g5, uint8_t b5) {
 // GPU reset / setup
 // --------------------------------------------------------------------------
 
-// Full-fat reset, modeled on src/mips/arcade-tests/probe-common.h.
+// Full-fat reset, modeled on tests/2mb-vram/probe-common.h.
 // Bring the GPU into a known polled-FIFO state so subsequent VRAM transfers
 // do not hang on DMA-readiness bits.
 static inline void rasterFullReset(void) {

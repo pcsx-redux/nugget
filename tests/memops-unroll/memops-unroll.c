@@ -37,7 +37,7 @@ SOFTWARE.
  * B=8/U=8, memset U=4) and common/psxlibc/fastmemset.s (U=4). Re-run this
  * before changing any of them.
  *
- * Cycle source and method are lifted from src/mips/tests/load-timings: root
+ * Cycle source and method are lifted from tests/load-timings: root
  * counter 2 in system-clock mode (1 tick / CPU cycle, 16-bit), IRQs masked
  * suite-wide, minimum over several runs to reject stray stalls and warm the
  * icache. Every kernel is CONTENT-CHECKED before any of its timings are
