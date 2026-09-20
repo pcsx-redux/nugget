@@ -19,7 +19,7 @@ local function _bin2c_sanitize_basename(input)
     return name
 end
 
-local function _bin2c_read(io, pathname)
+local function _bin2c_read(raise, io, pathname)
     local f = io.open(pathname, "rb")
     if not f then
         raise("bin2c: unable to read input file '%s'", pathname)
@@ -29,7 +29,7 @@ local function _bin2c_read(io, pathname)
     return data or ""
 end
 
-local function _bin2c_write(io, os, pathname, data)
+local function _bin2c_write(raise, io, os, pathname, data)
     if os.isfile(pathname) then
         local existing = io.open(pathname, "rb")
         local previous = existing:read("*all")
@@ -46,8 +46,8 @@ local function _bin2c_write(io, os, pathname, data)
     f:close()
 end
 
-local function _bin2c_generate(io, os, input, output_c, output_h, symbol, compat_name)
-    local blob = _bin2c_read(io, input)
+local function _bin2c_generate(raise, io, os, input, output_c, output_h, symbol, compat_name)
+    local blob = _bin2c_read(raise, io, input)
     local size = #blob
 
     local bytes = {}
@@ -102,11 +102,11 @@ local function _bin2c_generate(io, os, input, output_c, output_h, symbol, compat
         "",
     }, "\n")
 
-    _bin2c_write(io, os, output_h, hfile)
-    _bin2c_write(io, os, output_c, cfile)
+    _bin2c_write(raise, io, os, output_h, hfile)
+    _bin2c_write(raise, io, os, output_c, cfile)
 end
 
-local function _bin2c_collect_inputs(target)
+local function _bin2c_collect_inputs(raise, target)
     local entries = target:values("nugget.bin2c.files") or {}
     if type(entries) == "string" then
         entries = { entries }
@@ -142,7 +142,7 @@ end
 
 rule("nugget.bin2c", function()
     before_config(function(target)
-        local inputs = _bin2c_collect_inputs(target)
+        local inputs = _bin2c_collect_inputs(raise, target)
         if #inputs == 0 then
             raise(
             "nugget.bin2c: no input files found; add values via nugget.bin2c.files (for example: add_values(\"nugget.bin2c.files\", \"assets/*.bin\"))")
@@ -176,7 +176,7 @@ rule("nugget.bin2c", function()
 
         for _, entry in ipairs(generated) do
             os.mkdir(path.directory(entry.output_h))
-            _bin2c_generate(io, os, entry.input, entry.output_c, entry.output_h, entry.symbol, entry.compat_name)
+            _bin2c_generate(raise, io, os, entry.input, entry.output_c, entry.output_h, entry.symbol, entry.compat_name)
         end
 
         target:data_set("nugget.bin2c.generated", generated)
