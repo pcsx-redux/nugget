@@ -35,7 +35,7 @@ CPPFLAGS = -DNOFLOATINGPOINT
 CPPFLAGS += -I.
 CPPFLAGS += -I../../third_party/uC-sdk/libc/include
 CPPFLAGS += -I../../third_party/uC-sdk/os/include
-CPPFLAGS += -I../../../../third_party/libcester/include
+CPPFLAGS += -I../../third_party/libcester/include
 CPPFLAGS += -I../../openbios/uC-sdk-glue
 
 SRCS += \

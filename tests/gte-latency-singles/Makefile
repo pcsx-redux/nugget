@@ -36,7 +36,7 @@ CPPFLAGS += -I.
 CPPFLAGS += -I../gte-latency
 CPPFLAGS += -I../../third_party/uC-sdk/libc/include
 CPPFLAGS += -I../../third_party/uC-sdk/os/include
-CPPFLAGS += -I../../../../third_party/libcester/include
+CPPFLAGS += -I../../third_party/libcester/include
 CPPFLAGS += -I../../openbios/uC-sdk-glue
 
 ifeq ($(PCSX_TESTS),true)
