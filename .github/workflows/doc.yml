@@ -1,0 +1,40 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  doxygen:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate
+        run: doxygen Doxyfile
+
+      - name: Publish to gh_pages
+        run: |
+          touch html/.nojekyll
+          cd html
+          git init -q -b gh_pages
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Documentation for ${{ github.sha }}."
+          git push -q --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
+            gh_pages

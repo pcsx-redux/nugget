@@ -8,7 +8,8 @@ cmake-build-*/
 *.cpe
 *.ps-exe
 
-# for nugget mirror
+# build artifacts
 *.dep
 *.o
 *.a
+html/

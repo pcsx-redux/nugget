@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/grumpycoders/pcsx-redux-build:latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          set-safe-directory: true
+
+      - name: OpenBIOS
+        run: make -C openbios -j2 all
+
+      - name: Drop the shared uC-sdk objects
+        # openbios and tests compile the same uC-sdk sources into the shared
+        # source directory under incompatible flags. Whichever builds last
+        # wins, and the objects it leaves are newer than their sources, so
+        # nothing keyed on mtime catches it. Delete them in between.
+        run: find third_party/uC-sdk -name '*.o' -delete
+
+      - name: Libraries and examples
+        # cube is left out: it links against the converted Sony libraries,
+        # which are not redistributable and have to be built locally. See
+        # psyq/README.md.
+        run: |
+          for d in crc32 cxxhello helloworld modplayer psmplayer psyqo \
+                   psyqo-lua psyqo-paths scratchstack shell spdplayer ucl-demo; do
+            echo "::group::$d"
+            make -C $d -j2 all
+            echo "::endgroup::"
+          done
+
+      - name: Tests
+        run: make -C tests -j2 all PCSX_TESTS=true
