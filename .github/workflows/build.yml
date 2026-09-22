@@ -44,3 +44,13 @@ jobs:
 
       - name: Tests
         run: make -C tests -j2 all PCSX_TESTS=true
+
+      - name: Emulator
+        # The dev channel AppImage, extracted because a runner has no FUSE.
+        run: |
+          curl -sL -o pcsx-redux.zip https://distrib.app/pub/org/pcsx-redux/project/dev-linux-x64/latest
+          unzip -q pcsx-redux.zip
+          ./PCSX-Redux-*.AppImage --appimage-extract > /dev/null
+
+      - name: Run tests
+        run: tests/run-emulator.sh squashfs-root/AppRun openbios/openbios.bin
