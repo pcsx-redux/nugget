@@ -102,6 +102,20 @@ class GPU {
     static constexpr uint32_t US_PER_HBLANK = 64;
     static constexpr unsigned c_chainThreshold = 56;
 
+    // A DMA linked list node carries its payload size in the top 8 bits of its header word, so a
+    // plain node tops out at 255 words. Larger fragments are sent as "oversized packets": the node
+    // header stores size / c_oversizedGranularity instead, and bit 0 of the pointer *of the previous
+    // node* flags it. That pointer already carries bit 23 to stop the DMA engine early, and the low
+    // two bits of a link are free because the engine ignores them when issuing the fetch while the
+    // MADR register still hands back the full value (measured on SCPH-1001/5501/7001, see
+    // src/mips/tests/dma/dma.c: linked_dma_800001_terminator and linked_dma_odd_terminator).
+    // An oversized payload must therefore be a multiple of c_oversizedGranularity words; pad the
+    // tail with GP0(00h) NOPs.
+    static constexpr unsigned c_oversizedShift = 4;
+    static constexpr unsigned c_oversizedGranularity = 1 << c_oversizedShift;
+    static constexpr unsigned c_maxNodeWords = 255;
+    static constexpr unsigned c_maxOversizedWords = c_maxNodeWords * c_oversizedGranularity;
+
     /**
      * @brief Returns the refresh rate of the GPU.
      *
@@ -560,6 +574,10 @@ class GPU {
     };
     eastl::fixed_list<ScheduledOTC, 32> m_OTCs[2];
     uintptr_t *m_chainNext = nullptr;
+    // Whether the node m_chainNext points at is an oversized packet. The flag lives in bit 0 of the
+    // link that points at it, so it has to be carried across the state machine rather than re-read.
+    bool m_chainNextOversized = false;
+    bool m_chainHeadOversized = false;
 
     uint16_t m_lastHSyncCounter = 0;
     bool m_interlaced = false;

@@ -84,7 +84,12 @@ class OrderingTable : public OrderingTableBase {
      */
     template <Fragment Frag>
     void insert(Frag& frag, int32_t z) {
-        // TODO: cater for big packets
+        // Ordering tables sort individual polygons, so a packet large enough to need the oversized
+        // encoding is nonsense here and deliberately unsupported. Catch it at the definition site
+        // instead: sizeof(Frag) covers head (and count, on the fixed variants) so it is a
+        // conservative upper bound on the payload, and it costs nothing at runtime.
+        static_assert(sizeof(Frag) / sizeof(uint32_t) <= 255,
+                      "Fragment too big to be inserted into an ordering table");
         auto* table = m_table + 1;
         if constexpr (safety == Safe::Yes) {
             z = eastl::clamp(z, int32_t(0), int32_t(N - 1));
