@@ -185,11 +185,14 @@ SOFTWARE.
 #define COP2_STRINGIFY_(x) #x
 #define COP2_STRINGIFY(x) COP2_STRINGIFY_(x)
 
-#define cop2_put(reg, val) do {             \
-    uint32_t _v = (val);                    \
+// The macro local is _cop2_val, not _v: a caller passing an expression that
+// mentions its own _v would have it shadowed and self-initialised here, and
+// every subsequent read comes back zero with no diagnostic.
+#define cop2_put(reg, val) do {                       \
+    uint32_t _cop2_val = (val);                       \
     __asm__ volatile("mtc2 %0, $" COP2_STRINGIFY(reg) \
-                     "\n\tnop\n\tnop"        \
-                     : : "r"(_v));          \
+                     "\n\tnop\n\tnop"                \
+                     : : "r"(_cop2_val));             \
 } while (0)
 
 #define cop2_get(reg, dest) do {            \
@@ -199,11 +202,11 @@ SOFTWARE.
 } while (0)
 
 // GTE control registers (CTC2/CFC2, $0-$31)
-#define cop2_putc(reg, val) do {            \
-    uint32_t _v = (val);                    \
-    __asm__ volatile("ctc2 %0, $" COP2_STRINGIFY(reg)      \
-                     "\n\tnop\n\tnop"        \
-                     : : "r"(_v));          \
+#define cop2_putc(reg, val) do {                  \
+    uint32_t _cop2_val = (val);                   \
+    __asm__ volatile("ctc2 %0, $" COP2_STRINGIFY(reg) \
+                     "\n\tnop\n\tnop"            \
+                     : : "r"(_cop2_val));         \
 } while (0)
 
 #define cop2_getc(reg, dest) do {           \
