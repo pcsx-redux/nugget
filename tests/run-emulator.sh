@@ -21,7 +21,7 @@ fi
 EMU=${1:?usage: $0 <pcsx-redux> [openbios.bin]}
 BIOS=${2:-openbios/openbios.bin}
 JOBS=${JOBS:-$(nproc)}
-TIMEOUT=${TIMEOUT:-300}
+TIMEOUT=${TIMEOUT:-60}
 
 CESTER='^Synthesis: SUCCESS Tests: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0'
 
