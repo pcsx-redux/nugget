@@ -6,6 +6,8 @@ all:
 	$(MAKE) -C cop0 all
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
+	$(MAKE) -C gpu all
+	$(MAKE) -C gpu-nop all
 	$(MAKE) -C gpu-raster-phase1 all
 	$(MAKE) -C gpu-raster-phase2 all
 	$(MAKE) -C gpu-raster-phase3 all
@@ -28,18 +30,22 @@ all:
 	$(MAKE) -C gpu-raster-phase20 all
 	$(MAKE) -C gpu-raster-phase21 all
 	$(MAKE) -C gpu-raster-phase22 all
+	$(MAKE) -C gpu-raster-phase23 all
 	$(MAKE) -C gte all
 	$(MAKE) -C gte-math-bench all
 	$(MAKE) -C gte-latency all
 	$(MAKE) -C gte-latency-color all
 	$(MAKE) -C gte-latency-dpc all
+	$(MAKE) -C gte-latency-lzcs all
 	$(MAKE) -C gte-latency-math all
 	$(MAKE) -C gte-latency-misc all
 	$(MAKE) -C gte-latency-mvmva all
 	$(MAKE) -C gte-latency-perspective all
 	$(MAKE) -C gte-latency-singles all
 	$(MAKE) -C libc all
+	$(MAKE) -C load-timings all
 	$(MAKE) -C memcpy all
+	$(MAKE) -C memops-unroll all
 	$(MAKE) -C memset all
 	$(MAKE) -C pcdrv all
 	$(MAKE) -C psyqo all
@@ -54,6 +60,8 @@ clean:
 	$(MAKE) -C cop0 clean
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
+	$(MAKE) -C gpu clean
+	$(MAKE) -C gpu-nop clean
 	$(MAKE) -C gpu-raster-phase1 clean
 	$(MAKE) -C gpu-raster-phase2 clean
 	$(MAKE) -C gpu-raster-phase3 clean
@@ -76,18 +84,22 @@ clean:
 	$(MAKE) -C gpu-raster-phase20 clean
 	$(MAKE) -C gpu-raster-phase21 clean
 	$(MAKE) -C gpu-raster-phase22 clean
+	$(MAKE) -C gpu-raster-phase23 clean
 	$(MAKE) -C gte clean
 	$(MAKE) -C gte-math-bench clean
 	$(MAKE) -C gte-latency clean
 	$(MAKE) -C gte-latency-color clean
 	$(MAKE) -C gte-latency-dpc clean
+	$(MAKE) -C gte-latency-lzcs clean
 	$(MAKE) -C gte-latency-math clean
 	$(MAKE) -C gte-latency-misc clean
 	$(MAKE) -C gte-latency-mvmva clean
 	$(MAKE) -C gte-latency-perspective clean
 	$(MAKE) -C gte-latency-singles clean
 	$(MAKE) -C libc clean
+	$(MAKE) -C load-timings clean
 	$(MAKE) -C memcpy clean
+	$(MAKE) -C memops-unroll clean
 	$(MAKE) -C memset clean
 	$(MAKE) -C pcdrv clean
 	$(MAKE) -C psyqo clean
