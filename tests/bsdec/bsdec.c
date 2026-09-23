@@ -43,6 +43,7 @@
 #include <string.h>
 
 #include "bsdec/bsdec.h"
+#include "common/hardware/cop2.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
@@ -73,8 +74,8 @@ static uint32_t refClz32(uint32_t v) {
 static uint32_t testClz32(uint32_t v) {
     uint32_t r;
     if ((int32_t)v < 0) return 0;
-    __asm__ volatile("mtc2 %0, $30\n\tnop" : : "r"(v));
-    __asm__ volatile("mfc2 %0, $31\n\tnop\n\tnop" : "=r"(r));
+    __asm__ volatile("mtc2 %0, $" COP2_STRINGIFY(COP2_LZCS) "\n\tnop" : : "r"(v));
+    __asm__ volatile("mfc2 %0, $" COP2_STRINGIFY(COP2_LZCR) "\n\tnop\n\tnop" : "=r"(r));
     return r;
 }
 #else
