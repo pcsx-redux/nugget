@@ -12,6 +12,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     container: ghcr.io/grumpycoders/pcsx-redux-build:latest
 
     steps:
@@ -53,4 +54,4 @@ jobs:
           ./PCSX-Redux-*.AppImage --appimage-extract > /dev/null
 
       - name: Run tests
-        run: tests/run-emulator.sh squashfs-root/AppRun openbios/openbios.bin
+        run: tests/run-emulator.sh "$GITHUB_WORKSPACE/squashfs-root/AppRun" openbios/openbios.bin

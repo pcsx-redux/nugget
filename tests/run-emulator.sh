@@ -95,17 +95,19 @@ BIOSFLAG=()
 run_one() {
     local name=$1 exe=$2 cpu=$3 token=$4 extra=$5
     local log="$LOGS/$name-$cpu.log"
+    local t0=$SECONDS
     # shellcheck disable=SC2086
-    timeout "$TIMEOUT" "$EMU" -no-ui -run -stdout -testmode "-$cpu" \
+    timeout -k 10 "$TIMEOUT" "$EMU" -no-ui -run -stdout -testmode "-$cpu" \
         "${BIOSFLAG[@]}" $extra -loadexe "tests/$exe.ps-exe" > "$log" 2>&1
     local rc=$?
     local line
     line=$(sed 's/\x1b\[[0-9;]*m//g' "$log" | tr -d '\r' | grep -aE "$token" | tail -1)
     if [ $rc -eq 0 ] && [ -n "$line" ]; then
-        echo "PASS $name ($cpu): $line"
+        echo "PASS $name ($cpu, $((SECONDS - t0))s): $line"
     else
-        echo "FAIL $name ($cpu): exit $rc, no success line"
-        sed 's/\x1b\[[0-9;]*m//g' "$log" | tail -40 | sed 's/^/    /'
+        # One write, so parallel jobs cannot interleave into it.
+        printf 'FAIL %s (%s, %ss): exit %s, no success line\n%s\n' "$name" "$cpu" \
+            "$((SECONDS - t0))" "$rc" "$(sed 's/\x1b\[[0-9;]*m//g' "$log" | tail -40 | sed 's/^/    /')"
         return 1
     fi
 }
@@ -119,15 +121,15 @@ for t in "${TESTS[@]}"; do
     for cpu in $cpus; do jobs+=("$name;$exe;$cpu;$token;$extra"); done
 done
 
-results=$(printf '%s\n' "${jobs[@]}" | xargs -P "$JOBS" -d '\n' -I{} bash -c '
+# Streamed as each run finishes, so a stuck run is visible while it is stuck.
+printf '%s\n' "${jobs[@]}" | xargs -P "$JOBS" -d '\n' -I{} bash -c '
     IFS=";" read -r name exe cpu token extra <<< "$1"
     read -ra BIOSFLAG <<< "$BIOSFLAG_STR"
     run_one "$name" "$exe" "$cpu" "$token" "$extra"
-' _ {})
-echo "$results"
+' _ {} | tee "$LOGS/results"
 
 ran=${#jobs[@]}
-passed=$(grep -c '^PASS ' <<< "$results")
+passed=$(grep -c '^PASS ' "$LOGS/results")
 echo
 echo "=== SKIPPED (${#SKIPS[@]}) ==="
 for s in "${SKIPS[@]}"; do echo "  tests/${s%%|*}.ps-exe: ${s#*|}"; done
