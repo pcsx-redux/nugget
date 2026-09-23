@@ -51,6 +51,9 @@ all:
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-dmachain all
 	$(MAKE) -C regwrites all
+	$(MAKE) -C spu all
+	$(MAKE) -C spu-endx all
+	$(MAKE) -C spu-offvoice all
 	$(MAKE) -C timers all
 
 clean:
@@ -106,4 +109,7 @@ clean:
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-dmachain clean
 	$(MAKE) -C regwrites clean
+	$(MAKE) -C spu clean
+	$(MAKE) -C spu-endx clean
+	$(MAKE) -C spu-offvoice clean
 	$(MAKE) -C timers clean
