@@ -103,6 +103,20 @@ class GPU {
     static constexpr unsigned c_chainThreshold = 56;
 
     /**
+     * @brief Granularity of an oversized DMA chain fragment, in words.
+     *
+     * @details A DMA linked list node stores its payload size in 8 bits, so a plain node holds at
+     * most 255 words. `chain` accepts larger fragments as "oversized packets", which the DMA
+     * interrupt handler sends as a normal DMA transfer. Their payload must be a multiple of this
+     * many words; pad the tail with GP0(00h) NOPs.
+     */
+    static constexpr unsigned c_oversizedGranularity = 16;
+    /**
+     * @brief Largest fragment `chain` accepts, in words.
+     */
+    static constexpr unsigned c_maxOversizedWords = 255 * c_oversizedGranularity;
+
+    /**
      * @brief Returns the refresh rate of the GPU.
      *
      * @details This method will return either 60 or 50, depending on the current
@@ -518,6 +532,14 @@ class GPU {
     void pumpCallbacks();
 
   private:
+    // An oversized node's header stores size >> c_oversizedShift, and bit 0 of the link pointing at
+    // it flags it. That link also carries bit 23, so the DMA engine stops there and never reads the
+    // node; the engine ignores the low two bits of a link while MADR keeps them, so the interrupt
+    // handler sees the flag. tests/dma/dma.c covers that in linked_dma_800001_terminator and
+    // linked_dma_odd_terminator.
+    static constexpr unsigned c_oversizedShift = 4;
+    static constexpr unsigned c_maxNodeWords = 255;
+    static_assert((1u << c_oversizedShift) == c_oversizedGranularity);
     GPU();
     GPU(const GPU &) = delete;
     GPU(GPU &&) = delete;
@@ -560,6 +582,10 @@ class GPU {
     };
     eastl::fixed_list<ScheduledOTC, 32> m_OTCs[2];
     uintptr_t *m_chainNext = nullptr;
+    // Whether the node m_chainNext points at is an oversized packet. The flag lives in bit 0 of the
+    // link that points at it, so it has to be carried across the state machine rather than re-read.
+    bool m_chainNextOversized = false;
+    bool m_chainHeadOversized = false;
 
     uint16_t m_lastHSyncCounter = 0;
     bool m_interlaced = false;

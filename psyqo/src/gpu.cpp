@@ -149,14 +149,23 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
                 // Loading the next header
                 uint32_t head = *chainNext;
                 uint32_t count = head >> 24;
-                if (count > (c_chainThreshold / 4)) {
+                bool oversized = m_chainNextOversized;
+                if (oversized) count <<= c_oversizedShift;
+                if (oversized || (count > (c_chainThreshold / 4))) {
                     // next one still too big
                     head &= 0xffffff;
-                    m_chainNext = head == 0xffffff ? nullptr : reinterpret_cast<uintptr_t *>(head & 0x7fffff);
+                    if (head == 0xffffff) {
+                        m_chainNext = nullptr;
+                        m_chainNextOversized = false;
+                    } else {
+                        m_chainNextOversized = head & 1;
+                        m_chainNext = reinterpret_cast<uintptr_t *>(head & 0x7ffffc);
+                    }
                     scheduleNormalDMA(reinterpret_cast<uintptr_t>(chainNext) + 4, count);
                 } else {
                     // next one is small enough
                     m_chainNext = nullptr;
+                    m_chainNextOversized = false;
                     scheduleChainedDMA(reinterpret_cast<uintptr_t>(chainNext));
                 }
                 return;
@@ -164,16 +173,24 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
             case 2: {  // was a linked DMA
                 uint32_t madr = DMA_CTRL[DMA_GPU].MADR;
                 if (madr != 0xffffff) {
-                    madr &= 0x7fffff;
                     // Did we get interrupted in the middle of a chain?
                     // It means we linked a node too big for the DMA engine to handle,
-                    // so we need to send it manually
+                    // so we need to send it manually. Bit 0 of the link we stopped on says whether
+                    // that node is an oversized packet; mask it off before dereferencing, or the
+                    // unaligned load faults.
+                    bool oversized = madr & 1;
+                    madr &= 0x7ffffc;
                     uintptr_t *next = reinterpret_cast<uintptr_t *>(madr | 0x80000000);
                     uint32_t head = *next;
                     uint32_t count = head >> 24;
+                    if (oversized) count <<= c_oversizedShift;
                     head &= 0xffffff;
-                    if (head != 0xffffff) {
-                        m_chainNext = reinterpret_cast<uintptr_t *>(head & 0x7fffff);
+                    if (head == 0xffffff) {
+                        m_chainNext = nullptr;
+                        m_chainNextOversized = false;
+                    } else {
+                        m_chainNextOversized = head & 1;
+                        m_chainNext = reinterpret_cast<uintptr_t *>(head & 0x7ffffc);
                     }
                     scheduleNormalDMA(madr + 4, count);
                     return;
@@ -431,13 +448,22 @@ void psyqo::GPU::scheduleNormalDMA(uintptr_t data, size_t count) {
 }
 
 void psyqo::GPU::chain(uintptr_t *first, uintptr_t *last, size_t count) {
-    Kernel::assert(count < 256, "Fragment too big to be chained");
+    bool oversized = false;
+    if (count > c_maxNodeWords) {
+        Kernel::assert((count & (c_oversizedGranularity - 1)) == 0,
+                       "Oversized fragment size must be a multiple of 16 words");
+        Kernel::assert(count <= c_maxOversizedWords, "Fragment too big to be chained");
+        count >>= c_oversizedShift;
+        oversized = true;
+    }
     if (!m_chainHead) {
         m_chainHead = first;
+        m_chainHeadOversized = oversized;
     } else {
         uint32_t tailValue = m_chainTailCount | (reinterpret_cast<uintptr_t>(first) & 0xffffff);
-        if (count > (c_chainThreshold / 4)) {
+        if (oversized || (count > (c_chainThreshold / 4))) {
             tailValue |= 0x00800000;
+            if (oversized) tailValue |= 1;
         }
         *m_chainTail = tailValue;
     }
@@ -470,9 +496,18 @@ void psyqo::GPU::sendChain(eastl::function<void()> &&callback, DMA::DmaCallback 
     m_dmaCallback = eastl::move(callback);
     uint32_t head = *chainHead;
     uint32_t count = head >> 24;
+    // The head node has no predecessor to carry its oversized flag, so chain() remembered it.
+    bool oversized = m_chainHeadOversized;
+    if (oversized) count <<= c_oversizedShift;
     head &= 0xffffff;
-    if (count > (c_chainThreshold / 4)) {
-        m_chainNext = head == 0xffffff ? nullptr : reinterpret_cast<uintptr_t *>(head & 0x7fffff);
+    if (oversized || (count > (c_chainThreshold / 4))) {
+        if (head == 0xffffff) {
+            m_chainNext = nullptr;
+            m_chainNextOversized = false;
+        } else {
+            m_chainNextOversized = head & 1;
+            m_chainNext = reinterpret_cast<uintptr_t *>(head & 0x7ffffc);
+        }
         scheduleNormalDMA(ptr + 4, count);
     } else {
         scheduleChainedDMA(ptr);
