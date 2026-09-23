@@ -45,7 +45,7 @@ TESTS=(
     "memcpy;memcpy/memcpy;interpreter dynarec;$CESTER;"
     "memops-unroll;memops-unroll/memops-unroll;interpreter;$CESTER;"
     "memset;memset/memset;interpreter dynarec;$CESTER;"
-    "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase ."
+    "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
 )
@@ -96,8 +96,13 @@ run_one() {
     local name=$1 exe=$2 cpu=$3 token=$4 extra=$5
     local log="$LOGS/$name-$cpu.log"
     local t0=$SECONDS
+    # A config dir each: concurrent first launches racing to create the
+    # shared one, and its memory cards, hang some of them at boot.
+    local home="$LOGS/home-$name-$cpu"
+    mkdir -p "$home"
+    extra=${extra//@HOME@/$home}
     # shellcheck disable=SC2086
-    timeout -k 10 "$TIMEOUT" "$EMU" -no-ui -run -stdout -testmode "-$cpu" \
+    HOME="$home" XDG_CONFIG_HOME="$home/.config" timeout -k 10 "$TIMEOUT" "$EMU" -no-ui -run -stdout -testmode "-$cpu" \
         "${BIOSFLAG[@]}" $extra -loadexe "tests/$exe.ps-exe" > "$log" 2>&1
     local rc=$?
     local line
