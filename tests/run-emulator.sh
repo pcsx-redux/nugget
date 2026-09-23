@@ -48,6 +48,7 @@ TESTS=(
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
+    "gpu-raster-phase23;gpu-raster-phase23/gpu-raster-phase23;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
 )
 for p in $(seq 1 22); do
     TESTS+=("gpu-raster-phase$p;gpu-raster-phase$p/gpu-raster-phase$p;interpreter;$CESTER;")
@@ -59,7 +60,6 @@ SKIPS=(
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
-    "gpu-raster-phase23/gpu-raster-phase23|emulator gap: needs grumpycoders/pcsx-redux#2125 in the dev AppImage"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "regwrites/regwrites|probe: loops forever, no verdict"
