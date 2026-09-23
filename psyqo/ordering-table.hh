@@ -86,9 +86,9 @@ class OrderingTable : public OrderingTableBase {
     void insert(Frag& frag, int32_t z) {
         // Ordering tables sort individual polygons, so a packet large enough to need the oversized
         // encoding is nonsense here and deliberately unsupported. Catch it at the definition site
-        // instead: sizeof(Frag) covers head (and count, on the fixed variants) so it is a
-        // conservative upper bound on the payload, and it costs nothing at runtime.
-        static_assert(sizeof(Frag) / sizeof(uint32_t) <= 255,
+        // instead: past the chain entry, sizeof(Frag) covers the payload (plus count, on the fixed
+        // variants), so it is a conservative upper bound, and it costs nothing at runtime.
+        static_assert((sizeof(Frag) - sizeof(Fragments::ChainEntry)) / sizeof(uint32_t) <= 255,
                       "Fragment too big to be inserted into an ordering table");
         auto* table = m_table + 1;
         if constexpr (safety == Safe::Yes) {

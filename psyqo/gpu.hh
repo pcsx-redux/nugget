@@ -102,19 +102,19 @@ class GPU {
     static constexpr uint32_t US_PER_HBLANK = 64;
     static constexpr unsigned c_chainThreshold = 56;
 
-    // A DMA linked list node carries its payload size in the top 8 bits of its header word, so a
-    // plain node tops out at 255 words. Larger fragments are sent as "oversized packets": the node
-    // header stores size / c_oversizedGranularity instead, and bit 0 of the pointer *of the previous
-    // node* flags it. That pointer already carries bit 23 to stop the DMA engine early, and the low
-    // two bits of a link are free because the engine ignores them when issuing the fetch while the
-    // MADR register still hands back the full value (measured on SCPH-1001/5501/7001, see
-    // src/mips/tests/dma/dma.c: linked_dma_800001_terminator and linked_dma_odd_terminator).
-    // An oversized payload must therefore be a multiple of c_oversizedGranularity words; pad the
-    // tail with GP0(00h) NOPs.
-    static constexpr unsigned c_oversizedShift = 4;
-    static constexpr unsigned c_oversizedGranularity = 1 << c_oversizedShift;
-    static constexpr unsigned c_maxNodeWords = 255;
-    static constexpr unsigned c_maxOversizedWords = c_maxNodeWords * c_oversizedGranularity;
+    /**
+     * @brief Granularity of an oversized DMA chain fragment, in words.
+     *
+     * @details A DMA linked list node stores its payload size in 8 bits, so a plain node holds at
+     * most 255 words. `chain` accepts larger fragments as "oversized packets", which the DMA
+     * interrupt handler sends as a normal DMA transfer. Their payload must be a multiple of this
+     * many words; pad the tail with GP0(00h) NOPs.
+     */
+    static constexpr unsigned c_oversizedGranularity = 16;
+    /**
+     * @brief Largest fragment `chain` accepts, in words.
+     */
+    static constexpr unsigned c_maxOversizedWords = 255 * c_oversizedGranularity;
 
     /**
      * @brief Returns the refresh rate of the GPU.
@@ -532,6 +532,14 @@ class GPU {
     void pumpCallbacks();
 
   private:
+    // An oversized node's header stores size >> c_oversizedShift, and bit 0 of the link pointing at
+    // it flags it. That link also carries bit 23, so the DMA engine stops there and never reads the
+    // node; the engine ignores the low two bits of a link while MADR keeps them, so the interrupt
+    // handler sees the flag. tests/dma/dma.c covers that in linked_dma_800001_terminator and
+    // linked_dma_odd_terminator.
+    static constexpr unsigned c_oversizedShift = 4;
+    static constexpr unsigned c_maxNodeWords = 255;
+    static_assert((1u << c_oversizedShift) == c_oversizedGranularity);
     GPU();
     GPU(const GPU &) = delete;
     GPU(GPU &&) = delete;
