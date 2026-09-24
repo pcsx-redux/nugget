@@ -24,13 +24,15 @@ SOFTWARE.
 
 */
 
-#include "psyqo/alloc.h"
+#include "common/libc/alloc.h"
 
 #include <stddef.h>
 #include <stdint.h>
 
 #include "common/hardware/pcsxhw.h"
+#ifdef ALLOC_DEBUG
 #include "psyqo/xprintf.h"
+#endif
 
 // TL;DR: this is a simple memory allocator that uses a linked list of
 // empty blocks to keep track of the free memory. Allocated blocks

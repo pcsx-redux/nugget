@@ -71,13 +71,13 @@
 ** backwards compatible.
 */
 /* #define COMPATIBILITY       / * Compatible with SUN OS 4.1 */
-#include "psyqo/xprintf.h"
+#include "common/libc/xprintf.h"
 
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#include "psyqo/alloc.h"
+#include "common/libc/alloc.h"
 
 static __inline__ int isdigit(int c) { return c >= '0' && c <= '9'; }
 static __inline__ size_t strlen(const char *s) {
@@ -668,9 +668,11 @@ int vxprintf(void (*func)(const char *, int, void *), void *arg, const char *for
             (*func)(bufpt, length, arg);
             count += length;
         }
+#ifndef XPRINTFNOALLOC
         if (xtype == MEM_STRING && zMem) {
             psyqo_free(zMem);
         }
+#endif
         if (flag_leftjustify) {
             register int nspace;
             nspace = width - length;
@@ -733,6 +735,7 @@ int vsnprintf(char *buf, size_t n, const char *fmt, va_list ap) {
     return vxprintf(sout, &arg, fmt, ap);
 }
 
+#ifndef XPRINTFNOALLOC
 /*
 ** The following section of code handles the mprintf routine, that
 ** writes to memory obtained from malloc().
@@ -798,3 +801,4 @@ int vasprintf(char **out, const char *zFormat, va_list ap) {
     *out = sMprintf.zText;
     return r;
 }
+#endif
