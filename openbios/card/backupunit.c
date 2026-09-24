@@ -27,11 +27,11 @@ SOFTWARE.
 #include "openbios/card/backupunit.h"
 
 #include <stdint.h>
-#include "common/psxlibc/string.h"
 
 #include "common/hardware/pcsxhw.h"
 #include "common/kernel/events.h"
 #include "common/psxlibc/setjmp.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/card/card.h"
 #include "openbios/fileio/fileio.h"

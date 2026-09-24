@@ -24,11 +24,11 @@ SOFTWARE.
 
 */
 
-#include "common/psxlibc/ctype.h"
 #include <stdarg.h>
-#include "common/libc/xprintf.h"
 
 #include "common/hardware/hwregs.h"
+#include "common/libc/xprintf.h"
+#include "common/psxlibc/ctype.h"
 #include "common/psxlibc/ioctl.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/fileio/fileio.h"

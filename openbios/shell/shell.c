@@ -28,8 +28,8 @@ SOFTWARE.
 
 #include <stddef.h>
 #include <stdint.h>
-#include "common/psxlibc/string.h"
 
+#include "common/psxlibc/string.h"
 #include "openbios/kernel/flushcache.h"
 #include "openbios/main/main.h"
 

@@ -26,15 +26,15 @@ SOFTWARE.
 
 #include "openbios/main/main.h"
 
-#include "common/psxlibc/ctype.h"
 #include <stdint.h>
-#include "common/psxlibc/string.h"
 
 #include "common/hardware/cop0.h"
 #include "common/hardware/spu.h"
 #include "common/kernel/openbios.h"
+#include "common/psxlibc/ctype.h"
 #include "common/psxlibc/handlers.h"
 #include "common/psxlibc/setjmp.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/cdrom/cdrom.h"
 #include "openbios/fileio/fileio.h"

@@ -26,14 +26,14 @@ SOFTWARE.
 
 #include "openbios/handlers/handlers.h"
 
-#include "common/psxlibc/ctype.h"
 #include <stdint.h>
-#include "common/psxlibc/string.h"
 
 #include "common/hardware/pcsxhw.h"
 #include "common/kernel/openbios.h"
+#include "common/psxlibc/ctype.h"
 #include "common/psxlibc/setjmp.h"
 #include "common/psxlibc/stdio.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/card/card.h"
 #include "openbios/cdrom/cdrom.h"

@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include <stddef.h>
 #include <stdint.h>
+
 #include "common/psxlibc/string.h"
 
 /*
