@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2019 PCSX-Redux authors
+Copyright (c) 2026 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,29 @@ SOFTWARE.
 
 */
 
-#include "common/hardware/pcsxhw.h"
-#include "common/syscalls/syscalls.h"
+#pragma once
 
-void BoardEarlyInit() {}
+#include <stddef.h>
 
-void BoardInit() {}
+#include "common/libc/alloc.h"
 
-void BoardLateInit() {}
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS 0
+#endif
+#ifndef EXIT_FAILURE
+#define EXIT_FAILURE 1
+#endif
 
-// Trap into the resident debugger with the exit code in $a0 via break
-// category 4. Categories 0/6/7/14 are taken (pcdrv / compiler overflow /
-// compiler divide-by-zero / psyqo), so 4 is free. On hardware this halts
-// the program (Unirom reports HLTD) and leaves the exit code readable in
-// $a0, giving the host a deterministic end-of-binary signal instead of a
-// printed sentinel string. On the emulator pcsx_exit() has already exited,
-// so this is never reached there.
-static inline void exitBreak(int code) {
-    register int a0 asm("$4") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0) : "memory");
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+static inline void *malloc(size_t size) { return psyqo_malloc(size); }
+static inline void *realloc(void *ptr, size_t size) { return psyqo_realloc(ptr, size); }
+static inline void free(void *ptr) { psyqo_free(ptr); }
+
+void exit(int code) __attribute__((noreturn));
+
+#ifdef __cplusplus
 }
-
-void BoardShutdown() {
-    pcsx_exit(0);
-    exitBreak(0);
-    syscall__exit(0);
-}
-
-void BoardExceptionHandler(int code) {
-    pcsx_exit(code);
-    exitBreak(code);
-    syscall__exit(code);
-}
+#endif
