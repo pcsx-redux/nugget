@@ -582,15 +582,15 @@ class GPU {
     };
     eastl::fixed_list<ScheduledOTC, 32> m_OTCs[2];
     uintptr_t *m_chainNext = nullptr;
-    // Whether the node m_chainNext points at is an oversized packet. The flag lives in bit 0 of the
-    // link that points at it, so it has to be carried across the state machine rather than re-read.
-    bool m_chainNextOversized = false;
-    bool m_chainHeadOversized = false;
 
     uint16_t m_lastHSyncCounter = 0;
     bool m_interlaced = false;
     bool m_fromISR = false;
     bool m_flushCacheAfterDMA = false;
+    // Whether the node m_chainNext points at is an oversized packet. The flag lives in bit 0 of the
+    // link that points at it, so it has to be carried across the state machine rather than re-read.
+    bool m_chainNextOversized = false;
+    bool m_chainHeadOversized = false;
 
     void flip();
     friend class Application;
