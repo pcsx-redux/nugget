@@ -24,8 +24,7 @@ SOFTWARE.
 
 */
 
-#include <ctype.h>
-#include <string.h>
+#include "common/psxlibc/ctype.h"
 
 #include "common/hardware/hwregs.h"
 #include "common/psxlibc/device.h"

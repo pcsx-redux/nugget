@@ -26,10 +26,9 @@ SOFTWARE.
 
 #include "openbios/main/main.h"
 
-#include <alloca.h>
-#include <ctype.h>
+#include "common/psxlibc/ctype.h"
 #include <stdint.h>
-#include <string.h>
+#include "common/psxlibc/string.h"
 
 #include "common/hardware/cop0.h"
 #include "common/hardware/spu.h"

@@ -24,12 +24,12 @@ SOFTWARE.
 
 */
 
-#include <ctype.h>
-#include <malloc.h>
+#include <limits.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
+
+#include "common/psxlibc/ctype.h"
+#include "common/psxlibc/string.h"
 
 int psxdummy() { return 0; }
 
@@ -42,6 +42,54 @@ int psxtodigit(int c) {
 int psxabs(int j) {
     if (j >= 0) return j;
     return -j;
+}
+
+long strtol(const char *nptr, char **endptr, int base) {
+    const char *s = nptr;
+    unsigned long acc = 0;
+    int negative = 0, any = 0, overflow = 0;
+
+    if (base < 0 || base == 1 || base > 36) {
+        if (endptr) *endptr = (char *)nptr;
+        return 0;
+    }
+    while (isspace(*s)) s++;
+    if (*s == '-') {
+        negative = 1;
+        s++;
+    } else if (*s == '+') {
+        s++;
+    }
+    if ((base == 0 || base == 16) && s[0] == '0' && (s[1] == 'x' || s[1] == 'X') && isxdigit(s[2])) {
+        s += 2;
+        base = 16;
+    } else if (base == 0) {
+        base = s[0] == '0' ? 8 : 10;
+    }
+
+    unsigned long limit = negative ? (unsigned long)LONG_MAX + 1 : LONG_MAX;
+    for (;; s++) {
+        int c = *s, d;
+        if (isdigit(c)) {
+            d = c - '0';
+        } else if (isalpha(c)) {
+            d = tolower(c) - 'a' + 10;
+        } else {
+            break;
+        }
+        if (d >= base) break;
+        any = 1;
+        if (overflow) continue;
+        if (acc > (limit - d) / base) {
+            overflow = 1;
+            acc = limit;
+        } else {
+            acc = acc * base + d;
+        }
+    }
+
+    if (endptr) *endptr = (char *)(any ? s : nptr);
+    return negative ? (long)(0 - acc) : (long)acc;
 }
 
 char *psxatob(char *str, int *result) {

@@ -27,7 +27,6 @@ SOFTWARE.
 #include "openbios/patches/patches.h"
 
 #include <stdint.h>
-#include <stdlib.h>
 
 #include "common/hardware/pcsxhw.h"
 #include "common/syscalls/syscalls.h"

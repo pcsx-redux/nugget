@@ -24,9 +24,9 @@ SOFTWARE.
 
 */
 
-#include <ctype.h>
+#include "common/psxlibc/ctype.h"
 #include <stdarg.h>
-#include <stdio.h>
+#include "common/libc/xprintf.h"
 
 #include "common/hardware/hwregs.h"
 #include "common/psxlibc/ioctl.h"

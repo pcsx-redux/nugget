@@ -27,13 +27,17 @@ kernel/events.c \
 kernel/flushcache.s \
 kernel/handlers.c \
 kernel/libcmisc.c \
+kernel/memory-c.c \
+kernel/memory-s.s \
 kernel/misc.c \
+kernel/qsort.c \
 kernel/psxexe.c \
 kernel/psxexec.s \
 kernel/setjmp.s \
 kernel/threads.c \
 kernel/util.c \
 kernel/vectors.s \
+kernel/xprintf.c \
 main/main.c \
 main/splash.c \
 pio/pio.c \
@@ -69,22 +73,6 @@ patches/send_pad_2.c \
 \
 ../shell/shell_data.o \
 \
-uC-sdk-glue/BoardConsole.c \
-uC-sdk-glue/BoardInit.c \
-uC-sdk-glue/init.c \
-\
-../third_party/uC-sdk/libc/src/errno.c \
-../third_party/uC-sdk/libc/src/initfini.c \
-../third_party/uC-sdk/libc/src/qsort.c \
-../third_party/uC-sdk/libc/src/rand.c \
-../third_party/uC-sdk/libc/src/reent.c \
-../third_party/uC-sdk/libc/src/string.c \
-../third_party/uC-sdk/libc/src/strto.c \
-../third_party/uC-sdk/libc/src/xprintf.c \
-../third_party/uC-sdk/libc/src/xscanf.c \
-../third_party/uC-sdk/libc/src/yscanf.c \
-../third_party/uC-sdk/os/src/init.c \
-../third_party/uC-sdk/os/src/osdebug.c \
 
 # Ensure all files are always cleaned up.
 CLEANSRCS = \
@@ -126,10 +114,7 @@ else
 LDSCRIPT = $(ROOTDIR)openbios/psx-bios-as-cart.ld
 endif
 
-CPPFLAGS += -DNOFLOATINGPOINT -DXPRINTFNOALLOC -DXPRINTFNOSTDIO
-CPPFLAGS += -I../third_party/uC-sdk/libc/include
-CPPFLAGS += -I../third_party/uC-sdk/os/include
-CPPFLAGS += -IuC-sdk-glue
+CPPFLAGS += -DXPRINTFNOALLOC
 
 ifneq ($(EMBED_PSEXE),)
 CPPFLAGS += -DOPENBIOS_USE_EMBEDDED_PSEXE

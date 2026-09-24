@@ -237,7 +237,7 @@ bss_init_skip:
     lbu   $t0, 0($t0)
     sw    $t0, 0x60($0)
 
-    jal   _ucsdk_start
+    jal   main
 
     li    $t0, 0x1f802080
     li    $t1, 10

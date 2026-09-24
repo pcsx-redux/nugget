@@ -26,7 +26,7 @@ SOFTWARE.
 
 #include "openbios/sio0/pad.h"
 
-#include <memory.h>
+#include "common/psxlibc/string.h"
 #include <stdint.h>
 
 #include "common/syscalls/syscalls.h"
