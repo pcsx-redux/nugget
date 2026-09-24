@@ -31,7 +31,7 @@ SOFTWARE.
 
 #include "common/hardware/pcsxhw.h"
 #ifdef ALLOC_DEBUG
-#include "psyqo/xprintf.h"
+#include "common/syscalls/syscalls.h"
 #endif
 
 // TL;DR: this is a simple memory allocator that uses a linked list of
@@ -117,16 +117,16 @@ static struct {
 // Enable this to debug the allocator very thoroughly. May be used to
 // detect memory corruption, and other issues.
 #ifdef ALLOC_DEBUG
-#define dprintf printf
+#define dprintf ramsyscall_printf
 static void print_block(const empty_block *block) {
     if (block == NULL) {
-        printf("NULL\n");
+        ramsyscall_printf("NULL\n");
     } else if (block == &marker) {
-        printf("marker\n");
+        ramsyscall_printf("marker\n");
     } else if (block->next == &marker) {
-        printf("block: %p, size: %u, next: marker\n", block, block->size);
+        ramsyscall_printf("block: %p, size: %u, next: marker\n", block, block->size);
     } else {
-        printf("block: %p, size: %u, next: %p\n", block, block->size, block->next);
+        ramsyscall_printf("block: %p, size: %u, next: %p\n", block, block->size, block->next);
     }
 }
 
@@ -135,38 +135,38 @@ static int check_subintegrity(const allocated_block *first, const allocated_bloc
     if (first == top_block) {
         return 0;
     }
-    printf("Integrity check: checking sublist from %p to %p, size_start = %u, hypothetical_size: %u\n", first, top_block,
-           size_start, hypothetical_size);
+    ramsyscall_printf("Integrity check: checking sublist from %p to %p, size_start = %u, hypothetical_size: %u\n",
+                      first, top_block, size_start, hypothetical_size);
     const allocated_block *curr = first;
     size_t size = size_start;
     while (curr < top_block) {
         size += curr->size;
-        printf("Integrity check: checking allocated block at %p (size: %u) - current total = %u\n", curr, curr->size,
-               size);
+        ramsyscall_printf("Integrity check: checking allocated block at %p (size: %u) - current total = %u\n", curr,
+                          curr->size, size);
         if (curr->size == 0) {
-            printf("Integrity check failed: curr->size is 0\n");
+            ramsyscall_printf("Integrity check failed: curr->size is 0\n");
             pcsx_debugbreak();
             return 1;
         }
         if (curr->size < sizeof(allocated_block)) {
-            printf("Integrity check failed: curr->size is too small\n");
+            ramsyscall_printf("Integrity check failed: curr->size is too small\n");
             pcsx_debugbreak();
             return 1;
         }
         if (curr->size % (sizeof(void *) * 2) != 0) {
-            printf("Integrity check failed: curr->size is not aligned\n");
+            ramsyscall_printf("Integrity check failed: curr->size is not aligned\n");
             pcsx_debugbreak();
             return 1;
         }
         if (size > hypothetical_size) {
-            printf("Integrity check failed: size > hypothetical_size\n");
+            ramsyscall_printf("Integrity check failed: size > hypothetical_size\n");
             pcsx_debugbreak();
             return 1;
         }
         curr = (allocated_block *)((char *)curr + curr->size);
     }
     if (size != hypothetical_size) {
-        printf("Integrity check failed: size != hypothetical_size\n");
+        ramsyscall_printf("Integrity check failed: size != hypothetical_size\n");
         print_block((empty_block *)first);
         pcsx_debugbreak();
         return 1;
@@ -181,46 +181,46 @@ static void check_integrity() {
         if (check_subintegrity(bottom, last, 0, (last - bottom) * sizeof(empty_block))) return;
     }
     while (curr != &marker) {
-        printf("Integrity check: checking ");
+        ramsyscall_printf("Integrity check: checking ");
         print_block(curr);
         if (curr->next == NULL) {
-            printf("Integrity check failed: curr->next is NULL\n");
+            ramsyscall_printf("Integrity check failed: curr->next is NULL\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
         }
         if (curr->next == curr) {
-            printf("Integrity check failed: curr->next is curr\n");
+            ramsyscall_printf("Integrity check failed: curr->next is curr\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
         }
         if (curr->size == 0) {
-            printf("Integrity check failed: curr->size is 0\n");
+            ramsyscall_printf("Integrity check failed: curr->size is 0\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
         }
         if (curr->size < sizeof(empty_block)) {
-            printf("Integrity check failed: curr->size is too small\n");
+            ramsyscall_printf("Integrity check failed: curr->size is too small\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
         }
         if ((uintptr_t)curr->next % sizeof(void *) != 0) {
-            printf("Integrity check failed: curr->next is not aligned\n");
+            ramsyscall_printf("Integrity check failed: curr->next is not aligned\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
         }
         if (curr->size % (sizeof(void *) * 2) != 0) {
-            printf("Integrity check failed: curr->size is not aligned\n");
+            ramsyscall_printf("Integrity check failed: curr->size is not aligned\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
         }
         if ((curr > curr->next) && (curr->next != &marker)) {
-            printf("Integrity check failed: curr > curr->next\n");
+            ramsyscall_printf("Integrity check failed: curr > curr->next\n");
             print_block(curr);
             pcsx_debugbreak();
             return;
@@ -232,7 +232,7 @@ static void check_integrity() {
         if (check_subintegrity(ptr, last, start_size, hypothetical)) return;
         curr = curr->next;
     }
-    printf("Integrity check passed\n");
+    ramsyscall_printf("Integrity check passed\n");
 }
 #else
 #define dprintf(...)
@@ -241,12 +241,12 @@ static void check_integrity() {
 #endif
 
 #ifdef USE_PCSXMSAN
-void *psyqo_malloc(size_t size) { return pcsx_msanAlloc(size); }
-void psyqo_free(void *ptr) { pcsx_msanFree(ptr); }
-void *psyqo_realloc(void *ptr, size_t size) { return pcsx_msanRealloc(ptr, size); }
+void *libc_malloc(size_t size) { return pcsx_msanAlloc(size); }
+void libc_free(void *ptr) { pcsx_msanFree(ptr); }
+void *libc_realloc(void *ptr, size_t size) { return pcsx_msanRealloc(ptr, size); }
 #else
-void *psyqo_malloc(size_t size_) {
-    dprintf("psyqo_malloc(%u)\n", size_);
+void *libc_malloc(size_t size_) {
+    dprintf("libc_malloc(%u)\n", size_);
     empty_block *curr = head;
     empty_block *prev = NULL;
     empty_block *best_fit = NULL;
@@ -256,7 +256,7 @@ void *psyqo_malloc(size_t size_) {
     // return a valid pointer. We want to store the size of the allocation
     // before the pointer, in an allocated_block.
     size_t size = ALIGN_TO(size_ + sizeof(allocated_block));
-    dprintf("psyqo_malloc(%u) -> %u\n", size_, size);
+    dprintf("libc_malloc(%u) -> %u\n", size_, size);
 
     // If head is NULL, it means we need to initialize the heap. This means
     // computing the size of the heap, according to the stack pointer.
@@ -281,7 +281,7 @@ void *psyqo_malloc(size_t size_) {
     // best fit means the smallest block that is still big enough.
     size_t curr_size = 0;
     while ((curr_size != size) && (curr != &marker)) {
-        dprintf("psyqo_malloc: curr: ");
+        dprintf("libc_malloc: curr: ");
         print_block(curr);
         curr_size = curr->size;
         // Is the current block even fitting?
@@ -290,7 +290,7 @@ void *psyqo_malloc(size_t size_) {
             if ((best_fit == NULL) || (curr_size < best_fit->size)) {
                 best_fit = curr;
                 best_fit_prev = prev;
-                dprintf("psyqo_malloc: new best fit: ");
+                dprintf("libc_malloc: new best fit: ");
                 print_block(best_fit);
             }
         }
@@ -301,7 +301,7 @@ void *psyqo_malloc(size_t size_) {
     // If we didn't find a fitting block, return NULL. This is
     // the case when the heap is full, and we've ran out of memory.
     if (best_fit == NULL) {
-        dprintf("psyqo_malloc(%u) failed\n", size_);
+        dprintf("libc_malloc(%u) failed\n", size_);
         return NULL;
     }
 
@@ -349,13 +349,13 @@ void *psyqo_malloc(size_t size_) {
     ptr->size = size;
     ptr++;
 
-    dprintf("psyqo_malloc(%u) -> %p\n", size_, ptr);
+    dprintf("libc_malloc(%u) -> %p\n", size_, ptr);
     check_integrity();
     return ptr;
 }
 
-void psyqo_free(void *ptr_) {
-    dprintf("psyqo_free(%p)\n", ptr_);
+void libc_free(void *ptr_) {
+    dprintf("libc_free(%p)\n", ptr_);
     // Freeing NULL is a no-op.
     if (ptr_ == NULL) {
         return;
@@ -410,11 +410,11 @@ void psyqo_free(void *ptr_) {
     // that is right before the block we're freeing.
     empty_block *curr = head;
     empty_block *next = NULL;
-    dprintf("psyqo_free: head: %p\n", head);
+    dprintf("libc_free: head: %p\n", head);
     while ((next = curr->next) != &marker) {
-        dprintf("psyqo_free: curr: ");
+        dprintf("libc_free: curr: ");
         print_block(curr);
-        dprintf("psyqo_free: next: ");
+        dprintf("libc_free: next: ");
         print_block(next);
         // Is the next block after the block we're freeing?
         if (next <= block) {
@@ -478,30 +478,30 @@ void psyqo_free(void *ptr_) {
     check_integrity();
 }
 
-void *psyqo_realloc(void *ptr_, size_t size_) {
-    dprintf("psyqo_realloc(%p, %u)\n", ptr_, size_);
+void *libc_realloc(void *ptr_, size_t size_) {
+    dprintf("libc_realloc(%p, %u)\n", ptr_, size_);
     // If the pointer is NULL, we can just call malloc.
     if (ptr_ == NULL) {
-        dprintf("psyqo_realloc(%p, %u) -> malloc\n", ptr_, size_);
-        return psyqo_malloc(size_);
+        dprintf("libc_realloc(%p, %u) -> malloc\n", ptr_, size_);
+        return libc_malloc(size_);
     }
 
     // If the size is 0, we can just call free.
     if (size_ == 0) {
-        dprintf("psyqo_realloc(%p, %u) -> free\n", ptr_, size_);
-        psyqo_free(ptr_);
+        dprintf("libc_realloc(%p, %u) -> free\n", ptr_, size_);
+        libc_free(ptr_);
         return NULL;
     }
 
     size_t size = ALIGN_TO(size_ + sizeof(empty_block));
-    dprintf("psyqo_realloc(%p, %u) -> %u\n", ptr_, size_, size);
+    dprintf("libc_realloc(%p, %u) -> %u\n", ptr_, size_, size);
     // Get the current size of the block.
     empty_block *block = (empty_block *)ptr_;
     size_t old_size = (--block)->size;
 
     // If the new size is the same as the old size, we can just return the pointer.
     if (size == old_size) {
-        dprintf("psyqo_realloc(%p, %u) -> same\n", ptr_, size_);
+        dprintf("libc_realloc(%p, %u) -> same\n", ptr_, size_);
         return ptr_;
     }
 
@@ -516,7 +516,7 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
             new_block->size = old_size - size;
             head = new_block;
             block->size = size;
-            dprintf("psyqo_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
+            dprintf("libc_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
             check_integrity();
             return ptr_;
         }
@@ -543,7 +543,7 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
             }
             head = new_block;
             block->size = size;
-            dprintf("psyqo_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
+            dprintf("libc_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
             check_integrity();
             return ptr_;
         }
@@ -566,7 +566,7 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
                     head = new_block;
                 }
                 block->size = size;
-                dprintf("psyqo_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
+                dprintf("libc_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
                 check_integrity();
                 return ptr_;
             }
@@ -578,7 +578,7 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
         empty_block *curr = head;
         empty_block *next = NULL;
         while ((next = curr->next) != NULL) {
-            dprintf("psyqo_realloc: curr: ");
+            dprintf("libc_realloc: curr: ");
             print_block(curr);
             // Is the next block after the block we're re-allocating?
             if ((next <= block) && (next != &marker)) {
@@ -609,7 +609,7 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
             }
             curr->next = new_block;
             block->size = size;
-            dprintf("psyqo_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
+            dprintf("libc_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
             check_integrity();
             return ptr_;
         }
@@ -633,7 +633,7 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
                 curr->next = new_block;
             }
             block->size = size;
-            dprintf("psyqo_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
+            dprintf("libc_realloc(%p, %u) -> %p\n", ptr_, size_, ptr_);
             check_integrity();
             return ptr_;
         }
@@ -646,32 +646,32 @@ void *psyqo_realloc(void *ptr_, size_t size_) {
         // So let's just ignore this case.
     }
 
-    void *new_ptr = psyqo_malloc(size_);
+    void *new_ptr = libc_malloc(size_);
     if (new_ptr == NULL) {
-        dprintf("psyqo_realloc(%p, %u) -> NULL\n", ptr_, size_);
+        dprintf("libc_realloc(%p, %u) -> NULL\n", ptr_, size_);
         return NULL;
     }
     __builtin_memcpy(new_ptr, ptr_, old_size - sizeof(empty_block));
-    psyqo_free(ptr_);
-    dprintf("psyqo_realloc(%p, %u) -> %p\n", ptr_, size_, new_ptr);
+    libc_free(ptr_);
+    dprintf("libc_realloc(%p, %u) -> %p\n", ptr_, size_, new_ptr);
     return new_ptr;
 }
 #endif
 
-void *__builtin_new(size_t size) { return psyqo_malloc(size); }
-void __builtin_delete(void *ptr) { psyqo_free(ptr); }
+void *__builtin_new(size_t size) { return libc_malloc(size); }
+void __builtin_delete(void *ptr) { libc_free(ptr); }
 // void * operator new(unsigned int);
-void *_Znwj(unsigned int size) { return psyqo_malloc(size); }
+void *_Znwj(unsigned int size) { return libc_malloc(size); }
 // void * operator new[](unsigned int);
-void *_Znaj(unsigned int size) { return psyqo_malloc(size); }
+void *_Znaj(unsigned int size) { return libc_malloc(size); }
 // void operator delete(void*);
-void _ZdlPv(void *ptr) { psyqo_free(ptr); }
+void _ZdlPv(void *ptr) { libc_free(ptr); }
 // void operator delete[](void*);
-void _ZdaPv(void *ptr) { psyqo_free(ptr); }
+void _ZdaPv(void *ptr) { libc_free(ptr); }
 // void operator delete(void*, unsigned int);
-void _ZdlPvj(void *ptr, unsigned int size) { psyqo_free(ptr); }
+void _ZdlPvj(void *ptr, unsigned int size) { libc_free(ptr); }
 // void operator delete[](void*, unsigned int);
-void _ZdaPvj(void *ptr, unsigned int size) { psyqo_free(ptr); }
+void _ZdaPvj(void *ptr, unsigned int size) { libc_free(ptr); }
 
-void *psyqo_heap_start() { return bottom; }
-void *psyqo_heap_end() { return maximum_heap_end; }
+void *libc_heap_start() { return bottom; }
+void *libc_heap_end() { return maximum_heap_end; }

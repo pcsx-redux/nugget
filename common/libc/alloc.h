@@ -43,7 +43,7 @@ extern "C" {
  * @param size The amount of bytes to allocate.
  * @return void* The memory allocated.
  */
-void *psyqo_malloc(size_t size);
+void *libc_malloc(size_t size);
 
 /**
  * @brief Re-allocates memory from the heap.
@@ -61,7 +61,7 @@ void *psyqo_malloc(size_t size);
  * @param size The amount of bytes to allocate.
  * @return void* The memory allocated.
  */
-void *psyqo_realloc(void *ptr, size_t size);
+void *libc_realloc(void *ptr, size_t size);
 
 /**
  * @brief Frees memory from the heap.
@@ -71,7 +71,7 @@ void *psyqo_realloc(void *ptr, size_t size);
  *
  * @param ptr The pointer to the memory to free.
  */
-void psyqo_free(void *ptr);
+void libc_free(void *ptr);
 
 /**
  * @brief Returns the pointer to the beginning of the heap.
@@ -83,7 +83,7 @@ void psyqo_free(void *ptr);
  *
  * @return void* The beginning of the heap.
  */
-void *psyqo_heap_start();
+void *libc_heap_start();
 
 /**
  * @brief Returns the pointer to the end of the heap.
@@ -97,7 +97,7 @@ void *psyqo_heap_start();
  *
  * @return void* The end of the heap.
  */
-void *psyqo_heap_end();
+void *libc_heap_end();
 
 #ifdef __cplusplus
 }

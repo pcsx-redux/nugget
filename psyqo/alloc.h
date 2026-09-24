@@ -26,4 +26,21 @@ SOFTWARE.
 
 #pragma once
 
+#include <stddef.h>
+
 #include "common/libc/alloc.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// psyqo's names for the common/libc allocator.
+static inline void *psyqo_malloc(size_t size) { return libc_malloc(size); }
+static inline void *psyqo_realloc(void *ptr, size_t size) { return libc_realloc(ptr, size); }
+static inline void psyqo_free(void *ptr) { libc_free(ptr); }
+static inline void *psyqo_heap_start() { return libc_heap_start(); }
+static inline void *psyqo_heap_end() { return libc_heap_end(); }
+
+#ifdef __cplusplus
+}
+#endif

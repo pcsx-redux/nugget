@@ -670,7 +670,7 @@ int vxprintf(void (*func)(const char *, int, void *), void *arg, const char *for
         }
 #ifndef XPRINTFNOALLOC
         if (xtype == MEM_STRING && zMem) {
-            psyqo_free(zMem);
+            libc_free(zMem);
         }
 #endif
         if (flag_leftjustify) {
@@ -757,10 +757,10 @@ static void mout(const char *zNewText, int nNewChar, void *arg) {
     if (pM->nChar + nNewChar + 1 > pM->nAlloc) {
         pM->nAlloc = pM->nChar + nNewChar * 2 + 1;
         if (pM->zText == pM->zBase) {
-            pM->zText = psyqo_malloc(pM->nAlloc);
+            pM->zText = libc_malloc(pM->nAlloc);
             if (pM->zText && pM->nChar) __builtin_memcpy(pM->zText, pM->zBase, pM->nChar);
         } else {
-            pM->zText = psyqo_realloc(pM->zText, pM->nAlloc);
+            pM->zText = libc_realloc(pM->zText, pM->nAlloc);
         }
     }
     if (pM->zText) {
@@ -793,10 +793,10 @@ int vasprintf(char **out, const char *zFormat, va_list ap) {
     sMprintf.zBase = zBuf;
     r = vxprintf(mout, &sMprintf, zFormat, ap);
     if (sMprintf.zText == sMprintf.zBase) {
-        sMprintf.zText = psyqo_malloc(strlen(zBuf) + 1);
+        sMprintf.zText = libc_malloc(strlen(zBuf) + 1);
         if (sMprintf.zText) __builtin_strcpy(sMprintf.zText, zBuf);
     } else {
-        sMprintf.zText = psyqo_realloc(sMprintf.zText, sMprintf.nChar + 1);
+        sMprintf.zText = libc_realloc(sMprintf.zText, sMprintf.nChar + 1);
     }
     *out = sMprintf.zText;
     return r;

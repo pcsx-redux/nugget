@@ -49,7 +49,7 @@ extern "C" {
  * has its control characters escaped using the caret notation. For
  * example, character 26, also known as EOF, will be displayed as ^Z.
  * %z will display a string, and immediately dispose of it using
- * `psyqo_free()`. %r will display a number as an English ordinal.
+ * `libc_free()`. %r will display a number as an English ordinal.
  * For example, 1 will be displayed as "1st", 2 as "2nd", etc...
  * Another difference with normal printf, is that %#x will output
  * "0x0" instead of "0" for the value 0. Last but not least, the %f, %e,
@@ -109,7 +109,7 @@ int vsnprintf(char *buf, size_t n, const char *fmt, va_list ap);
  * @details This function is a helper around `vxprintf`, which will
  * print to a string, and otherwise behaves the same as normal
  * glibc (v)asprintf. The string will be allocated using
- * `psyqo_malloc()`, and must be freed using `psyqo_free()`.
+ * `libc_malloc()`, and must be freed using `libc_free()`.
  *
  * @param out The pointer to the string to allocate.
  * @param fmt The format string.

@@ -41,9 +41,9 @@ SOFTWARE.
 extern "C" {
 #endif
 
-static inline void *malloc(size_t size) { return psyqo_malloc(size); }
-static inline void *realloc(void *ptr, size_t size) { return psyqo_realloc(ptr, size); }
-static inline void free(void *ptr) { psyqo_free(ptr); }
+static inline void *malloc(size_t size) { return libc_malloc(size); }
+static inline void *realloc(void *ptr, size_t size) { return libc_realloc(ptr, size); }
+static inline void free(void *ptr) { libc_free(ptr); }
 
 void exit(int code) __attribute__((noreturn));
 
