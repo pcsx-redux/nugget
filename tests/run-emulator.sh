@@ -93,8 +93,7 @@ for k in "${!known[@]}"; do
     fi
 done
 
-BIOSFLAG=()
-[ -f "$BIOS" ] && BIOSFLAG=(-bios "$BIOS")
+BIOSFLAG=(-bios "$BIOS")
 
 run_one() {
     local name=$1 exe=$2 cpu=$3 token=$4 extra=$5
