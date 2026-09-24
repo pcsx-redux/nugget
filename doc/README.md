@@ -51,8 +51,6 @@ A toolchain will need to be installed before any of the projects can be built. T
 
 Use the `Makefile` in each project to build that project. `cube` is the exception: it links against the converted Sony libraries, which have to be produced locally first. See [psyq](../psyq/README.md).
 
-One trap worth knowing about: `openbios` and `tests` compile the same uC-sdk sources into the shared source directory under incompatible flags. Whichever one builds last wins. The objects it leaves behind are newer than their sources, so nothing that keys on timestamps notices. If a build fails with an undefined reference somewhere in the libc, run `find third_party/uC-sdk -name '*.o' -delete` and build again.
-
 ## Who
 
 The PCSX-Redux project's authors are also the main authors and maintainers of this code. To discuss PlayStation 1 development, hacking, and reverse engineering in general, please join the PSX.Dev Discord server: [![Discord](https://img.shields.io/discord/642647820683444236)](https://discord.gg/QByKPpH)
