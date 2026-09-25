@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2019 PCSX-Redux authors
+Copyright (c) 2026 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,7 @@ SOFTWARE.
 
 */
 
+// libcester includes this unconditionally; the tests build it with
+// CESTER_NO_TIME, so nothing in here is used.
+
 #pragma once
-
-#include <stdlib.h>
-
-#define portMAX_DELAY 0
-
-typedef void* xSemaphoreHandle;
-static __inline void* xSemaphoreCreateMutex() { return NULL; }
-static __inline void xSemaphoreTake(void* semaphore, unsigned timeout) {}
-static __inline void xSemaphoreGive(void* semaphore) {}

@@ -27,17 +27,17 @@ SOFTWARE.
 #include "openbios/card/backupunit.h"
 
 #include <stdint.h>
-#include <string.h>
 
 #include "common/hardware/pcsxhw.h"
 #include "common/kernel/events.h"
 #include "common/psxlibc/setjmp.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/card/card.h"
+#include "openbios/fileio/fileio.h"
 #include "openbios/kernel/libcmisc.h"
 #include "openbios/kernel/setjmp.h"
 #include "openbios/sio0/card.h"
-#include "osdebug.h"
 
 int g_buOperation[2];
 int g_buAutoFormat;
@@ -50,8 +50,8 @@ static int s_buCurrentState[2];
 static int s_buCurrentSector[2];
 
 static __attribute__((noreturn)) void buUnimplemented(const char *function, int op) {
-    osDbgPrintf("=== Unimplemented backup unit function %s, op %i ===\r\n", function, op);
-    osDbgPrintf("=== halting ===\r\n");
+    psxprintf("=== Unimplemented backup unit function %s, op %i ===\r\n", function, op);
+    psxprintf("=== halting ===\r\n");
     pcsx_debugbreak();
     while (1) asm("");
 }

@@ -48,3 +48,9 @@ const void *psxlsearch(const char *key, const char *base, int nmemb, size_t size
                        int (*compar)(const char *, const char *));
 const void *psxbsearch(const char *key, const char *base, int nmemb, size_t size,
                        int (*compar)(const char *, const char *));
+
+long strtol(const char *nptr, char **endptr, int base);
+static __inline__ int atoi(const char *str) { return strtol(str, NULL, 10); }
+static __inline__ long atol(const char *str) { return strtol(str, NULL, 10); }
+
+void qsort(void *base, size_t num, size_t size, int (*cmp)(const void *, const void *));

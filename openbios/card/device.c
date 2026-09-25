@@ -26,15 +26,15 @@ SOFTWARE.
 
 #include "common/psxlibc/device.h"
 
-#include <string.h>
+#include "common/psxlibc/string.h"
 
 #include "common/hardware/pcsxhw.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/card/backupunit.h"
 #include "openbios/card/card.h"
+#include "openbios/fileio/fileio.h"
 #include "openbios/kernel/libcmisc.h"
 #include "openbios/sio0/card.h"
-#include "osdebug.h"
 
 static char s_findFilePattern[20];
 static int s_buNextFileIndex;
@@ -95,8 +95,8 @@ static int buDevInit(int deviceId) {
 }
 
 static __attribute__((noreturn)) void dev_bu_unimplemented(const char *function, uint32_t ra) {
-    osDbgPrintf("=== Unimplemented memory card function %s from %p ===\r\n", function, ra);
-    osDbgPrintf("=== halting ===\r\n");
+    psxprintf("=== Unimplemented memory card function %s from %p ===\r\n", function, ra);
+    psxprintf("=== halting ===\r\n");
     pcsx_debugbreak();
     while (1) asm("");
 }

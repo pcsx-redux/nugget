@@ -10,11 +10,12 @@ $(wildcard ../third_party/EASTL/source/*.cpp) \
 ../common/crt0/memory-c.c \
 ../common/crt0/memory-s.s \
 ../common/hardware/flushcache.s \
+../common/libc/alloc.c \
+../common/libc/xprintf.c \
 ../common/psxlibc/ucontext.s \
 ../common/syscalls/printf.s \
 $(wildcard src/hardware/*.cpp) \
 $(wildcard src/*.cpp) \
-$(wildcard src/*.c) \
 $(wildcard src/*.s) \
 $(wildcard ../common/util/*.cc) \
 

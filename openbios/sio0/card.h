@@ -26,7 +26,7 @@ SOFTWARE.
 
 #pragma once
 
-#include <stdlib.h>
+#include <stdint.h>
 
 int initCard(int padStarted);
 int startCard();

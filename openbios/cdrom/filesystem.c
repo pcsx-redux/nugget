@@ -26,13 +26,12 @@ SOFTWARE.
 
 #include "openbios/cdrom/filesystem.h"
 
-#include <ctype.h>
-#include <memory.h>
 #include <stdint.h>
-#include <string.h>
 
+#include "common/psxlibc/ctype.h"
 #include "common/psxlibc/direntry.h"
 #include "common/psxlibc/stdio.h"
+#include "common/psxlibc/string.h"
 #include "common/util/util.h"
 #include "openbios/cdrom/cdrom.h"
 #include "openbios/cdrom/helpers.h"

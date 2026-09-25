@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2019 PCSX-Redux authors
+Copyright (c) 2026 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,29 @@ SOFTWARE.
 
 */
 
-void cpu_early_init() {}
+#pragma once
 
-void cpu_init() {}
+#include <stddef.h>
 
-void cpu_late_init() {}
+#include "common/libc/alloc.h"
 
-void __sinit(void* reent) {}
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS 0
+#endif
+#ifndef EXIT_FAILURE
+#define EXIT_FAILURE 1
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+static inline void *malloc(size_t size) { return libc_malloc(size); }
+static inline void *realloc(void *ptr, size_t size) { return libc_realloc(ptr, size); }
+static inline void free(void *ptr) { libc_free(ptr); }
+
+void exit(int code) __attribute__((noreturn));
+
+#ifdef __cplusplus
+}
+#endif

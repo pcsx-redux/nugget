@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2019 PCSX-Redux authors
+Copyright (c) 2026 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,40 +24,6 @@ SOFTWARE.
 
 */
 
-#include <stdint.h>
+#pragma once
 
-void cpu_early_init() {}
-
-void cpu_init() {}
-
-void cpu_late_init() {}
-
-static inline uint32_t getCop0Status() {
-    uint32_t r;
-    asm("mfc0 %0, $12 ; nop" : "=r"(r));
-    return r;
-}
-
-static inline void setCop0Status(uint32_t r) { asm("mtc0 %0, $12 ; nop" : : "r"(r)); }
-
-static inline int fastEnterCriticalSection() {
-    uint32_t sr = getCop0Status();
-    setCop0Status(sr & ~0x401);
-    return (sr & 0x401) == 0x401;
-}
-
-static inline void fastLeaveCriticalSection() {
-    uint32_t sr = getCop0Status();
-    sr |= 0x401;
-    setCop0Status(sr);
-}
-
-__attribute__((weak)) int8_t __sync_fetch_and_add_1(volatile int8_t* ptr, int8_t arg) {
-    int needsToLeaveCS = fastEnterCriticalSection();
-    int8_t r = *ptr;
-    *ptr += arg;
-    if (needsToLeaveCS) {
-        fastLeaveCriticalSection();
-    }
-    return r;
-}
+#include "common/psxlibc/string.h"

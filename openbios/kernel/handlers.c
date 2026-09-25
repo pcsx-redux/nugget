@@ -26,16 +26,14 @@ SOFTWARE.
 
 #include "openbios/handlers/handlers.h"
 
-#include <ctype.h>
-#include <memory.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "common/hardware/pcsxhw.h"
 #include "common/kernel/openbios.h"
+#include "common/psxlibc/ctype.h"
 #include "common/psxlibc/setjmp.h"
 #include "common/psxlibc/stdio.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/card/card.h"
 #include "openbios/cdrom/cdrom.h"
@@ -61,7 +59,6 @@ SOFTWARE.
 #include "openbios/sio0/pad.h"
 #include "openbios/sio0/sio0.h"
 #include "openbios/tty/tty.h"
-#include "osdebug.h"
 
 void unimplementedThunk() __attribute__((long_call));
 void breakVector();
@@ -86,26 +83,26 @@ void unimplemented(uint32_t table, uint32_t call, uint32_t ra) {
     struct Registers *regs = &__globals.threads[0].registers;
     uint32_t badv;
     asm("mfc0 %0, $8\nnop\n" : "=r"(badv));
-    osDbgPrintf("=== Unimplemented %x:%x syscall from %p ===\r\n", table, call, ra);
-    osDbgPrintf("epc = %p - status = %p - cause = %p - badv = %p\r\n", regs->returnPC, regs->SR, regs->Cause, badv);
-    osDbgPrintf("r0 = %p - at = %p - v0 = %p - v1 = %p\r\n", regs->GPR.r[0], regs->GPR.r[1], regs->GPR.r[2],
+    psxprintf("=== Unimplemented %x:%x syscall from %p ===\r\n", table, call, ra);
+    psxprintf("epc = %p - status = %p - cause = %p - badv = %p\r\n", regs->returnPC, regs->SR, regs->Cause, badv);
+    psxprintf("r0 = %p - at = %p - v0 = %p - v1 = %p\r\n", regs->GPR.r[0], regs->GPR.r[1], regs->GPR.r[2],
                 regs->GPR.r[3]);
-    osDbgPrintf("a0 = %p - a1 = %p - a2 = %p - a3 = %p\r\n", regs->GPR.r[4], regs->GPR.r[5], regs->GPR.r[6],
+    psxprintf("a0 = %p - a1 = %p - a2 = %p - a3 = %p\r\n", regs->GPR.r[4], regs->GPR.r[5], regs->GPR.r[6],
                 regs->GPR.r[7]);
-    osDbgPrintf("t0 = %p - t1 = %p - t2 = %p - t3 = %p\r\n", regs->GPR.r[8], regs->GPR.r[9], regs->GPR.r[10],
+    psxprintf("t0 = %p - t1 = %p - t2 = %p - t3 = %p\r\n", regs->GPR.r[8], regs->GPR.r[9], regs->GPR.r[10],
                 regs->GPR.r[11]);
-    osDbgPrintf("t4 = %p - t5 = %p - t6 = %p - t7 = %p\r\n", regs->GPR.r[12], regs->GPR.r[13], regs->GPR.r[14],
+    psxprintf("t4 = %p - t5 = %p - t6 = %p - t7 = %p\r\n", regs->GPR.r[12], regs->GPR.r[13], regs->GPR.r[14],
                 regs->GPR.r[15]);
-    osDbgPrintf("s0 = %p - s1 = %p - s2 = %p - s3 = %p\r\n", regs->GPR.r[16], regs->GPR.r[17], regs->GPR.r[18],
+    psxprintf("s0 = %p - s1 = %p - s2 = %p - s3 = %p\r\n", regs->GPR.r[16], regs->GPR.r[17], regs->GPR.r[18],
                 regs->GPR.r[19]);
-    osDbgPrintf("s4 = %p - s5 = %p - s6 = %p - s7 = %p\r\n", regs->GPR.r[20], regs->GPR.r[21], regs->GPR.r[22],
+    psxprintf("s4 = %p - s5 = %p - s6 = %p - s7 = %p\r\n", regs->GPR.r[20], regs->GPR.r[21], regs->GPR.r[22],
                 regs->GPR.r[23]);
-    osDbgPrintf("t8 = %p - t9 = %p - k0 = %p - k1 = %p\r\n", regs->GPR.r[24], regs->GPR.r[25], regs->GPR.r[26],
+    psxprintf("t8 = %p - t9 = %p - k0 = %p - k1 = %p\r\n", regs->GPR.r[24], regs->GPR.r[25], regs->GPR.r[26],
                 regs->GPR.r[27]);
-    osDbgPrintf("gp = %p - sp = %p - s8 = %p - ra = %p\r\n", regs->GPR.r[28], regs->GPR.r[29], regs->GPR.r[30],
+    psxprintf("gp = %p - sp = %p - s8 = %p - ra = %p\r\n", regs->GPR.r[28], regs->GPR.r[29], regs->GPR.r[30],
                 regs->GPR.r[31]);
-    osDbgPrintf("hi = %p - lo = %p\r\n", regs->GPR.r[32], regs->GPR.r[33]);
-    osDbgPrintf("=== halting ===\r\n");
+    psxprintf("hi = %p - lo = %p\r\n", regs->GPR.r[32], regs->GPR.r[33]);
+    psxprintf("=== halting ===\r\n");
     pcsx_debugbreak();
     while (1);
 }

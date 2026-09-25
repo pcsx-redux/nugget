@@ -27,7 +27,8 @@ SOFTWARE.
 #include "openbios/pio/pio.h"
 
 #include <stdint.h>
-#include <string.h>
+
+#include "common/psxlibc/string.h"
 
 struct pioInfo {
     void (*vector)();

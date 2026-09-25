@@ -8,8 +8,8 @@ CPPFLAGS += -DLUA_TARGET_PSX
 
 LDFLAGS += \
 -Wl,--defsym,luaI_sprintf=sprintf_for_Lua \
--Wl,--defsym,luaI_realloc=psyqo_realloc \
--Wl,--defsym,luaI_free=psyqo_free \
+-Wl,--defsym,luaI_realloc=libc_realloc \
+-Wl,--defsym,luaI_free=libc_free \
 
 include $(PSYQOLUADIR)../psyqo/psyqo.mk
 

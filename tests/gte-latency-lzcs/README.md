@@ -77,11 +77,6 @@ Controls:
 make -C tests/gte-latency-lzcs TYPE=ps-exe
 ```
 
-If the link dies on `undefined reference to vdprintf`, an openbios build
-left openbios-flavoured objects in the shared `third_party/uC-sdk`
-source directories. `rm third_party/uC-sdk/{libc,os}/src/*.o` and build
-again.
-
 ## Reading the output
 
 ```

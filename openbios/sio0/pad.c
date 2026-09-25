@@ -26,9 +26,9 @@ SOFTWARE.
 
 #include "openbios/sio0/pad.h"
 
-#include <memory.h>
 #include <stdint.h>
 
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 
 static uint8_t s_padBuffer1[0x22];

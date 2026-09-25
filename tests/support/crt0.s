@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2019 PCSX-Redux authors
+Copyright (c) 2020 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,40 @@ SOFTWARE.
 
 */
 
-#include "common/hardware/pcsxhw.h"
-#include "common/syscalls/syscalls.h"
+.include "common/hardware/hwregs.inc"
 
-void BoardEarlyInit() {}
+    .section .start, "ax", @progbits
+    .set noreorder
+    .align 2
+    .global tests_start
+    .global _start
+    .type _start, @function
 
-void BoardInit() {}
+_start:
+    lw    $t2, SBUS_DEV8_CTRL
+    lui   $t0, 8
+    lui   $t1, 1
+_check_dev8:
+    bge   $t2, $t0, _store_dev8
+    nop
+    b     _check_dev8
+    add   $t2, $t1
+_store_dev8:
+    sw    $t2, SBUS_DEV8_CTRL
 
-void BoardLateInit() {}
+    la    $t0, __bss_start
+    la    $t1, __bss_end
 
-// Trap into the resident debugger with the exit code in $a0 via break
-// category 4. Categories 0/6/7/14 are taken (pcdrv / compiler overflow /
-// compiler divide-by-zero / psyqo), so 4 is free. On hardware this halts
-// the program (Unirom reports HLTD) and leaves the exit code readable in
-// $a0, giving the host a deterministic end-of-binary signal instead of a
-// printed sentinel string. On the emulator pcsx_exit() has already exited,
-// so this is never reached there.
-static inline void exitBreak(int code) {
-    register int a0 asm("$4") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0) : "memory");
-}
+    beq   $t0, $t1, _bss_init_skip
+    nop
 
-void BoardShutdown() {
-    pcsx_exit(0);
-    exitBreak(0);
-    syscall__exit(0);
-}
+_bss_init:
+    sw    $0, 0($t0)
+    addiu $t0, 4
+    bne   $t0, $t1, _bss_init
+    nop
 
-void BoardExceptionHandler(int code) {
-    pcsx_exit(code);
-    exitBreak(code);
-    syscall__exit(code);
-}
+_bss_init_skip:
+
+    j     tests_start
+    nop

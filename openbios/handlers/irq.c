@@ -26,7 +26,6 @@ SOFTWARE.
 
 #include "common/hardware/irq.h"
 
-#include <memory.h>
 #include <stdint.h>
 
 #include "common/hardware/hwregs.h"
