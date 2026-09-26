@@ -82,6 +82,31 @@ static int32_t recvScalarResp(uint32_t op) {
     return ret;
 }
 
+/* Bulk PCDRV payloads travel in frames of at most this many bytes, so every
+   frame stays under the stream LEN cap (design section 13). */
+#define PCDRV_CHUNK 8192
+
+/* Take `words` payload words into dst[off..nbytes), dropping any padding past
+   nbytes. Returns how many bytes landed. */
+static uint32_t recvBytes(volatile uint8_t *dst, uint32_t off, uint32_t nbytes, uint16_t words) {
+    uint32_t landed = 0;
+    for (uint16_t i = 0; i < words; i++) {
+        uint16_t w = transportRecvWord();
+        uint32_t bi = off + (uint32_t)i * 2;
+        if (bi < nbytes) dst[bi] = (uint8_t)(w & 0xff), landed++;
+        if (bi + 1 < nbytes) dst[bi + 1] = (uint8_t)(w >> 8), landed++;
+    }
+    return landed;
+}
+
+static void putBytes(volatile const uint8_t *src, uint32_t n) {
+    for (uint32_t i = 0; i < n; i += 2) {
+        uint8_t b0 = src[i];
+        uint8_t b1 = (i + 1 < n) ? src[i + 1] : 0;
+        transportSendWord((uint16_t)(b0 | (b1 << 8)));
+    }
+}
+
 void monitorServicePcdrv(struct Registers *r, uint32_t op) {
     uint32_t a0 = r->GPR.n.a0;
     uint32_t a1 = r->GPR.n.a1;
@@ -122,50 +147,58 @@ void monitorServicePcdrv(struct Registers *r, uint32_t op) {
 
         case PCDRV_READ: {
             /* REQ [op:u32][fd:u32][len:u32]; fd = a1, len = a2, buf = a3.
-               RESP [op:u32][ret:s32 = nbytes][bytes]. Decode straight into the
-               target's own buffer - no staging. */
+               RESP [op:u32][ret:s32 = nbytes][bytes], at most PCDRV_CHUNK
+               bytes, then continuation RESP [op:u32][bytes] frames until
+               nbytes have arrived. Decode straight into the target's own
+               buffer - no staging. */
             transportSendBegin(MON_PCDRV_REQ, 6);
             putU32(op);
             putU32(a1);
             putU32(a2);
             transportSendEnd();
 
+            volatile uint8_t *dst = (volatile uint8_t *)a3;
             uint16_t type, len;
             transportRecvBegin(&type, &len);
             uint32_t echo = (len >= 2) ? getU32() : 0;
             int32_t ret = (len >= 4) ? (int32_t)getU32() : -1;
             uint32_t nbytes = (ret > 0) ? (uint32_t)ret : 0;
-            volatile uint8_t *dst = (volatile uint8_t *)a3;
             uint16_t consumed = (len >= 4) ? 4 : (len >= 2 ? 2 : 0);
-            for (uint16_t i = consumed; i < len; i++) {
-                uint16_t w = transportRecvWord();
-                uint32_t bi = (uint32_t)(i - consumed) * 2;
-                if (bi < nbytes) dst[bi] = (uint8_t)(w & 0xff);
-                if (bi + 1 < nbytes) dst[bi + 1] = (uint8_t)(w >> 8);
+            uint32_t got = recvBytes(dst, 0, nbytes, len - consumed);
+            int ok = transportRecvEnd() == TRANSPORT_OK && type == MON_PCDRV_RESP && echo == op;
+            while (ok && got < nbytes) {
+                transportRecvBegin(&type, &len);
+                echo = (len >= 2) ? getU32() : 0;
+                got += recvBytes(dst, got, nbytes, len >= 2 ? len - 2 : 0);
+                ok = transportRecvEnd() == TRANSPORT_OK && type == MON_PCDRV_RESP && echo == op && len > 2;
             }
-            int rc = transportRecvEnd();
             r->GPR.n.v0 = 0;
-            r->GPR.n.v1 = (rc == TRANSPORT_OK && type == MON_PCDRV_RESP && echo == op) ? (uint32_t)ret : (uint32_t)-1;
+            r->GPR.n.v1 = ok ? (uint32_t)ret : (uint32_t)-1;
             break;
         }
 
         case PCDRV_WRITE: {
-            /* REQ [op:u32][fd:u32][len:u32][bytes]; fd = a1, len = a2, buf = a3.
-               Stream the target's bytes straight out of its buffer. */
-            uint32_t len = a2;
-            uint32_t bw = (len + 1) >> 1;
+            /* REQ [op:u32][fd:u32][len:u32][bytes], at most PCDRV_CHUNK bytes,
+               then continuation REQ [op:u32][bytes] frames until len bytes
+               have gone; fd = a1, len = a2, buf = a3. One RESP answers the
+               whole write. Stream the target's bytes straight out of its
+               buffer. */
+            uint32_t total = a2;
             volatile const uint8_t *src = (volatile const uint8_t *)a3;
-            transportSendBegin(MON_PCDRV_REQ, (uint16_t)(6 + bw));
+            uint32_t chunk = total < PCDRV_CHUNK ? total : PCDRV_CHUNK;
+            transportSendBegin(MON_PCDRV_REQ, (uint16_t)(6 + ((chunk + 1) >> 1)));
             putU32(op);
             putU32(a1);
-            putU32(len);
-            for (uint32_t w = 0; w < bw; w++) {
-                uint32_t i = 2 * w;
-                uint8_t b0 = src[i];
-                uint8_t b1 = (i + 1 < len) ? src[i + 1] : 0;
-                transportSendWord((uint16_t)(b0 | (b1 << 8)));
-            }
+            putU32(total);
+            putBytes(src, chunk);
             transportSendEnd();
+            for (uint32_t off = chunk; off < total; off += chunk) {
+                chunk = total - off < PCDRV_CHUNK ? total - off : PCDRV_CHUNK;
+                transportSendBegin(MON_PCDRV_REQ, (uint16_t)(2 + ((chunk + 1) >> 1)));
+                putU32(op);
+                putBytes(src + off, chunk);
+                transportSendEnd();
+            }
             r->GPR.n.v0 = 0;
             r->GPR.n.v1 = (uint32_t)recvScalarResp(op);
             break;
