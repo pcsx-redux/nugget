@@ -101,9 +101,16 @@ static void sendWord32(uint32_t v) {
     transportSendWord((uint16_t)(v >> 16));
 }
 
-static void sendAck(void) { transportSendFrame(MON_ACK, (uint16_t[]){0}, 0); }
+/* A command's reply: 0 is an ACK, a MON_E* code is an ERROR carrying it, and
+   MON_REPLIED means the handler already answered (DATA, REGS, PONG). */
+#define MON_REPLIED (-1)
 
-static void sendError(uint16_t code) { transportSendFrame(MON_ERROR, &code, 1); }
+static void sendStatus(int code) {
+    uint16_t c = (uint16_t)code;
+    transportSendBegin(code ? MON_ERROR : MON_ACK, code != 0);
+    if (code) transportSendWord(c);
+    transportSendEnd();
+}
 
 static inline __attribute__((noreturn)) void monitorEnter() {
     __asm__ volatile("break 4, 1\n" : : : "memory");
@@ -140,7 +147,7 @@ static void emitStopped(uint16_t reason, uint32_t epc, uint32_t a, uint32_t b) {
 
 /* READ_MEM [addr:u32][len:u32] -> one or more DATA [nbytes:u32][bytes] frames,
    each capped at an 8 KiB chunk; the host concatenates until it has len bytes. */
-static void cmdReadMem(const uint16_t *p) {
+static int cmdReadMem(const uint16_t *p) {
     uint32_t addr = rd32(p, 0);
     uint32_t len = rd32(p, 2);
     const uint8_t *src = (const uint8_t *)addr;
@@ -162,6 +169,7 @@ static void cmdReadMem(const uint16_t *p) {
         transportSendEnd();
         off += chunk;
     } while (off < len);
+    return MON_REPLIED;
 }
 
 static uint32_t recvU32(void) {
@@ -175,7 +183,7 @@ static uint32_t recvU32(void) {
    straight into the target address as they arrive - no staging buffer - so a
    single frame carries an arbitrarily large write (host still chunks at 8 KiB).
    `frameWords` is the payload word count from the frame header. */
-static void streamWriteMem(uint16_t frameWords) {
+static int streamWriteMem(uint16_t frameWords) {
     uint32_t addr = recvU32();   /* 2 words */
     uint32_t nbytes = recvU32(); /* 2 words */
     uint32_t consumed = 4;
@@ -189,12 +197,7 @@ static void streamWriteMem(uint16_t frameWords) {
         if (bi + 1 < nbytes) dst[bi + 1] = (uint8_t)(word >> 8);
     }
 
-    int rc = transportRecvEnd();
-    if (rc == TRANSPORT_OK) {
-        sendAck();
-    } else {
-        sendError(MON_ECKSUM);
-    }
+    return transportRecvEnd() == TRANSPORT_OK ? 0 : MON_ECKSUM;
 }
 
 #ifdef MONITOR_LZ4
@@ -205,13 +208,12 @@ static void streamWriteMem(uint16_t frameWords) {
    arrive, so every frame is ACKed on its own; the last one also checks the
    stream ended cleanly at exactly rawlen bytes. Any failure drops the stream,
    and the host starts over from off 0. */
-static void streamWriteMemLz4(uint16_t frameWords) {
+static int streamWriteMemLz4(uint16_t frameWords) {
     if (frameWords < 10) {
         for (uint16_t i = 0; i < frameWords; i++) transportRecvWord();
         transportRecvEnd();
         s_mon.lzActive = 0;
-        sendError(MON_EBADLEN);
-        return;
+        return MON_EBADLEN;
     }
     uint32_t dest = recvU32();
     uint32_t rawLen = recvU32();
@@ -246,17 +248,13 @@ static void streamWriteMemLz4(uint16_t frameWords) {
             s_mon.lzActive = 0;
         }
     }
-    if (bad) {
-        s_mon.lzActive = 0;
-        sendError(bad);
-    } else {
-        sendAck();
-    }
+    if (bad) s_mon.lzActive = 0;
+    return bad;
 }
 #endif
 
 /* GET_REGS [] -> REGS [38 x u32, gdb g-packet order]. */
-static void cmdGetRegs(void) {
+static int cmdGetRegs(void) {
     struct Registers *r = s_mon.ctx;
     transportSendBegin(MON_REGS, 38 * 2);
     for (int i = 0; i < 32; i++) sendWord32(r ? r->GPR.r[i] : 0); /* 0..31 r0..r31 */
@@ -267,22 +265,17 @@ static void cmdGetRegs(void) {
     sendWord32(r ? r->Cause : 0);                                 /* 36 Cause */
     sendWord32(r ? r->returnPC : 0);                              /* 37 PC (EPC) */
     transportSendEnd();
+    return MON_REPLIED;
 }
 
 /* SET_REG [idx:u16][value:u32] -> ACK | ERROR. idx indexes the REGS table. */
-static void cmdSetReg(const uint16_t *p) {
+static int cmdSetReg(const uint16_t *p) {
     uint16_t idx = p[0];
     uint32_t val = rd32(p, 1);
     struct Registers *r = s_mon.ctx;
 
-    if (idx > 37) {
-        sendError(MON_EBADREG);
-        return;
-    }
-    if (!r) {
-        sendError(MON_EBADSTATE);
-        return;
-    }
+    if (idx > 37) return MON_EBADREG;
+    if (!r) return MON_EBADSTATE;
 
     if (idx < 32) {
         if (idx != 0) r->GPR.r[idx] = val; /* r0 stays 0 */
@@ -296,12 +289,12 @@ static void cmdSetReg(const uint16_t *p) {
             case 37: r->returnPC = val; break;
         }
     }
-    sendAck();
+    return 0;
 }
 
 /* SET_BP [kind:u16][addr:u32][mask:u32] -> ACK.
    kind: 0 exec, 1 data-read, 2 data-write, 3 data-rw. */
-static void cmdSetBp(const uint16_t *p) {
+static int cmdSetBp(const uint16_t *p) {
     uint16_t kind = p[0];
     uint32_t addr = rd32(p, 1);
     uint32_t mask = rd32(p, 3);
@@ -320,15 +313,14 @@ static void cmdSetBp(const uint16_t *p) {
         if (kind == 3) enables |= DCIC_DR | DCIC_DW;
         s_mon.dcic |= enables;
     } else {
-        sendError(MON_EBADCMD);
-        return;
+        return MON_EBADCMD;
     }
     writeDCIC(s_mon.dcic);
-    sendAck();
+    return 0;
 }
 
 /* CLR_BP [kind:u16] -> ACK. */
-static void cmdClrBp(const uint16_t *p) {
+static int cmdClrBp(const uint16_t *p) {
     uint16_t kind = p[0];
     if (kind == 0) {
         s_mon.dcic &= ~DCIC_PCE;
@@ -337,12 +329,12 @@ static void cmdClrBp(const uint16_t *p) {
     }
     if ((s_mon.dcic & (DCIC_PCE | DCIC_DAE)) == 0) s_mon.dcic = 0; /* drop master enable */
     writeDCIC(s_mon.dcic);
-    sendAck();
+    return 0;
 }
 
 /* RUN [pc:u32][gp:u32][sp:u32] -> ACK, then hand the CPU to the target. Never
    returns (returnFromException does an rfe into pc). */
-static void cmdRun(const uint16_t *p) {
+static __attribute__((noreturn)) void cmdRun(const uint16_t *p) {
     uint32_t pc = rd32(p, 0);
     uint32_t gp = rd32(p, 2);
     uint32_t sp = rd32(p, 4);
@@ -359,61 +351,52 @@ static void cmdRun(const uint16_t *p) {
     r->Cause = 0;
     s_mon.ctx = 0; /* running: no halted context */
 
-    sendAck();
+    sendStatus(0);
     monitorResume();
 }
 
 /* CONT [] -> ACK, then resume the saved (possibly SET_REG-modified) context. */
-static void cmdCont(void) {
-    if (!s_mon.ctx) {
-        sendError(MON_EBADSTATE);
-        return;
-    }
-    sendAck();
+static int cmdCont(void) {
+    if (!s_mon.ctx) return MON_EBADSTATE;
+    sendStatus(0);
     monitorResume();
 }
 
 /* SET_BAUD [reload:u16] -> ACK at the old rate, then PONG at the new one if
    the host's PING arrives there (design section 2a). */
-static void cmdSetBaud(const uint16_t *p) {
+static int cmdSetBaud(const uint16_t *p) {
     uint16_t reload = p[0];
-    if (reload == 0) {
-        sendError(MON_EBADLEN);
-        return;
-    }
-    if (!transportHasRate()) {
-        sendError(MON_EBADCMD);
-        return;
-    }
-    sendAck();
+    if (reload == 0) return MON_EBADLEN;
+    if (!transportHasRate()) return MON_EBADCMD;
+    sendStatus(0);
     uint16_t ver = MON_PROTO_VER;
     if (transportTryRate(reload, MON_PONG, ver) == 1) transportSendFrame(MON_PONG, &ver, 1);
+    return MON_REPLIED;
 }
 
 /* Dispatch one small HALTED-state command whose payload is already buffered in
    s_mon.cmd. WRITE_MEM/LOAD are NOT here - they stream directly to target memory in
-   the loop. RUN/CONT do not return (they resume the target). */
-static void dispatchCommand(uint16_t type, const uint16_t *payload) {
+   the loop. RUN does not return (it resumes the target). Returns the reply. */
+static int dispatchCommand(uint16_t type, const uint16_t *payload) {
     switch (type) {
         case MON_PING: {
             uint16_t pong[2] = {MON_PROTO_VER, MON_CAPS};
             transportSendFrame(MON_PONG, pong, 2);
-            break;
+            return MON_REPLIED;
         }
-        case MON_READ_MEM: cmdReadMem(payload); break;
-        case MON_GET_REGS: cmdGetRegs(); break;
-        case MON_SET_REG: cmdSetReg(payload); break;
-        case MON_SET_BP: cmdSetBp(payload); break;
-        case MON_CLR_BP: cmdClrBp(payload); break;
-        case MON_RUN: cmdRun(payload); break;
-        case MON_CONT: cmdCont(); break;
-        case MON_SET_BAUD: cmdSetBaud(payload); break;
+        case MON_READ_MEM: return cmdReadMem(payload);
+        case MON_GET_REGS: return cmdGetRegs();
+        case MON_SET_REG: return cmdSetReg(payload);
+        case MON_SET_BP: return cmdSetBp(payload);
+        case MON_CLR_BP: return cmdClrBp(payload);
+        case MON_RUN: cmdRun(payload); /* does not return */
+        case MON_CONT: return cmdCont();
+        case MON_SET_BAUD: return cmdSetBaud(payload);
         case MON_STOP:
             /* Only meaningful while RUNNING, where it is serviced by the
                interrupt-poll path (v1 seam, below). In HALTED it is a no-op. */
-            sendAck();
-            break;
-        default: sendError(MON_EBADCMD); break;
+            return 0;
+        default: return MON_EBADCMD;
     }
 }
 
@@ -427,37 +410,34 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
         uint16_t len;
         transportRecvBegin(&type, &len);
 
+        int reply;
         uint16_t base = type & ~MON_LZ4;
         if (base == MON_WRITE_MEM || base == MON_LOAD) {
             if (!(type & MON_LZ4)) {
-                streamWriteMem(len);
+                reply = streamWriteMem(len);
             } else {
 #ifdef MONITOR_LZ4
-                streamWriteMemLz4(len);
+                reply = streamWriteMemLz4(len);
 #else
                 for (uint16_t i = 0; i < len; i++) transportRecvWord();
                 transportRecvEnd();
-                sendError(MON_EBADCMD);
+                reply = MON_EBADCMD;
 #endif
             }
-            continue;
+        } else {
+            for (uint16_t i = 0; i < len; i++) {
+                uint16_t w = transportRecvWord();
+                if (i < MON_CMD_WORDS) s_mon.cmd[i] = w; /* the rest is drained */
+            }
+            if (transportRecvEnd() != TRANSPORT_OK) {
+                reply = MON_ECKSUM;
+            } else if (len > MON_CMD_WORDS) {
+                reply = MON_EBADLEN;
+            } else {
+                reply = dispatchCommand(type, s_mon.cmd);
+            }
         }
-
-        for (uint16_t i = 0; i < len; i++) {
-            uint16_t w = transportRecvWord();
-            if (i < MON_CMD_WORDS) s_mon.cmd[i] = w; /* the rest is drained */
-        }
-        int rc = transportRecvEnd();
-
-        if (rc != TRANSPORT_OK) {
-            sendError(MON_ECKSUM);
-            continue;
-        }
-        if (len > MON_CMD_WORDS) {
-            sendError(MON_EBADLEN);
-            continue;
-        }
-        dispatchCommand(type, s_mon.cmd);
+        if (reply != MON_REPLIED) sendStatus(reply);
     }
 }
 
