@@ -42,6 +42,10 @@ SOFTWARE.
 #define TRANSPORT_EBADLEN (-1) /* payload longer than caller's buffer */
 #define TRANSPORT_ECKSUM (-2)  /* checksum mismatch */
 
+/* Largest LEN a stream link accepts: an 8 KiB bulk payload plus the header
+   words any frame type puts in front of it (DESIGN section 13). */
+#define TRANSPORT_STREAM_MAX_LEN (4096 + 16)
+
 /* Bring up the link. Idempotent; safe to call once at monitor entry. */
 void transportInit(void);
 

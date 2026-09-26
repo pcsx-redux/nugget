@@ -24,33 +24,17 @@ SOFTWARE.
 
 */
 
+/* The monitor as a plain PS-EXE on top of the retail BIOS kernel, over SIO1.
+   The kernel state the monitor reads (0x60, 0x100) is placed there by the
+   retail kernel itself; __globals and __globals60 are pinned to those
+   addresses in the Makefile. */
+#include "monitor/monitor.h"
 
-#pragma once
+/* The retail kernel's console goes nowhere useful here, and the monitor only
+   uses printf for its banner. */
+int psxprintf(const char *msg, ...) { return 0; }
 
-/* The physical link under the frame layer: either a blocking 16-bit word get
-   and put, or a byte get and put for a stream link, plus a one-time init. Each backend is a header of static inline functions so
-   the per-word calls inline into the framing loops; the build picks exactly
-   one. */
-
-#if defined(MONITOR_LINK_ATCONS)
-#include "monitor/link-atcons.h"
-#elif defined(MONITOR_LINK_SIO1)
-#include "monitor/link-sio1.h"
-#else
-#error "no monitor link selected: define MONITOR_LINK_ATCONS or MONITOR_LINK_SIO1"
-#endif
-
-/* A byte link (MONITOR_LINK_IS_STREAM) carries the DESIGN 2a stream: console
-   bytes, with a 0 introducing a frame whose words go low byte first. It also
-   provides linkRxOpen/linkRxClose around each receive, for flow control. */
-#ifdef MONITOR_LINK_IS_STREAM
-static inline uint16_t linkGetWord(void) {
-    uint16_t lo = linkGetByte();
-    return lo | ((uint16_t)linkGetByte() << 8);
+int main(void) {
+    monitorMain();
+    return 0;
 }
-
-static inline void linkPutWord(uint16_t w) {
-    linkPutByte(w & 0xff);
-    linkPutByte(w >> 8);
-}
-#endif
