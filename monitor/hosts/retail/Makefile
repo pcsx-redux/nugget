@@ -4,9 +4,9 @@ TYPE = ps-exe
 SRCS = \
 ../../../common/crt0/crt0.s \
 main.c \
-../../monitor.c \
-../../pcdrv.c \
-../../transport.c \
+host-monitor.c \
+host-pcdrv.c \
+host-transport.c \
 
 CPPFLAGS += -DMONITOR_LINK_SIO1
 # SIO1 baud reload at x16, see monitor/link-sio1.h.
