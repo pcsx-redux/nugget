@@ -3,22 +3,26 @@
 This is the wire protocol of the resident debug monitor in `monitor/`, as the
 code implements it. The monitor owns the break and fault exception paths of
 the PS1 it runs on and gives a host memory access, register access, program
-loading and launch, hardware breakpoints, PCDRV host file I/O, and exit-code
-readback over one frame format.
+loading (plain or LZ4-compressed) and launch, and hardware breakpoints over
+one frame format. Every software `break` stops the target and is reported to
+the host, which serves PCDRV host file I/O and reads exit codes from those
+stops.
 
 Sources:
 
 | File | Content |
 |------|---------|
-| `monitor/monitor.h` | Opcodes, error codes, stop reasons, protocol version |
+| `monitor/monitor.h` | Opcodes, flags, capability bits, error codes, stop reasons, protocol version |
 | `monitor/monitor.c` | Command loop, events, exception hook |
+| `monitor/install.h` | Kernel hook, cop0 break vector, monitor entry, BIOS checksum |
 | `monitor/transport.h`, `monitor/transport.c` | Frame layer, checksum, stream framing, SET_BAUD windows |
 | `monitor/link.h` | Link selection, word-over-byte packing for stream links |
 | `monitor/link-atcons.h` | ATCONS word link |
 | `monitor/link-sio1.h` | SIO1 byte stream link |
-| `monitor/pcdrv.h`, `monitor/pcdrv.c` | PCDRV servicing |
+| `monitor/lz4stream.h`, `monitor/lz4stream.c` | Byte-at-a-time LZ4 block decoder |
 | `monitor/cop0dbg.h` | cop0 debug registers, ExcCode values |
 | `monitor/hosts/` | Hosts that run the monitor on a retail BIOS kernel |
+| `monitor/hosts/retail/core/` | Resident core of the retail and cart hosts, `core.ld` |
 | `openbios/` (`make BOOT=cart MONITOR=1`) | Host that runs the monitor inside OpenBIOS on a DTL-H2700 |
 
 ## 1. Hosts
@@ -33,8 +37,9 @@ selects exactly one link (`MONITOR_LINK_ATCONS` or `MONITOR_LINK_SIO1`).
 | Expansion ROM cart | `monitor/hosts/cart` | Retail BIOS | SIO1 byte stream | Same SIO1 stream, TTY mode |
 
 The monitor uses only kernel interfaces that both kernels provide: the
-table of tables at `0x100`, the RAM size word at `0x60` (MiB), and the A0/B0/C0
-calls.
+table of tables at `0x100` and the A0/B0/C0 calls. It also reads the 512 KiB
+BIOS region at `0xBFC00000` once, for the checksum in HELLO and PONG
+(section 7).
 
 ## 2. Transports
 
@@ -105,15 +110,18 @@ The DTL-H2700 ATCONS block sits behind EXP2 at `0x1F802000`.
   bit is not checked.
 - A host that cannot observe the PS1's RTS must send only when the monitor
   is waiting for a frame: in HALTED after the response to the previous
-  command, and after a PCDRV_REQ. Section 5 lists when that holds.
+  command. Section 5 lists when that holds.
+- RTS stays raised for the whole of a frame, so within a frame the monitor
+  cannot hold the host back. This is why an LZ4 load needs a host-side cap on
+  match length (section 6).
 - Console text, PS1 -> host: `monitor/hosts/sio1-tty.c` replaces the kernel
   `tty` device and reopens stdin/stdout on it. Its writes go out on SIO1 as
   TTY-mode bytes; `0x00` bytes are dropped. Reads return nothing. Since the
   monitor is single-threaded, console bytes never land inside a frame.
 - Console text, host -> PS1: non-zero bytes the monitor sees while hunting
   for a frame are counted and discarded. There is no stdin on this link.
-- The retail and cart hosts stub the monitor's own `printf`, so no banner is
-  printed.
+- The retail and cart hosts do not call `monitorMain()`, so no banner is
+  printed (section 12.4).
 - Max LEN: `TRANSPORT_STREAM_MAX_LEN` = 4112 words (an 8 KiB payload plus 16
   header words).
 - Checksum: mandatory. A received CKSUM of `0x00000000` fails as a checksum
@@ -157,13 +165,13 @@ runs it:
 3. Window 1: the monitor accepts only the exact bytes of a PING with no
    payload:
    `00 AA 55 01 00 00 00 01 00 02 00`.
-   Any other byte is discarded. On a match it sends `PONG [proto_ver]` at the
-   new rate.
+   Any other byte is discarded. On a match it sends a short PONG at the new
+   rate: LEN 1, payload `[proto_ver:u16]` only.
 4. Window 2: the monitor accepts only the exact bytes of the confirmation
    PING, which carries the word 1:
    `00 AA 55 01 00 01 00 01 00 03 00 06 00`.
-   On a match it sends `PONG [proto_ver]`, keeps the new rate, and returns to
-   the command loop.
+   On a match it sends a second short PONG (LEN 1, `[proto_ver:u16]`), keeps
+   the new rate, and returns to the command loop.
 5. If either window expires, the monitor writes the previous reload back and
    returns to the command loop. It sends nothing on revert.
 
@@ -184,8 +192,10 @@ The confirmation differs from the plain PING so that a retried plain PING
 cannot confirm a rate at which the host cannot read the monitor's PONG. Step
 4 proves PS1 -> host at the new rate; step 3 proves host -> PS1.
 
-Outside the SET_BAUD windows, PING with a payload is an ordinary PING: the
-payload is ignored.
+The two window PONGs carry neither caps nor the BIOS checksum; a host that
+needs them sends an ordinary PING after the switch. Outside the SET_BAUD
+windows, PING with a payload is an ordinary PING: the payload is ignored,
+and the reply is the full PONG of section 7.
 
 ## 3. Frame format
 
@@ -229,12 +239,16 @@ Frame size limits:
 | Any frame on SIO1 | LEN <= 4112 |
 | Any frame on ATCONS | LEN <= 65535 |
 | Host commands other than WRITE_MEM and LOAD | LEN <= 16, else `ERROR(EBADLEN)` |
-| Bulk data per frame, as the monitor sends it (DATA, PCDRV_REQ for PCwrite) | 8192 bytes |
+| WRITE_MEM and LOAD with `MON_LZ4` | LEN >= 10, else `ERROR(EBADLEN)` |
+| Bulk data per frame, as the monitor sends it (DATA) | 8192 bytes |
 
 ## 4. Opcodes
 
-The high nibble of TYPE gives the direction: `0x0_` and `0x2_` host -> PS1,
-`0x4_` PS1 response, `0x8_` PS1 event.
+The high nibble of the low byte of TYPE gives the direction: `0x0_` and
+`0x2_` host -> PS1, `0x4_` PS1 response, `0x8_` PS1 event. Bit 15 of TYPE
+(`MON_LZ4` = `0x8000`) is a flag valid only on WRITE_MEM and LOAD
+(`0x8003`, `0x8008`); it marks the payload as LZ4 (section 6). On any other
+opcode the flagged TYPE is unknown and answers `ERROR(EBADCMD)`.
 
 Host -> PS1:
 
@@ -253,7 +267,6 @@ Host -> PS1:
 | `0x0B` | STOP | HALTED (no-op, answers ACK) |
 | `0x0C` | STEP | Reserved; answers `ERROR(EBADCMD)` |
 | `0x0D` | SET_BAUD | HALTED |
-| `0x20` | PCDRV_RESP | Only as the answer to a PCDRV_REQ |
 
 PS1 -> host:
 
@@ -262,20 +275,27 @@ PS1 -> host:
 | `0x40` | ACK | none |
 | `0x41` | DATA | READ_MEM data |
 | `0x42` | REGS | GET_REGS data |
-| `0x43` | PONG | `[proto_ver:u16]` |
+| `0x43` | PONG | `[proto_ver:u16][caps:u16][bios_fletcher32:u32]`; `[proto_ver:u16]` in the SET_BAUD windows |
 | `0x4F` | ERROR | `[errcode:u16]` |
-| `0x80` | HELLO | Monitor entry announce |
+| `0x80` | HELLO | `[proto_ver:u16][caps:u16][bios_fletcher32:u32]` |
 | `0x81` | STOPPED | Stop event |
-| `0x82` | PCDRV_REQ | Host file request |
 
-`proto_ver` is `MON_PROTO_VER` = `0x0001`.
+`proto_ver` is `MON_PROTO_VER` = `0x0002`.
+
+`caps` bits:
+
+| Bit | Name | Meaning |
+|-----|------|---------|
+| 0 (`0x0001`) | `MON_CAP_LZ4` | WRITE_MEM and LOAD accept `MON_LZ4` (section 6) |
+
+The other bits are 0.
 
 ## 5. States
 
 | State | Monitor activity | Link direction |
 |-------|------------------|----------------|
 | HALTED | Command loop, inside exception context | Host sends one command, monitor answers, repeat |
-| RUNNING | Target executes; the monitor is not reading the link | PS1 -> host events only; host -> PS1 only PCDRV_RESP after a PCDRV_REQ |
+| RUNNING | Target executes; the monitor is not reading the link | PS1 -> host events only |
 
 Transitions:
 
@@ -283,21 +303,23 @@ Transitions:
 |------|---------|----|
 | (entry) | `break 4, 1` at monitor start: HELLO | HALTED |
 | HALTED | RUN, CONT (after ACK) | RUNNING |
-| RUNNING | STOPPED event (breakpoint, watch, fault, exit) | HALTED |
-| RUNNING | PCDRV_REQ ... final PCDRV_RESP | RUNNING |
+| RUNNING | STOPPED event (software break, hardware breakpoint, watch, fault) | HALTED |
 
 - In HALTED the monitor emits no unsolicited frames.
-- In RUNNING the host sends nothing except PCDRV_RESP. On SIO1 the
-  monitor's RTS is low. On ATCONS anything the host posts waits in the word
-  channel and is read by the next receive: as the PCDRV_RESP of the next
-  PCDRV_REQ, or as the first command after the next stop.
-- There is no way to stop a running target from the host (section 12).
+- In RUNNING the host sends nothing. On SIO1 the monitor's RTS is low. On
+  ATCONS anything the host posts waits in the word channel and is read as
+  the first command after the next stop.
+- A PCDRV call or a program exit is a software break: the target stops, and
+  the host serves it from HALTED (section 8).
+- There is no way to stop a running target from the host (section 13).
 
 Command loop, per frame:
 
 1. Hunt for a frame (section 2.1 or 2.3), read TYPE and LEN.
 2. WRITE_MEM and LOAD: decode the payload straight into target memory, then
-   verify the checksum (section 6).
+   verify the checksum (section 6). With `MON_LZ4` set, the payload is fed
+   to the LZ4 decoder instead; a monitor built without LZ4 drains the frame
+   and answers `ERROR(EBADCMD)` whatever the checksum.
 3. Anything else: buffer up to 16 payload words, drain the rest, verify the
    checksum.
 4. Checksum failure -> `ERROR(ECKSUM)`. Otherwise LEN > 16 ->
@@ -313,10 +335,11 @@ Each entry: request payload -> response. Offsets are in words.
 
 | Command | Request payload | Response |
 |---------|-----------------|----------|
-| PING | none (payload ignored) | `PONG [proto_ver:u16]` |
+| PING | none (payload ignored) | `PONG [proto_ver:u16][caps:u16][bios_fletcher32:u32]` |
 | READ_MEM | `[addr:u32][len:u32]` | One or more DATA frames |
 | WRITE_MEM | `[addr:u32][len:u32][bytes]` | ACK, or `ERROR(ECKSUM)` |
 | LOAD | `[addr:u32][len:u32][bytes]` | ACK, or `ERROR(ECKSUM)` |
+| WRITE_MEM, LOAD with `MON_LZ4` | `[dest:u32][rawlen:u32][clen:u32][off:u32][nbytes:u32][bytes]` | ACK, `ERROR(EBADLEN)`, `ERROR(EBADSTATE)`, `ERROR(ECKSUM)`, `ERROR(EDECODE)`, `ERROR(EBADCMD)` |
 | GET_REGS | none | `REGS [38 x u32]` |
 | SET_REG | `[idx:u16][value:u32]` | ACK, `ERROR(EBADREG)`, `ERROR(EBADSTATE)` |
 | SET_BP | `[kind:u16][addr:u32][mask:u32]` | ACK, `ERROR(EBADCMD)` |
@@ -348,7 +371,59 @@ WRITE_MEM and LOAD:
   8 KiB per frame (LEN 4100); that is required on SIO1 and conventional on
   ATCONS.
 - The payload must hold at least the 4 header words.
-- `addr` is not validated. The instruction cache is not flushed.
+- `addr` is not validated.
+- The frame marks memory as written: the next resume (RUN or CONT) flushes
+  the instruction cache first. This holds for every WRITE_MEM or LOAD frame
+  the monitor decodes, with or without `MON_LZ4`, including one that fails.
+
+WRITE_MEM and LOAD with `MON_LZ4`:
+
+- Available when the monitor sets `MON_CAP_LZ4` in HELLO and PONG. Builds
+  with `MONITOR_LZ4` have it: every SIO1 build by default
+  (`MONITOR_NO_LZ4` turns it off), ATCONS builds only when `MONITOR_LZ4` is
+  defined.
+- The frames carry consecutive slices of one LZ4 block (raw block format, no
+  LZ4 frame header) of `clen` bytes that decodes to `rawlen` bytes at
+  `dest`. The payload header is 10 words, read in this order:
+
+  | Words | Field | Meaning |
+  |-------|-------|---------|
+  | 0-1 | `dest:u32` | Where the decoded data goes |
+  | 2-3 | `rawlen:u32` | Decoded length of the whole block |
+  | 4-5 | `clen:u32` | Compressed length of the whole block |
+  | 6-7 | `off:u32` | Offset of this slice in the compressed block |
+  | 8-9 | `nbytes:u32` | Compressed bytes in this frame |
+  | 10.. | bytes | `nbytes` bytes, packed low byte first |
+
+  LEN = 10 + ceil(nbytes / 2). Bytes past `nbytes` in the payload are
+  ignored.
+- `off == 0` starts a new stream at `dest`, dropping any stream in flight.
+  Any other `off` must equal the byte count the open stream has consumed,
+  else `ERROR(EBADSTATE)`. `dest` is used only from the `off == 0` frame.
+- LEN < 10, `nbytes` larger than the payload holds, or `off + nbytes > clen`
+  -> `ERROR(EBADLEN)`. The frame is drained in every case.
+- Bytes are fed to the decoder as they arrive, before the checksum is known,
+  and the decoder writes straight to `dest`: there is no staging buffer. The
+  match history is the output already in memory, so a match reaches at most
+  64 KiB back and never before `dest`.
+- Every frame is answered on its own. The frame that brings the consumed
+  count to `clen` also ends the block and checks that exactly `rawlen` bytes
+  were written, else `ERROR(EDECODE)`.
+- Any error drops the stream; the host starts over from `off == 0`. Bytes
+  already decoded stay in memory.
+- The decoder is built with `LZ4STREAM_TRUSTED`: a malformed block (a zero
+  offset, a match before `dest`, a block ending mid-sequence) is not
+  detected, and `EDECODE` reports only a wrong decoded length.
+- Pacing is the host's job. The decoder copies a match as its length bytes
+  arrive: up to 19 bytes after the second offset byte, then up to 255 bytes
+  after each extra length byte. On SIO1 the monitor cannot pause the host
+  inside a frame (section 2.2) and the RX FIFO holds 8 bytes, so the host
+  must cap the match length of every sequence so that the copy finishes
+  before the following bytes overrun the FIFO. The cap is a host-side
+  choice; the reference host re-encodes the block so no sequence copies more
+  than 128 bytes. The monitor does not check it.
+- A monitor built without LZ4 drains the frame and answers
+  `ERROR(EBADCMD)`.
 
 GET_REGS: section 9. With no halted context (before the first stop, or after
 RUN) every slot is 0 except BadVaddr.
@@ -367,33 +442,43 @@ RUN:
 - Writes the current thread's register frame: all GPRs 0, then `gp`, `sp`,
   and `fp = sp`; resume PC = `pc`; HI = LO = 0; Cause = 0;
   SR = `0x40000404` (CU2, IM2, IEp).
-- Clears the halted context, sends ACK, and returns from the exception into
-  `pc`.
+- Clears the halted context, sends ACK, flushes the instruction cache if
+  memory was written since the last resume, and returns from the exception
+  into `pc`.
 - Accepted in HALTED whether or not a program was stopped.
-- The instruction cache is not flushed.
 
-CONT: resumes the halted context, including any SET_REG changes. With no
-halted context -> `ERROR(EBADSTATE)`. The resume PC for each stop reason is
-in section 11.
+CONT: resumes the halted context, including any SET_REG changes, after the
+same conditional instruction cache flush as RUN. With no halted context ->
+`ERROR(EBADSTATE)`. The resume PC for each stop reason is in section 11.
 
 STOP: in HALTED it answers ACK and does nothing else. While RUNNING it is
 not read (section 5).
 
 ## 7. Events
 
-HELLO, LEN 5:
+HELLO, LEN 4 (PONG outside the SET_BAUD windows has the same payload):
 
 | Word | Field | Value |
 |------|-------|-------|
-| 0 | `proto_ver:u16` | `0x0001` |
-| 1-2 | `sram_base:u32` | `0x1FA00000` (constant, every host) |
-| 3-4 | `ram_size:u32` | Kernel RAM size word at `0x60`, shifted left 20 |
+| 0 | `proto_ver:u16` | `0x0002` |
+| 1 | `caps:u16` | Capability bits (section 4) |
+| 2-3 | `bios_fletcher32:u32` | Checksum of the BIOS region |
+
+`bios_fletcher32` is a Fletcher-32 of the 512 KiB at `0xBFC00000`, computed
+once before the monitor is entered (`monitorBiosChecksum()` in `install.h`).
+It uses the frame checksum's sums (section 3): the region is read as
+16-bit little-endian words in address order, `s1` and `s2` are 32-bit and
+wrap, each is reduced mod 65535 at the end, and `s2` is the high half. The
+frame checksum's substitution of `0xFFFFFFFF` for 0 does not apply. On the
+DTL-H2700 the region is the flash image, which also holds the OpenBIOS
+monitor at `0xBFC40000`.
 
 HELLO is sent each time the monitor is entered through `break 4, 1`, which in
 the shipped hosts is once, at start-up. On ATCONS a HELLO nobody has read
 stays in the word channel: a host attaching later reads the pending HELLO
 before its first PING, or it takes the HELLO for the PING's reply. On SIO1 a
-HELLO sent before the host listens is lost; the host attaches with PING.
+HELLO sent before the host listens is lost; the host attaches with PING, and
+the PONG carries the same fields.
 
 STOPPED, LEN 7:
 
@@ -406,83 +491,62 @@ STOPPED, LEN 7:
 
 | reason | Name | a | b | epc |
 |--------|------|---|---|-----|
-| `0x01` | BREAKPOINT | 0 | 0 | Hardware exec breakpoint: the instruction. Software `break`: the instruction after it |
-| `0x02` | INTERRUPT | - | - | Never sent (section 12) |
+| `0x01` | BREAKPOINT, software `break` | The `break` instruction word | 0 | The `break` itself |
+| `0x01` | BREAKPOINT, hardware exec | 0 | 0 | The instruction |
+| `0x02` | INTERRUPT | - | - | Never sent (section 13) |
 | `0x03` | DATA_WATCH | Armed watch address (BDA) | 0 | The instruction |
 | `0x04` | FAULT | ExcCode | BadVaddr for ExcCode 4, 5; else 0 | The faulting instruction |
-| `0x05` | EXIT | Exit code (`$a0`) | 0 | The `break 4, 0` itself |
 
-Every STOPPED enters HALTED.
+Every STOPPED enters HALTED. The monitor sends no other stop reason; hosts
+may still see reason `0x05` (EXIT) from older monitors.
 
-PCDRV_REQ: section 8.
+## 8. PCDRV and exit
 
-## 8. PCDRV
+The monitor gives no meaning to a software `break` other than its own entry
+(`break 4, 1`). Every other one stops with STOPPED BREAKPOINT, `a` = the
+instruction word and `epc` on the `break`; the host decodes it:
 
-A target's PCDRV call (`break 0, 0x101` .. `break 0, 0x107`, as issued by
-`common/kernel/pcdrv.h`) traps into the monitor, which exchanges PCDRV_REQ
-and PCDRV_RESP frames with the host, writes the result into the trapped
-registers, steps the resume PC past the `break`, and returns to the target.
-The target stays RUNNING. The whole exchange, including every continuation
-frame, is one transaction: no other frame is sent or accepted in between.
+    code1 = (a >> 16) & 0x3FF
+    code2 = (a >> 6) & 0x3FF
 
-The monitor reads and writes all target memory itself (the file name, the
-read and write buffers). The host never reaches into PS1 memory.
+| code1 | code2 | Meaning, by host convention |
+|-------|-------|-----------------------------|
+| 4 | 0 | Program exit, exit code in `a0` |
+| 0 | `0x101`-`0x107` | PCDRV call |
+| any other | any other | Plain breakpoint |
 
-Every PCDRV frame starts with `op:u32`, the break code2 value. PCDRV_RESP
-echoes the op of the request.
+Exit: the host reads the code from `a0` (GET_REGS index 4). CONT would
+re-execute the `break 4, 0` and stop again.
 
-| op | Call | Arguments | PCDRV_REQ payload | PCDRV_RESP payload | Result |
-|----|------|-----------|-------------------|--------------------|--------|
-| `0x101` | PCinit | - | `[op]` | `[op][ret:s32]` | v0 = ret |
-| `0x102` | PCcreat | a0 = name, a2 = mode | `[op][mode:u32][name:cstr]` | `[op][ret:s32]` | v0 = 0, v1 = ret |
-| `0x103` | PCopen | a0 = name, a2 = flags | `[op][flags:u32][name:cstr]` | `[op][ret:s32]` | v0 = 0, v1 = ret |
-| `0x104` | PCclose | a0 = fd | `[op][fd:u32]` | `[op][ret:s32]` | v0 = ret |
-| `0x105` | PCread | a1 = fd, a2 = len, a3 = buf | `[op][fd:u32][len:u32]` | `[op][ret:s32][bytes]`, continuations | v0 = 0, v1 = ret |
-| `0x106` | PCwrite | a1 = fd, a2 = len, a3 = buf | `[op][fd:u32][len:u32][bytes]`, continuations | `[op][ret:s32]` | v0 = 0, v1 = ret |
-| `0x107` | PClseek | a0 = fd, a2 = offset, a3 = whence | `[op][fd:u32][offset:s32][whence:u32]` | `[op][ret:s32]` | v0 = 0, v1 = ret |
+PCDRV calls, as issued by `common/kernel/pcdrv.h`:
+
+| code2 | Call | Arguments | Result |
+|-------|------|-----------|--------|
+| `0x101` | PCinit | - | v0 = ret |
+| `0x102` | PCcreat | a0 = name, a2 = mode (the wrapper passes 0) | v0 = 0, v1 = ret |
+| `0x103` | PCopen | a0 = name, a2 = flags | v0 = 0, v1 = ret |
+| `0x104` | PCclose | a0 = fd | v0 = ret |
+| `0x105` | PCread | a1 = fd, a2 = len, a3 = buf | v0 = 0, v1 = ret |
+| `0x106` | PCwrite | a1 = fd, a2 = len, a3 = buf | v0 = 0, v1 = ret |
+| `0x107` | PClseek | a0 = fd, a2 = offset, a3 = whence | v0 = 0, v1 = ret |
 
 The `pcdrv.h` wrappers return v1 when v0 is 0, else -1. `ret` is the host's
 result: a file descriptor, a byte count, a new position, or a negative value
-for failure. The monitor passes it through unchanged.
+for failure. For the calls whose result is in v1, a non-zero v0 also makes
+the wrapper return -1.
 
-Scalar responses (every op but PCread):
+Serving a PCDRV call from HALTED:
 
-- The monitor reads one PCDRV_RESP frame. Words past `[op][ret]` are
-  ignored.
-- ret becomes -1 if the frame fails its checksum, TYPE is not PCDRV_RESP,
-  the op does not match, or LEN < 4. No ERROR frame is sent in any of these
-  cases; the frame is consumed.
+1. GET_REGS; take a0-a3 from indices 4-7.
+2. PCcreat, PCopen: READ_MEM the name at a0 up to its NUL.
+3. PCwrite: READ_MEM `len` bytes at `buf`. PCread: perform the read on the
+   host, then WRITE_MEM the bytes to `buf`.
+4. SET_REG 2 (v0) and SET_REG 3 (v1) with the result, as the table gives.
+5. SET_REG 37 (PC) to `epc + 4`, past the `break`.
+6. CONT.
 
-PCwrite:
-
-- A negative `len` (a2 as s32) fails with v1 = -1 and no frame is sent.
-- The first frame is `PCDRV_REQ [op][fd][len][bytes]` with at most 8192
-  bytes. While bytes remain, the monitor sends `PCDRV_REQ [op][bytes]`
-  continuation frames of at most 8192 bytes each. `len == 0` sends one frame
-  with no bytes.
-- One scalar PCDRV_RESP answers the whole write.
-
-PCread:
-
-- The host answers `PCDRV_RESP [op][ret][bytes]`. If `ret > 0` the host
-  sends `ret` bytes in total: as many as fit in the first frame, then
-  `PCDRV_RESP [op][bytes]` continuation frames until `ret` bytes have been
-  sent. The host sends 8192 bytes per frame; on SIO1 any frame must fit
-  LEN <= 4112.
-- The monitor places each frame's bytes at the running byte offset and adds
-  two bytes per payload word to that offset, so every frame but the last
-  must carry an even number of bytes.
-- The monitor stores at most `len` bytes, the length the target asked for.
-  If `ret > len` the excess is read and discarded and the call returns -1.
-- The call returns -1 if any frame fails its checksum, has the wrong TYPE or
-  op, or if a continuation frame carries no bytes (LEN <= 2). Bytes that
-  arrived before the failure may already be in the target's buffer.
-- `ret <= 0` ends the transaction after the first frame; ret is returned
-  as is.
-
-A receiver that gets the whole transfer in its first frame never looks for
-a continuation, so a single large frame works on ATCONS, where LEN is not
-capped at 4112.
+A WRITE_MEM made while serving a call makes the CONT flush the instruction
+cache (section 6).
 
 ## 9. REGS layout
 
@@ -507,13 +571,14 @@ The R3000A has no FPU; a gdb bridge fills gdb's FP slots with 0.
 
 | Code | Name | Sent when |
 |------|------|-----------|
-| `0x01` | EBADCMD | Unknown TYPE (including STEP, and PCDRV_RESP outside a PCDRV transaction); SET_BP kind > 3; SET_BAUD on a link without a rate |
-| `0x02` | EBADSTATE | SET_REG or CONT with no halted context |
+| `0x01` | EBADCMD | Unknown TYPE (including STEP, and `MON_LZ4` on any opcode but WRITE_MEM and LOAD); SET_BP kind > 3; SET_BAUD on a link without a rate; `MON_LZ4` on a monitor built without LZ4 |
+| `0x02` | EBADSTATE | SET_REG or CONT with no halted context; LZ4 slice with `off != 0` that does not continue the open stream |
 | `0x03` | EBADADDR | Defined, never sent |
 | `0x04` | EBADREG | SET_REG idx > 37 |
-| `0x05` | EBADLEN | Command payload over 16 words (not WRITE_MEM/LOAD); SET_BAUD reload 0 |
+| `0x05` | EBADLEN | Command payload over 16 words (not WRITE_MEM/LOAD); SET_BAUD reload 0; LZ4 frame under 10 words, `nbytes` beyond the payload, or `off + nbytes > clen` |
 | `0x06` | ECKSUM | Checksum mismatch on a command frame (on SIO1, also a CKSUM of 0) |
 | `0x07` | ENOFD | Defined, never sent |
+| `0x08` | EDECODE | LZ4 stream complete but not exactly `rawlen` bytes decoded |
 
 After an ERROR the monitor is back in the command loop. There is no NAK and
 no retransmission: the host decides whether to resend.
@@ -534,8 +599,13 @@ SET_BP `kind`:
 | 2 | Data write | BDA = addr, BDAM = mask | DE, DAE, TR, KD, UD, DW |
 | 3 | Data read/write | BDA = addr, BDAM = mask | DE, DAE, TR, KD, UD, DR, DW |
 
+For kinds 1-3 the monitor sets `kind * DR`: bit 0 of kind selects DR, bit 1
+selects DW. It also records `addr` as the watch address that DATA_WATCH
+reports.
+
 | DCIC bit | Name |
 |----------|------|
+| 2 | DA, status: the last debug break was a data access |
 | 23 | DE, master enable |
 | 24 | PCE, exec breakpoint enable |
 | 25 | DAE, data breakpoint enable |
@@ -552,8 +622,14 @@ SET_BP `kind`:
   change kind.
 - CLR_BP kind 0 clears PCE. Any other kind clears DAE, DR and DW. When
   neither PCE nor DAE remains, DCIC is written as 0.
-- A hardware breakpoint hit writes DCIC to 0: both breakpoints are disarmed
-  and must be set again.
+- A hardware stop disarms the whole debug unit: DCIC is written 0 and the
+  monitor's DCIC image is cleared, so the exec and the data breakpoint are
+  both off, whichever one fired. BPC, BPCM, BDA and BDAM keep their values.
+  The host re-arms with SET_BP before CONT.
+- The stop reason of a hardware stop is decided by DCIC status bit 2 (DA) as
+  read at the stop: DA set is DATA_WATCH, DA clear is BREAKPOINT. The enable
+  bits play no part, so with both kinds armed an exec hit reports
+  BREAKPOINT.
 - The monitor copies the general exception trampoline at `0x80` to the
   cop0 break vector at `0x40`, so both vectors reach the same handler.
 
@@ -563,7 +639,7 @@ kernel's syscall handler):
 | ExcCode | Condition | Action |
 |---------|-----------|--------|
 | 9 (BP) | Word at resume PC has function field `0x0D` (`break`) | Software break, decoded below |
-| 9 (BP) | Otherwise | Hardware breakpoint: DATA_WATCH if DCIC had DAE set, else BREAKPOINT |
+| 9 (BP) | Otherwise | Hardware breakpoint: DCIC written 0; DATA_WATCH if DCIC status bit 2 (DA) was set, else BREAKPOINT |
 | 4, 5 (AdEL, AdES) | - | FAULT, a = ExcCode, b = BadVaddr |
 | 6, 7, 10, 11, 12 (IBE, DBE, RI, CpU, Ov) | - | FAULT, a = ExcCode, b = 0 |
 | 0, 8, others | - | Not handled; passed to the kernel |
@@ -572,19 +648,20 @@ Software `break code1, code2` (code1 = bits 25:16, code2 = bits 15:6):
 
 | code1 | code2 | Action |
 |-------|-------|--------|
-| 0 | `0x101`-`0x107` | PCDRV (section 8), resume after the break |
-| 4 | 0 | STOPPED EXIT, a = `$a0`, resume PC left on the break |
-| 4 | 1 | Monitor entry: HELLO, then the command loop; halted context unchanged |
-| any other | any other | STOPPED BREAKPOINT, resume PC advanced past the break |
+| 4 | 1 | Monitor entry (word `0x0004004D` exactly): HELLO, then the command loop; halted context unchanged |
+| any other | any other | STOPPED BREAKPOINT, a = the instruction word, resume PC left on the break |
+
+What a break other than `break 4, 1` means (exit, PCDRV, breakpoint) is
+decided by the host (section 8).
 
 Resume behaviour with CONT:
 
-- Software break: continues after the break.
-- Hardware breakpoint or watch: re-executes the instruction; the breakpoint
+- Software break: re-executes the `break` and stops again. To continue after
+  it, the host sets PC (SET_REG 37) to `epc + 4` first.
+- Hardware breakpoint or watch: re-executes the instruction; the debug unit
   is already disarmed, so it does not trap again.
 - FAULT: re-executes the faulting instruction unless the host changes PC
   (SET_REG 37).
-- EXIT: re-executes `break 4, 0` and stops again with EXIT.
 
 STEP (`0x0C`) is reserved and answers `ERROR(EBADCMD)`. Single-stepping can
 be built on the host from GET_REGS, READ_MEM and a one-shot exec breakpoint
@@ -617,19 +694,21 @@ at the computed next PC; no protocol change is needed for that.
 
 ### 12.2 Retail PS-EXE (SIO1)
 
-- Build: `monitor/hosts/retail`, a PS-EXE linked at `0x801C0000` so targets
-  keep the usual `0x80010000`. `MONITOR_SIO1_RELOAD` sets the initial rate.
+- Build: `monitor/hosts/retail`, a PS-EXE loader linked at `0x801C0000`
+  (`MONITOR_TLOAD`) that carries the resident core (section 12.4).
+  `MONITOR_SIO1_RELOAD` sets the initial rate.
 - Start by any means that runs a PS-EXE on a retail BIOS:
   - `make iso` builds a disc image with the EXE as `PSX.EXE` and no
     `SYSTEM.CNF` (needs `exe2iso`; the disc has no license data, so the
     console must boot unlicensed discs).
   - A SIO1 loader already on the console (for example Unirom) uploads and
     runs the EXE. The monitor then takes over SIO1.
-- `main()` installs the SIO1 tty (section 2.2) and calls `monitorMain()`.
+- `main()` installs the core and enters the monitor (section 12.4).
 
 ### 12.3 Expansion ROM cart (SIO1)
 
-- Build: `monitor/hosts/cart` builds the same PS-EXE and wraps it with
+- Build: `monitor/hosts/cart` builds a PS-EXE loader linked at `0x801C0000`
+  that carries the retail host's core (section 12.4), and wraps it with
   `rom.s` into an image linked at `0x1F000000` (EXP1).
 - The image holds the license strings at `0x04` and `0x84` and the
   pre-boot entry pointer at `0x80`. The BIOS calls the pre-boot entry before
@@ -640,32 +719,57 @@ at the computed next PC; no protocol change is needed for that.
   breakpoint fires; `start` disarms it, copies the appended PS-EXE to its
   load address, and jumps to its entry, still inside the exception.
 - `main()` then masks and acknowledges all IRQs, restores the default
-  exception return, leaves the critical section, installs the SIO1 tty, and
-  calls `monitorMain()`.
+  exception return, leaves the critical section, and installs the core and
+  enters the monitor as the retail loader does (section 12.4).
 - `monitor/tools/cartflash` programs an Am29F010 cart flash with a payload,
   run as a target under the monitor.
 
-### 12.4 Monitor start (every host)
+### 12.4 Resident core (retail and cart)
 
-`monitorMain()`:
+The retail and cart hosts run in two stages: a loader, then a resident core.
 
-1. Prints the banner (ATCONS tty only).
+- `monitor/hosts/retail/core` builds the core: the monitor, the transport
+  and the SIO1 tty device. `core.ld` links it into `0x8000C160` up to
+  `0x8000DF80`, the RAM between the end of the retail kernel's bss and the
+  BIOS patch area at `0x8000DF80`. Its bss is folded into the image as
+  zeroes, so copying the image is the whole install.
+- Both loaders embed the core image and link against the core's ELF for its
+  symbols.
+- The loader's `main()`: copies the core to `0x8000C160` and flushes the
+  instruction cache, computes the BIOS checksum, initialises the SIO1 link,
+  installs the SIO1 tty, installs the exception handler and the `0x40`
+  vector, and executes `break 4, 1`.
+- From then on the monitor runs from the core alone. The loader is not used
+  again and its RAM is free for targets.
+- The loader does not call `monitorMain()`: there is no banner, and the
+  monitor's state starts from the core's zeroed bss.
+
+### 12.5 Monitor start (OpenBIOS)
+
+OpenBIOS calls `monitorMain()`:
+
+1. Prints the banner (ATCONS tty).
 2. Initialises the link.
 3. Clears the halted context, BadVaddr, DCIC image and watch address.
-4. Installs its exception handler at priority 0 and copies the `0x80`
+4. Computes the BIOS checksum for HELLO and PONG (section 7).
+5. Installs its exception handler at priority 0 and copies the `0x80`
    trampoline to `0x40`.
-5. Executes `break 4, 1`: the handler sends HELLO and enters the command
+6. Executes `break 4, 1`: the handler sends HELLO and enters the command
    loop in exception context.
 
-### 12.5 Host session
+### 12.6 Host session
 
 1. Attach: on ATCONS read a pending HELLO if one is there; on SIO1 listen at
-   the build's initial rate. PING until PONG.
+   the build's initial rate. PING until PONG. HELLO or PONG gives the
+   protocol version, the caps and the BIOS checksum.
 2. On SIO1, optionally SET_BAUD (section 2.4).
-3. LOAD the program in 8 KiB frames, then RUN with its entry PC, gp and sp.
-4. While RUNNING: collect console text, answer PCDRV_REQ, wait for STOPPED.
-5. After STOPPED: inspect or modify with READ_MEM, WRITE_MEM, GET_REGS,
-   SET_REG, SET_BP, CLR_BP; then CONT, or LOAD and RUN the next program.
+3. LOAD the program in 8 KiB frames (LZ4 slices when caps has
+   `MON_CAP_LZ4`), then RUN with its entry PC, gp and sp.
+4. While RUNNING: collect console text, wait for STOPPED.
+5. After STOPPED: decode a software break (section 8); serve a PCDRV call
+   and CONT, or take an exit. Otherwise inspect or modify with READ_MEM,
+   WRITE_MEM, GET_REGS, SET_REG, SET_BP, CLR_BP; then CONT, or LOAD and RUN
+   the next program.
 
 ## 13. Not implemented
 
@@ -675,18 +779,18 @@ at the computed next PC; no protocol change is needed for that.
   reset.
 - STEP (`0x0C`).
 - NAK and retransmission. A checksum failure is reported with
-  `ERROR(ECKSUM)` on commands and as -1 to the target in PCDRV; nothing is
-  resent by the monitor.
+  `ERROR(ECKSUM)`; nothing is resent by the monitor.
 - Address validation: EBADADDR is never sent; READ_MEM, WRITE_MEM and LOAD
   access whatever address they are given.
-- ENOFD is never sent; PCDRV failures travel in `ret`.
+- ENOFD is never sent.
 - LOAD extent bookkeeping: LOAD behaves as WRITE_MEM.
-- Instruction cache flush after WRITE_MEM, LOAD, or before RUN.
 - Console input on SIO1: host -> PS1 console bytes are discarded.
 - Stream framing on ATCONS: the ATCONS link uses the word channel only.
 - SIO1 receive overrun detection.
+- LZ4 stream validation beyond the decoded length (section 6).
 - Cause.BD handling. For an exception in a branch delay slot the resume PC
   is the branch, and the monitor decodes the word there, so a `break` in a
-  delay slot is not recognised as a software break.
+  delay slot is not recognised as a software break: it is handled as a
+  hardware breakpoint (DCIC written 0, STOPPED BREAKPOINT with a = 0).
 - Instruction check: any word whose low 6 bits are `0x0D` counts as a
   `break`; the primary opcode is not checked.
