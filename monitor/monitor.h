@@ -28,7 +28,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-/* H2x00 resident debug monitor. Opcodes, error codes, and event reasons follow
+/* Resident debug monitor. Opcodes, error codes, and event reasons follow
    the monitor protocol design (sections 3, 6, 9). The high nibble of a TYPE
    encodes direction: 0x0_/0x2_ host-originated, 0x4_ PS1 response, 0x8_ PS1
    async event. */
