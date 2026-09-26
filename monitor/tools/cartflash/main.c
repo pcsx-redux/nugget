@@ -157,6 +157,7 @@ int main(void) {
     while (CART[0] != 0xFF) {
         if (++spins > 200000000u) {
             say("erase timeout\n");
+            resetRead();
             exitWith(3);
         }
     }
@@ -179,6 +180,7 @@ int main(void) {
         while (CART[i] != d) {
             if (++spins > 2000000u) {
                 sayhex("program timeout at ", i);
+                resetRead();
                 exitWith(5);
             }
         }

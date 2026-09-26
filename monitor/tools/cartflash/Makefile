@@ -28,7 +28,7 @@ FORCE:
 # flashed by accident.
 image.bin: FORCE
 ifneq ($(IMAGE),)
-	cp $(IMAGE) $@
+	cp '$(IMAGE)' '$@'
 else
 	@echo "set IMAGE=<cart image>" >&2; exit 1
 endif

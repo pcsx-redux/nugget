@@ -88,13 +88,16 @@ static int32_t recvScalarResp(uint32_t op) {
 
 /* Take `words` payload words into dst[off..nbytes), dropping any padding past
    nbytes. Returns how many bytes landed. */
-static uint32_t recvBytes(volatile uint8_t *dst, uint32_t off, uint32_t nbytes, uint16_t words) {
+/* Counts every byte below nbytes as arrived, stores only those below cap. */
+static uint32_t recvBytes(volatile uint8_t *dst, uint32_t off, uint32_t nbytes, uint32_t cap, uint16_t words) {
     uint32_t landed = 0;
     for (uint16_t i = 0; i < words; i++) {
         uint16_t w = transportRecvWord();
         uint32_t bi = off + (uint32_t)i * 2;
-        if (bi < nbytes) dst[bi] = (uint8_t)(w & 0xff), landed++;
-        if (bi + 1 < nbytes) dst[bi + 1] = (uint8_t)(w >> 8), landed++;
+        if (bi < nbytes) landed++;
+        if (bi + 1 < nbytes) landed++;
+        if (bi < cap) dst[bi] = (uint8_t)(w & 0xff);
+        if (bi + 1 < cap) dst[bi + 1] = (uint8_t)(w >> 8);
     }
     return landed;
 }
@@ -164,16 +167,19 @@ void monitorServicePcdrv(struct Registers *r, uint32_t op) {
             int32_t ret = (len >= 4) ? (int32_t)getU32() : -1;
             uint32_t nbytes = (ret > 0) ? (uint32_t)ret : 0;
             uint16_t consumed = (len >= 4) ? 4 : (len >= 2 ? 2 : 0);
-            uint32_t got = recvBytes(dst, 0, nbytes, len - consumed);
+            uint32_t cap = nbytes < a2 ? nbytes : a2;
+            uint32_t got = recvBytes(dst, 0, nbytes, cap, len - consumed);
             int ok = transportRecvEnd() == TRANSPORT_OK && type == MON_PCDRV_RESP && echo == op;
             while (ok && got < nbytes) {
                 transportRecvBegin(&type, &len);
                 echo = (len >= 2) ? getU32() : 0;
-                got += recvBytes(dst, got, nbytes, len >= 2 ? len - 2 : 0);
+                got += recvBytes(dst, got, nbytes, cap, len >= 2 ? len - 2 : 0);
                 ok = transportRecvEnd() == TRANSPORT_OK && type == MON_PCDRV_RESP && echo == op && len > 2;
             }
             r->GPR.n.v0 = 0;
-            r->GPR.n.v1 = ok ? (uint32_t)ret : (uint32_t)-1;
+            /* A host answering with more than was asked for is a protocol
+               error; the excess was drained, not stored. */
+            r->GPR.n.v1 = ok && nbytes <= a2 ? (uint32_t)ret : (uint32_t)-1;
             break;
         }
 
@@ -183,6 +189,11 @@ void monitorServicePcdrv(struct Registers *r, uint32_t op) {
                have gone; fd = a1, len = a2, buf = a3. One RESP answers the
                whole write. Stream the target's bytes straight out of its
                buffer. */
+            if ((int32_t)a2 < 0) {
+                r->GPR.n.v0 = 0;
+                r->GPR.n.v1 = (uint32_t)-1;
+                break;
+            }
             uint32_t total = a2;
             volatile const uint8_t *src = (volatile const uint8_t *)a3;
             uint32_t chunk = total < PCDRV_CHUNK ? total : PCDRV_CHUNK;

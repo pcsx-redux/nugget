@@ -48,15 +48,14 @@ int main(void) {
     int in = PCopen("IN.TXT", 0, 0);
     if (in < 0) exitWith(0xbad);
     int n = PCread(in, s_buf, sizeof(s_buf));
-    PCclose(in);
-    if (n < 0) exitWith(0xbad);
+    if (PCclose(in) != 0 || n < 0) exitWith(0xbad);
     for (int i = 0; i < n; i++) {
         if (s_buf[i] >= 'a' && s_buf[i] <= 'z') s_buf[i] -= 'a' - 'A';
     }
     int out = PCcreat("OUT.TXT", 0);
     if (out < 0) exitWith(0xbad);
     if (PCwrite(out, s_buf, n) != n) exitWith(0xbad);
-    PCclose(out);
+    if (PCclose(out) != 0) exitWith(0xbad);
     ramsyscall_printf("farmjob: %d bytes\n", n);
     exitWith(n);
 }
