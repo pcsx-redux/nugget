@@ -143,7 +143,7 @@ endif
 # H2700 flash for now, other boards TBD. The H2700 code cave is 128kB large, and
 # located at 0xbfc40000. The current build is slightly less than 64kB, which more
 # than fits. _h2700_hook is the monitor's entry point, and
-# monitor/tools/flash/mkimage.py redirects the stock BIOS entry jump to it. It
+# h2700/flash/mkimage.py redirects the stock BIOS entry jump to it. It
 # reads the reset-mode byte and boots openbios if it is 7, otherwise it falls
 # through to the official BIOS.
 #
@@ -167,7 +167,7 @@ MONITOR_ROM_BASE ?= 0xbfc40000
 MONITOR_ROM_SIZE ?= 0x20000
 MONITOR_ENTRYPOINT ?= _h2700_hook
 LDFLAGS += -Wl,--defsym=ROM_BASE=$(MONITOR_ROM_BASE) -Wl,--defsym=ROM_SIZE=$(MONITOR_ROM_SIZE) -Wl,--defsym=ENTRYPOINT=$(MONITOR_ENTRYPOINT)
-SRCS += monitor/h2700-boot.s monitor/monitor.c monitor/transport.c monitor/pcdrv.c
+SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport-atcons.c ../monitor/pcdrv.c
 endif
 
 include ../common.mk

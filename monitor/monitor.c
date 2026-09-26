@@ -24,16 +24,14 @@ SOFTWARE.
 
 */
 
-#include "openbios/monitor/monitor.h"
+#include "monitor/monitor.h"
 
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
-#include "openbios/fileio/fileio.h"
-#include "openbios/kernel/globals.h"
-#include "openbios/kernel/handlers.h"
-#include "openbios/monitor/cop0dbg.h"
-#include "openbios/monitor/pcdrv.h"
-#include "openbios/monitor/transport.h"
+#include "monitor/cop0dbg.h"
+#include "monitor/kernel.h"
+#include "monitor/pcdrv.h"
+#include "monitor/transport.h"
 
 /* READ_MEM responses stream out of target memory in 8 KiB chunks (design
    section 13). Nothing is staged: bulk data goes straight to/from the operation's

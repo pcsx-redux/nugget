@@ -24,13 +24,13 @@ SOFTWARE.
 
 */
 
-#include "openbios/monitor/transport.h"
+#include "monitor/transport.h"
 
 #include "common/hardware/hwregs.h"
 #include "common/hardware/util.h"
 
-/* ATCONS register file (0x1F8020xx). STAT and the byte FIFO come from
-   hwregs.h; the 16-bit word channel lives one halfword past the byte FIFO.
+/* ATCONS register file (0x1F8020xx), from hwregs.h; the 16-bit word channel
+   lives one halfword past the byte FIFO.
 
    STAT bit map, confirmed by disassembling the DTL-H2000 debug stub's four
    transfer primitives (read/write byte, read/write word):
@@ -41,7 +41,6 @@ SOFTWARE.
    The word channel is polled on STAT alone; unlike the byte channel it takes
    no per-word IRQ ack (the stub's word primitives are pure STAT-gated
    lhu/sh). */
-#define ATCONS_WORD HW_U16(0x1f802004)
 
 #define STAT_RX_WORD 0x01
 #define STAT_TX_WORD 0x04
