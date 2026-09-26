@@ -9,7 +9,9 @@ host-pcdrv.c \
 host-transport.c \
 host-tty.c \
 
-CPPFLAGS += -DMONITOR_LINK_SIO1
+# SIO1, or FT232H for an FT232H on the expansion port (monitor/link-ft232h.h).
+MONITOR_LINK ?= SIO1
+CPPFLAGS += -DMONITOR_LINK_$(MONITOR_LINK)
 # SIO1 baud reload at x16, see monitor/link-sio1.h.
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
