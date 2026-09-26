@@ -30,35 +30,39 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 
-/* FT232H byte link on the expansion port, the FT232H EEPROM set to CPU-style
-   FIFO (VCP on the host, which sees an ordinary serial port; the rate there
-   is ignored). The chip is two bytes on EXP1: data with its A0 low, status
-   with A0 high. Status bit 0 = received data waiting, bit 1 = room to send.
-   USB flow control holds the host back while the FT232H's buffers are full,
-   so no receive window is needed.
+/* FT232H byte link, the FT232H EEPROM set to CPU-style FIFO (VCP on the host,
+   which sees an ordinary serial port; the rate there is ignored). The chip is
+   two byte registers: data with its A0 low, status with A0 high. Status bit 0
+   = received data waiting, bit 1 = room to send. USB flow control holds the
+   host back while the chip's buffers are full, so no receive window is needed.
+   Anything emulating that interface (Pico-Dev) works the same way.
 
-   The data register is at EXP1 + MONITOR_FT232H_DATA and the status register
-   at EXP1 + MONITOR_FT232H_STATUS. The default puts A0 on A20, the wiring
-   psx232h uses, which needs the EXP1 window widened to 8 MB. Untested: no
-   board here has one fitted. */
+   Where the registers sit depends on the board, so both addresses are build
+   knobs, KSEG1 addresses:
+     psx232h, A0 on A20:  MONITOR_FT232H_DATA=0xbf000000 STATUS=0xbf100000,
+                          EXP1 widened to 8 MB (the default below)
+     Pico-Dev, USB:       0xbf000000 / 0xbf000001 (A1 high selects its UART
+                          channel instead, 0xbf000002 / 0xbf000003)
+   MONITOR_FT232H_EXP1_CONFIG, when defined, is written to the EXP1 delay/size
+   register at init. Untested: no board here has one fitted. */
 
 #define MONITOR_LINK_IS_STREAM 1
 
 #ifndef MONITOR_FT232H_DATA
-#define MONITOR_FT232H_DATA 0x000000
-#endif
-#ifndef MONITOR_FT232H_STATUS
-#define MONITOR_FT232H_STATUS 0x100000
+#define MONITOR_FT232H_DATA 0xbf000000
+#define MONITOR_FT232H_STATUS 0xbf100000
+#define MONITOR_FT232H_EXP1_CONFIG ((23 << 16) | 0x2422) /* 8 MB, psx232h's timing */
 #endif
 
-#define FT232H_DATA (*(volatile uint8_t *)(0xbf000000 + MONITOR_FT232H_DATA))
-#define FT232H_STATUS (*(volatile uint8_t *)(0xbf000000 + MONITOR_FT232H_STATUS))
+#define FT232H_DATA (*(volatile uint8_t *)(MONITOR_FT232H_DATA))
+#define FT232H_STATUS (*(volatile uint8_t *)(MONITOR_FT232H_STATUS))
 #define FT232H_RXF 0x01
 #define FT232H_TXE 0x02
 
 static inline void linkInit(void) {
-    /* EXP1: 8 MB window, 8-bit bus, psx232h's access timing. */
-    *(volatile uint32_t *)0xbf801008 = (23 << 16) | 0x2422;
+#ifdef MONITOR_FT232H_EXP1_CONFIG
+    *(volatile uint32_t *)0xbf801008 = MONITOR_FT232H_EXP1_CONFIG;
+#endif
 }
 
 static inline void linkRxOpen(void) {}
