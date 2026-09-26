@@ -63,12 +63,17 @@ static void wordPut(uint16_t w) {
     flushWriteQueue();
 }
 
-/* Fold both bytes of a little-endian word into the running djb2 hash
-   (h = h * 33 + byte, low byte first). */
-static uint32_t djb2Word(uint32_t h, uint16_t w) {
-    h = h * 33 + (w & 0xff);
-    h = h * 33 + ((w >> 8) & 0xff);
-    return h;
+/* Frame checksum: Fletcher-32 over the 16-bit word stream (TYPE, LEN, payload),
+   two register accumulators with the modulo deferred to the end. 0 on the wire
+   means "not computed" and is accepted without verifying; a computed value of
+   exactly 0 is sent as 0xffffffff so the sentinel stays unambiguous. */
+#define CKSUM_NONE 0u
+static uint32_t s_txS1, s_txS2;
+static uint32_t s_rxS1, s_rxS2;
+
+static uint32_t fletcherFinish(uint32_t s1, uint32_t s2) {
+    uint32_t ck = ((s2 % 65535u) << 16) | (s1 % 65535u);
+    return ck == CKSUM_NONE ? 0xffffffffu : ck;
 }
 
 void transportInit(void) {
@@ -84,25 +89,25 @@ void transportInit(void) {
 
 /* Running checksum for the streaming send API. The monitor sends exactly one
    frame at a time, so a single static accumulator is safe. */
-static uint32_t s_txCksum;
 
 void transportSendBegin(uint16_t type, uint16_t len) {
-    s_txCksum = DJB2_SEED;
+    s_txS1 = s_txS2 = 0;
     wordPut(FRAME_SYNC); /* SYNC is outside the checksum */
     wordPut(type);
-    s_txCksum = djb2Word(s_txCksum, type);
+    s_txS1 += type; s_txS2 += s_txS1;
     wordPut(len);
-    s_txCksum = djb2Word(s_txCksum, len);
+    s_txS1 += len; s_txS2 += s_txS1;
 }
 
 void transportSendWord(uint16_t w) {
     wordPut(w);
-    s_txCksum = djb2Word(s_txCksum, w);
+    s_txS1 += w; s_txS2 += s_txS1;
 }
 
 void transportSendEnd(void) {
-    wordPut((uint16_t)(s_txCksum & 0xffff));         /* low word first */
-    wordPut((uint16_t)((s_txCksum >> 16) & 0xffff)); /* high word */
+    uint32_t ck = fletcherFinish(s_txS1, s_txS2);
+    wordPut((uint16_t)(ck & 0xffff));         /* low word first */
+    wordPut((uint16_t)((ck >> 16) & 0xffff)); /* high word */
 }
 
 void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len) {
@@ -111,32 +116,31 @@ void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len) {
     transportSendEnd();
 }
 
-/* Running checksum for the streaming receive API. */
-static uint32_t s_rxCksum;
 
 void transportRecvBegin(uint16_t *type, uint16_t *len) {
     while (wordGet() != FRAME_SYNC) {
         /* resynchronize by hunting for the framing anchor */
     }
-    s_rxCksum = DJB2_SEED;
+    s_rxS1 = s_rxS2 = 0;
     uint16_t t = wordGet();
-    s_rxCksum = djb2Word(s_rxCksum, t);
+    s_rxS1 += t; s_rxS2 += s_rxS1;
     uint16_t l = wordGet();
-    s_rxCksum = djb2Word(s_rxCksum, l);
+    s_rxS1 += l; s_rxS2 += s_rxS1;
     *type = t;
     *len = l;
 }
 
 uint16_t transportRecvWord(void) {
     uint16_t w = wordGet();
-    s_rxCksum = djb2Word(s_rxCksum, w);
+    s_rxS1 += w; s_rxS2 += s_rxS1;
     return w;
 }
 
 int transportRecvEnd(void) {
     uint32_t rxck = wordGet();
     rxck |= ((uint32_t)wordGet()) << 16;
-    return (rxck == s_rxCksum) ? TRANSPORT_OK : TRANSPORT_ECKSUM;
+    if (rxck == CKSUM_NONE) return TRANSPORT_OK; /* sender skipped it */
+    return (rxck == fletcherFinish(s_rxS1, s_rxS2)) ? TRANSPORT_OK : TRANSPORT_ECKSUM;
 }
 
 int transportRecvFrame(uint16_t *type, uint16_t *payload, uint16_t maxLen, uint16_t *lenOut) {

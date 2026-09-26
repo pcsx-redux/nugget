@@ -31,12 +31,11 @@ SOFTWARE.
 /* H2x00 monitor transport: the ATCONS 16-bit word channel (0x1F802004).
    Frame shape (protocol design section 2):
      [SYNC:u16=0x55AA] [TYPE:u16] [LEN:u16] [payload: LEN words] [CKSUM:u32]
-   CKSUM is djb2 (seed 5381) over the TYPE+LEN+payload bytes, native little
+   CKSUM is Fletcher-32 over the 16-bit words TYPE, LEN, payload (sent
    endian (each word contributes low byte then high byte), transmitted
    low-word-first. SYNC is not part of the checksum. */
 
 #define FRAME_SYNC 0x55AA
-#define DJB2_SEED 5381u
 
 /* Receive return codes. 0 = a valid frame was decoded. */
 #define TRANSPORT_OK 0
