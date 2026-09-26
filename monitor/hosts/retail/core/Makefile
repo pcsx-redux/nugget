@@ -11,7 +11,8 @@ host-monitor.c \
 host-transport.c \
 host-tty.c \
 
-CPPFLAGS += -DMONITOR_LINK_SIO1
+MONITOR_LINK ?= SIO1
+CPPFLAGS += -DMONITOR_LINK_$(MONITOR_LINK)
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
