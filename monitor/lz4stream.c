@@ -40,54 +40,67 @@ void lz4StreamInit(struct Lz4Stream *s, void *dest) {
     s->state = S_TOKEN;
 }
 
-static int copyMatch(struct Lz4Stream *s, uint32_t n) {
-    uint8_t *out = s->out;
-#ifndef LZ4STREAM_TRUSTED
-    if ((uint32_t)(out - s->base) < s->offset) return LZ4S_EBADOFFSET;
-#endif
-    const uint8_t *src = out - s->offset;
-    while (n--) *out++ = *src++;
-    s->out = out;
-    return LZ4S_OK;
-}
-
 int lz4StreamFeed(struct Lz4Stream *s, uint8_t b) {
-    switch (s->state) {
+    /* The state lives in registers for the duration of the call and goes back
+       to the struct once at the end. */
+    uint8_t *out = s->out;
+    uint32_t count = s->count;
+    uint32_t offset = s->offset;
+    uint32_t token = s->token;
+    unsigned state = s->state;
+    uint32_t match = 0; /* bytes to copy before returning, if any */
+    int rc = LZ4S_OK;
+
+    switch (state) {
         case S_TOKEN:
-            s->token = b;
-            s->count = b >> 4;
-            if (s->count == 15) {
-                s->state = S_LITLEN;
+            token = b;
+            count = b >> 4;
+            if (count == 15) {
+                state = S_LITLEN;
             } else {
-                s->state = s->count ? S_LITERALS : S_OFFLO;
+                state = count ? S_LITERALS : S_OFFLO;
             }
-            return LZ4S_OK;
+            break;
         case S_LITLEN:
-            s->count += b;
-            if (b != 255) s->state = s->count ? S_LITERALS : S_OFFLO;
-            return LZ4S_OK;
+            count += b;
+            if (b != 255) state = count ? S_LITERALS : S_OFFLO;
+            break;
         case S_LITERALS:
-            *s->out++ = b;
-            if (--s->count == 0) s->state = S_OFFLO;
-            return LZ4S_OK;
+            *out++ = b;
+            if (--count == 0) state = S_OFFLO;
+            break;
         case S_OFFLO:
-            s->offset = b;
-            s->state = S_OFFHI;
-            return LZ4S_OK;
-        case S_OFFHI: {
-            s->offset |= (uint16_t)b << 8;
+            offset = b;
+            state = S_OFFHI;
+            break;
+        case S_OFFHI:
+            offset |= (uint32_t)b << 8;
 #ifndef LZ4STREAM_TRUSTED
-            if (s->offset == 0) return LZ4S_EBADOFFSET;
+            if (offset == 0) rc = LZ4S_EBADOFFSET;
 #endif
-            uint32_t n = (s->token & 15) + 4;
-            s->state = (s->token & 15) == 15 ? S_MATCHLEN : S_TOKEN;
-            return copyMatch(s, n);
-        }
+            match = (token & 15) + 4;
+            state = (token & 15) == 15 ? S_MATCHLEN : S_TOKEN;
+            break;
         case S_MATCHLEN:
-            if (b != 255) s->state = S_TOKEN;
-            return copyMatch(s, b);
+            match = b;
+            if (b != 255) state = S_TOKEN;
+            break;
     }
-    return LZ4S_OK;
+    if (match && rc == LZ4S_OK) {
+#ifndef LZ4STREAM_TRUSTED
+        if ((uint32_t)(out - s->base) < offset) rc = LZ4S_EBADOFFSET;
+#endif
+        if (rc == LZ4S_OK) {
+            const uint8_t *src = out - offset;
+            while (match--) *out++ = *src++;
+        }
+    }
+    s->out = out;
+    s->count = count;
+    s->offset = (uint16_t)offset;
+    s->token = (uint8_t)token;
+    s->state = (uint8_t)state;
+    return rc;
 }
 
 int lz4StreamEndBlock(struct Lz4Stream *s) {
