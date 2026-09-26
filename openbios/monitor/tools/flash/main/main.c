@@ -103,6 +103,12 @@ int main(void) {
     saydec("cave bytes not 0xFF now: ", cave_nonff);
 
 #ifdef FLASH_GO
+    /* Every erase cycle wears an old chip; skip it when there is nothing to do. */
+    if (diff == 0) {
+        say("flash already matches the payload, not erasing\n");
+        BIOS_ROM_CTRL = oldbus;
+        do_exit(0);
+    }
     say("chip erase...\n");
     unlock(); FLASH[0x5555] = 0x80; unlock(); FLASH[0x5555] = 0x10;
     uint32_t spins = 0;
