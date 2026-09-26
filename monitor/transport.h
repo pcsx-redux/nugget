@@ -66,6 +66,14 @@ void transportSendEnd(void);
    TRANSPORT_OK and fills type/payload/lenOut; payload holds up to maxLen
    words. On a length overflow or checksum mismatch the frame is fully drained
    (both ends stay word-aligned) and a negative TRANSPORT_* code is returned. */
+/* SET_BAUD's second half (design section 2a): switch the link to `reload`,
+   wait up to a window for the exact PING frame, answer it with a pongType
+   frame, and wait up to another window for a second PING. 1: both came, the
+   new rate stays and the caller answers the second. 0: the old rate is back.
+   -1: the link has no rate. */
+int transportTryRate(uint16_t reload, uint16_t pongType, uint16_t pongWord);
+int transportHasRate(void);
+
 int transportRecvFrame(uint16_t *type, uint16_t *payload, uint16_t maxLen, uint16_t *lenOut);
 
 /* Streaming receive, the counterpart to the streaming send. Lets a caller pull

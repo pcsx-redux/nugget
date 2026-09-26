@@ -46,6 +46,7 @@ SOFTWARE.
 #define MON_CONT 0x0A
 #define MON_STOP 0x0B
 #define MON_STEP 0x0C       /* reserved / deferred */
+#define MON_SET_BAUD 0x0D   /* SIO1 line rate, design section 2a */
 #define MON_PCDRV_RESP 0x20 /* answering an in-flight PCDRV_REQ */
 
 /* PS1 -> host responses / events */

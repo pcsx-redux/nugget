@@ -135,6 +135,56 @@ int transportRecvEnd(void) {
     return (rxck == fletcherFinish(s_rxS1, s_rxS2)) ? TRANSPORT_OK : TRANSPORT_ECKSUM;
 }
 
+#ifdef MONITOR_LINK_HAS_RATE
+#ifndef MONITOR_RATE_WINDOW_SPINS
+#define MONITOR_RATE_WINDOW_SPINS 3000000 /* ~1.08 s on a retail PS1: 2000000 measured 720 ms */
+#endif
+
+/* The frames accepted while trying a new rate: PING with no payload, then,
+   once the host has seen the PONG, PING carrying the word 1. The host
+   retries the first freely, so the second has to differ from it. */
+static const uint8_t s_pingFrame[] = {0x00, 0xaa, 0x55, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00};
+static const uint8_t s_confirmFrame[] = {0x00, 0xaa, 0x55, 0x01, 0x00, 0x01, 0x00, 0x01, 0x00, 0x03, 0x00, 0x06, 0x00};
+
+int transportHasRate(void) { return 1; }
+
+/* Wait up to one window for the exact frame `f` at the current rate. */
+static int awaitFrame(const uint8_t *f, unsigned n) {
+    unsigned matched = 0;
+    linkRxOpen();
+    for (uint32_t spins = 0; spins < MONITOR_RATE_WINDOW_SPINS; spins++) {
+        uint8_t b;
+        if (!linkTryGetByte(&b)) continue;
+        if (b == f[matched]) {
+            if (++matched == n) {
+                linkRxClose();
+                return 1;
+            }
+        } else {
+            matched = (b == f[0]) ? 1 : 0;
+        }
+    }
+    linkRxClose();
+    return 0;
+}
+
+int transportTryRate(uint16_t reload, uint16_t pongType, uint16_t pongWord) {
+    uint16_t old = linkGetRate();
+    linkSetRate(reload);
+    /* The PING proves host -> PS1 at the new rate. Only a host that got the
+       PONG sends the confirmation, which proves PS1 -> host. */
+    if (awaitFrame(s_pingFrame, sizeof(s_pingFrame))) {
+        transportSendFrame(pongType, &pongWord, 1);
+        if (awaitFrame(s_confirmFrame, sizeof(s_confirmFrame))) return 1;
+    }
+    linkSetRate(old);
+    return 0;
+}
+#else
+int transportHasRate(void) { return 0; }
+int transportTryRate(uint16_t reload, uint16_t pongType, uint16_t pongWord) { return -1; }
+#endif
+
 int transportRecvFrame(uint16_t *type, uint16_t *payload, uint16_t maxLen, uint16_t *lenOut) {
     uint16_t t, len;
     transportRecvBegin(&t, &len);

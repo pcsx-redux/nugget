@@ -77,3 +77,23 @@ static inline void linkPutByte(uint8_t b) {
 static inline int linkOverrun(void) { return (SIOS[1].stat & SIO_STAT_OE) != 0; }
 
 static inline void linkClearErrors(void) { SIOS[1].ctrl |= SIO_CTRL_ERRRES; }
+
+/* Line rate, for SET_BAUD (design section 2a). */
+#define MONITOR_LINK_HAS_RATE 1
+
+static inline uint16_t linkGetRate(void) { return SIOS[1].baudRate; }
+
+/* Let the transmitter drain before changing the rate, so the ACK that
+   precedes the switch leaves at the old one. */
+static inline void linkSetRate(uint16_t reload) {
+    while ((SIOS[1].stat & SIO_STAT_TXEMPTY) == 0) {
+    }
+    SIOS[1].baudRate = reload;
+}
+
+/* Non-blocking read: 1 and the byte if one was waiting, else 0. */
+static inline int linkTryGetByte(uint8_t *b) {
+    if ((SIOS[1].stat & SIO_STAT_RXRDY) == 0) return 0;
+    *b = SIOS[1].fifo;
+    return 1;
+}
