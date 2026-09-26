@@ -8,12 +8,28 @@ main/main.c \
 
 # Above the RAM-linked monitor (0x80020000..) and its image; below the stack.
 LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=0x80100000
-CPPFLAGS += -DMODE='"$(MODE)"' $(if $(GO),-DFLASH_GO)
-MODE ?= DRY
+# Only GO=1 builds the erase/program path. main.o is rebuilt on every make so
+# a GO build never leaves its object behind for a later DRY one.
+ifeq ($(GO),1)
+FLASH_MODE := GO
+CPPFLAGS += -DFLASH_GO
+else
+FLASH_MODE := DRY
+endif
+CPPFLAGS += -DMODE='"$(FLASH_MODE)"'
 
 include ../../../../common.mk
 
 payload.o: image.bin
+main/main.o: FORCE
+FORCE:
+.PHONY: FORCE
+
+# With STOCK given, image.bin is regenerated every time, so neither an edited
+# dump nor a switch to a different one can leave a stale payload.
+ifneq ($(STOCK),)
+image.bin: FORCE
+endif
 
 # STOCK is a dump of the stock H2700 flash; the monitor is ../../.. built
 # with `make BOOT=cart MONITOR=1`.

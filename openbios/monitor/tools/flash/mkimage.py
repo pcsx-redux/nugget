@@ -56,9 +56,19 @@ with tempfile.NamedTemporaryFile() as tmp:
 if len(cave) > CAVE_SIZE:
     sys.exit(f"monitor is {len(cave)} bytes, the cave holds {CAVE_SIZE}")
 
-header = subprocess.run([objcopy.rsplit("objcopy", 1)[0] + "readelf", "-h", elf_path],
-                        capture_output=True, text=True, check=True).stdout
+readelf = objcopy.rsplit("objcopy", 1)[0] + "readelf"
+header = subprocess.run([readelf, "-hlW", elf_path], capture_output=True, text=True, check=True).stdout
 entry = int(re.search(r"Entry point address:\s+0x([0-9a-f]+)", header).group(1), 16)
+
+# objcopy -O binary starts at the lowest load address with contents; that has
+# to be the cave, and the segments have to account for every byte it wrote.
+loads = [(int(p, 16), int(s, 16)) for p, s in
+         re.findall(r"^\s*LOAD\s+\S+\s+\S+\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)", header, re.M)]
+loads = [(p, s) for p, s in loads if s]
+lo = min(p for p, s in loads)
+hi = max(p + s for p, s in loads)
+if lo != CAVE_BASE or hi - lo != len(cave):
+    sys.exit(f"monitor loads at {lo:#x}..{hi:#x}, expected {CAVE_BASE:#x} and {len(cave)} bytes")
 if not CAVE_BASE <= entry < CAVE_BASE + len(cave):
     sys.exit(f"entry {entry:#x} is outside the cave; was this built with BOOT=cart MONITOR=1?")
 
