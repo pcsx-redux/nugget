@@ -238,9 +238,10 @@ static int streamWriteMemLz4(uint16_t frameWords) {
     for (uint32_t w = 0; w < words; w++) {
         uint16_t word = transportRecvWord();
         if (bad) continue;
-        uint32_t bi = w * 2;
-        if (bi < nbytes && lz4StreamFeed(&s_mon.lz, word & 0xff)) bad = MON_EDECODE;
-        if (!bad && bi + 1 < nbytes && lz4StreamFeed(&s_mon.lz, word >> 8)) bad = MON_EDECODE;
+        /* Low byte then high byte, as far as nbytes reaches. */
+        for (uint32_t bi = w * 2; bi < w * 2 + 2 && bi < nbytes; bi++, word >>= 8) {
+            if (!bad && lz4StreamFeed(&s_mon.lz, (uint8_t)word)) bad = MON_EDECODE;
+        }
     }
     if (transportRecvEnd() != TRANSPORT_OK) bad = MON_ECKSUM;
     if (!bad) {
