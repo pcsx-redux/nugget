@@ -90,8 +90,12 @@ void transportRecvBegin(uint16_t *type, uint16_t *len) {
             s_consoleDropped++;
             continue;
         }
-        /* A 0 not followed by SYNC, or a LEN no frame can have, is noise. */
-        if (linkGetWord() != FRAME_SYNC) continue;
+        /* A run of 0s is one frame start; a 0 not followed by SYNC, or a LEN
+           no frame can have, is noise. */
+        uint8_t lo;
+        while ((lo = linkGetByte()) == 0) {
+        }
+        if ((lo | (linkGetByte() << 8)) != FRAME_SYNC) continue;
         t = linkGetWord();
         l = linkGetWord();
         if (l <= TRANSPORT_STREAM_MAX_LEN) break;

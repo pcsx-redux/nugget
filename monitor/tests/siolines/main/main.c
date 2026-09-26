@@ -45,9 +45,9 @@ int main(void) {
     for (;;) {
         for (int i = 0; i < 4; i++) {
             SIOS[1].ctrl = SIO_CTRL_TXEN | SIO_CTRL_RXE | states[i];
-            while ((SIOS[1].stat & SIO_STAT_TXRDY) == 0) {
-            }
-            SIOS[1].fifo = '0' + i;
+            /* TXRDY waits on CTS; a cable that never raises it still gets
+               its lines cycled, just without the digits. */
+            if (SIOS[1].stat & SIO_STAT_TXRDY) SIOS[1].fifo = '0' + i;
             wait();
         }
     }
