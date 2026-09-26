@@ -24,7 +24,8 @@ MONITOR_TLOAD ?= 0x801c0000
 LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=$(MONITOR_TLOAD)
 LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
 
-core/monitor-core.elf core/monitor-core.bin: FORCE
+core/monitor-core.bin: core/monitor-core.elf
+core/monitor-core.elf: FORCE
 	$(MAKE) -C core MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 
 monitor-core-blob.o: core/monitor-core.bin
