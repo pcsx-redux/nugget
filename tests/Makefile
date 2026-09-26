@@ -2,6 +2,7 @@ all:
 	$(MAKE) -C 2mb-vram all
 	$(MAKE) -C basic all
 	$(MAKE) -C bsdec all
+	$(MAKE) -C cdrom all
 	$(MAKE) -C cpu all
 	$(MAKE) -C cop0 all
 	$(MAKE) -C dcache all
@@ -60,6 +61,7 @@ clean:
 	$(MAKE) -C 2mb-vram clean
 	$(MAKE) -C basic clean
 	$(MAKE) -C bsdec clean
+	$(MAKE) -C cdrom clean
 	$(MAKE) -C cpu clean
 	$(MAKE) -C cop0 clean
 	$(MAKE) -C dcache clean
