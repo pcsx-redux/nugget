@@ -75,7 +75,7 @@ $(BINDIR)lib$(TARGET).a: $(OBJS) $(EXTRA_DEPS)
 	$(AR) rcs $(BINDIR)lib$(TARGET).a $(OBJS)
 
 %.o: %.s
-	$(CC) $(ARCHFLAGS) -I$(ROOTDIR) -g -c -o $@ $<
+	$(CC) $(ARCHFLAGS) $(ASFLAGS) -I$(ROOTDIR) -g -c -o $@ $<
 
 %.dep: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
