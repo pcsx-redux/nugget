@@ -34,6 +34,7 @@ SOFTWARE.
 #include "monitor/transport.h"
 
 #ifdef MONITOR_LZ4
+#define LZ4STREAM_TRUSTED 1
 #include "monitor/lz4stream.c"
 #define MON_CAPS MON_CAP_LZ4
 #else
@@ -71,7 +72,18 @@ static uint32_t s_watchAddr;
 
 static struct Registers *currentRegs(void) { return &__globals.processes[0].thread->registers; }
 
-static inline __attribute__((noreturn)) void monitorResume(void) { syscall_returnFromException(); }
+/* Set when WRITE_MEM or LOAD wrote memory since the last resume. */
+static int s_memWritten;
+
+/* Resume the target. Anything written may be code the I-cache still holds
+   older lines for, so flush first when memory changed. */
+static inline __attribute__((noreturn)) void monitorResume(void) {
+    if (s_memWritten) {
+        s_memWritten = 0;
+        syscall_flushCache();
+    }
+    syscall_returnFromException();
+}
 
 static uint32_t rd32(const uint16_t *p, unsigned i) { return (uint32_t)p[i] | ((uint32_t)p[i + 1] << 16); }
 
@@ -122,7 +134,7 @@ static void emitStopped(uint16_t reason, uint32_t epc, uint32_t a, uint32_t b) {
 static void cmdReadMem(const uint16_t *p) {
     uint32_t addr = rd32(p, 0);
     uint32_t len = rd32(p, 2);
-    volatile const uint8_t *src = (volatile const uint8_t *)addr;
+    const uint8_t *src = (const uint8_t *)addr;
 
     uint32_t off = 0;
     do {
@@ -158,7 +170,8 @@ static void streamWriteMem(uint16_t frameWords) {
     uint32_t addr = recvU32();   /* 2 words */
     uint32_t nbytes = recvU32(); /* 2 words */
     uint32_t consumed = 4;
-    volatile uint8_t *dst = (volatile uint8_t *)addr;
+    uint8_t *dst = (uint8_t *)addr;
+    s_memWritten = 1;
 
     for (uint16_t w = consumed; w < frameWords; w++) {
         uint16_t word = transportRecvWord();
@@ -203,6 +216,7 @@ static void streamWriteMemLz4(uint16_t frameWords) {
     uint32_t words = frameWords - 10;
     int bad = 0;
 
+    s_memWritten = 1;
     if (off == 0) {
         lz4StreamInit(&s_lz, (void *)dest);
         s_lzConsumed = 0;
@@ -464,7 +478,7 @@ static int monitorVerifier(void) {
     uint32_t excode = CAUSE_EXCCODE(r->Cause);
 
     if (excode == EXCCODE_BP) {
-        uint32_t insn = *(volatile uint32_t *)(r->returnPC);
+        uint32_t insn = *(uint32_t *)(r->returnPC);
         if ((insn & 0x3f) == 0x0d) {
             /* Software `break`. `break 4, 1` is the monitor's own entry; every
                other one stops, with the instruction word in a and EPC left on
@@ -508,8 +522,8 @@ static int monitorVerifier(void) {
    break vector so a hardware breakpoint routes through the same handler and
    chain. Nothing is installed at 0x40 by OpenBIOS. */
 static void installCop0BreakVector(void) {
-    volatile uint32_t *v80 = (volatile uint32_t *)0x80;
-    volatile uint32_t *v40 = (volatile uint32_t *)0x40;
+    uint32_t *v80 = (uint32_t *)0x80;
+    uint32_t *v40 = (uint32_t *)0x40;
     for (int i = 0; i < 4; i++) v40[i] = v80[i];
     syscall_flushCache();
 }

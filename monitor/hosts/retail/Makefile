@@ -1,5 +1,7 @@
 TARGET = monitor-retail
 TYPE = ps-exe
+# The resident part has to fit a code cave, so size wins by default.
+BUILD ?= LTO
 
 SRCS = \
 ../../../common/crt0/crt0.s \

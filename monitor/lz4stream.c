@@ -42,7 +42,9 @@ void lz4StreamInit(struct Lz4Stream *s, void *dest) {
 
 static int copyMatch(struct Lz4Stream *s, uint32_t n) {
     uint8_t *out = s->out;
+#ifndef LZ4STREAM_TRUSTED
     if ((uint32_t)(out - s->base) < s->offset) return LZ4S_EBADOFFSET;
+#endif
     const uint8_t *src = out - s->offset;
     while (n--) *out++ = *src++;
     s->out = out;
@@ -74,7 +76,9 @@ int lz4StreamFeed(struct Lz4Stream *s, uint8_t b) {
             return LZ4S_OK;
         case S_OFFHI: {
             s->offset |= (uint16_t)b << 8;
+#ifndef LZ4STREAM_TRUSTED
             if (s->offset == 0) return LZ4S_EBADOFFSET;
+#endif
             uint32_t n = (s->token & 15) + 4;
             s->state = (s->token & 15) == 15 ? S_MATCHLEN : S_TOKEN;
             return copyMatch(s, n);
@@ -88,7 +92,12 @@ int lz4StreamFeed(struct Lz4Stream *s, uint8_t b) {
 
 int lz4StreamEndBlock(struct Lz4Stream *s) {
     /* A block ends after the literals of its last sequence. */
+#ifndef LZ4STREAM_TRUSTED
     int ok = s->state == S_OFFLO || s->state == S_TOKEN;
     s->state = S_TOKEN;
     return ok ? LZ4S_OK : LZ4S_ETRUNCATED;
+#else
+    s->state = S_TOKEN;
+    return LZ4S_OK;
+#endif
 }

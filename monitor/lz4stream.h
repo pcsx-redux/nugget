@@ -49,6 +49,10 @@ enum {
     LZ4S_ETRUNCATED = -2,
 };
 
+/* LZ4STREAM_TRUSTED drops the checks for a malformed stream (a match reaching
+   before the start, a zero offset, a block ending mid-sequence), for when the
+   encoder is known good; feed and end then always return LZ4S_OK. */
+
 /* Start a stream writing at dest. Matches may not reach before dest. */
 void lz4StreamInit(struct Lz4Stream *s, void *dest);
 /* Feed one byte of the current block. */
