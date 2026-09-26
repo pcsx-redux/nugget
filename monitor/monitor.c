@@ -336,15 +336,13 @@ static __attribute__((noreturn)) void cmdRun(const uint16_t *p) {
     uint32_t sp = rd32(p, 4);
     struct Registers *r = currentRegs();
 
-    for (int i = 0; i < 32; i++) r->GPR.r[i] = 0;
+    /* Everything zero except what the target starts from. */
+    for (unsigned i = 0; i < sizeof(*r) / sizeof(uint32_t); i++) ((uint32_t *)r)[i] = 0;
     r->GPR.n.gp = gp;
     r->GPR.n.sp = sp;
     r->GPR.n.fp = sp;
     r->returnPC = pc;
-    r->hi = 0;
-    r->lo = 0;
     r->SR = MON_RUN_SR;
-    r->Cause = 0;
     s_mon.ctx = 0; /* running: no halted context */
 
     sendStatus(0);
