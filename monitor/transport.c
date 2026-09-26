@@ -132,7 +132,8 @@ int transportRecvEnd(void) {
     rxck |= ((uint32_t)linkGetWord()) << 16;
 #ifdef MONITOR_LINK_IS_STREAM
     linkRxClose();
-    if (rxck == CKSUM_NONE) return TRANSPORT_ECKSUM; /* mandatory on a byte link */
+    /* The checksum is mandatory on a byte link: CKSUM_NONE fails below, since
+       fletcherFinish never produces it. */
 #else
     if (rxck == CKSUM_NONE) return TRANSPORT_OK; /* sender skipped it */
 #endif
