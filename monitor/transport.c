@@ -53,10 +53,8 @@ void transportSendBegin(uint16_t type, uint16_t len) {
     linkPutByte(0); /* leaves console text, a frame follows */
 #endif
     linkPutWord(FRAME_SYNC); /* SYNC is outside the checksum */
-    linkPutWord(type);
-    s_txS1 += type; s_txS2 += s_txS1;
-    linkPutWord(len);
-    s_txS1 += len; s_txS2 += s_txS1;
+    transportSendWord(type);
+    transportSendWord(len);
 }
 
 void transportSendWord(uint16_t w) {
