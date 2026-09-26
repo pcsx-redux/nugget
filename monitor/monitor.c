@@ -475,7 +475,7 @@ static int monitorVerifier(void) {
             uint32_t dcic = readDCIC();
             writeDCIC(0);
             s_mon.dcic = 0;
-            if (dcic & DCIC_DAE) {
+            if (dcic & DCIC_DA) {
                 monitorStop(r, MON_STOP_DATA_WATCH, s_mon.watchAddr, 0);
             } else {
                 monitorStop(r, MON_STOP_BREAKPOINT, 0, 0);
