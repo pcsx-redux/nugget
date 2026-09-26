@@ -117,18 +117,17 @@ static void sendStatus(int code) {
 
 /* ---- events ---- */
 
-/* HELLO [proto_ver:u16][sram_base:u32][ram_size:u32][caps:u16] */
-static void emitHello(void) {
-    /* Announce the RAM size the kernel actually detected rather than a
-       hardcoded constant. __globals60.ramsize is in megabytes (the reset path
-       sets it; the H2x00 devkit carries 8 MiB vs retail's 2 MiB). */
-    uint32_t ramSize = __globals60.ramsize << 20;
+/* Fletcher-32 of the 512 KiB BIOS region, set once before the monitor is
+   entered (see monitorBiosChecksum). */
+uint32_t s_biosChecksum;
 
-    transportSendBegin(MON_HELLO, 6);
+/* HELLO and PONG: [proto_ver:u16][caps:u16][bios_fletcher32:u32]. PONG
+   carries it too, so a host that attaches after boot can still ask. */
+static void emitIdentity(uint16_t type) {
+    transportSendBegin(type, 4);
     transportSendWord(MON_PROTO_VER);
-    sendWord32(MON_SRAM_BASE);
-    sendWord32(ramSize);
     transportSendWord(MON_CAPS);
+    sendWord32(s_biosChecksum);
     transportSendEnd();
 }
 
@@ -370,11 +369,9 @@ static int cmdSetBaud(const uint16_t *p) {
    the loop. RUN does not return (it resumes the target). Returns the reply. */
 static int dispatchCommand(uint16_t type, const uint16_t *payload) {
     switch (type) {
-        case MON_PING: {
-            uint16_t pong[2] = {MON_PROTO_VER, MON_CAPS};
-            transportSendFrame(MON_PONG, pong, 2);
+        case MON_PING:
+            emitIdentity(MON_PONG);
             return MON_REPLIED;
-        }
         case MON_READ_MEM: return cmdReadMem(payload);
         case MON_GET_REGS: return cmdGetRegs();
         case MON_SET_REG: return cmdSetReg(payload);
@@ -462,7 +459,7 @@ static int monitorVerifier(void) {
                the break. What it means is the host's business, and so is
                stepping past it. */
             if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
-                emitHello();
+                emitIdentity(MON_HELLO);
                 monitorCommandLoop();
             }
             monitorStop(r, MON_STOP_BREAKPOINT, insn, 0);
@@ -510,6 +507,7 @@ void monitorMain(void) {
     s_mon.dcic = 0;
     s_mon.watchAddr = 0;
 
+    s_biosChecksum = monitorBiosChecksum();
     monitorHook();
     monitorEnter();
 }

@@ -85,11 +85,7 @@ SOFTWARE.
 #define MON_STOP_DATA_WATCH 0x03
 #define MON_STOP_FAULT 0x04
 
-#define MON_PROTO_VER 0x0001
-
-/* Resident SRAM base (EXP3). The RAM size announced in HELLO is read live from
-   __globals60.ramsize (see emitHello), not hardcoded. */
-#define MON_SRAM_BASE 0x1fa00000u
+#define MON_PROTO_VER 0x0002
 
 /* Monitor entry. Never returns: it takes over from boot()'s terminal path,
    brings up the transport, announces HELLO, and runs the command loop. */

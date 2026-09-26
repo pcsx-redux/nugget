@@ -51,6 +51,7 @@ int main(void) {
     while (src < _binary_monitor_core_bin_end) *dst++ = *src++;
     syscall_flushCache();
 
+    s_biosChecksum = monitorBiosChecksum();
     linkInit();
     installSio1Tty();
     monitorHook();

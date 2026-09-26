@@ -36,6 +36,26 @@ SOFTWARE.
 /* The monitor's exception chain entry, defined in monitor.c. */
 extern struct HandlerInfo s_monitorHandler;
 
+/* Identifies the machine to the host in HELLO, defined in monitor.c. */
+extern uint32_t s_biosChecksum;
+
+/* Fletcher-32 over the 512 KiB at 0xBFC00000, the same sums the frames use
+   (16-bit words low half first, 32-bit accumulators that wrap, each reduced
+   mod 65535 at the end). One 32-bit load per word: the BIOS bus splits it
+   into byte cycles itself, which beats four byte loads. */
+static inline uint32_t monitorBiosChecksum(void) {
+    const volatile uint32_t *p = (const volatile uint32_t *)0xbfc00000;
+    uint32_t s1 = 0, s2 = 0;
+    for (unsigned i = 0; i < 0x80000 / 4; i++) {
+        uint32_t w = p[i];
+        s1 += w & 0xffff;
+        s2 += s1;
+        s1 += w >> 16;
+        s2 += s1;
+    }
+    return ((s2 % 65535u) << 16) | (s1 % 65535u);
+}
+
 /* Copy the installed 0x80 general-exception trampoline down to the 0x40 cop0
    break vector so a hardware breakpoint routes through the same handler and
    chain. Nothing is installed at 0x40 by OpenBIOS. */
