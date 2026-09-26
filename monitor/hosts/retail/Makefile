@@ -22,6 +22,7 @@ LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
 # the BIOS boots by default. No license sectors, so it needs a console that
 # boots burned discs.
 EXE2ISO ?= exe2iso
+.DEFAULT_GOAL := all
 iso: $(TARGET).cue
 
 $(TARGET).cue: $(TARGET).ps-exe
