@@ -58,6 +58,7 @@ done
 # ps-exe|reason
 SKIPS=(
     "bsdec/bsdec|hardware rig: needs a captured bs-in.bin staged beside it"
+    "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
