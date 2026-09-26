@@ -2,7 +2,7 @@ TARGET = h2700flash
 TYPE = ps-exe
 
 SRCS = \
-../../../../common/crt0/crt0.s \
+../../../common/crt0/crt0.s \
 payload.s \
 main/main.c \
 
@@ -18,7 +18,7 @@ FLASH_MODE := DRY
 endif
 CPPFLAGS += -DMODE='"$(FLASH_MODE)"'
 
-include ../../../../common.mk
+include ../../../common.mk
 
 payload.o: image.bin
 main/main.o: FORCE
@@ -27,12 +27,12 @@ FORCE:
 
 # The payload is rebuilt on every make, from exactly one source, so a leftover
 # image.bin is never flashed by accident:
-#   STOCK=<stock H2700 flash dump>, with ../../.. built as `make BOOT=cart MONITOR=1`
+#   STOCK=<stock H2700 flash dump>, with ../.. built as `make BOOT=cart MONITOR=1`
 #   IMAGE=<ready 512 KB flash image>
-ELF := $(wildcard ../../../openbios.elf)
+ELF := $(wildcard ../../openbios.elf)
 image.bin: FORCE
 ifneq ($(STOCK),)
-	@test -n "$(ELF)" || { echo "build ../../.. with 'make BOOT=cart MONITOR=1' first" >&2; exit 1; }
+	@test -n "$(ELF)" || { echo "build ../.. with 'make BOOT=cart MONITOR=1' first" >&2; exit 1; }
 	python3 mkimage.py $(STOCK) $(ELF) $@ $(PREFIX)-objcopy
 else ifneq ($(IMAGE),)
 	cp $(IMAGE) $@

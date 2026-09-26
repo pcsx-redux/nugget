@@ -47,7 +47,7 @@ SOFTWARE.
 #include "openbios/kernel/threads.h"
 #include "openbios/kernel/util.h"
 #include "openbios/main/splash.h"
-#include "openbios/monitor/monitor.h"
+#include "monitor/monitor.h"
 #include "openbios/pio/pio.h"
 #include "openbios/shell/shell.h"
 #include "openbios/tty/tty.h"

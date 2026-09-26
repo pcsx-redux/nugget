@@ -24,10 +24,10 @@ SOFTWARE.
 
 */
 
-#include "openbios/monitor/pcdrv.h"
+#include "monitor/pcdrv.h"
 
-#include "openbios/monitor/monitor.h"
-#include "openbios/monitor/transport.h"
+#include "monitor/monitor.h"
+#include "monitor/transport.h"
 
 /* Bufferless: PCwrite streams the target's bytes straight out of its own buffer,
    and PCread decodes the reply straight into the target's own buffer. No staging
