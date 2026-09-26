@@ -5,7 +5,6 @@ SRCS = \
 ../../../common/crt0/crt0.s \
 main.c \
 host-monitor.c \
-host-pcdrv.c \
 host-transport.c \
 host-tty.c \
 

@@ -30,7 +30,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "monitor/cop0dbg.h"
 #include "monitor/kernel.h"
-#include "monitor/pcdrv.h"
+#include "common/kernel/threads.h"
 #include "monitor/transport.h"
 
 #ifdef MONITOR_LZ4
@@ -466,29 +466,15 @@ static int monitorVerifier(void) {
     if (excode == EXCCODE_BP) {
         uint32_t insn = *(volatile uint32_t *)(r->returnPC);
         if ((insn & 0x3f) == 0x0d) {
-            /* Software `break`: decode break code1, code2 (design section 10). */
-            uint32_t code1 = (insn >> 16) & 0x3ff;
-            uint32_t code2 = (insn >> 6) & 0x3ff;
-            if (code1 == 0 && code2 >= 0x101 && code2 <= 0x107) {
-                monitorServicePcdrv(r, code2);
-                r->returnPC += 4; /* step past the break; program stays RUNNING */
-                monitorResume();
+            /* Software `break`. `break 4, 1` is the monitor's own entry; every
+               other one stops, with the instruction word in a and EPC left on
+               the break. What it means is the host's business, and so is
+               stepping past it. */
+            if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
+                emitHello();
+                monitorCommandLoop();
             }
-            if (code1 == 4) {
-                switch (code2) {
-                    case 0: /* exit break (break 4, 0): exit code in $a0. */
-                        monitorStop(r, MON_STOP_EXIT, r->GPR.n.a0, 0);
-                        break;
-                    case 1: /* enter the monitor command loop from (break 4, 1). */
-                        emitHello();
-                        monitorCommandLoop();
-                        break;
-                }
-            }
-            /* Any other software break -> generic debugger stop. Advance past it
-               so a following CONT resumes the instruction after the break. */
-            r->returnPC += 4;
-            monitorStop(r, MON_STOP_BREAKPOINT, 0, 0);
+            monitorStop(r, MON_STOP_BREAKPOINT, insn, 0);
         } else {
             /* No `break` at EPC: a cop0 hardware breakpoint. Disable the debug
                unit first (design section 10), then report. */

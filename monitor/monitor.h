@@ -47,7 +47,6 @@ SOFTWARE.
 #define MON_STOP 0x0B
 #define MON_STEP 0x0C       /* reserved / deferred */
 #define MON_SET_BAUD 0x0D   /* SIO1 line rate, design section 2a */
-#define MON_PCDRV_RESP 0x20 /* answering an in-flight PCDRV_REQ */
 
 /* Bit 15 on WRITE_MEM or LOAD: the payload is an LZ4 stream (monitor/lz4stream.h). */
 #define MON_LZ4 0x8000
@@ -69,7 +68,6 @@ SOFTWARE.
 #define MON_ERROR 0x4F
 #define MON_HELLO 0x80
 #define MON_STOPPED 0x81
-#define MON_PCDRV_REQ 0x82
 
 /* ERROR payload codes (section 9) */
 #define MON_EBADCMD 0x01
@@ -86,7 +84,6 @@ SOFTWARE.
 #define MON_STOP_INTERRUPT 0x02
 #define MON_STOP_DATA_WATCH 0x03
 #define MON_STOP_FAULT 0x04
-#define MON_STOP_EXIT 0x05
 
 #define MON_PROTO_VER 0x0001
 

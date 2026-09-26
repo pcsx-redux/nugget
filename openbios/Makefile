@@ -167,7 +167,7 @@ MONITOR_ROM_BASE ?= 0xbfc40000
 MONITOR_ROM_SIZE ?= 0x20000
 MONITOR_ENTRYPOINT ?= _h2700_hook
 LDFLAGS += -Wl,--defsym=ROM_BASE=$(MONITOR_ROM_BASE) -Wl,--defsym=ROM_SIZE=$(MONITOR_ROM_SIZE) -Wl,--defsym=ENTRYPOINT=$(MONITOR_ENTRYPOINT)
-SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport.c ../monitor/pcdrv.c
+SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport.c
 endif
 
 include ../common.mk
