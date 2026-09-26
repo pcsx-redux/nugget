@@ -26,15 +26,6 @@ SOFTWARE.
 
 .include "common/hardware/hwregs.inc"
 
-/* Bring-up bisect scaffolding: stage word @0x1f800000, reached-bitmask @0x1f800004. */
-.macro STAGE_MARK n
-    lui   $t8, 0x1f80
-    li    $t9, 0xC0DE0000 + \n
-    sw    $t9, 0($t8)
-    lw    $t9, 4($t8)
-    ori   $t9, $t9, (1 << (\n - 1))
-    sw    $t9, 4($t8)
-.endm
 
     .section .boot, "ax", @progbits
     .align 2
@@ -43,9 +34,6 @@ SOFTWARE.
     .type _reset, @function
 
 _reset:
-    lui   $t8, 0x1f80
-    sw    $0, 4($t8)
-    STAGE_MARK 1
     /* set bios memory bus width and speed. */
     li    $t0, (19 << 16) | 0x243f
     sw    $t0, SBUS_DEV2_CTRL
@@ -124,7 +112,6 @@ _boot:
        to avoid crashes on the real hardware. */
     li    $t0, 0x81022
     sw    $t0, SBUS_DEV8_CTRL
-    STAGE_MARK 2
 
     /* clearing out all registers */
     .set push
@@ -162,15 +149,7 @@ _boot:
     move  $30, $0
     move  $31, $0
 
-    STAGE_MARK 11
-    /* flushCache isolates the cache, so it must not be fetched through
-       KSEG0. Reach it via its uncached alias; for a flash-resident build
-       the address already lives in KSEG1 and the OR is a no-op. */
-    la    $t0, flushCache
-    lui   $t1, 0x2000
-    or    $t0, $t0, $t1
-    jalr  $t0
-    STAGE_MARK 12
+    jal  flushCache
 
     /* ensuring cop0 is fully reset */
     mtc0  $0, $7
@@ -242,7 +221,6 @@ bss_init_skip:
     li    $t0, 2
     sw    $t0, 0x60($0)
 
-    STAGE_MARK 3
     jal   main
 
     li    $t0, 0x1f802080

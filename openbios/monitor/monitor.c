@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-#include "openbios/monitor/stagemark.h"
 #include "openbios/monitor/monitor.h"
 
 #include "common/psxlibc/handlers.h"
@@ -385,9 +384,7 @@ static int monitorVerifier(void) {
                         monitorStop(r, MON_STOP_EXIT, r->GPR.n.a0, 0);
                         break;
                     case 1: /* enter the monitor command loop from (break 4, 1). */
-                        STAGE_MARK(9);
                         emitHello();
-                        STAGE_MARK(10);
                         monitorCommandLoop();
                         break;
                 }
@@ -443,10 +440,8 @@ static struct HandlerInfo s_monitorHandler = {
 };
 
 void monitorMain(void) {
-    STAGE_MARK(6);
     psxprintf("OpenBIOS Monitor.\n");
     transportInit();
-    STAGE_MARK(7);
     s_ctx = 0;
     s_badVaddr = 0;
     s_dcic = 0;
@@ -456,7 +451,6 @@ void monitorMain(void) {
        the cop0 break vector, then announce readiness. */
     syscall_sysEnqIntRP(0, &s_monitorHandler);
     installCop0BreakVector();
-    STAGE_MARK(8);
 
     /* Calls into the exception handler to ensure the monitor loop is run from there safely. */
     monitorEnter();

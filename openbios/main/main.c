@@ -48,7 +48,6 @@ SOFTWARE.
 #include "openbios/kernel/util.h"
 #include "openbios/main/splash.h"
 #include "openbios/monitor/monitor.h"
-#include "openbios/monitor/stagemark.h"
 #include "openbios/pio/pio.h"
 #include "openbios/shell/shell.h"
 #include "openbios/tty/tty.h"
@@ -77,7 +76,6 @@ void bootThunk() {
 #endif
 
 int main() {
-    STAGE_MARK(4);
     // __globals60.ramsize would be set here in the retail BIOS, however we have
     // already done so in the startup code (it's easier to do it there for
     // arcade boards - the ZN kernel does the same).
@@ -101,7 +99,6 @@ int main() {
     // functionality is in no way arcade-specific, so it makes sense to allow
     // enabling it regardless of the target platform.
     drawSplashScreen();
-    STAGE_MARK(13);
     g_installTTY = DEFAULT_TTY_INSTALL;
     bootThunk();
 }
@@ -324,7 +321,6 @@ static void printBoardConfiguration() {
 static void boot(char *systemCnfPath, char *binaryPath) {
     POST = 1;
     writeCOP0Status(readCOP0Status() & ~0x401);
-    STAGE_MARK(14);
     muteSpu();
     clearZNRegisters();
     POST = 2;
@@ -343,14 +339,12 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     // If any exception or interrupt happens between these two calls,
     // things will go haywire very quickly.
     syscall_installExceptionHandler();
-    STAGE_MARK(15);
     syscall_setDefaultExceptionJmpBuf();
     POST = 4;
     muteSpu();
     IMASK = 0;
     IREG = 0;
     syscall_setupFileIO(g_installTTY);
-    STAGE_MARK(16);
     POST = 5;
     /* this is a bit specific to OpenBIOS to retrieve the buildid from the raw data */
     {
@@ -371,12 +365,10 @@ static void boot(char *systemCnfPath, char *binaryPath) {
                   buildIDstring);
     }
     printBoardConfiguration();
-    STAGE_MARK(17);
     POST = 6;
     muteSpu();
     s_configuration = g_defaultConfiguration;
     psxprintf("KERNEL SETUP!\n");
-    STAGE_MARK(18);
     syscall_kernInitheap(s_heap, HEAP_SIZE);
     initHandlersArray(4);
     syscall_enqueueSyscallHandler(0);
@@ -384,7 +376,6 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     initEvents(s_configuration.eventsCount);
     initThreads(1, s_configuration.taskCount);
     syscall_enqueueRCntIrqs(1);
-    STAGE_MARK(19);
     muteSpu();
     SETJMPFATAL(0x385);
     POST = 7;
@@ -404,7 +395,6 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     // the ATCONS word-channel transport, announces HELLO, and runs the command
     // loop. It never returns, which will cull the rest of the boot sequence
     // (including the shell and game boot) from being compiled.
-    STAGE_MARK(5);
     monitorMain();
 #endif
     startShell(7);

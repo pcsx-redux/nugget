@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-#include "openbios/monitor/stagemark.h"
 #include "openbios/tty/tty.h"
 
 #include <stddef.h>
@@ -113,12 +112,10 @@ void dev_tty_init() {
     s_atconsIRQPtr[2] |= 0x10;
     flushWriteQueue();
     s_circ.start = s_circ.end = NULL;
-    STAGE_MARK(27);
 }
 
 int dev_tty_open(struct File *file, const char *filename, int mode) {
     POST = 0x0c;
-    STAGE_MARK(28);
     if (file->deviceId < 2) {
         file->flags |= PSXF_SCAN2;
         s_circ.start = s_circ.end = s_circ.buffer;
