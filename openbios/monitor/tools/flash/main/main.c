@@ -1,3 +1,30 @@
+/*
+
+MIT License
+
+Copyright (c) 2026 PCSX-Redux authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/
+
+
 /* H2700 flash programmer, run as a target under the resident monitor from
    main RAM. Mirrors pflash: JEDEC/AMD byte commands through the 0x5555/0x2AAA
    aperture of the BIOS ROM window, window widened to 1 MB by writing the
@@ -76,6 +103,12 @@ int main(void) {
     saydec("cave bytes not 0xFF now: ", cave_nonff);
 
 #ifdef FLASH_GO
+    /* Every erase cycle wears an old chip; skip it when there is nothing to do. */
+    if (diff == 0) {
+        say("flash already matches the payload, not erasing\n");
+        BIOS_ROM_CTRL = oldbus;
+        do_exit(0);
+    }
     say("chip erase...\n");
     unlock(); FLASH[0x5555] = 0x80; unlock(); FLASH[0x5555] = 0x10;
     uint32_t spins = 0;

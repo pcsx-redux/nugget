@@ -105,7 +105,15 @@ _boot:
        some debugging routines hitting 0x1f802080,
        beyond the normal range, so we need to extend it,
        to avoid crashes on the real hardware. */
+.ifdef OPENBIOS_H2X00_MONITOR
+    /* The H2700 ATCONS block behind EXP2 is a 16-bit device, and the stock
+       devkit flash leaves DEV8_CTRL at 0x81022. With the 8-bit setting every
+       word-channel access is split into two byte cycles the bridge never
+       reassembles, and the monitor goes silent. */
+    li    $t0, 0x81022
+.else
     li    $t0, 0x80777
+.endif
     sw    $t0, SBUS_DEV8_CTRL
 
     /* clearing out all registers */

@@ -31,7 +31,7 @@ SOFTWARE.
 #include "common/hardware/gpu.h"
 #include "common/hardware/hwregs.h"
 
-#ifdef OPENBIOS_KEEP_NORMAL_SPLASH
+#ifndef OPENBIOS_H2X00_MONITOR
 static const union Color s_colors[] = {{.r = 255, .g = 255, .b = 255}, {.r = 255, .g = 255, .b = 0},
                                        {.r = 0, .g = 255, .b = 255},   {.r = 0, .g = 255, .b = 0},
                                        {.r = 255, .g = 0, .b = 255},   {.r = 255, .g = 0, .b = 0},
