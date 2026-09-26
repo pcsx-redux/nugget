@@ -27,7 +27,9 @@ SOFTWARE.
 OUTPUT_ARCH(mips)
 
 EXTERN(_cartBoot)
-ENTRY(_cartBoot)
+/* A MONITOR build overrides the entry with --defsym=ENTRYPOINT=... */
+_entry = DEFINED(ENTRYPOINT) ? ENTRYPOINT : _cartBoot;
+ENTRY(_entry)
 
 /* Base and size of the region the image is linked to run from. Defaults to the
    legacy cheat-cart target (EXP1 KSEG1, 0xbf000000, 512K) so the stock cart
@@ -112,7 +114,7 @@ SECTIONS {
 
         . = ALIGN(4);
 
-        *(.boot)
+        KEEP(*(.boot))
 
         __build_id = .;
         *(.note.gnu.build-id)
