@@ -48,6 +48,9 @@ void transportInit(void) { linkInit(); }
 
 void transportSendBegin(uint16_t type, uint16_t len) {
     s_txS1 = s_txS2 = 0;
+#ifdef MONITOR_LINK_IS_STREAM
+    linkPutByte(0); /* leaves console text, a frame follows */
+#endif
     linkPutWord(FRAME_SYNC); /* SYNC is outside the checksum */
     linkPutWord(type);
     s_txS1 += type; s_txS2 += s_txS1;
@@ -73,6 +76,33 @@ void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len) {
 }
 
 
+#ifdef MONITOR_LINK_IS_STREAM
+/* Console input the monitor has no consumer for yet (card #676) is dropped and
+   counted. */
+static uint32_t s_consoleDropped;
+
+void transportRecvBegin(uint16_t *type, uint16_t *len) {
+    uint16_t t, l;
+    linkRxOpen();
+    for (;;) {
+        uint8_t b = linkGetByte();
+        if (b != 0) {
+            s_consoleDropped++;
+            continue;
+        }
+        /* A 0 not followed by SYNC, or a LEN no frame can have, is noise. */
+        if (linkGetWord() != FRAME_SYNC) continue;
+        t = linkGetWord();
+        l = linkGetWord();
+        if (l <= TRANSPORT_STREAM_MAX_LEN) break;
+    }
+    s_rxS1 = s_rxS2 = 0;
+    s_rxS1 += t; s_rxS2 += s_rxS1;
+    s_rxS1 += l; s_rxS2 += s_rxS1;
+    *type = t;
+    *len = l;
+}
+#else
 void transportRecvBegin(uint16_t *type, uint16_t *len) {
     while (linkGetWord() != FRAME_SYNC) {
         /* resynchronize by hunting for the framing anchor */
@@ -85,6 +115,7 @@ void transportRecvBegin(uint16_t *type, uint16_t *len) {
     *type = t;
     *len = l;
 }
+#endif
 
 uint16_t transportRecvWord(void) {
     uint16_t w = linkGetWord();
@@ -95,7 +126,12 @@ uint16_t transportRecvWord(void) {
 int transportRecvEnd(void) {
     uint32_t rxck = linkGetWord();
     rxck |= ((uint32_t)linkGetWord()) << 16;
+#ifdef MONITOR_LINK_IS_STREAM
+    linkRxClose();
+    if (rxck == CKSUM_NONE) return TRANSPORT_ECKSUM; /* mandatory on a byte link */
+#else
     if (rxck == CKSUM_NONE) return TRANSPORT_OK; /* sender skipped it */
+#endif
     return (rxck == fletcherFinish(s_rxS1, s_rxS2)) ? TRANSPORT_OK : TRANSPORT_ECKSUM;
 }
 
