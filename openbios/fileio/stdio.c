@@ -24,6 +24,7 @@ SOFTWARE.
 
 */
 
+#include "openbios/monitor/stagemark.h"
 #include <stdarg.h>
 
 #include "common/hardware/hwregs.h"
@@ -51,6 +52,7 @@ void installStdIo(int installTTY) {
     s_currentTabulationColumn = 0;
     s_ignoreCarriageReturns = 0;
     removeDevice("tty");
+    STAGE_MARK(24);
     POST = 4;
     switch (installTTY) {
         case 0:
@@ -58,12 +60,14 @@ void installStdIo(int installTTY) {
             break;
         case 1:
             syscall_addConsoleDevice();
+    STAGE_MARK(25);
             break;
         default:
             return;
     }
     POST = 5;
     reopenStdio();
+    STAGE_MARK(26);
     POST = 6;
 }
 

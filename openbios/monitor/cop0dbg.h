@@ -34,19 +34,19 @@ SOFTWARE.
    the registers the monitor needs are wrapped. */
 
 /* -- read-only exception state -- */
-static __inline__ uint32_t readBadVaddr(void) {
+static inline uint32_t readBadVaddr(void) {
     uint32_t v;
     __asm__ volatile("mfc0 %0, $8\nnop\n" : "=r"(v));
     return v;
 }
 
-static __inline__ uint32_t readCause(void) {
+static inline uint32_t readCause(void) {
     uint32_t v;
     __asm__ volatile("mfc0 %0, $13\nnop\n" : "=r"(v));
     return v;
 }
 
-static __inline__ uint32_t readEPC(void) {
+static inline uint32_t readEPC(void) {
     uint32_t v;
     __asm__ volatile("mfc0 %0, $14\nnop\n" : "=r"(v));
     return v;
@@ -59,17 +59,17 @@ static __inline__ uint32_t readEPC(void) {
    BDAM  cop0r9  : data-access breakpoint address mask
    BPCM  cop0r11 : program-counter breakpoint address mask */
 
-static __inline__ void writeBPC(uint32_t v) { __asm__ volatile("mtc0 %0, $3\nnop\n" : : "r"(v)); }
-static __inline__ void writeBDA(uint32_t v) { __asm__ volatile("mtc0 %0, $5\nnop\n" : : "r"(v)); }
-static __inline__ void writeBPCM(uint32_t v) { __asm__ volatile("mtc0 %0, $11\nnop\n" : : "r"(v)); }
-static __inline__ void writeBDAM(uint32_t v) { __asm__ volatile("mtc0 %0, $9\nnop\n" : : "r"(v)); }
+static inline void writeBPC(uint32_t v) { __asm__ volatile("mtc0 %0, $3\nnop\n" : : "r"(v)); }
+static inline void writeBDA(uint32_t v) { __asm__ volatile("mtc0 %0, $5\nnop\n" : : "r"(v)); }
+static inline void writeBPCM(uint32_t v) { __asm__ volatile("mtc0 %0, $11\nnop\n" : : "r"(v)); }
+static inline void writeBDAM(uint32_t v) { __asm__ volatile("mtc0 %0, $9\nnop\n" : : "r"(v)); }
 
-static __inline__ uint32_t readDCIC(void) {
+static inline uint32_t readDCIC(void) {
     uint32_t v;
     __asm__ volatile("mfc0 %0, $7\nnop\n" : "=r"(v));
     return v;
 }
-static __inline__ void writeDCIC(uint32_t v) { __asm__ volatile("mtc0 %0, $7\nnop\n" : : "r"(v)); }
+static inline void writeDCIC(uint32_t v) { __asm__ volatile("mtc0 %0, $7\nnop\n" : : "r"(v)); }
 
 /* DCIC bit fields (psx-spx cpuspecifications.md). Without TR a match only sets
    the status bits (0..4) instead of trapping to the cop0-break vector. */

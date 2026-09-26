@@ -31,10 +31,17 @@ SOFTWARE.
 #include "common/hardware/gpu.h"
 #include "common/hardware/hwregs.h"
 
+#ifdef OPENBIOS_KEEP_NORMAL_SPLASH
 static const union Color s_colors[] = {{.r = 255, .g = 255, .b = 255}, {.r = 255, .g = 255, .b = 0},
                                        {.r = 0, .g = 255, .b = 255},   {.r = 0, .g = 255, .b = 0},
                                        {.r = 255, .g = 0, .b = 255},   {.r = 255, .g = 0, .b = 0},
                                        {.r = 0, .g = 0, .b = 255},     {.r = 0, .g = 0, .b = 0}};
+#else
+static const union Color s_colors[] = {{.r = 0, .g = 0, .b = 0},       {.r = 0, .g = 0, .b = 255},
+                                       {.r = 255, .g = 0, .b = 0},     {.r = 255, .g = 0, .b = 255},
+                                       {.r = 0, .g = 255, .b = 0},     {.r = 0, .g = 255, .b = 255},
+                                       {.r = 255, .g = 255, .b = 0},   {.r = 255, .g = 255, .b = 255}};
+#endif
 
 // The original version of this function (as found in the 573 BIOS) invokes a
 // subroutine repeatedly in order to draw each color bar, rather than using an

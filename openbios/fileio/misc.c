@@ -24,6 +24,7 @@ SOFTWARE.
 
 */
 
+#include "openbios/monitor/stagemark.h"
 #include "common/psxlibc/ctype.h"
 
 #include "common/hardware/hwregs.h"
@@ -60,12 +61,16 @@ void setupFileIO(int installTTY) {
         s_files[i].fd = i;
     }
     POST = 1;
+    STAGE_MARK(20);
     installStdIo(installTTY);
+    STAGE_MARK(21);
     POST = 2;
     g_firstFile = NULL;
     s_deviceStatus = 0;
     syscall_addCDRomDevice();
+    STAGE_MARK(22);
     syscall_addMemoryCardDevice();
+    STAGE_MARK(23);
 }
 
 int getDeviceStatus() { return s_deviceStatus; }

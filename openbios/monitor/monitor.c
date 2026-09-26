@@ -24,10 +24,12 @@ SOFTWARE.
 
 */
 
+#include "openbios/monitor/stagemark.h"
 #include "openbios/monitor/monitor.h"
 
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
+#include "openbios/fileio/fileio.h"
 #include "openbios/kernel/globals.h"
 #include "openbios/kernel/handlers.h"
 #include "openbios/monitor/cop0dbg.h"
@@ -65,17 +67,7 @@ static uint32_t s_watchAddr;
 
 static struct Registers *currentRegs(void) { return &__globals.processes[0].thread->registers; }
 
-/* returnFromException lives in the kernel's low-RAM .ramtext (kseg0/kuseg). A
-   direct jal from the SRAM-resident monitor (0xbfa00000) cannot reach it -
-   R_MIPS_26 is limited to the current 256 MB region. Launder the address
-   through a register so the compiler emits an indirect jalr, the same way the
-   kernel reaches it through its vector/syscall table. */
-static __attribute__((noreturn)) void monitorResume(void) {
-    void (*fn)(void) = returnFromException;
-    __asm__ volatile("" : "+r"(fn));
-    fn();
-    __builtin_unreachable();
-}
+static inline __attribute__((noreturn)) void monitorResume(void) { syscall_returnFromException(); }
 
 static uint32_t rd32(const uint16_t *p, unsigned i) { return (uint32_t)p[i] | ((uint32_t)p[i + 1] << 16); }
 
@@ -87,6 +79,10 @@ static void sendWord32(uint32_t v) {
 static void sendAck(void) { transportSendFrame(MON_ACK, (uint16_t[]){0}, 0); }
 
 static void sendError(uint16_t code) { transportSendFrame(MON_ERROR, &code, 1); }
+
+static inline __attribute__((noreturn)) void monitorEnter() {
+    __asm__ volatile("break 4, 1\n" : : : "memory");
+}
 
 /* ---- events ---- */
 
@@ -384,8 +380,17 @@ static int monitorVerifier(void) {
                 monitorResume();
             }
             if (code1 == 4) {
-                /* exit break (break 4, 0): exit code in $a0. */
-                monitorStop(r, MON_STOP_EXIT, r->GPR.n.a0, 0);
+                switch (code2) {
+                    case 0: /* exit break (break 4, 0): exit code in $a0. */
+                        monitorStop(r, MON_STOP_EXIT, r->GPR.n.a0, 0);
+                        break;
+                    case 1: /* enter the monitor command loop from (break 4, 1). */
+                        STAGE_MARK(9);
+                        emitHello();
+                        STAGE_MARK(10);
+                        monitorCommandLoop();
+                        break;
+                }
             }
             /* Any other software break -> generic debugger stop. Advance past it
                so a following CONT resumes the instruction after the break. */
@@ -438,7 +443,10 @@ static struct HandlerInfo s_monitorHandler = {
 };
 
 void monitorMain(void) {
+    STAGE_MARK(6);
+    psxprintf("OpenBIOS Monitor.\n");
     transportInit();
+    STAGE_MARK(7);
     s_ctx = 0;
     s_badVaddr = 0;
     s_dcic = 0;
@@ -448,11 +456,8 @@ void monitorMain(void) {
        the cop0 break vector, then announce readiness. */
     syscall_sysEnqIntRP(0, &s_monitorHandler);
     installCop0BreakVector();
-    emitHello();
+    STAGE_MARK(8);
 
-    /* HALTED: service host commands. RUN hands the CPU to a loaded binary; a
-       break/fault/breakpoint re-enters through monitorVerifier -> monitorStop,
-       which re-enters this loop. The loop only "returns" via a resume, which is
-       noreturn, so this call does not come back. */
-    monitorCommandLoop();
+    /* Calls into the exception handler to ensure the monitor loop is run from there safely. */
+    monitorEnter();
 }

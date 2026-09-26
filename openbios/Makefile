@@ -139,15 +139,35 @@ ifneq ($(INSTALL_TTY_CONSOLE),)
 CPPFLAGS += -DOPENBIOS_INSTALL_TTY_CONSOLE
 endif
 
-# H2x00 resident debug monitor. Relinks OpenBIOS into the devkit SRAM (EXP3,
-# 0xbfa00000, 2M) via the DEFINED()-guarded ROM_BASE/ROM_SIZE overrides in
-# psx-bios-as-cart.ld, and swaps boot()'s terminal path (shell / CD boot) for
-# the monitor entry. Requires a cart build (BOOT=cart, i.e. BOOT != rom, which
+# H2x00 resident debug monitor. Relinks OpenBIOS into a code cave of the official
+# H2700 flash for now, other boards TBD. The H2700 code cave is 128kB large, and
+# located at 0xbfc40000. The current build is slightly less than 64kB, which more
+# than fits. The h2700_hook is meant to be the entry point for the monitor,
+# and the biospatcher tool will inject a jump to it at the original entry point
+# of the official H2700 BIOS. It will read the dip switches, and will boot openbios if
+# set to 7, otherwise it will boot the official BIOS for backward compatibility.
+#
+# The build will strip all cdrom code, display an inverted splash screen to distinguish
+# from the official one, and will activate the tty console on the atcons device.
+# The monitor will start immediately and listen for commands on the wide atcons port.
+#
+# Requires a cart build (BOOT=cart, i.e. BOOT != rom, which
 # selects psx-bios-as-cart.ld). Build with: make BOOT=cart MONITOR=1
 ifneq ($(MONITOR),)
 CPPFLAGS += -DOPENBIOS_H2X00_MONITOR
-LDFLAGS += -Wl,--defsym=ROM_BASE=0xbfa00000 -Wl,--defsym=ROM_SIZE=0x200000
-SRCS += monitor/monitor.c monitor/transport.c monitor/pcdrv.c
+# The devkit boot file keeps the H2700 memory-control values (EXP2 is 16-bit).
+BOARD = h2700
+CPPFLAGS += -DOPENBIOS_SHOW_SPLASH_SCREEN
+CPPFLAGS += -DOPENBIOS_BOOT_MODE_NO_SHELL -DOPENBIOS_BOOT_MODE_NO_CDROM
+CPPFLAGS += -DOPENBIOS_INSTALL_TTY_CONSOLE
+# Link target defaults to the H2700 flash code-cave. Override on the make command
+# line to relink the monitor elsewhere - e.g. MONITOR_ROM_BASE=0x80020000
+# MONITOR_ENTRYPOINT=_reset for a main-RAM build that runs under the emulator.
+MONITOR_ROM_BASE ?= 0xbfc40000
+MONITOR_ROM_SIZE ?= 0x20000
+MONITOR_ENTRYPOINT ?= _h2700_hook
+LDFLAGS += -Wl,--defsym=ROM_BASE=$(MONITOR_ROM_BASE) -Wl,--defsym=ROM_SIZE=$(MONITOR_ROM_SIZE) -Wl,--defsym=ENTRYPOINT=$(MONITOR_ENTRYPOINT)
+SRCS += monitor/h2700-boot.s monitor/monitor.c monitor/transport.c monitor/pcdrv.c
 endif
 
 include ../common.mk

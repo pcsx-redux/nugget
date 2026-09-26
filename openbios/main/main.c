@@ -48,6 +48,7 @@ SOFTWARE.
 #include "openbios/kernel/util.h"
 #include "openbios/main/splash.h"
 #include "openbios/monitor/monitor.h"
+#include "openbios/monitor/stagemark.h"
 #include "openbios/pio/pio.h"
 #include "openbios/shell/shell.h"
 #include "openbios/tty/tty.h"
@@ -69,7 +70,14 @@ void bootThunk() {
 #endif
 }
 
+#ifdef OPENBIOS_INSTALL_TTY_CONSOLE
+#define DEFAULT_TTY_INSTALL 1
+#else
+#define DEFAULT_TTY_INSTALL 0
+#endif
+
 int main() {
+    STAGE_MARK(4);
     // __globals60.ramsize would be set here in the retail BIOS, however we have
     // already done so in the startup code (it's easier to do it there for
     // arcade boards - the ZN kernel does the same).
@@ -93,7 +101,8 @@ int main() {
     // functionality is in no way arcade-specific, so it makes sense to allow
     // enabling it regardless of the target platform.
     drawSplashScreen();
-    g_installTTY = 0;
+    STAGE_MARK(13);
+    g_installTTY = DEFAULT_TTY_INSTALL;
     bootThunk();
 }
 
@@ -129,12 +138,13 @@ static __attribute__((noreturn)) void fatal(int code) {
     __builtin_unreachable();
 }
 
-static char s_binaryPath[128];
-
 #define SETJMPFATAL(code)                             \
     {                                                 \
         if (psxsetjmp(&g_ioAbortJmpBuf)) fatal(code); \
     }
+
+#ifndef OPENBIOS_BOOT_MODE_NO_CDROM
+static char s_binaryPath[128];
 
 // The SYSTEM.CNF parser in the retail BIOS is hopelessly and
 // irrevocably buggy. These bugs will not be reproduced here,
@@ -243,6 +253,7 @@ static void loadSystemCnf(const char *systemCnf, struct Configuration *configura
     findWordItem(systemCnf, &configuration->stackBase, "STACK");
     findStringItem(systemCnf, binaryPath, cmdLine, "BOOT");
 }
+#endif
 
 #define HEAP_SIZE 0x2000
 static uint8_t s_heap[HEAP_SIZE];
@@ -313,6 +324,7 @@ static void printBoardConfiguration() {
 static void boot(char *systemCnfPath, char *binaryPath) {
     POST = 1;
     writeCOP0Status(readCOP0Status() & ~0x401);
+    STAGE_MARK(14);
     muteSpu();
     clearZNRegisters();
     POST = 2;
@@ -331,12 +343,14 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     // If any exception or interrupt happens between these two calls,
     // things will go haywire very quickly.
     syscall_installExceptionHandler();
+    STAGE_MARK(15);
     syscall_setDefaultExceptionJmpBuf();
     POST = 4;
     muteSpu();
     IMASK = 0;
     IREG = 0;
     syscall_setupFileIO(g_installTTY);
+    STAGE_MARK(16);
     POST = 5;
     /* this is a bit specific to OpenBIOS to retrieve the buildid from the raw data */
     {
@@ -357,10 +371,12 @@ static void boot(char *systemCnfPath, char *binaryPath) {
                   buildIDstring);
     }
     printBoardConfiguration();
+    STAGE_MARK(17);
     POST = 6;
     muteSpu();
     s_configuration = g_defaultConfiguration;
     psxprintf("KERNEL SETUP!\n");
+    STAGE_MARK(18);
     syscall_kernInitheap(s_heap, HEAP_SIZE);
     initHandlersArray(4);
     syscall_enqueueSyscallHandler(0);
@@ -368,6 +384,7 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     initEvents(s_configuration.eventsCount);
     initThreads(1, s_configuration.taskCount);
     syscall_enqueueRCntIrqs(1);
+    STAGE_MARK(19);
     muteSpu();
     SETJMPFATAL(0x385);
     POST = 7;
@@ -385,9 +402,11 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     // state the monitor needs in order to own the exception path. We skip the
     // interactive shell and the CD/game boot entirely; monitorMain() brings up
     // the ATCONS word-channel transport, announces HELLO, and runs the command
-    // loop. It never returns.
+    // loop. It never returns, which will cull the rest of the boot sequence
+    // (including the shell and game boot) from being compiled.
+    STAGE_MARK(5);
     monitorMain();
-#else
+#endif
     startShell(7);
 
 #ifndef OPENBIOS_BOOT_MODE_NO_CDROM
@@ -442,7 +461,6 @@ static void boot(char *systemCnfPath, char *binaryPath) {
 
     psxprintf("End of Main\n");
     fatal(0x38c);
-#endif
 }
 
 void setConfiguration(int eventsCount, int taskCount, void *stackBase) {

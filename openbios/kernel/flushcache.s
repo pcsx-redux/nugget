@@ -37,6 +37,15 @@ SOFTWARE.
     .type flushCache, @function
 
 flushCache:
+    /* This routine isolates the cache, so it has to be fetched uncached.
+       When linked into RAM (KSEG0) hop to the KSEG1 alias of the body
+       first; from ROM the OR is a no-op. */
+    la    $t6, 1f
+    lui   $t7, 0x2000
+    or    $t6, $t6, $t7
+    jr    $t6
+    nop
+1:
     /* Saves the cop0 Status register to $t0. */
     mfc0  $t0, $12
     /* First, disables interrupts. */
