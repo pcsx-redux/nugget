@@ -43,8 +43,9 @@ static int ttyAction(struct File *file, enum FileAction action) {
     if (action != PSXWRITE) return 0;
     const uint8_t *p = (const uint8_t *)file->buffer;
     int count = file->count;
-    for (int i = 0; i < count; i++) {
-        if (p[i]) linkPutByte(p[i]);
+    for (const uint8_t *end = p + count; p < end; p++) {
+        uint8_t b = *p;
+        if (b) linkPutByte(b);
     }
     return count;
 }
