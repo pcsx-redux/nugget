@@ -285,6 +285,23 @@ static void cmdCont(void) {
     monitorResume();
 }
 
+/* SET_BAUD [reload:u16] -> ACK at the old rate, then PONG at the new one if
+   the host's PING arrives there (design section 2a). */
+static void cmdSetBaud(const uint16_t *p) {
+    uint16_t reload = p[0];
+    if (reload == 0) {
+        sendError(MON_EBADLEN);
+        return;
+    }
+    if (!transportHasRate()) {
+        sendError(MON_EBADCMD);
+        return;
+    }
+    sendAck();
+    uint16_t ver = MON_PROTO_VER;
+    if (transportTryRate(reload, MON_PONG, ver) == 1) transportSendFrame(MON_PONG, &ver, 1);
+}
+
 /* Dispatch one small HALTED-state command whose payload is already buffered in
    s_cmd. WRITE_MEM/LOAD are NOT here - they stream directly to target memory in
    the loop. RUN/CONT do not return (they resume the target). */
@@ -302,6 +319,7 @@ static void dispatchCommand(uint16_t type, const uint16_t *payload) {
         case MON_CLR_BP: cmdClrBp(payload); break;
         case MON_RUN: cmdRun(payload); break;
         case MON_CONT: cmdCont(); break;
+        case MON_SET_BAUD: cmdSetBaud(payload); break;
         case MON_STOP:
             /* Only meaningful while RUNNING, where it is serviced by the
                interrupt-poll path (v1 seam, below). In HALTED it is a no-op. */
