@@ -816,6 +816,7 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     uint32_t times[32];
     int32_t lastResponse = -1;
     unsigned responseCount = 0;
+    __builtin_memset(times, 0, sizeof(times));
 
     do {
         CDROM_REG0 = 0;
@@ -826,8 +827,11 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
         readResponse(runningResponse);
         uint8_t r = runningResponse[0];
         if (r != lastResponse) {
-            responses[responseCount] = lastResponse = r;
-            times[responseCount] = time;
+            lastResponse = r;
+            if (responseCount < 32) {
+                responses[responseCount] = r;
+                times[responseCount] = time;
+            }
             responseCount++;
         }
     } while(runningCause == 3);

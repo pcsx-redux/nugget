@@ -178,6 +178,10 @@ CESTER_TEST(simplePlayingUntilEndWithReport, test_instances,
         cester_assert_uint_eq(1, causes[i]);
         cester_assert_uint_eq(8, responseSizes[i]);
     }
+    if (count >= 32) {
+        cester_assert_uint_lt(count, 32);
+        return;
+    }
     cester_assert_uint_eq(4, causes[count]);
     cester_assert_uint_eq(1, responseSizes[count]);
     cester_assert_uint_eq(3, cause1);
