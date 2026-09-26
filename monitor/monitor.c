@@ -26,6 +26,8 @@ SOFTWARE.
 
 #include "monitor/monitor.h"
 
+#include <stddef.h>
+
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
 #include "monitor/cop0dbg.h"
@@ -253,17 +255,25 @@ static int streamWriteMemLz4(uint16_t frameWords) {
 }
 #endif
 
-/* GET_REGS [] -> REGS [38 x u32, gdb g-packet order]. */
+/* The REGS table, gdb g-packet order: 0..31 r0..r31, then SR, LO, HI,
+   BadVaddr, Cause, PC. Where entry idx lives; BadVaddr has no slot in struct
+   Registers and lives in s_mon. */
+static uint32_t *regSlot(struct Registers *r, unsigned idx) {
+    static const uint8_t special[] = {
+        offsetof(struct Registers, SR),    offsetof(struct Registers, lo),    offsetof(struct Registers, hi), 0,
+        offsetof(struct Registers, Cause), offsetof(struct Registers, returnPC),
+    };
+    if (idx < 32) return &r->GPR.r[idx];
+    if (idx == 35) return &s_mon.badVaddr;
+    return (uint32_t *)((uint8_t *)r + special[idx - 32]);
+}
+
+/* GET_REGS [] -> REGS [38 x u32]. Zeros for the registers before the first
+   stop; BadVaddr is reported regardless. */
 static int cmdGetRegs(void) {
     struct Registers *r = s_mon.ctx;
     transportSendBegin(MON_REGS, 38 * 2);
-    for (int i = 0; i < 32; i++) sendWord32(r ? r->GPR.r[i] : 0); /* 0..31 r0..r31 */
-    sendWord32(r ? r->SR : 0);                                    /* 32 SR */
-    sendWord32(r ? r->lo : 0);                                    /* 33 LO */
-    sendWord32(r ? r->hi : 0);                                    /* 34 HI */
-    sendWord32(s_mon.badVaddr);                                       /* 35 BadVaddr */
-    sendWord32(r ? r->Cause : 0);                                 /* 36 Cause */
-    sendWord32(r ? r->returnPC : 0);                              /* 37 PC (EPC) */
+    for (unsigned i = 0; i < 38; i++) sendWord32((r || i == 35) ? *regSlot(r, i) : 0);
     transportSendEnd();
     return MON_REPLIED;
 }
@@ -276,19 +286,7 @@ static int cmdSetReg(const uint16_t *p) {
 
     if (idx > 37) return MON_EBADREG;
     if (!r) return MON_EBADSTATE;
-
-    if (idx < 32) {
-        if (idx != 0) r->GPR.r[idx] = val; /* r0 stays 0 */
-    } else {
-        switch (idx) {
-            case 32: r->SR = val; break;
-            case 33: r->lo = val; break;
-            case 34: r->hi = val; break;
-            case 35: s_mon.badVaddr = val; break;
-            case 36: r->Cause = val; break;
-            case 37: r->returnPC = val; break;
-        }
-    }
+    if (idx != 0) *regSlot(r, idx) = val; /* r0 stays 0 */
     return 0;
 }
 
