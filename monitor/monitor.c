@@ -307,11 +307,8 @@ static int cmdSetBp(const uint16_t *p) {
         writeBDA(addr);
         writeBDAM(mask);
         s_mon.watchAddr = addr;
-        uint32_t enables = DCIC_DE | DCIC_DAE | DCIC_TR | DCIC_KD | DCIC_UD;
-        if (kind == 1) enables |= DCIC_DR;
-        if (kind == 2) enables |= DCIC_DW;
-        if (kind == 3) enables |= DCIC_DR | DCIC_DW;
-        s_mon.dcic |= enables;
+        /* kind bit0 is read, bit1 is write; DR and DW sit in that order in DCIC. */
+        s_mon.dcic |= DCIC_DE | DCIC_DAE | DCIC_TR | DCIC_KD | DCIC_UD | (uint32_t)kind * DCIC_DR;
     } else {
         return MON_EBADCMD;
     }
