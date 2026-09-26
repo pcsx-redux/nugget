@@ -154,7 +154,7 @@ endif
 # Requires a cart build (BOOT=cart, i.e. BOOT != rom, which
 # selects psx-bios-as-cart.ld). Build with: make BOOT=cart MONITOR=1
 ifneq ($(MONITOR),)
-CPPFLAGS += -DOPENBIOS_H2X00_MONITOR
+CPPFLAGS += -DOPENBIOS_H2X00_MONITOR -DMONITOR_LINK_ATCONS
 # The H2700 ATCONS block needs EXP2 kept 16-bit, see boot/psx.s.
 ASFLAGS += -Wa,--defsym,OPENBIOS_H2X00_MONITOR=1
 CPPFLAGS += -DOPENBIOS_SHOW_SPLASH_SCREEN
@@ -167,7 +167,7 @@ MONITOR_ROM_BASE ?= 0xbfc40000
 MONITOR_ROM_SIZE ?= 0x20000
 MONITOR_ENTRYPOINT ?= _h2700_hook
 LDFLAGS += -Wl,--defsym=ROM_BASE=$(MONITOR_ROM_BASE) -Wl,--defsym=ROM_SIZE=$(MONITOR_ROM_SIZE) -Wl,--defsym=ENTRYPOINT=$(MONITOR_ENTRYPOINT)
-SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport-atcons.c ../monitor/pcdrv.c
+SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport.c ../monitor/pcdrv.c
 endif
 
 include ../common.mk

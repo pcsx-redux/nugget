@@ -28,8 +28,8 @@ SOFTWARE.
 
 #include <stdint.h>
 
-/* H2x00 monitor transport: the ATCONS 16-bit word channel (0x1F802004).
-   Frame shape (protocol design section 2):
+/* Monitor frame layer, over whichever 16-bit word link the build selects
+   (monitor/link.h). Frame shape (protocol design section 2):
      [SYNC:u16=0x55AA] [TYPE:u16] [LEN:u16] [payload: LEN words] [CKSUM:u32]
    CKSUM is Fletcher-32 over the 16-bit words TYPE, LEN, payload (sent
    endian (each word contributes low byte then high byte), transmitted
@@ -42,8 +42,7 @@ SOFTWARE.
 #define TRANSPORT_EBADLEN (-1) /* payload longer than caller's buffer */
 #define TRANSPORT_ECKSUM (-2)  /* checksum mismatch */
 
-/* Bring up the ATCONS IRQ machinery (mirrors the DTL-H2000 dev_tty_init
-   sequence). Idempotent; safe to call once at monitor entry. */
+/* Bring up the link. Idempotent; safe to call once at monitor entry. */
 void transportInit(void);
 
 /* Send one frame on the word channel. Blocks on the STAT TX-word-ready bit
