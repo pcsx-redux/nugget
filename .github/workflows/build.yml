@@ -30,7 +30,7 @@ jobs:
         # psyq/README.md.
         run: |
           for d in crc32 cxxhello helloworld modplayer psmplayer psyqo \
-                   psyqo-lua psyqo-paths scratchstack shell spdplayer ucl-demo; do
+                   psyqo-lua psyqo-paths scratchstack shell spdplayer gpdplayer ucl-demo; do
             echo "::group::$d"
             make -C $d -j2 all
             echo "::endgroup::"
