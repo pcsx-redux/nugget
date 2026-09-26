@@ -24,26 +24,38 @@ SOFTWARE.
 
 */
 
-/* The monitor as a flash cart image on the retail BIOS, over SIO1. rom.s
-   catches the boot as the BIOS starts loading the shell, copies this PS-EXE
-   into RAM and jumps here, still inside the breakpoint exception. Put the
-   kernel back the way a normally-loaded program finds it before the monitor
-   takes over: no pending or enabled IRQs, the default exception return, and
-   out of the critical section. */
-#include "common/hardware/hwregs.h"
+/* A farm-shaped job for exercising a loader end to end: console text through
+   the kernel's printf, PCDRV in both directions, and the exit break. Reads
+   IN.TXT, writes it back upper-cased to OUT.TXT, and exits with the number of
+   bytes read, or 0xbad on any PCDRV failure. */
+#include <stdint.h>
+
+#include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
-#include "monitor/monitor.h"
 
-int psxprintf(const char *msg, ...) { return 0; }
+static __attribute__((noreturn)) void exitWith(int code) {
+    register int a0 asm("a0") = code;
+    __asm__ volatile("break 4, 0\n" : : "r"(a0));
+    __builtin_unreachable();
+}
 
-void installSio1Tty(void);
+static char s_buf[256];
 
 int main(void) {
-    IMASK = 0;
-    IREG = 0;
-    syscall_setDefaultExceptionJmpBuf();
-    leaveCriticalSection();
-    installSio1Tty();
-    monitorMain();
-    return 0;
+    ramsyscall_printf("farmjob: start\n");
+    if (PCinit() != 0) exitWith(0xbad);
+    int in = PCopen("IN.TXT", 0, 0);
+    if (in < 0) exitWith(0xbad);
+    int n = PCread(in, s_buf, sizeof(s_buf));
+    PCclose(in);
+    if (n < 0) exitWith(0xbad);
+    for (int i = 0; i < n; i++) {
+        if (s_buf[i] >= 'a' && s_buf[i] <= 'z') s_buf[i] -= 'a' - 'A';
+    }
+    int out = PCcreat("OUT.TXT", 0);
+    if (out < 0) exitWith(0xbad);
+    if (PCwrite(out, s_buf, n) != n) exitWith(0xbad);
+    PCclose(out);
+    ramsyscall_printf("farmjob: %d bytes\n", n);
+    exitWith(n);
 }
