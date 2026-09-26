@@ -443,9 +443,10 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
             continue;
         }
 
-        uint16_t n = (len <= MON_CMD_WORDS) ? len : MON_CMD_WORDS;
-        for (uint16_t i = 0; i < n; i++) s_mon.cmd[i] = transportRecvWord();
-        for (uint16_t i = n; i < len; i++) transportRecvWord(); /* drain overflow */
+        for (uint16_t i = 0; i < len; i++) {
+            uint16_t w = transportRecvWord();
+            if (i < MON_CMD_WORDS) s_mon.cmd[i] = w; /* the rest is drained */
+        }
         int rc = transportRecvEnd();
 
         if (rc != TRANSPORT_OK) {
