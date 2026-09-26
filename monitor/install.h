@@ -24,35 +24,36 @@ SOFTWARE.
 
 */
 
+/* The steps that hook the monitor into the kernel, shared between
+   monitorMain() and hosts that run them from a separate init stage. */
+#pragma once
 
-/* The monitor as a plain PS-EXE on top of the retail BIOS kernel, over SIO1,
-   in two stages. core/ is the resident half, linked into the free RAM under
-   the kernel's control blocks; this loader copies it there, hooks it into the
-   kernel, and is never used again, so the target can have all of user RAM.
-   The kernel state the monitor reads (0x60, 0x100) is placed there by the
-   retail kernel itself; __globals and __globals60 are pinned to those
-   addresses in the Makefiles. */
 #include <stdint.h>
 
+#include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
-#include "monitor/install.h"
-#include "monitor/link.h"
 
-extern const uint32_t _binary_monitor_core_bin_start[];
-extern const uint32_t _binary_monitor_core_bin_end[];
-/* From core/monitor-core.elf. */
-extern uint32_t __core_start[];
+/* The monitor's exception chain entry, defined in monitor.c. */
+extern struct HandlerInfo s_monitorHandler;
 
-void installSio1Tty(void);
-
-int main(void) {
-    const uint32_t *src = _binary_monitor_core_bin_start;
-    uint32_t *dst = __core_start;
-    while (src < _binary_monitor_core_bin_end) *dst++ = *src++;
+/* Copy the installed 0x80 general-exception trampoline down to the 0x40 cop0
+   break vector so a hardware breakpoint routes through the same handler and
+   chain. Nothing is installed at 0x40 by OpenBIOS. */
+static inline void monitorInstallCop0BreakVector(void) {
+    uint32_t *v80 = (uint32_t *)0x80;
+    uint32_t *v40 = (uint32_t *)0x40;
+    for (int i = 0; i < 4; i++) v40[i] = v80[i];
     syscall_flushCache();
+}
 
-    linkInit();
-    installSio1Tty();
-    monitorHook();
-    monitorEnter();
+/* Own the break/fault path, priority 0, ahead of the syscall verifier. */
+static inline void monitorHook(void) {
+    syscall_sysEnqIntRP(0, &s_monitorHandler);
+    monitorInstallCop0BreakVector();
+}
+
+/* Enter the monitor through the exception handler, so its loop runs there. */
+static inline __attribute__((noreturn)) void monitorEnter(void) {
+    __asm__ volatile("break 4, 1\n" : : : "memory");
+    __builtin_unreachable();
 }

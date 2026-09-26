@@ -6,9 +6,13 @@ BUILD ?= LTO
 SRCS = \
 ../../../common/crt0/crt0.s \
 main.c \
-host-monitor.c \
-host-transport.c \
 host-tty.c \
+
+# The resident half, built in core/ and copied into the cave at start-up.
+OBJS += monitor-core-blob.o
+EXTRA_DEPS += core/monitor-core.elf
+LDFLAGS += -Wl,--just-symbols=core/monitor-core.elf
+CPPFLAGS += -DSIO1_TTY_INSTALL_ONLY
 
 CPPFLAGS += -DMONITOR_LINK_SIO1
 # SIO1 baud reload at x16, see monitor/link-sio1.h.
@@ -19,6 +23,19 @@ CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 MONITOR_TLOAD ?= 0x801c0000
 LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=$(MONITOR_TLOAD)
 LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
+
+core/monitor-core.elf core/monitor-core.bin: FORCE
+	$(MAKE) -C core MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
+
+monitor-core-blob.o: core/monitor-core.bin
+	cd core && $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips monitor-core.bin ../$@
+
+clean::
+	$(MAKE) -C core clean
+	rm -f monitor-core-blob.o
+
+FORCE:
+.PHONY: FORCE
 
 # A bootable disc image of the same EXE: `make iso`. exe2iso is built with
 # pcsx-redux (tools/exe2iso); the disc holds PSX.EXE and no SYSTEM.CNF, which

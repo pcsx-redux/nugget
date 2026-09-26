@@ -31,6 +31,7 @@ SOFTWARE.
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
 #include "monitor/cop0dbg.h"
+#include "monitor/install.h"
 #include "monitor/kernel.h"
 #include "common/kernel/threads.h"
 #include "monitor/transport.h"
@@ -112,10 +113,6 @@ static void sendStatus(int code) {
     transportSendBegin(code ? MON_ERROR : MON_ACK, code != 0);
     if (code) transportSendWord(c);
     transportSendEnd();
-}
-
-static inline __attribute__((noreturn)) void monitorEnter() {
-    __asm__ volatile("break 4, 1\n" : : : "memory");
 }
 
 /* ---- events ---- */
@@ -498,17 +495,7 @@ static int monitorVerifier(void) {
     return 0;
 }
 
-/* Copy the installed 0x80 general-exception trampoline down to the 0x40 cop0
-   break vector so a hardware breakpoint routes through the same handler and
-   chain. Nothing is installed at 0x40 by OpenBIOS. */
-static void installCop0BreakVector(void) {
-    uint32_t *v80 = (uint32_t *)0x80;
-    uint32_t *v40 = (uint32_t *)0x40;
-    for (int i = 0; i < 4; i++) v40[i] = v80[i];
-    syscall_flushCache();
-}
-
-static struct HandlerInfo s_monitorHandler = {
+struct HandlerInfo s_monitorHandler = {
     .next = 0,
     .handler = 0,
     .verifier = monitorVerifier,
@@ -523,11 +510,6 @@ void monitorMain(void) {
     s_mon.dcic = 0;
     s_mon.watchAddr = 0;
 
-    /* Own the break/fault path (priority 0, ahead of the syscall verifier) and
-       the cop0 break vector, then announce readiness. */
-    syscall_sysEnqIntRP(0, &s_monitorHandler);
-    installCop0BreakVector();
-
-    /* Calls into the exception handler to ensure the monitor loop is run from there safely. */
+    monitorHook();
     monitorEnter();
 }

@@ -37,6 +37,11 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "monitor/link.h"
 
+/* A host whose device lives in a separately linked resident stage builds this
+   file a second time with SIO1_TTY_INSTALL_ONLY, for installSio1Tty alone. */
+#ifdef SIO1_TTY_INSTALL_ONLY
+extern const struct Device s_ttyDevice;
+#else
 static int ttyNull(void) { return 0; }
 
 static int ttyAction(struct File *file, enum FileAction action) {
@@ -50,7 +55,7 @@ static int ttyAction(struct File *file, enum FileAction action) {
     return count;
 }
 
-static const struct Device s_ttyDevice = {
+const struct Device s_ttyDevice = {
     .name = "tty",
     .flags = PSXDTTYPE_CHAR | PSXDTTYPE_CONS,
     .blockSize = 1,
@@ -72,6 +77,7 @@ static const struct Device s_ttyDevice = {
     .deinit = (device_deinit)ttyNull,
     .check = (void *)ttyNull,
 };
+#endif
 
 static inline int removeDevice(const char *name) {
     register int n asm("t1") = 0x48;
