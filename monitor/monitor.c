@@ -33,6 +33,13 @@ SOFTWARE.
 #include "monitor/pcdrv.h"
 #include "monitor/transport.h"
 
+#ifdef MONITOR_LZ4
+#include "monitor/lz4stream.c"
+#define MON_CAPS MON_CAP_LZ4
+#else
+#define MON_CAPS 0
+#endif
+
 /* READ_MEM responses stream out of target memory in 8 KiB chunks (design
    section 13). Nothing is staged: bulk data goes straight to/from the operation's
    real address, so the only buffer the monitor needs is a tiny one for the small
@@ -83,17 +90,18 @@ static inline __attribute__((noreturn)) void monitorEnter() {
 
 /* ---- events ---- */
 
-/* HELLO [proto_ver:u16][sram_base:u32][ram_size:u32] */
+/* HELLO [proto_ver:u16][sram_base:u32][ram_size:u32][caps:u16] */
 static void emitHello(void) {
     /* Announce the RAM size the kernel actually detected rather than a
        hardcoded constant. __globals60.ramsize is in megabytes (the reset path
        sets it; the H2x00 devkit carries 8 MiB vs retail's 2 MiB). */
     uint32_t ramSize = __globals60.ramsize << 20;
 
-    transportSendBegin(MON_HELLO, 5);
+    transportSendBegin(MON_HELLO, 6);
     transportSendWord(MON_PROTO_VER);
     sendWord32(MON_SRAM_BASE);
     sendWord32(ramSize);
+    transportSendWord(MON_CAPS);
     transportSendEnd();
 }
 
@@ -166,6 +174,67 @@ static void streamWriteMem(uint16_t frameWords) {
         sendError(MON_ECKSUM);
     }
 }
+
+#ifdef MONITOR_LZ4
+/* WRITE_MEM / LOAD with MON_LZ4: [dest:u32][rawlen:u32][clen:u32][off:u32]
+   [nbytes:u32][bytes]. The frames carry consecutive slices of one LZ4 block
+   stream of clen bytes that decodes to rawlen bytes at dest; off is where this
+   slice starts in it, and 0 starts a new stream. Bytes are decoded as they
+   arrive, so every frame is ACKed on its own; the last one also checks the
+   stream ended cleanly at exactly rawlen bytes. Any failure drops the stream,
+   and the host starts over from off 0. */
+static struct Lz4Stream s_lz;
+static uint32_t s_lzConsumed;
+static int s_lzActive;
+
+static void streamWriteMemLz4(uint16_t frameWords) {
+    if (frameWords < 10) {
+        for (uint16_t i = 0; i < frameWords; i++) transportRecvWord();
+        transportRecvEnd();
+        s_lzActive = 0;
+        sendError(MON_EBADLEN);
+        return;
+    }
+    uint32_t dest = recvU32();
+    uint32_t rawLen = recvU32();
+    uint32_t clen = recvU32();
+    uint32_t off = recvU32();
+    uint32_t nbytes = recvU32();
+    uint32_t words = frameWords - 10;
+    int bad = 0;
+
+    if (off == 0) {
+        lz4StreamInit(&s_lz, (void *)dest);
+        s_lzConsumed = 0;
+        s_lzActive = 1;
+    } else if (!s_lzActive || off != s_lzConsumed) {
+        bad = MON_EBADSTATE;
+    }
+    if (!bad && (nbytes > words * 2 || off + nbytes > clen)) bad = MON_EBADLEN;
+
+    for (uint32_t w = 0; w < words; w++) {
+        uint16_t word = transportRecvWord();
+        if (bad) continue;
+        uint32_t bi = w * 2;
+        if (bi < nbytes && lz4StreamFeed(&s_lz, word & 0xff)) bad = MON_EDECODE;
+        if (!bad && bi + 1 < nbytes && lz4StreamFeed(&s_lz, word >> 8)) bad = MON_EDECODE;
+    }
+    if (transportRecvEnd() != TRANSPORT_OK) bad = MON_ECKSUM;
+    if (!bad) {
+        s_lzConsumed += nbytes;
+        if (s_lzConsumed == clen) {
+            if (lz4StreamEndBlock(&s_lz) || (uint32_t)(s_lz.out - s_lz.base) != rawLen) bad = MON_EDECODE;
+            s_lzActive = 0;
+        }
+    }
+    if (bad) {
+        s_lzActive = 0;
+        sendError(bad);
+    } else {
+        sendAck();
+    }
+}
+#endif
 
 /* GET_REGS [] -> REGS [38 x u32, gdb g-packet order]. */
 static void cmdGetRegs(void) {
@@ -308,8 +377,8 @@ static void cmdSetBaud(const uint16_t *p) {
 static void dispatchCommand(uint16_t type, const uint16_t *payload) {
     switch (type) {
         case MON_PING: {
-            uint16_t ver = MON_PROTO_VER;
-            transportSendFrame(MON_PONG, &ver, 1);
+            uint16_t pong[2] = {MON_PROTO_VER, MON_CAPS};
+            transportSendFrame(MON_PONG, pong, 2);
             break;
         }
         case MON_READ_MEM: cmdReadMem(payload); break;
@@ -339,8 +408,19 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
         uint16_t len;
         transportRecvBegin(&type, &len);
 
-        if (type == MON_WRITE_MEM || type == MON_LOAD) {
-            streamWriteMem(len); /* + LOAD extent bookkeeping later */
+        uint16_t base = type & ~MON_LZ4;
+        if (base == MON_WRITE_MEM || base == MON_LOAD) {
+            if (!(type & MON_LZ4)) {
+                streamWriteMem(len);
+            } else {
+#ifdef MONITOR_LZ4
+                streamWriteMemLz4(len);
+#else
+                for (uint16_t i = 0; i < len; i++) transportRecvWord();
+                transportRecvEnd();
+                sendError(MON_EBADCMD);
+#endif
+            }
             continue;
         }
 

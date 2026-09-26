@@ -49,6 +49,18 @@ SOFTWARE.
 #define MON_SET_BAUD 0x0D   /* SIO1 line rate, design section 2a */
 #define MON_PCDRV_RESP 0x20 /* answering an in-flight PCDRV_REQ */
 
+/* Bit 15 on WRITE_MEM or LOAD: the payload is an LZ4 stream (monitor/lz4stream.h). */
+#define MON_LZ4 0x8000
+
+/* Capability bits, in HELLO and PONG. */
+#define MON_CAP_LZ4 0x0001
+
+/* LZ4 WRITE_MEM/LOAD on SIO1 by default: the wire is slow enough that decoding
+   hides under it. Elsewhere decoding would cost more than it saves. */
+#if defined(MONITOR_LINK_SIO1) && !defined(MONITOR_NO_LZ4) && !defined(MONITOR_LZ4)
+#define MONITOR_LZ4 1
+#endif
+
 /* PS1 -> host responses / events */
 #define MON_ACK 0x40
 #define MON_DATA 0x41
@@ -67,6 +79,7 @@ SOFTWARE.
 #define MON_EBADLEN 0x05
 #define MON_ECKSUM 0x06
 #define MON_ENOFD 0x07
+#define MON_EDECODE 0x08
 
 /* STOPPED reason codes (section 6) */
 #define MON_STOP_BREAKPOINT 0x01

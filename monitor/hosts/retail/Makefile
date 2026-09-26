@@ -14,7 +14,9 @@ CPPFLAGS += -DMONITOR_LINK_SIO1
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 # Linked high so targets keep the usual 0x80010000.
-LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=0x801c0000
+# MONITOR_TLOAD moves it, e.g. to load one monitor from another.
+MONITOR_TLOAD ?= 0x801c0000
+LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=$(MONITOR_TLOAD)
 LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
 
 # A bootable disc image of the same EXE: `make iso`. exe2iso is built with
