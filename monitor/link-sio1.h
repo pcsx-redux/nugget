@@ -44,9 +44,15 @@ SOFTWARE.
 
 #define SIO1_CTRL_BASE (SIO_CTRL_TXEN | SIO_CTRL_RXE)
 
+/* Baud = 2073600 / reload at x16: 18 -> 115200 (117600 actual), 5 -> 414720,
+   4 -> 518400. */
+#ifndef MONITOR_SIO1_RELOAD
+#define MONITOR_SIO1_RELOAD 18
+#endif
+
 static inline void linkInit(void) {
     SIOS[1].ctrl = SIO_CTRL_IR;
-    SIOS[1].baudRate = 18;
+    SIOS[1].baudRate = MONITOR_SIO1_RELOAD;
     SIOS[1].mode = 0x4e; /* 1 stop bit, 8 bits, no parity, x16 */
     SIOS[1].ctrl = SIO1_CTRL_BASE;
 }
