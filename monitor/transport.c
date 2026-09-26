@@ -36,7 +36,8 @@ SOFTWARE.
 static uint32_t s_txS1, s_txS2;
 static uint32_t s_rxS1, s_rxS2;
 
-static uint32_t fletcherFinish(uint32_t s1, uint32_t s2) {
+/* Not inlined: the two callers would each carry the modulo sequences. */
+static __attribute__((noinline)) uint32_t fletcherFinish(uint32_t s1, uint32_t s2) {
     uint32_t ck = ((s2 % 65535u) << 16) | (s1 % 65535u);
     return ck == CKSUM_NONE ? 0xffffffffu : ck;
 }
