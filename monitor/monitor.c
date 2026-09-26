@@ -209,29 +209,29 @@ static int streamWriteMem(uint16_t frameWords) {
    stream ended cleanly at exactly rawlen bytes. Any failure drops the stream,
    and the host starts over from off 0. */
 static int streamWriteMemLz4(uint16_t frameWords) {
-    if (frameWords < 10) {
-        for (uint16_t i = 0; i < frameWords; i++) transportRecvWord();
-        transportRecvEnd();
-        s_mon.lzActive = 0;
-        return MON_EBADLEN;
-    }
-    uint32_t dest = recvU32();
-    uint32_t rawLen = recvU32();
-    uint32_t clen = recvU32();
-    uint32_t off = recvU32();
-    uint32_t nbytes = recvU32();
-    uint32_t words = frameWords - 10;
+    uint32_t words = frameWords;
+    uint32_t rawLen = 0, clen = 0, nbytes = 0;
     int bad = 0;
 
     s_mon.memWritten = 1;
-    if (off == 0) {
-        lz4StreamInit(&s_mon.lz, (void *)dest);
-        s_mon.lzConsumed = 0;
-        s_mon.lzActive = 1;
-    } else if (!s_mon.lzActive || off != s_mon.lzConsumed) {
-        bad = MON_EBADSTATE;
+    if (words < 10) {
+        bad = MON_EBADLEN; /* the rest of the frame is drained below */
+    } else {
+        uint32_t dest = recvU32();
+        rawLen = recvU32();
+        clen = recvU32();
+        uint32_t off = recvU32();
+        nbytes = recvU32();
+        words -= 10;
+        if (off == 0) {
+            lz4StreamInit(&s_mon.lz, (void *)dest);
+            s_mon.lzConsumed = 0;
+            s_mon.lzActive = 1;
+        } else if (!s_mon.lzActive || off != s_mon.lzConsumed) {
+            bad = MON_EBADSTATE;
+        }
+        if (!bad && (nbytes > words * 2 || off + nbytes > clen)) bad = MON_EBADLEN;
     }
-    if (!bad && (nbytes > words * 2 || off + nbytes > clen)) bad = MON_EBADLEN;
 
     for (uint32_t w = 0; w < words; w++) {
         uint16_t word = transportRecvWord();
