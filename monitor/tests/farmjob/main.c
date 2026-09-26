@@ -27,7 +27,8 @@ SOFTWARE.
 /* A farm-shaped job for exercising a loader end to end: console text through
    the kernel's printf, PCDRV in both directions, and the exit break. Reads
    IN.TXT, writes it back upper-cased to OUT.TXT, and exits with the number of
-   bytes read, or 0xbad on any PCDRV failure. */
+   bytes read (up to 32 KB, so reads and writes span several frames), or
+   0xbad on any PCDRV failure. */
 #include <stdint.h>
 
 #include "common/kernel/pcdrv.h"
@@ -39,7 +40,7 @@ static __attribute__((noreturn)) void exitWith(int code) {
     __builtin_unreachable();
 }
 
-static char s_buf[256];
+static char s_buf[32768];
 
 int main(void) {
     ramsyscall_printf("farmjob: start\n");
