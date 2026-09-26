@@ -17,6 +17,7 @@ payload.o: image.bin
 
 # STOCK is a dump of the stock H2700 flash; the monitor is ../../.. built
 # with `make BOOT=cart MONITOR=1`.
-image.bin: ../../../openbios.elf
+image.bin: $(wildcard ../../../openbios.elf)
+	@test -n "$<" || { echo "build ../../.. with 'make BOOT=cart MONITOR=1' first" >&2; exit 1; }
 	@test -n "$(STOCK)" || { echo "set STOCK=<stock H2700 flash dump> to build image.bin" >&2; exit 1; }
 	python3 mkimage.py $(STOCK) $< $@ $(PREFIX)-objcopy
