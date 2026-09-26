@@ -1,0 +1,12 @@
+<map id="openbios/pio/pio.c" name="openbios/pio/pio.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="114,5,254,31"/>
+<area shape="rect" id="Node000002" href="$dc/d60/pio_8h.html" title=" " alt="" coords="5,79,147,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,33,107,73,104,69,165,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="165,152,235,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,31,200,138,195,139,183,31"/>
+<area shape="rect" id="Node000004" href="$d6/d85/common_2psxlibc_2string_8h.html" title=" " alt="" coords="222,79,405,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="206,28,281,69,279,74,204,33"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="297,106,231,147,228,142,294,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="276,152,351,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="316,104,316,138,311,138,311,104"/>
+</map>

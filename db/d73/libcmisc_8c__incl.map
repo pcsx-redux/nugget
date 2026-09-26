@@ -1,0 +1,15 @@
+<map id="openbios/kernel/libcmisc.c" name="openbios/kernel/libcmisc.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="146,5,341,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,76,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,33,87,77,85,72,210,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="149,152,223,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,33,170,51,154,64,142,80,138,95,142,111,164,141,160,144,137,113,132,95,137,77,150,60,167,47,203,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="264,152,335,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="341,22,404,29,467,40,521,55,541,65,555,77,563,90,567,102,565,113,559,122,538,137,506,148,426,161,349,166,348,160,426,156,505,143,535,133,555,119,560,111,561,102,558,92,551,80,538,70,519,60,466,45,404,34,340,27"/>
+<area shape="rect" id="Node000005" href="$d7/d0d/ctype_8h.html" title=" " alt="" coords="359,79,541,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="277,28,404,72,403,77,276,33"/>
+<area shape="rect" id="Node000006" href="$d6/d85/common_2psxlibc_2string_8h.html" title=" " alt="" coords="152,79,335,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="246,31,246,65,241,65,241,31"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="236,106,206,143,202,139,232,103"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="255,103,284,140,280,143,250,106"/>
+</map>

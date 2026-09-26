@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['i_0',['i',['../da/d56/gte-regio_8c.html#acb559820d9ca11295b4500f179ef6392',1,'gte-regio.c']]],
+  ['icon_1',['icon',['../da/d7e/structpsyqo_1_1MemoryCardFileSystem_1_1FileInfo.html#ae3aec1a1c63d2217ffac20f264dc73f2',1,'psyqo::MemoryCardFileSystem::FileInfo']]],
+  ['id_2',['id',['../d8/d40/structVabHdr.html#af358eec43f49e426d7bcf5432bd081be',1,'VabHdr::id'],['../d6/d4d/structPathTableEntry.html#a07166fe44623bf784d20d3eab3b835c9',1,'PathTableEntry::ID']]],
+  ['idx_3',['idx',['../d1/d0f/namespacegentable.html#a8dbdce1fae1a8412d63380492e8b00b5',1,'gentable']]],
+  ['imask_4',['imask',['../d8/d51/dma_8c.html#ad227ebbc662f0025985c217873fd9246',1,'IMASK:&#160;dma.c'],['../dd/d20/namespacepsyqo_1_1Hardware_1_1CPU.html#ae53aa2187ef25c4a5f7117696197e34b',1,'psyqo::Hardware::CPU::IMask'],['../d4/d36/cester-cop0_8c.html#ad227ebbc662f0025985c217873fd9246',1,'IMASK:&#160;cester-cop0.c'],['../d7/dd9/cester-hw_8c.html#ad227ebbc662f0025985c217873fd9246',1,'IMASK:&#160;cester-hw.c']]],
+  ['img_5',['img',['../da/d58/namespacemkimage.html#ac9585fef08881db6581db3a066230096',1,'mkimage']]],
+  ['in_6',['in',['../d4/d16/memcpy_8c.html#a04101103c7f46fe1b9c91ead3b10f228',1,'memcpy.c']]],
+  ['index_7',['index',['../d0/d3d/structpsyqo_1_1HelixSelector_1_1Slot.html#a171aabb106fc22ed304f6a7eb3ec8fce',1,'psyqo::HelixSelector::Slot::index'],['../d3/d32/structpsyqo_1_1HelixSelector_1_1Event.html#a237afd2e44ee314092efb3f4078240a9',1,'psyqo::HelixSelector::Event::index'],['../d3/d4a/structpsyqo_1_1CDRomDevice_1_1PlaybackLocation.html#a7c93b03b0dfa7fdd1b79576825510138',1,'psyqo::CDRomDevice::PlaybackLocation::index']]],
+  ['info_8',['info',['../d2/d6e/syscalls_8h.html#a7b16a542aaeea764362f9dc2249ae63c',1,'info:&#160;syscalls.h'],['../d0/d24/structProbeStats.html#a36a56a2580bc9421ea4035a54eae018f',1,'ProbeStats::info']]],
+  ['init_9',['init',['../da/da1/structDevice.html#a7bc00c692bb77921583c5a54db26ff7e',1,'Device']]],
+  ['innerradius_10',['innerRadius',['../d4/d10/structpsyqo_1_1HelixSelector_1_1Config.html#a18a5adcc78dcb0afca6900809b399b4a',1,'psyqo::HelixSelector::Config']]],
+  ['inpregap_11',['inPregap',['../dc/d3b/cdlgetlocp_8c.html#ac845edde415f1f644039372aeec6c409',1,'cdlgetlocp.c']]],
+  ['input_12',['input',['../d7/d31/structSPUReverbCaptureHeader.html#aa3e996cdb96de9aa1247e7be5aa1cfd6',1,'SPUReverbCaptureHeader::input'],['../da/df0/tests_2libc_2qsort_8c.html#ae5e8593e4b949f487277dc190d84d05a',1,'input:&#160;qsort.c']]],
+  ['interruptcontrol_13',['InterruptControl',['../d4/d30/namespacepsyqo_1_1Hardware_1_1CDRom.html#accc2400a5ea01a5bf85951f4656f19d2',1,'psyqo::Hardware::CDRom']]],
+  ['invalid_14',['INVALID',['../d1/d0f/namespacegentable.html#a5f3d69e5f6c7b63fa5dc825d0856bca5',1,'gentable']]],
+  ['ioctl_15',['ioctl',['../da/da1/structDevice.html#a47105c1657c19a67b912b514dd4d2fc0',1,'Device']]],
+  ['ir0_16',['ir0',['../d3/d64/structprobe__result__t.html#a39c476cf40a1dff4f550adfe728d3acc',1,'probe_result_t::ir0'],['../d7/d32/gte-edgecase_8c.html#abc616399572976476ee5e485c7101aa6',1,'ir0:&#160;gte-edgecase.c'],['../d8/d15/gte-rtps_8c.html#abc616399572976476ee5e485c7101aa6',1,'ir0:&#160;gte-rtps.c']]],
+  ['ir1_17',['ir1',['../d3/d64/structprobe__result__t.html#a324161f1b5a670ed61234f1b3d9be76b',1,'probe_result_t::ir1'],['../d7/d32/gte-edgecase_8c.html#a2dda70411b611b4e9d6758b0b8a5574d',1,'ir1:&#160;gte-edgecase.c'],['../d2/d5f/gte-precision_8c.html#a54d9889d307daeb6c29b18f6a54f037d',1,'ir1:&#160;gte-precision.c'],['../dc/d16/gte-sqr_8c.html#a2dda70411b611b4e9d6758b0b8a5574d',1,'ir1:&#160;gte-sqr.c']]],
+  ['ir2_18',['ir2',['../d3/d64/structprobe__result__t.html#a6506e5649fea63ad0d4fa0afa844379f',1,'probe_result_t::ir2'],['../dc/d16/gte-sqr_8c.html#a43373dab1168da7d5f0d4a6e8c1686b5',1,'ir2:&#160;gte-sqr.c']]],
+  ['ir3_19',['ir3',['../d3/d64/structprobe__result__t.html#a8c4c8efedfd681aa8cfae42b4f71b8a6',1,'probe_result_t::ir3'],['../d2/d5f/gte-precision_8c.html#abf9fca2bc35d41c222744433c9743f0f',1,'ir3:&#160;gte-precision.c'],['../dc/d16/gte-sqr_8c.html#abf9fca2bc35d41c222744433c9743f0f',1,'ir3:&#160;gte-sqr.c']]],
+  ['ireg_20',['ireg',['../dd/d20/namespacepsyqo_1_1Hardware_1_1CPU.html#a94f1a4f140ebe62e24adbbfe23b7d462',1,'psyqo::Hardware::CPU::IReg'],['../d4/d36/cester-cop0_8c.html#a5d2a811d28fc6fff0127cf09edb84f3b',1,'IREG:&#160;cester-cop0.c'],['../d8/d51/dma_8c.html#a5d2a811d28fc6fff0127cf09edb84f3b',1,'IREG:&#160;dma.c']]],
+  ['isalignedandsafe_21',['isAlignedAndSafe',['../db/dfd/structUtilities_1_1BitFieldInternal_1_1BitFieldHelper.html#a3f3655cce91edc239b8d56b5ba5d6d98',1,'Utilities::BitFieldInternal::BitFieldHelper']]],
+  ['items_22',['items',['../d7/d83/namespacegen-sjis-encode-table.html#ae252d77d94c05c160331c340dfa6309e',1,'gen-sjis-encode-table']]],
+  ['itemsperturn_23',['itemsPerTurn',['../d4/d10/structpsyqo_1_1HelixSelector_1_1Config.html#a73914cc7f7721bd6dbfda27272010c61',1,'psyqo::HelixSelector::Config']]]
+];

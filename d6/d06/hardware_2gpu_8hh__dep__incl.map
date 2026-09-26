@@ -1,0 +1,41 @@
+<map id="psyqo/hardware/gpu.hh" name="psyqo/hardware/gpu.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="695,5,869,31"/>
+<area shape="rect" id="Node000002" href="$d4/dda/gpu_8hh.html" title=" " alt="" coords="727,86,837,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="785,44,785,86,779,86,779,44"/>
+<area shape="rect" id="Node000007" href="$d3/d1e/dmachain_8cpp.html" title=" " alt="" coords="5,328,172,368"/>
+<area shape="poly" id="edge23_Node000001_Node000007" title=" " alt="" coords="681,28,521,42,336,69,248,87,170,110,108,137,84,152,67,168,56,186,50,207,49,228,52,251,65,293,80,327,75,329,60,295,47,252,44,229,45,206,51,184,63,165,81,148,105,132,168,105,246,82,335,64,520,37,680,23"/>
+<area shape="rect" id="Node000016" href="$df/d0f/hardware_2gpu_8cpp.html" title=" " alt="" coords="861,79,1010,119"/>
+<area shape="poly" id="edge22_Node000001_Node000016" title=" " alt="" coords="818,35,900,76,897,81,815,39"/>
+<area shape="rect" id="Node000003" href="$d9/d29/hello_8cpp.html" title=" " alt="" coords="697,328,851,368"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="832,112,849,116,902,121,971,121,1130,117,1210,118,1284,124,1345,139,1370,150,1389,165,1411,193,1422,222,1418,252,1400,282,1372,296,1320,309,1171,327,999,340,852,347,852,341,999,334,1171,322,1319,303,1370,291,1396,278,1413,250,1416,223,1407,195,1385,169,1367,155,1343,144,1283,130,1210,123,1130,122,971,126,902,126,848,121,831,118"/>
+<area shape="rect" id="Node000004" href="$d1/d0c/application_8hh.html" title=" " alt="" coords="101,174,258,199"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="714,110,515,134,270,169,232,177,231,171,270,164,514,128,714,105"/>
+<area shape="poly" id="edge21_Node000002_Node000007" title=" " alt="" coords="714,104,552,110,354,121,181,140,121,153,102,161,91,169,79,186,71,206,68,250,74,293,84,327,79,328,69,294,62,250,66,205,74,184,87,165,99,156,120,148,180,135,354,116,551,104,713,99"/>
+<area shape="rect" id="Node000009" href="$d8/d21/font_8hh.html" title=" " alt="" coords="1243,174,1353,199"/>
+<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="832,112,849,116,956,133,1040,140,1124,147,1231,164,1261,171,1260,177,1229,169,1123,152,1039,145,955,138,848,121,831,117"/>
+<area shape="rect" id="Node000010" href="$dd/d53/font_8cpp.html" title=" " alt="" coords="1245,255,1386,280"/>
+<area shape="poly" id="edge17_Node000002_Node000010" title=" " alt="" coords="832,112,849,116,948,122,1114,128,1277,140,1336,150,1356,157,1368,165,1375,176,1376,189,1368,214,1350,238,1331,256,1327,252,1346,234,1363,212,1371,189,1370,178,1364,169,1353,162,1334,155,1276,145,1114,133,948,127,848,121,831,117"/>
+<area shape="rect" id="Node000011" href="$db/d12/cdrom-device-toc_8cpp.html" title=" " alt="" coords="283,167,460,207"/>
+<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="714,117,461,169,460,164,713,112"/>
+<area shape="rect" id="Node000012" href="$d7/df1/cdrom-device_8cpp.html" title=" " alt="" coords="484,174,688,199"/>
+<area shape="poly" id="edge16_Node000002_Node000012" title=" " alt="" coords="744,119,614,176,612,171,742,114"/>
+<area shape="rect" id="Node000013" href="$dc/d4a/gpu_8cpp.html" title=" " alt="" coords="713,174,851,199"/>
+<area shape="poly" id="edge18_Node000002_Node000013" title=" " alt="" coords="785,125,785,173,779,173,779,125"/>
+<area shape="rect" id="Node000014" href="$d1/df2/memory-card-filesystem_8cpp.html" title=" " alt="" coords="875,167,1051,207"/>
+<area shape="poly" id="edge19_Node000002_Node000014" title=" " alt="" coords="820,115,924,164,922,169,817,120"/>
+<area shape="rect" id="Node000015" href="$d9/d9c/task_8cpp.html" title=" " alt="" coords="1076,174,1219,199"/>
+<area shape="poly" id="edge20_Node000002_Node000015" title=" " alt="" coords="835,112,849,116,1097,171,1096,177,848,121,834,118"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="247,200,488,252,615,290,722,325,720,331,613,295,487,257,246,205"/>
+<area shape="rect" id="Node000005" href="$d5/dd8/scene_8hh.html" title=" " alt="" coords="330,255,453,280"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="224,201,361,252,360,257,222,206"/>
+<area shape="rect" id="Node000006" href="$df/d7b/application_8cpp.html" title=" " alt="" coords="347,335,534,361"/>
+<area shape="poly" id="edge9_Node000004_Node000006" title=" " alt="" coords="246,200,386,231,466,253,475,274,472,298,462,319,452,337,447,334,458,317,467,296,470,275,463,257,384,236,245,205"/>
+<area shape="poly" id="edge11_Node000004_Node000007" title=" " alt="" coords="167,213,142,256,101,329,96,327,137,253,163,210"/>
+<area shape="rect" id="Node000008" href="$dd/d24/kernel_8cpp.html" title=" " alt="" coords="151,255,306,280"/>
+<area shape="poly" id="edge10_Node000004_Node000008" title=" " alt="" coords="196,210,224,253,219,256,192,212"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="461,280,697,328,696,333,460,285"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="408,290,436,334,431,337,404,293"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="335,286,162,330,161,325,333,281"/>
+<area shape="poly" id="edge13_Node000009_Node000003" title=" " alt="" coords="1248,206,836,331,835,325,1247,201"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="1306,212,1315,254,1310,255,1301,213"/>
+</map>

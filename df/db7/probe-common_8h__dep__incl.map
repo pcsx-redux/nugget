@@ -1,0 +1,25 @@
+<map id="tests/2mb&#45;vram/probe&#45;common.h" name="tests/2mb&#45;vram/probe&#45;common.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="991,5,1157,45"/>
+<area shape="rect" id="Node000002" href="$d5/daf/bank-probe_8c.html" title=" " alt="" coords="5,101,167,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="977,30,823,35,624,46,402,65,180,96,147,103,146,98,179,91,401,60,623,40,823,29,976,25"/>
+<area shape="rect" id="Node000003" href="$db/da8/display-area-y_8c.html" title=" " alt="" coords="191,101,367,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="977,34,707,54,543,72,380,96,346,103,345,98,379,91,543,66,707,48,977,28"/>
+<area shape="rect" id="Node000004" href="$da/d90/drawing-area-y_8c.html" title=" " alt="" coords="391,101,573,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="977,39,795,62,585,96,552,103,551,98,584,91,794,57,976,34"/>
+<area shape="rect" id="Node000005" href="$d9/d4a/drawing-offset-y_8c.html" title=" " alt="" coords="597,101,794,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="985,51,772,103,771,98,984,46"/>
+<area shape="rect" id="Node000006" href="$dd/ddd/fast-fill-h-quirk_8c.html" title=" " alt="" coords="818,93,973,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1027,54,947,96,944,91,1025,49"/>
+<area shape="rect" id="Node000007" href="$dc/d69/fast-fill-y_8c.html" title=" " alt="" coords="997,101,1151,141"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1077,59,1077,101,1071,101,1071,59"/>
+<area shape="rect" id="Node000008" href="$da/d0f/gp1-09-matrix_8c.html" title=" " alt="" coords="1176,101,1375,141"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1128,49,1236,98,1234,103,1126,54"/>
+<area shape="rect" id="Node000009" href="$d6/d60/primitives-cross_8c.html" title=" " alt="" coords="1399,101,1594,141"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1172,44,1388,91,1420,98,1418,103,1387,96,1171,49"/>
+<area shape="rect" id="Node000010" href="$d8/db1/transfer-h-quirk_8c.html" title=" " alt="" coords="1619,101,1809,141"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1171,33,1372,55,1606,91,1642,98,1640,103,1606,96,1371,61,1170,38"/>
+<area shape="rect" id="Node000011" href="$db/da6/vram-blit-y_8c.html" title=" " alt="" coords="1834,101,1997,141"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1171,27,1301,33,1464,45,1643,64,1822,91,1855,98,1854,103,1822,96,1643,69,1463,50,1301,39,1171,32"/>
+<area shape="rect" id="Node000012" href="$d4/da1/vram-transfers-y_8c.html" title=" " alt="" coords="2021,101,2242,141"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1171,27,1540,45,1774,63,2009,91,2051,98,2050,103,2008,96,1773,69,1540,50,1171,32"/>
+</map>
