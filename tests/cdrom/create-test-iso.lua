@@ -16,13 +16,21 @@
 --   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 -- This script creates a test ISO image for the CDROM unit tests.
+--
+-- The data track boots the retail monitor (monitor/hosts/retail), so a
+-- console that boots burned discs can load the tests over SIO1. BOOT_EXE
+-- overrides the boot executable. If an iso is mounted, its license sectors
+-- are copied; otherwise the disc carries none.
 
 local ffi = require 'ffi'
 local bit = require 'bit'
-local uniromDisc = PCSX.getCurrentIso()
-local uniromDiscReader = uniromDisc:createReader()
-local uniromFile = uniromDiscReader:open 'UNIROM_B.EXE;1'
-local licenseFile = uniromDisc:open(0, 2352 * 16, 'RAW')
+local scriptDir = debug.getinfo(1, 'S').source:match '^@(.*[/\\])' or './'
+local bootPath = os.getenv 'BOOT_EXE' or (scriptDir .. '../../monitor/hosts/retail/monitor-retail.ps-exe')
+local bootFile = Support.File.open(bootPath)
+if bootFile:failed() then error('cannot open boot executable ' .. bootPath) end
+local licenseFile
+local disc = PCSX.getCurrentIso()
+if disc and not disc:failed() then licenseFile = disc:open(0, 2352 * 16, 'RAW') end
 local iso = PCSX.isoBuilder(Support.File.open('test.bin', 'TRUNCATE'))
 iso:writeLicense(licenseFile)
 
@@ -48,7 +56,7 @@ local root = Support.File.buffer()
 root:writeAt(b, 0)
 root:writeU8At(42, 0)
 root:writeU32At(19, 2)
-root:writeU32At(uniromFile:size(), 10)
+root:writeU32At(bootFile:size(), 10)
 root:writeU8At(9, 32)
 root:writeAt('PSX.EXE;1', 33)
 
@@ -60,8 +68,9 @@ root:read(b)
 iso:writeSector(b:cast 'uint8_t *', 2048)
 
 local count = 19
-while not uniromFile:eof() do
-    uniromFile:read(b)
+while not bootFile:eof() do
+    ffi.fill(b.data, 2048)
+    bootFile:read(b)
     iso:writeSector(b:cast 'uint8_t *', 2048)
     count = count + 1
 end
