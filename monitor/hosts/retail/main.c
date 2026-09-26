@@ -34,7 +34,10 @@ SOFTWARE.
    uses printf for its banner. */
 int psxprintf(const char *msg, ...) { return 0; }
 
+void installSio1Tty(void);
+
 int main(void) {
+    installSio1Tty();
     monitorMain();
     return 0;
 }

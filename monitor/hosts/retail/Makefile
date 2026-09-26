@@ -7,6 +7,7 @@ main.c \
 host-monitor.c \
 host-pcdrv.c \
 host-transport.c \
+host-tty.c \
 
 CPPFLAGS += -DMONITOR_LINK_SIO1
 # SIO1 baud reload at x16, see monitor/link-sio1.h.
