@@ -48,19 +48,31 @@ SOFTWARE.
 #define MON_CHUNK_BYTES 8192
 #define MON_CMD_WORDS 16
 
-static uint16_t s_cmd[MON_CMD_WORDS];
-
-/* Saved context of the halted program (== the current thread's register frame,
-   which the kernel exception entry fills). NULL before the first stop. */
-static struct Registers *s_ctx;
-
-/* BadVaddr captured at the last fault (struct Registers has no slot for it). */
-static uint32_t s_badVaddr;
-
-/* Running DCIC image + the armed data-watch address, so SET_BP/CLR_BP can
-   add/remove one breakpoint kind and the stop path can report the watch. */
-static uint32_t s_dcic;
-static uint32_t s_watchAddr;
+/* All of the monitor's state in one object: the compiler then reaches every
+   field from one base register instead of materializing an address per
+   variable (there is no gp-relative data on this target). */
+static struct {
+    uint16_t cmd[MON_CMD_WORDS];
+    /* Saved context of the halted program (== the current thread's register
+       frame, which the kernel exception entry fills). NULL before the first
+       stop and while running. */
+    struct Registers *ctx;
+    /* BadVaddr captured at the last fault (struct Registers has no slot for it). */
+    uint32_t badVaddr;
+    /* Running DCIC image + the armed data-watch address, so SET_BP/CLR_BP can
+       add/remove one breakpoint kind and the stop path can report the watch. */
+    uint32_t dcic;
+    uint32_t watchAddr;
+    /* Set when WRITE_MEM or LOAD wrote memory since the last resume. */
+    int memWritten;
+#ifdef MONITOR_LZ4
+    /* The LZ4 stream in flight: its decoder, how much of clen has arrived, and
+       whether one is open at all (see streamWriteMemLz4). */
+    struct Lz4Stream lz;
+    uint32_t lzConsumed;
+    int lzActive;
+#endif
+} s_mon;
 
 /* SR the target runs under after a fresh RUN. The rfe in returnFromException
    pops IEp->IEc, so IEp (bit2) enables interrupts; IM2 (bit10) unmasks the PS1
@@ -72,14 +84,11 @@ static uint32_t s_watchAddr;
 
 static struct Registers *currentRegs(void) { return &__globals.processes[0].thread->registers; }
 
-/* Set when WRITE_MEM or LOAD wrote memory since the last resume. */
-static int s_memWritten;
-
 /* Resume the target. Anything written may be code the I-cache still holds
    older lines for, so flush first when memory changed. */
 static inline __attribute__((noreturn)) void monitorResume(void) {
-    if (s_memWritten) {
-        s_memWritten = 0;
+    if (s_mon.memWritten) {
+        s_mon.memWritten = 0;
         syscall_flushCache();
     }
     syscall_returnFromException();
@@ -171,7 +180,7 @@ static void streamWriteMem(uint16_t frameWords) {
     uint32_t nbytes = recvU32(); /* 2 words */
     uint32_t consumed = 4;
     uint8_t *dst = (uint8_t *)addr;
-    s_memWritten = 1;
+    s_mon.memWritten = 1;
 
     for (uint16_t w = consumed; w < frameWords; w++) {
         uint16_t word = transportRecvWord();
@@ -196,15 +205,11 @@ static void streamWriteMem(uint16_t frameWords) {
    arrive, so every frame is ACKed on its own; the last one also checks the
    stream ended cleanly at exactly rawlen bytes. Any failure drops the stream,
    and the host starts over from off 0. */
-static struct Lz4Stream s_lz;
-static uint32_t s_lzConsumed;
-static int s_lzActive;
-
 static void streamWriteMemLz4(uint16_t frameWords) {
     if (frameWords < 10) {
         for (uint16_t i = 0; i < frameWords; i++) transportRecvWord();
         transportRecvEnd();
-        s_lzActive = 0;
+        s_mon.lzActive = 0;
         sendError(MON_EBADLEN);
         return;
     }
@@ -216,12 +221,12 @@ static void streamWriteMemLz4(uint16_t frameWords) {
     uint32_t words = frameWords - 10;
     int bad = 0;
 
-    s_memWritten = 1;
+    s_mon.memWritten = 1;
     if (off == 0) {
-        lz4StreamInit(&s_lz, (void *)dest);
-        s_lzConsumed = 0;
-        s_lzActive = 1;
-    } else if (!s_lzActive || off != s_lzConsumed) {
+        lz4StreamInit(&s_mon.lz, (void *)dest);
+        s_mon.lzConsumed = 0;
+        s_mon.lzActive = 1;
+    } else if (!s_mon.lzActive || off != s_mon.lzConsumed) {
         bad = MON_EBADSTATE;
     }
     if (!bad && (nbytes > words * 2 || off + nbytes > clen)) bad = MON_EBADLEN;
@@ -230,19 +235,19 @@ static void streamWriteMemLz4(uint16_t frameWords) {
         uint16_t word = transportRecvWord();
         if (bad) continue;
         uint32_t bi = w * 2;
-        if (bi < nbytes && lz4StreamFeed(&s_lz, word & 0xff)) bad = MON_EDECODE;
-        if (!bad && bi + 1 < nbytes && lz4StreamFeed(&s_lz, word >> 8)) bad = MON_EDECODE;
+        if (bi < nbytes && lz4StreamFeed(&s_mon.lz, word & 0xff)) bad = MON_EDECODE;
+        if (!bad && bi + 1 < nbytes && lz4StreamFeed(&s_mon.lz, word >> 8)) bad = MON_EDECODE;
     }
     if (transportRecvEnd() != TRANSPORT_OK) bad = MON_ECKSUM;
     if (!bad) {
-        s_lzConsumed += nbytes;
-        if (s_lzConsumed == clen) {
-            if (lz4StreamEndBlock(&s_lz) || (uint32_t)(s_lz.out - s_lz.base) != rawLen) bad = MON_EDECODE;
-            s_lzActive = 0;
+        s_mon.lzConsumed += nbytes;
+        if (s_mon.lzConsumed == clen) {
+            if (lz4StreamEndBlock(&s_mon.lz) || (uint32_t)(s_mon.lz.out - s_mon.lz.base) != rawLen) bad = MON_EDECODE;
+            s_mon.lzActive = 0;
         }
     }
     if (bad) {
-        s_lzActive = 0;
+        s_mon.lzActive = 0;
         sendError(bad);
     } else {
         sendAck();
@@ -252,13 +257,13 @@ static void streamWriteMemLz4(uint16_t frameWords) {
 
 /* GET_REGS [] -> REGS [38 x u32, gdb g-packet order]. */
 static void cmdGetRegs(void) {
-    struct Registers *r = s_ctx;
+    struct Registers *r = s_mon.ctx;
     transportSendBegin(MON_REGS, 38 * 2);
     for (int i = 0; i < 32; i++) sendWord32(r ? r->GPR.r[i] : 0); /* 0..31 r0..r31 */
     sendWord32(r ? r->SR : 0);                                    /* 32 SR */
     sendWord32(r ? r->lo : 0);                                    /* 33 LO */
     sendWord32(r ? r->hi : 0);                                    /* 34 HI */
-    sendWord32(s_badVaddr);                                       /* 35 BadVaddr */
+    sendWord32(s_mon.badVaddr);                                       /* 35 BadVaddr */
     sendWord32(r ? r->Cause : 0);                                 /* 36 Cause */
     sendWord32(r ? r->returnPC : 0);                              /* 37 PC (EPC) */
     transportSendEnd();
@@ -268,7 +273,7 @@ static void cmdGetRegs(void) {
 static void cmdSetReg(const uint16_t *p) {
     uint16_t idx = p[0];
     uint32_t val = rd32(p, 1);
-    struct Registers *r = s_ctx;
+    struct Registers *r = s_mon.ctx;
 
     if (idx > 37) {
         sendError(MON_EBADREG);
@@ -286,7 +291,7 @@ static void cmdSetReg(const uint16_t *p) {
             case 32: r->SR = val; break;
             case 33: r->lo = val; break;
             case 34: r->hi = val; break;
-            case 35: s_badVaddr = val; break;
+            case 35: s_mon.badVaddr = val; break;
             case 36: r->Cause = val; break;
             case 37: r->returnPC = val; break;
         }
@@ -304,21 +309,21 @@ static void cmdSetBp(const uint16_t *p) {
     if (kind == 0) {
         writeBPC(addr);
         writeBPCM(mask);
-        s_dcic |= DCIC_DE | DCIC_PCE | DCIC_TR | DCIC_KD | DCIC_UD;
+        s_mon.dcic |= DCIC_DE | DCIC_PCE | DCIC_TR | DCIC_KD | DCIC_UD;
     } else if (kind <= 3) {
         writeBDA(addr);
         writeBDAM(mask);
-        s_watchAddr = addr;
+        s_mon.watchAddr = addr;
         uint32_t enables = DCIC_DE | DCIC_DAE | DCIC_TR | DCIC_KD | DCIC_UD;
         if (kind == 1) enables |= DCIC_DR;
         if (kind == 2) enables |= DCIC_DW;
         if (kind == 3) enables |= DCIC_DR | DCIC_DW;
-        s_dcic |= enables;
+        s_mon.dcic |= enables;
     } else {
         sendError(MON_EBADCMD);
         return;
     }
-    writeDCIC(s_dcic);
+    writeDCIC(s_mon.dcic);
     sendAck();
 }
 
@@ -326,12 +331,12 @@ static void cmdSetBp(const uint16_t *p) {
 static void cmdClrBp(const uint16_t *p) {
     uint16_t kind = p[0];
     if (kind == 0) {
-        s_dcic &= ~DCIC_PCE;
+        s_mon.dcic &= ~DCIC_PCE;
     } else {
-        s_dcic &= ~(DCIC_DAE | DCIC_DR | DCIC_DW);
+        s_mon.dcic &= ~(DCIC_DAE | DCIC_DR | DCIC_DW);
     }
-    if ((s_dcic & (DCIC_PCE | DCIC_DAE)) == 0) s_dcic = 0; /* drop master enable */
-    writeDCIC(s_dcic);
+    if ((s_mon.dcic & (DCIC_PCE | DCIC_DAE)) == 0) s_mon.dcic = 0; /* drop master enable */
+    writeDCIC(s_mon.dcic);
     sendAck();
 }
 
@@ -352,7 +357,7 @@ static void cmdRun(const uint16_t *p) {
     r->lo = 0;
     r->SR = MON_RUN_SR;
     r->Cause = 0;
-    s_ctx = 0; /* running: no halted context */
+    s_mon.ctx = 0; /* running: no halted context */
 
     sendAck();
     monitorResume();
@@ -360,7 +365,7 @@ static void cmdRun(const uint16_t *p) {
 
 /* CONT [] -> ACK, then resume the saved (possibly SET_REG-modified) context. */
 static void cmdCont(void) {
-    if (!s_ctx) {
+    if (!s_mon.ctx) {
         sendError(MON_EBADSTATE);
         return;
     }
@@ -386,7 +391,7 @@ static void cmdSetBaud(const uint16_t *p) {
 }
 
 /* Dispatch one small HALTED-state command whose payload is already buffered in
-   s_cmd. WRITE_MEM/LOAD are NOT here - they stream directly to target memory in
+   s_mon.cmd. WRITE_MEM/LOAD are NOT here - they stream directly to target memory in
    the loop. RUN/CONT do not return (they resume the target). */
 static void dispatchCommand(uint16_t type, const uint16_t *payload) {
     switch (type) {
@@ -414,7 +419,7 @@ static void dispatchCommand(uint16_t type, const uint16_t *payload) {
 
 /* Blocking HALTED command loop. Bulk WRITE_MEM/LOAD payloads are decoded
    straight into target memory (no staging); every other command has a small
-   fixed payload buffered in s_cmd. Returns only via a resume, which is noreturn,
+   fixed payload buffered in s_mon.cmd. Returns only via a resume, which is noreturn,
    so in practice it does not return. */
 static __attribute__((noreturn)) void monitorCommandLoop(void) {
     for (;;) {
@@ -439,7 +444,7 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
         }
 
         uint16_t n = (len <= MON_CMD_WORDS) ? len : MON_CMD_WORDS;
-        for (uint16_t i = 0; i < n; i++) s_cmd[i] = transportRecvWord();
+        for (uint16_t i = 0; i < n; i++) s_mon.cmd[i] = transportRecvWord();
         for (uint16_t i = n; i < len; i++) transportRecvWord(); /* drain overflow */
         int rc = transportRecvEnd();
 
@@ -451,15 +456,15 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
             sendError(MON_EBADLEN);
             continue;
         }
-        dispatchCommand(type, s_cmd);
+        dispatchCommand(type, s_mon.cmd);
     }
 }
 
 /* Snapshot a stop, tell the host, and drop into the command loop until the host
    resumes. Never returns. */
 static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t reason, uint32_t a, uint32_t b) {
-    s_ctx = r;
-    s_badVaddr = (reason == MON_STOP_FAULT) ? b : 0;
+    s_mon.ctx = r;
+    s_mon.badVaddr = (reason == MON_STOP_FAULT) ? b : 0;
     emitStopped(reason, r->returnPC, a, b);
     monitorCommandLoop();
     __builtin_unreachable();
@@ -494,9 +499,9 @@ static int monitorVerifier(void) {
                unit first (design section 10), then report. */
             uint32_t dcic = readDCIC();
             writeDCIC(0);
-            s_dcic = 0;
+            s_mon.dcic = 0;
             if (dcic & DCIC_DAE) {
-                monitorStop(r, MON_STOP_DATA_WATCH, s_watchAddr, 0);
+                monitorStop(r, MON_STOP_DATA_WATCH, s_mon.watchAddr, 0);
             } else {
                 monitorStop(r, MON_STOP_BREAKPOINT, 0, 0);
             }
@@ -538,10 +543,10 @@ static struct HandlerInfo s_monitorHandler = {
 void monitorMain(void) {
     psxprintf("OpenBIOS Monitor.\n");
     transportInit();
-    s_ctx = 0;
-    s_badVaddr = 0;
-    s_dcic = 0;
-    s_watchAddr = 0;
+    s_mon.ctx = 0;
+    s_mon.badVaddr = 0;
+    s_mon.dcic = 0;
+    s_mon.watchAddr = 0;
 
     /* Own the break/fault path (priority 0, ahead of the syscall verifier) and
        the cop0 break vector, then announce readiness. */
