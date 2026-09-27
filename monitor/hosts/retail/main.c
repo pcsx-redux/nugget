@@ -32,7 +32,13 @@ SOFTWARE.
    The kernel state the monitor reads (0x60, 0x100) is placed there by the
    retail kernel itself; __globals and __globals60 are pinned to those
    addresses in the Makefiles. Interrupts go off for good first; a program
-   the monitor runs gets its SR from RUN. */
+   the monitor runs gets its SR from RUN.
+
+   On OpenBIOS (API 1 and up) built with the monitor, that monitor already
+   owns the link and the exception path: the loader installs nothing and
+   hands over to it with `break 4, 1`, which it answers with HELLO. On
+   OpenBIOS without it, the core must fit the code cave OpenBIOS reserves,
+   and OpenBIOS patches the exception handler's slot. */
 #include <stdint.h>
 
 #include "common/hardware/hwregs.h"
@@ -44,14 +50,34 @@ extern const uint32_t _binary_monitor_core_bin_start[];
 extern const uint32_t _binary_monitor_core_bin_end[];
 /* From core/monitor-core.elf. */
 extern uint32_t __core_start[];
+extern uint32_t __core_end[];
 
 void installSio1Tty(void);
 void drawLoaderSplash(void);
 
 int main(void) {
+    /* Before touching anything: the resident monitor takes the break
+       wherever it comes from, whatever the interrupt state. */
+    if (getOpenBiosMonitor()) monitorEnter();
+
     enterCriticalSection();
     IMASK = 0;
     IREG = 0;
+
+    /* Outside the cave the RAM is OpenBIOS's own, and the core only runs
+       where it is linked: stop rather than write over the kernel. Say so on
+       the kernel tty, and as console text on the link (the SIO1 tty device
+       lives in the core, so not through printf). */
+    if (!monitorCoreFitsCave(__core_start, __core_end)) {
+        uint32_t size;
+        void *cave = getOpenBiosCodeCave(&size);
+        ramsyscall_printf("monitor: core %p..%p is outside the OpenBIOS code cave %p+%x, not installed\n",
+                          __core_start, __core_end, cave, size);
+        linkInit();
+        for (const char *m = "monitor: core outside the OpenBIOS code cave, not installed\n"; *m; m++) linkPutByte(*m);
+        for (;;);
+    }
+
     drawLoaderSplash();
 
     const uint32_t *src = _binary_monitor_core_bin_start;
@@ -62,6 +88,6 @@ int main(void) {
     s_biosChecksum = monitorBiosChecksum();
     linkInit();
     installSio1Tty();
-    monitorHook();
+    if (monitorHook() == MONITOR_SLOT_OPENBIOS) ramsyscall_printf("monitor: slot 4 installed by OpenBIOS\n");
     monitorEnter();
 }

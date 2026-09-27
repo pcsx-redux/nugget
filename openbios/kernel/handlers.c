@@ -254,12 +254,69 @@ void *C0table[0x20] = {
 
 extern struct BuildId __build_id;
 
-static uint32_t getOpenBiosApiVersionImpl() { return 0; }
+extern uint32_t exceptionHandlerPatchSlot1[], exceptionHandlerPatchSlot2[], exceptionHandlerPatchSlot3[],
+    exceptionHandlerPatchSlot4[];
+/* The code cave, see psx-bios.ld and psx-bios-as-cart.ld. */
+extern char __openbios_code_cave_start[], __openbios_code_cave_end[];
+
+static uint32_t getOpenBiosApiVersionImpl() { return 1; }
 static struct BuildId *getOpenBiosBuildIdImpl() { return &__build_id; }
 
+/* OB 2: nonzero if this build has the debug monitor built in. */
+static int getOpenBiosMonitorImpl() {
+#if defined(OPENBIOS_MONITOR) || defined(OPENBIOS_H2X00_MONITOR)
+    return 1;
+#else
+    return 0;
+#endif
+}
+
+/* OB 3: put `lui at, %hi(fn) / ori at, at, %lo(fn) / jalr at / nop` into
+   the exception handler's patch slot 1..4 if it is still four nops, then
+   flush the i-cache. The slot runs with only at, v0, v1 and ra saved, k0
+   pointing at the register frame. Returns 0 on success; nonzero, with
+   nothing written, for a slot out of range or already taken. */
+static int installOpenBiosExceptionSlotImpl(int slot, void (*fn)(void)) {
+    uint32_t *s;
+    switch (slot) {
+        case 1: s = exceptionHandlerPatchSlot1; break;
+        case 2: s = exceptionHandlerPatchSlot2; break;
+        case 3: s = exceptionHandlerPatchSlot3; break;
+        case 4: s = exceptionHandlerPatchSlot4; break;
+        default: return -1;
+    }
+    uint32_t sr;
+    __asm__ volatile("mfc0 %0, $12" : "=r"(sr));
+    /* No exception may run the slot half-written. */
+    __asm__ volatile("mtc0 %0, $12\n\tnop\n\tnop" : : "r"(sr & ~1u) : "memory");
+    int ret = -2;
+    if (!(s[0] | s[1] | s[2] | s[3])) {
+        uint32_t e = (uint32_t)fn;
+        s[0] = 0x3c010000 | (e >> 16);     /* lui  at, %hi(fn) */
+        s[1] = 0x34210000 | (e & 0xffff);  /* ori  at, at, %lo(fn) */
+        s[2] = 0x0020f809;                 /* jalr at */
+        s[3] = 0;                          /* nop */
+        flushCache();
+        ret = 0;
+    }
+    __asm__ volatile("mtc0 %0, $12\n\tnop\n\tnop" : : "r"(sr) : "memory");
+    return ret;
+}
+
+/* OB 4: a RAM range OpenBIOS never touches, for resident code loaded under
+   it (the monitor's core). Returns its base, and its size in *size. */
+static void *getOpenBiosCodeCaveImpl(uint32_t *size) {
+    if (size) *size = __openbios_code_cave_end - __openbios_code_cave_start;
+    return __openbios_code_cave_start;
+}
+
+/* Indices are ABI: append only. */
 void *OBtable[] = {
-    getOpenBiosApiVersionImpl,
-    getOpenBiosBuildIdImpl,
+    getOpenBiosApiVersionImpl,         // 0, API version 0
+    getOpenBiosBuildIdImpl,            // 1, API version 0
+    getOpenBiosMonitorImpl,            // 2, API version 1
+    installOpenBiosExceptionSlotImpl,  // 3, API version 1
+    getOpenBiosCodeCaveImpl,           // 4, API version 1
 };
 
 void *getB0table() {

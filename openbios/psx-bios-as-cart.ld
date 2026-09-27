@@ -210,6 +210,17 @@ SECTIONS {
 
     __end = .;
 
+    /* The code cave: RAM OpenBIOS never uses, handed out by getCodeCave()
+       (OpenBIOS API 1, common/kernel/openbios.h) for resident code loaded
+       under it. It is where the retail kernel leaves free RAM between its
+       bss and the 0xdf80 patch area, and where the debug monitor's core is
+       linked (monitor/hosts/retail/core/core.ld). Kernel data must stay
+       below it. */
+    __openbios_code_cave_start = 0x8000c160;
+    __openbios_code_cave_end = 0x8000df80;
+    ASSERT(!(__bss_end > (__openbios_code_cave_start & 0x1fffffff)),
+           "OpenBIOS kernel data (kseg0 .data/.bss) overlaps the code cave at 0x8000c160, see getCodeCave()")
+
     /DISCARD/ : { *(.MIPS.abiflags) }
 
     /* Everything is statically linked, so discard PLTs. */
