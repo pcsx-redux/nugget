@@ -13,6 +13,7 @@ host-tty.c \
 
 MONITOR_LINK ?= SIO1
 CPPFLAGS += -DMONITOR_LINK_$(MONITOR_LINK)
+include ../../ft232h-boards.mk
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
