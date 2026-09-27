@@ -339,6 +339,7 @@ PS1 -> host:
 | 0 (`0x0001`) | `MON_CAP_LZ4` | WRITE_MEM and LOAD accept `MON_LZ4` (section 6) |
 | 1 (`0x0002`) | `MON_CAP_STOP` | STOP is read while RUNNING (section 5). Set on SIO1 and FT232H |
 | 2 (`0x0004`) | `MON_CAP_SLOT` | The monitor is entered from patch slot 4 of the kernel exception handler, ahead of the handler chains (section 11). Set only when the slot was patched |
+| 3 (`0x0008`) | `MON_CAP_WATCHDOG` | The board has a watchdog the monitor kicks (System 573, GV), and RUN's `features` word controls it (section 6) |
 
 The other bits are 0.
 
@@ -422,7 +423,7 @@ Each entry: request payload -> response. Offsets are in words.
 | SET_REG | `[idx:u16][value:u32]` | ACK, `ERROR(EBADREG)`, `ERROR(EBADSTATE)` |
 | SET_BP | `[kind:u16][addr:u32][mask:u32]` | ACK, `ERROR(EBADCMD)` |
 | CLR_BP | `[kind:u16]` | ACK |
-| RUN | `[pc:u32][gp:u32][sp:u32]` | ACK, then RUNNING |
+| RUN | `[pc:u32][gp:u32][sp:u32]`, optionally `[features:u16]` | ACK, then RUNNING |
 | CONT | none | ACK then RUNNING, or `ERROR(EBADSTATE)` |
 | STOP | none | None in HALTED; STOPPED INTERRUPT in RUNNING (section 5) |
 | SET_BAUD | `[reload:u16]` | Section 2.5 |
@@ -530,6 +531,15 @@ RUN:
   memory was written since the last resume, and returns from the exception
   into `pc`.
 - Accepted in HALTED whether or not a program was stopped.
+- `features` (LEN 7) holds until the next RUN; CONT keeps it. A RUN without
+  it (LEN 6) gets `MON_FEAT_DEFAULT`. Bits:
+
+  | Bit | Name | Meaning |
+  |-----|------|---------|
+  | 0 (`0x0001`) | `MON_FEAT_WATCHDOG` | Keep kicking the watchdog while the target runs, on every interrupt that reaches the monitor. Clear: the target handles the watchdog itself. Default on |
+
+  While HALTED the monitor kicks the watchdog whatever `features` says,
+  from its link byte loops. Other bits are ignored.
 
 CONT: resumes the halted context, including any SET_REG changes, after the
 same conditional instruction cache flush as RUN. It clears the halted
@@ -862,6 +872,25 @@ at the computed next PC; no protocol change is needed for that.
   is SIO1 only. `MONITOR_NO_SLOT=1` applies as for the retail host.
 - `monitor/tools/cartflash` programs an Am29F010 cart flash with a payload,
   run as a target under the monitor.
+
+### 12.4a Konami System 573 and GV (SIO1)
+
+- `MONITOR_PLATFORM=sys573` or `gv` (`monitor/hosts/platforms.mk`) on the
+  retail host builds it for those boards. OpenBIOS `BOARD=system573
+  MONITOR=1 MONITOR_LINK=SIO1` selects `sys573` itself. `exe2sys573` turns
+  the retail host's PS-EXE into a flash image for the onboard flash or a
+  PCMCIA card.
+- RTS stays up for good (`MONITOR_SIO1_RTS_ALWAYS`): these boards loop RTS
+  back to CTS, and dropping it would stop the transmitter. Nothing throttles
+  the host.
+- Watchdog (`monitor/watchdog.h`): a 16-bit write to `0x1F5C0000` on the 573,
+  `0x1F780000` on the GV. The monitor kicks it in the link's byte loops
+  while HALTED, inside the BIOS checksum, and on interrupts while RUNNING
+  when `MON_FEAT_WATCHDOG` is set. HELLO and PONG carry `MON_CAP_WATCHDOG`.
+- DEV0 is left as the kernel set it.
+- The Konami kernels (700A01, 700B01, 999A01) leave the core's RAM,
+  `0x8000C160`..`0x8000DF80`, unused: bss ends at `0x8000B150` and the
+  kernel heap starts at `0x8000E000`.
 
 ### 12.5 Resident core (retail and cart)
 

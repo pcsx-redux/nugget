@@ -45,6 +45,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "monitor/install.h"
 #include "monitor/link.h"
+#include "monitor/watchdog.h"
 
 extern const uint32_t _binary_monitor_core_bin_start[];
 extern const uint32_t _binary_monitor_core_bin_end[];
@@ -63,6 +64,10 @@ int main(void) {
     enterCriticalSection();
     IMASK = 0;
     IREG = 0;
+
+    /* DEV0 is left as the kernel set it: the Konami kernels load its timing
+       from a per-board word in the BIOS ROM, which differs between BIOSes. */
+    monitorWatchdogKick();
 
     /* Outside the cave the RAM is OpenBIOS's own, and the core only runs
        where it is linked: stop rather than write over the kernel. Say so on
