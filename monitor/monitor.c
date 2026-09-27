@@ -59,7 +59,15 @@ SOFTWARE.
 #define MON_CAPS_PIPELINE 0
 #endif
 
-#define MON_CAPS (MON_CAPS_LZ4 | MON_CAPS_STOP | MON_CAPS_PIPELINE)
+#ifdef MONITOR_HAS_WATCHDOG
+#define MON_CAPS_WATCHDOG MON_CAP_WATCHDOG
+/* 1 while HALTED; while RUNNING, MON_FEAT_WATCHDOG from RUN (watchdog.h). */
+volatile uint8_t g_monitorKick __attribute__((used)) = 1;
+#else
+#define MON_CAPS_WATCHDOG 0
+#endif
+
+#define MON_CAPS (MON_CAPS_LZ4 | MON_CAPS_STOP | MON_CAPS_PIPELINE | MON_CAPS_WATCHDOG)
 
 /* READ_MEM responses stream out of target memory in 8 KiB chunks (design
    section 13). Nothing is staged: bulk data goes straight to/from the operation's
@@ -73,6 +81,10 @@ SOFTWARE.
    variable (there is no gp-relative data on this target). */
 static struct {
     uint16_t cmd[MON_CMD_WORDS];
+    /* Payload words of the command in cmd. */
+    uint16_t cmdLen;
+    /* RUN's features word, kept until the next RUN. */
+    uint16_t features;
     /* Saved context of the halted program (== the current thread's register
        frame, which the kernel exception entry fills). NULL before the first
        stop and while running. */
@@ -111,6 +123,9 @@ static struct Registers *currentRegs(void) { return &__globals.processes[0].thre
    older lines for, so flush first when memory changed. */
 static inline __attribute__((noreturn)) void monitorResume(void) {
     s_mon.running = 1;
+#ifdef MONITOR_HAS_WATCHDOG
+    g_monitorKick = (s_mon.features & MON_FEAT_WATCHDOG) != 0;
+#endif
     if (s_mon.memWritten) {
         s_mon.memWritten = 0;
         syscall_flushCache();
@@ -359,6 +374,7 @@ static __attribute__((noreturn)) void cmdRun(const uint16_t *p) {
     r->GPR.n.fp = sp;
     r->returnPC = pc;
     r->SR = MON_RUN_SR;
+    s_mon.features = (s_mon.cmdLen >= 7) ? p[6] : MON_FEAT_DEFAULT;
     s_mon.ctx = 0; /* running: no halted context */
 
     sendStatus(0);
@@ -445,6 +461,7 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
             } else if (len > MON_CMD_WORDS) {
                 reply = MON_EBADLEN;
             } else {
+                s_mon.cmdLen = len;
                 reply = dispatchCommand(type, s_mon.cmd);
             }
         }
@@ -456,6 +473,9 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
    resumes. Never returns. */
 static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t reason, uint32_t a, uint32_t b) {
     s_mon.running = 0;
+#ifdef MONITOR_HAS_WATCHDOG
+    g_monitorKick = 1;
+#endif
     s_mon.ctx = r;
     s_mon.badVaddr = (reason == MON_STOP_FAULT) ? b : 0;
     emitStopped(reason, r->returnPC, a, b);
@@ -472,6 +492,9 @@ static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t 
 static __attribute__((noinline)) void monitorTake(struct Registers *r) {
     uint32_t excode = CAUSE_EXCCODE(r->Cause);
 
+    /* While RUNNING with MON_FEAT_WATCHDOG, every interrupt kicks. */
+    if (excode == EXCCODE_INT) monitorWatchdogIdle();
+
     if (excode == EXCCODE_BP) {
         uint32_t insn = *(uint32_t *)(r->returnPC);
         if ((insn & 0x3f) == 0x0d) {
@@ -481,6 +504,9 @@ static __attribute__((noinline)) void monitorTake(struct Registers *r) {
                stepping past it. */
             if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
                 s_mon.running = 0;
+#ifdef MONITOR_HAS_WATCHDOG
+                g_monitorKick = 1;
+#endif
                 emitIdentity(MON_HELLO);
                 monitorCommandLoop();
             }
