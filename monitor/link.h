@@ -36,8 +36,10 @@ SOFTWARE.
 #include "monitor/link-atcons.h"
 #elif defined(MONITOR_LINK_SIO1)
 #include "monitor/link-sio1.h"
+#elif defined(MONITOR_LINK_FT232H)
+#include "monitor/link-ft232h.h"
 #else
-#error "no monitor link selected: define MONITOR_LINK_ATCONS or MONITOR_LINK_SIO1"
+#error "no monitor link selected: define MONITOR_LINK_ATCONS, MONITOR_LINK_SIO1 or MONITOR_LINK_FT232H"
 #endif
 
 /* A byte link (MONITOR_LINK_IS_STREAM) carries the DESIGN 2a stream: console
