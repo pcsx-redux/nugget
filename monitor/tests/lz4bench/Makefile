@@ -1,5 +1,6 @@
 TARGET = lz4bench
 TYPE = ps-exe
+.DEFAULT_GOAL := all
 
 # PAYLOAD=<files to compress into the benchmark>; mkpayload.py needs the
 # python lz4 module.

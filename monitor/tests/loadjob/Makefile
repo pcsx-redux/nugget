@@ -1,5 +1,6 @@
 TARGET = loadjob
 TYPE = ps-exe
+.DEFAULT_GOAL := all
 
 # PAYLOAD=<file carried in the image>, copied in on every make so a stale
 # payload.bin is never the one measured.
