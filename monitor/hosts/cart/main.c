@@ -29,12 +29,19 @@ SOFTWARE.
    into RAM and jumps here, still inside the breakpoint exception. Put the
    kernel back the way a normally-loaded program finds it before the monitor
    takes over: no pending or enabled IRQs, the default exception return, and
-   out of the critical section. */
+   out of the critical section. Then install the resident half the same way
+   the retail host does: ../retail/core, copied into the low-RAM cave. */
+#include <stdint.h>
+
 #include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
-#include "monitor/monitor.h"
+#include "monitor/install.h"
+#include "monitor/link.h"
 
-int psxprintf(const char *msg, ...) { return 0; }
+extern const uint32_t _binary_monitor_core_bin_start[];
+extern const uint32_t _binary_monitor_core_bin_end[];
+/* From ../retail/core/monitor-core.elf. */
+extern uint32_t __core_start[];
 
 void installSio1Tty(void);
 
@@ -43,7 +50,15 @@ int main(void) {
     IREG = 0;
     syscall_setDefaultExceptionJmpBuf();
     leaveCriticalSection();
+
+    const uint32_t *src = _binary_monitor_core_bin_start;
+    uint32_t *dst = __core_start;
+    while (src < _binary_monitor_core_bin_end) *dst++ = *src++;
+    syscall_flushCache();
+
+    s_biosChecksum = monitorBiosChecksum();
+    linkInit();
     installSio1Tty();
-    monitorMain();
-    return 0;
+    monitorHook();
+    monitorEnter();
 }

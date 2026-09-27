@@ -47,7 +47,18 @@ SOFTWARE.
 #define MON_STOP 0x0B
 #define MON_STEP 0x0C       /* reserved / deferred */
 #define MON_SET_BAUD 0x0D   /* SIO1 line rate, design section 2a */
-#define MON_PCDRV_RESP 0x20 /* answering an in-flight PCDRV_REQ */
+
+/* Bit 15 on WRITE_MEM or LOAD: the payload is an LZ4 stream (monitor/lz4stream.h). */
+#define MON_LZ4 0x8000
+
+/* Capability bits, in HELLO and PONG. */
+#define MON_CAP_LZ4 0x0001
+
+/* LZ4 WRITE_MEM/LOAD on SIO1 by default: the wire is slow enough that decoding
+   hides under it. Elsewhere decoding would cost more than it saves. */
+#if defined(MONITOR_LINK_SIO1) && !defined(MONITOR_NO_LZ4) && !defined(MONITOR_LZ4)
+#define MONITOR_LZ4 1
+#endif
 
 /* PS1 -> host responses / events */
 #define MON_ACK 0x40
@@ -57,7 +68,6 @@ SOFTWARE.
 #define MON_ERROR 0x4F
 #define MON_HELLO 0x80
 #define MON_STOPPED 0x81
-#define MON_PCDRV_REQ 0x82
 
 /* ERROR payload codes (section 9) */
 #define MON_EBADCMD 0x01
@@ -67,19 +77,15 @@ SOFTWARE.
 #define MON_EBADLEN 0x05
 #define MON_ECKSUM 0x06
 #define MON_ENOFD 0x07
+#define MON_EDECODE 0x08
 
 /* STOPPED reason codes (section 6) */
 #define MON_STOP_BREAKPOINT 0x01
 #define MON_STOP_INTERRUPT 0x02
 #define MON_STOP_DATA_WATCH 0x03
 #define MON_STOP_FAULT 0x04
-#define MON_STOP_EXIT 0x05
 
-#define MON_PROTO_VER 0x0001
-
-/* Resident SRAM base (EXP3). The RAM size announced in HELLO is read live from
-   __globals60.ramsize (see emitHello), not hardcoded. */
-#define MON_SRAM_BASE 0x1fa00000u
+#define MON_PROTO_VER 0x0002
 
 /* Monitor entry. Never returns: it takes over from boot()'s terminal path,
    brings up the transport, announces HELLO, and runs the command loop. */

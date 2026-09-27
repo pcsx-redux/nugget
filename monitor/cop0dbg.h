@@ -73,6 +73,7 @@ static inline void writeDCIC(uint32_t v) { __asm__ volatile("mtc0 %0, $7\nnop\n"
 
 /* DCIC bit fields (psx-spx cpuspecifications.md). Without TR a match only sets
    the status bits (0..4) instead of trapping to the cop0-break vector. */
+#define DCIC_DA (1u << 2)   /* status: the break was a BDA data break */
 #define DCIC_DE (1u << 23)  /* master debug enable */
 #define DCIC_PCE (1u << 24) /* program counter breakpoint enable */
 #define DCIC_DAE (1u << 25) /* data address breakpoint enable */

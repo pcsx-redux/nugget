@@ -36,7 +36,8 @@ SOFTWARE.
 static uint32_t s_txS1, s_txS2;
 static uint32_t s_rxS1, s_rxS2;
 
-static uint32_t fletcherFinish(uint32_t s1, uint32_t s2) {
+/* Not inlined: the two callers would each carry the modulo sequences. */
+static __attribute__((noinline)) uint32_t fletcherFinish(uint32_t s1, uint32_t s2) {
     uint32_t ck = ((s2 % 65535u) << 16) | (s1 % 65535u);
     return ck == CKSUM_NONE ? 0xffffffffu : ck;
 }
@@ -52,10 +53,8 @@ void transportSendBegin(uint16_t type, uint16_t len) {
     linkPutByte(0); /* leaves console text, a frame follows */
 #endif
     linkPutWord(FRAME_SYNC); /* SYNC is outside the checksum */
-    linkPutWord(type);
-    s_txS1 += type; s_txS2 += s_txS1;
-    linkPutWord(len);
-    s_txS1 += len; s_txS2 += s_txS1;
+    transportSendWord(type);
+    transportSendWord(len);
 }
 
 void transportSendWord(uint16_t w) {
@@ -132,7 +131,8 @@ int transportRecvEnd(void) {
     rxck |= ((uint32_t)linkGetWord()) << 16;
 #ifdef MONITOR_LINK_IS_STREAM
     linkRxClose();
-    if (rxck == CKSUM_NONE) return TRANSPORT_ECKSUM; /* mandatory on a byte link */
+    /* The checksum is mandatory on a byte link: CKSUM_NONE fails below, since
+       fletcherFinish never produces it. */
 #else
     if (rxck == CKSUM_NONE) return TRANSPORT_OK; /* sender skipped it */
 #endif

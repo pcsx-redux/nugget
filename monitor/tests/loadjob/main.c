@@ -24,36 +24,23 @@ SOFTWARE.
 
 */
 
+/* A load-speed job: carries PAYLOAD (any file) in its own image, so the size
+   and content of what the loader sends are chosen at build time, and exits
+   with the 32-bit sum of those bytes so the host can check the load was
+   exact. */
 
-/* The monitor as a plain PS-EXE on top of the retail BIOS kernel, over SIO1,
-   in two stages. core/ is the resident half, linked into the free RAM under
-   the kernel's control blocks; this loader copies it there, hooks it into the
-   kernel, and is never used again, so the target can have all of user RAM.
-   The kernel state the monitor reads (0x60, 0x100) is placed there by the
-   retail kernel itself; __globals and __globals60 are pinned to those
-   addresses in the Makefiles. */
 #include <stdint.h>
 
-#include "common/syscalls/syscalls.h"
-#include "monitor/install.h"
-#include "monitor/link.h"
+extern const uint8_t g_payload[], g_payloadEnd[];
 
-extern const uint32_t _binary_monitor_core_bin_start[];
-extern const uint32_t _binary_monitor_core_bin_end[];
-/* From core/monitor-core.elf. */
-extern uint32_t __core_start[];
-
-void installSio1Tty(void);
+static __attribute__((noreturn)) void exitWith(int code) {
+    register int a0 asm("a0") = code;
+    __asm__ volatile("break 4, 0\n" : : "r"(a0));
+    __builtin_unreachable();
+}
 
 int main(void) {
-    const uint32_t *src = _binary_monitor_core_bin_start;
-    uint32_t *dst = __core_start;
-    while (src < _binary_monitor_core_bin_end) *dst++ = *src++;
-    syscall_flushCache();
-
-    s_biosChecksum = monitorBiosChecksum();
-    linkInit();
-    installSio1Tty();
-    monitorHook();
-    monitorEnter();
+    uint32_t sum = 0;
+    for (const uint8_t *p = g_payload; p < g_payloadEnd; p++) sum += *p;
+    exitWith((int)sum);
 }

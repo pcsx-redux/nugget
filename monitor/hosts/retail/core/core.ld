@@ -24,25 +24,35 @@ SOFTWARE.
 
 */
 
-#pragma once
+/* The resident half of the retail monitor, linked into the free RAM between
+   the retail kernel's bss (ends at 0xC160) and the BIOS patch area games use
+   at 0xDF80; 0xE000 up is the kernel's control-block pool. bss is folded into
+   the image as zeroes, so copying the image is the whole install and there is
+   no crt0. The loader links against this ELF for the symbols it needs. */
 
-#include <stdint.h>
+EXTERN(s_monitorHandler)
+EXTERN(s_ttyDevice)
+EXTERN(s_biosChecksum)
 
-#include "common/kernel/threads.h"
+MEMORY {
+    cave (rwx) : ORIGIN = 0x8000C160, LENGTH = 0x8000DF80 - 0x8000C160
+}
 
-/* PCDRV op codes = the code2 field of `break 0, 0x10x` (pcdrv.h), carried
-   verbatim as the wire `op`. */
-#define PCDRV_INIT 0x101
-#define PCDRV_CREAT 0x102
-#define PCDRV_OPEN 0x103
-#define PCDRV_CLOSE 0x104
-#define PCDRV_READ 0x105
-#define PCDRV_WRITE 0x106
-#define PCDRV_LSEEK 0x107
+SECTIONS {
+    .text : {
+        __core_start = .;
+        *(.text .text.*)
+    } > cave
+    .rodata : {
+        *(.rodata .rodata.* .rdata .rdata.*)
+    } > cave
+    .data : {
+        *(.data .data.* .sdata .sdata.*)
+        *(.sbss .sbss.* .scommon .bss .bss.* COMMON)
+        . = ALIGN(4);
+        __core_end = .;
+        __bss_end = .; /* nooverlay.ld wants it */
+    } > cave
 
-/* Service one PCDRV request atomically: read the call arguments out of the
-   trapped register frame, exchange a PCDRV_REQ / PCDRV_RESP pair with the host
-   over the word channel, and write the result (return value, and for PCread the
-   fetched bytes) back into the frame. The program stays RUNNING; the caller
-   steps EPC past the break and resumes. */
-void monitorServicePcdrv(struct Registers *r, uint32_t op);
+    /DISCARD/ : { *(.MIPS.abiflags) *(.reginfo) *(.note.GNU-stack) *(.gnu.lto_*) *(.comment) }
+}
