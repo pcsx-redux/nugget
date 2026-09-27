@@ -81,6 +81,11 @@ boot/system573.s \
 boot/zn1.s \
 boot/zn2.s \
 \
+h2700/hook.s \
+../monitor/monitor.c \
+../monitor/transport.c \
+../monitor/hosts/sio1-tty.c \
+\
 font1.o \
 font2.o \
 ./psexe_data.o \
@@ -153,7 +158,21 @@ endif
 #
 # Requires a cart build (BOOT=cart, i.e. BOOT != rom, which
 # selects psx-bios-as-cart.ld). Build with: make BOOT=cart MONITOR=1
+#
+# MONITOR_LINK=SIO1 or FT232H builds the same monitor into a plain OpenBIOS
+# instead, as a cart (BOOT=cart) or a ROM (BOOT=rom), linked where those
+# normally go. The kernel tty goes out the monitor's link as console text. FT232H
+# takes MONITOR_FT232H_BOARD, see monitor/hosts/ft232h-boards.mk.
+MONITOR_LINK ?= ATCONS
 ifneq ($(MONITOR),)
+ifneq ($(MONITOR_LINK),ATCONS)
+CPPFLAGS += -DOPENBIOS_MONITOR -DMONITOR_LINK_$(MONITOR_LINK)
+include ../monitor/hosts/ft232h-boards.mk
+MONITOR_SIO1_RELOAD ?= 18
+CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
+CPPFLAGS += -DOPENBIOS_BOOT_MODE_NO_SHELL -DOPENBIOS_BOOT_MODE_NO_CDROM
+SRCS += ../monitor/monitor.c ../monitor/transport.c ../monitor/hosts/sio1-tty.c
+else
 CPPFLAGS += -DOPENBIOS_H2X00_MONITOR -DMONITOR_LINK_ATCONS
 # The H2700 ATCONS block needs EXP2 kept 16-bit, see boot/psx.s.
 ASFLAGS += -Wa,--defsym,OPENBIOS_H2X00_MONITOR=1
@@ -168,6 +187,7 @@ MONITOR_ROM_SIZE ?= 0x20000
 MONITOR_ENTRYPOINT ?= _h2700_hook
 LDFLAGS += -Wl,--defsym=ROM_BASE=$(MONITOR_ROM_BASE) -Wl,--defsym=ROM_SIZE=$(MONITOR_ROM_SIZE) -Wl,--defsym=ENTRYPOINT=$(MONITOR_ENTRYPOINT)
 SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport.c
+endif
 endif
 
 include ../common.mk
