@@ -87,28 +87,163 @@ local function generateToneSample(frequency, sampleRate, t)
     return math.sin(2 * math.pi * frequency * t / sampleRate)
 end
 
+-- XA region, LBA 135000 to 179999. Strides are the ones a game would use at
+-- double speed. Every sector not listed below is a Form 1 data sector
+-- carrying its LBA in its first 3 bytes, like the rest of the data track.
+-- ADPCM sectors carry their LBA and 'X' in the first 4 bytes of the unused
+-- 0x14-byte tail, so a raw read can tell which one it got. The last sector of
+-- every stream has EOR and EOF set, unless the stream says otherwise.
+--
+--   LBA     sectors  stride  file ch  coding  tone Hz      what
+--   135000  3200     16      1   0-7  0x00    300+100*ch   8 channels, slots 0-7 of each 16
+--   138216  3200     16      1   0    0x00    1000         two files on the same channel,
+--                    16      2   0    0x00    1500           file 2 in slot 8
+--   141432  1600     8       1   8    0x01    440 / 660    stereo 37.8 kHz 4-bit
+--   143048  3200     32      1   9    0x04    500          mono 18.9 kHz 4-bit
+--   146264  1600     16      1   10   0x05    440 / 660    stereo 18.9 kHz 4-bit
+--   147880  1600     8       1   11   0x10    700          mono 37.8 kHz 8-bit
+--   149496  800      4       1   12   0x11    440 / 660    stereo 37.8 kHz 8-bit
+--   150312  1600     16      1   13   0x14    800          mono 18.9 kHz 8-bit
+--   151928  800      8       1   14   0x15    440 / 660    stereo 18.9 kHz 8-bit
+--   152744  3200     16      1   0    0x00    1200         slot 0: audio, submode 0x64
+--                    16      1   1    0x00    1300         slot 8: audio without RT, 0x24
+--                    16      1   0    -       -            slot 4: Form 2 data, 0x28
+--                    16      1   ff   0x00    1400         slot 12: audio on channel 0xff
+--   155960  800      16      1   3    0x00    900          EOF alone on audio sector 24,
+--                                                          EOR alone on 34, both on 49
+-- Stereo streams put the first frequency on the left and the second on the right.
+
+local xaStart = 30 * 60 * 75
+local xaEnd = 40 * 60 * 75
+local plan = {}
+
+local function newStream(file, channel, coding, freqL, freqR)
+    local stream = {
+        file = file,
+        channel = channel,
+        coding = coding,
+        stereo = bit.band(coding, 0x01) ~= 0,
+        rate = bit.band(coding, 0x04) ~= 0 and 18900 or 37800,
+        mode = bit.band(coding, 0x10) ~= 0 and 'XAEightBits' or 'XAFourBits',
+        freqL = freqL,
+        freqR = freqR or freqL,
+        t = 0,
+        encoder = PCSX.Adpcm.NewEncoder(),
+    }
+    stream.encoder:reset 'XA'
+    return stream
+end
+
+local function place(lba, entry)
+    if lba < xaStart or lba >= xaEnd then error('XA plan outside its region: ' .. lba) end
+    if plan[lba] then error('XA plan collision at ' .. lba) end
+    plan[lba] = entry
+end
+
+-- Places `count` audio sectors of `stream` from `lba`, `stride` apart.
+-- Returns the LBA just past the last group.
+local function placeStream(stream, lba, stride, count, submode, overrides)
+    for i = 0, count - 1 do
+        local sm = submode or 0x64
+        if overrides and overrides[i] then
+            sm = bit.bor(sm, overrides[i])
+        elseif not overrides and i == count - 1 then
+            sm = bit.bor(sm, 0x81)
+        end
+        place(lba + i * stride, { stream = stream, submode = sm })
+    end
+    return lba + count * stride
+end
+
+local lba = xaStart
+local gap = 16
+local groups = 200
+
+for ch = 0, 7 do
+    placeStream(newStream(1, ch, 0x00, 300 + 100 * ch), lba + ch, 16, groups)
+end
+lba = lba + 16 * groups + gap
+
+placeStream(newStream(1, 0, 0x00, 1000), lba, 16, groups)
+placeStream(newStream(2, 0, 0x00, 1500), lba + 8, 16, groups)
+lba = lba + 16 * groups + gap
+
+local formats = {
+    { ch = 8, coding = 0x01, stride = 8, count = 200, f = { 440, 660 } },
+    { ch = 9, coding = 0x04, stride = 32, count = 100, f = { 500 } },
+    { ch = 10, coding = 0x05, stride = 16, count = 100, f = { 440, 660 } },
+    { ch = 11, coding = 0x10, stride = 8, count = 200, f = { 700 } },
+    { ch = 12, coding = 0x11, stride = 4, count = 200, f = { 440, 660 } },
+    { ch = 13, coding = 0x14, stride = 16, count = 100, f = { 800 } },
+    { ch = 14, coding = 0x15, stride = 8, count = 100, f = { 440, 660 } },
+}
+for _, f in ipairs(formats) do
+    lba = placeStream(newStream(1, f.ch, f.coding, f.f[1], f.f[2]), lba, f.stride, f.count) + gap
+end
+
+placeStream(newStream(1, 0, 0x00, 1200), lba, 16, groups)
+placeStream(newStream(1, 1, 0x00, 1300), lba + 8, 16, groups, 0x24)
+placeStream(newStream(1, 0xff, 0x00, 1400), lba + 12, 16, groups)
+for i = 0, groups - 1 do
+    place(lba + 4 + i * 16, { form2data = true })
+end
+lba = lba + 16 * groups + gap
+
+placeStream(newStream(1, 3, 0x00, 900), lba, 16, 50, nil, { [24] = 0x80, [34] = 0x01, [49] = 0x81 })
+
 local xa = Support.NewLuaBuffer(2336)
-ffi.fill(xa.data, 2336)
-local e = PCSX.Adpcm.NewEncoder()
-e:reset 'XA'
 local samples = ffi.new('int16_t[?]', 224 * 18)
-for t = 0, 224 * 18 - 1 do
-    samples[t] = 25000 * generateToneSample(504, 37800, t)
+
+local function fillSubheader(file, channel, submode, coding)
+    xa[0], xa[1], xa[2], xa[3] = file, channel, submode, coding
+    xa[4], xa[5], xa[6], xa[7] = file, channel, submode, coding
 end
-for i = 0, 18 - 1 do
-    e:processXABlock(samples + 224 * i, xa:cast 'uint8_t *' + 8 + 128 * i, 'XAFourBits', 1)
+
+local function stampLBA(offset, i, marker)
+    xa[offset + 0] = bit.band(i, 0xff)
+    xa[offset + 1] = bit.band(bit.rshift(i, 8), 0xff)
+    xa[offset + 2] = bit.band(bit.rshift(i, 16), 0xff)
+    xa[offset + 3] = string.byte(marker)
 end
-xa[0] = 0x01
-xa[1] = 0x00
-xa[2] = 0x64
-xa[3] = 0x00
-xa[4] = 0x01
-xa[5] = 0x00
-xa[6] = 0x64
-xa[7] = 0x00
-for i = 30 * 60 * 75, 40 * 60 * 75 - 1 do
-    if i % 16 == 0 then
-        iso:writeSector(xa:cast 'uint8_t *', 2336, 'M2_RAW')
+
+local function writeAudioSector(i, entry)
+    local s = entry.stream
+    ffi.fill(xa.data, 2336)
+    fillSubheader(s.file, s.channel, entry.submode, s.coding)
+    -- One XA block holds 224 16-bit values for 4-bit, 112 for 8-bit;
+    -- stereo interleaves left and right within those.
+    local perBlock = s.mode == 'XAFourBits' and 224 or 112
+    local frames = s.stereo and perBlock / 2 or perBlock
+    for n = 0, 18 * frames - 1 do
+        if s.stereo then
+            samples[n * 2 + 0] = 25000 * generateToneSample(s.freqL, s.rate, s.t)
+            samples[n * 2 + 1] = 25000 * generateToneSample(s.freqR, s.rate, s.t)
+        else
+            samples[n] = 25000 * generateToneSample(s.freqL, s.rate, s.t)
+        end
+        s.t = s.t + 1
+    end
+    for blk = 0, 17 do
+        s.encoder:processXABlock(samples + perBlock * blk, xa:cast 'uint8_t *' + 8 + 128 * blk, s.mode,
+                                 s.stereo and 2 or 1)
+    end
+    stampLBA(8 + 0x900, i, 'X')
+    iso:writeSector(xa:cast 'uint8_t *', 2336, 'M2_RAW')
+end
+
+local function writeForm2DataSector(i)
+    ffi.fill(xa.data, 2336)
+    fillSubheader(1, 0, 0x28, 0)
+    stampLBA(8, i, 'D')
+    iso:writeSector(xa:cast 'uint8_t *', 2336, 'M2_RAW')
+end
+
+for i = xaStart, xaEnd - 1 do
+    local entry = plan[i]
+    if entry and entry.stream then
+        writeAudioSector(i, entry)
+    elseif entry and entry.form2data then
+        writeForm2DataSector(i)
     else
         b[0] = bit.band(i, 0xff)
         b[1] = bit.band(bit.rshift(i, 8), 0xff)
