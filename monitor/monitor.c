@@ -348,6 +348,7 @@ static __attribute__((noreturn)) void cmdRun(const uint16_t *p) {
 /* CONT [] -> ACK, then resume the saved (possibly SET_REG-modified) context. */
 static int cmdCont(void) {
     if (!s_mon.ctx) return MON_EBADSTATE;
+    s_mon.ctx = 0; /* running: no halted context */
     sendStatus(0);
     monitorResume();
 }
