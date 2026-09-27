@@ -182,6 +182,11 @@ static uint32_t recvU32(void) {
    single frame carries an arbitrarily large write (host still chunks at 8 KiB).
    `frameWords` is the payload word count from the frame header. */
 static int streamWriteMem(uint16_t frameWords) {
+    if (frameWords < 4) {
+        for (uint16_t w = 0; w < frameWords; w++) transportRecvWord();
+        transportRecvEnd();
+        return MON_EBADLEN;
+    }
     uint32_t addr = recvU32();   /* 2 words */
     uint32_t nbytes = recvU32(); /* 2 words */
     uint32_t consumed = 4;
