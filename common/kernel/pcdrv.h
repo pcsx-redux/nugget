@@ -111,3 +111,15 @@ static inline int PClseek(int fd, int offset, int wheel) {
     if (v0 == 0) return v1;
     return -1;
 }
+
+// Not a PCDRV call (code1 = 4, not 0), but the same monitor-break plumbing,
+// and the monitor's protocol groups it with PCDRV under "PCDRV and exit":
+// `break 4, 0` with the exit code in a0. The host reports it and, on CONT,
+// re-executes the same break; if a host resumes it any other way, this spins
+// on the instruction after the break instead of returning into the program.
+static inline __attribute__((noreturn)) void PCexit(int code) {
+    register int a0 asm("a0") = code;
+    __asm__ volatile("break 4, 0\n" : : "r"(a0));
+    for (;;) {
+    }
+}

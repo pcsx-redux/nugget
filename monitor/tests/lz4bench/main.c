@@ -33,18 +33,13 @@ SOFTWARE.
 #include <stdint.h>
 
 #include "common/hardware/counters.h"
+#include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 #include "monitor/lz4stream.h"
 
 extern const uint8_t g_payload[];
 
 static uint8_t s_out[160 * 1024];
-
-static __attribute__((noreturn)) void exitWith(int code) {
-    register int a0 asm("a0") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    __builtin_unreachable();
-}
 
 static uint32_t rd32(const uint8_t *p) { return p[0] | (p[1] << 8) | (p[2] << 16) | ((uint32_t)p[3] << 24); }
 
@@ -105,5 +100,5 @@ int main(void) {
         while ((uintptr_t)p & 3) p++;
     }
     __asm__ volatile("mtc0 %0, $12" : : "r"(sr));
-    exitWith(bad ? 0xbad : 0);
+    PCexit(bad ? 0xbad : 0);
 }

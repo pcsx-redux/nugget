@@ -32,6 +32,7 @@ SOFTWARE.
    Built twice: DRY (identify, mirror test, diff against the payload, no writes)
    and GO (DRY checks, then erase, program, verify). Exit code 0 = clean. */
 #include <stdint.h>
+#include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 
 extern const uint8_t g_payload[];
@@ -60,12 +61,6 @@ static void saydec(const char *k, uint32_t v) { char b[64], *p = b; p = putstr(p
 static void unlock(void) { FLASH[0x5555] = 0xAA; FLASH[0x2AAA] = 0x55; }
 static void reset_read(void) { FLASH[0x5555] = 0xF0; }
 
-static void do_exit(int code) {
-    register int a0 asm("a0") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    for (;;) {}
-}
-
 int main(void) {
     uint32_t sr;
     __asm__ volatile("mfc0 %0, $12" : "=r"(sr));
@@ -73,7 +68,7 @@ int main(void) {
 
     say("=== H2700 FLASH " MODE " ===\n");
     saydec("payload bytes: ", (uint32_t)(g_payload_end - g_payload));
-    if ((uint32_t)(g_payload_end - g_payload) != IMAGE_SIZE) { say("bad payload size\n"); do_exit(2); }
+    if ((uint32_t)(g_payload_end - g_payload) != IMAGE_SIZE) { say("bad payload size\n"); PCexit(2); }
 
     uint32_t oldbus = BIOS_ROM_CTRL;
     sayhex("BIOS_ROM ctrl as found: ", oldbus);
@@ -107,16 +102,16 @@ int main(void) {
     if (diff == 0) {
         say("flash already matches the payload, not erasing\n");
         BIOS_ROM_CTRL = oldbus;
-        do_exit(0);
+        PCexit(0);
     }
     say("chip erase...\n");
     unlock(); FLASH[0x5555] = 0x80; unlock(); FLASH[0x5555] = 0x10;
     uint32_t spins = 0;
-    while (FLASH[0] != 0xFF) { if (++spins > 200000000u) { say("erase timeout\n"); BIOS_ROM_CTRL = oldbus; do_exit(3); } }
+    while (FLASH[0] != 0xFF) { if (++spins > 200000000u) { say("erase timeout\n"); BIOS_ROM_CTRL = oldbus; PCexit(3); } }
     uint32_t left = 0;
     for (uint32_t i = 0; i < IMAGE_SIZE; i++) if (FLASH[i] != 0xFF) left++;
     saydec("erase done, non-FF bytes left: ", left);
-    if (left) { BIOS_ROM_CTRL = oldbus; do_exit(4); }
+    if (left) { BIOS_ROM_CTRL = oldbus; PCexit(4); }
 
     say("programming...\n");
     for (uint32_t i = 0; i < IMAGE_SIZE; i++) {
@@ -124,7 +119,7 @@ int main(void) {
         if (d == 0xFF) continue;
         unlock(); FLASH[0x5555] = 0xA0; FLASH[i] = d;
         spins = 0;
-        while (FLASH[i] != d) { if (++spins > 2000000u) { sayhex("program timeout at ", i); BIOS_ROM_CTRL = oldbus; do_exit(5); } }
+        while (FLASH[i] != d) { if (++spins > 2000000u) { sayhex("program timeout at ", i); BIOS_ROM_CTRL = oldbus; PCexit(5); } }
         if ((i & 0xFFFF) == 0) sayhex("  at ", i);
     }
     uint32_t bad = 0, firstbad = 0xFFFFFFFFu;
@@ -132,10 +127,10 @@ int main(void) {
     saydec("verify mismatches: ", bad);
     if (bad) sayhex("first mismatch at ", firstbad);
     BIOS_ROM_CTRL = oldbus;
-    do_exit(bad ? 6 : 0);
+    PCexit(bad ? 6 : 0);
 #else
     BIOS_ROM_CTRL = oldbus;
-    do_exit(0);
+    PCexit(0);
 #endif
     return 0;
 }

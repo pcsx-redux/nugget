@@ -43,8 +43,5 @@ int main(void) {
         PCclose(fd);
     }
     syscall_puts("target: exiting with 42\n");
-    register int a0 asm("a0") = 42;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    for (;;) {}
-    return 0;
+    PCexit(42);
 }

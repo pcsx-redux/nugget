@@ -604,7 +604,8 @@ instruction word and `epc` on the `break`; the host decodes it:
 | any other | any other | Plain breakpoint |
 
 Exit: the host reads the code from `a0` (GET_REGS index 4). CONT would
-re-execute the `break 4, 0` and stop again.
+re-execute the `break 4, 0` and stop again. Issued by `PCexit()`, also in
+`common/kernel/pcdrv.h`.
 
 PCDRV calls, as issued by `common/kernel/pcdrv.h`:
 

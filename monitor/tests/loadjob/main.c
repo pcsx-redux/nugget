@@ -31,16 +31,12 @@ SOFTWARE.
 
 #include <stdint.h>
 
-extern const uint8_t g_payload[], g_payloadEnd[];
+#include "common/kernel/pcdrv.h"
 
-static __attribute__((noreturn)) void exitWith(int code) {
-    register int a0 asm("a0") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    __builtin_unreachable();
-}
+extern const uint8_t g_payload[], g_payloadEnd[];
 
 int main(void) {
     uint32_t sum = 0;
     for (const uint8_t *p = g_payload; p < g_payloadEnd; p++) sum += *p;
-    exitWith((int)sum);
+    PCexit((int)sum);
 }
