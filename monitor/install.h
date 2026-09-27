@@ -104,7 +104,8 @@ static inline uint32_t *monitorHandlerFromVector(void) {
 
    On OpenBIOS, GetC0Table runs its patch matcher on the caller, which does
    not know the monitor's loader and halts the machine; there the handler
-   comes from the 0x80 vector instead (the same place on OpenBIOS). */
+   comes from the 0x80 vector instead (the same place on OpenBIOS). OpenBIOS
+   API 1 and up installs the slot itself, see monitorInstallSlot. */
 static inline uint32_t *monitorFindSlot(void) {
     uint32_t *h = isOpenBiosPresent() ? monitorHandlerFromVector() : monitorGetC0Table()[6];
     uintptr_t a = (uintptr_t)h;
@@ -129,19 +130,61 @@ static inline void monitorPatchSlot(uint32_t *slot) {
     s_monitorSlot = slot;
 }
 
+/* How monitorHook got into the exception handler's fourth patch slot. */
+enum {
+    MONITOR_SLOT_NONE = 0, /* not at all: the chain entry alone */
+    MONITOR_SLOT_FOUND,    /* found and patched by the monitor */
+    MONITOR_SLOT_OPENBIOS, /* installed by OpenBIOS (API 1, installExceptionSlot) */
+};
+
+/* Take slot 4. OpenBIOS with API 1 and up does it for us: it knows its own
+   handler, and says no if the slot is taken. Otherwise find it and patch it
+   (the retail kernel, OpenBIOS before API 1, and a monitor built into
+   OpenBIOS, which names the slot directly). */
+static inline int monitorInstallSlot(void) {
+#if !defined(OPENBIOS_H2X00_MONITOR) && !defined(OPENBIOS_MONITOR)
+    if (getOpenBiosApiVersion() >= 1) {
+        if (installOpenBiosExceptionSlot(4, monitorSlotEntry) != 0) return MONITOR_SLOT_NONE;
+        /* Only for the caps and diagnostics: where it went. */
+        uint32_t *h = monitorHandlerFromVector();
+        s_monitorSlot = h ? h + 0xa0 / 4 : (uint32_t *)monitorSlotEntry;
+        return MONITOR_SLOT_OPENBIOS;
+    }
+#endif
+    uint32_t *slot = monitorFindSlot();
+    if (!slot) return MONITOR_SLOT_NONE;
+    monitorPatchSlot(slot);
+    return MONITOR_SLOT_FOUND;
+}
+
 /* Own the break/fault path: at priority 0 on the kernel's chain, ahead of
    the syscall verifier, and from the exception handler's fourth patch slot
    ahead of every chain, so that a program resetting the chains keeps the
    monitor. The chain entry stays when the slot is taken (and is all there is
    when it is not); monitor.c keeps the two from handling one exception
-   twice. MONITOR_NO_SLOT builds leave the handler alone. */
-static inline void monitorHook(void) {
+   twice. MONITOR_NO_SLOT builds leave the handler alone. Returns how the
+   slot was taken (MONITOR_SLOT_*). */
+static inline int monitorHook(void) {
     syscall_sysEnqIntRP(0, &s_monitorHandler);
     monitorInstallCop0BreakVector();
 #ifndef MONITOR_NO_SLOT
-    uint32_t *slot = monitorFindSlot();
-    if (slot) monitorPatchSlot(slot);
+    return monitorInstallSlot();
+#else
+    return MONITOR_SLOT_NONE;
 #endif
+}
+
+/* For a monitor whose resident core is copied to [start, end): zero if
+   OpenBIOS (API 1 and up) is present and its code cave does not hold that
+   range, as the RAM outside the cave is OpenBIOS's own. Nonzero otherwise,
+   including on the retail kernel and older OpenBIOS, which promise
+   nothing and where the core goes where it always has. */
+static inline int monitorCoreFitsCave(const void *start, const void *end) {
+    if (getOpenBiosApiVersion() < 1) return 1;
+    uint32_t size;
+    uintptr_t cave = (uintptr_t)getOpenBiosCodeCave(&size);
+    if (!cave) return 0;
+    return (uintptr_t)start >= cave && (uintptr_t)end <= cave + size && (uintptr_t)start <= (uintptr_t)end;
 }
 
 /* Enter the monitor through the exception handler, so its loop runs there. */

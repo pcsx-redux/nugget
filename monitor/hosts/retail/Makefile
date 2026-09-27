@@ -5,6 +5,7 @@ BUILD ?= LTO
 
 SRCS = \
 ../../../common/crt0/crt0.s \
+../../../common/syscalls/printf.s \
 main.c \
 host-tty.c \
 ../splash.c \
