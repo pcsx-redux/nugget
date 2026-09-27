@@ -61,6 +61,12 @@ int main(void) {
     if (getOpenBiosMonitor()) monitorEnter();
 
     enterCriticalSection();
+    uint32_t entryImask = IMASK;
+    uint32_t entryIreg = IREG;
+    uint32_t entrySioStat = HW_U32(0xbf801054);
+    uint32_t entrySioMode = HW_U16(0xbf801058);
+    uint32_t entrySioCtrl = HW_U16(0xbf80105a);
+    uint32_t entrySioBaud = HW_U16(0xbf80105e);
     IMASK = 0;
     IREG = 0;
 
@@ -78,6 +84,25 @@ int main(void) {
         for (;;);
     }
 
+    /* A program started from the shell inherits whatever the shell left on
+       the kernel's handler chains and event table. Reset them to the
+       kernel's defaults, the way psyqo does when it keeps the kernel. */
+    uint32_t chains[4];
+    struct KernelTable {
+        uint32_t *data;
+        uint32_t size;
+    };
+    struct KernelTable *const handlers = (struct KernelTable *)0x100;
+    struct KernelTable *const events = (struct KernelTable *)0x120;
+    for (unsigned i = 0; i < 4; i++) chains[i] = handlers->data[i * 2];
+    syscall_flushCache();
+    __builtin_memset(handlers->data, 0, handlers->size);
+    __builtin_memset(events->data, 0, events->size);
+    syscall_setDefaultExceptionJmpBuf();
+    syscall_enqueueSyscallHandler(0);
+    syscall_enqueueIrqHandler(3);
+    syscall_enqueueRCntIrqs(1);
+
     drawLoaderSplash();
 
     const uint32_t *src = _binary_monitor_core_bin_start;
@@ -88,6 +113,9 @@ int main(void) {
     s_biosChecksum = monitorBiosChecksum();
     linkInit();
     installSio1Tty();
+    ramsyscall_printf("monitor: entry imask %08x ireg %08x sio1 stat %08x mode %04x ctrl %04x baud %04x\n",
+                      entryImask, entryIreg, entrySioStat, entrySioMode, entrySioCtrl, entrySioBaud);
+    ramsyscall_printf("monitor: shell chains %08x %08x %08x %08x\n", chains[0], chains[1], chains[2], chains[3]);
     if (monitorHook() == MONITOR_SLOT_OPENBIOS) ramsyscall_printf("monitor: slot 4 installed by OpenBIOS\n");
     monitorEnter();
 }
