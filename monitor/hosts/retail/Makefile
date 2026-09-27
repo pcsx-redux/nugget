@@ -7,6 +7,11 @@ SRCS = \
 ../../../common/crt0/crt0.s \
 main.c \
 host-tty.c \
+../splash.c \
+../../../openbios/main/splash.c \
+
+# The loader shows OpenBIOS's colour bars before installing the monitor.
+CPPFLAGS += -DOPENBIOS_SHOW_SPLASH_SCREEN
 
 # The resident half, built in core/ and copied into the cave at start-up.
 OBJS += monitor-core-blob.o
