@@ -29,9 +29,10 @@ SOFTWARE.
 #include "monitor/link.h"
 
 /* Frame checksum: Fletcher-32 over the 16-bit word stream (TYPE, LEN, payload),
-   two register accumulators with the modulo deferred to the end. 0 on the wire
-   means "not computed" and is accepted without verifying; a computed value of
-   exactly 0 is sent as 0xffffffff so the sentinel stays unambiguous. */
+   two register accumulators with the modulo deferred to the end. A computed
+   value of exactly 0 is sent as 0xffffffff, so 0 never appears as a checksum.
+   On ATCONS a received 0 means "not computed" and is accepted without
+   verifying; on a byte link the checksum is mandatory and 0 fails. */
 #define CKSUM_NONE 0u
 static uint32_t s_txS1, s_txS2;
 static uint32_t s_rxS1, s_rxS2;
