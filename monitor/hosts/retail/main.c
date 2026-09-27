@@ -65,16 +65,16 @@ int main(void) {
     IREG = 0;
 
     /* Outside the cave the RAM is OpenBIOS's own, and the core only runs
-       where it is linked: stop rather than write over the kernel. */
+       where it is linked: stop rather than write over the kernel. Say so on
+       the kernel tty, and as console text on the link (the SIO1 tty device
+       lives in the core, so not through printf). */
     if (!monitorCoreFitsCave(__core_start, __core_end)) {
         uint32_t size;
         void *cave = getOpenBiosCodeCave(&size);
-        ramsyscall_printf("monitor: core %p..%p is outside the OpenBIOS code cave %p+%x, not installed\n", __core_start,
-                  __core_end, cave, size);
+        ramsyscall_printf("monitor: core %p..%p is outside the OpenBIOS code cave %p+%x, not installed\n",
+                          __core_start, __core_end, cave, size);
         linkInit();
-        installSio1Tty();
-        ramsyscall_printf("monitor: core %p..%p is outside the OpenBIOS code cave %p+%x, not installed\n", __core_start,
-                  __core_end, cave, size);
+        for (const char *m = "monitor: core outside the OpenBIOS code cave, not installed\n"; *m; m++) linkPutByte(*m);
         for (;;);
     }
 
