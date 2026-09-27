@@ -24,39 +24,26 @@ SOFTWARE.
 
 */
 
-
-/* The monitor as a plain PS-EXE on top of the retail BIOS kernel, over SIO1,
-   in two stages. core/ is the resident half, linked into the free RAM under
-   the kernel's control blocks; this loader copies it there, hooks it into the
-   kernel, and is never used again, so the target can have all of user RAM.
-   The kernel state the monitor reads (0x60, 0x100) is placed there by the
-   retail kernel itself; __globals and __globals60 are pinned to those
-   addresses in the Makefiles. */
+/* The loaders' splash: OpenBIOS's colour bars, drawn once per vblank over a
+   few frames so both interlaced fields get them. Polls the VBLANK bit in
+   I_STAT inside a critical section; no handler is installed. */
 #include <stdint.h>
 
+#include "common/hardware/hwregs.h"
+#include "common/hardware/irq.h"
 #include "common/syscalls/syscalls.h"
-#include "monitor/install.h"
-#include "monitor/link.h"
+#include "openbios/main/splash.h"
 
-extern const uint32_t _binary_monitor_core_bin_start[];
-extern const uint32_t _binary_monitor_core_bin_end[];
-/* From core/monitor-core.elf. */
-extern uint32_t __core_start[];
-
-void installSio1Tty(void);
-void drawLoaderSplash(void);
-
-int main(void) {
-    drawLoaderSplash();
-
-    const uint32_t *src = _binary_monitor_core_bin_start;
-    uint32_t *dst = __core_start;
-    while (src < _binary_monitor_core_bin_end) *dst++ = *src++;
-    syscall_flushCache();
-
-    s_biosChecksum = monitorBiosChecksum();
-    linkInit();
-    installSio1Tty();
-    monitorHook();
-    monitorEnter();
+void drawLoaderSplash(void) {
+    int wasLocked = enterCriticalSection();
+    uint32_t imask = IMASK;
+    IMASK = imask | IRQ_VBLANK;
+    for (int i = 0; i < 4; i++) {
+        IREG = ~IRQ_VBLANK;
+        while ((IREG & IRQ_VBLANK) == 0);
+        drawSplashScreen();
+    }
+    IREG = ~IRQ_VBLANK;
+    IMASK = imask;
+    if (!wasLocked) leaveCriticalSection();
 }
