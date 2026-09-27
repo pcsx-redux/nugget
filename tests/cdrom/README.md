@@ -8,7 +8,7 @@ The script can be run using the following command:
 pcsx-redux -cli -dofile create-test-iso.lua
 ```
 
-This will emit a `test.cue` file, and multiple corresponding tracks. The data track boots the monitor, so a retail machine that boots burned discs can load the tests over SIO1 with the monitor's host tools. Set `BOOT_EXE` to put a different executable on the disc. If an iso is mounted with `-iso`, its license sectors are copied onto the disc.
+This will emit a `test.cue` file, and multiple corresponding tracks. LBAs 135000 to 179999 hold the XA-ADPCM streams: several channels, two files on one channel, every coding (mono and stereo, 37.8 and 18.9 kHz, 4 and 8 bits), a sector without the real-time bit, channel 0xff, Form 2 data sectors, and EOF and EOR on their own. Each stream is a sine tone at its own frequency. The table at the top of that section of `create-test-iso.lua` lists where each one sits. The data track boots the monitor, so a retail machine that boots burned discs can load the tests over SIO1 with the monitor's host tools. Set `BOOT_EXE` to put a different executable on the disc. If an iso is mounted with `-iso`, its license sectors are copied onto the disc.
 
 The tests are written in C, and are compiled using the [MIPS GCC toolchain](../../psyqo/GETTING_STARTED.md#the-toolchain). The tests are compiled using the `make` command, and the resulting binary needs to be run on systems that have an ANSI console connected.
 
