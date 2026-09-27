@@ -108,7 +108,7 @@ end
 --   152744  3200     16      1   0    0x00    1200         slot 0: audio, submode 0x64
 --                    16      1   1    0x00    1300         slot 8: audio without RT, 0x24
 --                    16      1   0    -       -            slot 4: Form 2 data, 0x28
---                    16      1   2    0x00    1400         slot 12: audio on channel 0xff
+--                    16      1   ff   0x00    1400         slot 12: audio on channel 0xff
 --   155960  800      16      1   3    0x00    900          EOF alone on audio sector 24,
 --                                                          EOR alone on 34, both on 49
 -- Stereo streams put the first frequency on the left and the second on the right.
