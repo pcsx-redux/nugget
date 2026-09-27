@@ -37,6 +37,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "monitor/install.h"
 #include "monitor/link.h"
+#include "openbios/main/splash.h"
 
 extern const uint32_t _binary_monitor_core_bin_start[];
 extern const uint32_t _binary_monitor_core_bin_end[];
@@ -50,6 +51,8 @@ int main(void) {
     IREG = 0;
     syscall_setDefaultExceptionJmpBuf();
     leaveCriticalSection();
+
+    drawSplashScreen();
 
     const uint32_t *src = _binary_monitor_core_bin_start;
     uint32_t *dst = __core_start;

@@ -37,6 +37,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "monitor/install.h"
 #include "monitor/link.h"
+#include "openbios/main/splash.h"
 
 extern const uint32_t _binary_monitor_core_bin_start[];
 extern const uint32_t _binary_monitor_core_bin_end[];
@@ -46,6 +47,8 @@ extern uint32_t __core_start[];
 void installSio1Tty(void);
 
 int main(void) {
+    drawSplashScreen();
+
     const uint32_t *src = _binary_monitor_core_bin_start;
     uint32_t *dst = __core_start;
     while (src < _binary_monitor_core_bin_end) *dst++ = *src++;
