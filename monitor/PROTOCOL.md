@@ -832,7 +832,15 @@ at the computed next PC; no protocol change is needed for that.
     console must boot unlicensed discs).
   - A SIO1 loader already on the console (for example Unirom) uploads and
     runs the EXE. The monitor then takes over SIO1.
-- `main()` installs the core and enters the monitor (section 12.5).
+- `main()` installs the core and enters the monitor (section 12.5), except
+  on OpenBIOS with API version 1 or later (section 12.8):
+  - OpenBIOS with the monitor built in: nothing is copied or installed;
+    `main()` executes `break 4, 1` before touching interrupts, and the
+    OpenBIOS monitor answers with HELLO.
+  - OpenBIOS without it: the core's link range `[__core_start, __core_end)`
+    must lie inside `getCodeCave()`. If it does not, the loader prints both
+    ranges on the kernel tty and a line of console text on the link, and
+    halts.
 
 ### 12.4 Expansion ROM cart (SIO1)
 
@@ -908,7 +916,9 @@ Finding the slot:
 
 - Monitor built into OpenBIOS (sections 12.1, 12.2): OpenBIOS's own
   `exceptionHandlerPatchSlot4`, with no further check.
-- Retail and cart loaders: the handler address comes from B0 `0x56`
+- Retail loader on OpenBIOS with API version 1 or later: OpenBIOS writes
+  the slot, through `installExceptionSlot(4, ...)` (section 12.8).
+- Otherwise, retail and cart loaders: the handler address comes from B0 `0x56`
   (GetC0Table), entry 6, on a retail kernel. On OpenBIOS it is decoded from
   the `0x80` vector (`lui k0, hi / addiu k0, k0, lo / jr k0`) instead,
   because OpenBIOS's GetC0Table checks the code at its caller against known
@@ -935,6 +945,30 @@ Finding the slot:
    and CONT, or take an exit. Otherwise inspect or modify with READ_MEM,
    WRITE_MEM, GET_REGS, SET_REG, SET_BP, CLR_BP; then CONT, or LOAD and RUN
    the next program.
+
+### 12.8 OpenBIOS API
+
+OpenBIOS stores its API entry in A0 table entry `0x0B` with bit 0 set; a
+retail kernel has a word-aligned function pointer there. A caller jumps to
+the entry with bit 0 cleared and the function index in `t1`. Wrappers are in
+`common/kernel/openbios.h`; each returns 0, -1 or NULL without calling
+anything when OpenBIOS is absent or older than the version that added it.
+
+| Index | Call | Version | Returns |
+|-------|------|---------|---------|
+| 0 | `getOpenBiosApiVersion()` | 0 | the API version (1) |
+| 1 | `getOpenBiosBuildId()` | 0 | the build id |
+| 2 | `getMonitor()` | 1 | nonzero if the monitor is built in |
+| 3 | `installExceptionSlot(slot, fn)` | 1 | 0, or nonzero with nothing written |
+| 4 | `getCodeCave(&size)` | 1 | `0x8000C160`, size `0x1E20` |
+
+- `installExceptionSlot` takes slot 1 to 4. If the slot is four nops it
+  writes `lui at, hi / ori at, at, lo / jalr at / nop` calling `fn`, with
+  interrupts masked, then flushes the instruction cache.
+- The code cave is `0x8000C160..0x8000DF80`. OpenBIOS never uses it, and its
+  link scripts fail the build if its kernel data would reach it.
+- The dispatcher does not bound `t1`: an index past the table of the running
+  version jumps through whatever follows it. Check the version first.
 
 ## 13. Not implemented
 
