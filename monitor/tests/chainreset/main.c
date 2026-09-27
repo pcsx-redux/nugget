@@ -34,20 +34,15 @@ SOFTWARE.
    handler was on that chain too. */
 #include <stdint.h>
 
+#include "common/kernel/pcdrv.h"
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
 
 #define CHAINRESET_EXIT 0xc4a1
 
-static __attribute__((noreturn)) void exitWith(int code) {
-    register int a0 asm("a0") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    __builtin_unreachable();
-}
-
 int main(void) {
     struct HandlersStorage *chains = *(struct HandlersStorage **)0x100;
     ramsyscall_printf("chainreset: priority 0 chain at %p, head %p; wiping it\n", &chains[0], chains[0].first);
     chains[0].first = 0;
-    exitWith(CHAINRESET_EXIT);
+    PCexit(CHAINRESET_EXIT);
 }

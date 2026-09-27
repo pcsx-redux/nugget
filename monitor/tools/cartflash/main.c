@@ -34,6 +34,7 @@ SOFTWARE.
    size. Exit code 0 = clean. */
 #include <stdint.h>
 
+#include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 
 extern const uint8_t g_payload[];
@@ -94,12 +95,6 @@ static void pause(int n) {
     }
 }
 
-static __attribute__((noreturn)) void exitWith(int code) {
-    register int a0 asm("a0") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    __builtin_unreachable();
-}
-
 static uint8_t want(uint32_t i, uint32_t n) { return i < n ? g_payload[i] : 0xFF; }
 
 int main(void) {
@@ -112,7 +107,7 @@ int main(void) {
     saydec("payload bytes: ", n);
     if (n == 0 || n > CHIP_SIZE) {
         say("bad payload size\n");
-        exitWith(2);
+        PCexit(2);
     }
 
     /* Unirom pauses around the ID read on this chip; reading straight after
@@ -129,7 +124,7 @@ int main(void) {
     sayhex("id[1] (dev): ", dev);
     if (mfr != MFR_AMD || dev != DEV_AM29F010) {
         say("not an Am29F010, stopping\n");
-        exitWith(7);
+        PCexit(7);
     }
 
     uint32_t diff = 0, firstDiff = 0xffffffffu;
@@ -146,7 +141,7 @@ int main(void) {
     /* Every erase cycle wears the chip; skip it when there is nothing to do. */
     if (diff == 0) {
         say("cart already matches the payload, not erasing\n");
-        exitWith(0);
+        PCexit(0);
     }
     say("chip erase...\n");
     unlock();
@@ -158,7 +153,7 @@ int main(void) {
         if (++spins > 200000000u) {
             say("erase timeout\n");
             resetRead();
-            exitWith(3);
+            PCexit(3);
         }
     }
     uint32_t left = 0;
@@ -166,7 +161,7 @@ int main(void) {
         if (CART[i] != 0xFF) left++;
     }
     saydec("erase done, non-FF bytes left: ", left);
-    if (left) exitWith(4);
+    if (left) PCexit(4);
 
     say("programming...\n");
     for (uint32_t i = 0; i < n; i++) {
@@ -181,7 +176,7 @@ int main(void) {
             if (++spins > 2000000u) {
                 sayhex("program timeout at ", i);
                 resetRead();
-                exitWith(5);
+                PCexit(5);
             }
         }
     }
@@ -194,9 +189,9 @@ int main(void) {
     }
     saydec("verify mismatches: ", bad);
     if (bad) sayhex("first mismatch at ", firstBad);
-    exitWith(bad ? 6 : 0);
+    PCexit(bad ? 6 : 0);
 #else
-    exitWith(0);
+    PCexit(0);
 #endif
     return 0;
 }

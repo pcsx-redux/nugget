@@ -32,6 +32,7 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 #include "common/hardware/util.h"
+#include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 
 #define RCNT2_VALUE (*(volatile uint16_t *)0x1f801120)
@@ -94,9 +95,5 @@ int main(void) {
     RCNT2_MODE = 0x0200; /* free-running, sysclk/8 */
     uint32_t b = timeBytes();
     report("bytes", b);
-    register int a0 asm("a0") = 42;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    for (;;) {
-    }
-    return 0;
+    PCexit(42);
 }

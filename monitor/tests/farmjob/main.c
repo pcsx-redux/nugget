@@ -34,28 +34,22 @@ SOFTWARE.
 #include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 
-static __attribute__((noreturn)) void exitWith(int code) {
-    register int a0 asm("a0") = code;
-    __asm__ volatile("break 4, 0\n" : : "r"(a0));
-    __builtin_unreachable();
-}
-
 static char s_buf[32768];
 
 int main(void) {
     ramsyscall_printf("farmjob: start\n");
-    if (PCinit() != 0) exitWith(0xbad);
+    if (PCinit() != 0) PCexit(0xbad);
     int in = PCopen("IN.TXT", 0, 0);
-    if (in < 0) exitWith(0xbad);
+    if (in < 0) PCexit(0xbad);
     int n = PCread(in, s_buf, sizeof(s_buf));
-    if (PCclose(in) != 0 || n < 0) exitWith(0xbad);
+    if (PCclose(in) != 0 || n < 0) PCexit(0xbad);
     for (int i = 0; i < n; i++) {
         if (s_buf[i] >= 'a' && s_buf[i] <= 'z') s_buf[i] -= 'a' - 'A';
     }
     int out = PCcreat("OUT.TXT", 0);
-    if (out < 0) exitWith(0xbad);
-    if (PCwrite(out, s_buf, n) != n) exitWith(0xbad);
-    if (PCclose(out) != 0) exitWith(0xbad);
+    if (out < 0) PCexit(0xbad);
+    if (PCwrite(out, s_buf, n) != n) PCexit(0xbad);
+    if (PCclose(out) != 0) PCexit(0xbad);
     ramsyscall_printf("farmjob: %d bytes\n", n);
-    exitWith(n);
+    PCexit(n);
 }
