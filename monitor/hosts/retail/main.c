@@ -31,9 +31,11 @@ SOFTWARE.
    kernel, and is never used again, so the target can have all of user RAM.
    The kernel state the monitor reads (0x60, 0x100) is placed there by the
    retail kernel itself; __globals and __globals60 are pinned to those
-   addresses in the Makefiles. */
+   addresses in the Makefiles. Interrupts go off for good first; a program
+   the monitor runs gets its SR from RUN. */
 #include <stdint.h>
 
+#include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
 #include "monitor/install.h"
 #include "monitor/link.h"
@@ -47,6 +49,9 @@ void installSio1Tty(void);
 void drawLoaderSplash(void);
 
 int main(void) {
+    enterCriticalSection();
+    IMASK = 0;
+    IREG = 0;
     drawLoaderSplash();
 
     const uint32_t *src = _binary_monitor_core_bin_start;

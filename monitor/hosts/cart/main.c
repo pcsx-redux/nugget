@@ -26,11 +26,11 @@ SOFTWARE.
 
 /* The monitor as a flash cart image on the retail BIOS, over SIO1. rom.s
    catches the boot as the BIOS starts loading the shell, copies this PS-EXE
-   into RAM and jumps here, still inside the breakpoint exception. Put the
-   kernel back the way a normally-loaded program finds it before the monitor
-   takes over: no pending or enabled IRQs, the default exception return, and
-   out of the critical section. Then install the resident half the same way
-   the retail host does: ../retail/core, copied into the low-RAM cave. */
+   into RAM and jumps here, still inside the breakpoint exception. Interrupts
+   go off for good before anything else, with nothing pending or enabled, and
+   the default exception return is restored. Then install the resident half
+   the same way the retail host does: ../retail/core, copied into the low-RAM
+   cave. A program the monitor runs gets its SR from RUN. */
 #include <stdint.h>
 
 #include "common/hardware/hwregs.h"
@@ -47,10 +47,10 @@ void installSio1Tty(void);
 void drawLoaderSplash(void);
 
 int main(void) {
+    enterCriticalSection();
     IMASK = 0;
     IREG = 0;
     syscall_setDefaultExceptionJmpBuf();
-    leaveCriticalSection();
 
     drawLoaderSplash();
 

@@ -25,25 +25,20 @@ SOFTWARE.
 */
 
 /* The loaders' splash: OpenBIOS's colour bars, drawn once per vblank over a
-   few frames so both interlaced fields get them. Polls the VBLANK bit in
-   I_STAT inside a critical section; no handler is installed. */
+   few frames so both interlaced fields get them. The loaders run with
+   interrupts off, so this polls the VBLANK bit in I_STAT, which latches
+   whatever I_MASK says. */
 #include <stdint.h>
 
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
-#include "common/syscalls/syscalls.h"
 #include "openbios/main/splash.h"
 
 void drawLoaderSplash(void) {
-    int wasLocked = enterCriticalSection();
-    uint32_t imask = IMASK;
-    IMASK = imask | IRQ_VBLANK;
     for (int i = 0; i < 4; i++) {
         IREG = ~IRQ_VBLANK;
         while ((IREG & IRQ_VBLANK) == 0);
         drawSplashScreen();
     }
     IREG = ~IRQ_VBLANK;
-    IMASK = imask;
-    if (!wasLocked) leaveCriticalSection();
 }
