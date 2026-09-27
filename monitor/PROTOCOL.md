@@ -144,6 +144,8 @@ The DTL-H2700 ATCONS block sits behind EXP2 at `0x1F802000`.
 port, its EEPROM set to CPU-style FIFO mode; the host sees a serial port
 whose rate setting is ignored.
 
+This link has not run on hardware yet.
+
 | Register | Address | Width | Use |
 |----------|---------|-------|-----|
 | Data | `MONITOR_FT232H_DATA` (build-time) | u8 | Byte in, byte out |
