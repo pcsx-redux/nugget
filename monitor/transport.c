@@ -84,21 +84,25 @@ static uint32_t s_consoleDropped;
 void transportRecvBegin(uint16_t *type, uint16_t *len) {
     uint16_t t, l;
     linkRxOpen();
+    uint8_t b = linkGetByte();
     for (;;) {
-        uint8_t b = linkGetByte();
         if (b != 0) {
             s_consoleDropped++;
+            b = linkGetByte();
             continue;
         }
-        /* A run of 0s is one frame start; a 0 not followed by SYNC, or a LEN
-           no frame can have, is noise. */
-        uint8_t lo;
-        while ((lo = linkGetByte()) == 0) {
+        /* A run of 0s is one frame start. Each byte that fails to continue
+           SYNC is looked at again as the start of what follows, so a 0 there
+           begins the next frame. A LEN no frame can have is noise. */
+        while ((b = linkGetByte()) == 0) {
         }
-        if ((lo | (linkGetByte() << 8)) != FRAME_SYNC) continue;
+        if (b != (FRAME_SYNC & 0xff)) continue;
+        b = linkGetByte();
+        if (b != (FRAME_SYNC >> 8)) continue;
         t = linkGetWord();
         l = linkGetWord();
         if (l <= TRANSPORT_STREAM_MAX_LEN) break;
+        b = linkGetByte();
     }
     s_rxS1 = s_rxS2 = 0;
     s_rxS1 += t; s_rxS2 += s_rxS1;
