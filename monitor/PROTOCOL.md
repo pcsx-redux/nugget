@@ -170,7 +170,7 @@ This link has not run on hardware yet.
 - Checksum: mandatory, as on SIO1.
 - No line rate: SET_BAUD answers `ERROR(EBADCMD)`.
 
-### 2.5 Stream framing (TTY mode and frame mode)
+### 2.4 Stream framing (TTY mode and frame mode)
 
 Applies to links that define `MONITOR_LINK_IS_STREAM` (SIO1, FT232H). Console
 text and frames share one byte stream in each direction.
@@ -206,7 +206,7 @@ carries frames on the word channel and console text on the byte channel
 SET_BAUD `[reload:u16]` changes the SIO1 reload. The sequence, as the monitor
 runs it:
 
-1. `reload == 0` -> `ERROR(EBADLEN)`. A link without a rate (ATCONS) ->
+1. `reload == 0` -> `ERROR(EBADLEN)`. A link without a rate (ATCONS, FT232H) ->
    `ERROR(EBADCMD)`. These checks run in that order.
 2. The monitor sends ACK at the current rate, waits for the transmitter to
    drain (`TXEMPTY`), and writes the new reload.
