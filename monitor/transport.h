@@ -83,5 +83,15 @@ int transportRecvFrame(uint16_t *type, uint16_t *payload, uint16_t maxLen, uint1
    exactly `len` words with RecvWord, then End (validates the checksum). Not
    reentrant: one frame at a time. */
 void transportRecvBegin(uint16_t *type, uint16_t *len);
+
+/* STOP while RUNNING (byte links; always 0 on ATCONS). Called from the
+   exception entry on an interrupt, never blocks when nothing was received.
+   If a byte is waiting, everything the host sends is read and dropped until
+   the line has been quiet for MONITOR_STOP_QUIET_SPINS polls. Returns 1 when
+   a 0 was among it - a frame start, which is all a host sends a running
+   target (a STOP frame) - and 0 when it was console text only. The frame is
+   not parsed: the 8-byte SIO1 FIFO may well have overrun by the time the
+   next interrupt comes, so its tail cannot be relied on. */
+int transportStopPending(void);
 uint16_t transportRecvWord(void);
 int transportRecvEnd(void);

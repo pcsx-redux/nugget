@@ -81,6 +81,12 @@ static inline void linkPutByte(uint8_t b) {
     FT232H_DATA = b;
 }
 
+/* The received-byte test the exception entry makes in assembly on every
+   interrupt (monitor.c, monitorSlotEntry): RXF in the status register. */
+#define LINK_RX_STAT_ADDR MONITOR_FT232H_STATUS
+#define LINK_RX_STAT_LOAD "lbu"
+#define LINK_RX_STAT_BIT FT232H_RXF
+
 static inline int linkTryGetByte(uint8_t *b) {
     if ((FT232H_STATUS & FT232H_RXF) == 0) return 0;
     *b = FT232H_DATA;

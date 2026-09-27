@@ -34,15 +34,26 @@ SOFTWARE.
 #include "monitor/install.h"
 #include "monitor/kernel.h"
 #include "common/kernel/threads.h"
+#include "monitor/link.h"
 #include "monitor/transport.h"
 
 #ifdef MONITOR_LZ4
 #define LZ4STREAM_TRUSTED 1
 #include "monitor/lz4stream.c"
-#define MON_CAPS MON_CAP_LZ4
+#define MON_CAPS_LZ4 MON_CAP_LZ4
 #else
-#define MON_CAPS 0
+#define MON_CAPS_LZ4 0
 #endif
+
+/* A link that says where its received-byte flag is can take STOP while the
+   target runs (see monitorSlotEntry). ATCONS does not. */
+#ifdef LINK_RX_STAT_ADDR
+#define MON_CAPS_STOP MON_CAP_STOP
+#else
+#define MON_CAPS_STOP 0
+#endif
+
+#define MON_CAPS (MON_CAPS_LZ4 | MON_CAPS_STOP)
 
 /* READ_MEM responses stream out of target memory in 8 KiB chunks (design
    section 13). Nothing is staged: bulk data goes straight to/from the operation's
@@ -68,6 +79,9 @@ static struct {
     uint32_t watchAddr;
     /* Set when WRITE_MEM or LOAD wrote memory since the last resume. */
     int memWritten;
+    /* Set from RUN/CONT until the next stop: only then is a byte on the link
+       a STOP request. Before the first RUN it is the host's next command. */
+    int running;
 #ifdef MONITOR_LZ4
     /* The LZ4 stream in flight: its decoder, how much of clen has arrived, and
        whether one is open at all (see streamWriteMemLz4). */
@@ -90,6 +104,7 @@ static struct Registers *currentRegs(void) { return &__globals.processes[0].thre
 /* Resume the target. Anything written may be code the I-cache still holds
    older lines for, so flush first when memory changed. */
 static inline __attribute__((noreturn)) void monitorResume(void) {
+    s_mon.running = 1;
     if (s_mon.memWritten) {
         s_mon.memWritten = 0;
         syscall_flushCache();
@@ -121,12 +136,16 @@ static void sendStatus(int code) {
    entered (see monitorBiosChecksum). */
 uint32_t s_biosChecksum;
 
+/* The kernel exception handler patch slot monitorHook() pointed at
+   monitorSlotEntry, or 0 when it left the handler alone (install.h). */
+uint32_t *s_monitorSlot;
+
 /* HELLO and PONG: [proto_ver:u16][caps:u16][bios_fletcher32:u32]. PONG
    carries it too, so a host that attaches after boot can still ask. */
 static void emitIdentity(uint16_t type) {
     transportSendBegin(type, 4);
     transportSendWord(MON_PROTO_VER);
-    transportSendWord(MON_CAPS);
+    transportSendWord(MON_CAPS | (s_monitorSlot ? MON_CAP_SLOT : 0));
     sendWord32(s_biosChecksum);
     transportSendEnd();
 }
@@ -387,9 +406,11 @@ static int dispatchCommand(uint16_t type, const uint16_t *payload) {
         case MON_CONT: return cmdCont();
         case MON_SET_BAUD: return cmdSetBaud(payload);
         case MON_STOP:
-            /* Only meaningful while RUNNING, where it is serviced by the
-               interrupt-poll path (v1 seam, below). In HALTED it is a no-op. */
-            return 0;
+            /* Only meaningful while RUNNING, where the exception entry reads
+               it (monitorTake). In HALTED it is a no-op with no reply: a host
+               whose STOP crossed a stop on the wire must not get an ACK it
+               cannot match to a command. */
+            return MON_REPLIED;
         default: return MON_EBADCMD;
     }
 }
@@ -438,6 +459,7 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
 /* Snapshot a stop, tell the host, and drop into the command loop until the host
    resumes. Never returns. */
 static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t reason, uint32_t a, uint32_t b) {
+    s_mon.running = 0;
     s_mon.ctx = r;
     s_mon.badVaddr = (reason == MON_STOP_FAULT) ? b : 0;
     emitStopped(reason, r->returnPC, a, b);
@@ -445,16 +467,13 @@ static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t 
     __builtin_unreachable();
 }
 
-/* ---- exception hook ---- */
+/* ---- exception entry ---- */
 
-/* Priority-0 verifier, prepended ahead of the kernel's syscall verifier so it
-   sees break (ExcCode 9) and faults first. It reuses the kernel's context save
-   (the frame is already in currentRegs()); both the 0x80 general vector and the
-   0x40 cop0-break vector route here. Returns 0 for exceptions it does not own
-   (interrupt, syscall) so the rest of the chain runs; when it owns one it never
-   returns (it resumes the target or enters the command loop). */
-static int monitorVerifier(void) {
-    struct Registers *r = currentRegs();
+/* What the monitor owns, for either entry below. `r` is the current thread's
+   register frame with the whole context in it. Returns for exceptions that
+   are not the monitor's; when it owns one it never returns (it resumes the
+   target or enters the command loop). */
+static __attribute__((noinline)) void monitorTake(struct Registers *r) {
     uint32_t excode = CAUSE_EXCCODE(r->Cause);
 
     if (excode == EXCCODE_BP) {
@@ -465,6 +484,7 @@ static int monitorVerifier(void) {
                the break. What it means is the host's business, and so is
                stepping past it. */
             if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
+                s_mon.running = 0;
                 emitIdentity(MON_HELLO);
                 monitorCommandLoop();
             }
@@ -491,10 +511,24 @@ static int monitorVerifier(void) {
         monitorStop(r, MON_STOP_FAULT, excode, 0);
     }
 
-    /* Interrupt (0) / syscall (8) / anything else: not ours. The async STOP
-       (host Ctrl-C) poll-on-any-interrupt is a v1 seam - it would peek the word
-       channel here and, if a STOP frame is pending, snapshot and halt. Banked
-       for now (design section 12); the target must be interruptible to use it. */
+    /* An interrupt while a target runs, with the host's STOP on the link:
+       halt here. The IRQ that brought us in stays pending and unacknowledged
+       in I_STAT, so after CONT the kernel and the program take it as if the
+       monitor had not been there. */
+    if (excode == EXCCODE_INT && s_mon.running && transportStopPending()) {
+        monitorStop(r, MON_STOP_INTERRUPT, 0, 0);
+    }
+
+    /* Syscall (8), any other interrupt, anything else: not ours. */
+}
+
+/* Entry 1, the kernel's chain: a priority-0 verifier, prepended ahead of the
+   kernel's own, called after the kernel has saved the whole context and
+   switched to its exception stack. It is lost if a program resets the
+   priority-0 chain, which is what entry 2 is for. Returns 0 for what it
+   does not own, so the rest of the chain runs. */
+static int monitorVerifier(void) {
+    monitorTake(currentRegs());
     return 0;
 }
 
@@ -505,6 +539,150 @@ struct HandlerInfo s_monitorHandler = {
     .padding = 0,
 };
 
+/* Entry 2, the kernel exception handler's fourth patch slot (install.h puts
+   `lui at / ori at / jalr at / nop` there, calling monitorSlotEntry). The
+   slot runs before any chain, with only at, v0, v1 and ra saved in the frame
+   k0 points at (and the resume PC at +0x80); those four plus ra are all it
+   may touch before deciding. monitorSlotEntry keeps its own exceptions
+   (break, the faults above, an interrupt with a byte on the link) and
+   returns straight to the kernel for everything else. For its own, it saves
+   the rest of the context into the frame exactly as the kernel's code after
+   the slots would, moves to its own stack and calls monitorSlotDispatch. If
+   that returns (an interrupt that was console text, or came before the first
+   RUN), it puts back every register the C code may have changed and returns
+   to the kernel, which saves the same values again and runs its chains; the
+   verifier above then declines the exception too. Nothing it keeps ever
+   reaches the chains, so no exception is handled twice. */
+#ifndef MONITOR_SLOT_STACK_WORDS
+#define MONITOR_SLOT_STACK_WORDS 256
+#endif
+uint32_t monitorSlotStack[MONITOR_SLOT_STACK_WORDS] __attribute__((used, aligned(8)));
+
+void __attribute__((used, noinline)) monitorSlotDispatch(void) { monitorTake(currentRegs()); }
+
+/* ExcCodes 4-7, 9-12 as a bit mask: AdEL, AdES, IBE, DBE, Bp, RI, CpU, Ov. */
+#define MON_SLOT_EXCMASK 0x1ef0
+
+#define MON_STR_(x) #x
+#define MON_STR(x) MON_STR_(x)
+
+#ifdef LINK_RX_STAT_ADDR
+#define MON_SLOT_RX_TEST                                                                    \
+    "    li    $v1, " MON_STR(LINK_RX_STAT_ADDR) "\n"                                        \
+    "    " LINK_RX_STAT_LOAD " $v1, 0($v1)\n"                                                \
+    "    nop\n"                                                                              \
+    "    andi  $v1, $v1, " MON_STR(LINK_RX_STAT_BIT) "\n"                                   \
+    "    bnez  $v1, 2f\n"                                                                    \
+    "    nop\n"
+#else
+#define MON_SLOT_RX_TEST
+#endif
+
+__asm__(
+    "    .section .text.monitorSlotEntry, \"ax\", @progbits\n"
+    "    .align 2\n"
+    "    .global monitorSlotEntry\n"
+    "    .type monitorSlotEntry, @function\n"
+    "    .set push\n"
+    "    .set noreorder\n"
+    "    .set noat\n"
+    "monitorSlotEntry:\n"
+    /* v0 = ExcCode */
+    "    mfc0  $v0, $13\n"
+    "    nop\n"
+    "    andi  $v0, $v0, 0x7c\n"
+    "    beqz  $v0, 1f\n"
+    "    srl   $v0, $v0, 2\n"
+    "    li    $v1, " MON_STR(MON_SLOT_EXCMASK) "\n"
+    "    srlv  $v1, $v1, $v0\n"
+    "    andi  $v1, $v1, 1\n"
+    "    bnez  $v1, 2f\n"
+    "    nop\n"
+    "    jr    $ra\n"
+    "    nop\n"
+    /* Interrupt: ours only if the link has a byte waiting. */
+    "1:\n" MON_SLOT_RX_TEST
+    "    jr    $ra\n"
+    "    nop\n"
+    /* Ours: the kernel's own save sequence, same order, same offsets. */
+    "2:\n"
+    "    sw    $a0, 0x10($k0)\n"
+    "    sw    $a1, 0x14($k0)\n"
+    "    sw    $a2, 0x18($k0)\n"
+    "    sw    $a3, 0x1c($k0)\n"
+    "    mfc0  $a0, $12\n"
+    "    nop\n"
+    "    sw    $a0, 0x8c($k0)\n"
+    "    mfc0  $a1, $13\n"
+    "    nop\n"
+    "    sw    $a1, 0x90($k0)\n"
+    "    sw    $k1, 0x6c($k0)\n"
+    "    sw    $s0, 0x40($k0)\n"
+    "    sw    $s1, 0x44($k0)\n"
+    "    sw    $s2, 0x48($k0)\n"
+    "    sw    $s3, 0x4c($k0)\n"
+    "    sw    $s4, 0x50($k0)\n"
+    "    sw    $s5, 0x54($k0)\n"
+    "    sw    $s6, 0x58($k0)\n"
+    "    sw    $s7, 0x5c($k0)\n"
+    "    sw    $t0, 0x20($k0)\n"
+    "    sw    $t1, 0x24($k0)\n"
+    "    sw    $t2, 0x28($k0)\n"
+    "    sw    $t3, 0x2c($k0)\n"
+    "    sw    $t4, 0x30($k0)\n"
+    "    sw    $t5, 0x34($k0)\n"
+    "    sw    $t6, 0x38($k0)\n"
+    "    sw    $t7, 0x3c($k0)\n"
+    "    sw    $t8, 0x60($k0)\n"
+    "    sw    $t9, 0x64($k0)\n"
+    "    sw    $gp, 0x70($k0)\n"
+    "    sw    $sp, 0x74($k0)\n"
+    "    sw    $fp, 0x78($k0)\n"
+    "    mfhi  $a0\n"
+    "    nop\n"
+    "    sw    $a0, 0x84($k0)\n"
+    "    mflo  $a0\n"
+    "    nop\n"
+    "    sw    $a0, 0x88($k0)\n"
+    /* s0 (saved above, callee-saved in C) keeps the way back into the
+       kernel's handler. */
+    "    move  $s0, $ra\n"
+    "    la    $sp, monitorSlotStack + " MON_STR(MONITOR_SLOT_STACK_WORDS) " * 4 - 16\n"
+    "    jal   monitorSlotDispatch\n"
+    "    nop\n"
+    /* Declined: the frame pointer again (k0 is the kernel's), the registers
+       C may have changed, and back to the kernel. */
+    "    lw    $k0, 0x108($zero)\n" /* the table of tables at 0x100: ->processes */
+    "    move  $ra, $s0\n"
+    "    lw    $k0, 0($k0)\n"
+    "    nop\n"
+    "    addiu $k0, $k0, 8\n"
+    "    lw    $a0, 0x84($k0)\n"
+    "    lw    $a1, 0x88($k0)\n"
+    "    mthi  $a0\n"
+    "    mtlo  $a1\n"
+    "    lw    $a0, 0x10($k0)\n"
+    "    lw    $a1, 0x14($k0)\n"
+    "    lw    $a2, 0x18($k0)\n"
+    "    lw    $a3, 0x1c($k0)\n"
+    "    lw    $t0, 0x20($k0)\n"
+    "    lw    $t1, 0x24($k0)\n"
+    "    lw    $t2, 0x28($k0)\n"
+    "    lw    $t3, 0x2c($k0)\n"
+    "    lw    $t4, 0x30($k0)\n"
+    "    lw    $t5, 0x34($k0)\n"
+    "    lw    $t6, 0x38($k0)\n"
+    "    lw    $t7, 0x3c($k0)\n"
+    "    lw    $t8, 0x60($k0)\n"
+    "    lw    $t9, 0x64($k0)\n"
+    "    lw    $s0, 0x40($k0)\n"
+    "    lw    $sp, 0x74($k0)\n"
+    "    jr    $ra\n"
+    "    nop\n"
+    "    .set pop\n"
+    "    .size monitorSlotEntry, . - monitorSlotEntry\n"
+    "    .previous\n");
+
 void monitorMain(void) {
     psxprintf("OpenBIOS Monitor.\n");
     transportInit();
@@ -512,6 +690,7 @@ void monitorMain(void) {
     s_mon.badVaddr = 0;
     s_mon.dcic = 0;
     s_mon.watchAddr = 0;
+    s_mon.running = 0;
 
     s_biosChecksum = monitorBiosChecksum();
     monitorHook();

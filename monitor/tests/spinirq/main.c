@@ -24,37 +24,25 @@ SOFTWARE.
 
 */
 
-/* The resident half of the retail monitor, linked into the free RAM between
-   the retail kernel's bss (ends at 0xC160) and the BIOS patch area games use
-   at 0xDF80; 0xE000 up is the kernel's control-block pool. bss is folded into
-   the image as zeroes, so copying the image is the whole install and there is
-   no crt0. The loader links against this ELF for the symbols it needs. */
+/* A target that never stops on its own, for STOP while RUNNING: enables the
+   VBlank IRQ (the kernel's VBlank handler acknowledges it) and spins in
+   spinLoop, counting. The host's STOP halts it at the next VBlank with the
+   PC inside spinLoop; CONT carries on counting. */
+#include <stdint.h>
 
-EXTERN(s_monitorHandler)
-EXTERN(s_ttyDevice)
-EXTERN(s_biosChecksum)
-EXTERN(s_monitorSlot)
-EXTERN(monitorSlotEntry)
+#include "common/hardware/hwregs.h"
+#include "common/hardware/irq.h"
+#include "common/syscalls/syscalls.h"
 
-MEMORY {
-    cave (rwx) : ORIGIN = 0x8000C160, LENGTH = 0x8000DF80 - 0x8000C160
+volatile uint32_t g_spins;
+
+static __attribute__((noinline, noreturn)) void spinLoop(void) {
+    for (;;) g_spins++;
 }
 
-SECTIONS {
-    .text : {
-        __core_start = .;
-        *(.text .text.*)
-    } > cave
-    .rodata : {
-        *(.rodata .rodata.* .rdata .rdata.*)
-    } > cave
-    .data : {
-        *(.data .data.* .sdata .sdata.*)
-        *(.sbss .sbss.* .scommon .bss .bss.* COMMON)
-        . = ALIGN(4);
-        __core_end = .;
-        __bss_end = .; /* nooverlay.ld wants it */
-    } > cave
-
-    /DISCARD/ : { *(.MIPS.abiflags) *(.reginfo) *(.note.GNU-stack) *(.gnu.lto_*) *(.comment) }
+int main(void) {
+    ramsyscall_printf("spinirq: VBlank on, spinning\n");
+    IREG = ~IRQ_VBLANK;
+    IMASK |= IRQ_VBLANK;
+    spinLoop();
 }
