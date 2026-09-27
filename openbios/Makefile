@@ -165,6 +165,11 @@ endif
 # takes MONITOR_FT232H_BOARD, see monitor/hosts/ft232h-boards.mk.
 MONITOR_LINK ?= ATCONS
 ifneq ($(MONITOR),)
+# MONITOR_NO_SLOT=1 leaves the kernel exception handler's patch slot alone:
+# the monitor rides the priority-0 chain only (../monitor/install.h).
+ifneq ($(MONITOR_NO_SLOT),)
+CPPFLAGS += -DMONITOR_NO_SLOT
+endif
 ifneq ($(MONITOR_LINK),ATCONS)
 CPPFLAGS += -DOPENBIOS_MONITOR -DMONITOR_LINK_$(MONITOR_LINK)
 include ../monitor/hosts/ft232h-boards.mk

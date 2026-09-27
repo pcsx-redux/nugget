@@ -33,6 +33,8 @@ SOFTWARE.
 EXTERN(s_monitorHandler)
 EXTERN(s_ttyDevice)
 EXTERN(s_biosChecksum)
+EXTERN(s_monitorSlot)
+EXTERN(monitorSlotEntry)
 
 MEMORY {
     cave (rwx) : ORIGIN = 0x8000C160, LENGTH = 0x8000DF80 - 0x8000C160

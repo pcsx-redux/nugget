@@ -91,6 +91,13 @@ static inline void linkSetRate(uint16_t reload) {
     SIOS[1].baudRate = reload;
 }
 
+/* The received-byte test the exception entry makes in assembly on every
+   interrupt (monitor.c, monitorSlotEntry): LINK_RX_STAT_LOAD from
+   LINK_RX_STAT_ADDR, then LINK_RX_STAT_BIT. SIO1 STAT bit 1, RX ready. */
+#define LINK_RX_STAT_ADDR 0x1f801054
+#define LINK_RX_STAT_LOAD "lhu"
+#define LINK_RX_STAT_BIT 0x02
+
 /* Non-blocking read: 1 and the byte if one was waiting, else 0. */
 static inline int linkTryGetByte(uint8_t *b) {
     if ((SIOS[1].stat & SIO_STAT_RXRDY) == 0) return 0;

@@ -125,6 +125,37 @@ void transportRecvBegin(uint16_t *type, uint16_t *len) {
 }
 #endif
 
+#ifdef MONITOR_LINK_IS_STREAM
+#ifndef MONITOR_STOP_QUIET_SPINS
+#define MONITOR_STOP_QUIET_SPINS 20000 /* ~7 ms on a retail PS1, ~80 byte times at 115200 */
+#endif
+
+int transportStopPending(void) {
+    uint8_t b;
+    if (!linkTryGetByte(&b)) return 0;
+    int stop = 0;
+    uint32_t quiet = 0;
+    linkRxOpen();
+    do {
+        if (quiet == 0) {
+            if (b == 0) {
+                stop = 1;
+            } else if (!stop) {
+                s_consoleDropped++;
+            }
+        }
+        quiet = linkTryGetByte(&b) ? 0 : quiet + 1;
+    } while (quiet < MONITOR_STOP_QUIET_SPINS);
+    linkRxClose();
+#ifdef MONITOR_LINK_SIO1
+    linkClearErrors(); /* the overrun a STOP frame longer than the FIFO leaves */
+#endif
+    return stop;
+}
+#else
+int transportStopPending(void) { return 0; }
+#endif
+
 uint16_t transportRecvWord(void) {
     uint16_t w = linkGetWord();
     s_rxS1 += w; s_rxS2 += s_rxS1;

@@ -18,6 +18,11 @@ OBJS += monitor-core-blob.o
 EXTRA_DEPS += core/monitor-core.elf
 LDFLAGS += -Wl,--just-symbols=core/monitor-core.elf
 CPPFLAGS += -DSIO1_TTY_INSTALL_ONLY
+# MONITOR_NO_SLOT=1 leaves the kernel exception handler's patch slot alone:
+# the monitor rides the priority-0 chain only (monitor/install.h).
+ifneq ($(MONITOR_NO_SLOT),)
+CPPFLAGS += -DMONITOR_NO_SLOT
+endif
 
 # SIO1, or FT232H for an FT232H on the expansion port (monitor/link-ft232h.h).
 MONITOR_LINK ?= SIO1

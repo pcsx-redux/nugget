@@ -53,6 +53,13 @@ SOFTWARE.
 
 /* Capability bits, in HELLO and PONG. */
 #define MON_CAP_LZ4 0x0001
+/* STOP while RUNNING is read: the target stops with STOPPED INTERRUPT at its
+   next interrupt after the frame arrives (byte links only). */
+#define MON_CAP_STOP 0x0002
+/* The monitor is entered from the kernel exception handler's fourth patch
+   slot, ahead of the handler chains, so a program that resets the chains
+   does not lose it. Without it the monitor rides the priority-0 chain only. */
+#define MON_CAP_SLOT 0x0004
 
 /* LZ4 WRITE_MEM/LOAD on SIO1 by default: the wire is slow enough that decoding
    hides under it. Elsewhere decoding would cost more than it saves. */
