@@ -41,6 +41,7 @@ SOFTWARE.
 #include "cester-hw.c"
 
 #if 1
+#include "cdlforward.c"
 #include "cdlgetlocl.c"
 #include "cdlgetlocp.c"
 #include "cdlgettd.c"
