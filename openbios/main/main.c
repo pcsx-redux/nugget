@@ -48,6 +48,7 @@ SOFTWARE.
 #include "openbios/kernel/util.h"
 #include "openbios/main/splash.h"
 #include "monitor/monitor.h"
+#include "monitor/transport.h"
 #include "openbios/pio/pio.h"
 #include "openbios/shell/shell.h"
 #include "openbios/tty/tty.h"
@@ -73,6 +74,10 @@ void bootThunk() {
 #define DEFAULT_TTY_INSTALL 1
 #else
 #define DEFAULT_TTY_INSTALL 0
+#endif
+
+#ifdef OPENBIOS_MONITOR
+void installSio1Tty(void);
 #endif
 
 int main() {
@@ -395,6 +400,12 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     // the ATCONS word-channel transport, announces HELLO, and runs the command
     // loop. It never returns, which will cull the rest of the boot sequence
     // (including the shell and game boot) from being compiled.
+    monitorMain();
+#elif defined(OPENBIOS_MONITOR)
+    // The same monitor on a byte link (SIO1, FT232H). The kernel tty moves
+    // onto that link first, so the target's console text reaches the host.
+    transportInit();
+    installSio1Tty();
     monitorMain();
 #endif
     startShell(7);
