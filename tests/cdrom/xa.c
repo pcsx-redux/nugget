@@ -43,6 +43,8 @@ CESTER_BODY(
         unsigned unstamped;
         uint32_t slotMask;
         unsigned form2Seen;
+        unsigned audioRealTime;
+        unsigned audioNotRealTime;
         unsigned busySet;
         unsigned busyClear;
         uint32_t lastLBABusy;
@@ -98,13 +100,13 @@ CESTER_BODY(
         }
     }
 
-    static void xaReadHead(uint8_t head[4]) {
+    static void xaReadHead(uint8_t* head, unsigned count) {
         CDROM_REG0 = 0;
         CDROM_REG3 = 0x80;
         for (unsigned t = 0; t < 50000; t++) {
             if (CDROM_REG0 & 0x40) break;
         }
-        for (int i = 0; i < 4; i++) head[i] = CDROM_REG2;
+        for (unsigned i = 0; i < count; i++) head[i] = CDROM_REG2;
         CDROM_REG0 = 0;
         CDROM_REG3 = 0;
     }
@@ -141,9 +143,26 @@ CESTER_BODY(
                 stats->nonDataCauses++;
                 continue;
             }
-            uint8_t head[4];
-            xaReadHead(head);
-            uint32_t lba = head[0] | (head[1] << 8) | (head[2] << 16);
+            // With mode bit 5 the whole sector from its header is read, so the
+            // subheader comes first and the payload starts at byte 12.
+            uint8_t head[16];
+            const uint8_t* payload = head;
+            if (mode & 0x20) {
+                xaReadHead(head, 16);
+                payload = head + 12;
+                uint8_t submode = head[6];
+                if (submode & 0x04) {
+                    if (submode & 0x40) {
+                        stats->audioRealTime++;
+                    } else {
+                        stats->audioNotRealTime++;
+                    }
+                    continue;
+                }
+            } else {
+                xaReadHead(head, 4);
+            }
+            uint32_t lba = payload[0] | (payload[1] << 8) | (payload[2] << 16);
             // Anything without an LBA stamp is a sector that should not have
             // reached the host, most likely an ADPCM one.
             if (lba < startLBA || lba > startLBA + 20000) {
@@ -153,7 +172,7 @@ CESTER_BODY(
             if (lba < stats->minLBA) stats->minLBA = lba;
             if (lba > stats->maxLBA) stats->maxLBA = lba;
             stats->slotMask |= 1 << ((lba - startLBA) % 16);
-            if (head[3] == 'D') stats->form2Seen++;
+            if (payload[3] == 'D') stats->form2Seen++;
             if (busy) {
                 stats->busySet++;
                 stats->lastLBABusy = lba;
@@ -167,9 +186,9 @@ CESTER_BODY(
         xaStop();
         ramsyscall_printf(
             "XA mode %02x filter %i %i/%i from %i: %i events, %i not data ready, %i unstamped, slots %04x, LBA %i-%i, "
-            "form 2 %i, ADPBUSY set %i clear %i (last set %i, first clear %i)\n",
+            "form 2 %i, audio RT %i not RT %i, ADPBUSY set %i clear %i (last set %i, first clear %i)\n",
             mode, filter, file, channel, startLBA, stats->events, stats->nonDataCauses, stats->unstamped, stats->slotMask,
-            stats->minLBA, stats->maxLBA, stats->form2Seen, stats->busySet, stats->busyClear, stats->lastLBABusy,
+            stats->minLBA, stats->maxLBA, stats->form2Seen, stats->audioRealTime, stats->audioNotRealTime, stats->busySet, stats->busyClear, stats->lastLBABusy,
             stats->firstLBAClear);
         return 1;
     }
@@ -255,17 +274,17 @@ CESTER_TEST(xaRealTimeUnfilteredWithholdsAudio, test_instance,
 
 // LBA 152744, file 1: slot 0 audio on channel 0, slot 4 Form 2 data,
 // slot 8 audio without the RT submode bit, slot 12 audio on channel 0xff.
-// Only the Form 2 data sectors and the fillers reach the host.
+// Read whole sectors so the subheader of whatever arrives can be checked:
+// the Form 2 data and the audio without RT reach the host, the RT audio does
+// not, on either channel.
 
-CESTER_TEST(xaForm2DataReachesHost, test_instance,
+CESTER_TEST(xaForm2AndNonRealTimeAudioReachHost, test_instance,
     struct XAReadStats stats;
-    int done = xaRead(0xc8, 1, 1, 0, 152744, 1500000, 0, &stats);
+    int done = xaRead(0xe8, 1, 1, 0, 152744, 1500000, 0, &stats);
     cester_assert_true(done);
     cester_assert_uint_ne(0, stats.form2Seen);
-    uint32_t form2Slot = stats.slotMask & (1 << 4);
-    uint32_t audioSlots = stats.slotMask & ((1 << 0) | (1 << 8) | (1 << 12));
-    cester_assert_uint_ne(0, form2Slot);
-    cester_assert_uint_eq(0, audioSlots);
+    cester_assert_uint_ne(0, stats.audioNotRealTime);
+    cester_assert_uint_eq(0, stats.audioRealTime);
     cester_assert_uint_eq(0, stats.nonDataCauses);
     cester_assert_uint_eq(0, stats.unstamped);
 )
