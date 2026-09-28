@@ -41,8 +41,9 @@ SOFTWARE.
  *      after each write. Record the first write at which bit 28 drops (the
  *      word went into the FIFO) and the first at which bit 25 drops (FIFO
  *      full).
- *   4. Read GPUSTAT bit 26 at the end: 0 means the copy was still executing
- *      when the last word went in, so every word was written behind it.
+ *   4. Count GPUSTAT polls until bit 26 is set again. For a row that leaves
+ *      no command waiting on parameters, that is the rest of the copy, so a
+ *      large count means every word was written behind a running copy.
  *
  * Controls, which must fill the FIFO or the column is void:
  *   - GP0(A0h) CPU-to-VRAM with a large rectangle: its data words are
@@ -124,11 +125,12 @@ struct Result {
     int firstNotEmpty;
     int firstFull;
     uint32_t endStat;
+    uint32_t readyPolls; /* GPUSTAT polls after the burst until bit 26 is set */
 };
 
 /* words[] is written cyclically, one word per step. */
 static struct Result run(const uint32_t* words, int nwords, int prefix, int steps) {
-    struct Result r = {-1, -1, 0};
+    struct Result r = {-1, -1, 0, 0};
     fullReset();
     startCopy();
     for (int i = 0; i < prefix; i++) GPU_DATA = words[i];
@@ -139,13 +141,20 @@ static struct Result run(const uint32_t* words, int nwords, int prefix, int step
         if (r.firstFull < 0 && !(s & ST_FIFO_NOT_FULL)) r.firstFull = i + 1;
     }
     r.endStat = GPU_STATUS;
+    while (!(GPU_STATUS & ST_CMD_READY) && r.readyPolls < 100000) r.readyPolls++;
     waitIdle();
     return r;
 }
 
 static void report(const char* tag, uint32_t op, struct Result r) {
-    ramsyscall_printf("FIFO %-6s OP=%02x notEmptyAt=%d fullAt=%d endStat=%08x %s\n", tag, op, r.firstNotEmpty,
-                      r.firstFull, r.endStat, (r.endStat & ST_CMD_READY) ? "COPY-DONE-EARLY" : "copy-busy");
+    /* Bit 26 alone cannot prove the copy is still running: it also stays low
+       while a command waits for more parameters, which the A0h and 60h
+       controls leave behind on purpose. readyPolls can: for a row that
+       leaves nothing incomplete it counts the rest of the copy, and it must
+       be well above zero for that row's "never full" to mean anything. A
+       row left waiting for parameters runs into the 100000 cap instead. */
+    ramsyscall_printf("FIFO %-6s OP=%02x notEmptyAt=%d fullAt=%d endStat=%08x readyPolls=%d\n", tag, op,
+                      r.firstNotEmpty, r.firstFull, r.endStat, (int)r.readyPolls);
 }
 
 int main(void) {
