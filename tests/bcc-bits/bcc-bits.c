@@ -119,8 +119,15 @@ static uint32_t runUncached(benchFn f, volatile uint32_t *ram, volatile uint32_t
    separately how long that DMA takes to finish. The wait is bounded: a DMA
    that never completes reports 65535 instead of hanging the run. */
 static uint32_t s_dmaDone;
+static int s_dmaStuck;
 static uint32_t benchDmaContend(volatile uint32_t *ram, volatile uint32_t *spad) {
     static uint32_t ot[4096];
+    /* A DMA left running by a timed-out sample is never re-programmed. */
+    if (DMA_CTRL[6].CHCR & 0x01000000) {
+        s_dmaStuck = 1;
+        s_dmaDone = 65535;
+        return benchRamLoad(ram, spad);
+    }
     DPCR |= 0x08000000;
     DMA_CTRL[6].MADR = (uint32_t)&ot[4095];
     DMA_CTRL[6].BCR = 4096;
@@ -129,7 +136,8 @@ static uint32_t benchDmaContend(volatile uint32_t *ram, volatile uint32_t *spad)
     uint32_t t = benchRamLoad(ram, spad);
     uint32_t n = 0;
     while ((DMA_CTRL[6].CHCR & 0x01000000) && n < 2000000) n++;
-    s_dmaDone = (DMA_CTRL[6].CHCR & 0x01000000) ? 65535 : ((T2_VALUE - start) & 0xffff);
+    uint32_t done = (DMA_CTRL[6].CHCR & 0x01000000) ? 65535 : ((T2_VALUE - start) & 0xffff);
+    if (done < s_dmaDone) s_dmaDone = done;
     return t;
 }
 
@@ -152,6 +160,7 @@ static uint32_t measure(const struct Bench *b) {
     T2_MODE = 0;
     /* Minimum of 8: DRAM refresh lands in some runs and not others. */
     uint32_t best = 0xffffffff;
+    if (b->fn == benchDmaContend) s_dmaDone = 0xffffffff;
     for (int i = 0; i < 8; i++) {
         uint32_t t = b->uncached ? runUncached(b->fn, ram, spad) : b->fn(ram, spad);
         if (t < best) best = t;
@@ -171,17 +180,27 @@ static void row(const char *label, uint32_t bcc, int isBase) {
     dmaB = s_dmaDone;
     uint32_t readBack = BCC;
     setBcc(BCC_DEFAULT);
+    /* With the default value back, a DMA the row left stuck must finish. */
+    int drained = 1;
+    if (DMA_CTRL[6].CHCR & 0x01000000) {
+        uint32_t n = 0;
+        while ((DMA_CTRL[6].CHCR & 0x01000000) && n < 2000000) n++;
+        drained = !(DMA_CTRL[6].CHCR & 0x01000000);
+    }
+    int stuck = s_dmaStuck;
+    s_dmaStuck = 0;
     irqRestore(sr);
 
     int stable = 1, moved = 0;
     for (unsigned i = 0; i < NBENCH; i++) {
-        if (a[i] != b[i]) stable = 0;
+        if (a[i] != b[i] || dmaA != dmaB) stable = 0;
         if (isBase) s_base[i] = a[i];
         else if (a[i] != s_base[i]) moved = 1;
     }
     ramsyscall_printf("BCC %-6s set=%08x read=%08x", label, bcc, readBack);
     for (unsigned i = 0; i < NBENCH; i++) ramsyscall_printf(" %s=%d", s_bench[i].name, (int)a[i]);
-    ramsyscall_printf(" dmaDone=%d/%d", (int)dmaA, (int)dmaB);
+    ramsyscall_printf(" dmaDone=%d/%d%s%s", (int)dmaA, (int)dmaB, stuck ? " dmaLeftBusy" : "",
+                      stuck ? (drained ? " drainedAfterRestore" : " STILL-BUSY-AFTER-RESTORE") : "");
     ramsyscall_printf("%s%s\n", stable ? "" : " UNSTABLE", isBase ? " BASE" : moved ? " MOVED" : " same");
 }
 
