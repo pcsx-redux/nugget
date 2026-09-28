@@ -995,3 +995,4 @@ anything when OpenBIOS is absent or older than the version that added it.
   hardware breakpoint (DCIC written 0, STOPPED BREAKPOINT with a = 0).
 - Instruction check: any word whose low 6 bits are `0x0D` counts as a
   `break`; the primary opcode is not checked.
+
