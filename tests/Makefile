@@ -35,6 +35,7 @@ all:
 	$(MAKE) -C gte all
 	$(MAKE) -C gte-math-bench all
 	$(MAKE) -C mult-timing all
+	$(MAKE) -C pocketstation-memmap all
 	$(MAKE) -C gte-latency all
 	$(MAKE) -C gte-latency-color all
 	$(MAKE) -C gte-latency-dpc all
@@ -95,6 +96,7 @@ clean:
 	$(MAKE) -C gte clean
 	$(MAKE) -C gte-math-bench clean
 	$(MAKE) -C mult-timing clean
+	$(MAKE) -C pocketstation-memmap clean
 	$(MAKE) -C gte-latency clean
 	$(MAKE) -C gte-latency-color clean
 	$(MAKE) -C gte-latency-dpc clean
