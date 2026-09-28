@@ -9,6 +9,7 @@ all:
 	$(MAKE) -C dma all
 	$(MAKE) -C gpu all
 	$(MAKE) -C gpu-nop all
+	$(MAKE) -C gpu-fifo all
 	$(MAKE) -C gpu-raster-phase1 all
 	$(MAKE) -C gpu-raster-phase2 all
 	$(MAKE) -C gpu-raster-phase3 all
@@ -70,6 +71,7 @@ clean:
 	$(MAKE) -C dma clean
 	$(MAKE) -C gpu clean
 	$(MAKE) -C gpu-nop clean
+	$(MAKE) -C gpu-fifo clean
 	$(MAKE) -C gpu-raster-phase1 clean
 	$(MAKE) -C gpu-raster-phase2 clean
 	$(MAKE) -C gpu-raster-phase3 clean

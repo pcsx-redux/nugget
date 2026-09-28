@@ -62,6 +62,7 @@ SKIPS=(
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
+    "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
