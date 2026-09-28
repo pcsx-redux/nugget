@@ -64,6 +64,7 @@ SKIPS=(
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
+    "mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
     "spu/spu|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
