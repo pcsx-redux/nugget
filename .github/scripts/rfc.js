@@ -112,8 +112,7 @@ async function run({ github, context, core, now = Date.now() }) {
     const index = issues.find((i) => !i.pull_request && i.title === INDEX_TITLE);
     const body = indexBody(owner, repo, rows);
     if (!index) {
-        core.warning(`No open issue titled "${INDEX_TITLE}"; creating one, pin it by hand.`);
-        await github.rest.issues.create({ owner, repo, title: INDEX_TITLE, body });
+        core.warning(`No open issue titled "${INDEX_TITLE}", so no index to update.`);
     } else if (index.body !== body) {
         await github.rest.issues.update({ owner, repo, issue_number: index.number, body });
     }
