@@ -806,7 +806,14 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     initializeTime();
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_READN;
-    uint32_t time1 = waitCDRomIRQ();
+    // Bounded: a read that errors out stops the drive, and an unbounded wait
+    // below would then hang the whole suite.
+    uint32_t time1 = 2000000;
+    if (!waitCDRomIRQWithTimeout(&time1)) {
+        ramsyscall_printf("Reading without seeking first: no acknowledge for ReadN\n");
+        cester_assert_true(0);
+        return;
+    }
     ackCDRomCause();
     uint8_t response[16];
     readResponse(response);
@@ -821,7 +828,12 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     do {
         CDROM_REG0 = 0;
         CDROM_REG1 = CDL_NOP;
-        uint32_t time = waitCDRomIRQ();
+        uint32_t time = 2000000;
+        if (!waitCDRomIRQWithTimeout(&time)) {
+            ramsyscall_printf("Reading without seeking first: no answer to Nop after %i responses\n", responseCount);
+            cester_assert_true(0);
+            return;
+        }
         runningCause = ackCDRomCause();
         uint8_t runningResponse[16];
         readResponse(runningResponse);
@@ -836,20 +848,29 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
         }
     } while(runningCause == 3);
 
-    uint32_t time2 = waitCDRomIRQ();
-    uint8_t cause = ackCDRomCause();
+    uint32_t time2 = 2000000;
+    int got2 = waitCDRomIRQWithTimeout(&time2);
+    uint8_t cause = got2 ? ackCDRomCause() : 0;
     uint8_t response2[16];
     readResponse(response2);
+    if (!got2) {
+        ramsyscall_printf("Reading without seeking first: nothing after the Nop loop ended on cause %i, stat 0x%02x\n",
+                          runningCause, lastResponse);
+        cester_assert_true(0);
+        return;
+    }
 
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_PAUSE;
 
-    uint32_t time3 = waitCDRomIRQ();
+    uint32_t time3 = 2000000;
+    waitCDRomIRQWithTimeout(&time3);
     ackCDRomCause();
     uint8_t response3[16];
     readResponse(response3);
 
-    uint32_t time4 = waitCDRomIRQ();
+    uint32_t time4 = 2000000;
+    waitCDRomIRQWithTimeout(&time4);
     ackCDRomCause();
     uint8_t response4[16];
     readResponse(response4);
