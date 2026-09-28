@@ -231,6 +231,16 @@ static int dmaWrite(const void *src, unsigned words) {
     return waitIdle(DMA_MDECIN, "post-write");
 }
 
+// A command written to MDEC0 within a few cycles of a reset is latched with its
+// word count but the MDEC never raises Data-In Request, so the DMA that follows
+// hangs with status a004001f. Waiting here, either before or after the enable
+// write, avoids it on an SCPH-5501. The loop count is enough, not a minimum.
+static void mdecReset(void) {
+    MDEC1 = 0x80000000;
+    MDEC1 = 0x60000000;
+    for (volatile int i = 0; i < 1000; i++);
+}
+
 static int done(int code) {
     pcsx_exit(code);
     return code;
@@ -254,8 +264,7 @@ int main() {
     // DMA0 never clearing its busy bit.
     DPCR |= 0x000000ff;
 
-    MDEC1 = 0x80000000;
-    MDEC1 = 0x60000000;
+    mdecReset();
 
     MDEC0 = MDEC_CMD_QUANT | 1;  // bit0 = colour, so 128 bytes of table follow
     if (dmaWrite(s_quant, 32) < 0) return done(2);
@@ -276,8 +285,7 @@ int main() {
         // status to 80040000h and says nothing about the matrices, so this is a
         // measurement rather than a lookup. The DMA request enables DO get cleared,
         // hence the second write: that part is the sequence, not the question.
-        MDEC1 = 0x80000000;
-        MDEC1 = 0x60000000;
+        mdecReset();
         if (s_resetMode == 2 || s_resetMode == 4) {
             MDEC0 = MDEC_CMD_QUANT | 1;
             if (dmaWrite(s_quant, 32) < 0) return done(8);
