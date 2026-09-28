@@ -36,8 +36,8 @@ SOFTWARE.
 //     TX  81 5B 01 00 a0 a1 a2 a3 len 00 [00 x len] 00
 //     RX  -- FL FF 05 -- -- -- -- --  L2 [data    ] FF
 //
-// Every frame is dumped raw, then checked: LEN1 must be 05, LEN2 must
-// equal len, and the trailer must be FF. A frame failing any of those is
+// Every frame is checked: every exchange but the last must /ACK, LEN1 must
+// be 05, LEN2 must equal len, and the trailer must be FF. A frame failing any of those is
 // printed BAD and its data must not be read as a value.
 //
 // Pass 1 is read-only. It reads each "zerofilled" range from
@@ -46,6 +46,9 @@ SOFTWARE.
 // readable register shows up as a copy of that register's value.
 // Controls: BIOS ROM vectors, kernel RAM, LCD VRAM, all of which must read
 // back non-zero and stable across two reads.
+//
+// Pass 2 reads the COM registers (all but COM_DATA), then writes a pattern
+// into each non-COM range and restores it, with a kernel RAM control.
 
 #include <stdint.h>
 
@@ -119,6 +122,14 @@ static int transact(int port, int n) {
     return acks;
 }
 
+// Every exchange but the last must have drawn an /ACK.
+static int allAcked(int n) {
+    for (int i = 0; i + 1 < n; i++) {
+        if (!s_ack[i]) return 0;
+    }
+    return 1;
+}
+
 static void dumpRaw(int n) {
     ramsyscall_printf("  RAW");
     for (int i = 0; i < n; i++) ramsyscall_printf(" %02x%s", s_rx[i], s_ack[i] ? "" : "!");
@@ -152,7 +163,7 @@ static int readBlock(uint32_t addr, int len, int quiet) {
     for (int i = 0; i < len; i++) s_tx[n++] = 0x00;
     s_tx[n++] = 0x00;
     transact(s_port, n);
-    int ok = s_rx[3] == 0x05 && s_rx[9] == len && s_rx[10 + len] == 0xff;
+    int ok = allAcked(n) && s_rx[3] == 0x05 && s_rx[9] == len && s_rx[10 + len] == 0xff;
     if (!ok || !quiet) {
         ramsyscall_printf("RD %08x len=%02x %s", addr, len, ok ? "ok" : "BAD");
         dumpRaw(n);
@@ -176,14 +187,14 @@ static int writeBlock(uint32_t addr, const uint8_t *buf, int len) {
     for (int i = 0; i < len; i++) s_tx[n++] = buf[i];
     s_tx[n++] = 0x00;
     transact(s_port, n);
-    int ok = s_rx[3] == 0x05 && s_rx[9] == len && s_rx[10 + len] == 0xff;
+    int ok = allAcked(n) && s_rx[3] == 0x05 && s_rx[9] == len && s_rx[10 + len] == 0xff;
     ramsyscall_printf("WR %08x len=%02x %s", addr, len, ok ? "ok" : "BAD");
     dumpRaw(n);
     return ok;
 }
 
-static uint32_t readWord(uint32_t addr) {
-    readBlock(addr, 4, 1);
+static uint32_t readWord(uint32_t addr, int *ok) {
+    *ok = readBlock(addr, 4, 1);
     return s_rx[10] | (s_rx[11] << 8) | (s_rx[12] << 16) | ((uint32_t)s_rx[13] << 24);
 }
 
@@ -193,15 +204,28 @@ static uint32_t readWord(uint32_t addr) {
 // register aliases it.
 static void writeTest(uint32_t addr, const uint32_t *regs, int nregs, const char *tag) {
     static uint32_t before[16];
-    for (int i = 0; i < nregs; i++) before[i] = readWord(regs[i]);
-    uint32_t orig = readWord(addr);
+    static int beforeOk[16];
+    for (int i = 0; i < nregs; i++) before[i] = readWord(regs[i], &beforeOk[i]);
+    int ok;
+    uint32_t orig = readWord(addr, &ok);
+    if (!ok) {
+        ramsyscall_printf("WT %-8s %08x SKIPPED: original value unreadable\n", tag, addr);
+        return;
+    }
     uint32_t pat = 0x5aa5c33c;
     uint8_t b[4] = {pat & 0xff, (pat >> 8) & 0xff, (pat >> 16) & 0xff, pat >> 24};
-    writeBlock(addr, b, 4);
-    uint32_t back = readWord(addr);
-    ramsyscall_printf("WT %-8s %08x wrote=%08x read=%08x\n", tag, addr, pat, back);
+    int wok = writeBlock(addr, b, 4);
+    int bok;
+    uint32_t back = readWord(addr, &bok);
+    ramsyscall_printf("WT %-8s %08x wrote=%08x%s read=%08x%s\n", tag, addr, pat, wok ? "" : " (BAD)", back,
+                      bok ? "" : " (BAD)");
     for (int i = 0; i < nregs; i++) {
-        uint32_t after = readWord(regs[i]);
+        int aok;
+        uint32_t after = readWord(regs[i], &aok);
+        if (!beforeOk[i] || !aok) {
+            ramsyscall_printf("WT %-8s   reg %08x BAD frame, no comparison\n", tag, regs[i]);
+            continue;
+        }
         ramsyscall_printf("WT %-8s   reg %08x %08x -> %08x%s\n", tag, regs[i], before[i], after,
                           before[i] != after ? " CHANGED" : "");
     }
@@ -288,7 +312,7 @@ static const struct Probe s_pass1[] = {
 };
 
 int main(void) {
-    ramsyscall_printf("PSMEMMAP-START pass2\n");
+    ramsyscall_printf("PSMEMMAP-START\n");
 
     SIOS[0].ctrl = SIO_CTRL_IR;
     busyLoop(10);
@@ -323,6 +347,10 @@ int main(void) {
 
     // One raw frame so the parse offsets can be checked by eye.
     readBlock(0x04000000, 8, 0);
+
+    for (unsigned i = 0; i < sizeof(s_pass1) / sizeof(s_pass1[0]); i++) {
+        probe(s_pass1[i].addr, s_pass1[i].len, s_pass1[i].tag);
+    }
 
     // Pass 2a: COM registers except COM_DATA (08h), which pops the link's
     // own RX byte. Compare against the 00000002h the zerofilled COM range
