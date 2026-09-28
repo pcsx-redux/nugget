@@ -160,6 +160,55 @@ static int readBlock(uint32_t addr, int len, int quiet) {
     return ok;
 }
 
+// 5Ch FUNC 01h, len bytes from buf. Returns 1 if the frame is well formed.
+static int writeBlock(uint32_t addr, const uint8_t *buf, int len) {
+    int n = 0;
+    s_tx[n++] = 0x81;
+    s_tx[n++] = 0x5c;
+    s_tx[n++] = 0x01;
+    s_tx[n++] = 0x00;
+    s_tx[n++] = addr & 0xff;
+    s_tx[n++] = (addr >> 8) & 0xff;
+    s_tx[n++] = (addr >> 16) & 0xff;
+    s_tx[n++] = (addr >> 24) & 0xff;
+    s_tx[n++] = len;
+    s_tx[n++] = 0x00;
+    for (int i = 0; i < len; i++) s_tx[n++] = buf[i];
+    s_tx[n++] = 0x00;
+    transact(s_port, n);
+    int ok = s_rx[3] == 0x05 && s_rx[9] == len && s_rx[10 + len] == 0xff;
+    ramsyscall_printf("WR %08x len=%02x %s", addr, len, ok ? "ok" : "BAD");
+    dumpRaw(n);
+    return ok;
+}
+
+static uint32_t readWord(uint32_t addr) {
+    readBlock(addr, 4, 1);
+    return s_rx[10] | (s_rx[11] << 8) | (s_rx[12] << 16) | ((uint32_t)s_rx[13] << 24);
+}
+
+// Write a pattern into a zerofilled address, read it back, and read the
+// block's real registers before and after, then write zero back. A range
+// that keeps the pattern is storage; one whose write shows up in a real
+// register aliases it.
+static void writeTest(uint32_t addr, const uint32_t *regs, int nregs, const char *tag) {
+    static uint32_t before[16];
+    for (int i = 0; i < nregs; i++) before[i] = readWord(regs[i]);
+    uint32_t orig = readWord(addr);
+    uint32_t pat = 0x5aa5c33c;
+    uint8_t b[4] = {pat & 0xff, (pat >> 8) & 0xff, (pat >> 16) & 0xff, pat >> 24};
+    writeBlock(addr, b, 4);
+    uint32_t back = readWord(addr);
+    ramsyscall_printf("WT %-8s %08x wrote=%08x read=%08x\n", tag, addr, pat, back);
+    for (int i = 0; i < nregs; i++) {
+        uint32_t after = readWord(regs[i]);
+        ramsyscall_printf("WT %-8s   reg %08x %08x -> %08x%s\n", tag, regs[i], before[i], after,
+                          before[i] != after ? " CHANGED" : "");
+    }
+    uint8_t z[4] = {orig & 0xff, (orig >> 8) & 0xff, (orig >> 16) & 0xff, orig >> 24};
+    writeBlock(addr, z, 4);
+}
+
 // Read twice; print data once, flag instability.
 static void probe(uint32_t addr, int len, const char *tag) {
     static uint8_t first[0x80];
@@ -239,7 +288,7 @@ static const struct Probe s_pass1[] = {
 };
 
 int main(void) {
-    ramsyscall_printf("PSMEMMAP-START pass1\n");
+    ramsyscall_printf("PSMEMMAP-START pass2\n");
 
     SIOS[0].ctrl = SIO_CTRL_IR;
     busyLoop(10);
@@ -275,9 +324,34 @@ int main(void) {
     // One raw frame so the parse offsets can be checked by eye.
     readBlock(0x04000000, 8, 0);
 
-    for (unsigned i = 0; i < sizeof(s_pass1) / sizeof(s_pass1[0]); i++) {
-        probe(s_pass1[i].addr, s_pass1[i].len, s_pass1[i].tag);
-    }
+    // Pass 2a: COM registers except COM_DATA (08h), which pops the link's
+    // own RX byte. Compare against the 00000002h the zerofilled COM range
+    // returns while a transfer is in flight.
+    probe(0x0c000000, 0x08, "COM-lo");
+    probe(0x0c00000c, 0x10, "COM-hi");
+    probe(0x0c00001c, 0x04, "COM-z");
+    probe(0x0c000020, 0x20, "COM-z");
+
+    // Pass 2b: writes, each restored afterwards.
+    static const uint32_t lcdRegs[] = {0x0d000000, 0x0d000004, 0x0d000100, 0x0d00017c};
+    static const uint32_t battRegs[] = {0x0d800000, 0x0d800004, 0x0d80000c, 0x0d800010, 0x0d800014, 0x0d800020};
+    static const uint32_t fRegs[] = {0x06000000, 0x06000004, 0x06000008, 0x0600000c, 0x06000010, 0x06000100, 0x0600013c};
+    // Positive control: kernel RAM 0F4h sits in the kernel's documented
+    // unused bytes 0F2h..0F7h and must keep what is written (restored after).
+    // VRAM is no control: the GUI repaints it.
+    static const uint32_t kRegs[] = {0x000000c0, 0x000000f0};
+    writeTest(0x000000f4, kRegs, 2, "ctl-kram");
+    writeTest(0x0d00017c, lcdRegs, 2, "vram");
+    writeTest(0x0d000008, lcdRegs, 4, "LCD-z1");
+    writeTest(0x0d000180, lcdRegs, 4, "LCD-z2");
+    writeTest(0x0d000500, lcdRegs, 4, "LCD-z2");
+    writeTest(0x0d800024, battRegs, 6, "BATT-z");
+    writeTest(0x0d800100, battRegs, 6, "BATT-z");
+    writeTest(0x06000014, fRegs, 7, "F-z1");
+    writeTest(0x06000140, fRegs, 7, "F-z2");
+    writeTest(0x06000400, fRegs, 7, "F-z3");
+    writeTest(0x06001000, fRegs, 7, "F-z3");
+    probe(0x04000000, 0x20, "ctl-bios");
 
     ramsyscall_printf("PSMEMMAP-DONE\n");
     while (1) __asm__ __volatile__("");
