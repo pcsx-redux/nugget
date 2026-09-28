@@ -1,7 +1,8 @@
 # pocketstation-memmap results
 
-SCPH-5501, PocketStation in slot 1. All frames well formed (LEN1, LEN2 and
-trailer checked on every read and write). Controls: BIOS ROM reads back ARM
+SCPH-5501, PocketStation in slot 1. All frames well formed (/ACK on every
+exchange but the last, LEN1, LEN2 and trailer checked on every read and
+write). Controls: BIOS ROM reads back ARM
 opcodes, stable across reads; kernel RAM 0F4h keeps a written pattern.
 
 - F_xxx (06000014h-060000FFh, 06000140h-060002FFh, 06000400h-06FFFFFFh),
@@ -15,6 +16,6 @@ opcodes, stable across reads; kernel RAM 0F4h keeps a written pattern.
   00000002h at every offset, as do 0C00000Ch, COM_STAT2 and COM_CTRL2.
   COM_MODE and COM_CTRL1 read 3, COM_STAT1 0. COM_DATA is not read (it would
   pop the link's own RX byte), and the COM range is not written.
-- Open: the first read of LCD_MODE/LCD_CAL right after another block's
-  write test once returned 6487h in the upper halfword (648700D8h,
-  64870012h), then D8h/12h on the next read.
+- An earlier build without the per-exchange /ACK check read 648700D8h and
+  64870012h from LCD_MODE/LCD_CAL once (D8h/12h on the next read). It did not
+  recur with the check in place.
