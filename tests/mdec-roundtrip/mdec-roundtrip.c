@@ -355,6 +355,12 @@ int main() {
         int w = PCwrite(fd, s_out, sizeof(s_out));
         PCclose(fd);
         ramsyscall_printf("MDRT: wrote %d+%d bytes to %s\n", wh, w, outName);
+        // A short file on the host looks like a capture. Fail the run instead;
+        // the console hex above is still complete.
+        if (wh != (int)sizeof(cap) || w != (int)sizeof(s_out)) {
+            ramsyscall_printf("MDRT: short write, %s is not a valid capture\n", outName);
+            return done(11);
+        }
     } else {
         ramsyscall_printf("MDRT: PCcreat(%s) failed, console hex is the only result\n", outName);
     }
