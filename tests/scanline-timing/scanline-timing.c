@@ -120,7 +120,7 @@ static struct Window window(void) {
             fields++;
         }
     }
-    w.fields = fields;
+    w.fields = fields ? fields : 0xdead;
     w.lines = (uint16_t)(readHblank() - l0);
     return w;
 }
