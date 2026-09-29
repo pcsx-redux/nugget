@@ -72,6 +72,7 @@ SKIPS=(
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "regwrites/regwrites|probe: loops forever, no verdict"
+    "rumble/rumble|needs the DualShock rumble mapping from pcsx-redux in the dev AppImage"
 )
 for d in bank-probe display-area-y drawing-area-y drawing-offset-y fast-fill-h-quirk fast-fill-y \
          gp1-09-matrix primitives-cross transfer-h-quirk vram-blit-y vram-transfers-y; do
