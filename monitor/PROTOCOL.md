@@ -149,13 +149,13 @@ This link has not run on hardware yet.
 | Register | Address | Width | Use |
 |----------|---------|-------|-----|
 | Data | `MONITOR_FT232H_DATA` (build-time) | u8 | Byte in, byte out |
-| Status | `MONITOR_FT232H_STATUS` (build-time) | u8 | Bit 0: received byte waiting. Bit 1: room to send |
+| Status | `MONITOR_FT232H_STATUS` (build-time) | u8 | Bit 0: received byte waiting. Bit 1: room to send. Both inverted with `MONITOR_FT232H_ACTIVE_LOW` |
 
 - Framing: byte stream, section 2.4. Every frame word is two bytes, low byte
   first.
 - Addresses: `MONITOR_FT232H_BOARD` selects a preset from
   `monitor/hosts/ft232h-boards.mk` (`psx232h-a20`, `psx232h-a0`,
-  `picodev-usb`, `picodev-uart`, `piodev-lite`), or `MONITOR_FT232H_DATA`,
+  `picodev-usb`, `picodev-uart`, `piodev-lite`, `orion`), or `MONITOR_FT232H_DATA`,
   `MONITOR_FT232H_STATUS` and `MONITOR_FT232H_EXP1_CONFIG` are passed
   directly. With no setting the link uses `0xBF000000` / `0xBF100000` and
   EXP1 config `(23 << 16) | 0x2422`.

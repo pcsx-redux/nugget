@@ -44,7 +44,10 @@ SOFTWARE.
      Pico-Dev, USB:       0xbf000000 / 0xbf000001 (A1 high selects its UART
                           channel instead, 0xbf000002 / 0xbf000003)
    MONITOR_FT232H_EXP1_CONFIG, when defined, is written to the EXP1 delay/size
-   register at init. Untested: no board here has one fitted. */
+   register at init. MONITOR_FT232H_ACTIVE_LOW, when defined, reads both status
+   bits inverted: boards that wire the chip's RXF#/TXE# pins straight to the
+   data bus (Orion's cart) report 0 for "byte waiting" and "room to send".
+   Untested: no board here has one fitted. */
 
 #define MONITOR_LINK_IS_STREAM 1
 
@@ -59,6 +62,12 @@ SOFTWARE.
 #define FT232H_RXF 0x01
 #define FT232H_TXE 0x02
 
+#ifdef MONITOR_FT232H_ACTIVE_LOW
+#define FT232H_READY(bit) ((FT232H_STATUS & (bit)) == 0)
+#else
+#define FT232H_READY(bit) ((FT232H_STATUS & (bit)) != 0)
+#endif
+
 static inline void linkInit(void) {
 #ifdef MONITOR_FT232H_EXP1_CONFIG
     *(volatile uint32_t *)0xbf801008 = MONITOR_FT232H_EXP1_CONFIG;
@@ -70,13 +79,13 @@ static inline void linkRxOpen(void) {}
 static inline void linkRxClose(void) {}
 
 static inline uint8_t linkGetByte(void) {
-    while ((FT232H_STATUS & FT232H_RXF) == 0) {
+    while (!FT232H_READY(FT232H_RXF)) {
     }
     return FT232H_DATA;
 }
 
 static inline void linkPutByte(uint8_t b) {
-    while ((FT232H_STATUS & FT232H_TXE) == 0) {
+    while (!FT232H_READY(FT232H_TXE)) {
     }
     FT232H_DATA = b;
 }
@@ -86,9 +95,12 @@ static inline void linkPutByte(uint8_t b) {
 #define LINK_RX_STAT_ADDR MONITOR_FT232H_STATUS
 #define LINK_RX_STAT_LOAD "lbu"
 #define LINK_RX_STAT_BIT FT232H_RXF
+#ifdef MONITOR_FT232H_ACTIVE_LOW
+#define LINK_RX_STAT_BRANCH "beqz"
+#endif
 
 static inline int linkTryGetByte(uint8_t *b) {
-    if ((FT232H_STATUS & FT232H_RXF) == 0) return 0;
+    if (!FT232H_READY(FT232H_RXF)) return 0;
     *b = FT232H_DATA;
     return 1;
 }

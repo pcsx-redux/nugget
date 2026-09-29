@@ -567,12 +567,16 @@ void __attribute__((used, noinline)) monitorSlotDispatch(void) { monitorTake(cur
 #define MON_STR(x) MON_STR_(x)
 
 #ifdef LINK_RX_STAT_ADDR
+/* A link whose status bit reads 0 for "byte waiting" sets this to "beqz". */
+#ifndef LINK_RX_STAT_BRANCH
+#define LINK_RX_STAT_BRANCH "bnez"
+#endif
 #define MON_SLOT_RX_TEST                                                                    \
     "    li    $v1, " MON_STR(LINK_RX_STAT_ADDR) "\n"                                        \
     "    " LINK_RX_STAT_LOAD " $v1, 0($v1)\n"                                                \
     "    nop\n"                                                                              \
     "    andi  $v1, $v1, " MON_STR(LINK_RX_STAT_BIT) "\n"                                   \
-    "    bnez  $v1, 2f\n"                                                                    \
+    "    " LINK_RX_STAT_BRANCH " $v1, 2f\n"                                                  \
     "    nop\n"
 #else
 #define MON_SLOT_RX_TEST
