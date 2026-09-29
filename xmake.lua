@@ -220,6 +220,7 @@ rule("ps-exe", function()
         local binary = target:data("nugget.ps-exe.binary")
         local input = binary:targetfile()
         local output = target:targetfile()
+        local sp = target:values("ps-exe.sp") or 0x801fff00
         depend.on_changed(function()
             local elf = io.readfile(input, {encoding = "binary"})
             local function u16(offset) return string.unpack("<I2", elf, offset + 1) end
@@ -255,7 +256,6 @@ rule("ps-exe", function()
                 cursor = segment.vaddr + #segment.data
             end
             table.insert(image, string.rep("\0", low + size - cursor))
-            local sp = target:values("ps-exe.sp") or 0x801fff00
             local header = "PS-X EXE" .. string.rep("\0", 8)
                 .. string.pack("<I4I4I4I4", entry, 0, low, size)
                 .. string.rep("\0", 16)
@@ -264,7 +264,7 @@ rule("ps-exe", function()
             os.mkdir(path.directory(output))
             io.writefile(output, header .. table.concat(image), {encoding = "binary"})
             print("ps-exe %s", output)
-        end, {files = input})
+        end, {files = input, values = {tostring(sp)}})
     end)
 end)
 
