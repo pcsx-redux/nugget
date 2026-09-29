@@ -187,16 +187,84 @@ end)
 
 includes(path.join(root, "third_party", "xmake-psx"))
 
+-- Turns the one binary target this depends on into a PS-X EXE, the same
+-- layout the Makefile build produces through ps-exe.ld: the file holds the
+-- loadable segments' file contents only, and crt0 clears BSS.
 rule("ps-exe", function()
-    add_deps("psx.psexe")
-    before_config(function(target)
-        local extension = target:get("extension")
-        if not extension or extension == ".psexe" then
+    on_load(function(target)
+        target:set("kind", "binary")
+        target:set("plat", "psx")
+        target:set("arch", "mipsel")
+        if not target:get("extension") then
             target:set("extension", ".ps-exe")
         end
-        if target:get("kind") ~= "binary" then
-            raise("nugget: kind must be 'binary' for ps-exe rule")
+    end)
+    before_config(function(target)
+        local binary
+        for _, dep in ipairs(target:orderdeps()) do
+            if dep:kind() == "binary" then
+                if binary then
+                    raise("nugget: ps-exe target %s depends on more than one binary", target:name())
+                end
+                binary = dep
+            end
         end
+        if not binary then
+            raise("nugget: ps-exe target %s needs a binary dependency", target:name())
+        end
+        target:data_set("nugget.ps-exe.binary", binary)
+        target:set("basename", binary:basename())
+    end)
+    on_build(function(target)
+        import("core.project.depend")
+        local binary = target:data("nugget.ps-exe.binary")
+        local input = binary:targetfile()
+        local output = target:targetfile()
+        local sp = target:values("ps-exe.sp") or 0x801fff00
+        depend.on_changed(function()
+            local elf = io.readfile(input, {encoding = "binary"})
+            local function u16(offset) return string.unpack("<I2", elf, offset + 1) end
+            local function u32(offset) return string.unpack("<I4", elf, offset + 1) end
+            if elf:sub(1, 4) ~= "\x7fELF" or elf:byte(5) ~= 1 or elf:byte(6) ~= 1 then
+                raise("nugget: %s is not a little-endian ELF32 file", input)
+            end
+            local entry = u32(0x18)
+            local phoff, phentsize, phnum = u32(0x1c), u16(0x2a), u16(0x2c)
+            local segments = {}
+            local low, high
+            for i = 0, phnum - 1 do
+                local ph = phoff + i * phentsize
+                local vaddr, filesz = u32(ph + 8), u32(ph + 16)
+                -- PT_LOAD, skipping the scratchpad, which the loader cannot fill.
+                if u32(ph) == 1 and filesz > 0 and vaddr ~= 0x1f800000 then
+                    local offset = u32(ph + 4)
+                    table.insert(segments, {vaddr = vaddr, data = elf:sub(offset + 1, offset + filesz)})
+                    low = low and math.min(low, vaddr) or vaddr
+                    high = high and math.max(high, vaddr + filesz) or vaddr + filesz
+                end
+            end
+            if not low then
+                raise("nugget: %s has nothing to load", input)
+            end
+            local size = (high - low + 0x7ff) & ~0x7ff
+            local image = {}
+            local cursor = low
+            table.sort(segments, function(a, b) return a.vaddr < b.vaddr end)
+            for _, segment in ipairs(segments) do
+                table.insert(image, string.rep("\0", segment.vaddr - cursor))
+                table.insert(image, segment.data)
+                cursor = segment.vaddr + #segment.data
+            end
+            table.insert(image, string.rep("\0", low + size - cursor))
+            local header = "PS-X EXE" .. string.rep("\0", 8)
+                .. string.pack("<I4I4I4I4", entry, 0, low, size)
+                .. string.rep("\0", 16)
+                .. string.pack("<I4I4", sp, 0)
+            header = header .. string.rep("\0", 0x800 - #header)
+            os.mkdir(path.directory(output))
+            io.writefile(output, header .. table.concat(image), {encoding = "binary"})
+            print("ps-exe %s", output)
+        end, {files = input, values = {tostring(sp)}})
     end)
 end)
 
