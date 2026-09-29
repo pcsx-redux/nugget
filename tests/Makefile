@@ -8,6 +8,7 @@ all:
 	$(MAKE) -C cop0 all
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
+	$(MAKE) -C dma-priority all
 	$(MAKE) -C gpu all
 	$(MAKE) -C gpu-nop all
 	$(MAKE) -C gpu-fifo all
@@ -72,6 +73,7 @@ clean:
 	$(MAKE) -C cop0 clean
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
+	$(MAKE) -C dma-priority clean
 	$(MAKE) -C gpu clean
 	$(MAKE) -C gpu-nop clean
 	$(MAKE) -C gpu-fifo clean
