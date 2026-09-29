@@ -144,7 +144,7 @@ The DTL-H2700 ATCONS block sits behind EXP2 at `0x1F802000`.
 port, its EEPROM set to CPU-style FIFO mode; the host sees a serial port
 whose rate setting is ignored.
 
-This link has not run on hardware yet.
+Of the presets, only `orion` has run on hardware (SCPH-1001 and SCPH-7502).
 
 | Register | Address | Width | Use |
 |----------|---------|-------|-----|

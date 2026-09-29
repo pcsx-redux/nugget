@@ -47,7 +47,7 @@ SOFTWARE.
    register at init. MONITOR_FT232H_ACTIVE_LOW, when defined, reads both status
    bits inverted: boards that wire the chip's RXF#/TXE# pins straight to the
    data bus (Orion's cart) report 0 for "byte waiting" and "room to send".
-   Untested: no board here has one fitted. */
+   Only the orion preset has run on hardware (SCPH-1001 and SCPH-7502). */
 
 #define MONITOR_LINK_IS_STREAM 1
 

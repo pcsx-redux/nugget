@@ -1,8 +1,8 @@
 # FT232H board presets for MONITOR_LINK=FT232H, one monitor build per board:
 # the hardware has nowhere to store the link addresses. Select one with
 # MONITOR_FT232H_BOARD, or pass MONITOR_FT232H_DATA / _STATUS / _EXP1_CONFIG
-# directly. Addresses are KSEG1, see monitor/link-ft232h.h. None of these has
-# run on silicon.
+# directly. Addresses are KSEG1, see monitor/link-ft232h.h. Only orion has run
+# on silicon.
 #
 #   psx232h-a20   psx232h with A0 on A20, EXP1 widened to 8 MB
 #   psx232h-a0    psx232h with A0 on A0, in the comms window at 0x1f060000
