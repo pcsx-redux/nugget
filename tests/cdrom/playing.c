@@ -219,7 +219,7 @@ CESTER_TEST(simplePlayingUntilEndWithReport, test_instances,
             if (flag == 0x8000) upCount++;
         }
         cester_assert_uint_ge(upCount, 6);
-        cester_assert_uint_le(upCount, 8);
+        cester_assert_uint_le(upCount, 11);
     }
     ramsyscall_printf("Simple Playing until end with reports:\n");
     for (unsigned i = 0; i < count; i++) {

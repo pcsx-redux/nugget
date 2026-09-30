@@ -854,7 +854,9 @@ CESTER_TEST(cdlReadNTooFar, test_instances,
     cester_assert_uint_eq(2, response1[0]);
     cester_assert_uint_eq(1, responseSize1);
     cester_assert_uint_eq(6, response2[0]);
-    cester_assert_uint_eq(0x10, response2[1]);
+    // The drive gives up either on the seek timing out, or on finding no valid subchannel data.
+    uint8_t error = response2[1];
+    cester_assert_true((error == 0x10) || (error == 0x04));
     cester_assert_uint_eq(2, responseSize2);
     cester_assert_uint_ge(ackTime, 500);
     cester_assert_uint_lt(ackTime, 7000);
