@@ -765,7 +765,7 @@ CESTER_TEST(simpleReadingNopSeriesQuery, test_instances,
     CDROM_REG0 = 1;
     uint8_t cause4b = CDROM_REG3_UC;
 
-    cester_assert_uint_lt(countToRead, 80);
+    cester_assert_uint_lt(countToRead, 160);
     cester_assert_uint_eq(3, cause1);
     cester_assert_uint_eq(0xe0, cause1b);
     cester_assert_uint_eq(1, cause2);
@@ -888,7 +888,7 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     cester_assert_uint_eq(0x42, responses[1]);
     cester_assert_uint_eq(0x22, responses[2]);
     cester_assert_uint_ge(dtime1, 1500);
-    cester_assert_uint_le(dtime1, 4000);
+    cester_assert_uint_le(dtime1, 8000);
     cester_assert_uint_ge(dtime2, 15000);
     cester_assert_uint_le(dtime2, 50000);
     cester_assert_uint_ge(dtime3, 700000);

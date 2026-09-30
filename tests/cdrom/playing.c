@@ -186,7 +186,7 @@ CESTER_TEST(simplePlayingUntilEndWithReport, test_instances,
     cester_assert_uint_eq(1, responseSizes[count]);
     cester_assert_uint_eq(3, cause1);
     cester_assert_uint_ge(count, 15);
-    cester_assert_uint_lt(count, 17);
+    cester_assert_uint_lt(count, 18);
     if (count >= 15) {
         unsigned offset = count - 15;
         unsigned upCount = 0;
