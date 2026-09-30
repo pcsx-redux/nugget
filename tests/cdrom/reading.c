@@ -867,16 +867,24 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     CDROM_REG1 = CDL_PAUSE;
 
     uint32_t time3 = 2000000;
-    waitCDRomIRQWithTimeout(&time3);
+    int got3 = waitCDRomIRQWithTimeout(&time3);
     ackCDRomCause();
     uint8_t response3[16];
     readResponse(response3);
+    if (!got3) {
+        cester_assert_true(got3);
+        return;
+    }
 
     uint32_t time4 = 2000000;
-    waitCDRomIRQWithTimeout(&time4);
+    int got4 = waitCDRomIRQWithTimeout(&time4);
     ackCDRomCause();
     uint8_t response4[16];
     readResponse(response4);
+    if (!got4) {
+        cester_assert_true(got4);
+        return;
+    }
 
     uint32_t dtime1 = times[0];
     uint32_t dtime2 = times[1] - times[0];
