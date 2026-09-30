@@ -300,6 +300,7 @@ function mkarchive(index, out)
     out:wSeek(indexSectors * 2048)
 
     local maxMargin = 0
+    local maxMarginPath = nil
 
     for k, v in ipairs(index) do
         print('Packing', v.path)
@@ -313,6 +314,7 @@ function mkarchive(index, out)
         local margin = PCSX.Misc.uclGetOverlapMargin(compressedData, file:size())
         if margin > maxMargin then
             maxMargin = margin
+            maxMarginPath = path
         end
         local compressedSize = #compressedData
         local compressedSectors = math.ceil((compressedSize + 2047) / 2048)
@@ -349,6 +351,14 @@ function mkarchive(index, out)
     out:wSeek(0)
     out:write('PSX-ARC1')
     local margin = math.floor(maxMargin / 16)
+    -- The header stores the margin in the top byte of the file count word, so
+    -- anything past 255 blocks gets truncated and the decompressor would
+    -- overwrite compressed data it hasn't read yet.
+    if margin > 255 then
+        error('mkarchive: decompression margin of ' .. maxMargin ..
+            ' bytes does not fit in the archive header (255 blocks max), largest margin came from ' ..
+            tostring(maxMarginPath))
+    end
     local field = bit.bor(bit.band(fileCount, 0xffffff), bit.lshift(margin, 24))
     out:writeU32(field)
     out:writeU32(totalSize)
