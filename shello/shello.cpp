@@ -339,10 +339,10 @@ void MainScene::applyLerps() {
         if (p >= ONE_I) l.speed = 0;
         switch (l.type) {
             case LERPD:
-                *l.dr = lerpD(l.ds, l.dd, fixedRaw(p));
+                *l.dr = lerp(l.ds, l.dd, fixedRaw(p));
                 break;
             case LERPC:
-                *l.cr = lerpC(l.cs, l.cd, p >> 16);
+                *l.cr = lerp(l.cs, l.cd, p >> 16);
                 break;
         }
         p += l.speed;
@@ -363,8 +363,8 @@ void MainScene::calculateFrame() {
     }
     Matrix3D transform;
     if (phase == 0) {
-        uint32_t angle = DC_2PI - lerpU(0, DC_PI2 + DC_PI4, counter * 256 / fps);
-        Fixed scale = lerpD(Fixed(1.58), Fixed(1.0), fixedRaw(int32_t(counter * ONE_I / fps)));
+        uint32_t angle = DC_2PI - lerp<uint32_t>(0, DC_PI2 + DC_PI4, counter * 256 / fps);
+        Fixed scale = lerp(Fixed(1.58), Fixed(1.0), fixedRaw(int32_t(counter * ONE_I / fps)));
         generateRotationMatrix3D(&transform, dcToAngle(angle), Axis::Z, g_shell.m_trig);
         scaleMatrix3D(&transform, scale);
     } else {
@@ -444,8 +444,8 @@ void MainScene::render() {
     if (hull) {
         unsigned counter = m_hullFrame++;
         unsigned p = counter * 256 * 3 / (2 * fps);
-        psyqo::Color c = lerpC(m_fg, m_bg, p);
-        Fixed s = lerpD(Fixed(1.0), Fixed(1.75), fixedRaw(int32_t(counter * ONE_I * 3 / (2 * fps))));
+        psyqo::Color c = lerp(m_fg, m_bg, p);
+        Fixed s = lerp(Fixed(1.0), Fixed(1.75), fixedRaw(int32_t(counter * ONE_I * 3 / (2 * fps))));
         Matrix3D m;
         m.vs[0].x = s;
         m.vs[0].y = fixedRaw(0);
@@ -483,7 +483,7 @@ void MainScene::render() {
     for (unsigned i = 0; i < count; i++) {
         unsigned f = faces[i];
         unsigned p = m_n[f].raw() >> 16;
-        psyqo::Color c = lerpC(m_blackCol, m_fg, p);
+        psyqo::Color c = lerp(m_blackCol, m_fg, p);
         auto &qf = m_faceFrags[parity][i];
         qf.primitive.setColor(c);
         qf.primitive.setPointA(project(m_v[c_modelQuads[f][0]]));

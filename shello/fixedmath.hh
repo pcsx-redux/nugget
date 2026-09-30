@@ -26,6 +26,7 @@ SOFTWARE.
 
 #pragma once
 
+#include <concepts>
 #include <stdint.h>
 
 #include "psyqo/fixed-point.hh"
@@ -90,19 +91,21 @@ static inline void matrixVertexMul2D(const Matrix3D *m, Vec2 *v) {
     v->y = x * m->vs[1].x + y * m->vs[1].y;
 }
 
-// Lerp helpers, matching the original's three integer flavors plus color.
-//   p in [0, 256] for the U/S/C variants, p in [0, ONE] for the D variant.
-static inline uint32_t lerpU(uint32_t s, uint32_t d, unsigned p) { return (s * (256 - p) + d * p) >> 8; }
-static inline int32_t lerpS(int32_t s, int32_t d, unsigned p) { return (s * (256 - p) + d * p) >> 8; }
-static inline Fixed lerpD(Fixed s, Fixed d, Fixed p) {
+// Linear interpolation. p is in [0, 256] for integers and colors, and in
+// [0, 1] for Fixed.
+template <std::integral T>
+static inline T lerp(T s, T d, unsigned p) {
+    return (s * T(256 - p) + d * T(p)) >> 8;
+}
+static inline Fixed lerp(Fixed s, Fixed d, Fixed p) {
     Fixed one(1.0);
     return s * (one - p) + d * p;
 }
-static inline psyqo::Color lerpC(const psyqo::Color s, const psyqo::Color d, unsigned p) {
+static inline psyqo::Color lerp(psyqo::Color s, psyqo::Color d, unsigned p) {
     psyqo::Color r;
-    r.r = lerpU(s.r, d.r, p);
-    r.g = lerpU(s.g, d.g, p);
-    r.b = lerpU(s.b, d.b, p);
+    r.r = lerp<uint32_t>(s.r, d.r, p);
+    r.g = lerp<uint32_t>(s.g, d.g, p);
+    r.b = lerp<uint32_t>(s.b, d.b, p);
     return r;
 }
 
