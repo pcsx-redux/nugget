@@ -61,6 +61,7 @@ SOFTWARE.
 #include "playing.c"
 #include "race.c"
 #include "reading.c"
+#include "xa.c"
 #else
 #include "misc.c"
 #endif

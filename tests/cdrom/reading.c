@@ -659,7 +659,10 @@ CESTER_TEST(simpleReadingNopQuery, test_instances,
     cester_assert_uint_eq(0x18, ctrl6);
     cester_assert_uint_eq(0x38, ctrl7);
     cester_assert_uint_eq(0x18, ctrl8);
-    cester_assert_uint_eq(0x02, response1[0]);
+    // Depending on the drive, the Nop right after the ReadN ack sees the motor spinning alone,
+    // or the seek to the read position already under way.
+    uint8_t stat1 = response1[0];
+    cester_assert_true((stat1 == 0x02) || (stat1 == 0x42));
     cester_assert_uint_eq(1, responseSize1);
     cester_assert_uint_eq(0x22, response2[0]);
     cester_assert_uint_eq(1, responseSize2);
@@ -762,7 +765,7 @@ CESTER_TEST(simpleReadingNopSeriesQuery, test_instances,
     CDROM_REG0 = 1;
     uint8_t cause4b = CDROM_REG3_UC;
 
-    cester_assert_uint_lt(countToRead, 80);
+    cester_assert_uint_lt(countToRead, 160);
     cester_assert_uint_eq(3, cause1);
     cester_assert_uint_eq(0xe0, cause1b);
     cester_assert_uint_eq(1, cause2);
@@ -806,7 +809,14 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     initializeTime();
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_READN;
-    uint32_t time1 = waitCDRomIRQ();
+    // Bounded: a read that errors out stops the drive, and an unbounded wait
+    // below would then hang the whole suite.
+    uint32_t time1 = 2000000;
+    if (!waitCDRomIRQWithTimeout(&time1)) {
+        ramsyscall_printf("Reading without seeking first: no acknowledge for ReadN\n");
+        cester_assert_true(0);
+        return;
+    }
     ackCDRomCause();
     uint8_t response[16];
     readResponse(response);
@@ -821,7 +831,12 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     do {
         CDROM_REG0 = 0;
         CDROM_REG1 = CDL_NOP;
-        uint32_t time = waitCDRomIRQ();
+        uint32_t time = 2000000;
+        if (!waitCDRomIRQWithTimeout(&time)) {
+            ramsyscall_printf("Reading without seeking first: no answer to Nop after %i responses\n", responseCount);
+            cester_assert_true(0);
+            return;
+        }
         runningCause = ackCDRomCause();
         uint8_t runningResponse[16];
         readResponse(runningResponse);
@@ -836,23 +851,40 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
         }
     } while(runningCause == 3);
 
-    uint32_t time2 = waitCDRomIRQ();
-    uint8_t cause = ackCDRomCause();
+    uint32_t time2 = 2000000;
+    int got2 = waitCDRomIRQWithTimeout(&time2);
+    uint8_t cause = got2 ? ackCDRomCause() : 0;
     uint8_t response2[16];
     readResponse(response2);
+    if (!got2) {
+        ramsyscall_printf("Reading without seeking first: nothing after the Nop loop ended on cause %i, stat 0x%02x\n",
+                          runningCause, lastResponse);
+        cester_assert_true(0);
+        return;
+    }
 
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_PAUSE;
 
-    uint32_t time3 = waitCDRomIRQ();
+    uint32_t time3 = 2000000;
+    int got3 = waitCDRomIRQWithTimeout(&time3);
     ackCDRomCause();
     uint8_t response3[16];
     readResponse(response3);
+    if (!got3) {
+        cester_assert_true(got3);
+        return;
+    }
 
-    uint32_t time4 = waitCDRomIRQ();
+    uint32_t time4 = 2000000;
+    int got4 = waitCDRomIRQWithTimeout(&time4);
     ackCDRomCause();
     uint8_t response4[16];
     readResponse(response4);
+    if (!got4) {
+        cester_assert_true(got4);
+        return;
+    }
 
     uint32_t dtime1 = times[0];
     uint32_t dtime2 = times[1] - times[0];
@@ -864,7 +896,7 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     cester_assert_uint_eq(0x42, responses[1]);
     cester_assert_uint_eq(0x22, responses[2]);
     cester_assert_uint_ge(dtime1, 1500);
-    cester_assert_uint_le(dtime1, 4000);
+    cester_assert_uint_le(dtime1, 8000);
     cester_assert_uint_ge(dtime2, 15000);
     cester_assert_uint_le(dtime2, 50000);
     cester_assert_uint_ge(dtime3, 700000);

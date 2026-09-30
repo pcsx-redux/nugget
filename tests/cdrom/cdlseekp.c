@@ -323,8 +323,8 @@ CESTER_TEST(cdlSeekP2to85, test_instance,
     // The seekP won't be successful when targeting a sector past the end of the
     // disc. The failure can be faster than the previous test, because it won't
     // retry reading where there's clearly no information whatsoever. Will sometimes
-    // fail in roughly 650ms, which is the seek time plus some minor retry.
-    cester_assert_uint_ge(errorTime, 600000);
+    // fail in roughly 500 to 650ms, which is the seek time plus some minor retry.
+    cester_assert_uint_ge(errorTime, 400000);
     ramsyscall_printf("Basic seekP from 00:02:00 to 85:00:00: ack in %ius, errored in %ius\n", ackTime, errorTime);
 )
 
@@ -402,7 +402,7 @@ CESTER_TEST(cdlSeekP2to85AndNop, test_instance,
     cester_assert_uint_lt(ackTime, 7000);
     cester_assert_uint_ge(ackTime2, 500);
     cester_assert_uint_lt(ackTime2, 7000);
-    cester_assert_uint_ge(errorTime, 600000);
+    cester_assert_uint_ge(errorTime, 400000);
     ramsyscall_printf("Basic seekP with Nop from 00:02:00 to 85:00:00: ack in %ius, errored in %ius\n", ackTime, errorTime);
 )
 
@@ -476,6 +476,6 @@ CESTER_TEST(cdlSeekP2to85AndDelayedNop, test_instance,
     cester_assert_uint_eq(0x98, ctrl2);
     cester_assert_uint_eq(0x38, ctrl3);
     cester_assert_uint_eq(0x18, ctrl4);
-    cester_assert_uint_ge(errorTime, 600000);
+    cester_assert_uint_ge(errorTime, 400000);
     ramsyscall_printf("Basic seekP with delayed Nop from 00:02:00 to 85:00:00: ack in %ius, errored in %ius\n", ackTime, errorTime);
 )

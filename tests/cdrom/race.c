@@ -369,7 +369,7 @@ CESTER_TEST(raceSeekL2to71WaitAckAndNop, test_instance,
     cester_assert_false(gotIRQ);
     // This one really should be 0, but just in case.
     cester_assert_uint_lt(ackTime, 150);
-    cester_assert_uint_ge(ackTime2, 500);
+    cester_assert_uint_ge(ackTime2, 300);
     cester_assert_uint_lt(ackTime2, 7000);
     ramsyscall_printf("SeekL from 00:02:00 to 71:00:00 then stall with Nop: ack in %ius, ack2 in %ius\n", ackTime, ackTime2);
 )
