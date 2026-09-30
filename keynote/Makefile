@@ -1,11 +1,11 @@
-TARGET = psmviz
+TARGET = keynote
 TYPE = ps-exe
 
 SRCS = \
 ../psmplayer/psmplayer.c \
 keynote-psm.o \
 keynote-vab.o \
-psmviz.cpp \
+keynote.cpp \
 
 ifeq ($(TEST),true)
 CPPFLAGS = -Werror
