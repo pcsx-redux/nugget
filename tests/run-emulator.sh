@@ -61,6 +61,7 @@ SKIPS=(
     "bcc-bits/bcc-bits|hardware probe: the emulator does not model bus timing, prints timings, no verdict"
     "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
     "dma-priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
+    "spu-wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
