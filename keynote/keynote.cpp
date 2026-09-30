@@ -55,6 +55,7 @@ SOFTWARE.
 #include "psyqo/primitives/misc.hh"
 #include "psyqo/primitives/triangles.hh"
 #include "psyqo/scene.hh"
+#include "psyqo/trigonometry.hh"
 
 extern "C" {
 #include "psmplayer/psmplayer.h"
@@ -165,19 +166,7 @@ Keynote g_app;
 KeynoteScene g_scene;
 uintptr_t g_musicTimer;
 
-// 256-step sine and cosine, 2.14 fixed point, from the "magic circle" recurrence.
-int16_t s_sin[256], s_cos[256];
-
-void buildSine() {
-    int32_t x = 1 << 14, y = 0;
-    constexpr int32_t k = 1608;  // 2*pi/256 in 16.16
-    for (unsigned i = 0; i < 256; i++) {
-        s_sin[i] = int16_t(y);
-        s_cos[i] = int16_t(x);
-        x -= (y * k) >> 16;
-        y += (x * k) >> 16;
-    }
-}
+psyqo::Trig<14> s_trig;
 
 int clampi(int v, int lo, int hi) { return v < lo ? lo : (v > hi ? hi : v); }
 
@@ -217,7 +206,8 @@ psyqo::Vertex vertex(int x, int y) {
 
 // A point at distance r (pixels) and angle a (256 = full turn) from (x, y).
 psyqo::Vertex polar(int x, int y, int r, uint8_t a) {
-    return vertex(x + ((r * s_cos[a]) >> 14), y + ((r * s_sin[a]) >> 14));
+    psyqo::Angle angle(int32_t(a) * 8, psyqo::Angle::RAW);  // 256 steps per turn; Angle has 2048
+    return vertex(x + ((r * s_trig.cos(angle).value) >> 14), y + ((r * s_trig.sin(angle).value) >> 14));
 }
 
 }  // namespace
@@ -229,7 +219,6 @@ void Keynote::prepare() {
         .set(psyqo::GPU::ColorMode::C15BITS)
         .set(psyqo::GPU::Interlace::PROGRESSIVE);
     gpu().initialize(config);
-    buildSine();
 
     PSM_LoadBank(_binary_keynote_vab_start, _binary_keynote_vab_end - _binary_keynote_vab_start);
     PSM_noteMirrorMask = (1 << CH_LEAD) | (1 << CH_BELLS) | (1 << CH_PAD) | (1 << CH_DRUMS);

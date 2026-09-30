@@ -14,7 +14,8 @@ CXXFLAGS = -std=c++20
 
 include ../psyqo/psyqo.mk
 
-# keynote.psm and keynote.vab come from keynote.mid:
+# keynote.mid is songs/keynote-reveal.mml from https://github.com/rixnobis/mml, compiled by
+# its mml2mid.py. keynote.psm and keynote.vab come from keynote.mid:
 #   midi2psm keynote.mid -s TimGM6mb.sf2 -o keynote.psm -b keynote.vab
 keynote-psm.o: keynote.psm
 	$(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips $< $@
