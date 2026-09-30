@@ -659,7 +659,10 @@ CESTER_TEST(simpleReadingNopQuery, test_instances,
     cester_assert_uint_eq(0x18, ctrl6);
     cester_assert_uint_eq(0x38, ctrl7);
     cester_assert_uint_eq(0x18, ctrl8);
-    cester_assert_uint_eq(0x02, response1[0]);
+    // Depending on the drive, the Nop right after the ReadN ack sees the motor spinning alone,
+    // or the seek to the read position already under way.
+    uint8_t stat1 = response1[0];
+    cester_assert_true((stat1 == 0x02) || (stat1 == 0x42));
     cester_assert_uint_eq(1, responseSize1);
     cester_assert_uint_eq(0x22, response2[0]);
     cester_assert_uint_eq(1, responseSize2);
