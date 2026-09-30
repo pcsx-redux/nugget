@@ -180,9 +180,9 @@ CESTER_TEST(cdlInitWithArgs, test_instance,
     // Typical value seems to be around 1ms.
     cester_assert_uint_ge(errorTime, 500);
     cester_assert_uint_lt(errorTime, 7000);
-    // Typical value seems to be around 1.5ms.
+    // Typical value seems to be around 1.5ms, but some drives take up to 4.2ms.
     cester_assert_uint_ge(ackTime, 1000);
-    cester_assert_uint_lt(ackTime, 3500);
+    cester_assert_uint_lt(ackTime, 5000);
     ramsyscall_printf("Initialization with args: CD-Rom controller errored, error in %ius\n", errorTime);
     ramsyscall_printf("Initialization with args: requested status, ack in %ius\n", ackTime);
 )
