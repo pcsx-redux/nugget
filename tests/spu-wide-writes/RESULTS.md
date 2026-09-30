@@ -1,8 +1,9 @@
 # spu-wide-writes results
 
 SCPH-5501 and SCPH-1001 agree on everything but the rate of isolated misses.
-Each row is 8192 writes of random values; "burst" is 1024 runs of eight
-back-to-back `sw` to 1F801DC0h..1F801DDCh.
+Random values throughout. Trials per arm: `sw` 8192, `sh` 8192 (two writes
+each), delayed readback 2048, `sb` control 1024, and "burst" 1024 runs of
+eight back-to-back `sw` to 1F801DC0h..1F801DDCh.
 
 With SPU_DELAY (1F801014h) at the BIOS value 200931E1h:
 
