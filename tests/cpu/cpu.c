@@ -253,6 +253,38 @@ CESTER_TEST(cpu_MULT_constant_operands, cpu_tests,
 
     cester_assert_uint_eq(0xffffffff, hi);
     cester_assert_uint_eq(0x3ffffffd, lo);
+
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, 0x10000\n"
+        "li    $v1, 0x8000\n"
+        "mult  $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0, hi);
+    cester_assert_uint_eq(0x80000000, lo);
+
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, -7\n"
+        "li    $v1, 5\n"
+        "mult  $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0xffffffff, hi);
+    cester_assert_uint_eq(0xffffffdd, lo);
 )
 
 CESTER_TEST(cpu_MULTU_constant_operands, cpu_tests,
