@@ -29,6 +29,7 @@ SOFTWARE.
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
 #include "common/hardware/pcsxhw.h"
+#include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
 
 #undef unix
@@ -41,6 +42,7 @@ SOFTWARE.
 #include "cester-hw.c"
 
 #if 1
+#include "cdda.c"
 #include "cdlforward.c"
 #include "cdlgetlocl.c"
 #include "cdlgetlocp.c"
