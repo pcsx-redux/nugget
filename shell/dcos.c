@@ -29,20 +29,23 @@ SOFTWARE.
 #include <stdint.h>
 
 // 2kB
-int32_t g_cosTable[512];
+int32_t g_cosTable[513];
 
 void generateCosTable() {
     // f(n) = cos(n * 2pi / 2048)
     // f(n) = 2 * f(1) * f(n - 1) - f(n - 2)
-    g_cosTable[0] = 16777216;             // 2^24 * cos(0 * 2pi / 2048)
-    static const long long C = 16777137;  // 2^24 * cos(1 * 2pi / 2048) = C = f(1);
+    // Runs in 2.30, rounding every step, then rounds to 8.24.
+    g_cosTable[0] = 1 << 30;                // 2^30 * cos(0 * 2pi / 2048)
+    static const long long C = 1073736771;  // 2^30 * cos(1 * 2pi / 2048) = C = f(1);
     g_cosTable[1] = C;
 
-    for (int i = 2; i < 511; i++) {
-        g_cosTable[i] = ((C * g_cosTable[i - 1]) >> 23) - g_cosTable[i - 2];
+    for (int i = 2; i < 512; i++) {
+        g_cosTable[i] = ((C * g_cosTable[i - 1] + (1 << 28)) >> 29) - g_cosTable[i - 2];
     }
 
-    // the approximation is a bit too steep, so this value would otherwise
-    // get slightly negative
-    g_cosTable[511] = 0;
+    g_cosTable[512] = 0;
+
+    for (int i = 0; i < 513; i++) {
+        g_cosTable[i] = (g_cosTable[i] + (1 << 5)) >> 6;
+    }
 }

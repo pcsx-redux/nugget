@@ -29,7 +29,7 @@ SOFTWARE.
 #include <stdint.h>
 
 // 2kB
-extern int32_t g_cosTable[512];
+extern int32_t g_cosTable[513];
 static const unsigned int DC_2PI = 2048;
 static const unsigned int DC_PI = 1024;
 static const unsigned int DC_PI2 = 512;
@@ -42,11 +42,11 @@ static inline int32_t dCos(unsigned int t) {
     if (t < DC_PI2) {
         r = g_cosTable[t];
     } else if (t < DC_PI) {
-        r = -g_cosTable[DC_PI - 1 - t];
+        r = -g_cosTable[DC_PI - t];
     } else if (t < (DC_PI + DC_PI2)) {
         r = -g_cosTable[t - DC_PI];
     } else {
-        r = g_cosTable[DC_2PI - 1 - t];
+        r = g_cosTable[DC_2PI - t];
     }
 
     return r;
