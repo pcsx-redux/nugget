@@ -99,6 +99,8 @@ CESTER_BODY(
 
     static int firstDataHeaderIs(const SeekReadEvent* events, unsigned count, uint8_t s, uint8_t f) {
         for (unsigned i = 0; i < count; i++) {
+            // The seek must not complete before the read delivers data.
+            if (events[i].cause == 2) return 0;
             if (events[i].cause != 1) continue;
             return (events[i].header[0] == 0) && (events[i].header[1] == s) && (events[i].header[2] == f);
         }
