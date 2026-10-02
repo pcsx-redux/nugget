@@ -155,7 +155,10 @@ int16_t s_scale[64] __attribute__((aligned(4)));
 // use the DMASPIN-shortened wait that exists to exercise the give-up path.
 int waitDmaRaw(int ch) {
     for (unsigned i = 0; i < 20000000; i++) {
-        if ((DMA_CTRL[ch].CHCR & 0x01000000) == 0) return 0;
+        if ((DMA_CTRL[ch].CHCR & 0x01000000) == 0) {
+            psyqo::Kernel::dmaAcquireBarrier();
+            return 0;
+        }
     }
     return -1;
 }
@@ -175,12 +178,14 @@ int mdecReset() {
     MDEC0 = MDEC_CMD_QUANT | 1;  // bit0 = colour, so 128 bytes follow
     DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)s_quant;
     DMA_CTRL[DMA_MDECIN].BCR = 32 << 16 | 1;
+    psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECIN].CHCR = 0x01000201;
     if (waitDmaRaw(DMA_MDECIN) < 0) bad |= 1;
 
     MDEC0 = MDEC_CMD_SCALE;
     DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)s_scale;
     DMA_CTRL[DMA_MDECIN].BCR = 32 << 16 | 1;
+    psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECIN].CHCR = 0x01000201;
     if (waitDmaRaw(DMA_MDECIN) < 0) bad |= 2;
     return bad;
@@ -188,7 +193,10 @@ int mdecReset() {
 
 int waitDma(int ch) {
     for (unsigned i = 0; i < MDECPLAYER_DMA_SPIN; i++) {
-        if ((DMA_CTRL[ch].CHCR & 0x01000000) == 0) return 0;
+        if ((DMA_CTRL[ch].CHCR & 0x01000000) == 0) {
+            psyqo::Kernel::dmaAcquireBarrier();
+            return 0;
+        }
     }
     return -1;
 }
@@ -347,9 +355,11 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
     // passing in the emulator, whose dma0 runs the pending dma1 for you.
     DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)s_rl;
     DMA_CTRL[DMA_MDECIN].BCR = 32 << 16 | ((inWords + 31) / 32);
+    psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECIN].CHCR = 0x01000201;
     DMA_CTRL[DMA_MDECOUT].MADR = (uintptr_t)dst;
     DMA_CTRL[DMA_MDECOUT].BCR = 32 << 16 | (outWords / 32);
+    psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECOUT].CHCR = 0x01000200;
     // THE OUTPUT IS WHAT FINISHES A FRAME, NOT THE INPUT. bsdec pads the run-level
     // buffer out to a 32-word block and the BS header's word count covers the

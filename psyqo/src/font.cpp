@@ -34,6 +34,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "common/util/sjis-fullwidth-ascii.hh"
 #include "psyqo/gpu.hh"
+#include "psyqo/kernel.hh"
 #include "system-font.inc"
 
 void psyqo::FontBase::uploadSystemFont(psyqo::GPU& gpu, psyqo::Vertex location) {
@@ -175,6 +176,7 @@ void psyqo::FontBase::print(GPU& gpu, eastl::string_view text, Vertex pos, Color
         gpu.pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::FontBase::print(GPU& gpu, const char* text, Vertex pos, Color color) {
@@ -190,6 +192,7 @@ void psyqo::FontBase::print(GPU& gpu, const char* text, Vertex pos, Color color)
         gpu.pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::FontBase::print(GPU& gpu, eastl::string_view text, Vertex pos, Color color,
@@ -286,6 +289,7 @@ void psyqo::FontBase::vprintf(GPU& gpu, Vertex pos, Color color, const char* for
         gpu.pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::FontBase::vprintf(GPU& gpu, Vertex pos, Color color, eastl::function<void()>&& callback,

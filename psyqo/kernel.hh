@@ -106,8 +106,16 @@ static inline void fastLeaveCriticalSection() {
 #endif
 }
 
+// Compiler barrier: memory accesses above it stay ahead of the CHCR store that starts a DMA.
+static inline void dmaReleaseBarrier() { __asm__ volatile("" ::: "memory"); }
+
+// Compiler barrier: memory accesses below it stay after the point a DMA was seen complete.
+static inline void dmaAcquireBarrier() { __asm__ volatile("" ::: "memory"); }
+
 /**
  * @brief Waits for a specific status to be set in a register.
+ *
+ * @details Ends with `dmaAcquireBarrier`, so it can be used to wait for a DMA's CHCR busy bit to clear.
  *
  * @tparam T The type of the register to wait for.
  * @param mask The mask to apply to the register.
@@ -117,6 +125,7 @@ static inline void fastLeaveCriticalSection() {
 template <typename T>
 static void waitForStatus(T mask, T expected, const volatile T* value) {
     while ((*value & mask) != expected);
+    dmaAcquireBarrier();
 }
 
 enum class DMA : unsigned {
