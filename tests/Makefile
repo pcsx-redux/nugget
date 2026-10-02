@@ -54,6 +54,8 @@ all:
 	$(MAKE) -C memcpy all
 	$(MAKE) -C memops-unroll all
 	$(MAKE) -C memset all
+	$(MAKE) -C msan all
+	$(MAKE) -C msan-trip all
 	$(MAKE) -C pcdrv all
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-dmachain all
@@ -121,6 +123,8 @@ clean:
 	$(MAKE) -C memcpy clean
 	$(MAKE) -C memops-unroll clean
 	$(MAKE) -C memset clean
+	$(MAKE) -C msan clean
+	$(MAKE) -C msan-trip clean
 	$(MAKE) -C pcdrv clean
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-dmachain clean
