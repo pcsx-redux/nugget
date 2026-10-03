@@ -1,3 +1,9 @@
+# CPPFLAGS and LDFLAGS from the environment are exported to sub-makes along
+# with everything appended below, which would build the core with the loader's
+# defines. Keep what came from the environment and hand only that to the core.
+CORE_CPPFLAGS := $(CPPFLAGS)
+CORE_LDFLAGS := $(LDFLAGS)
+
 TARGET = monitor-retail
 TYPE = ps-exe
 # The resident part has to fit a code cave, so size wins by default.
@@ -41,7 +47,7 @@ LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
 
 core/monitor-core.bin: core/monitor-core.elf
 core/monitor-core.elf: FORCE
-	$(MAKE) -C core MONITOR_LINK=$(MONITOR_LINK) MONITOR_FT232H_BOARD=$(MONITOR_FT232H_BOARD) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
+	CPPFLAGS="$(CORE_CPPFLAGS)" LDFLAGS="$(CORE_LDFLAGS)" $(MAKE) -C core MONITOR_LINK=$(MONITOR_LINK) MONITOR_FT232H_BOARD=$(MONITOR_FT232H_BOARD) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 
 monitor-core-blob.o: core/monitor-core.bin
 	cd core && $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips monitor-core.bin ../$@
