@@ -495,7 +495,7 @@ void C64Scene::frame() {
                 js.singleSteps, js.interpBlocks, js.interpCycles, js.rangeFlushes, js.flushes, js.blocksKilled);
         }
         s_sumBuild = s_sumEmu = s_sumTotal = s_maxTotal = s_frames = s_vsyncs = 0;
-#ifndef C64_INTERP
+#if !defined(C64_INTERP) && !defined(C64_JIT_ONLY)
         if (s_reportedReady) setCore((++s_window & 1) == 0);
 #endif
     }
