@@ -426,10 +426,43 @@ static void mdecOutArm(const char *name, uint32_t chcr, uint32_t bcr, uint32_t c
     ramsyscall_printf("\n");
 }
 
+/*
+ * Same as mdecInArm, but the CPU writes the command word to MDEC0 first and
+ * DMA0 only carries the parameter words. Status is printed before the
+ * command, after it, and after the transfer.
+ */
+static void mdecCmdArm(const char *name, uint32_t chcr, uint32_t bcr, uint32_t ctrl, uint32_t cmd, int useList) {
+    struct Res r;
+    for (int i = 0; i < NBUF; i++) s_src[i] = 0x2000u + i;
+    if (useList) buildList(0x00003000u);
+    mdecReset(ctrl);
+    uint32_t st0 = MDEC_CTRL;
+    MDEC_CMD = cmd;
+    delay(100);
+    uint32_t st1 = MDEC_CTRL;
+    armStart(name, 0, chcr);
+    run(0, useList ? (uint32_t)s_list : (uint32_t)s_src, bcr, chcr, &r);
+    uint32_t st2 = MDEC_CTRL;
+    armEnd(&r);
+    ramsyscall_printf(" mdecstat %08x->%08x->%08x\n", st0, st1, st2);
+}
+
 static void mdecSection(void) {
     const uint32_t on = 0x40000000u, off = 0;
     const uint32_t s16 = (4u << 16) | 4, l4 = (1u << 16) | 4;
     mdecInArm("in-s1-req", 0x01000201u, s16, on, 0);
+    mdecCmdArm("cmd-s1-req", 0x01000201u, s16, on, 0x00000010u, 0);
+    mdecCmdArm("cmd-s1-noreq", 0x01000201u, s16, off, 0x00000010u, 0);
+    mdecCmdArm("cmd-s0-req", 0x01000001u, 16, on, 0x00000010u, 0);
+    mdecCmdArm("cmd-s2-req", 0x01000401u, l4, on, 0x00000005u, 1);
+    mdecCmdArm("cmd-q-s1-req", 0x01000201u, s16, on, 0x40000000u, 0);
+    mdecCmdArm("cmd-short-s1", 0x01000201u, s16, on, 0x00000008u, 0);
+    mdecCmdArm("cmd-q-s1-noreq", 0x01000201u, s16, off, 0x40000000u, 0);
+    mdecCmdArm("cmd-q-s1t-noreq", 0x11000201u, s16, off, 0x40000000u, 0);
+    mdecCmdArm("cmd-q-s0-req", 0x01000001u, 16, on, 0x40000000u, 0);
+    mdecCmdArm("cmd-q-s0-noreq", 0x01000001u, 16, off, 0x40000000u, 0);
+    mdecCmdArm("cmd-q-s2-req", 0x01000401u, l4, on, 0x40000000u, 1);
+    mdecCmdArm("cmd-q-s2-noreq", 0x01000401u, l4, off, 0x40000000u, 1);
     mdecInArm("in-s1-noreq", 0x01000201u, s16, off, 0);
     mdecInArm("in-s1t-noreq", 0x11000201u, s16, off, 0);
     mdecInArm("in-s0-req", 0x01000001u, 16, on, 0);
