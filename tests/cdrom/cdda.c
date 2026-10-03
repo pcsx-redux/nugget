@@ -85,10 +85,10 @@ CESTER_BODY(
         }
     }
 
-    // Plays track 2 with the given ATV, captures 512 samples per side while playing,
-    // and returns the left side's peak and number of sign changes. -1 on a failed step.
-    static int cddaPeak(const uint8_t atv[4], int demute, unsigned *signChanges) {
-        if (!resetCDRom()) return -1;
+    // Resets the drive, pre-fills the SPU capture region, sets mute or demute and the ATV
+    // matrix, and turns on CD audio in the SPU. 0 on a failed step.
+    static int cddaAudioSetup(const uint8_t atv[4], int demute) {
+        if (!resetCDRom()) return 0;
 
         DPCR |= 0x000b0000;
         SPU_CTRL = 0;
@@ -101,9 +101,9 @@ CESTER_BODY(
         SPU_CTRL = 0x8001;
         for (volatile int i = 0; i < 20000; i++);
         for (int i = 0; i < 0x400; i++) s_cddaCapture[i] = CDDA_MARKER;
-        if (!cddaSpuDma(0x000, s_cddaCapture, 0x800, 0)) return -1;
+        if (!cddaSpuDma(0x000, s_cddaCapture, 0x800, 0)) return 0;
 
-        if (!cddaSimpleCmd(demute ? CDL_DEMUTE : CDL_MUTE)) return -1;
+        if (!cddaSimpleCmd(demute ? CDL_DEMUTE : CDL_MUTE)) return 0;
 
         CDROM_REG0 = 2;
         CDROM_REG2 = atv[0];
@@ -118,24 +118,11 @@ CESTER_BODY(
         SPU_VOL_CD_LEFT = 0x7fff;
         SPU_VOL_CD_RIGHT = 0x7fff;
         SPU_CTRL = SPU_CTRL | 0x8001;
+        return 1;
+    }
 
-        if (!setMode(0)) return -1;
-
-        CDROM_REG0 = 0;
-        CDROM_REG2 = 0x02;
-        if (!cddaSimpleCmd(CDL_PLAY)) return -1;
-
-        initializeTime();
-        while (updateTime() < 1500000u);
-
-        int dmaOk = cddaSpuDma(0x000, s_cddaCapture, 0x800, 1);
-
-        CDROM_REG0 = 0;
-        CDROM_REG1 = CDL_PAUSE;
-        cddaWaitPauseComplete();
-
-        if (!dmaOk) return -1;
-
+    // Peak and number of sign changes of the left side of the capture buffer.
+    static int cddaBufferPeak(unsigned *signChanges) {
         int peak = 0;
         unsigned changes = 0;
         int prev = 0;
@@ -148,6 +135,56 @@ CESTER_BODY(
             prev = sign;
         }
         *signChanges = changes;
+        return peak;
+    }
+
+    // Reads the capture buffer back while audio plays. On a SCPH-7502 the capture sometimes
+    // reads all zeros for a while after the audio should have started, so an empty capture is
+    // retried a few times, 250 ms apart. -1 on a failed DMA.
+    static int cddaCapturePeak(unsigned *signChanges) {
+        int peak = 0;
+        for (unsigned attempt = 0; attempt < 8; attempt++) {
+            if (attempt) {
+                initializeTime();
+                while (updateTime() < 250000u);
+            }
+            if (!cddaSpuDma(0x000, s_cddaCapture, 0x800, 1)) return -1;
+            peak = cddaBufferPeak(signChanges);
+            if (peak) {
+                if (attempt) ramsyscall_printf("capture was empty %u time(s) before audio\n", attempt);
+                break;
+            }
+        }
+        return peak;
+    }
+
+    // Plays track 2 with the given ATV, captures 512 samples per side while playing,
+    // and returns the left side's peak and number of sign changes. -1 on a failed step.
+    static int cddaPeak(const uint8_t atv[4], int demute, unsigned *signChanges) {
+        if (!cddaAudioSetup(atv, demute)) return -1;
+        if (!setMode(0)) return -1;
+
+        CDROM_REG0 = 0;
+        CDROM_REG2 = 0x02;
+        if (!cddaSimpleCmd(CDL_PLAY)) return -1;
+
+        initializeTime();
+        while (updateTime() < 1500000u);
+
+        int peak = cddaCapturePeak(signChanges);
+
+        CDROM_REG0 = 0;
+        CDROM_REG1 = CDL_PAUSE;
+        cddaWaitPauseComplete();
+
+        // Leave the head on the data track: a GetLocL with an audio sector as the last one
+        // read answers with an error, and the next test reads the location after a reset.
+        CDROM_REG0 = 0;
+        CDROM_REG2 = 0x00;
+        CDROM_REG2 = 0x02;
+        CDROM_REG2 = 0x16;
+        if (cddaSimpleCmd(CDL_SETLOC) && cddaSimpleCmd(CDL_SEEKL)) cddaWaitPauseComplete();
+
         return peak;
     }
 )
