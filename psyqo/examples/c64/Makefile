@@ -3,6 +3,7 @@ TYPE = ps-exe
 
 SRCS = \
 c64.cpp \
+c64jit.cpp \
 c64main.cpp \
 
 CPPFLAGS += -I../../..

@@ -53,10 +53,16 @@ struct Stats {
     uint32_t interpBlocks;
     uint32_t codeWords;
     uint32_t interpCycles;
+    uint32_t exitsSlow;
+    uint32_t exitsIrq;
+    uint32_t singleSteps;
+    uint32_t rangeFlushes;
 };
 
 void init(m6502::State& st);
 m6502::Stop run(m6502::State& st, uint32_t budget);
 const Stats& stats();
+// Drop translations of [lo, hi), for a machine whose memory map just changed.
+void invalidateRange(uint32_t lo, uint32_t hi);
 
 }  // namespace m6502jit

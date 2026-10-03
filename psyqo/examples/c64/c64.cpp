@@ -42,6 +42,9 @@ uint32_t g_stolen;
 uint32_t g_frame;
 const uint8_t* g_chargen;
 
+void (*g_bankHook)(uint32_t lo, uint32_t hi);
+m6502::Stop (*g_core)(m6502::State& st, uint32_t budget);
+
 namespace {
 
 Roms s_roms;
@@ -280,15 +283,18 @@ void rebank() {
     if (mapA != s_mapA) {
         __builtin_memcpy(g_view + 0xa000, mapA ? s_roms.basic : g_ram + 0xa000, 0x2000);
         s_mapA = mapA;
+        if (g_bankHook) g_bankHook(0xa000, 0xc000);
     }
     if (mapE != s_mapE) {
         __builtin_memcpy(g_view + 0xe000, mapE ? s_roms.kernal : g_ram + 0xe000, 0x2000);
         s_mapE = mapE;
+        if (g_bankHook) g_bankHook(0xe000, 0x10000);
     }
     if (mapD != s_mapD) {
         if (mapD == 0) __builtin_memcpy(g_view + 0xd000, g_ram + 0xd000, 0x1000);
         if (mapD == 1) __builtin_memcpy(g_view + 0xd000, s_roms.chargen, 0x1000);
         s_mapD = mapD;
+        if (g_bankHook) g_bankHook(0xd000, 0xe000);
     }
     g_ioMapped = mapD == 2;
 }
@@ -387,6 +393,21 @@ uint32_t ioRead(uint32_t a, uint32_t cyc) {
 }
 
 bool irqPending() { return irqLine(); }
+
+bool viewIsRam(uint32_t a) {
+    switch (a >> 12) {
+        case 0xa:
+        case 0xb:
+            return s_mapA == 0;
+        case 0xd:
+            return s_mapD == 0;
+        case 0xe:
+        case 0xf:
+            return s_mapE == 0;
+        default:
+            return a >= 2;
+    }
+}
 
 bool slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
     if (a < 2) {
@@ -598,7 +619,7 @@ void runFrame() {
 #ifdef C64_PROF
         const uint16_t p0 = profTick();
 #endif
-        const m6502::Stop why = m6502::run<false, false, Bus>(g_cpu, budget);
+        const m6502::Stop why = g_core ? g_core(g_cpu, budget) : m6502::run<false, false, Bus>(g_cpu, budget);
 #ifdef C64_PROF
         g_profRun += (uint16_t)(profTick() - p0);
         g_profCalls++;

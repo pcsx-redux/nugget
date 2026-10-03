@@ -97,6 +97,14 @@ extern uint32_t g_profRun, g_profCalls;
 uint32_t ioRead(uint32_t a, uint32_t cyc);
 bool slowWrite(uint32_t a, uint8_t v, uint32_t cyc);
 bool irqPending();
+bool viewIsRam(uint32_t a);
+
+// Called with [lo, hi) when $01 swaps what the CPU sees in a banked region, so
+// translated code from the old contents can be dropped.
+extern void (*g_bankHook)(uint32_t lo, uint32_t hi);
+
+// The CPU core runFrame drives: the interpreter, or the recompiler when set.
+extern m6502::Stop (*g_core)(m6502::State& st, uint32_t budget);
 
 struct Bus {
     static inline uint32_t read(const uint8_t* mem, uint32_t a, uint32_t cyc) {
@@ -120,6 +128,10 @@ struct Bus {
         return slowWrite(a, v, cyc);
     }
     static inline bool irqPending() { return c64::irqPending(); }
+    static constexpr bool hasIo = true;
+    static inline bool isIo(uint32_t a) { return (a >> 12) == 0xd; }
+    // A write under ROM lands in g_ram, never in what the CPU executes.
+    static inline bool smcVisible(uint32_t a) { return direct(a) || viewIsRam(a); }
 };
 
 // The VIC-II's view of memory: 16K bank selected by CIA2, character ROM at

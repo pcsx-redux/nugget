@@ -35,6 +35,7 @@ SOFTWARE.
 
 
 #include "c64.hh"
+#include "../m6502bench/m6502jit.hh"
 #include "common/hardware/counters.h"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/application.hh"
@@ -335,6 +336,24 @@ static uint32_t hblanks() { return COUNTERS[1].value; }
 // Per-report-window timing, in hblanks (63.6 us each on NTSC).
 static uint32_t s_sumBuild, s_sumEmu, s_sumTotal, s_maxTotal, s_frames, s_lastVsync, s_vsyncs;
 static bool s_reportedReady;
+// Which core each 300-frame report window ran. Boot runs translated; after
+// READY. the windows alternate, so the same run carries an A/B.
+static bool s_jit = true;
+static uint32_t s_window;
+
+static void setCore(bool jit) {
+    s_jit = jit;
+    if (jit) {
+        // The interpreter windows do not watch for self-modifying code, so drop
+        // everything translated before running translated code again.
+        m6502jit::invalidateRange(0, 0x10000);
+        c64::g_core = m6502jit::run;
+        c64::g_bankHook = m6502jit::invalidateRange;
+    } else {
+        c64::g_core = nullptr;
+        c64::g_bankHook = nullptr;
+    }
+}
 
 static void dumpScreen() {
     const uint32_t screen = (c64::g_vic[0x18] & 0xf0) << 6;
@@ -409,6 +428,12 @@ void C64Scene::start(StartReason) {
 
     COUNTERS[2].mode = 0;  // system clock, free running
     c64::reset({c_basic, c_kernal, c_chargen});
+    m6502jit::init(c64::g_cpu);
+#ifdef C64_INTERP
+    setCore(false);
+#else
+    setCore(true);
+#endif
     ramsyscall_printf("C64: reset, pc=%04x\n", c64::g_cpu.pc);
     s_lastVsync = g.getFrameCount();
 }
@@ -449,9 +474,9 @@ void C64Scene::frame() {
         const uint32_t avgTotUs = s_sumTotal * 6356 / 100 / s_frames;
         const uint32_t maxUs = s_maxTotal * 6356 / 100;
         ramsyscall_printf(
-            "C64 TIMING frame %u: per guest frame emu %u.%03u ms, build %u.%03u ms, emu+build+send avg %u.%03u ms max %u.%03u ms; "
+            "C64 TIMING %s frame %u: per guest frame emu %u.%03u ms, build %u.%03u ms, emu+build+send avg %u.%03u ms max %u.%03u ms; "
             "%u guest frames in %u vsyncs; irqs %u bad %u illegal %u sprites-nodes %u rect-nodes %u dropped %u\n",
-            c64::g_frame, avgEmuUs / 1000, avgEmuUs % 1000, avgBuildUs / 1000, avgBuildUs % 1000, avgTotUs / 1000, avgTotUs % 1000, maxUs / 1000,
+            s_jit ? "jit" : "interp", c64::g_frame, avgEmuUs / 1000, avgEmuUs % 1000, avgBuildUs / 1000, avgBuildUs % 1000, avgTotUs / 1000, avgTotUs % 1000, maxUs / 1000,
             maxUs % 1000, s_frames, s_vsyncs, c64::stats().irqs, c64::stats().badLines, c64::stats().illegal,
             s_spriteCount, s_rectCount, s_dropped);
 #ifdef C64_PROF
@@ -461,7 +486,18 @@ void C64Scene::frame() {
                           c64::g_profCalls / s_frames);
         c64::g_profRun = c64::g_profCalls = 0;
 #endif
+        if (s_jit) {
+            const auto& js = m6502jit::stats();
+            ramsyscall_printf(
+                "C64 JIT: compiled %u failed %u words %u chain %u budget %u slow %u irq %u smc %u steps %u interpBlocks %u "
+                "interpCycles %u rangeFlushes %u flushes %u killed %u\n",
+                js.compiled, js.compileFailed, js.codeWords, js.exitsChain, js.exitsBudget, js.exitsSlow, js.exitsIrq, js.exitsSmc,
+                js.singleSteps, js.interpBlocks, js.interpCycles, js.rangeFlushes, js.flushes, js.blocksKilled);
+        }
         s_sumBuild = s_sumEmu = s_sumTotal = s_maxTotal = s_frames = s_vsyncs = 0;
+#ifndef C64_INTERP
+        if (s_reportedReady) setCore((++s_window & 1) == 0);
+#endif
     }
 }
 

@@ -31,9 +31,46 @@ SOFTWARE.
 
 #include "common/syscalls/syscalls.h"
 
+// The bus is picked at build time: a machine that wraps this file defines
+// M6502JIT_BUS_HEADER and M6502JIT_BUS before including it.
+#ifdef M6502JIT_BUS_HEADER
+#include M6502JIT_BUS_HEADER
+typedef M6502JIT_BUS JBus;
+#else
+typedef m6502::FlatBus JBus;
+#endif
+
+#ifndef M6502JIT_ARENA_WORDS
+#define M6502JIT_ARENA_WORDS (256 * 1024)
+#endif
+
 using namespace m6502;
 
 namespace {
+
+// The interpreter runs through this so the dispatcher learns when an I/O write
+// or a pending interrupt asked the caller to look at its events again.
+bool s_stopReq;
+struct SBus {
+    static inline uint32_t read(const uint8_t* mem, uint32_t a, uint32_t cyc) { return JBus::read(mem, a, cyc); }
+    static inline bool write(uint8_t* mem, uint32_t a, uint8_t v, uint32_t cyc) {
+        if (!JBus::write(mem, a, v, cyc)) return false;
+        s_stopReq = true;
+        return true;
+    }
+    static inline bool writeRmw(uint8_t* mem, uint32_t a, uint32_t old, uint8_t v, uint32_t cyc) {
+        if (!JBus::writeRmw(mem, a, old, v, cyc)) return false;
+        s_stopReq = true;
+        return true;
+    }
+    static inline bool irqPending() {
+        if (!JBus::irqPending()) return false;
+        s_stopReq = true;
+        return true;
+    }
+    static inline bool smcVisible(uint32_t a) { return JBus::smcVisible(a); }
+};
+constexpr bool c_hasIo = JBus::hasIo;
 
 // Pinned guest state while translated code runs. Everything in caller-saved
 // registers is safe because translated code never calls out.
@@ -80,11 +117,22 @@ constexpr int rP = A0;    // 0x30 | D << 3 | I << 2: the P bits that are neither
 constexpr int rBITS = T8; // code bitmap; byte 8192 is "any code in page 1"
 constexpr int rTAB = T9;  // block table
 
-enum ExitReason : uint32_t { EXIT_CHAIN = 0, EXIT_BUDGET = 1, EXIT_DECIMAL = 2, EXIT_SMC = 3, EXIT_TRAP = 4 };
+// EXIT_SLOW leaves before an instruction the translation cannot do (I/O, a
+// write outside plain RAM) so the interpreter runs just that one. EXIT_IRQ
+// leaves after something that cleared I, for the caller to check its line.
+enum ExitReason : uint32_t {
+    EXIT_CHAIN = 0,
+    EXIT_BUDGET = 1,
+    EXIT_DECIMAL = 2,
+    EXIT_SMC = 3,
+    EXIT_TRAP = 4,
+    EXIT_SLOW = 5,
+    EXIT_IRQ = 6,
+};
 
 constexpr uint32_t c_threshold = 2;
 constexpr int c_maxInsns = 40;
-constexpr uint32_t c_arenaWords = 256 * 1024;
+constexpr uint32_t c_arenaWords = M6502JIT_ARENA_WORDS;
 constexpr uint32_t c_maxBlocks = 4096;
 
 uint32_t s_arena[c_arenaWords] __attribute__((aligned(16)));
@@ -96,7 +144,11 @@ void* s_table[65536];
 void* s_tableD[65536];
 uint8_t s_hotD[65536];
 uint8_t s_codeBits[8192 + 4];
+// Visits before translation. c_noTranslate marks an entry point whose first
+// instruction always needs the interpreter; it is single-stepped instead.
 uint8_t s_hot[65536];
+constexpr uint8_t c_noTranslate = 0xff;
+bool s_failSlow;
 // Bytes that have ever been written while covered by translated code. Blocks
 // never start on or extend over them, so self-modifying code stays interpreted
 // and does not churn compile/invalidate.
@@ -193,6 +245,7 @@ bool isBranch(uint8_t op) { return (op & 0x1f) == 0x10; }
 // Control transfers end a translation. PLP/SED/CLD do not: they get a D guard
 // instead, when an ADC/SBC follows them in the block.
 bool endsTranslation(uint8_t op) {
+    if (c_hasIo && op == 0x58) return true;
     switch (op) {
         case 0x00:
         case 0x20:
@@ -286,8 +339,31 @@ bool mayExit(uint8_t op) {
         case 0xd8:
         case 0xf8:
             return true;
+        case 0x58:
+            return c_hasIo;
     }
     return false;
+}
+
+bool isReadKind(uint8_t k) { return k >= K_LDA && k <= K_BIT && k != K_STA && k != K_STX && k != K_STY; }
+bool isWriteKind(uint8_t k) { return k == K_STA || k == K_STX || k == K_STY; }
+bool isRmwKind(uint8_t k) { return k >= K_INC && k <= K_ROR; }
+bool isIndexed(uint8_t m) { return m == M_ZPX || m == M_ZPY || m == M_ABSX || m == M_ABSY || m == M_INDX || m == M_INDY; }
+
+// Whether any address an indexed absolute access can reach satisfies pred.
+template <typename F>
+bool anyInRange(uint32_t base, F pred) {
+    for (uint32_t i = 0; i < 256; i++) {
+        if (pred((base + i) & 0xffff)) return true;
+    }
+    return false;
+}
+
+// An instruction that may leave its block BEFORE it runs, at runtime.
+bool mayExitBefore(uint8_t op) {
+    if (!c_hasIo) return false;
+    const uint8_t k = s_kind[op];
+    return isIndexed(s_mode[op]) && (isReadKind(k) || isWriteKind(k) || isRmwKind(k));
 }
 
 // --------------------------------------------------------------------------
@@ -535,7 +611,7 @@ struct Insn {
     uint8_t op, len;
 };
 
-enum StubKind : uint8_t { ST_SIDE, ST_SMC_CONST, ST_SMC_DYN, ST_SMC_STACK };
+enum StubKind : uint8_t { ST_SIDE, ST_SMC_CONST, ST_SMC_DYN, ST_SMC_STACK, ST_SLOW, ST_IRQ };
 
 struct Stub {
     uint32_t branchAt;
@@ -662,6 +738,48 @@ struct Translator {
     bool vLive() const { return liveAfter[cur] & 2; }
     uint32_t nextPc() const { return (ins[cur].pc + ins[cur].len) & 0xffff; }
 
+    // Leave before this instruction, for the interpreter to run it.
+    void slowStub(uint32_t b) {
+        addStub(b, ST_SLOW, ins[cur].pc, suffix[cur] + c_cycles[ins[cur].op]);
+    }
+
+    // The effective address in T2 may be I/O: leave before reading it.
+    void ioCheck() {
+        e.srl(T0, T2, 12);
+        e.xori(T0, T0, 0xd);
+        slowStub(e.beq(T0, ZERO));
+    }
+
+    // The effective address in T2 may not be plain RAM: leave before writing.
+    void writeCheck() {
+        const Insn& in = ins[cur];
+        const uint8_t mode = s_mode[in.op];
+        if (mode == M_ZPX || mode == M_ZPY) {
+            e.sltiu(T0, T2, 2);
+            slowStub(e.bne(T0, ZERO));
+            return;
+        }
+        if ((mode == M_ABSX || mode == M_ABSY) && !anyInRange(in.operand, [](uint32_t a) { return !JBus::direct(a); })) {
+            return;
+        }
+        // Slow regions $A000-$BFFF and $D000-$FFFF as a 16-bit mask over the
+        // top nibble, plus $00/$01.
+        e.srl(T0, T2, 12);
+        e.ori(T1, ZERO, 0xec00);
+        e.srlv(T1, T1, T0);
+        e.sltiu(T0, T2, 2);
+        e.or_(T1, T1, T0);
+        e.andi(T1, T1, 1);
+        slowStub(e.bne(T1, ZERO));
+    }
+
+    void indyPenalty() {
+        e.andi(T5, T4, 0xff);
+        e.addu(T5, T5, rY);
+        e.srl(T5, T5, 8);
+        e.subu(rCYC, rCYC, T5);
+    }
+
     // Load the operand byte of a read instruction into dst. Handles the dynamic
     // page-crossing penalty.
     void loadOperand(int dst) {
@@ -686,7 +804,14 @@ struct Translator {
             case M_ABSX:
             case M_ABSY: {
                 int r = mode == M_ABSX ? rX : rY;
-                if (v <= 0xff00) {
+                if (c_hasIo && anyInRange(v, JBus::isIo)) {
+                    e.ori(T2, ZERO, v);
+                    e.addu(T2, T2, r);
+                    if (v > 0xff00) e.andi(T2, T2, 0xffff);
+                    ioCheck();
+                    e.addu(T1, T2, rMEM);
+                    e.lbu(dst, memOff(0), T1);
+                } else if (v <= 0xff00) {
                     e.addu(T1, r, rMEM);
                     e.lbu(dst, memOff(v), T1);
                 } else {
@@ -703,11 +828,16 @@ struct Translator {
             }
             case M_INDX:
                 indxAddr(v);
+                if (c_hasIo) ioCheck();
                 e.addu(T1, T2, rMEM);
                 e.lbu(dst, memOff(0), T1);
                 break;
             case M_INDY:
-                indyAddr(v, true);
+                indyAddr(v, !c_hasIo);
+                if (c_hasIo) {
+                    ioCheck();
+                    indyPenalty();
+                }
                 e.addu(T1, T2, rMEM);
                 e.lbu(dst, memOff(0), T1);
                 break;
@@ -734,12 +864,7 @@ struct Translator {
         e.or_(T4, T4, T5);
         e.addu(T2, T4, rY);
         e.andi(T2, T2, 0xffff);
-        if (penalty) {
-            e.andi(T5, T4, 0xff);
-            e.addu(T5, T5, rY);
-            e.srl(T5, T5, 8);
-            e.subu(rCYC, rCYC, T5);
-        }
+        if (penalty) indyPenalty();
     }
 
     // Compute the effective address of a write (or read-modify-write). Returns
@@ -922,6 +1047,7 @@ struct Translator {
         }
         uint32_t ea;
         bool isConst = writeAddr(ea);
+        if (c_hasIo && !isConst) writeCheck();
         loadAt(T3, isConst, ea);
         switch (kind) {
             case K_INC:
@@ -1025,6 +1151,7 @@ struct Translator {
             case K_STY: {
                 uint32_t ea;
                 bool isConst = writeAddr(ea);
+                if (c_hasIo && !isConst) writeCheck();
                 storeAt(kind == K_STA ? rA : kind == K_STX ? rX : rY, isConst, ea);
                 return true;
             }
@@ -1156,6 +1283,11 @@ struct Translator {
                 return true;
             case 0x58:
                 e.andi(rP, rP, 0x3b);
+                if (c_hasIo) {
+                    materialize(e, nz);
+                    exitWith(e, nextPc(), EXIT_IRQ);
+                    return false;
+                }
                 return true;
             case 0x78:
                 e.ori(rP, rP, 0x04);
@@ -1168,6 +1300,10 @@ struct Translator {
                 pull(T4);
                 unpackP(T4);
                 dGuard();
+                if (c_hasIo) {
+                    e.andi(T0, rP, 0x04);
+                    addStub(e.beq(T0, ZERO), ST_IRQ, nextPc(), suffix[cur]);
+                }
                 return true;
             case 0xd8:
             case 0xf8:
@@ -1226,6 +1362,14 @@ struct Translator {
                 pull(T5);
                 e.sll(T5, T5, 8);
                 e.or_(T4, T4, T5);
+                if (c_hasIo) {
+                    e.andi(T0, rP, 0x04);
+                    uint32_t b = e.bne(T0, ZERO);
+                    e.move(V0, T4);
+                    e.ori(A1, ZERO, EXIT_IRQ);
+                    e.j(s_exitCommon);
+                    e.patch(b, e.here());
+                }
                 chainDynamic(e, T4);
                 return false;
             case 0x00: {
@@ -1281,6 +1425,12 @@ struct Translator {
                     e.sw(T1, offsetof(State, dirty), rST);
                     exitWith(e, s.pc, EXIT_SMC);
                     break;
+                case ST_SLOW:
+                    exitWith(e, s.pc, EXIT_SLOW);
+                    break;
+                case ST_IRQ:
+                    exitWith(e, s.pc, EXIT_IRQ);
+                    break;
                 case ST_SMC_STACK:
                     e.ori(T1, ZERO, 0x101);
                     e.sw(T1, offsetof(State, dirty), rST);
@@ -1317,14 +1467,8 @@ void flushAll() {
     s_stats.flushes++;
 }
 
-void invalidate(uint32_t ea) {
-    uint32_t lo = ea, hi = ea + 1;
-    if (ea >= 0x100 && ea < 0x200) {
-        lo = 0x100;
-        hi = 0x200;
-    }
-    s_stats.invalidations++;
-    s_smcHist[ea >> 3] |= 1u << (ea & 7);
+// Kill every block that overlaps [lo, hi).
+void killRange(uint32_t lo, uint32_t hi) {
     // Kill every block covering the range, remembering the union of their spans
     // so only those bits are cleared and rebuilt.
     uint32_t klo = 0x10000, khi = 0;
@@ -1354,6 +1498,42 @@ void invalidate(uint32_t ea) {
     recomputeStackFlag();
 }
 
+void invalidate(uint32_t ea) {
+    uint32_t lo = ea, hi = ea + 1;
+    if (ea >= 0x100 && ea < 0x200) {
+        lo = 0x100;
+        hi = 0x200;
+    }
+    s_stats.invalidations++;
+    s_smcHist[ea >> 3] |= 1u << (ea & 7);
+    killRange(lo, hi);
+}
+
+// Run exactly one instruction in the interpreter.
+Stop stepOne(State& st) {
+    s_stats.singleSteps++;
+    s_stopReq = false;
+    Stop w = m6502::run<false, true, SBus>(st, 1);
+    if (w == Stop::Smc) {
+        invalidate(st.dirty - 1);
+        w = Stop::Budget;
+    }
+    return w;
+}
+
+// An instruction that always needs the interpreter, decided from its operand:
+// a constant address that is I/O to read or not plain RAM to write.
+bool staticSlow(const Insn& in) {
+    if (!c_hasIo) return false;
+    const uint8_t k = s_kind[in.op];
+    const uint8_t mode = s_mode[in.op];
+    if (in.op == 0x6c) return JBus::isIo(in.operand) || JBus::isIo((in.operand & 0xff00) | ((in.operand + 1) & 0xff));
+    if (mode != M_ABS && mode != M_ZP) return false;
+    if (isReadKind(k)) return JBus::isIo(in.operand);
+    if (isWriteKind(k) || isRmwKind(k)) return !JBus::direct(in.operand);
+    return false;
+}
+
 void* compile(State& st, uint32_t start, bool dec) {
     Translator& t = s_tr;
     uint8_t* mem = st.mem;
@@ -1369,17 +1549,25 @@ void* compile(State& st, uint32_t start, bool dec) {
     int n = 0;
     uint32_t pc = start;
     bool hasDec = false;
+    s_failSlow = false;
     while (n < c_maxInsns) {
         uint8_t op = mem[pc];
         if (s_kind[op] == K_ILL) break;
         uint8_t len = s_len[op];
         if (pc + len > 0x10000) break;
         if (smcTouched(pc, len)) break;
-        Insn& in = t.ins[n++];
+        // Code is never translated from the I/O page.
+        if (c_hasIo && (JBus::isIo(pc) || JBus::isIo(pc + len - 1))) break;
+        Insn& in = t.ins[n];
         in.pc = pc;
         in.op = op;
         in.len = len;
         in.operand = len == 2 ? mem[pc + 1] : len == 3 ? (mem[pc + 1] | (mem[pc + 2] << 8)) : 0;
+        if (staticSlow(in)) {
+            if (n == 0) s_failSlow = true;
+            break;
+        }
+        n++;
         pc += len;
         if (s_kind[op] == K_ADC || s_kind[op] == K_SBC) hasDec = true;
         if (endsTranslation(op)) break;
@@ -1425,6 +1613,7 @@ void* compile(State& st, uint32_t start, bool dec) {
         if (i == n - 1) after = 3;
         t.liveAfter[i] = after;
         live = (after & ~flagWrites(op)) | flagReads(op);
+        if (mayExitBefore(op)) live = 3;
     }
 
     // Room: generous worst case per instruction.
@@ -1530,16 +1719,23 @@ void m6502jit::init(State& st) {
 
 const m6502jit::Stats& m6502jit::stats() { return s_stats; }
 
+void m6502jit::invalidateRange(uint32_t lo, uint32_t hi) {
+    s_stats.rangeFlushes++;
+    killRange(lo, hi);
+    for (uint32_t a = lo; a < hi; a++) s_hot[a] = s_hotD[a] = 0;
+}
+
 m6502::Stop m6502jit::run(State& st, uint32_t budget) {
     const uint32_t limit = st.cycles + budget;
     bool forceInterp = false;
     while ((int32_t)(limit - st.cycles) > 0) {
         const uint32_t pc = st.pc;
         void* b = forceInterp ? nullptr : s_table[pc];
-        if (!b && !forceInterp) {
+        if (!b && !forceInterp && s_hot[pc] != c_noTranslate) {
             if (++s_hot[pc] >= c_threshold) {
                 s_hot[pc] = 0;
                 b = compile(st, pc, false);
+                if (!b && s_failSlow) s_hot[pc] = c_noTranslate;
             }
         }
         forceInterp = false;
@@ -1569,18 +1765,38 @@ m6502::Stop m6502jit::run(State& st, uint32_t budget) {
                     break;
                 case EXIT_TRAP:
                     return Stop::Trap;
+                case EXIT_SLOW: {
+                    s_stats.exitsSlow++;
+                    const Stop w = stepOne(st);
+                    if (w != Stop::Budget) return w;
+                    if (s_stopReq) return Stop::Budget;
+                    break;
+                }
+                case EXIT_IRQ:
+                    s_stats.exitsIrq++;
+                    if (!st.i && JBus::irqPending()) return Stop::Budget;
+                    break;
             }
+            continue;
+        }
+        if (s_hot[pc] == c_noTranslate) {
+            const Stop w = stepOne(st);
+            if (w != Stop::Budget) return w;
+            if (s_stopReq) return Stop::Budget;
             continue;
         }
         s_stats.interpBlocks++;
         const uint32_t c0 = st.cycles;
-        Stop w = m6502::run<true, true>(st, limit - st.cycles);
+        s_stopReq = false;
+        Stop w = m6502::run<true, true, SBus>(st, limit - st.cycles);
         s_stats.interpCycles += st.cycles - c0;
         if (w == Stop::Smc) {
             invalidate(st.dirty - 1);
+            if (s_stopReq) return Stop::Budget;
             continue;
         }
         if (w != Stop::Budget) return w;
+        if (s_stopReq) return Stop::Budget;
     }
     return Stop::Budget;
 }

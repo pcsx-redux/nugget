@@ -105,6 +105,13 @@ struct FlatBus {
         return false;
     }
     static inline bool irqPending() { return false; }
+    // For the recompiler: whether a write to a can go straight to mem, whether
+    // a read of a may hit I/O, and whether a byte written at a is one the CPU
+    // can execute (so a code-map hit there means self-modifying code).
+    static constexpr bool hasIo = false;
+    static inline bool direct(uint32_t) { return true; }
+    static inline bool isIo(uint32_t) { return false; }
+    static inline bool smcVisible(uint32_t) { return true; }
 };
 
 // Pushes PC and P with B clear, sets I, and loads PC from the vector.
@@ -139,7 +146,7 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
 #define SMCCHK(addr)                                                     \
     if (Smc) {                                                           \
         uint32_t sa_ = (addr) & 0xffff;                                  \
-        if ((st.codeBits[sa_ >> 3] >> (sa_ & 7)) & 1) {                  \
+        if (Bus::smcVisible(sa_) && (st.codeBits[sa_ >> 3] >> (sa_ & 7)) & 1) {                  \
             st.dirty = sa_ + 1;                                          \
             smcHit = true;                                               \
         }                                                                \
