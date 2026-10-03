@@ -53,6 +53,7 @@ SOFTWARE.
 #include "cdlnop.c"
 #include "cdlreadn.c"
 #include "cdlreads.c"
+#include "cdlreadtoc.c"
 #include "cdlseekl.c"
 #include "cdlseekp.c"
 #include "cdlsetloc.c"
