@@ -91,7 +91,8 @@ extern uint32_t g_profRun, g_profCalls;
 #endif
 
 uint32_t ioRead(uint32_t a, uint32_t cyc);
-void slowWrite(uint32_t a, uint8_t v, uint32_t cyc);
+bool slowWrite(uint32_t a, uint8_t v, uint32_t cyc);
+bool irqPending();
 
 struct Bus {
     static inline uint32_t read(const uint8_t* mem, uint32_t a, uint32_t cyc) {
@@ -99,21 +100,22 @@ struct Bus {
         return mem[a];
     }
     static inline bool direct(uint32_t a) { return (a - 2) < 0x9ffe || (a >> 12) == 0xc; }
-    static inline void write(uint8_t* mem, uint32_t a, uint8_t v, uint32_t cyc) {
+    static inline bool write(uint8_t* mem, uint32_t a, uint8_t v, uint32_t cyc) {
         if (direct(a)) {
             mem[a] = v;
-        } else {
-            slowWrite(a, v, cyc);
+            return false;
         }
+        return slowWrite(a, v, cyc);
     }
-    static inline void writeRmw(uint8_t* mem, uint32_t a, uint32_t old, uint8_t v, uint32_t cyc) {
+    static inline bool writeRmw(uint8_t* mem, uint32_t a, uint32_t old, uint8_t v, uint32_t cyc) {
         if (direct(a)) {
             mem[a] = v;
-        } else {
-            slowWrite(a, old, cyc);
-            slowWrite(a, v, cyc);
+            return false;
         }
+        slowWrite(a, old, cyc);
+        return slowWrite(a, v, cyc);
     }
+    static inline bool irqPending() { return c64::irqPending(); }
 };
 
 // The VIC-II's view of memory: 16K bank selected by CIA2, character ROM at

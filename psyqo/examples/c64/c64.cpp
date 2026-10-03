@@ -52,7 +52,10 @@ uint8_t s_mapA, s_mapD, s_mapE;
 
 uint8_t s_vicIrq;
 bool s_denFrame;
-uint32_t s_cpuTarget;
+uint32_t s_frameT0;   // machine cycle at which the current frame's line 0 starts
+uint32_t s_nextLine;  // first line whose start has not been processed yet
+uint32_t s_filled;    // g_lines[0, s_filled) hold their registers
+int32_t s_row;        // text row latched at the last bad line
 uint8_t s_sid[32];
 uint32_t s_lfsr = 0x7ffff8;
 bool s_nmiLine;
@@ -66,6 +69,31 @@ struct Cia {
 Cia s_cia1, s_cia2;
 
 inline uint32_t now(uint32_t cyc) { return cyc + g_stolen; }
+
+// The raster line a CPU cycle falls on.
+inline uint32_t lineAt(uint32_t cyc) {
+    const uint32_t l = (now(cyc) - s_frameT0) / c_cyclesPerLine;
+    return l < c_linesPerFrame ? l : c_linesPerFrame - 1;
+}
+
+// Record the current VIC state into g_lines for every line before `upTo`. Called
+// before any register write, so lines drawn with the old value keep it.
+void fillLines(uint32_t upTo) {
+    if (upTo > c_linesPerFrame) upTo = c_linesPerFrame;
+    if (s_filled >= upTo) return;
+    const uint8_t d011 = g_vic[0x11], d016 = g_vic[0x16], d018 = g_vic[0x18];
+    const uint8_t d020 = g_vic[0x20], d021 = g_vic[0x21];
+    const uint8_t bank = vicBase() >> 14;
+    for (; s_filled < upTo; s_filled++) {
+        LineRegs& lr = g_lines[s_filled];
+        lr.d011 = d011;
+        lr.d016 = d016;
+        lr.d018 = d018;
+        lr.d020 = d020;
+        lr.d021 = d021;
+        lr.bank = bank;
+    }
+}
 
 void ciaUpdate(Cia& c, uint32_t t) {
     uint32_t el = t - c.last;
@@ -262,12 +290,12 @@ void rebank() {
     g_ioMapped = mapD == 2;
 }
 
-uint8_t vicRegRead(uint32_t r) {
+uint8_t vicRegRead(uint32_t r, uint32_t cyc) {
     switch (r) {
         case 0x11:
-            return (g_vic[0x11] & 0x7f) | ((g_raster & 0x100) >> 1);
+            return (g_vic[0x11] & 0x7f) | ((lineAt(cyc) & 0x100) >> 1);
         case 0x12:
-            return g_raster & 0xff;
+            return lineAt(cyc) & 0xff;
         case 0x13:
         case 0x14:
             return 0;
@@ -289,12 +317,14 @@ uint8_t vicRegRead(uint32_t r) {
     }
 }
 
-void vicRegWrite(uint32_t r, uint8_t v) {
+void vicRegWrite(uint32_t r, uint8_t v, uint32_t cyc) {
+    const uint32_t line = lineAt(cyc);
+    fillLines(line);
     switch (r) {
         case 0x11:
         case 0x12:
             g_vic[r] = v;
-            if (rasterCompare() == g_raster) s_vicIrq |= 1;
+            if (rasterCompare() == line) s_vicIrq |= 1;
             break;
         case 0x19:
             s_vicIrq &= ~v & 0x0f;
@@ -326,7 +356,7 @@ uint32_t ioRead(uint32_t a, uint32_t cyc) {
         case 0x1:
         case 0x2:
         case 0x3:
-            return vicRegRead(a & 0x3f);
+            return vicRegRead(a & 0x3f, cyc);
         case 0x4:
         case 0x5:
         case 0x6:
@@ -353,11 +383,13 @@ uint32_t ioRead(uint32_t a, uint32_t cyc) {
     }
 }
 
-void slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
+bool irqPending() { return irqLine(); }
+
+bool slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
     if (a < 2) {
         g_view[a] = v;
         rebank();
-        return;
+        return false;
     }
     const uint32_t region = a >> 12;
     if (region == 0xd) {
@@ -367,33 +399,34 @@ void slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
                 case 0x1:
                 case 0x2:
                 case 0x3:
-                    vicRegWrite(a & 0x3f, v);
-                    return;
+                    vicRegWrite(a & 0x3f, v, cyc);
+                    return true;
                 case 0x4:
                 case 0x5:
                 case 0x6:
                 case 0x7:
                     s_sid[a & 0x1f] = v;
-                    return;
+                    return false;
                 case 0x8:
                 case 0x9:
                 case 0xa:
                 case 0xb:
                     g_color[a & 0x3ff] = v & 0x0f;
-                    return;
+                    return false;
                 case 0xc:
                     ciaWrite(s_cia1, a & 0x0f, v, cyc);
-                    return;
+                    return true;
                 case 0xd:
+                    fillLines(lineAt(cyc));
                     ciaWrite(s_cia2, a & 0x0f, v, cyc);
-                    return;
+                    return true;
                 default:
-                    return;
+                    return false;
             }
         }
         g_ram[a] = v;
         if (s_mapD == 0) g_view[a] = v;
-        return;
+        return false;
     }
     g_ram[a] = v;
     if (region < 0xc) {
@@ -401,6 +434,7 @@ void slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
     } else {
         if (s_mapE == 0) g_view[a] = v;
     }
+    return false;
 }
 
 void reset(const Roms& roms) {
@@ -437,7 +471,7 @@ void reset(const Roms& roms) {
     g_raster = 0;
     g_stolen = 0;
     g_frame = 0;
-    s_cpuTarget = 0;
+    s_frameT0 = 0;
     s_nmiLine = false;
     __builtin_memset(&s_stats, 0, sizeof(s_stats));
 }
@@ -465,69 +499,108 @@ void latchRow(uint32_t row) {
 
 }  // namespace
 
+namespace {
+
+// The machine time of the next interrupt-enabled timer underflow, or `never`.
+uint32_t ciaNextIrq(const Cia& c, uint32_t never) {
+    uint32_t t = never;
+    if ((c.cra & 0x21) == 0x01 && (c.mask & 1)) {
+        const uint32_t u = c.last + c.ta + 1;
+        if ((int32_t)(u - t) < 0) t = u;
+    }
+    if ((c.crb & 0x61) == 0x01 && (c.mask & 2)) {
+        const uint32_t u = c.last + c.tb + 1;
+        if ((int32_t)(u - t) < 0) t = u;
+    }
+    return t;
+}
+
+bool isBadLine(uint32_t line) {
+    return s_denFrame && line >= 0x30 && line <= 0xf7 && (line & 7) == (g_vic[0x11] & 7u);
+}
+
+void lineStart(uint32_t line) {
+    g_raster = line;
+    if (line == 0x30) s_denFrame = g_vic[0x11] & 0x10;
+    if (line == rasterCompare()) s_vicIrq |= 1;
+    const bool bad = isBadLine(line);
+    if (bad) {
+        g_stolen += c_badLineSteal;
+        s_stats.badLines++;
+        if (s_row < 24) latchRow(++s_row);
+    }
+    g_lines[line].bad = bad;
+    g_lines[line].row = s_row;
+}
+
+// The next line from `from` whose start the scheduler has to stop at: a bad
+// line, the raster compare line, the DEN latch line, or the end of the frame.
+uint32_t nextEventLine(uint32_t from) {
+    uint32_t e = c_linesPerFrame;
+    if (from <= 0x30) e = 0x30;
+    const uint32_t cmp = rasterCompare();
+    if (cmp >= from && cmp < e) e = cmp;
+    if (s_denFrame) {
+        uint32_t l = from < 0x30 ? 0x30 : from;
+        const uint32_t ys = g_vic[0x11] & 7u;
+        l += (ys - l) & 7;
+        if (l <= 0xf7 && l < e) e = l;
+    }
+    return e;
+}
+
+}  // namespace
+
 void runFrame() {
-    int32_t row = -1;
-    for (uint32_t line = 0; line < c_linesPerFrame; line++) {
-        g_raster = line;
-        if (line == rasterCompare()) s_vicIrq |= 1;
-        if (line == 0x30) s_denFrame = g_vic[0x11] & 0x10;
-        const bool bad = s_denFrame && line >= 0x30 && line <= 0xf7 && (line & 7) == (g_vic[0x11] & 7u);
-        uint32_t avail = c_cyclesPerLine;
-        if (bad) {
-            avail -= c_badLineSteal;
-            g_stolen += c_badLineSteal;
-            s_stats.badLines++;
+    s_nextLine = 0;
+    s_filled = 0;
+    s_row = -1;
+    const uint32_t frameEnd = s_frameT0 + c_linesPerFrame * c_cyclesPerLine;
+    for (;;) {
+        uint32_t t = g_cpu.cycles + g_stolen;
+        while (s_nextLine < c_linesPerFrame && (int32_t)(t - (s_frameT0 + s_nextLine * c_cyclesPerLine)) >= 0) {
+            lineStart(s_nextLine++);
+            t = g_cpu.cycles + g_stolen;
         }
-        s_cpuTarget += avail;
-#ifdef BATCH8
-        // Timing experiment only: give the CPU 8 lines at a time.
-        if ((line & 7) != 7 && line != c_linesPerFrame - 1) goto skipcpu;
-#endif
-        while ((int32_t)(s_cpuTarget - g_cpu.cycles) > 0) {
-            if (!g_cpu.i && irqLine()) {
-                m6502::interrupt(g_cpu, 0xfffe);
-                s_stats.irqs++;
-                continue;
-            }
-#ifdef C64_PROF
-            const uint16_t p0 = profTick();
-#endif
-            const m6502::Stop why = m6502::run<false, false, Bus>(g_cpu, s_cpuTarget - g_cpu.cycles);
-#ifdef C64_PROF
-            g_profRun += (uint16_t)(profTick() - p0);
-            g_profCalls++;
-#endif
-            if (why == m6502::Stop::Trap) {
-                // JMP * or a branch to itself: idle until something interrupts.
-                g_cpu.cycles = s_cpuTarget;
-            } else if (why == m6502::Stop::Illegal) {
-                s_stats.illegal++;
-                g_cpu.cycles = s_cpuTarget;
-            }
-        }
-#ifdef BATCH8
-    skipcpu:
-#endif
-        const uint32_t t = g_cpu.cycles + g_stolen;
+        if ((int32_t)(t - frameEnd) >= 0) break;
         ciaUpdate(s_cia1, t);
         ciaUpdate(s_cia2, t);
         const bool nmi = (s_cia2.icr & s_cia2.mask) != 0;
         if (nmi && !s_nmiLine) {
+            s_nmiLine = true;
             m6502::interrupt(g_cpu, 0xfffa);
             s_stats.nmis++;
+            continue;
         }
         s_nmiLine = nmi;
-        if (bad && row < 24) latchRow(++row);
-        LineRegs& lr = g_lines[line];
-        lr.d011 = g_vic[0x11];
-        lr.d016 = g_vic[0x16];
-        lr.d018 = g_vic[0x18];
-        lr.d020 = g_vic[0x20];
-        lr.d021 = g_vic[0x21];
-        lr.bank = vicBase() >> 14;
-        lr.row = row;
-        lr.bad = bad;
+        if (!g_cpu.i && irqLine()) {
+            m6502::interrupt(g_cpu, 0xfffe);
+            s_stats.irqs++;
+            continue;
+        }
+        uint32_t e = s_frameT0 + nextEventLine(s_nextLine) * c_cyclesPerLine;
+        e = ciaNextIrq(s_cia1, e);
+        e = ciaNextIrq(s_cia2, e);
+        int32_t budget = (int32_t)(e - t);
+        if (budget <= 0) budget = 1;
+#ifdef C64_PROF
+        const uint16_t p0 = profTick();
+#endif
+        const m6502::Stop why = m6502::run<false, false, Bus>(g_cpu, budget);
+#ifdef C64_PROF
+        g_profRun += (uint16_t)(profTick() - p0);
+        g_profCalls++;
+#endif
+        if (why == m6502::Stop::Trap || why == m6502::Stop::Illegal) {
+            // JMP * or a branch to itself idles until the next event; an illegal
+            // opcode jams the CPU the same way.
+            if (why == m6502::Stop::Illegal) s_stats.illegal++;
+            const uint32_t target = e - g_stolen;
+            if ((int32_t)(target - g_cpu.cycles) > 0) g_cpu.cycles = target;
+        }
     }
+    fillLines(c_linesPerFrame);
+    s_frameT0 = frameEnd;
     g_frame++;
 }
 

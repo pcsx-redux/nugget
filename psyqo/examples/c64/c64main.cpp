@@ -414,6 +414,39 @@ void C64Scene::frame() {
         s_reportedReady = true;
         ramsyscall_printf("C64: READY. on screen at guest frame %u\n", c64::g_frame);
         dumpScreen();
+#ifdef CHUNKTEST
+        // Same interpreter, same idle loop, different call sizes. Nothing runs
+        // between calls except an optional burst of other code that touches
+        // a different part of the I-cache.
+        static const uint32_t sizes[3] = {65, 520, 8000};
+        COUNTERS[2].mode = 0x0200;  // sysclk/8: 15.5 ms wrap
+        for (uint32_t k = 0; k < 6; k++) {
+            const uint32_t chunk = sizes[k % 3];
+            const bool evict = k >= 3;
+            const m6502::State saved = c64::g_cpu;
+            const uint32_t total = 160000;
+            uint32_t ticks = 0, calls = 0;
+            uint32_t start = c64::g_cpu.cycles;
+            while (c64::g_cpu.cycles - start < total) {
+                const uint16_t t0 = COUNTERS[2].value;
+                m6502::run<false, false, c64::Bus>(c64::g_cpu, chunk);
+                ticks += (uint16_t)(COUNTERS[2].value - t0);
+                calls++;
+                if (evict) {
+                    for (uint32_t r = 0; r < c64::c_linesPerFrame; r += 8) c64::g_lines[r].d020 ^= 1;
+                    renderBegin();
+                    for (uint32_t r = 0; r < 64; r++) drawLine(r);
+                }
+            }
+            const uint32_t cyc = c64::g_cpu.cycles - start;
+            const uint32_t us = ticks * 236 / 1000;  // 8 / 33.8688 MHz
+            const uint32_t khz = cyc * 1000 / (us ? us : 1);
+            ramsyscall_printf("C64 CHUNK %u evict %u: %u guest cycles in %u calls, %u us = %u.%03u MHz guest\n", chunk,
+                              evict, cyc, calls, us, khz / 1000, khz % 1000);
+            c64::g_cpu = saved;
+        }
+        COUNTERS[2].mode = 0;
+#endif
     }
     if (s_frames == 300) {
         // 15734 hblanks per second. Frame budget at 59.94 Hz is 262.5 hblanks.

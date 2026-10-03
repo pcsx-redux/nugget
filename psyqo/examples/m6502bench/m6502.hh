@@ -91,11 +91,20 @@ static const uint8_t c_cycles[256] = {
 // stack, operand fetches and vectors always go straight to mem, so mem has to
 // hold what the CPU sees there. A read-modify-write passes the old value too,
 // because the 6502 writes it back once before the new one, and some I/O
-// registers react to that first write.
+// registers react to that first write. A write returning true ends the run after
+// the current instruction, for I/O that moves the caller's next event. So does
+// clearing I while irqPending() says an interrupt is waiting.
 struct FlatBus {
     static inline uint32_t read(const uint8_t* mem, uint32_t a, uint32_t) { return mem[a]; }
-    static inline void write(uint8_t* mem, uint32_t a, uint8_t v, uint32_t) { mem[a] = v; }
-    static inline void writeRmw(uint8_t* mem, uint32_t a, uint32_t, uint8_t v, uint32_t) { mem[a] = v; }
+    static inline bool write(uint8_t* mem, uint32_t a, uint8_t v, uint32_t) {
+        mem[a] = v;
+        return false;
+    }
+    static inline bool writeRmw(uint8_t* mem, uint32_t a, uint32_t, uint8_t v, uint32_t) {
+        mem[a] = v;
+        return false;
+    }
+    static inline bool irqPending() { return false; }
 };
 
 // Pushes PC and P with B clear, sets I, and loads PC from the vector.
@@ -118,7 +127,7 @@ template <bool BlockMode = false, bool Smc = false, typename Bus = FlatBus>
 __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
     uint8_t* const mem = st.mem;
     uint32_t cyc = st.cycles;
-    const uint32_t limit = cyc + budget;
+    uint32_t limit = cyc + budget;
     uint32_t pc = st.pc;
     uint32_t a = st.a, x = st.x, y = st.y, s = st.s;
     uint32_t c = st.c, v = st.v, d = st.d, i = st.i;
@@ -138,13 +147,13 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
 #define WR(addr, val)                                    \
     {                                                    \
         uint32_t wa_ = (addr) & 0xffff;                  \
-        Bus::write(mem, wa_, (uint8_t)(val), cyc);       \
+        if (Bus::write(mem, wa_, (uint8_t)(val), cyc)) limit = cyc; \
         SMCCHK(wa_);                                     \
     }
 #define RMWWR(addr, old, val)                            \
     {                                                    \
         uint32_t wa_ = (addr) & 0xffff;                  \
-        Bus::writeRmw(mem, wa_, old, (uint8_t)(val), cyc); \
+        if (Bus::writeRmw(mem, wa_, old, (uint8_t)(val), cyc)) limit = cyc; \
         SMCCHK(wa_);                                     \
     }
 #define IMM() (pc++, (pc - 1) & 0xffff)
@@ -361,7 +370,10 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
             case 0x48: PUSH(a); break;
             case 0x68: a = n = nz = PULL(); break;
             case 0x08: PUSH(PACKP(1)); break;
-            case 0x28: UNPACKP(PULL()); break;
+            case 0x28:
+                UNPACKP(PULL());
+                if (!i && Bus::irqPending()) limit = cyc;
+                break;
             // logic
             case 0x29: a = n = nz = a & mem[IMM()]; break;
             case 0x25: a = n = nz = a & mem[ZP()]; break;
@@ -495,6 +507,7 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
             }
             case 0x40: {
                 UNPACKP(PULL());
+                if (!i && Bus::irqPending()) limit = cyc;
                 uint32_t lo = PULL();
                 uint32_t hi = PULL();
                 pc = lo | (hi << 8);
@@ -512,7 +525,10 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
             // flags
             case 0x18: c = 0; break;
             case 0x38: c = 1; break;
-            case 0x58: i = 0; break;
+            case 0x58:
+                i = 0;
+                if (Bus::irqPending()) limit = cyc;
+                break;
             case 0x78: i = 1; break;
             case 0xb8: v = 0; break;
             case 0xd8: d = 0; break;
