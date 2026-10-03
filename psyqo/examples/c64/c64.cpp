@@ -26,7 +26,7 @@ SOFTWARE.
 
 #include "c64.hh"
 
-#include <string.h>
+
 
 namespace c64 {
 
@@ -247,16 +247,16 @@ void rebank() {
     const uint8_t mapE = hi ? 1 : 0;
     const uint8_t mapD = (lo || hi) ? (ch ? 2 : 1) : 0;
     if (mapA != s_mapA) {
-        memcpy(g_view + 0xa000, mapA ? s_roms.basic : g_ram + 0xa000, 0x2000);
+        __builtin_memcpy(g_view + 0xa000, mapA ? s_roms.basic : g_ram + 0xa000, 0x2000);
         s_mapA = mapA;
     }
     if (mapE != s_mapE) {
-        memcpy(g_view + 0xe000, mapE ? s_roms.kernal : g_ram + 0xe000, 0x2000);
+        __builtin_memcpy(g_view + 0xe000, mapE ? s_roms.kernal : g_ram + 0xe000, 0x2000);
         s_mapE = mapE;
     }
     if (mapD != s_mapD) {
-        if (mapD == 0) memcpy(g_view + 0xd000, g_ram + 0xd000, 0x1000);
-        if (mapD == 1) memcpy(g_view + 0xd000, s_roms.chargen, 0x1000);
+        if (mapD == 0) __builtin_memcpy(g_view + 0xd000, g_ram + 0xd000, 0x1000);
+        if (mapD == 1) __builtin_memcpy(g_view + 0xd000, s_roms.chargen, 0x1000);
         s_mapD = mapD;
     }
     g_ioMapped = mapD == 2;
@@ -406,8 +406,8 @@ void slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
 void reset(const Roms& roms) {
     s_roms = roms;
     g_chargen = roms.chargen;
-    memset(g_view, 0, sizeof(g_view));
-    memset(g_ram, 0, sizeof(g_ram));
+    __builtin_memset(g_view, 0, sizeof(g_view));
+    __builtin_memset(g_ram, 0, sizeof(g_ram));
     // Power-on RAM is not zero on real machines; the common pattern is 64 bytes
     // of $00 then 64 of $FF. The ROMs do not care, but programs that peek at
     // uninitialised memory see something closer to hardware.
@@ -418,11 +418,11 @@ void reset(const Roms& roms) {
     }
     g_view[0] = 0;
     g_view[1] = 0;
-    memset(g_color, 0, sizeof(g_color));
-    memset(g_vic, 0, sizeof(g_vic));
-    memset(g_keys, 0, sizeof(g_keys));
-    memset(&s_cia1, 0, sizeof(s_cia1));
-    memset(&s_cia2, 0, sizeof(s_cia2));
+    __builtin_memset(g_color, 0, sizeof(g_color));
+    __builtin_memset(g_vic, 0, sizeof(g_vic));
+    __builtin_memset(g_keys, 0, sizeof(g_keys));
+    __builtin_memset(&s_cia1, 0, sizeof(s_cia1));
+    __builtin_memset(&s_cia2, 0, sizeof(s_cia2));
     s_cia1.ta = s_cia1.tb = s_cia1.latchA = s_cia1.latchB = 0xffff;
     s_cia2.ta = s_cia2.tb = s_cia2.latchA = s_cia2.latchB = 0xffff;
     s_vicIrq = 0;
@@ -439,10 +439,34 @@ void reset(const Roms& roms) {
     g_frame = 0;
     s_cpuTarget = 0;
     s_nmiLine = false;
-    memset(&s_stats, 0, sizeof(s_stats));
+    __builtin_memset(&s_stats, 0, sizeof(s_stats));
 }
 
-void runFrame(LineHook hook) {
+LineRegs g_lines[c_linesPerFrame];
+#ifdef C64_PROF
+uint32_t g_profRun, g_profCalls;
+#endif
+uint8_t g_rowCodes[25][40];
+uint8_t g_rowColors[25][40];
+
+namespace {
+
+void latchRow(uint32_t row) {
+    const uint32_t at = ((g_vic[0x18] & 0xf0) << 6) + row * 40;
+    const uint32_t addr = vicBase() | at;
+    // The screen is almost always in plain RAM outside the character ROM window.
+    if ((addr + 39 < 0xa000 || (addr >> 12) == 0xc) && (addr & 0x7000) != 0x1000) {
+        __builtin_memcpy(g_rowCodes[row], g_view + addr, 40);
+    } else {
+        for (uint32_t i = 0; i < 40; i++) g_rowCodes[row][i] = vicRead(at + i);
+    }
+    __builtin_memcpy(g_rowColors[row], g_color + row * 40, 40);
+}
+
+}  // namespace
+
+void runFrame() {
+    int32_t row = -1;
     for (uint32_t line = 0; line < c_linesPerFrame; line++) {
         g_raster = line;
         if (line == rasterCompare()) s_vicIrq |= 1;
@@ -455,13 +479,24 @@ void runFrame(LineHook hook) {
             s_stats.badLines++;
         }
         s_cpuTarget += avail;
+#ifdef BATCH8
+        // Timing experiment only: give the CPU 8 lines at a time.
+        if ((line & 7) != 7 && line != c_linesPerFrame - 1) goto skipcpu;
+#endif
         while ((int32_t)(s_cpuTarget - g_cpu.cycles) > 0) {
             if (!g_cpu.i && irqLine()) {
                 m6502::interrupt(g_cpu, 0xfffe);
                 s_stats.irqs++;
                 continue;
             }
+#ifdef C64_PROF
+            const uint16_t p0 = profTick();
+#endif
             const m6502::Stop why = m6502::run<false, false, Bus>(g_cpu, s_cpuTarget - g_cpu.cycles);
+#ifdef C64_PROF
+            g_profRun += (uint16_t)(profTick() - p0);
+            g_profCalls++;
+#endif
             if (why == m6502::Stop::Trap) {
                 // JMP * or a branch to itself: idle until something interrupts.
                 g_cpu.cycles = s_cpuTarget;
@@ -470,6 +505,9 @@ void runFrame(LineHook hook) {
                 g_cpu.cycles = s_cpuTarget;
             }
         }
+#ifdef BATCH8
+    skipcpu:
+#endif
         const uint32_t t = g_cpu.cycles + g_stolen;
         ciaUpdate(s_cia1, t);
         ciaUpdate(s_cia2, t);
@@ -479,7 +517,16 @@ void runFrame(LineHook hook) {
             s_stats.nmis++;
         }
         s_nmiLine = nmi;
-        if (hook) hook(line, bad);
+        if (bad && row < 24) latchRow(++row);
+        LineRegs& lr = g_lines[line];
+        lr.d011 = g_vic[0x11];
+        lr.d016 = g_vic[0x16];
+        lr.d018 = g_vic[0x18];
+        lr.d020 = g_vic[0x20];
+        lr.d021 = g_vic[0x21];
+        lr.bank = vicBase() >> 14;
+        lr.row = row;
+        lr.bad = bad;
     }
     g_frame++;
 }

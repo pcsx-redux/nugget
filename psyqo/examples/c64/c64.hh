@@ -69,10 +69,26 @@ struct Roms {
 
 void reset(const Roms& roms);
 
-// Called at the end of each raster line, once the CPU and the CIAs have run it.
-// badLine says the VIC-II fetched a new text row at the start of this line.
-typedef void (*LineHook)(uint32_t raster, bool badLine);
-void runFrame(LineHook hook);
+// What the renderer needs from each raster line, recorded at the end of the
+// line. Drawing happens after the frame, so the emulation loop stays small.
+struct LineRegs {
+    uint8_t d011, d016, d018, d020, d021;
+    uint8_t bank;  // VIC bank, 0-3
+    int8_t row;    // text row latched on this line's bad line, or the last one; -1 before any
+    uint8_t bad;
+};
+extern LineRegs g_lines[c_linesPerFrame];
+// Screen codes and colours of each text row, latched at its bad line.
+extern uint8_t g_rowCodes[25][40];
+extern uint8_t g_rowColors[25][40];
+
+void runFrame();
+
+#ifdef C64_PROF
+// Sum of sysclk ticks spent inside the CPU core, and the number of core calls.
+uint16_t profTick();
+extern uint32_t g_profRun, g_profCalls;
+#endif
 
 uint32_t ioRead(uint32_t a, uint32_t cyc);
 void slowWrite(uint32_t a, uint8_t v, uint32_t cyc);
