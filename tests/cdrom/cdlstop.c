@@ -32,6 +32,8 @@ CESTER_BODY(
     static int stopCommand(uint8_t command, uint8_t* cause1, uint8_t* stat1, uint32_t* ackTime, uint8_t* cause2,
                            uint8_t* stat2, uint32_t* completeTime) {
         uint8_t response[16];
+        *cause1 = *stat1 = *cause2 = *stat2 = 0xff;
+        *ackTime = *completeTime = 0;
         initializeTime();
         CDROM_REG0 = 0;
         CDROM_REG1 = command;
@@ -94,7 +96,11 @@ CESTER_TEST(cdlStopStopped, test_instance,
 
     uint8_t cause1, stat1, cause2, stat2;
     uint32_t ackTime, completeTime;
-    stopCommand(CDL_STOP, &cause1, &stat1, &ackTime, &cause2, &stat2, &completeTime);
+    int setupOk = stopCommand(CDL_STOP, &cause1, &stat1, &ackTime, &cause2, &stat2, &completeTime);
+    if (!setupOk) {
+        cester_assert_true(setupOk);
+        return;
+    }
     int ok = stopCommand(CDL_STOP, &cause1, &stat1, &ackTime, &cause2, &stat2, &completeTime);
     ramsyscall_printf("Stop while stopped: ack %i stat %02x in %ius, complete %i stat %02x in %ius\n", cause1, stat1,
                       ackTime, cause2, stat2, completeTime);
@@ -115,7 +121,11 @@ CESTER_TEST(cdlStandbyAfterStop, test_instance,
 
     uint8_t cause1, stat1, cause2, stat2;
     uint32_t ackTime, completeTime;
-    stopCommand(CDL_STOP, &cause1, &stat1, &ackTime, &cause2, &stat2, &completeTime);
+    int setupOk = stopCommand(CDL_STOP, &cause1, &stat1, &ackTime, &cause2, &stat2, &completeTime);
+    if (!setupOk) {
+        cester_assert_true(setupOk);
+        return;
+    }
     int ok = stopCommand(CDL_STANDBY, &cause1, &stat1, &ackTime, &cause2, &stat2, &completeTime);
     uint8_t nopStat = stopNopStat();
     ramsyscall_printf("Standby after Stop: ack %i stat %02x in %ius, complete %i stat %02x in %ius, Nop stat %02x\n",
