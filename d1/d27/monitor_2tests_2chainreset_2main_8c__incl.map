@@ -1,0 +1,28 @@
+<map id="monitor/tests/chainreset/main.c" name="monitor/tests/chainreset/main.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="84,5,266,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="324,313,394,339"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,46,46,65,29,78,15,95,9,116,11,143,20,169,33,190,63,219,97,243,134,263,172,280,247,303,310,316,309,321,245,308,170,285,131,268,94,248,59,223,29,194,15,172,6,144,3,115,10,92,25,75,43,60,83,41"/>
+<area shape="rect" id="Node000003" href="$d6/d92/pcdrv_8h.html" title=" " alt="" coords="25,93,200,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,47,132,84,128,81,158,44"/>
+<area shape="rect" id="Node000004" href="$dc/dea/common_2psxlibc_2handlers_8h.html" title=" " alt="" coords="44,167,245,192"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="194,44,213,79,217,99,213,120,198,143,178,161,174,157,194,139,209,118,212,99,208,81,189,47"/>
+<area shape="rect" id="Node000005" href="$d2/d6e/syscalls_8h.html" title=" " alt="" coords="275,93,478,119"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="224,43,335,86,333,91,222,48"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="162,190,266,263,330,304,327,308,263,268,159,194"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="357,121,331,141,311,168,301,194,299,215,302,238,311,264,322,285,337,302,333,306,318,288,306,266,297,239,293,216,296,193,306,165,327,137,354,117"/>
+<area shape="poly" id="edge16_Node000005_Node000004" title=" " alt="" coords="340,121,196,165,194,160,338,116"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="320,167,395,192"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="376,120,367,154,362,153,371,118"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="419,167,494,192"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="391,117,435,156,431,160,387,121"/>
+<area shape="rect" id="Node000008" href="$d0/d77/circularbuffer_8h.html" title=" " alt="" coords="321,240,552,265"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="435,116,475,134,493,148,508,165,513,185,505,204,489,221,471,235,468,231,486,217,500,201,507,185,503,168,490,152,472,139,433,121"/>
+<area shape="rect" id="Node000009" href="$db/de9/device_8h.html" title=" " alt="" coords="596,167,784,192"/>
+<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="427,116,626,161,625,166,426,121"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="426,267,384,306,380,302,422,263"/>
+<area shape="poly" id="edge12_Node000009_Node000002" title=" " alt="" coords="677,194,629,230,564,268,483,298,409,317,407,312,482,293,562,263,626,226,674,190"/>
+<area shape="rect" id="Node000010" href="$d3/d43/common_2psxlibc_2stdio_8h.html" title=" " alt="" coords="628,240,805,265"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="690,191,702,227,696,229,685,193"/>
+<area shape="poly" id="edge14_Node000010_Node000002" title=" " alt="" coords="659,268,408,318,407,312,658,263"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="716,241,705,205,710,203,721,239"/>
+</map>

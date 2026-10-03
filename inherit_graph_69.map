@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$d4/dad/classpsyqo_1_1CDRom.html" title="The base CDRom class." alt="" coords="5,31,124,56"/>
+<area shape="rect" id="Node000001" href="$d1/de1/classpsyqo_1_1CDRomDevice.html" title="A specialization of the CDRom interface." alt="" coords="172,5,335,31"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="137,31,171,26,172,32,138,36"/>
+<area shape="rect" id="Node000002" href="$dc/d9b/classpsyqo_1_1CDRomPCDrv.html" title=" " alt="" coords="174,55,333,80"/>
+<area shape="poly" id="edge3_Node000000_Node000002" title=" " alt="" coords="138,50,174,55,173,60,138,55"/>
+</map>

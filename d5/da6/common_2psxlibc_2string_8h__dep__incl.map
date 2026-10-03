@@ -1,0 +1,33 @@
+<map id="common/psxlibc/string.h" name="common/psxlibc/string.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1464,5,1647,31"/>
+<area shape="rect" id="Node000002" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="5,86,204,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1450,22,1227,26,920,34,571,52,217,81,165,89,165,83,216,76,571,47,920,29,1226,20,1450,17"/>
+<area shape="rect" id="Node000003" href="$d5/d96/device_8c.html" title=" " alt="" coords="229,86,399,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1450,23,1256,26,998,36,706,53,412,81,367,89,366,83,411,76,706,48,998,30,1256,21,1450,17"/>
+<area shape="rect" id="Node000004" href="$da/d5a/cdrom_2filesystem_8c.html" title=" " alt="" coords="424,86,633,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1450,26,1093,44,870,60,646,81,593,89,593,83,646,76,870,55,1093,39,1450,20"/>
+<area shape="rect" id="Node000005" href="$df/d23/openbios_2fileio_2misc_8c.html" title=" " alt="" coords="658,86,821,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1450,27,1171,45,1002,61,833,81,791,89,790,83,832,76,1001,56,1170,40,1450,22"/>
+<area shape="rect" id="Node000006" href="$dd/de7/irq_8c.html" title=" " alt="" coords="845,86,1018,111"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1451,31,1255,52,1030,81,988,89,987,83,1030,76,1255,47,1450,26"/>
+<area shape="rect" id="Node000007" href="$d6/d12/openbios_2kernel_2alloc_8c.html" title=" " alt="" coords="1042,86,1213,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1478,36,1225,81,1186,89,1185,83,1224,76,1477,30"/>
+<area shape="rect" id="Node000008" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="1237,86,1433,111"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1511,38,1368,88,1366,83,1509,33"/>
+<area shape="rect" id="Node000009" href="$de/d44/libcmisc_8c.html" title=" " alt="" coords="1458,86,1653,111"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1558,44,1558,86,1553,86,1553,44"/>
+<area shape="rect" id="Node000010" href="$df/de5/psxexe_8c.html" title=" " alt="" coords="1677,86,1863,111"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1600,33,1740,83,1738,88,1598,38"/>
+<area shape="rect" id="Node000011" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="1887,86,2053,111"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1632,31,1876,76,1913,83,1912,89,1875,81,1631,36"/>
+<area shape="rect" id="Node000012" href="$df/ddd/pio_8c.html" title=" " alt="" coords="2077,86,2217,111"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1661,26,1850,45,2066,76,2102,83,2101,89,2066,81,1850,51,1660,31"/>
+<area shape="rect" id="Node000013" href="$d6/d4f/shell_8c.html" title=" " alt="" coords="2242,86,2405,111"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1660,22,1920,41,2075,57,2230,76,2272,83,2271,89,2230,81,2075,62,1920,47,1660,28"/>
+<area shape="rect" id="Node000014" href="$d1/d56/driver_8c.html" title=" " alt="" coords="2429,86,2593,111"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="1660,20,1998,36,2207,53,2417,76,2460,83,2459,89,2416,81,2207,58,1997,42,1660,25"/>
+<area shape="rect" id="Node000015" href="$d2/df0/pad_8c.html" title=" " alt="" coords="2617,86,2768,111"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="1661,17,1840,21,2076,30,2340,48,2606,76,2647,83,2646,89,2606,81,2340,53,2075,35,1840,26,1661,23"/>
+<area shape="rect" id="Node000016" href="$d1/df3/tests_2support_2include_2string_8h.html" title=" " alt="" coords="2792,79,2951,119"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1660,16,1867,18,2146,27,2462,45,2623,59,2781,76,2792,78,2791,83,2780,81,2623,64,2461,50,2146,32,1867,24,1660,22"/>
+</map>

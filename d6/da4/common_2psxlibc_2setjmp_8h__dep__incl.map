@@ -1,0 +1,35 @@
+<map id="common/psxlibc/setjmp.h" name="common/psxlibc/setjmp.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="581,5,772,31"/>
+<area shape="rect" id="Node000002" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="5,152,204,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="567,25,495,31,414,42,331,58,250,81,212,97,176,117,121,154,118,150,173,113,209,93,248,76,329,53,414,36,495,26,567,20"/>
+<area shape="rect" id="Node000003" href="$df/d23/openbios_2fileio_2misc_8c.html" title=" " alt="" coords="229,152,391,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="568,22,479,26,387,36,309,53,281,66,261,80,257,89,256,97,263,116,279,135,296,150,293,154,275,138,259,119,251,98,252,87,257,77,278,61,308,48,387,30,478,21,568,17"/>
+<area shape="rect" id="Node000004" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="416,152,612,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="588,37,552,54,523,80,514,97,511,117,514,151,509,152,506,116,509,96,519,77,549,50,586,32"/>
+<area shape="rect" id="Node000005" href="$dd/d6c/openbios_2kernel_2setjmp_8h.html" title=" " alt="" coords="271,79,458,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="614,36,416,81,415,76,613,31"/>
+<area shape="rect" id="Node000006" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="636,152,803,177"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="695,41,714,78,721,118,722,151,717,152,716,119,709,80,691,43"/>
+<area shape="rect" id="Node000007" href="$d4/dbf/main_8h.html" title=" " alt="" coords="533,79,700,104"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="660,43,628,80,624,77,656,40"/>
+<area shape="rect" id="Node000009" href="$dc/d4c/scratchstack_2main_8c.html" title=" " alt="" coords="775,79,927,104"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="718,33,824,76,822,81,716,38"/>
+<area shape="rect" id="Node000010" href="$df/d4a/shello_8cpp.html" title=" " alt="" coords="951,79,1082,104"/>
+<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="745,31,962,76,961,81,744,36"/>
+<area shape="rect" id="Node000011" href="$dd/d3e/longjmp_8c.html" title=" " alt="" coords="1106,79,1255,104"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="771,30,1106,77,1105,82,771,35"/>
+<area shape="rect" id="Node000013" href="$d1/db0/string_8c.html" title=" " alt="" coords="1279,79,1413,104"/>
+<area shape="poly" id="edge19_Node000001_Node000013" title=" " alt="" coords="786,26,1008,47,1268,76,1279,78,1279,83,1267,81,1008,53,786,32"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="310,110,147,154,146,149,309,105"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="349,117,321,154,317,150,345,113"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="402,107,491,149,488,154,400,112"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="435,104,662,149,661,155,434,109"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="555,110,360,154,359,149,554,104"/>
+<area shape="poly" id="edge12_Node000007_Node000004" title=" " alt="" coords="590,114,532,154,529,150,587,110"/>
+<area shape="poly" id="edge13_Node000007_Node000006" title=" " alt="" coords="646,110,704,150,701,154,643,114"/>
+<area shape="rect" id="Node000008" href="$d6/d4f/shell_8c.html" title=" " alt="" coords="827,152,990,177"/>
+<area shape="poly" id="edge14_Node000007_Node000008" title=" " alt="" coords="677,105,862,149,861,154,676,110"/>
+<area shape="rect" id="Node000012" href="$de/d78/libc_8c.html" title=" " alt="" coords="1204,152,1323,177"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="1206,111,1252,150,1248,154,1203,115"/>
+<area shape="poly" id="edge20_Node000013_Node000012" title=" " alt="" coords="1324,115,1279,154,1275,150,1321,111"/>
+</map>
