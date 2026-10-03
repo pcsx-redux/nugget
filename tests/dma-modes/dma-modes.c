@@ -316,6 +316,35 @@ static void spuReadArm(const char *name, uint32_t chcr, uint32_t bcr, unsigned r
     ramsyscall_printf("\n");
 }
 
+/*
+ * Drain check for device-to-RAM linked lists: SPU RAM holds indexed words,
+ * an optional linked-list read runs first, then a 4-word sync 1 read follows
+ * with the transfer address left alone. If the list pulled words out of the
+ * SPU, the follow-up read starts past index 0. The control arm skips the list.
+ */
+static void spuDrainArm(const char *name, int withList) {
+    struct Res r;
+    spuFill(0x12340000u, 1);
+    fillPoison(s_dst);
+    for (int i = 0; i < NBUF; i++) s_list[i] = POISON;
+    s_list[0] = (2u << 24) | lo24(&s_list[8]);
+    s_list[8] = (1u << 24) | 0x00ffffffu;
+    spuAddr(SPU_BASE);
+    spuMode(3);
+    armStart(name, 4, withList ? 0x01000400u : 0x01000200u);
+    if (withList) {
+        run(4, (uint32_t)s_list, (1u << 16) | 4, 0x01000400u, &r);
+        ramsyscall_printf(" list done=%d MADR=%08x", r.done, r.madr);
+    }
+    run(4, (uint32_t)s_dst, (1u << 16) | 4, 0x01000200u, &r);
+    spuWait();
+    spuMode(0);
+    armEnd(&r);
+    dumpChanged(s_dst);
+    dumpList();
+    ramsyscall_printf("\n");
+}
+
 static void spuSection(void) {
     SPUCNT = 0xc000; /* on, unmuted, transfer mode stop */
     SPU_TCTRL = 0x0004;
@@ -348,6 +377,8 @@ static void spuSection(void) {
     spuReadArm("r-s2-term", 0x01000400u, l4, 3, 0x00ffffffu, 1);
     spuReadArm("r-s2-one", 0x01000400u, l4, 3, 0x01ffffffu, 1);
     spuReadArm("r-s2-noreq", 0x01000400u, l4, 0, 0x00ffffffu, 1);
+    spuDrainArm("r-drain-ctl", 0);
+    spuDrainArm("r-drain-list", 1);
     SPUCNT = 0xc000;
 }
 
@@ -511,11 +542,14 @@ static void cdSection(void) {
     cdArm("s1-bfrd", 0x01000200u, s16, 0x80, 0);
     cdArm("s1t-bfrd", 0x11000200u, s16, 0x80, 0);
     cdArm("s2-bfrd", 0x01000400u, l4, 0x80, 1);
+    cdArm("s2t-nobfrd", 0x11000400u, l4, 0x00, 1);
+    cdArm("s2t-bfrd", 0x11000400u, l4, 0x80, 1);
     cdWriteArm("w-s0t", 0x11000001u, 16, 0);
     cdWriteArm("w-s0", 0x01000001u, 16, 0);
     cdWriteArm("w-s1", 0x01000201u, s16, 0);
     cdWriteArm("w-s1t", 0x11000201u, s16, 0);
     cdWriteArm("w-s2", 0x01000401u, l4, 1);
+    cdWriteArm("w-s2t", 0x11000401u, l4, 1);
 }
 
 /* ---- PIO (DMA5, device -> RAM only) ---- */
@@ -555,11 +589,13 @@ static void pioSection(void) {
     pioArm("p-s1", 0x01000200u, s16, 0);
     pioArm("p-s1t", 0x11000200u, s16, 0);
     pioArm("p-s2", 0x01000400u, l4, 1);
+    pioArm("p-s2t", 0x11000400u, l4, 1);
     pioWriteArm("pw-s0t", 0x11000001u, 16, 0);
     pioWriteArm("pw-s0", 0x01000001u, 16, 0);
     pioWriteArm("pw-s1", 0x01000201u, s16, 0);
     pioWriteArm("pw-s1t", 0x11000201u, s16, 0);
     pioWriteArm("pw-s2", 0x01000401u, l4, 1);
+    pioWriteArm("pw-s2t", 0x11000401u, l4, 1);
 }
 
 #ifdef MODE3_ARM
