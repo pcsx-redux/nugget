@@ -306,3 +306,61 @@ CESTER_TEST(xaEndOfFileAndRecordStopsADPCM, test_instance,
     cester_assert_uint_ge(stats.lastLBABusy, 156504);
     cester_assert_uint_gt(stats.firstLBAClear, 156744);
 )
+
+// XA level through the ATV matrix, read back from the SPU CD capture buffer
+// (helpers in cdda.c). Channel 0 of file 1 at LBA 135000 is a mono sine.
+CESTER_BODY(
+    static int xaPeak(const uint8_t atv[4], int demute, unsigned* signChanges) {
+        if (!cddaAudioSetup(atv, demute)) return -1;
+        uint8_t mode = 0xc8;
+        if (xaCommand(CDL_SETMODE, &mode, 1, NULL, NULL) != 3) return -1;
+        uint8_t filter[2] = {1, 0};
+        if (xaCommand(CDL_SETFILTER, filter, 2, NULL, NULL) != 3) return -1;
+        if (!xaSeekL(135016)) return -1;
+        if (xaCommand(CDL_READS, NULL, 0, NULL, NULL) != 3) return -1;
+
+        initializeTime();
+        uint32_t elapsed = 0;
+        while (elapsed < 600000u) {
+            uint32_t budget = 10000u;
+            int ok = waitCDRomIRQWithTimeout(&budget);
+            elapsed = budget;
+            if (!ok) continue;
+            uint8_t response[16];
+            ackCDRomCause();
+            readResponse(response);
+        }
+
+        int peak = cddaCapturePeak(signChanges);
+        xaStop();
+        return peak;
+    }
+)
+
+CESTER_TEST(xaLevelUnity, test_instance,
+    static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00};
+    unsigned changes = 0;
+    int peak = xaPeak(atv, 1, &changes);
+    ramsyscall_printf("XA level at unity ATV: peak %i, %u sign changes\n", peak, changes);
+    cester_assert_int_ge(peak, 22400);
+    cester_assert_int_le(peak, 22900);
+    cester_assert_uint_ge(changes, 4);
+)
+
+CESTER_TEST(xaLevelClipped, test_instance,
+    static const uint8_t atv[4] = {0x80, 0x80, 0x80, 0x80};
+    unsigned changes = 0;
+    int peak = xaPeak(atv, 1, &changes);
+    ramsyscall_printf("XA level at double ATV: peak %i, %u sign changes\n", peak, changes);
+    cester_assert_int_ge(peak, 31700);
+    cester_assert_int_le(peak, 32050);
+    cester_assert_uint_ge(changes, 4);
+)
+
+CESTER_TEST(xaLevelMuted, test_instance,
+    static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00};
+    unsigned changes = 0;
+    int peak = xaPeak(atv, 0, &changes);
+    ramsyscall_printf("XA level when muted: peak %i\n", peak);
+    cester_assert_int_eq(0, peak);
+)
