@@ -73,6 +73,7 @@ SKIPS=(
     "pocketstation-memmap/pocketstation-memmap|hardware probe: needs a PocketStation in a card slot, prints readings, no verdict"
     "spu/spu|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
+    "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "regwrites/regwrites|probe: loops forever, no verdict"
     "rumble/rumble|needs the DualShock rumble mapping from pcsx-redux in the dev AppImage"
