@@ -57,6 +57,7 @@ SOFTWARE.
 #include "cdlseekp.c"
 #include "cdlsetloc.c"
 #include "cdlsetmode.c"
+#include "cdlstop.c"
 #include "cdltest.c"
 #include "invalid.c"
 #include "misc.c"
