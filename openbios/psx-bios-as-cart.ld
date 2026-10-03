@@ -215,10 +215,11 @@ SECTIONS {
        under it. It is where the retail kernel leaves free RAM between its
        bss and the 0xdf80 patch area, and where the debug monitor's core is
        linked (monitor/hosts/retail/core/core.ld). Kernel data must stay
-       below it. */
-    __openbios_code_cave_start = 0x8000c160;
+       below it. Only builds defining __openbios_reserve_code_cave reserve it;
+       the others report an empty cave. */
     __openbios_code_cave_end = 0x8000df80;
-    ASSERT(!(__bss_end > (__openbios_code_cave_start & 0x1fffffff)),
+    __openbios_code_cave_start = DEFINED(__openbios_reserve_code_cave) ? 0x8000c160 : __openbios_code_cave_end;
+    ASSERT(!(DEFINED(__openbios_reserve_code_cave) && __bss_end > (__openbios_code_cave_start & 0x1fffffff)),
            "OpenBIOS kernel data (kseg0 .data/.bss) overlaps the code cave at 0x8000c160, see getCodeCave()")
 
     /DISCARD/ : { *(.MIPS.abiflags) }
