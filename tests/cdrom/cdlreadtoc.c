@@ -50,10 +50,11 @@ CESTER_TEST(cdlReadTOC, test_instance,
 
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_NOP;
-    waitCDRomIRQ();
+    uint32_t nopTime = 1000000;
+    int nopOk = waitCDRomIRQWithTimeout(&nopTime);
     ackCDRomCause();
     readResponse(response);
-    uint8_t nopStat = response[0];
+    uint8_t nopStat = nopOk ? response[0] : 0xff;
 
     ramsyscall_printf("ReadTOC: ack %i %i size %i stat %02x in %ius, complete %i %i size %i stat %02x in %ius, Nop stat %02x\n",
                       ackOk, cause1, size1, stat1, ackTime, completeOk, cause2, size2, stat2, completeTime, nopStat);
@@ -66,5 +67,6 @@ CESTER_TEST(cdlReadTOC, test_instance,
     cester_assert_uint_eq(0x02, stat2);
     cester_assert_uint_ge(completeTime, 500000);
     cester_assert_uint_lt(completeTime, 1500000);
+    cester_assert_true(nopOk);
     cester_assert_uint_eq(0x02, nopStat);
 )
