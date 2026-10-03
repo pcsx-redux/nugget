@@ -304,6 +304,7 @@ void dmaIRQ() {
     ack <<= 24;
     dicr |= ack;
     psyqo::Hardware::CPU::DICR = dicr;
+    psyqo::Kernel::dmaAcquireBarrier();
 
     for (unsigned dma = 0; dma < static_cast<unsigned>(psyqo::Kernel::DMA::Max); dma++) {
         uint32_t mask = 1 << dma;
