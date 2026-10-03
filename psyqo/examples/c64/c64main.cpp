@@ -117,28 +117,32 @@ static void emitRect(uint32_t y, uint32_t h, uint32_t color) {
     p[2] = (h << 16) | 320;
 }
 
-// Raster line -> PS1 line. The 23 lines of vertical blank are not shown.
-static inline int32_t screenY(uint32_t raster) {
-    uint32_t y = (raster + c64::c_linesPerFrame - 31) % c64::c_linesPerFrame;
-    return y < 240 ? (int32_t)y : -1;
-}
-
-// Border/background runs.
+// Border/background runs, merged while contiguous and the same colour.
 static int32_t s_runY = -1;
 static uint32_t s_runH, s_runColor;
-static void runLine(int32_t y, uint32_t color) {
-    if (s_runY >= 0 && color == s_runColor && y == s_runY + (int32_t)s_runH) {
-        s_runH++;
+static void runRect(uint32_t y, uint32_t h, uint32_t color) {
+    if (s_runY >= 0 && color == s_runColor && (int32_t)y == s_runY + (int32_t)s_runH) {
+        s_runH += h;
         return;
     }
     if (s_runY >= 0) emitRect(s_runY, s_runH, s_runColor);
     s_runY = y;
-    s_runH = 1;
+    s_runH = h;
     s_runColor = color;
 }
 static void runFlush() {
     if (s_runY >= 0) emitRect(s_runY, s_runH, s_runColor);
     s_runY = -1;
+}
+
+// Raster lines [a, b) in one colour. Raster 31..262 shows as PS1 lines 0..231
+// and raster 0..7 as 232..239; the 23 lines of vertical blank in between are
+// not shown.
+static void rasterRect(uint32_t a, uint32_t b, uint32_t color) {
+    uint32_t s0 = a < 31 ? 31 : a;
+    if (s0 < b) runRect(s0 - 31, b - s0, color);
+    uint32_t e1 = b < 8 ? b : 8;
+    if (a < e1) runRect(232 + a, e1 - a, color);
 }
 
 // Character set texture slots.
@@ -163,7 +167,7 @@ static void scanBlank(uint32_t slot, const uint8_t* src) {
 
 // Which slot holds the character set the VIC-II is pointing at.
 static uint8_t s_ramCharset[2048];
-static int32_t charsetSlot(const c64::LineRegs& lr) {
+static int32_t charsetSlot(const c64::Span& lr) {
     const uint32_t base = lr.bank << 14;
     const uint32_t off = (lr.d018 & 0x0e) << 10;
     if (!(base & 0x4000) && (off & 0x3000) == 0x1000) return (off >> 11) & 1;
@@ -194,21 +198,20 @@ static int32_t charsetSlot(const c64::LineRegs& lr) {
     return s;
 }
 
-// The text row currently being displayed, latched at its bad line.
+// The text row being drawn and the pending sprite segment for it.
 static const uint8_t* s_rowCodes;
 static const uint8_t* s_rowColors;
-static int32_t s_rowNum = -1;
 static int32_t s_segY = -1;
 static uint32_t s_segRc, s_segH;
 static int32_t s_segSlot;
-static uint32_t s_rc;
 
 static void segFlush() {
     if (s_segY < 0) return;
     const uint32_t v0 = s_segSlot * 64 + s_segRc;
+    const uint32_t* blank = s_blank[s_segSlot];
     for (uint32_t i = 0; i < 40; i++) {
         const uint32_t code = s_rowCodes[i];
-        if ((s_blank[s_segSlot][code >> 5] >> (code & 31)) & 1) continue;
+        if ((blank[code >> 5] >> (code & 31)) & 1) continue;
         uint32_t* p = reserve(s_spriteNodes, s_spriteCount, c_maxSpriteNodes, 4);
         if (!p) break;
         const uint32_t clut = (c_clutY + s_rowColors[i]) << 6 | (c_texX >> 4);
@@ -220,44 +223,65 @@ static void segFlush() {
     s_segY = -1;
 }
 
-static psyqo::GPU* s_gpu;
+static inline uint32_t windowTop(uint8_t d011) { return (d011 & 0x08) ? 0x33 : 0x37; }
+static inline uint32_t windowBottom(uint8_t d011) { return (d011 & 0x08) ? 0xfb : 0xf7; }
 
-static void drawLine(uint32_t raster) {
-    const c64::LineRegs& lr = c64::g_lines[raster];
-    const bool badLine = lr.bad;
-    const int32_t y = screenY(raster);
-    const uint8_t d011 = lr.d011;
-    const uint32_t top = (d011 & 0x08) ? 0x33 : 0x37;
-    const uint32_t bottom = (d011 & 0x08) ? 0xfb : 0xf7;
-    const bool window = (d011 & 0x10) && raster >= top && raster < bottom;
+static void drawFrame() {
+    const uint32_t spans = c64::g_spanCount;
+    const c64::Span* sp = c64::g_spans;
+    auto spanEnd = [&](uint32_t i) -> uint32_t { return i + 1 < spans ? sp[i + 1].line : c64::c_linesPerFrame; };
 
-    if (badLine) {
-        segFlush();
-        s_rowNum = lr.row;
-        s_rowCodes = c64::g_rowCodes[s_rowNum];
-        s_rowColors = c64::g_rowColors[s_rowNum];
-        s_rc = 0;
-    }
-
-    if (y >= 0) runLine(y, window ? (lr.d021 & 15) : (lr.d020 & 15));
-
-    // Standard character mode only, for now.
-    const bool text = window && s_rowNum >= 0 && s_rc < 8 && !(d011 & 0x60) && !(lr.d016 & 0x10);
-    if (text && y >= 0) {
-        const int32_t slot = charsetSlot(lr);
-        if (s_segY >= 0 && (slot != s_segSlot || y != s_segY + (int32_t)s_segH)) segFlush();
-        if (s_segY < 0) {
-            s_segY = y;
-            s_segRc = s_rc;
-            s_segH = 0;
-            s_segSlot = slot;
+    // Border and background.
+    for (uint32_t i = 0; i < spans; i++) {
+        const uint32_t a = sp[i].line, b = spanEnd(i);
+        const uint8_t d011 = sp[i].d011;
+        const uint32_t border = sp[i].d020 & 15, bg = sp[i].d021 & 15;
+        if (!(d011 & 0x10)) {
+            rasterRect(a, b, border);
+            continue;
         }
-        s_segH++;
-    } else {
+        const uint32_t top = windowTop(d011), bottom = windowBottom(d011);
+        if (a < top) rasterRect(a, b < top ? b : top, border);
+        const uint32_t wa = a > top ? a : top, wb = b < bottom ? b : bottom;
+        if (wa < wb) rasterRect(wa, wb, bg);
+        if (b > bottom) rasterRect(a > bottom ? a : bottom, b, border);
+    }
+
+    // Text rows, split where a span boundary changes the character set or mode.
+    uint32_t si = 0;
+    for (uint32_t r = 0; r < c64::g_rowCount; r++) {
+        const uint32_t rowStart = c64::g_rowLine[r];
+        uint32_t rowEnd = rowStart + 8;
+        if (r + 1 < c64::g_rowCount && c64::g_rowLine[r + 1] < rowEnd) rowEnd = c64::g_rowLine[r + 1];
+        s_rowCodes = c64::g_rowCodes[r];
+        s_rowColors = c64::g_rowColors[r];
+        while (si + 1 < spans && sp[si + 1].line <= rowStart) si++;
+        for (uint32_t k = si; k < spans && sp[k].line < rowEnd; k++) {
+            const c64::Span& s = sp[k];
+            uint32_t a = s.line > rowStart ? s.line : rowStart;
+            uint32_t b = spanEnd(k) < rowEnd ? spanEnd(k) : rowEnd;
+            const uint8_t d011 = s.d011;
+            const bool text = (d011 & 0x10) && !(d011 & 0x60) && !(s.d016 & 0x10);
+            const uint32_t top = windowTop(d011), bottom = windowBottom(d011);
+            if (a < top) a = top;
+            if (b > bottom) b = bottom;
+            if (!text || a >= b || a < 31) {
+                segFlush();
+                continue;
+            }
+            const int32_t slot = charsetSlot(s);
+            const int32_t y = a - 31;
+            if (s_segY >= 0 && (slot != s_segSlot || y != s_segY + (int32_t)s_segH)) segFlush();
+            if (s_segY < 0) {
+                s_segY = y;
+                s_segRc = a - rowStart;
+                s_segH = 0;
+                s_segSlot = slot;
+            }
+            s_segH += b - a;
+        }
         segFlush();
     }
-    s_rc++;
-    if (s_rc == 8) segFlush();
 }
 
 static void renderBegin() {
@@ -268,8 +292,6 @@ static void renderBegin() {
     s_rectCount = s_spriteCount = 0;
     s_runY = -1;
     s_segY = -1;
-    s_rowNum = -1;
-    s_rc = 8;
     // Texture cache flush, since a RAM character set may have been uploaded
     // ahead of the sprites, then the texture page.
     uint32_t* p = reserve(s_spriteNodes, s_spriteCount, c_maxSpriteNodes, 2);
@@ -278,7 +300,6 @@ static void renderBegin() {
 }
 
 static void renderEnd(psyqo::GPU& gpu) {
-    segFlush();
     runFlush();
     if (s_uploadPending) {
         for (uint32_t n = 0; n < 16; n++) gpu.chain(s_uploads[s_parity][n]);
@@ -350,7 +371,6 @@ void C64App::createScene() { pushScene(&g_scene); }
 
 void C64Scene::start(StartReason) {
     psyqo::GPU& g = gpu();
-    s_gpu = &g;
     for (uint32_t b = 0; b < 256; b++) {
         uint32_t w = 0;
         for (uint32_t k = 0; k < 8; k++) {
@@ -393,7 +413,7 @@ void C64Scene::frame() {
     c64::runFrame();
     const uint32_t h1 = hblanks();
 #ifndef NODRAW
-    for (uint32_t r = 0; r < c64::c_linesPerFrame; r++) drawLine(r);
+    drawFrame();
 #endif
     const uint32_t hb = hblanks();
     renderEnd(g);
@@ -414,39 +434,6 @@ void C64Scene::frame() {
         s_reportedReady = true;
         ramsyscall_printf("C64: READY. on screen at guest frame %u\n", c64::g_frame);
         dumpScreen();
-#ifdef CHUNKTEST
-        // Same interpreter, same idle loop, different call sizes. Nothing runs
-        // between calls except an optional burst of other code that touches
-        // a different part of the I-cache.
-        static const uint32_t sizes[3] = {65, 520, 8000};
-        COUNTERS[2].mode = 0x0200;  // sysclk/8: 15.5 ms wrap
-        for (uint32_t k = 0; k < 6; k++) {
-            const uint32_t chunk = sizes[k % 3];
-            const bool evict = k >= 3;
-            const m6502::State saved = c64::g_cpu;
-            const uint32_t total = 160000;
-            uint32_t ticks = 0, calls = 0;
-            uint32_t start = c64::g_cpu.cycles;
-            while (c64::g_cpu.cycles - start < total) {
-                const uint16_t t0 = COUNTERS[2].value;
-                m6502::run<false, false, c64::Bus>(c64::g_cpu, chunk);
-                ticks += (uint16_t)(COUNTERS[2].value - t0);
-                calls++;
-                if (evict) {
-                    for (uint32_t r = 0; r < c64::c_linesPerFrame; r += 8) c64::g_lines[r].d020 ^= 1;
-                    renderBegin();
-                    for (uint32_t r = 0; r < 64; r++) drawLine(r);
-                }
-            }
-            const uint32_t cyc = c64::g_cpu.cycles - start;
-            const uint32_t us = ticks * 236 / 1000;  // 8 / 33.8688 MHz
-            const uint32_t khz = cyc * 1000 / (us ? us : 1);
-            ramsyscall_printf("C64 CHUNK %u evict %u: %u guest cycles in %u calls, %u us = %u.%03u MHz guest\n", chunk,
-                              evict, cyc, calls, us, khz / 1000, khz % 1000);
-            c64::g_cpu = saved;
-        }
-        COUNTERS[2].mode = 0;
-#endif
     }
     if (s_frames == 300) {
         // 15734 hblanks per second. Frame budget at 59.94 Hz is 262.5 hblanks.

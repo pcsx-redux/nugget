@@ -54,7 +54,6 @@ uint8_t s_vicIrq;
 bool s_denFrame;
 uint32_t s_frameT0;   // machine cycle at which the current frame's line 0 starts
 uint32_t s_nextLine;  // first line whose start has not been processed yet
-uint32_t s_filled;    // g_lines[0, s_filled) hold their registers
 int32_t s_row;        // text row latched at the last bad line
 uint8_t s_sid[32];
 uint32_t s_lfsr = 0x7ffff8;
@@ -76,23 +75,27 @@ inline uint32_t lineAt(uint32_t cyc) {
     return l < c_linesPerFrame ? l : c_linesPerFrame - 1;
 }
 
-// Record the current VIC state into g_lines for every line before `upTo`. Called
-// before any register write, so lines drawn with the old value keep it.
-void fillLines(uint32_t upTo) {
-    if (upTo > c_linesPerFrame) upTo = c_linesPerFrame;
-    if (s_filled >= upTo) return;
-    const uint8_t d011 = g_vic[0x11], d016 = g_vic[0x16], d018 = g_vic[0x18];
-    const uint8_t d020 = g_vic[0x20], d021 = g_vic[0x21];
+// Start a span at `line` holding the current registers, after a write that may
+// have changed them.
+void markSpan(uint32_t line) {
+    Span& last = g_spans[g_spanCount - 1];
     const uint8_t bank = vicBase() >> 14;
-    for (; s_filled < upTo; s_filled++) {
-        LineRegs& lr = g_lines[s_filled];
-        lr.d011 = d011;
-        lr.d016 = d016;
-        lr.d018 = d018;
-        lr.d020 = d020;
-        lr.d021 = d021;
-        lr.bank = bank;
+    if (last.d011 == g_vic[0x11] && last.d016 == g_vic[0x16] && last.d018 == g_vic[0x18] &&
+        last.d020 == g_vic[0x20] && last.d021 == g_vic[0x21] && last.bank == bank) {
+        return;
     }
+    Span* sp = &last;
+    if (last.line != line) {
+        if (g_spanCount == c_maxSpans) return;
+        sp = &g_spans[g_spanCount++];
+        sp->line = line;
+    }
+    sp->d011 = g_vic[0x11];
+    sp->d016 = g_vic[0x16];
+    sp->d018 = g_vic[0x18];
+    sp->d020 = g_vic[0x20];
+    sp->d021 = g_vic[0x21];
+    sp->bank = bank;
 }
 
 void ciaUpdate(Cia& c, uint32_t t) {
@@ -319,7 +322,6 @@ uint8_t vicRegRead(uint32_t r, uint32_t cyc) {
 
 void vicRegWrite(uint32_t r, uint8_t v, uint32_t cyc) {
     const uint32_t line = lineAt(cyc);
-    fillLines(line);
     switch (r) {
         case 0x11:
         case 0x12:
@@ -339,6 +341,7 @@ void vicRegWrite(uint32_t r, uint8_t v, uint32_t cyc) {
             g_vic[r] = v;
             break;
     }
+    markSpan(line);
 }
 
 inline bool irqLine() { return (s_vicIrq & g_vic[0x1a]) || (s_cia1.icr & s_cia1.mask); }
@@ -417,8 +420,8 @@ bool slowWrite(uint32_t a, uint8_t v, uint32_t cyc) {
                     ciaWrite(s_cia1, a & 0x0f, v, cyc);
                     return true;
                 case 0xd:
-                    fillLines(lineAt(cyc));
                     ciaWrite(s_cia2, a & 0x0f, v, cyc);
+                    markSpan(lineAt(cyc));
                     return true;
                 default:
                     return false;
@@ -476,7 +479,10 @@ void reset(const Roms& roms) {
     __builtin_memset(&s_stats, 0, sizeof(s_stats));
 }
 
-LineRegs g_lines[c_linesPerFrame];
+Span g_spans[c_maxSpans];
+uint32_t g_spanCount;
+uint16_t g_rowLine[25];
+uint32_t g_rowCount;
 #ifdef C64_PROF
 uint32_t g_profRun, g_profCalls;
 #endif
@@ -527,10 +533,12 @@ void lineStart(uint32_t line) {
     if (bad) {
         g_stolen += c_badLineSteal;
         s_stats.badLines++;
-        if (s_row < 24) latchRow(++s_row);
+        if (s_row < 24) {
+            latchRow(++s_row);
+            g_rowLine[s_row] = line;
+            g_rowCount = s_row + 1;
+        }
     }
-    g_lines[line].bad = bad;
-    g_lines[line].row = s_row;
 }
 
 // The next line from `from` whose start the scheduler has to stop at: a bad
@@ -553,8 +561,12 @@ uint32_t nextEventLine(uint32_t from) {
 
 void runFrame() {
     s_nextLine = 0;
-    s_filled = 0;
     s_row = -1;
+    g_rowCount = 0;
+    g_spanCount = 1;
+    g_spans[0].line = 0;
+    g_spans[0].d011 = ~g_vic[0x11];
+    markSpan(0);
     const uint32_t frameEnd = s_frameT0 + c_linesPerFrame * c_cyclesPerLine;
     for (;;) {
         uint32_t t = g_cpu.cycles + g_stolen;
@@ -599,7 +611,6 @@ void runFrame() {
             if ((int32_t)(target - g_cpu.cycles) > 0) g_cpu.cycles = target;
         }
     }
-    fillLines(c_linesPerFrame);
     s_frameT0 = frameEnd;
     g_frame++;
 }

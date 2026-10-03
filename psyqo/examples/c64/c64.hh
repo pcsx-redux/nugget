@@ -69,18 +69,22 @@ struct Roms {
 
 void reset(const Roms& roms);
 
-// What the renderer needs from each raster line, recorded at the end of the
-// line. Drawing happens after the frame, so the emulation loop stays small.
-struct LineRegs {
+// What the renderer needs, as spans of lines over which the VIC registers it
+// reads did not change. A register write mid-line takes effect from that line.
+// Drawing happens after the frame, so the emulation loop stays small.
+struct Span {
+    uint16_t line;  // first line of the span; it lasts until the next one starts
     uint8_t d011, d016, d018, d020, d021;
     uint8_t bank;  // VIC bank, 0-3
-    int8_t row;    // text row latched on this line's bad line, or the last one; -1 before any
-    uint8_t bad;
 };
-extern LineRegs g_lines[c_linesPerFrame];
+static constexpr uint32_t c_maxSpans = 320;
+extern Span g_spans[c_maxSpans];
+extern uint32_t g_spanCount;
 // Screen codes and colours of each text row, latched at its bad line.
 extern uint8_t g_rowCodes[25][40];
 extern uint8_t g_rowColors[25][40];
+extern uint16_t g_rowLine[25];
+extern uint32_t g_rowCount;
 
 void runFrame();
 
