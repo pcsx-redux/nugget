@@ -486,7 +486,7 @@ uint32_t g_rowCount;
 #ifdef C64_PROF
 uint32_t g_profRun, g_profCalls;
 #endif
-uint8_t g_rowCodes[25][40];
+alignas(4) uint8_t g_rowCodes[25][40];
 uint8_t g_rowColors[25][40];
 
 namespace {

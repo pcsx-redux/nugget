@@ -209,7 +209,14 @@ static void segFlush() {
     if (s_segY < 0) return;
     const uint32_t v0 = s_segSlot * 64 + s_segRc;
     const uint32_t* blank = s_blank[s_segSlot];
+    // Rows are mostly spaces: test four codes per load against a blank glyph.
+    const uint32_t* words = reinterpret_cast<const uint32_t*>(s_rowCodes);
+    const bool spaceBlank = (blank[1] & 1) != 0;
     for (uint32_t i = 0; i < 40; i++) {
+        if (spaceBlank && (i & 3) == 0 && words[i >> 2] == 0x20202020) {
+            i += 3;
+            continue;
+        }
         const uint32_t code = s_rowCodes[i];
         if ((blank[code >> 5] >> (code & 31)) & 1) continue;
         uint32_t* p = reserve(s_spriteNodes, s_spriteCount, c_maxSpriteNodes, 4);
