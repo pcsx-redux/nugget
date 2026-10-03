@@ -198,19 +198,36 @@ CESTER_TEST(cdlTestRegionAndChip, test_instance,
     }
 
     // 22h answers the region string and 23h/24h the servo and signal processor chips, as
-    // plain text with no status byte. A SCPH-7502 answers "for Europe" and "CXD2940Q".
-    static const char* regions[] = {"for Europe", "for U/C", "for Japan", "for NETEU", "for US/AEP"};
-    static const char* chips[] = {"CXD2940Q", "CXD1817Q", "CXD2545Q", "CXD1782BR", "CXD2510Q"};
+    // plain text with no status byte. A SCPH-7502 (vC3) answers "for Europe" and "CXD2940Q".
+    // psx-spx: vC0 controllers do not have these subfunctions and answer error 11h 10h; only
+    // the 10h is checked, as no vC0 console has been measured.
+    static const char* regions[] = {"for Europe", "for U/C", "for Japan", "for NETNA", "for US/AEP"};
+    static const char* servoChips[] = {"CXD2940Q", "CXD1817Q", "CXD2545Q", "CXD1782BR"};
+    static const char* signalChips[] = {"CXD2940Q", "CXD1817Q", "CXD2545Q", "CXD2510Q"};
     uint8_t cause, size, response[16];
     uint32_t time;
 
-    cester_assert_true(cdlTestSub(0x22, &cause, response, &size, &time));
-    cester_assert_uint_eq(3, cause);
-    cester_assert_true(cdlTestKnownString(regions, sizeof(regions) / sizeof(regions[0]), response, size));
+    // The version is the last byte of the Test 20h answer.
+    cester_assert_true(cdlTestSub(0x20, &cause, response, &size, &time));
+    cester_assert_uint_eq(4, size);
+    if (size != 4) return;
+    uint8_t version = response[3];
 
-    for (uint8_t sub = 0x23; sub <= 0x24; sub++) {
+    for (uint8_t sub = 0x22; sub <= 0x24; sub++) {
         cester_assert_true(cdlTestSub(sub, &cause, response, &size, &time));
+        if (version == 0xc0) {
+            cester_assert_uint_eq(5, cause);
+            cester_assert_uint_eq(2, size);
+            cester_assert_uint_eq(0x10, response[1]);
+            continue;
+        }
         cester_assert_uint_eq(3, cause);
-        cester_assert_true(cdlTestKnownString(chips, sizeof(chips) / sizeof(chips[0]), response, size));
+        if (sub == 0x22) {
+            cester_assert_true(cdlTestKnownString(regions, sizeof(regions) / sizeof(regions[0]), response, size));
+        } else if (sub == 0x23) {
+            cester_assert_true(cdlTestKnownString(servoChips, sizeof(servoChips) / sizeof(servoChips[0]), response, size));
+        } else {
+            cester_assert_true(cdlTestKnownString(signalChips, sizeof(signalChips) / sizeof(signalChips[0]), response, size));
+        }
     }
 )
