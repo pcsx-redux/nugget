@@ -87,9 +87,34 @@ static const uint8_t c_cycles[256] = {
 // costs two register moves and no flag computation. They need separate copies
 // because PLP and RTI can load N=1 Z=1, which no single byte expresses.
 
+// The bus decides what an absolute-addressed access touches. Zero page, the
+// stack, operand fetches and vectors always go straight to mem, so mem has to
+// hold what the CPU sees there. A read-modify-write passes the old value too,
+// because the 6502 writes it back once before the new one, and some I/O
+// registers react to that first write.
+struct FlatBus {
+    static inline uint32_t read(const uint8_t* mem, uint32_t a, uint32_t) { return mem[a]; }
+    static inline void write(uint8_t* mem, uint32_t a, uint8_t v, uint32_t) { mem[a] = v; }
+    static inline void writeRmw(uint8_t* mem, uint32_t a, uint32_t, uint8_t v, uint32_t) { mem[a] = v; }
+};
+
+// Pushes PC and P with B clear, sets I, and loads PC from the vector.
+static inline void interrupt(State& st, uint32_t vector) {
+    uint8_t* mem = st.mem;
+    mem[0x100 + st.s] = st.pc >> 8;
+    st.s = (st.s - 1) & 0xff;
+    mem[0x100 + st.s] = st.pc & 0xff;
+    st.s = (st.s - 1) & 0xff;
+    mem[0x100 + st.s] = (st.n & 0x80) | (st.v << 6) | 0x20 | (st.d << 3) | (st.i << 2) | ((st.nz == 0) << 1) | st.c;
+    st.s = (st.s - 1) & 0xff;
+    st.i = 1;
+    st.pc = mem[vector] | (mem[vector + 1] << 8);
+    st.cycles += 7;
+}
+
 // BlockMode stops after any c_endsBlock instruction. Smc enables the codeBits
 // check on every store.
-template <bool BlockMode = false, bool Smc = false>
+template <bool BlockMode = false, bool Smc = false, typename Bus = FlatBus>
 __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
     uint8_t* const mem = st.mem;
     uint32_t cyc = st.cycles;
@@ -101,7 +126,7 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
     Stop why = Stop::Budget;
     bool smcHit = false;
 
-#define RD(addr) (mem[(addr) & 0xffff])
+#define RD(addr) (Bus::read(mem, (addr) & 0xffff, cyc))
 #define SMCCHK(addr)                                                     \
     if (Smc) {                                                           \
         uint32_t sa_ = (addr) & 0xffff;                                  \
@@ -113,7 +138,13 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
 #define WR(addr, val)                                    \
     {                                                    \
         uint32_t wa_ = (addr) & 0xffff;                  \
-        mem[wa_] = (uint8_t)(val);                       \
+        Bus::write(mem, wa_, (uint8_t)(val), cyc);       \
+        SMCCHK(wa_);                                     \
+    }
+#define RMWWR(addr, old, val)                            \
+    {                                                    \
+        uint32_t wa_ = (addr) & 0xffff;                  \
+        Bus::writeRmw(mem, wa_, old, (uint8_t)(val), cyc); \
         SMCCHK(wa_);                                     \
     }
 #define IMM() (pc++, (pc - 1) & 0xffff)
@@ -225,52 +256,48 @@ __attribute__((noinline)) static Stop run(State& st, uint32_t budget) {
 #define ASL_M(ea)                    \
     {                                \
         uint32_t ea2_ = (ea);        \
-        uint32_t m_ = mem[ea2_];     \
+        uint32_t m_ = RD(ea2_);      \
         c = m_ >> 7;                 \
         n = nz = (m_ << 1) & 0xff;       \
-        mem[ea2_] = nz;              \
-        SMCCHK(ea2_);              \
+        RMWWR(ea2_, m_, nz);         \
     }
 #define LSR_M(ea)                    \
     {                                \
         uint32_t ea2_ = (ea);        \
-        uint32_t m_ = mem[ea2_];     \
+        uint32_t m_ = RD(ea2_);      \
         c = m_ & 1;                  \
         n = nz = m_ >> 1;                \
-        mem[ea2_] = nz;              \
-        SMCCHK(ea2_);              \
+        RMWWR(ea2_, m_, nz);         \
     }
 #define ROL_M(ea)                    \
     {                                \
         uint32_t ea2_ = (ea);        \
-        uint32_t m_ = mem[ea2_];     \
+        uint32_t m_ = RD(ea2_);      \
         n = nz = ((m_ << 1) | c) & 0xff; \
         c = m_ >> 7;                 \
-        mem[ea2_] = nz;              \
-        SMCCHK(ea2_);              \
+        RMWWR(ea2_, m_, nz);         \
     }
 #define ROR_M(ea)                    \
     {                                \
         uint32_t ea2_ = (ea);        \
-        uint32_t m_ = mem[ea2_];     \
+        uint32_t m_ = RD(ea2_);      \
         n = nz = (m_ >> 1) | (c << 7);   \
         c = m_ & 1;                  \
-        mem[ea2_] = nz;              \
-        SMCCHK(ea2_);              \
+        RMWWR(ea2_, m_, nz);         \
     }
 #define INC_M(ea)                         \
     {                                     \
         uint32_t ea2_ = (ea);             \
-        n = nz = (mem[ea2_] + 1) & 0xff;      \
-        mem[ea2_] = nz;              \
-        SMCCHK(ea2_);                   \
+        uint32_t m_ = RD(ea2_);           \
+        n = nz = (m_ + 1) & 0xff;         \
+        RMWWR(ea2_, m_, nz);              \
     }
 #define DEC_M(ea)                         \
     {                                     \
         uint32_t ea2_ = (ea);             \
-        n = nz = (mem[ea2_] - 1) & 0xff;      \
-        mem[ea2_] = nz;              \
-        SMCCHK(ea2_);                   \
+        uint32_t m_ = RD(ea2_);           \
+        n = nz = (m_ - 1) & 0xff;         \
+        RMWWR(ea2_, m_, nz);              \
     }
 #define PACKP(b) \
     ((n & 0x80) | (v << 6) | 0x20 | ((b) << 4) | (d << 3) | (i << 2) | ((nz == 0) << 1) | c)
@@ -519,6 +546,8 @@ out:
     return why;
 #undef RD
 #undef WR
+#undef RMWWR
+#undef SMCCHK
 #undef IMM
 #undef ZP
 #undef ZPX
