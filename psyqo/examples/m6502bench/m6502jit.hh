@@ -52,6 +52,7 @@ struct Stats {
     uint32_t exitsSmc;
     uint32_t interpBlocks;
     uint32_t codeWords;
+    uint32_t interpCycles;
 };
 
 void init(m6502::State& st);

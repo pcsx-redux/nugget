@@ -159,8 +159,9 @@ static bool runMode(bool jit) {
         const auto& st = m6502jit::stats();
         ramsyscall_printf("M6502 JIT: compiled %u failed %u words %u flushes %u inval %u killed %u\n", st.compiled,
                           st.compileFailed, st.codeWords, st.flushes, st.invalidations, st.blocksKilled);
-        ramsyscall_printf("M6502 JIT: exits chain %u budget %u decimal %u smc %u interpBlocks %u\n", st.exitsChain,
-                          st.exitsBudget, st.exitsDecimal, st.exitsSmc, st.interpBlocks);
+        ramsyscall_printf("M6502 JIT: exits chain %u budget %u decimal %u smc %u interpBlocks %u interpCycles %u\n",
+                          st.exitsChain, st.exitsBudget, st.exitsDecimal, st.exitsSmc, st.interpBlocks,
+                          st.interpCycles);
     }
     return pass;
 }

@@ -76,7 +76,7 @@ constexpr int rMEM = S7;  // guest RAM base + 0x8000, so every absolute address 
 constexpr int rCYC = FP;  // remaining cycle budget, counts down
 constexpr int rV = V1;    // 0 or 1
 constexpr int rST = A2;   // State*
-constexpr int rD = A3;    // 0 or 1
+constexpr int rP = A0;    // 0x30 | D << 3 | I << 2: the P bits that are neither lazy nor pinned elsewhere
 constexpr int rBITS = T8; // code bitmap; byte 8192 is "any code in page 1"
 constexpr int rTAB = T9;  // block table
 
@@ -475,14 +475,20 @@ void emitTrampolines() {
     e.lbu(rN, offsetof(State, n), rST);
     e.lbu(rC, offsetof(State, c), rST);
     e.lbu(rV, offsetof(State, v), rST);
-    e.lbu(rD, offsetof(State, d), rST);
+    e.move(T7, A0);
+    e.lbu(T0, offsetof(State, d), rST);
+    e.lbu(T1, offsetof(State, i), rST);
+    e.sll(T0, T0, 3);
+    e.sll(T1, T1, 2);
+    e.or_(rP, T0, T1);
+    e.ori(rP, rP, 0x30);
     e.lw(rCYC, offsetof(State, budget), rST);
     e.lw(rBITS, offsetof(State, codeBits), rST);
     e.lw(rTAB, offsetof(State, table), rST);
     e.lw(rMEM, offsetof(State, mem), rST);
     e.ori(AT, ZERO, 0x8000);
     e.addu(rMEM, rMEM, AT);
-    e.jr(A0);
+    e.jr(T7);
 
     // exitCommon(v0 = guest pc, a1 = reason)
     s_exitCommon = &s_arena[e.here()];
@@ -494,7 +500,12 @@ void emitTrampolines() {
     e.sb(rN, offsetof(State, n), rST);
     e.sb(rC, offsetof(State, c), rST);
     e.sb(rV, offsetof(State, v), rST);
-    e.sb(rD, offsetof(State, d), rST);
+    e.srl(T0, rP, 3);
+    e.andi(T0, T0, 1);
+    e.sb(T0, offsetof(State, d), rST);
+    e.srl(T0, rP, 2);
+    e.andi(T0, T0, 1);
+    e.sb(T0, offsetof(State, i), rST);
     e.sh(V0, offsetof(State, pc), rST);
     e.sw(rCYC, offsetof(State, budget), rST);
     e.sw(A1, offsetof(State, reason), rST);
@@ -555,7 +566,8 @@ struct Translator {
     // matches what this translation assumed and an ADC/SBC is still ahead.
     void dGuard() {
         if (!decAfter[cur + 1]) return;
-        uint32_t b = dec ? e.beq(rD, ZERO) : e.bne(rD, ZERO);
+        e.andi(T0, rP, 0x08);
+        uint32_t b = dec ? e.beq(T0, ZERO) : e.bne(T0, ZERO);
         addStub(b, ST_SIDE, nextPc(), suffix[cur]);
     }
 
@@ -776,14 +788,21 @@ struct Translator {
     // does, since a hit exits to the next instruction.
     void storeAt(int val, bool isConst, uint32_t ea) {
         if (isConst) {
-            e.sb(val, memOff(ea), rMEM);
+            if (ea < 0x200) {
+                // Pages 0 and 1 are never translated, so nothing to invalidate.
+                e.sb(val, memOff(ea), rMEM);
+                return;
+            }
             e.lbu(T0, ea >> 3, rBITS);
+            e.sb(val, memOff(ea), rMEM);
             e.andi(T0, T0, 1u << (ea & 7));
             uint32_t b = e.bne(T0, ZERO);
             addStub(b, ST_SMC_CONST, nextPc(), suffix[cur]).ea = ea;
         } else {
+            const uint8_t mode = s_mode[ins[cur].op];
             e.addu(T1, T2, rMEM);
             e.sb(val, memOff(0), T1);
+            if (mode == M_ZPX || mode == M_ZPY) return;
             e.srl(T0, T2, 3);
             e.addu(T0, T0, rBITS);
             e.lbu(T0, 0, T0);
@@ -802,11 +821,8 @@ struct Translator {
         e.addiu(rS, rS, -1);
         e.andi(rS, rS, 0xff);
     }
-    void stackCheck(uint32_t pc) {
-        e.lbu(T0, 8192, rBITS);
-        uint32_t b = e.bne(T0, ZERO);
-        addStub(b, ST_SMC_STACK, pc, suffix[cur]);
-    }
+    // Page 1 is never translated, so a push cannot hit translated code.
+    void stackCheck(uint32_t) {}
     void pull(int dst) {
         e.addiu(rS, rS, 1);
         e.andi(rS, rS, 0xff);
@@ -823,26 +839,17 @@ struct Translator {
         e.or_(dst, dst, rC);
         e.sll(T5, rV, 6);
         e.or_(dst, dst, T5);
-        e.sll(T5, rD, 3);
-        e.or_(dst, dst, T5);
-        e.lbu(T5, offsetof(State, i), rST);
-        e.sll(T5, T5, 2);
-        e.or_(dst, dst, T5);
-        e.ori(dst, dst, 0x30);
+        e.or_(dst, dst, rP);
     }
     void unpackP(int src) {
         e.andi(rC, src, 1);
-        e.srl(T5, src, 2);
-        e.andi(T5, T5, 1);
-        e.sb(T5, offsetof(State, i), rST);
-        e.srl(rD, src, 3);
-        e.andi(rD, rD, 1);
+        e.andi(T5, src, 0x0c);
+        e.ori(rP, T5, 0x30);
         e.srl(rV, src, 6);
         e.andi(rV, rV, 1);
         e.move(rN, src);
-        e.srl(T5, src, 1);
-        e.andi(T5, T5, 1);
-        e.xori(rZ, T5, 1);
+        e.nor(T5, src, ZERO);
+        e.andi(rZ, T5, 2);
         nz = NZ_MAT;
     }
 
@@ -1148,11 +1155,10 @@ struct Translator {
                 e.move(rV, ZERO);
                 return true;
             case 0x58:
-                e.sb(ZERO, offsetof(State, i), rST);
+                e.andi(rP, rP, 0x3b);
                 return true;
             case 0x78:
-                e.ori(T4, ZERO, 1);
-                e.sb(T4, offsetof(State, i), rST);
+                e.ori(rP, rP, 0x04);
                 return true;
             case 0xea:
                 return true;
@@ -1165,7 +1171,11 @@ struct Translator {
                 return true;
             case 0xd8:
             case 0xf8:
-                e.ori(rD, ZERO, op == 0xf8 ? 1 : 0);
+                if (op == 0xf8) {
+                    e.ori(rP, rP, 0x08);
+                } else {
+                    e.andi(rP, rP, 0x37);
+                }
                 dGuard();
                 return true;
             case 0x4c:
@@ -1226,8 +1236,7 @@ struct Translator {
                 pushNoCheck(T4);
                 packP(T4);
                 pushNoCheck(T4);
-                e.ori(T4, ZERO, 1);
-                e.sb(T4, offsetof(State, i), rST);
+                e.ori(rP, rP, 0x04);
                 e.lbu(T6, memOff(0xfffe), rMEM);
                 e.lbu(T5, memOff(0xffff), rMEM);
                 e.sll(T5, T5, 8);
@@ -1349,6 +1358,13 @@ void* compile(State& st, uint32_t start, bool dec) {
     Translator& t = s_tr;
     uint8_t* mem = st.mem;
 
+    // Pages 0 and 1 are never translated: that removes the code-map check from
+    // every zero-page and stack store.
+    if (start < 0x200) {
+        s_stats.compileFailed++;
+        return nullptr;
+    }
+
     // Decode.
     int n = 0;
     uint32_t pc = start;
@@ -1430,7 +1446,10 @@ void* compile(State& st, uint32_t start, bool dec) {
     // D = 1 translation is only ever entered through that redirect.
     uint32_t decBranch = 0;
     const bool entryCheck = entryDec && !dec;
-    if (entryCheck) decBranch = e.bne(rD, ZERO);
+    if (entryCheck) {
+        e.andi(T0, rP, 0x08);
+        decBranch = e.bne(T0, ZERO);
+    }
     e.addiu(rCYC, rCYC, -total);
     uint32_t budBranch = e.bltz(rCYC);
 
@@ -1475,6 +1494,12 @@ void* compile(State& st, uint32_t start, bool dec) {
     setBits(start, end);
     recomputeStackFlag();
     (dec ? s_tableD : s_table)[start] = code;
+#ifdef JIT_DUMP
+    if (start == JIT_DUMP) {
+        ramsyscall_printf("DUMP %04x dec=%d n=%d words=%u\n", start, dec ? 1 : 0, n, e.pos);
+        for (uint32_t i = 0; i < e.pos; i++) ramsyscall_printf("W %08x\n", ((uint32_t*)code)[i]);
+    }
+#endif
 
     syscall_flushCache();
     return code;
@@ -1548,7 +1573,9 @@ m6502::Stop m6502jit::run(State& st, uint32_t budget) {
             continue;
         }
         s_stats.interpBlocks++;
+        const uint32_t c0 = st.cycles;
         Stop w = m6502::run<true, true>(st, limit - st.cycles);
+        s_stats.interpCycles += st.cycles - c0;
         if (w == Stop::Smc) {
             invalidate(st.dirty - 1);
             continue;
