@@ -50,6 +50,7 @@ SOFTWARE.
 #include "cdlgettn.c"
 #include "cdlid.c"
 #include "cdlinit.c"
+#include "cdlmask.c"
 #include "cdlnop.c"
 #include "cdlreadn.c"
 #include "cdlreads.c"
