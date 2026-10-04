@@ -159,9 +159,14 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
     bcr <<= 16;
     bcr |= 0x10;
 
+    // Return the transfer mode to stop before reprogramming the address. Without it, on
+    // hardware only the first of several back-to-back uploads reaches SPU RAM intact.
+    SPU_CTRL &= ~0x0030;
+    while ((SPU_STATUS & 0x0030) != 0)
+        ;
     SPU_RAM_DTA = spuAddr >> 3;
     SPU_CTRL = (SPU_CTRL & ~0x0030) | 0x0020;
-    while ((SPU_CTRL & 0x0030) != 0x0020)
+    while ((SPU_STATUS & 0x0030) != 0x0020)
         ;
     SBUS_DEV4_CTRL &= ~0x0f000000;
     DMA_CTRL[DMA_SPU].MADR = (uint32_t)data;
@@ -169,6 +174,9 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
     DMA_CTRL[DMA_SPU].CHCR = 0x01000201;
 
     while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0)
+        ;
+    SPU_CTRL &= ~0x0030;
+    while ((SPU_STATUS & 0x0400) != 0)
         ;
 }
 
