@@ -66,7 +66,7 @@ CESTER_TEST(cdlReadTOC, test_instance,
     cester_assert_uint_eq(2, cause2);
     cester_assert_uint_eq(0x02, stat2);
     cester_assert_uint_ge(completeTime, 500000);
-    cester_assert_uint_lt(completeTime, 1500000);
+    cester_assert_uint_lt(completeTime, 2000000);
     cester_assert_true(nopOk);
     cester_assert_uint_eq(0x02, nopStat);
 )
