@@ -31,7 +31,9 @@ SOFTWARE.
  * ones (CHCR bits 24 and 28 left clear so nothing starts).
  *
  * Transfers: every channel is run in sync mode 0 (with and without bit 28),
- * 1 (with and without bit 28), 2 and 3. SPU, MDEC and GPU have a request line
+ * 1 (with and without bit 28) and 2. Sync mode 3 locks up the console when
+ * the device requests, so its arms are built one at a time with
+ * -DMODE3_ARM=N (see mode3()). SPU, MDEC and GPU have a request line
  * the program can turn off (SPUCNT transfer mode, MDEC control bits 29/30,
  * GP1(04h)), so for those the same transfer runs with the request on and off.
  * That shows what a channel waiting on a request that never comes looks like,
