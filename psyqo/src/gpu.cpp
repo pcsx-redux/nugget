@@ -130,9 +130,15 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
         syscall_setTimerAutoAck(3, 1);
     }
     if (config.clearVRAM) {
+        // The fill command masks its width to 10 bits and its height to 9, so a
+        // single 1024x512 fill is 0x0 and draws nothing. Clear in quarters.
         Prim::FastFill ff;
-        ff.rect = Rect{0, 0, 1024, 512};
-        sendPrimitive(ff);
+        for (int16_t y = 0; y < 512; y += 256) {
+            for (int16_t x = 0; x < 1024; x += 512) {
+                ff.rect = Rect{x, y, 512, 256};
+                sendPrimitive(ff);
+            }
+        }
     }
     // Enable Display
     Hardware::GPU::Ctrl = 0x03000000;
