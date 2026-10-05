@@ -59,3 +59,34 @@ CESTER_TEST(invalid0, test_instance,
     cester_assert_uint_lt(errorTime, 7000);
     ramsyscall_printf("Invalid command 0: errored in %ius\n", errorTime);
 )
+
+CESTER_TEST(invalidUnused, test_instance,
+    // Unused opcodes in the middle of the table error out the same way 00h does.
+    static const uint8_t opcodes[] = {0x17, 0x18, 0x20, 0x4f};
+    for (unsigned i = 0; i < sizeof(opcodes); i++) {
+        int resetDone = resetCDRom();
+        if (!resetDone) {
+            cester_assert_true(resetDone);
+            return;
+        }
+
+        initializeTime();
+
+        CDROM_REG0 = 0;
+        CDROM_REG1 = opcodes[i];
+
+        uint32_t errorTime = waitCDRomIRQ();
+        uint8_t cause = ackCDRomCause();
+        uint8_t response[16];
+        uint8_t responseSize = readResponse(response);
+
+        ramsyscall_printf("Invalid command %02x: cause %i, %i bytes %02x %02x, errored in %ius\n", opcodes[i], cause,
+                          responseSize, response[0], response[1], errorTime);
+        cester_assert_uint_eq(5, cause);
+        cester_assert_uint_eq(2, responseSize);
+        cester_assert_uint_eq(3, response[0]);
+        cester_assert_uint_eq(0x40, response[1]);
+        cester_assert_uint_ge(errorTime, 500);
+        cester_assert_uint_lt(errorTime, 7000);
+    }
+)
