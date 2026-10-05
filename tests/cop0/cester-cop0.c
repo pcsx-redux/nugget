@@ -68,6 +68,10 @@ CESTER_BODY(
     uint32_t branchbranch2();
     uint32_t jumpjump1();
     uint32_t jumpjump2();
+    uint32_t delayslot_add();
+    uint32_t delayslot_syscall();
+    uint32_t delayslot_break();
+    void delayslot_resume();
     uint32_t cpu_LWR_LWL_half(uint32_t buff[], uint32_t initial);
     uint32_t cpu_LWR_LWL_nodelay(uint32_t buff[], uint32_t initial);
     uint32_t cpu_LWR_LWL_delayed(uint32_t buff[], uint32_t initial);
