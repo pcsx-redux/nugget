@@ -158,7 +158,14 @@ function summarize(results) {
         description = `${fails.length} failed: ${names(fails)}`;
     } else if (infra.length) {
         state = 'error';
-        description = `INFRASTRUCTURE ${infra[0].detail} (${infra.length}): ${names(infra)}`;
+        // Count each distinct cause: one stuck ticket must not label the rest.
+        const causes = new Map();
+        for (const r of infra) {
+            const cause = r.detail.split(':')[0];
+            causes.set(cause, (causes.get(cause) || 0) + 1);
+        }
+        const summary = [...causes].map(([c, n]) => `${c} x${n}`).join(', ');
+        description = `INFRASTRUCTURE (${infra.length}): ${summary}`;
     }
     if (results.length === 0) {
         state = 'error';
