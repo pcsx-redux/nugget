@@ -77,7 +77,7 @@ CESTER_TEST(invalidUnused, test_instance,
 
         uint32_t errorTime = waitCDRomIRQ();
         uint8_t cause = ackCDRomCause();
-        uint8_t response[16];
+        uint8_t response[16] = {0};
         uint8_t responseSize = readResponse(response);
 
         ramsyscall_printf("Invalid command %02x: cause %i, %i bytes %02x %02x, errored in %ius\n", opcodes[i], cause,
