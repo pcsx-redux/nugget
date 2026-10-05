@@ -127,6 +127,12 @@ function classify(ticket, envelopes) {
         return infra(`DONE with verdict ${verdict || 'none'}`);
     }
     if (ticket.state !== 'FAILED') return infra(`still ${ticket.state}`);
+    // A program that ran to completion and failed can still leave the ticket
+    // FAILED. Its own FAIL verdict is the answer, whatever the ticket says.
+    if (envelope && envelope.verdict === 'FAIL') {
+        const w = warning(envelope, 'NONZERO_EXIT');
+        return test(w ? w.message : 'FAIL');
+    }
     const failure = ticket.failure;
     // A runner that throws mid-dispatch reports RUNNER_ERROR as a state
     // update, which leaves the ticket FAILED with no failure attached.

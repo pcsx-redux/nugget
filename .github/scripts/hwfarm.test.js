@@ -81,6 +81,12 @@ test('the last attempt decides after a requeue', () => {
     assert.strictEqual(classify(done, [synth('RUNNER_LOST'), env('PASS')]).state, 'success');
 });
 
+test('a FAIL verdict on a FAILED ticket is a test failure, not infra', () => {
+    const r = classify({ state: 'FAILED' }, [env('FAIL', [{ code: 'NONZERO_EXIT', message: 'program exited with code 1' }])]);
+    assert.strictEqual(r.kind, 'test');
+    assert.strictEqual(r.state, 'failure');
+});
+
 const r = (name, kind) => ({ name, kind, detail: kind === 'infra' ? 'heartbeat_timeout: runner heartbeat lost' : kind });
 
 test('summary: all pass is success', () => {
