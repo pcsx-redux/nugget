@@ -90,7 +90,16 @@ test('summary: all pass is success', () => {
 test('summary: infra alone is error, named as infrastructure', () => {
     const s = summarize([r('a', 'pass'), r('b', 'infra')]);
     assert.strictEqual(s.state, 'error');
-    assert.match(s.description, /^INFRASTRUCTURE heartbeat_timeout/);
+    assert.match(s.description, /^INFRASTRUCTURE \(1\): heartbeat_timeout x1/);
+});
+
+test('summary: infra causes are counted separately', () => {
+    const s = summarize([
+        { name: 'a', kind: 'infra', state: 'error', detail: 'queue_timeout: never leased' },
+        { name: 'b', kind: 'infra', state: 'error', detail: 'queue_timeout: never leased' },
+        { name: 'c', kind: 'infra', state: 'error', detail: 'still LEASED' },
+    ]);
+    assert.strictEqual(s.description, 'INFRASTRUCTURE (3): queue_timeout x2, still LEASED x1');
 });
 
 test('summary: a real failure outranks infra', () => {
