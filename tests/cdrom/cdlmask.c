@@ -71,7 +71,7 @@ CESTER_TEST(cdlMaskedCauseLatches, test_instance,
         ramsyscall_printf("Masked Nop, HINTMSK %02x: irq %i HINTSTS %02x HSTS %02x while masked; irq %i HINTSTS %02x after unmask; response size %i stat %02x\n",
                           masks[i], irqMasked, stsMasked, ctrlMasked, irqAfter, stsAfter, size, stat);
         // The cause lands in HINTSTS either way; HINTMSK is ANDed with the cause value to gate
-        // the interrupt line, and unmasking raises it. Measured on a SCPH-7502.
+        // the interrupt line, and unmasking raises it. Measured on a SCPH-9002.
         uint8_t expectIrq = (masks[i] & 3) != 0;
         cester_assert_uint_eq(expectIrq, irqMasked);
         cester_assert_uint_eq(0xe3, stsMasked);

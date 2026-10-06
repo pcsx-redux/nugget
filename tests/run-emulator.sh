@@ -29,6 +29,7 @@ CESTER='^Synthesis: SUCCESS Tests: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0'
 TESTS=(
     "basic;basic/basic;interpreter dynarec;$CESTER;"
     "cop0;cop0/cop0;interpreter;$CESTER;-debugger"
+    "cop-branch;cop-branch/cop-branch;interpreter;$CESTER;-debugger"
     "cpu;cpu/cpu;interpreter dynarec;$CESTER;"
     "dma;dma/dma;interpreter dynarec;$CESTER;-debugger"
     "gte;gte/gte;interpreter dynarec;$CESTER;"
@@ -48,6 +49,7 @@ TESTS=(
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "psyqo-dmachain;psyqo-dmachain/dmachain;interpreter dynarec;^All 3 arms passed;"
+    "rumble;rumble/rumble;interpreter dynarec;$CESTER;-exec dofile('tests/rumble/setup.lua')"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
     "gpu-raster-phase23;gpu-raster-phase23/gpu-raster-phase23;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
 )
@@ -60,7 +62,7 @@ SKIPS=(
     "bsdec/bsdec|hardware rig: needs a captured bs-in.bin staged beside it"
     "bcc-bits/bcc-bits|hardware probe: the emulator does not model bus timing, prints timings, no verdict"
     "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
-    "cop-branch/cop-branch|needs the BCzF/BCzT fix in pcsx-redux, not in the dev AppImage yet"
+    "dma-modes/dma-modes|hardware probe: prints DMA register states per sync mode, loops forever, no verdict"
     "dma-priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
     "spu-wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
@@ -77,7 +79,6 @@ SKIPS=(
     "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "regwrites/regwrites|probe: loops forever, no verdict"
-    "rumble/rumble|needs the DualShock rumble mapping from pcsx-redux in the dev AppImage"
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
 )
