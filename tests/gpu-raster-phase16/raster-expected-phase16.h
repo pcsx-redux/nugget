@@ -54,18 +54,22 @@ SOFTWARE.
 #define UV8_U128_V0  0x03e0u  /* reads beyond 128-texel page */
 #define UV8_U200_V0  0x0364u
 #define UV8_U255_V0  0x0c7cu
-#define UV8_U0_V255  0x1c1fu  /* beyond TEX8 v-extent */
+// Row 255 is past the TEX8 upload; the test writes this index there.
+#define UV8_V255_PROBE_INDEX 0x55u
+#define UV8_U0_V255  expectedClut8Color(UV8_V255_PROBE_INDEX)
 
-// 15-bit: page width = 64. Off-page samples land in uninitialised
-// VRAM beyond the fixture upload. Hardware returns whatever value
-// happens to be there (which in our tests coincidentally matches
-// the test-region sentinel pre-fill 0xDEAD).
-#define UV15_U64_V0  RASTER_SENTINEL  /* beyond TEX15 upload */
-#define UV15_U128_V0 RASTER_SENTINEL  /* deep off-page */
-#define UV15_U255_V0 RASTER_SENTINEL  /* deep off-page */
+// 15-bit: a texpage is 256 texels wide at every depth, so u=64, 128
+// and 255 read VRAM x=704, 768 and 895, past the 64-pixel TEX15
+// upload. The test writes this texel at each of them first.
+#define UV15_PROBE_TEXEL rasterVram555(5, 10, 20)
+#define UV15_U64_V0  UV15_PROBE_TEXEL
+#define UV15_U128_V0 UV15_PROBE_TEXEL
+#define UV15_U255_V0 UV15_PROBE_TEXEL
 
 // 4-bit: page width = 256. Outside the 16-texel fixture pattern
-// (u > 15) but still within page. Hardware samples VRAM with
-// whatever it finds there.
-#define UV4_U16_V0   0x0364u
-#define UV4_U255_V0  0x03e0u
+// (u > 15) but still within page: u=16 is pixel 516 nibble 0, u=255
+// is pixel 575 nibble 3. The test writes these indices there.
+#define UV4_U16_PROBE_INDEX  5u
+#define UV4_U255_PROBE_INDEX 9u
+#define UV4_U16_V0   expectedClut4Color(UV4_U16_PROBE_INDEX)
+#define UV4_U255_V0  expectedClut4Color(UV4_U255_PROBE_INDEX)
