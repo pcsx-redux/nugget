@@ -96,6 +96,18 @@ static void spu_adsr_capture(
     muteSpu();
 }
 
+// The assertion alone reports the expression, not the value that failed it.
+__attribute__((noinline))
+static int spu_envx_near(unsigned nominal, unsigned margin, unsigned got) {
+#ifdef SPU_ENVX_TRACE
+    ramsyscall_printf("ENVXTRACE want=%04x got=%04x d=%d m=%u\n", nominal, got, (int)got - (int)nominal, margin);
+    return 1;
+#endif
+    if (got + margin >= nominal && got <= nominal + margin) return 1;
+    ramsyscall_printf("envx near: got 0x%04x, want 0x%04x +- %u\n", got, nominal, margin);
+    return 0;
+}
+
 static void spu_adsr_capture_with_keyoff(
     uint32_t adsr,
     uint16_t* envx_out,
@@ -110,52 +122,25 @@ static void spu_adsr_capture_with_keyoff(
 }
 )
 
-// testing an envelope with the current capturing technique in spu_adsr_capture
-// does not lead to exact reproducible samples due to some minor timing
-// differences between the CPU polling and the produced SPU results.
-// The value step is a delta used as margin of error.
+// The trace is sampled on bit-11 flips, which are locked to the capture ring,
+// while the envelope starts at key-on, and the SPU services key-on on a 2-sample
+// grid whose phase against the capture ring is fixed per boot and differs from
+// boot to boot. So in about half of all boots every sample of the trace is taken
+// with the envelope up to two samples further along (or behind) than in the
+// other half - measured on two SCPH-5501s at up to 21 ENVX away from the
+// nominals below, against at most 8 in the half that matches them.
 //
-// That margin has a hard floor. ENVX does not move continuously: a linear
-// envelope advances in one discrete increment (sized below) applied once every
-// 1 << max(0, shift - 11) samples. So the whole captured trace is a step
-// function of where key-on landed, and a one-event alignment slip moves every
-// sample in it by a full increment. A window narrower than one increment is not
-// a tolerance at all - it demands an exact alignment the harness cannot deliver,
-// and passes or fails on luck.
-//
-// The increment is not symmetric: a rising envelope steps by (7 - step_field),
-// a falling one by (8 - step_field), so the floor is the larger of the two.
-//
-// RISING IS CONFIRMED ON SILICON. adsr_sustain_up_linear had failed both prior
-// hardware runs at shifts 14 and 16 and passes under this floor, twice.
-//
-// FALLING IS NOT. adsr_sustain_down_linear and adsr_decay_shift still fail at
-// margin 8, so a one-event alignment slip is NOT the whole story for decreasing
-// envelopes and the 64-events-per-index reading below is at best incomplete. Do
-// not widen the floor further to chase them - that was tried at 7 -> 8 and the
-// two tests did not move, which means the mechanism is something else. Note also
-// that decay on this hardware is exponential, not linear, so a fixed increment
-// is the wrong model for adsr_decay_shift regardless.
-//
-// Derived against the checked-in goldens. Rising, at sustain shifts 10/12/14/16:
-// slopes 7168, 1792, 448, 112 ENVX per 512-sample trace index, reproducing
-// exactly under increment 7 at the event rate above. Falling, in
-// adsr_sustain_down_linear and adsr_decay_shift: slope 512 per index, which is
-// 73.1 events under increment 7 and exactly 64 under increment 8. Every block
-// had been toleranced below its own increment; the ones that passed had simply
-// landed well. Floored, the alignment slip is absorbed without giving up any
-// real strictness - 8 on a nominal of 0x4068 is 0.05%.
-//
-// LIMITATION, stated rather than hidden: the floor cannot see the shift, so it
-// applies the shift >= 11 increment. Below that the increment doubles per shift
-// (14 at shift 10), and those call sites are still under-toleranced. The only
-// sustain block in that range currently passes; if it starts flaking, that is
-// this line, not a regression.
-#define ENVX_INCREMENT 8   // max(rising 7, falling 8)
-#define ENVX_MARGIN(step) ((step) < ENVX_INCREMENT ? ENVX_INCREMENT : (step))
+// The margin is therefore two samples' worth of envelope travel, where `step`
+// is the ENVX change per sample at that point. It is floored at one envelope
+// event in each of those samples: ENVX moves in discrete increments of
+// (7 - step_field) rising and (8 - step_field) falling, so above shift 11 a
+// sample is worth less than an event and the floor is what decides. Call sites at shift 10 pass their per-sample slope, which is larger
+// than one increment.
+#define ENVX_KON_GRID 2   // samples between key-on service points
+#define ENVX_INCREMENT 8  // max(rising 7, falling 8)
+#define ENVX_MARGIN(step) (ENVX_KON_GRID * ((step) < ENVX_INCREMENT ? ENVX_INCREMENT : (step)))
 #define ASSERT_ENVX_NEAR(nominal, step, got) \
-    cester_assert_true((got) >= (uint16_t)((nominal) - ENVX_MARGIN(step)) && \
-                       (got) <= (uint16_t)((nominal) + ENVX_MARGIN(step)))
+    cester_assert_true(spu_envx_near((nominal), ENVX_MARGIN(step), (got)))
 
 CESTER_TEST(adsr_attack_linear_step, spu_tests,
     int i;
@@ -338,8 +323,8 @@ CESTER_MAYBE_TEST(adsr_decay_shift, spu_tests,
         ATTACK(0, 1, 0) | DECAY(10) | SUSTAIN(0, 0, 0, 1, 0) | RELEASE(0, 1),
         envx, 16);
     cester_assert_uint_eq(0x1c00, envx[0]);
-    ASSERT_ENVX_NEAR(0x6370, 0x07, envx[1]);
-    ASSERT_ENVX_NEAR(0x4c95, 0x05, envx[2]);
+    ASSERT_ENVX_NEAR(0x6370, 12, envx[1]);
+    ASSERT_ENVX_NEAR(0x4c95, 9, envx[2]);
     ASSERT_ENVX_NEAR(0x3ac6, 0x04, envx[3]);
     ASSERT_ENVX_NEAR(0x2cef, 0x03, envx[4]);
     ASSERT_ENVX_NEAR(0x221c, 0x03, envx[5]);
@@ -452,8 +437,8 @@ CESTER_TEST(adsr_sustain_up_linear, spu_tests,
         ATTACK(0, 1, 0) | DECAY(0) | SUSTAIN(0, 10, 15, 0, 0) | RELEASE(0, 1),
         envx, 8);
     cester_assert_uint_eq(0x1c00, envx[0]);
-    ASSERT_ENVX_NEAR(0x5b50, 0x07, envx[1]);
-    ASSERT_ENVX_NEAR(0x7750, 0x07, envx[2]);
+    ASSERT_ENVX_NEAR(0x5b50, 14, envx[1]);
+    ASSERT_ENVX_NEAR(0x7750, 14, envx[2]);
     for (unsigned i = 3; i < 8; i++)
         cester_assert_uint_eq(0x7fff, envx[i]);
 
@@ -520,9 +505,9 @@ CESTER_MAYBE_TEST(adsr_sustain_down_linear, spu_tests,
         ATTACK(0, 1, 0) | DECAY(0) | SUSTAIN(3, 10, 15, 1, 0) | RELEASE(0, 1),
         envx, 8);
     cester_assert_uint_eq(0x1c00, envx[0]);
-    ASSERT_ENVX_NEAR(0x2c7c, 0x05, envx[1]);
-    ASSERT_ENVX_NEAR(0x187c, 0x05, envx[2]);
-    ASSERT_ENVX_NEAR(0x047c, 0x05, envx[3]);
+    ASSERT_ENVX_NEAR(0x2c7c, 10, envx[1]);
+    ASSERT_ENVX_NEAR(0x187c, 10, envx[2]);
+    ASSERT_ENVX_NEAR(0x047c, 10, envx[3]);
     for (unsigned i = 4; i < 8; i++)
         cester_assert_uint_eq(0x0000, envx[i]);
 
