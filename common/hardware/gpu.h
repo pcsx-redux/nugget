@@ -132,7 +132,11 @@ static inline void setDrawingArea(int16_t x1, int16_t y1, int16_t x2, int16_t y2
     sendGPUData(generateDrawingAreaEnd(x2, y2));
 }
 
-static inline uint32_t generateDrawingOffset(int16_t x, int16_t y) { return 0xe5000000 | x | y << 11; }
+static inline uint32_t generateDrawingOffset(int16_t x, int16_t y) {
+    // X and Y are signed 11-bit fields. Mask each so a negative offset does not
+    // sign-extend out of its field and into the GP0(E5) command byte.
+    return 0xe5000000 | ((uint32_t)x & 0x7ff) | (((uint32_t)y & 0x7ff) << 11);
+}
 static inline void setDrawingOffset(int16_t x, int16_t y) { sendGPUData(generateDrawingOffset(x, y)); }
 
 enum Shading {

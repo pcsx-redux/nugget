@@ -218,6 +218,94 @@ CESTER_TEST(cpu_DIVU_by_zero, cpu_tests,
     cester_assert_int_eq(-1, lo);
 )
 
+// Both operands are known constants in the same block, which is the case a
+// recompiler can fold at compile time.
+CESTER_TEST(cpu_MULT_constant_operands, cpu_tests,
+    uint32_t hi, lo;
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, 256\n"
+        "li    $v1, 384\n"
+        "mult  $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0, hi);
+    cester_assert_uint_eq(98304, lo);
+
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, -3\n"
+        "li    $v1, 0x40000001\n"
+        "mult  $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0xffffffff, hi);
+    cester_assert_uint_eq(0x3ffffffd, lo);
+
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, 0x10000\n"
+        "li    $v1, 0x8000\n"
+        "mult  $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0, hi);
+    cester_assert_uint_eq(0x80000000, lo);
+
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, -7\n"
+        "li    $v1, 5\n"
+        "mult  $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0xffffffff, hi);
+    cester_assert_uint_eq(0xffffffdd, lo);
+)
+
+CESTER_TEST(cpu_MULTU_constant_operands, cpu_tests,
+    uint32_t hi, lo;
+    __asm__ __volatile__(
+        "li    $v0, 0x55555555\n"
+        "mthi  $v0\n"
+        "mtlo  $v0\n"
+        "li    $v0, -3\n"
+        "li    $v1, 0x40000001\n"
+        "multu $v0, $v1\n"
+        "mflo  %1\n"
+        "mfhi  %0\n"
+        "nop\n"
+        : "=r"(hi), "=r"(lo) : : "v0", "v1"
+    );
+
+    cester_assert_uint_eq(0x40000000, hi);
+    cester_assert_uint_eq(0x3ffffffd, lo);
+)
+
 CESTER_TEST(links, cpu_tests,
     uint32_t r = linkandload();
     cester_assert_uint_eq(0, r);

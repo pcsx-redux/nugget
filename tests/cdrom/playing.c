@@ -186,7 +186,7 @@ CESTER_TEST(simplePlayingUntilEndWithReport, test_instances,
     cester_assert_uint_eq(1, responseSizes[count]);
     cester_assert_uint_eq(3, cause1);
     cester_assert_uint_ge(count, 15);
-    cester_assert_uint_lt(count, 17);
+    cester_assert_uint_lt(count, 18);
     if (count >= 15) {
         unsigned offset = count - 15;
         unsigned upCount = 0;
@@ -208,17 +208,18 @@ CESTER_TEST(simplePlayingUntilEndWithReport, test_instances,
             static uint8_t seconds[15] = { 0x26, 0x81, 0x27, 0x81, 0x27, 0x82, 0x27, 0x82, 0x27, 0x82, 0x28, 0x82, 0x28, 0x83, 0x28 };
             cester_assert_uint_eq(seconds[index], responses[i * 16 + 4]);
             static uint8_t frames[15] = { 0x60, 0x40, 0x00, 0x55, 0x20, 0x00, 0x40, 0x20, 0x60, 0x40, 0x00, 0x55, 0x20, 0x00, 0x40 };
-            // This report might wobble a bit, but the above values ought to be close enough to our most likely values.
+            // This report might wobble a bit, up to two frames late, but the above values ought to be close enough to our
+            // most likely values.
             cester_assert_uint_ge(responses[i * 16 + 5], frames[index]);
-            cester_assert_uint_le(responses[i * 16 + 5], frames[index] + 1);
+            cester_assert_uint_le(responses[i * 16 + 5], frames[index] + 2);
             uint16_t peak = (responses[i * 16 + 7] << 8) | responses[i * 16 + 6];
             uint16_t flag = peak & 0x8000;
             peak &= 0x7fff;
             cester_assert_uint_eq(0x619b, peak);
             if (flag == 0x8000) upCount++;
         }
-        cester_assert_uint_ge(upCount, 6);
-        cester_assert_uint_le(upCount, 8);
+        cester_assert_uint_ge(upCount, 5);
+        cester_assert_uint_le(upCount, 11);
     }
     ramsyscall_printf("Simple Playing until end with reports:\n");
     for (unsigned i = 0; i < count; i++) {

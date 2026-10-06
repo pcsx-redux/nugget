@@ -395,6 +395,12 @@ CESTER_TEST(timerDotclockRate, timer_tests,
     COUNTERS[0].target = 0xFFFF;
     COUNTERS[0].mode = TM_CLK_EXTERNAL;
 
+    /* Start on an hblank edge. A reset lands mid-line, so without this the
+       first of the 10 counted lines is partial: in 256px mode that reads
+       anywhere from 307 to 341 dots per line, depending on the phase. */
+    COUNTERS[1].mode = TM_CLK_EXTERNAL;
+    while (COUNTERS[1].value < 1) {}
+
     /* Reset both */
     COUNTERS[1].mode = TM_CLK_EXTERNAL;
     COUNTERS[0].mode = TM_CLK_EXTERNAL;
@@ -405,6 +411,7 @@ CESTER_TEST(timerDotclockRate, timer_tests,
     int dots = COUNTERS[0].value;
     int lines = COUNTERS[1].value;
     int dots_per_line = dots / lines;
+    ramsyscall_printf("OBS timerDotclockRate dots=%d lines=%d\n", dots, lines);
 
     /* Dots per scanline should be reasonable for any resolution:
      * Minimum: 256px mode = 341 dots/line (3413/10)

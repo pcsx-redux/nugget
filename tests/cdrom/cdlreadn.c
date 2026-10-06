@@ -854,10 +854,241 @@ CESTER_TEST(cdlReadNTooFar, test_instances,
     cester_assert_uint_eq(2, response1[0]);
     cester_assert_uint_eq(1, responseSize1);
     cester_assert_uint_eq(6, response2[0]);
-    cester_assert_uint_eq(0x10, response2[1]);
+    // The drive gives up either on the seek timing out, or on finding no valid subchannel data.
+    uint8_t error = response2[1];
+    cester_assert_true((error == 0x10) || (error == 0x04));
     cester_assert_uint_eq(2, responseSize2);
     cester_assert_uint_ge(ackTime, 500);
     cester_assert_uint_lt(ackTime, 7000);
     cester_assert_uint_ge(errorTime, 600000);
     ramsyscall_printf("Basic readN too far, ack in %ius, errored in %ius\n", ackTime, errorTime);
+)
+
+CESTER_TEST(cdlReadN1xWithDataRequestHeld, test_instances,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    int setLocDone = setLoc(0, 2, 0x16);
+    if (!setLocDone) {
+        cester_assert_true(setLocDone);
+        return;
+    }
+
+    // Leave BFRD set from before the read starts, as a BIOS or a driver that never
+    // clears it would.
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0x80;
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_READN;
+    waitCDRomIRQ();
+    uint8_t cause1 = ackCDRomCause();
+    uint8_t response[16];
+    readResponse(response);
+    CDROM_REG0 = 1;
+    CDROM_REG3_UC;
+
+    waitCDRomIRQ();
+    uint8_t cause2 = ackCDRomCause();
+    readResponse(response);
+    uint8_t ctrl1 = CDROM_REG0 & ~3;
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0x80;
+    initializeTime();
+    while (((CDROM_REG0 & 0x40) == 0) && (updateTime() < 10000));
+    uint8_t ctrl2 = CDROM_REG0 & ~3;
+    CDROM_REG3 = 0;
+    uint8_t ctrl3 = CDROM_REG0 & ~3;
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_PAUSE;
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_uint_eq(1, cause2);
+    cester_assert_uint_eq(0x58, ctrl1);
+    cester_assert_uint_eq(0x58, ctrl2);
+    cester_assert_uint_eq(0x18, ctrl3);
+    ramsyscall_printf("ReadN with BFRD held from before the read: ctrl after data ready 0x%02x, after BFRD rewrite 0x%02x, after BFRD clear 0x%02x\n", ctrl1, ctrl2, ctrl3);
+)
+
+CESTER_TEST(cdlReadN1xAfterInitWithDataRequestHeld, test_instances,
+    // BFRD set before the CdlInit: does the init leave it set?
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0x80;
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    int setLocDone = setLoc(0, 2, 0x16);
+    if (!setLocDone) {
+        cester_assert_true(setLocDone);
+        return;
+    }
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_READN;
+    waitCDRomIRQ();
+    uint8_t cause1 = ackCDRomCause();
+    uint8_t response[16];
+    readResponse(response);
+    CDROM_REG0 = 1;
+    CDROM_REG3_UC;
+
+    waitCDRomIRQ();
+    uint8_t cause2 = ackCDRomCause();
+    readResponse(response);
+    uint8_t ctrl1 = CDROM_REG0 & ~3;
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0;
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_PAUSE;
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_uint_eq(1, cause2);
+    cester_assert_uint_eq(0x58, ctrl1);
+    ramsyscall_printf("ReadN with BFRD set before CdlInit: ctrl after data ready 0x%02x\n", ctrl1);
+)
+
+CESTER_TEST(cdlReadN1xNextSectorAfterReadingWholeWithDataRequestHeld, test_instances,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    int setLocDone = setLoc(0, 2, 0x16);
+    if (!setLocDone) {
+        cester_assert_true(setLocDone);
+        return;
+    }
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_READN;
+    waitCDRomIRQ();
+    uint8_t cause1 = ackCDRomCause();
+    uint8_t response[16];
+    readResponse(response);
+    CDROM_REG0 = 1;
+    CDROM_REG3_UC;
+
+    waitCDRomIRQ();
+    uint8_t cause2 = ackCDRomCause();
+    readResponse(response);
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0x80;
+    initializeTime();
+    while (((CDROM_REG0 & 0x40) == 0) && (updateTime() < 10000));
+    unsigned count = 0;
+    while (((CDROM_REG0 & 0x40) != 0) && (count < 2048)) {
+        CDROM_REG2;
+        count++;
+    }
+    uint8_t ctrl1 = CDROM_REG0 & ~3;
+    CDROM_REG0 = 1;
+    CDROM_REG3_UC;
+
+    // BFRD is left set: does the next sector's data ready load the fifo by itself?
+    waitCDRomIRQ();
+    uint8_t cause3 = ackCDRomCause();
+    readResponse(response);
+    uint8_t ctrl2 = CDROM_REG0 & ~3;
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0;
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_PAUSE;
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_uint_eq(1, cause2);
+    cester_assert_uint_eq(1, cause3);
+    // Reading the whole sector drops the data request, so the next one stays in the buffer.
+    cester_assert_uint_eq(0x18, ctrl1);
+    cester_assert_uint_eq(0x18, ctrl2);
+    ramsyscall_printf("ReadN, read %u bytes of sector 1 with BFRD held: ctrl after read 0x%02x, ctrl after sector 2 data ready 0x%02x\n", count, ctrl1, ctrl2);
+)
+
+CESTER_TEST(cdlReadN1xNextSectorAfterReadingPartWithDataRequestHeld, test_instances,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    int setLocDone = setLoc(0, 2, 0x16);
+    if (!setLocDone) {
+        cester_assert_true(setLocDone);
+        return;
+    }
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_READN;
+    waitCDRomIRQ();
+    uint8_t cause1 = ackCDRomCause();
+    uint8_t response[16];
+    readResponse(response);
+    CDROM_REG0 = 1;
+    CDROM_REG3_UC;
+
+    waitCDRomIRQ();
+    uint8_t cause2 = ackCDRomCause();
+    readResponse(response);
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0x80;
+    initializeTime();
+    while (((CDROM_REG0 & 0x40) == 0) && (updateTime() < 10000));
+    unsigned count = 0;
+    while (((CDROM_REG0 & 0x40) != 0) && (count < 6)) {
+        CDROM_REG2;
+        count++;
+    }
+    uint8_t ctrl1 = CDROM_REG0 & ~3;
+    CDROM_REG0 = 1;
+    CDROM_REG3_UC;
+
+    // BFRD is left set: does the next sector's data ready load the fifo by itself?
+    waitCDRomIRQ();
+    uint8_t cause3 = ackCDRomCause();
+    readResponse(response);
+    uint8_t ctrl2 = CDROM_REG0 & ~3;
+    CDROM_REG0 = 0;
+    CDROM_REG3 = 0;
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_PAUSE;
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+    waitCDRomIRQ();
+    ackCDRomCause();
+    readResponse(response);
+
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_uint_eq(1, cause2);
+    cester_assert_uint_eq(1, cause3);
+    cester_assert_uint_eq(0x58, ctrl1);
+    cester_assert_uint_eq(0x58, ctrl2);
+    ramsyscall_printf("ReadN, read %u bytes of sector 1 with BFRD held: ctrl after read 0x%02x, ctrl after sector 2 data ready 0x%02x\n", count, ctrl1, ctrl2);
 )

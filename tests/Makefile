@@ -5,9 +5,12 @@ all:
 	$(MAKE) -C bsdec all
 	$(MAKE) -C cdrom all
 	$(MAKE) -C cpu all
+	$(MAKE) -C cop-branch all
 	$(MAKE) -C cop0 all
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
+	$(MAKE) -C dma-modes all
+	$(MAKE) -C dma-priority all
 	$(MAKE) -C gpu all
 	$(MAKE) -C gpu-nop all
 	$(MAKE) -C gpu-fifo all
@@ -37,6 +40,7 @@ all:
 	$(MAKE) -C gte all
 	$(MAKE) -C gte-math-bench all
 	$(MAKE) -C mult-timing all
+	$(MAKE) -C gte-timing all
 	$(MAKE) -C pocketstation-memmap all
 	$(MAKE) -C gte-latency all
 	$(MAKE) -C gte-latency-color all
@@ -52,13 +56,17 @@ all:
 	$(MAKE) -C memcpy all
 	$(MAKE) -C memops-unroll all
 	$(MAKE) -C memset all
+	$(MAKE) -C msan all
+	$(MAKE) -C msan-trip all
 	$(MAKE) -C pcdrv all
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-dmachain all
 	$(MAKE) -C regwrites all
 	$(MAKE) -C rumble all
 	$(MAKE) -C spu all
+	$(MAKE) -C spu-wide-writes all
 	$(MAKE) -C spu-endx all
+	$(MAKE) -C spu-endmute all
 	$(MAKE) -C spu-offvoice all
 	$(MAKE) -C timers all
 
@@ -69,9 +77,12 @@ clean:
 	$(MAKE) -C bsdec clean
 	$(MAKE) -C cdrom clean
 	$(MAKE) -C cpu clean
+	$(MAKE) -C cop-branch clean
 	$(MAKE) -C cop0 clean
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
+	$(MAKE) -C dma-modes clean
+	$(MAKE) -C dma-priority clean
 	$(MAKE) -C gpu clean
 	$(MAKE) -C gpu-nop clean
 	$(MAKE) -C gpu-fifo clean
@@ -101,6 +112,7 @@ clean:
 	$(MAKE) -C gte clean
 	$(MAKE) -C gte-math-bench clean
 	$(MAKE) -C mult-timing clean
+	$(MAKE) -C gte-timing clean
 	$(MAKE) -C pocketstation-memmap clean
 	$(MAKE) -C gte-latency clean
 	$(MAKE) -C gte-latency-color clean
@@ -116,12 +128,16 @@ clean:
 	$(MAKE) -C memcpy clean
 	$(MAKE) -C memops-unroll clean
 	$(MAKE) -C memset clean
+	$(MAKE) -C msan clean
+	$(MAKE) -C msan-trip clean
 	$(MAKE) -C pcdrv clean
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-dmachain clean
 	$(MAKE) -C regwrites clean
 	$(MAKE) -C rumble clean
 	$(MAKE) -C spu clean
+	$(MAKE) -C spu-wide-writes clean
 	$(MAKE) -C spu-endx clean
+	$(MAKE) -C spu-endmute clean
 	$(MAKE) -C spu-offvoice clean
 	$(MAKE) -C timers clean

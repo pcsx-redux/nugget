@@ -30,6 +30,7 @@ SOFTWARE.
 
 using namespace psyqo;
 using namespace psyqo::trig_literals;
+using namespace psyqo::fixed_point_literals;
 
 static Trig<> trig;
 
@@ -231,4 +232,32 @@ TEST_CASE("Perspective projection") {
     // out.y = v.y * h / v.z = 20/5 = 4
     REQUIRE(out.x.integer() == 2);
     REQUIRE(out.y.integer() == 4);
+}
+
+// Short vectors used to trap. normalizeVec3 divides by squareRoot(s), and
+// squareRoot returns 0 once its argument is small enough, so the division
+// raised rather than returning anything. The normalised difference of two
+// nearby points is short by construction, so this is ordinary input.
+TEST_CASE("SoftMath normalizeVec3 survives short vectors") {
+    const Vec3 shorts[] = {
+        {0.01_fp, -0.02_fp, 0.015_fp},
+        {0.002_fp, 0.002_fp, 0.002_fp},
+        {0.0005_fp, 0.0_fp, 0.0_fp},
+        {0.0_fp, 0.0_fp, 0.0_fp},
+    };
+    for (const auto& in : shorts) {
+        Vec3 v = in;
+        SoftMath::normalizeVec3(&v);
+        // Either normalised, or left alone because it had no direction to find.
+        auto sq = v.x * v.x + v.y * v.y + v.z * v.z;
+        bool unit = sq.raw() > 4096 - 256 && sq.raw() < 4096 + 256;
+        bool untouched = v.x.raw() == in.x.raw() && v.y.raw() == in.y.raw() && v.z.raw() == in.z.raw();
+        REQUIRE((unit || untouched));
+    }
+}
+
+TEST_CASE("SoftMath fastNormalizeVec3 survives short vectors") {
+    Vec3 v = {0.0_fp, 0.0_fp, 0.0_fp};
+    SoftMath::fastNormalizeVec3(&v);
+    REQUIRE(v.x.raw() == 0);
 }
