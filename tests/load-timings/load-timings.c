@@ -34,7 +34,11 @@ SOFTWARE.
  *       single-cycle (on-chip SRAM, no bus); on-die MMIO is ~5 cyc; main RAM is
  *       ~7 cyc and cached (KSEG0) equals uncached (KSEG1), reconfirming there is
  *       no data cache; BIOS ROM is tens of cycles (8-bit ROM behind a slow,
- *       model-dependent ROM-bus delay - observed ~27-33 across consoles).
+ *       programmable bus delay: 27 with COM_DELAY at 00031125h, 33 at
+ *       0000132Ch, which the BIOS CD-ROM read routine leaves behind).
+ *
+ *   busDelaySweep - which DEV2/DEV4 delay/size bit and which COM_DELAY nibble
+ *       moves the cost of which access.
  *
  *   onDieUniformity - every on-die MMIO register (interrupt controller, DMA,
  *       root counters) reads at the same cost: one decoder, one latency.
@@ -185,6 +189,38 @@ SOFTWARE.
         return (uint16_t)(after - before);                                                    \
     }
 
+/* Bus delay/size sweep. The memory-control registers set the access timing of
+   each external device; COM_DELAY supplies the per-cycle values that bits 8-11
+   of a device register switch in (bit 8 recovery = COM0, bit 9 hold = COM1,
+   bit 10 float = COM2, bit 11 pre-strobe = COM3). Each arm rewrites one
+   device register and/or COM_DELAY, times N_BUS back-to-back accesses, and
+   restores both before printing. */
+#define DEV2_DELAY (*(volatile uint32_t *)0xbf801010)
+#define DEV4_DELAY (*(volatile uint32_t *)0xbf801014)
+#define COM_DELAY  (*(volatile uint32_t *)0xbf801020)
+#define ADDR_SPU_ADSR 0xbf801c08u /* voice 0 ADSR: unkeyed, harmless to write */
+#define N_BUS 64
+
+#define MAKE_BUS(name, insn)                                                    \
+    static __attribute__((always_inline)) uint32_t name(volatile void *p) {    \
+        register uint32_t sink = 0;                                             \
+        uint16_t before, after;                                                 \
+        before = COUNTERS[2].value;                                             \
+        __asm__ volatile(REP64(insn "\n") : "+r"(sink) : "r"(p) : "memory");    \
+        after = COUNTERS[2].value;                                              \
+        (void)sink;                                                             \
+        return (uint16_t)(after - before);                                      \
+    }
+
+#define RUN8(lo, hi, expr) do {                     \
+        lo = 0xffffu; hi = 0u;                      \
+        for (int i_ = 0; i_ < 8; i_++) {            \
+            uint32_t d_ = (expr);                   \
+            if (d_ < lo) lo = d_;                   \
+            if (d_ > hi) hi = d_;                   \
+        }                                           \
+    } while (0)
+
 #define PRIME0 ""
 #define PRIME1 PRIME0 "sw $0, 0(%0)\n"
 #define PRIME2 PRIME1 "sw $0, 4(%0)\n"
@@ -320,6 +356,47 @@ CESTER_BODY(
     MAKE_SPACED(intlck6, "lw %0, 0(%1)\nnop\nnop\nnop\nnop\nnop\nnop\naddiu %0, 1\nnop\n")
     MAKE_SPACED(intlck7, "lw %0, 0(%1)\nnop\nnop\nnop\nnop\nnop\nnop\nnop\naddiu %0, 1\n")
 
+    MAKE_BUS(bus_nop, "nop")
+    MAKE_BUS(bus_lw, "lw %0, 0(%1)")
+    MAKE_BUS(bus_lh, "lh %0, 0(%1)")
+    MAKE_BUS(bus_lb, "lb %0, 0(%1)")
+    MAKE_BUS(bus_sh, "sh %0, 0(%1)")
+    MAKE_BUS(bus_sw, "sw %0, 0(%1)")
+    MAKE_BUS(bus_lhs, "lh %0, 0(%1)")
+    MAKE_BUS(bus_lws, "lw %0, 0(%1)")
+
+    typedef struct {
+        const char *name;
+        uint32_t clr, set, flip;
+        int nib;
+        uint32_t val;
+    } BusArm;
+    static const BusArm s_busArms[] = {
+        {"base", 0, 0, 0, -1, 0},
+        {"b8^", 0, 0, 0x100, -1, 0},
+        {"b9^", 0, 0, 0x200, -1, 0},
+        {"b10^", 0, 0, 0x400, -1, 0},
+        {"b11^", 0, 0, 0x800, -1, 0},
+        {"b8-11", 0, 0xf00, 0, -1, 0},
+        {"rd0", 0xf0, 0, 0, -1, 0},
+        {"rd15", 0, 0xf0, 0, -1, 0},
+        {"wr0", 0xf, 0, 0, -1, 0},
+        {"wr15", 0, 0xf, 0, -1, 0},
+        {"com0=0", 0, 0x100, 0, 0, 0},
+        {"com0=5", 0, 0x100, 0, 0, 5},
+        {"com0=15", 0, 0x100, 0, 0, 15},
+        {"com1=0", 0, 0x200, 0, 1, 0},
+        {"com1=5", 0, 0x200, 0, 1, 5},
+        {"com1=15", 0, 0x200, 0, 1, 15},
+        {"com2=0", 0, 0x400, 0, 2, 0},
+        {"com2=5", 0, 0x400, 0, 2, 5},
+        {"com2=15", 0, 0x400, 0, 2, 15},
+        {"com3=0", 0, 0x800, 0, 3, 0},
+        {"com3=5", 0, 0x800, 0, 3, 5},
+        {"com3=15", 0, 0x800, 0, 3, 15},
+        {"base", 0, 0, 0, -1, 0},
+    };
+
     /* Take the min over 8 runs, which should ensure warm icache and no stray stalls. */
 #define BENCH(ret, fn, p) uint32_t ret; do { \
         uint32_t best = 0xffffu;             \
@@ -339,6 +416,14 @@ CESTER_BODY(
 )
 
 CESTER_BEFORE_ALL(load_tests,
+#ifdef LOAD_TIMINGS_ATCONS
+    /* Dev boards with an ATCONS console: route stdout there (C0(1Bh), installStdIo). */
+    {
+        register int n asm("t1") = 0x1b;
+        __asm__ volatile("" : "=r"(n) : "r"(n));
+        ((void (*)(int))0xc0)(1);
+    }
+#endif
     /* Mask interrupts across the timed regions; set root counter 2 to the
        system-clock source (bits 8-9 = 00), free running. Writing mode resets
        the counter value to 0. */
@@ -601,6 +686,100 @@ CESTER_MAYBE_TEST(loadInterlocked, load_tests,
     cester_assert_uint_eq(356, s5);
     cester_assert_uint_eq(356, s6);
     cester_assert_uint_eq(356, s7);
+)
+
+/* Bus register values at program entry: the BIOS plus whatever the loader
+   left. Print-only; the sweep below is relative to these values. */
+CESTER_TEST(busRegistersAtEntry, load_tests,
+    ramsyscall_printf("=== bus registers at entry ===\n");
+    for (uint32_t a = 0xbf801000u; a <= 0xbf801020u; a += 4u)
+        ramsyscall_printf("  REG %08x = %08x\n", a & 0x1fffffffu, *(volatile uint32_t *)a);
+    ramsyscall_printf("  REG 1f801060 = %08x\n", *(volatile uint32_t *)0xbf801060u);
+)
+
+/* Which delay/size bit and which COM_DELAY nibble moves the cost of which
+   access, on this console. Each arm is the entry value of the device register
+   with one change: bit 8, 9, 10 or 11 toggled alone, read or write delay
+   forced to 0 or 15, bits 8-11 all set, or one COM nibble set to 0, 5 or 15
+   with its enabling bit set. The last arm repeats the first: a restore or
+   instrument fault shows up as the two differing. Raw ticks are min/max over
+   8 runs of N_BUS accesses. Stores are timed as issued, so the last few may
+   still sit in the write queue when the counter is read; that tail is the
+   same in every arm. Stores also vary by a few ticks run to run, so the
+   repeat check on DEV4 is banded. The exact values asserted are the two arms
+   that use no COM_DELAY nibble at all (DEV2 with bit 10 cleared, DEV4 with
+   bit 8 cleared, from the BIOS values 0013243Fh and 200931E1h): those
+   reproduce to the tick on every console tested, while the other arms follow
+   whatever COM_DELAY the console was left with. */
+CESTER_MAYBE_TEST(busDelaySweep, load_tests,
+    volatile void *rom = (volatile void *)ADDR_BIOS;
+    volatile void *spu = (volatile void *)ADDR_SPU_ADSR;
+    uint32_t dev2 = DEV2_DELAY, dev4 = DEV4_DELAY, com = COM_DELAY;
+    uint32_t nlo, nhi;
+    RUN8(nlo, nhi, bus_nop(rom));
+    ramsyscall_printf("=== bus delay sweep (N=%d, entry dev2=%08x dev4=%08x com=%08x) ===\n", N_BUS,
+                      dev2, dev4, com);
+    ramsyscall_printf("  Format: BUSn <arm> dev=<reg> com=<reg> <access>=<min>/<max> ...\n");
+    ramsyscall_printf("  BUSNOP nop=%u/%u\n", nlo, nhi);
+
+    int subjects = 0;
+    uint32_t first2 = 0, last2 = 0, first4 = 0, last4 = 0;
+    uint32_t nocom2[3] = {0, 0, 0}, nocom4 = 0;
+    int n = (int)(sizeof(s_busArms) / sizeof(s_busArms[0]));
+    for (int d = 0; d < 2; d++) {
+        volatile uint32_t *reg = d == 0 ? &DEV2_DELAY : &DEV4_DELAY;
+        uint32_t v0 = *reg;
+        for (int k = 0; k < n; k++) {
+            const BusArm *arm = &s_busArms[k];
+            uint32_t cfg = ((v0 & ~arm->clr) | arm->set) ^ arm->flip;
+            uint32_t c = com;
+            if (arm->nib >= 0) c = (com & ~(0xfu << (4 * arm->nib))) | (arm->val << (4 * arm->nib));
+            uint32_t alo, ahi, blo, bhi, clo, chi, dlo = 0, dhi = 0;
+            COM_DELAY = c;
+            *reg = cfg;
+            if (d == 0) {
+                RUN8(alo, ahi, bus_lw(rom));
+                RUN8(blo, bhi, bus_lh(rom));
+                RUN8(clo, chi, bus_lb(rom));
+            } else {
+                RUN8(alo, ahi, bus_sh(spu));
+                RUN8(blo, bhi, bus_sw(spu));
+                RUN8(clo, chi, bus_lhs(spu));
+                RUN8(dlo, dhi, bus_lws(spu));
+            }
+            *reg = v0;
+            COM_DELAY = com;
+            if (d == 0) {
+                ramsyscall_printf("  BUS2 %-8s dev=%08x com=%08x lw=%u/%u lh=%u/%u lb=%u/%u\n", arm->name, cfg,
+                                  c, alo, ahi, blo, bhi, clo, chi);
+                if (k == 0) first2 = alo;
+                if (k == 3) { nocom2[0] = alo; nocom2[1] = blo; nocom2[2] = clo; }
+                last2 = alo;
+            } else {
+                ramsyscall_printf("  BUS4 %-8s dev=%08x com=%08x sh=%u/%u sw=%u/%u lh=%u/%u lw=%u/%u\n", arm->name,
+                                  cfg, c, alo, ahi, blo, bhi, clo, chi, dlo, dhi);
+                if (k == 0) first4 = blo;
+                if (k == 1) nocom4 = dlo;
+                last4 = blo;
+            }
+            subjects++;
+        }
+    }
+    ramsyscall_printf("  BUS subjects=%d\n", subjects);
+
+    cester_assert_int_eq(2 * n, subjects);
+    cester_assert_uint_eq(dev2, DEV2_DELAY);
+    cester_assert_uint_eq(dev4, DEV4_DELAY);
+    cester_assert_uint_eq(com, COM_DELAY);
+    cester_assert_uint_eq(first2, last2);
+    uint32_t d4 = first4 > last4 ? first4 - last4 : last4 - first4;
+    cester_assert_true(d4 <= (uint32_t)N_BUS / 8u);
+    if (dev2 == 0x0013243fu) {
+        cester_assert_uint_eq(1542, nocom2[0]);
+        cester_assert_uint_eq(902, nocom2[1]);
+        cester_assert_uint_eq(582, nocom2[2]);
+    }
+    if (dev4 == 0x200931e1u) cester_assert_uint_eq(2310, nocom4);
 )
 
 CESTER_OPTIONS(
