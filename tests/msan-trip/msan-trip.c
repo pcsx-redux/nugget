@@ -32,7 +32,6 @@ SOFTWARE.
 
 #include "common/hardware/pcsxhw.h"
 
-// Out of line so the dynarec has $a0 written back when the emulator reads it.
 static __attribute__((noipa)) void *msanAlloc(uint32_t size) { return pcsx_msanAlloc(size); }
 
 int main() {
