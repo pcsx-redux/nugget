@@ -63,6 +63,24 @@ void transportSendWord(uint16_t w) {
     s_txS1 += w; s_txS2 += s_txS1;
 }
 
+/* -O2 here, so the link accessors inline into the loop (-Os calls them). */
+__attribute__((optimize("O2"))) void transportSendBytes(const uint8_t *src, uint32_t nbytes) {
+    uint32_t s1 = s_txS1, s2 = s_txS2;
+    const uint8_t *end = src + (nbytes & ~1u);
+    while (src < end) {
+        uint16_t w = src[0] | ((uint16_t)src[1] << 8);
+        linkPutWord(w);
+        s1 += w; s2 += s1;
+        src += 2;
+    }
+    if (nbytes & 1) {
+        uint16_t w = src[0];
+        linkPutWord(w);
+        s1 += w; s2 += s1;
+    }
+    s_txS1 = s1; s_txS2 = s2;
+}
+
 void transportSendEnd(void) {
     uint32_t ck = fletcherFinish(s_txS1, s_txS2);
     linkPutWord((uint16_t)(ck & 0xffff));         /* low word first */
@@ -160,6 +178,27 @@ uint16_t transportRecvWord(void) {
     uint16_t w = linkGetWord();
     s_rxS1 += w; s_rxS2 += s_rxS1;
     return w;
+}
+
+/* -O2 here, so the link accessors inline into the loop (-Os calls them). */
+__attribute__((optimize("O2"))) void transportRecvBytes(uint8_t *dst, uint32_t nbytes, uint32_t words) {
+    uint32_t s1 = s_rxS1, s2 = s_rxS2;
+    uint32_t full = nbytes / 2;
+    if (full > words) full = words;
+    uint8_t *end = dst + full * 2;
+    while (dst < end) {
+        uint16_t w = linkGetWord();
+        s1 += w; s2 += s1;
+        dst[0] = (uint8_t)w;
+        dst[1] = (uint8_t)(w >> 8);
+        dst += 2;
+    }
+    for (uint32_t i = full; i < words; i++) {
+        uint16_t w = linkGetWord();
+        s1 += w; s2 += s1;
+        if (i * 2 < nbytes) *dst++ = (uint8_t)w;
+    }
+    s_rxS1 = s1; s_rxS2 = s2;
 }
 
 int transportRecvEnd(void) {
