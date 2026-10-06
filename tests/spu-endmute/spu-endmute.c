@@ -87,6 +87,12 @@ static uint16_t s_v3[READS];
 static int run_case(const char *name, uint16_t pitch, int switchAt, uint16_t newPitch, int lo, int hi) {
     voice_setup(1, ONESHOT_ADDR, pitch);
     voice_setup(3, LOOP_ADDR, pitch);
+    // Key on right after an edge, so the first read is a whole period later. Keyed on
+    // just before an edge, that read can land before the attack has even started.
+    if (!spu_toggle()) {
+        ramsyscall_printf("SPUENDMUTE: %s FAIL - SPUSTAT bit 11 stopped moving\n", name);
+        return 1;
+    }
     SPU_KEY_ON_LOW = (1u << 1) | (1u << 3);
     SPU_KEY_ON_HIGH = 0;
 
