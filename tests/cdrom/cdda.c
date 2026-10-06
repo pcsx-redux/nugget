@@ -138,7 +138,7 @@ CESTER_BODY(
         return peak;
     }
 
-    // Reads the capture buffer back while audio plays. On a SCPH-7502 the capture sometimes
+    // Reads the capture buffer back while audio plays. On a SCPH-9002 the capture sometimes
     // reads all zeros for a while after the audio should have started, so an empty capture is
     // retried a few times, 250 ms apart. -1 on a failed DMA.
     static int cddaCapturePeak(unsigned *signChanges) {

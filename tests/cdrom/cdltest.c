@@ -198,7 +198,7 @@ CESTER_TEST(cdlTestRegionAndChip, test_instance,
     }
 
     // 22h answers the region string and 23h/24h the servo and signal processor chips, as
-    // plain text with no status byte. A SCPH-7502 (vC3) answers "for Europe" and "CXD2940Q".
+    // plain text with no status byte. A SCPH-9002 (vC3) answers "for Europe" and "CXD2940Q".
     // psx-spx: vC0 controllers do not have these subfunctions and answer error 11h 10h; only
     // the 10h is checked, as no vC0 console has been measured.
     static const char* regions[] = {"for Europe", "for U/C", "for Japan", "for NETNA", "for US/AEP"};
