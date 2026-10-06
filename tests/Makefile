@@ -68,6 +68,7 @@ all:
 	$(MAKE) -C spu-endx all
 	$(MAKE) -C spu-endmute all
 	$(MAKE) -C spu-offvoice all
+	$(MAKE) -C sr-write all
 	$(MAKE) -C timers all
 
 clean:
@@ -140,4 +141,5 @@ clean:
 	$(MAKE) -C spu-endx clean
 	$(MAKE) -C spu-endmute clean
 	$(MAKE) -C spu-offvoice clean
+	$(MAKE) -C sr-write clean
 	$(MAKE) -C timers clean

@@ -48,6 +48,7 @@ TESTS=(
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "psyqo-dmachain;psyqo-dmachain/dmachain;interpreter dynarec;^All 3 arms passed;"
+    "sr-write;sr-write/sr-write;interpreter;$CESTER;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
     "gpu-raster-phase23;gpu-raster-phase23/gpu-raster-phase23;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
 )
