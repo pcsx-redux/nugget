@@ -116,7 +116,7 @@ CESTER_TEST(msan_unaligned_pair, msan_tests,
 CESTER_TEST(msan_inline_alloc, msan_tests,
     uint8_t *p = pcsx_msanAlloc(40);
     uint8_t *q = pcsx_msanAlloc(8);
-    cester_assert_uint_eq(MSAN_STRIDE(40), q - p);
+    cester_assert_uint_eq(MSAN_STRIDE(40), (uintptr_t)q - (uintptr_t)p);
     p[39] = 1;
     q[7] = 1;
     pcsx_msanFree(q);
@@ -129,8 +129,8 @@ CESTER_TEST(msan_inline_alloc_computed, msan_tests,
     uint8_t *p = pcsx_msanAlloc(n);
     uint8_t *q = pcsx_msanAlloc(n + 8);
     uint8_t *r = pcsx_msanAlloc(4);
-    cester_assert_uint_eq(MSAN_STRIDE(56), q - p);
-    cester_assert_uint_eq(MSAN_STRIDE(64), r - q);
+    cester_assert_uint_eq(MSAN_STRIDE(56), (uintptr_t)q - (uintptr_t)p);
+    cester_assert_uint_eq(MSAN_STRIDE(64), (uintptr_t)r - (uintptr_t)q);
     pcsx_msanFree(r);
     pcsx_msanFree(q);
     pcsx_msanFree(p);
@@ -141,7 +141,7 @@ CESTER_TEST(msan_inline_realloc, msan_tests,
     p[0] = 0x5a;
     uint8_t *q = pcsx_msanRealloc(p, 100);
     uint8_t *r = pcsx_msanAlloc(4);
-    cester_assert_uint_eq(MSAN_STRIDE(100), r - q);
+    cester_assert_uint_eq(MSAN_STRIDE(100), (uintptr_t)r - (uintptr_t)q);
     cester_assert_uint_eq(0x5a, q[0]);
     pcsx_msanFree(r);
     pcsx_msanFree(q);
