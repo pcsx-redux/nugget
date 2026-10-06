@@ -366,14 +366,23 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
                           name, keptS, SPU_ONSET_SKIP);
     }
 
+    // A periodic golden matches at every rotation that differs by a whole period,
+    // and only the one nearest the sync point is the real alignment: the others
+    // put the key-on gap and the ring seam inside the periodicity window. Try the
+    // offsets nearest zero first so a tie resolves toward the sync point. The true
+    // offset is not always zero on silicon - key-on is serviced on a 2-sample grid
+    // whose parity against the capture ring is fixed per boot, so the onset lands
+    // one sample early in about half of all boots.
     int bestS = 0, bestBad = 0x7fffffff;
-    for (int s = 0; s < 512; s++) {
+    for (int k = 0; k < 512; k++) {
+        const int s = (k & 1) ? -((k + 1) >> 1) : (k >> 1);
         int bad = 0;
         for (int i = startS; i < keptS; i++) {
             if (a[(s + i) & 511] != golden[i]) bad++;
         }
         if (bad < bestBad) { bestBad = bad; bestS = s; }
     }
+    ramsyscall_printf("OBS spu_capture %s ring_offset=%d\n", name, bestS);
 
     for (int i = startS; i < keptS; i++) {
         int j = (bestS + i) & 511;
