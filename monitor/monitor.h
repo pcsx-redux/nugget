@@ -60,6 +60,11 @@ SOFTWARE.
    slot, ahead of the handler chains, so a program that resets the chains
    does not lose it. Without it the monitor rides the priority-0 chain only. */
 #define MON_CAP_SLOT 0x0004
+/* The link holds a whole bulk frame while the monitor is busy with the one
+   before (FT232H: USB flow control behind the chip's FIFO), so the host may
+   send the next WRITE_MEM/LOAD frame before the previous one's ACK. Not on
+   SIO1, whose 8-byte FIFO overruns. */
+#define MON_CAP_PIPELINE 0x0008
 
 /* LZ4 WRITE_MEM/LOAD on SIO1 by default: the wire is slow enough that decoding
    hides under it. Elsewhere decoding would cost more than it saves. */
