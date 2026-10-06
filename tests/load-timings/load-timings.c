@@ -34,7 +34,11 @@ SOFTWARE.
  *       single-cycle (on-chip SRAM, no bus); on-die MMIO is ~5 cyc; main RAM is
  *       ~7 cyc and cached (KSEG0) equals uncached (KSEG1), reconfirming there is
  *       no data cache; BIOS ROM is tens of cycles (8-bit ROM behind a slow,
- *       model-dependent ROM-bus delay - observed ~27-33 across consoles).
+ *       programmable bus delay: 27 with COM_DELAY at 00031125h, 33 at
+ *       0000132Ch, which the BIOS CD-ROM read routine leaves behind).
+ *
+ *   busDelaySweep - which DEV2/DEV4 delay/size bit and which COM_DELAY nibble
+ *       moves the cost of which access.
  *
  *   onDieUniformity - every on-die MMIO register (interrupt controller, DMA,
  *       root counters) reads at the same cost: one decoder, one latency.
@@ -412,6 +416,14 @@ CESTER_BODY(
 )
 
 CESTER_BEFORE_ALL(load_tests,
+#ifdef LOAD_TIMINGS_ATCONS
+    /* Dev boards with an ATCONS console: route stdout there (C0(1Bh), installStdIo). */
+    {
+        register int n asm("t1") = 0x1b;
+        __asm__ volatile("" : "=r"(n) : "r"(n));
+        ((void (*)(int))0xc0)(1);
+    }
+#endif
     /* Mask interrupts across the timed regions; set root counter 2 to the
        system-clock source (bits 8-9 = 00), free running. Writing mode resets
        the counter value to 0. */
@@ -693,7 +705,12 @@ CESTER_TEST(busRegistersAtEntry, load_tests,
    instrument fault shows up as the two differing. Raw ticks are min/max over
    8 runs of N_BUS accesses. Stores are timed as issued, so the last few may
    still sit in the write queue when the counter is read; that tail is the
-   same in every arm. Print-only apart from the instrument checks. */
+   same in every arm. Stores also vary by a few ticks run to run, so the
+   repeat check on DEV4 is banded. The exact values asserted are the two arms
+   that use no COM_DELAY nibble at all (DEV2 with bit 10 cleared, DEV4 with
+   bit 8 cleared, from the BIOS values 0013243Fh and 200931E1h): those
+   reproduce to the tick on every console tested, while the other arms follow
+   whatever COM_DELAY the console was left with. */
 CESTER_MAYBE_TEST(busDelaySweep, load_tests,
     volatile void *rom = (volatile void *)ADDR_BIOS;
     volatile void *spu = (volatile void *)ADDR_SPU_ADSR;
@@ -707,6 +724,7 @@ CESTER_MAYBE_TEST(busDelaySweep, load_tests,
 
     int subjects = 0;
     uint32_t first2 = 0, last2 = 0, first4 = 0, last4 = 0;
+    uint32_t nocom2[3] = {0, 0, 0}, nocom4 = 0;
     int n = (int)(sizeof(s_busArms) / sizeof(s_busArms[0]));
     for (int d = 0; d < 2; d++) {
         volatile uint32_t *reg = d == 0 ? &DEV2_DELAY : &DEV4_DELAY;
@@ -735,11 +753,13 @@ CESTER_MAYBE_TEST(busDelaySweep, load_tests,
                 ramsyscall_printf("  BUS2 %-8s dev=%08x com=%08x lw=%u/%u lh=%u/%u lb=%u/%u\n", arm->name, cfg,
                                   c, alo, ahi, blo, bhi, clo, chi);
                 if (k == 0) first2 = alo;
+                if (k == 3) { nocom2[0] = alo; nocom2[1] = blo; nocom2[2] = clo; }
                 last2 = alo;
             } else {
                 ramsyscall_printf("  BUS4 %-8s dev=%08x com=%08x sh=%u/%u sw=%u/%u lh=%u/%u lw=%u/%u\n", arm->name,
                                   cfg, c, alo, ahi, blo, bhi, clo, chi, dlo, dhi);
                 if (k == 0) first4 = blo;
+                if (k == 1) nocom4 = dlo;
                 last4 = blo;
             }
             subjects++;
@@ -752,7 +772,14 @@ CESTER_MAYBE_TEST(busDelaySweep, load_tests,
     cester_assert_uint_eq(dev4, DEV4_DELAY);
     cester_assert_uint_eq(com, COM_DELAY);
     cester_assert_uint_eq(first2, last2);
-    cester_assert_uint_eq(first4, last4);
+    uint32_t d4 = first4 > last4 ? first4 - last4 : last4 - first4;
+    cester_assert_true(d4 <= (uint32_t)N_BUS / 8u);
+    if (dev2 == 0x0013243fu) {
+        cester_assert_uint_eq(1542, nocom2[0]);
+        cester_assert_uint_eq(902, nocom2[1]);
+        cester_assert_uint_eq(582, nocom2[2]);
+    }
+    if (dev4 == 0x200931e1u) cester_assert_uint_eq(2310, nocom4);
 )
 
 CESTER_OPTIONS(
