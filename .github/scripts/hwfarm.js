@@ -255,10 +255,19 @@ async function run(argv) {
             if ((ticket && ['DONE', 'FAILED'].includes(ticket.state)) || Date.now() > deadline) break;
             await new Promise((resolve) => setTimeout(resolve, POLL_MS));
         }
+        // A terminal ticket can come back with no envelope when the result
+        // call fails, and that reads as "verdict none". Ask again before
+        // grading it as infra.
         let envelopes = [];
-        try {
-            envelopes = hwtest(['result', r.ticketId]).resultEnvelopes || [];
-        } catch (e) {}
+        for (let attempt = 0; attempt < 6 && envelopes.length === 0; attempt++) {
+            if (attempt) await new Promise((resolve) => setTimeout(resolve, POLL_MS));
+            try {
+                envelopes = hwtest(['result', r.ticketId]).resultEnvelopes || [];
+            } catch (e) {
+                console.log(`${r.name}: result ${r.ticketId} failed: ${e.message.split('\n')[0]}`);
+            }
+            if (!ticket || !['DONE', 'FAILED'].includes(ticket.state)) break;
+        }
         Object.assign(r, classify(ticket, envelopes));
         const last = envelopes[envelopes.length - 1];
         // Only a runner-written envelope measures the console; a synthesized
