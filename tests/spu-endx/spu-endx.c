@@ -86,6 +86,11 @@ int main() {
 #endif
     spu_dma_write(SPU_UPLOAD_ADDR, s_upload, 128);
     ramsyscall_printf("SPUENDX: uploaded chcr=%08x\n", (unsigned)DMA_CTRL[DMA_SPU].CHCR);
+    if (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) {
+        ramsyscall_printf("SPUENDX: FAIL - the sample upload never finished\n");
+        pcsx_exit(1);
+        return 1;
+    }
 
     SPU_VOICES[1].sampleStartAddr = SPU_UPLOAD_ADDR >> 3;
     SPU_VOICES[1].sampleRate = 0x1000;

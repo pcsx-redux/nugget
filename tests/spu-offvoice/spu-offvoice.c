@@ -136,6 +136,12 @@ int main() {
     spu_dma_write(SPU_UPLOAD_ADDR, s_sample, sizeof(s_sample));
     ramsyscall_printf("SPUOFFVOICE: uploaded chcr=%08x stat=%04x\n", (unsigned)DMA_CTRL[DMA_SPU].CHCR,
                       (unsigned)SPU_STATUS);
+    if (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) {
+        ramsyscall_printf("SPUOFFVOICE: FAIL - the sample upload never finished; nothing below would "
+                          "be testing the uploaded sample\n");
+        pcsx_exit(1);
+        return 1;
+    }
 
     /* Release shift 0 with a linear release, so the key-off in phase 2 takes the
        envelope to zero promptly. Sustain holds at full, so phase 1 measures a
