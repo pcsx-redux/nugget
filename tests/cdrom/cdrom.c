@@ -60,6 +60,7 @@ SOFTWARE.
 #include "cdlseekp.c"
 #include "cdlsetloc.c"
 #include "cdlsetmode.c"
+#include "cdlsetsession.c"
 #include "cdlstop.c"
 #include "cdltest.c"
 #include "invalid.c"
