@@ -26,9 +26,6 @@ local function psxlua(name, parser)
         add_defines("LUA_TARGET_PSX", {public = true})
         add_includedirs(lua, {public = true})
         add_cflags("-fno-builtin", "-Wno-attributes")
-        -- string.format converts to double for %f and %g, which soft-float
-        -- turns into a libgcc call.
-        add_syslinks("gcc", {public = true})
     end)
 end
 
