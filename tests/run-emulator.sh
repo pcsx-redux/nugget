@@ -71,6 +71,7 @@ SKIPS=(
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
     "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
     "gpu-fbrect/gpu-fbrect|emulator gap: GP0(02h) fills at the literal X, the hardware drops its low 4 bits"
+    "gpu-vram-move/gpu-vram-move|emulator gap: GP0(80h) copies ignore the GP0(E6h) mask setting"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"

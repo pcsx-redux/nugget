@@ -15,6 +15,7 @@ all:
 	$(MAKE) -C gpu-nop all
 	$(MAKE) -C gpu-fifo all
 	$(MAKE) -C gpu-fbrect all
+	$(MAKE) -C gpu-vram-move all
 	$(MAKE) -C gpu-raster-phase1 all
 	$(MAKE) -C gpu-raster-phase2 all
 	$(MAKE) -C gpu-raster-phase3 all
@@ -89,6 +90,7 @@ clean:
 	$(MAKE) -C gpu-nop clean
 	$(MAKE) -C gpu-fifo clean
 	$(MAKE) -C gpu-fbrect clean
+	$(MAKE) -C gpu-vram-move clean
 	$(MAKE) -C gpu-raster-phase1 clean
 	$(MAKE) -C gpu-raster-phase2 clean
 	$(MAKE) -C gpu-raster-phase3 clean
