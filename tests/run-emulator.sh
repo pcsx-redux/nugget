@@ -32,6 +32,7 @@ TESTS=(
     "cop-branch;cop-branch/cop-branch;interpreter;$CESTER;-debugger"
     "cpu;cpu/cpu;interpreter dynarec;$CESTER;"
     "dma;dma/dma;interpreter dynarec;$CESTER;-debugger"
+    "gpu-command;gpu-command/gpu-command;interpreter;$CESTER;"
     "gte;gte/gte;interpreter dynarec;$CESTER;"
     "gte-latency;gte-latency/gte-latency;interpreter;$CESTER;"
     "gte-latency-color;gte-latency-color/gte-latency-color;interpreter;$CESTER;"
