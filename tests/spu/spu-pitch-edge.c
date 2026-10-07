@@ -21,11 +21,6 @@ INCLUDE_PCM(pitch_edge_0fff_fractional);
 INCLUDE_PCM(pitch_edge_1000_unity);
 INCLUDE_PCM(pitch_edge_1001_fractional);
 INCLUDE_PCM(pitch_edge_3fff_preclip);
-INCLUDE_PCM(pitch_edge_4000_clip);
-INCLUDE_PCM(pitch_edge_4001_clip);
-INCLUDE_PCM(pitch_edge_7fff_clip);
-INCLUDE_PCM(pitch_edge_8000_signed);
-INCLUDE_PCM(pitch_edge_ffff_signed);
 INCLUDE_PCM(pitch_edge_fmod_disabled_control);
 INCLUDE_PCM(pitch_edge_fmod_sine_sweep);
 INCLUDE_PCM(pitch_edge_fmod_square_edges);
@@ -34,6 +29,8 @@ INCLUDE_PCM(pitch_edge_fmod_high_pitch_clip);
 #endif
 
 CESTER_BODY(
+static uint16_t s_pitch_edge_ref[512];
+
 static uint32_t spu_pitch_edge_hash_capture(void) {
     uint32_t h = 2166136261u;
     for (int i = 0; i < 512; i++) {
@@ -140,11 +137,27 @@ SPU_PITCH_EDGE_TEST(0fff_fractional, 0x0fff)
 SPU_PITCH_EDGE_TEST(1000_unity, 0x1000)
 SPU_PITCH_EDGE_TEST(1001_fractional, 0x1001)
 SPU_PITCH_EDGE_TEST(3fff_preclip, 0x3fff)
-SPU_PITCH_EDGE_TEST(4000_clip, 0x4000)
-SPU_PITCH_EDGE_TEST(4001_clip, 0x4001)
-SPU_PITCH_EDGE_TEST(7fff_clip, 0x7fff)
-SPU_PITCH_EDGE_TEST(8000_signed, 0x8000)
-SPU_PITCH_EDGE_TEST(ffff_signed, 0xffff)
+// Every pitch above 3FFFh, the signed half included, plays exactly like 3FFFh.
+// Checked against a 3FFFh capture taken in the same run, so no golden is
+// needed and the capture-start offset that differs between console revisions
+// cancels out.
+#define SPU_PITCH_EDGE_CLIP_TEST(NAME, PITCH) \
+CESTER_TEST(pitch_edge_##NAME, spu_tests, \
+    run_voice1_with_sample(kAdpcmTriangle, 0x3fff); \
+    for (int i = 0; i < 512; i++) s_pitch_edge_ref[i] = s_capture[i]; \
+    run_voice1_with_sample(kAdpcmTriangle, (PITCH)); \
+    int mismatches = 0; \
+    for (int i = 0; i < 512; i++) { \
+        if (s_capture[i] != s_pitch_edge_ref[i]) mismatches++; \
+    } \
+    cester_assert_int_eq(0, mismatches); \
+)
+
+SPU_PITCH_EDGE_CLIP_TEST(4000_clip, 0x4000)
+SPU_PITCH_EDGE_CLIP_TEST(4001_clip, 0x4001)
+SPU_PITCH_EDGE_CLIP_TEST(7fff_clip, 0x7fff)
+SPU_PITCH_EDGE_CLIP_TEST(8000_signed, 0x8000)
+SPU_PITCH_EDGE_CLIP_TEST(ffff_signed, 0xffff)
 
 CESTER_TEST(pitch_edge_fmod_disabled_control, spu_tests,
     spu_pitch_edge_run_fmod(kAdpcmSine394Hz, 0x0400, kAdpcmSine, 0x1000, 0);
