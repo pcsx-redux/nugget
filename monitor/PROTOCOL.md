@@ -339,6 +339,7 @@ PS1 -> host:
 | 0 (`0x0001`) | `MON_CAP_LZ4` | WRITE_MEM and LOAD accept `MON_LZ4` (section 6) |
 | 1 (`0x0002`) | `MON_CAP_STOP` | STOP is read while RUNNING (section 5). Set on SIO1 and FT232H |
 | 2 (`0x0004`) | `MON_CAP_SLOT` | The monitor is entered from patch slot 4 of the kernel exception handler, ahead of the handler chains (section 11). Set only when the slot was patched |
+| 3 (`0x0008`) | `MON_CAP_PIPELINE` | The host may send the next WRITE_MEM or LOAD frame before the previous one's ACK: the link holds a whole frame while the monitor is busy. Set on FT232H; not on SIO1, whose 8-byte FIFO overruns |
 
 The other bits are 0.
 

@@ -85,10 +85,17 @@ static inline int removeDevice(const char *name) {
     return ((int (*)(const char *))0xb0)(name);
 }
 
-void installSio1Tty(void) {
+/* Drop stdin/stdout and the "tty" device. The kernel calls the device's own
+   close and deinit for that, so a loader replacing a resident monitor does
+   this before its copy overwrites the old device's code. */
+void releaseTty(void) {
     syscall_close(0);
     syscall_close(1);
     removeDevice("tty");
+}
+
+void installSio1Tty(void) {
+    releaseTty();
     syscall_addDevice(&s_ttyDevice);
     syscall_open("tty00:", PSXF_READ);
     syscall_open("tty00:", PSXF_WRITE);
