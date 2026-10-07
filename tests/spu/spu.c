@@ -471,6 +471,7 @@ CESTER_AFTER_ALL(spu_tests,
 #include "spu-adpcm.c"
 #include "spu-adpcm-edge.c"
 #include "spu-capture.c"
+#include "spu-pitch-edge.c"
 #include "spu-adsr.c"
 // A dump build exists to write .test.pcm goldens, and these two write none.
 // spu-adsr-edge walks a full ENVX trace for every envelope shape, which costs
