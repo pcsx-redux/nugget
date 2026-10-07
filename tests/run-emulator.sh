@@ -84,9 +84,12 @@ SKIPS=(
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
 )
-for d in bank-probe display-area-y drawing-area-y drawing-offset-y fast-fill-h-quirk fast-fill-y \
-         gp1-09-matrix primitives-cross transfer-h-quirk vram-blit-y vram-transfers-y; do
+for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")
+done
+for d in bank-probe drawing-area-y drawing-offset-y primitives-cross texpage-upper transfer-h-quirk \
+         transfer-wrap-y vram-blit-y vram-transfers-y; do
+    SKIPS+=("2mb-vram/$d/$d|needs the 2MB VRAM fitment from pcsx-redux in the dev AppImage")
 done
 
 LOGS=$(mktemp -d)

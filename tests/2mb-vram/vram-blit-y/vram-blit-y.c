@@ -35,6 +35,8 @@ SOFTWARE.
 
 static uint16_t encodeRow(int y) { return (uint16_t)((y * 0x97) ^ 0xa55a) | 1; }
 
+static ProbeStats* s_stats = 0;
+
 static void onePass(const char* label, int16_t src_y, int16_t dst_y, int16_t h) {
     // Full GPU reset between iterations so a quirky H value from the
     // previous pass can't leave any latched state behind. GP1 is
@@ -92,6 +94,14 @@ static void onePass(const char* label, int16_t src_y, int16_t dst_y, int16_t h) 
                  "found_y_min=%d found_y_max=%d",
                  label, src_y, dst_y, h, eff_h, exact_count, found_first, found_last);
 
+    // Silicon (573, 2026-05-09 batch4): every effective row lands exactly
+    // where the blit placed it, so exact_matches == eff_h for all cases.
+    if (exact_count == eff_h) {
+        PROBE_PASS(s_stats, "%s exact=%d/%d", label, exact_count, eff_h);
+    } else {
+        PROBE_FAIL(s_stats, "%s exact=%d expected eff_h=%d", label, exact_count, eff_h);
+    }
+
     waitGPU();
 }
 
@@ -104,6 +114,7 @@ int main(void) {
 
     ProbeStats stats;
     probeStatsInit(&stats);
+    s_stats = &stats;
 
     // Src lower, dst upper
     onePass("src-lo-dst-hi", 100, 600, 64);
@@ -121,9 +132,7 @@ int main(void) {
     onePass("tall-h513-eff1", 0, 0, 513);    // psx-spx: 1 row
     onePass("tall-h1024-eff512", 0, 0, 1024); // psx-spx: full 512 rows
 
-    PROBE_INFO(&stats, "vram-blit-y sweep complete");
     probeStatsSummary(&stats, "vram-blit-y");
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }
