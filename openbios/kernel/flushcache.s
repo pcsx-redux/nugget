@@ -26,9 +26,17 @@ SOFTWARE.
 
 .include "common/hardware/hwregs.inc"
 
-/* This flushCache is a variant of the one found in the common/hardware/flushcache.s
-   file. It is a bit more straightforward as there is no need to ensure that the
-   code is run from the 0xbfc bios space, since the syscall will ensure that. */
+/* OpenBIOS i-cache flush, called via the A(44h) syscall.
+ *
+ * This is a simplified variant of common/hardware/flushcache.s. It runs
+ * from the BIOS ROM in KSEG1 (uncached), or hops to the KSEG1 alias of
+ * its body when linked into RAM.
+ *
+ * This routine only clears the tags (setting all per-word valid bits
+ * to 0). Code words remain in cache SRAM but won't be served since
+ * the CPU checks valid bits on every fetch. See the TOCA variant in
+ * common/hardware/flushcache.s for a detailed explanation.
+ */
 
     .section .text.flushCache, "ax", @progbits
     .align 2
@@ -46,24 +54,29 @@ flushCache:
     jr    $t6
     nop
 1:
-    /* Saves the cop0 Status register to $t0. */
+    /* Save COP0 Status register. */
     mfc0  $t0, $12
-    /* First, disables interrupts. */
+    /* Disable interrupts and clear IsC, before the BIU_CONFIG change. */
     mtc0  $0, $12
 
-    /* Writes 0x0001e90c to the BIU_CONFIG register at 0xfffe0130.
-       This will let us continue to run from uncached memory, while
-       allowing us to access the i-cache. We keep the constant in
-       $t2, so we can reuse it later when re-enabling the i-cache. */
+    /* Set BIU_CONFIG to 0x0001e90c: TAG | RAM | IBLKSZ_4 | IS1 |
+       RDPRI | NOPAD | BGNT | LDSCH, the normal value less DS plus TAG.
+       TAG (bit 2) routes isolated stores to i-cache tag memory.
+       We keep the value in $t2 to derive the restore value later
+       (0x0001e90c + 0x7c = 0x0001e988). */
     lui   $t5, %hi(BIU_CONFIG)
     li    $t2, 0x0001e90c
     sw    $t2, %lo(BIU_CONFIG)($t5)
 
-    /* Isolates the cache, and disables interrupts. */
+    /* Set COP0 Status to IsC (bit 16): isolate cache.
+       With TAG set in BIU, stores now write to i-cache tag memory.
+       Each tag is: physical_addr[31:12] | valid[3:0]. Writing 0 at
+       an offset < 0x1000 clears all valid bits and sets address to 0. */
     li    $t1, 0x10000
     mtc0  $t1, $12
 
-    /* Clears only the relevant parts of the i-cache. */
+    /* Clear all 256 tags at 16-byte stride (one per cache line).
+       Unrolled 8x: 8 stores per iteration, 32 iterations total. */
     li    $t3, 0
     li    $t4, 0x0f80
 
@@ -79,21 +92,24 @@ flushCache:
     bne   $t3, $t4, 1b
     addiu $t3, 0x80
 
-    /* First, un-isolate the cache. */
+    /* Un-isolate the cache. */
     mtc0  $0, $12
-    /* Then, restore the BIU_CONFIG register to 0x0001e988. */
+    /* Restore BIU_CONFIG to normal (0x0001e988): clears TAG, sets DS. */
     addiu $t2, 0x7c
     sw    $t2, %lo(BIU_CONFIG)($t5)
-    /* Finally, restore the cop0 Status register, and return. It
-       might be unwise to do the mtc0 in the jr delay slot, in
-       case we arrive back at a cop2 instruction, but further
-       testing could be useful. */
+    /* Restore COP0 Status and return. */
     mtc0  $t0, $12
     jr    $ra
     nop
 
-/* The code below is still kept as a reference, since it was directly reversed
-   from the retail bios, but it is not used anymore. */
+/* The code below is the original retail BIOS FlushCache, kept as a
+   reference. It was directly reversed from the retail BIOS and is not
+   used by OpenBIOS. The retail version does a two-pass clear:
+     Pass 1 (TAG mode): clears tags at 16-byte stride
+     Pass 2 (non-TAG mode): clears code words at 4-byte stride
+   The second pass is unnecessary since clearing valid bits already
+   prevents stale code from being served. The 8 dummy reads from
+   0xa0000000 at the end have no documented purpose. */
 
     .section .text.flushCacheOriginal, "ax", @progbits
     .align 2
@@ -105,30 +121,21 @@ flushCacheOriginal:
     mfc0  $t3, $12
     nop
 
-    /* Around this location, the retail bios does a bal to the next instruction,
-       in order to ensure this is run from the 0xbfc bios space, since the next
-       few instructions are going to effectively unplug all other busses from
-       the main CPU. Since flushCache can only be called from that space,
-       thanks to the syscall, this should not be necessary here.
+    /* The retail BIOS does a bal here, apparently to make sure it runs
+       from the 0xBFC ROM space before reconfiguring BIU_CONFIG. This
+       reference copy leaves it out.
 
-       A few other changes from the retail bios:
-         - the cop0 status register is mutated BEFORE unplugging the busses.
-         - the register k0 is left untouched.
-     */
+       Other differences from retail:
+         - COP0 Status is mutated BEFORE changing BIU_CONFIG.
+         - Register k0 is left untouched. */
 
     li    $t1, 0x10000
     mtc0  $t1, $12
     nop
     nop
 
-    /* The BIU_CONFIG register at 0xfffe0130 is a bit of a mystery at the moment.
-       Further investigation is required here to properly understand what this
-       code does exactly. Educated guesses are saying this is replacing the main
-       ram with a direct access to the i-caches. There seems to be a way to remap
-       the scratchpad into a d-cache also. But until the purpose of this register
-       is better understood, this code will remain an almost exact copy of the
-       retail code, as to not cause any problem. */
-
+    /* Pass 1: Clear tags.
+       BIU_CONFIG = 0x804 = TAG | IS1. */
     li    $t0, 0x804
     sw    $t0, BIU_CONFIG
 
@@ -150,6 +157,10 @@ cache_init_1:
     mtc0  $0, $12
     nop
 
+    /* Pass 2: Clear code words.
+       BIU_CONFIG = 0x800 = IS1 (no TAG). With cache isolated and
+       IS1 set, stores go to i-cache code word SRAM. This pass zeros
+       all 1024 instruction words at 4-byte stride. */
     li    $t0, 0x800
     sw    $t0, BIU_CONFIG
 
@@ -199,6 +210,8 @@ cache_init_2:
     mtc0  $0, $12
     nop
 
+    /* 8 dummy reads from uncached RAM (KSEG1), as the retail BIOS
+       does. Their purpose is not documented. */
     li    $t0, 0xa0000000
     lw    $t1, 0($t0)
     lw    $t1, 0($t0)
@@ -210,6 +223,8 @@ cache_init_2:
     lw    $t1, 0($t0)
     nop
 
+    /* Restore BIU_CONFIG to normal operation:
+       0x1e988 = RAM | DS | IBLKSZ_4 | IS1 | RDPRI | NOPAD | BGNT | LDSCH */
     li    $t0, 0x1e988
     sw    $t0, BIU_CONFIG
 
