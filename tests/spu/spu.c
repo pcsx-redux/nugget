@@ -440,6 +440,11 @@ static void run_voice1_with_sample(const uint8_t *sample64, uint16_t pitch) {
 
     spu_wait_status_bit11_flip();
     spu_voice1_keyon(SPU_UPLOAD_ADDR, pitch);
+    // The attack is instant, so ENVX leaves zero once the key-on has been
+    // processed. An emulator may still be mixing older samples when the
+    // write lands, so a flip alone does not prove the voice has started.
+    for (int i = 0; i < 100000 && SPU_VOICES[1].currentVolume == 0; i++);
+    spu_wait_status_bit11_flip();
     spu_wait_status_bit11_flip();
 
     spu_read_sync(0x0800, s_capture, 1024);
