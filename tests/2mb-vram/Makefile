@@ -7,7 +7,9 @@ all:
 	$(MAKE) -C fast-fill-y all
 	$(MAKE) -C gp1-09-matrix all
 	$(MAKE) -C primitives-cross all
+	$(MAKE) -C texpage-upper all
 	$(MAKE) -C transfer-h-quirk all
+	$(MAKE) -C transfer-wrap-y all
 	$(MAKE) -C vram-blit-y all
 	$(MAKE) -C vram-transfers-y all
 
@@ -20,6 +22,8 @@ clean:
 	$(MAKE) -C fast-fill-y clean
 	$(MAKE) -C gp1-09-matrix clean
 	$(MAKE) -C primitives-cross clean
+	$(MAKE) -C texpage-upper clean
 	$(MAKE) -C transfer-h-quirk clean
+	$(MAKE) -C transfer-wrap-y clean
 	$(MAKE) -C vram-blit-y clean
 	$(MAKE) -C vram-transfers-y clean
