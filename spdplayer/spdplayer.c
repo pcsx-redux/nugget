@@ -175,9 +175,11 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
 
     while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0)
         ;
-    SPU_CTRL &= ~0x0030;
+    // The DMA finishing does not mean the SPU has written everything yet: wait for the
+    // transfer to drain before leaving DMA mode, or the tail of the upload is lost.
     while ((SPU_STATUS & 0x0400) != 0)
         ;
+    SPU_CTRL &= ~0x0030;
 }
 
 static void SPUUnMute() { SPU_CTRL = 0xc000; }
