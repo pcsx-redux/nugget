@@ -119,6 +119,7 @@ static void resetExc(int mode) {
     s_mode = mode;
     s_count = 0;
     s_cause = s_epc = s_sr = s_bada = s_from = 0;
+    s_irqIStat = 0;
     for (unsigned i = 0; i < 8; i++) s_uregs[i] = 0;
 }
 
