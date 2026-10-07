@@ -7,6 +7,7 @@ all:
 	$(MAKE) -C cpu all
 	$(MAKE) -C cop-branch all
 	$(MAKE) -C cop0 all
+	$(MAKE) -C cop0-sr all
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
 	$(MAKE) -C dma-modes all
@@ -80,6 +81,7 @@ clean:
 	$(MAKE) -C cpu clean
 	$(MAKE) -C cop-branch clean
 	$(MAKE) -C cop0 clean
+	$(MAKE) -C cop0-sr clean
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
 	$(MAKE) -C dma-modes clean
