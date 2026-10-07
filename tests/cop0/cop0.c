@@ -159,3 +159,46 @@ CESTER_TEST(cpu_unaligned_write_fault, cpu_tests,
     cester_assert_uint_eq(0x80, s_from);
     cester_assert_uint_eq(expectedEPC, s_epc);
 )
+
+// SR keeps IEc..KUo, IM, IsC, SwC, PZ, CM, BEV and CU0..CU3; bits 6-7,
+// 20-21 (PE, TS) and 23-27 (RE among them) read 0 after writing 1. KUc
+// (bit 1) is left out here: setting it drops this code into user mode.
+CESTER_MAYBE_TEST(cpu_cop0_sr_writable_bits, cpu_tests,
+    uint32_t old, got, mask = 0;
+    __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(old));
+    for (unsigned b = 0; b < 32; b++) {
+        if (b == 1) continue;
+        uint32_t v = 1u << b;
+        __asm__ volatile(".set push\n.set noreorder\n"
+                         "mtc0 %1, $12\nnop\nnop\nmfc0 %0, $12\nnop\nmtc0 %2, $12\nnop\nnop\n"
+                         ".set pop" : "=&r"(got) : "r"(v), "r"(old));
+        mask |= got & v;
+    }
+    cester_assert_uint_eq(0xf04fff3d, mask);
+)
+
+// With CU1 or CU3 clear, cop1 and cop3 opcodes raise Coprocessor Unusable
+// even in kernel mode, with CE naming the coprocessor.
+CESTER_MAYBE_TEST(cpu_cop0_cu1_unusable, cpu_tests,
+    uint32_t old, sr;
+    __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(old));
+    sr = old & ~0x20000000;
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(sr));
+    __asm__ volatile(".word 0x44080000" : : : "t0");
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(old));
+    cester_assert_uint_eq(1, s_got80);
+    uint32_t ce = s_cause & 0x3000007c;
+    cester_assert_uint_eq(0x1000002c, ce);
+)
+
+CESTER_MAYBE_TEST(cpu_cop0_cu3_unusable, cpu_tests,
+    uint32_t old, sr;
+    __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(old));
+    sr = old & ~0x80000000;
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(sr));
+    __asm__ volatile(".word 0x4c080000" : : : "t0");
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(old));
+    cester_assert_uint_eq(1, s_got80);
+    uint32_t ce = s_cause & 0x3000007c;
+    cester_assert_uint_eq(0x3000002c, ce);
+)
