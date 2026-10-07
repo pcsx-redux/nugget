@@ -47,6 +47,8 @@ SOFTWARE.
 // ~16K word writes per test iteration.
 #define PROBE_Y_MAX 1024
 
+static ProbeStats* s_stats = 0;
+
 static void onePass(int16_t y_top, int16_t y_bot) {
     fillColumn(COL_X, COL_W, BG_COLOR);
 
@@ -84,17 +86,31 @@ static void onePass(int16_t y_top, int16_t y_bot) {
 
     PROBE_RESULT("drawing-area-y top=%d bot=%d drawn_y_min=%d drawn_y_max=%d", y_top, y_bot,
                  top_drawn, bot_drawn);
+
+    // Silicon (573, 2026-05-07): the drawing-area bottom is exclusive, so a
+    // [top, bot) scissor draws rows top..bot-1; an empty interval draws
+    // nothing. The 10-bit Y is honored all the way to 1023.
+    int exp_min = (y_top < y_bot) ? y_top : -1;
+    int exp_max = (y_top < y_bot) ? (y_bot - 1) : -1;
+    if (top_drawn == exp_min && bot_drawn == exp_max) {
+        PROBE_PASS(s_stats, "top=%d bot=%d -> %d..%d", y_top, y_bot, top_drawn, bot_drawn);
+    } else {
+        PROBE_FAIL(s_stats, "top=%d bot=%d -> %d..%d expected %d..%d", y_top, y_bot, top_drawn,
+                   bot_drawn, exp_min, exp_max);
+    }
 }
 
 int main(void) {
     ramsyscall_printf("\n=== 573 drawing-area-y ===\n");
     probeReset();
+    gp1_09(1);  // open the upper bank so Y>=512 drawing is genuinely addressable
 
     static const int16_t ys[] = {0, 256, 511, 512, 513, 768, 1023};
     static const int n = sizeof(ys) / sizeof(ys[0]);
 
     ProbeStats stats;
     probeStatsInit(&stats);
+    s_stats = &stats;
 
     // Sweep y_top with a fixed large y_bot.
     for (int i = 0; i < n; i++) {
@@ -109,9 +125,7 @@ int main(void) {
         onePass(0, ys[i]);
     }
 
-    PROBE_INFO(&stats, "drawing-area-y sweep complete");
     probeStatsSummary(&stats, "drawing-area-y");
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }

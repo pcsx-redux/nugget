@@ -41,6 +41,7 @@ SOFTWARE.
 #include "common/hardware/gpu.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
+#include "common/hardware/pcsxhw.h"
 #include "common/syscalls/syscalls.h"
 
 // Bring the GPU into a known polled-FIFO state. Modeled on the reset()
@@ -280,4 +281,12 @@ static inline void probeStatsSummary(const ProbeStats* s, const char* name) {
     // Marker line for log-capture tools (psxup.py looks for this exact string
     // to terminate its read loop).
     ramsyscall_printf("=== Done ===\n");
+}
+
+// Under the emulator the exit code is the verdict. On hardware there is
+// nobody to exit to, so the probe parks once its output is out.
+static inline void probeExit(const ProbeStats* s) {
+    if (pcsx_present()) pcsx_exit(s->failed > 0 ? 1 : 0);
+    while (1) {
+    }
 }

@@ -163,7 +163,6 @@ int main(void) {
 
     probeStatsSummary(&stats, "bank-probe");
 
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }
