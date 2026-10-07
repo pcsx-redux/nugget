@@ -70,6 +70,7 @@ SKIPS=(
     "dma-priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
     "spu-wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
+    "icache/icache|emulator gap: i-cache tag and code-word access through BCC TAG/IS1 with SR.IsC is not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
     "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"

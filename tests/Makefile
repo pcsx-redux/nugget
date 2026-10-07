@@ -10,6 +10,7 @@ all:
 	$(MAKE) -C cop0-sr all
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
+	$(MAKE) -C icache all
 	$(MAKE) -C dma-modes all
 	$(MAKE) -C dma-priority all
 	$(MAKE) -C gpu all
@@ -89,6 +90,7 @@ clean:
 	$(MAKE) -C cop0-sr clean
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
+	$(MAKE) -C icache clean
 	$(MAKE) -C dma-modes clean
 	$(MAKE) -C dma-priority clean
 	$(MAKE) -C gpu clean
