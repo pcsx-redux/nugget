@@ -51,6 +51,7 @@ const TESTS = [
     'memcpy;memcpy/memcpy',
     'memops-unroll;memops-unroll/memops-unroll',
     'memset;memset/memset',
+    'psyqo-spudma;psyqo-spudma/spudma',
     'spu;spu/spu',
     'spu-endmute;spu-endmute/spu-endmute',
     'spu-endx;spu-endx/spu-endx',

@@ -51,6 +51,7 @@ TESTS=(
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "psyqo-dmachain;psyqo-dmachain/dmachain;interpreter dynarec;^All 3 arms passed;"
+    "psyqo-spudma;psyqo-spudma/spudma;interpreter dynarec;^All SPU DMA checks passed;"
     "rumble;rumble/rumble;interpreter dynarec;$CESTER;-exec dofile('tests/rumble/setup.lua')"
     "sr-write;sr-write/sr-write;interpreter;$CESTER;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
