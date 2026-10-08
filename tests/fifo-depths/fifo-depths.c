@@ -530,7 +530,14 @@ static void grBurst(int pre, int rep) {
 #define D2_BCR (*(volatile uint32_t *)0xbf8010a4)
 #define D2_CHCR (*(volatile uint32_t *)0xbf8010a8)
 static uint32_t s_dbuf[160];
-static void grDma(int bs, int ba, int rep) {
+static int patIndex(uint32_t v) {
+    if ((v & 0xf000f000u) == 0x50005000u && (v >> 16) == (v & 0xffff) + 1 && !(v & 1)) return (int)((v & 0xfff) >> 1);
+    return -1;
+}
+
+/* v4: pre = delay between the C0h header and the DMA start (lets the GPU
+   fill whatever it buffers); raw printed as runs of pattern indices. */
+static void grDma(int bs, int ba, int pre, int rep) {
     int words = bs * ba;
     fullReset();
     uploadPattern();
@@ -540,6 +547,8 @@ static void grDma(int bs, int ba, int rep) {
     GPU_DATA = 0xc0000000;
     GPU_DATA = (GR_Y << 16) | GR_X;
     GPU_DATA = (1 << 16) | (words * 2);
+    delay(pre);
+    uint32_t st0 = GPU_STATUS;
     uint32_t dpcr0 = DPCR;
     DPCR = dpcr0 | 0x00000800u;
     D2_MADR = (uint32_t)s_dbuf & 0x1fffffff;
@@ -556,7 +565,6 @@ static void grDma(int bs, int ba, int rep) {
     }
     uint32_t bcr = D2_BCR, madr = D2_MADR, st = GPU_STATUS;
     DPCR = dpcr0;
-    /* invalidate nothing: s_dbuf is read through KSEG1 */
     volatile uint32_t *b = (volatile uint32_t *)(((uint32_t)s_dbuf & 0x1fffffff) | 0xa0000000);
     int ok = 0, rpt = 0, firstBad = -1;
     for (int k = 0; k < words; k++) {
@@ -566,10 +574,24 @@ static void grDma(int bs, int ba, int rep) {
             firstBad = k;
         if (k && b[k] == b[k - 1]) rpt++;
     }
-    ramsyscall_printf("OBS grdma bs=%d ba=%d rep=%d words=%d ok=%d repeats=%d firstBad=%d aborted=%d polls=%u dt8=%u bcr=%08x madr+%d st=%08x raw:",
-                      bs, ba, rep, words, ok, rpt, firstBad, aborted, polls, dt, bcr,
-                      (int)(madr - ((uint32_t)s_dbuf & 0x1fffffff)), st);
-    for (int k = 0; k < words && k < 40; k++) printPat(b[k], 0);
+    ramsyscall_printf(
+        "OBS grdma bs=%d ba=%d pre=%d rep=%d words=%d ok=%d repeats=%d firstBad=%d aborted=%d polls=%u dt8=%u bcr=%08x madr+%d st0=%08x st=%08x runs:",
+        bs, ba, pre, rep, words, ok, rpt, firstBad, aborted, polls, dt, bcr, (int)(madr - ((uint32_t)s_dbuf & 0x1fffffff)),
+        st0, st);
+    /* runs: "[pos]a-b" = buffer positions from pos hold pattern words a..b */
+    int k = 0;
+    while (k < words) {
+        int a = patIndex(b[k]);
+        if (a < 0) {
+            ramsyscall_printf(" [%d]%08x", k, b[k]);
+            k++;
+            continue;
+        }
+        int m = k + 1;
+        while (m < words && patIndex(b[m]) == a + (m - k)) m++;
+        ramsyscall_printf(" [%d]%d-%d", k, a, a + (m - k) - 1);
+        k = m;
+    }
     ramsyscall_printf("\n");
     fullReset();
     waitIdle();
@@ -738,7 +760,7 @@ static void mdecOverfill(int f, int drainFirst, int rep) {
 int main(void) {
     irqOff();
     T2_MODE = 0x200; /* sysclk/8 */
-    ramsyscall_printf("FIFODEPTH-START v3\n");
+    ramsyscall_printf("FIFODEPTH-START v4\n");
     fullReset();
     GPU_STATUS = 0x10000007;
     ramsyscall_printf("OBS gpuver idx7=%08x idle=%08x\n", GPU_DATA, GPU_STATUS);
@@ -794,12 +816,10 @@ int main(void) {
 
     /* DMA last: a stuck channel is aborted after a bounded poll, but keep
        everything else ahead of it. */
-    for (int r = 0; r < REPS; r++) {
-        grDma(8, 16, r);
-        grDma(16, 8, r);
-        grDma(32, 4, r);
-    }
-    for (int r = 0; r < REPS; r++) grDma(17, 7, r);
+    static const int bss[][2] = {{8, 16}, {16, 8}, {17, 7}, {18, 7}, {20, 6}, {22, 5}, {24, 5}, {28, 4}, {32, 4}, {64, 2}, {128, 1}};
+    for (int r = 0; r < REPS; r++)
+        for (int pre = 0; pre < 2; pre++)
+            for (unsigned i = 0; i < sizeof(bss) / sizeof(bss[0]); i++) grDma(bss[i][0], bss[i][1], pre ? 3000 : 0, r);
 
     GPU_STATUS = 0x00000000;
     ramsyscall_printf("OBS done\n");
