@@ -1,5 +1,6 @@
 all:
 	$(MAKE) -C 2mb-vram all
+	$(MAKE) -C alloc-tracker all
 	$(MAKE) -C basic all
 	$(MAKE) -C bcc-bits all
 	$(MAKE) -C bsdec all
@@ -81,6 +82,7 @@ all:
 
 clean:
 	$(MAKE) -C 2mb-vram clean
+	$(MAKE) -C alloc-tracker clean
 	$(MAKE) -C basic clean
 	$(MAKE) -C bcc-bits clean
 	$(MAKE) -C bsdec clean
