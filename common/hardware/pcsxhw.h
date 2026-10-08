@@ -28,6 +28,8 @@ SOFTWARE.
 
 #include <stdint.h>
 
+// PCSX-Redux collects these characters and logs them a line at a time: nothing
+// shows until a '\n' is written. '\r' is dropped.
 static __inline__ void pcsx_putc(int c) { *((volatile char* const)0x1f802080) = c; }
 static __inline__ void pcsx_debugbreak() { *((volatile char* const)0x1f802081) = 0; }
 static __inline__ void pcsx_execSlot(uint8_t slot) { *((volatile uint8_t* const)0x1f802081) = slot; }
