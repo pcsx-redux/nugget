@@ -67,4 +67,10 @@ static __inline__ void pcsx_registerHeapMetadata(const void* metadata) {
     *((void* volatile* const)0x1f8020a0) = (void*)metadata;
 }
 
+/* Structured, versioned, feature-detectable commands live on the single port at
+   0x1f8020a4; see common/hardware/pcsxcmd.h. New features belong there rather
+   than on a fresh address in this file: the EXP2 space is shared with other
+   people's claimed registers and a write to an unclaimed one is
+   indistinguishable from success. */
+
 static __inline__ int pcsx_present() { return *((volatile uint32_t* const)0x1f802080) == 0x58534350; }
