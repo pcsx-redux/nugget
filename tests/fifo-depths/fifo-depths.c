@@ -217,6 +217,79 @@ static void gp0Arm(const char *tag, int busy, int nw, int rep) {
     ramsyscall_printf("\n");
 }
 
+/* v2 GP0 arm. v1 showed GP0 writes into a full FIFO never stall the CPU and
+   the A0h upload desynchronises, so the queued traffic is now self-
+   resynchronising: e GP0(E6h) words then P GP0(68h) 1x1 dots, dot i at
+   (DOT_X+i, DOT_Y) in a colour that encodes i. A vertex word has top byte 0
+   (y < 256), so if the command word before it is lost it parses as a NOP.
+   After the copy, one GP0(00h) absorbs a dangling vertex, GP1(01h) clears
+   any half command, and the row is read back: 'o' = dot i drawn with its
+   own colour, '.' = not drawn, '?' = something else. */
+#define DOT_X 640
+#define DOT_Y 100
+static inline uint32_t dotCol(int i) {
+    return (0xf8u << 16) | ((uint32_t)((16 + (i >> 5)) << 3) << 8) | ((uint32_t)(i & 31) << 3);
+}
+static inline uint32_t dotPx(int i) { return (uint32_t)(i & 31) | ((uint32_t)(16 + (i >> 5)) << 5) | (0x1fu << 10); }
+
+static void drawEnv(void) {
+    waitIdle();
+    GPU_DATA = 0xe1000400;
+    GPU_DATA = 0xe3000000;
+    GPU_DATA = 0xe4000000 | (511 << 10) | 1023;
+    GPU_DATA = 0xe5000000;
+    waitIdle();
+}
+
+static void gp0Dots(int busy, int e, int p, int rep) {
+    fullReset();
+    fill(0, 0, 512, 256, 0x0000f8);
+    fill(0, 256, 512, 256, 0xf80000);
+    fill(DOT_X, DOT_Y, 128, 1, 0x000000);
+    drawEnv();
+    uint32_t tc = now();
+    if (busy) startCopy();
+    for (int i = 0; i < e; i++) GPU_DATA = 0xe6000000;
+    for (int i = 0; i < p; i++) {
+        GPU_DATA = 0x68000000 | dotCol(i);
+        GPU_DATA = (DOT_Y << 16) | (DOT_X + i);
+    }
+    uint32_t tBurst = since(tc);
+    uint32_t stBurst = GPU_STATUS;
+    uint32_t polls = 0;
+    while (!(GPU_STATUS & ST_EMPTY) && polls < 2000000) polls++;
+    delay(20000); /* the copy and anything queued finish */
+    uint32_t stPre = GPU_STATUS;
+    GPU_DATA = 0x00000000;
+    waitIdle();
+    GPU_STATUS = 0x01000000;
+    int idle = waitIdle();
+    int to = readRect(DOT_X, DOT_Y, 128, 1, s_rb, 64);
+    int present = 0, other = 0, beyond = 0, lastPresent = -1;
+    char map[65];
+    for (int i = 0; i < 64; i++) {
+        uint32_t px = (i & 1) ? (s_rb[i >> 1] >> 16) : (s_rb[i >> 1] & 0xffff);
+        if (i < p && px == dotPx(i)) {
+            map[i] = 'o';
+            present++;
+            lastPresent = i;
+        } else if (px == 0) {
+            map[i] = '.';
+        } else {
+            map[i] = '?';
+            if (i < p)
+                other++;
+            else
+                beyond++;
+        }
+    }
+    map[64] = 0;
+    ramsyscall_printf(
+        "OBS dots %s rep=%d e=%d P=%d words=%d present=%d lastPresent=%d other=%d beyond=%d tBurst8=%u drainPolls=%u stBurst=%08x stPre=%08x idle=%d rbTO=%d map=%s\n",
+        busy ? "busy" : "idle", rep, e, p, e + 2 * p, present, lastPresent, other, beyond, tBurst, polls, stBurst, stPre,
+        idle, to, map);
+}
+
 /* ------------------------------------------------------------- GPUREAD */
 
 #define GR_X 640
@@ -341,6 +414,77 @@ static void grTiming(int rep, int pre) {
     ramsyscall_printf("\n");
 }
 
+/* v2 GPUREAD arm. v1: a GP0(02h) fill written during a C0h transfer only runs
+   after the transfer, so it cannot mark the read FIFO. Here, after j words,
+   the transfer is cut by GP1(01h) (mode 1) or GP1(00h) (mode 2); then 40 raw
+   reads. Words that still continue the pattern from j were already fetched.
+   Mode 0 = no cut (control: all 40 continue). */
+static void printPat(uint32_t v, int notReady) {
+    if ((v & 0xf000f000u) == 0x50005000u && (v >> 16) == (v & 0xffff) + 1)
+        ramsyscall_printf(" p%d%s", (int)((v & 0xfff) >> 1), notReady ? "!" : "");
+    else
+        ramsyscall_printf(" %08x%s", v, notReady ? "!" : "");
+}
+
+static void grAbort(int mode, int j, int rep) {
+    fullReset();
+    uploadPattern();
+    waitIdle();
+    GPU_DATA = 0xc0000000;
+    GPU_DATA = (GR_Y << 16) | GR_X;
+    GPU_DATA = (1 << 16) | GR_W;
+    delay(3000);
+    for (int k = 0; k < j; k++) {
+        int i = 0;
+        while (!(GPU_STATUS & ST_READ_RDY) && i < 100000) i++;
+        s_rb[k] = GPU_DATA;
+    }
+    uint32_t st0 = GPU_STATUS;
+    if (mode == 1) GPU_STATUS = 0x01000000;
+    if (mode == 2) GPU_STATUS = 0x00000000;
+    delay(3000);
+    uint32_t st1 = GPU_STATUS;
+    for (int k = 0; k < 40; k++) {
+        s_st[k] = GPU_STATUS;
+        s_rb[j + k] = GPU_DATA;
+    }
+    int cont = 0;
+    while (cont < 40 && s_rb[j + cont] == patWord(j + cont)) cont++;
+    int okJ = 0;
+    for (int k = 0; k < j; k++) okJ += s_rb[k] == patWord(k);
+    ramsyscall_printf("OBS grabort mode=%d j=%d rep=%d okJ=%d cont=%d st0=%08x st1=%08x raw:", mode, j, rep, okJ, cont,
+                      st0, st1);
+    for (int k = 0; k < 40; k++) printPat(s_rb[j + k], !(s_st[k] & ST_READ_RDY));
+    ramsyscall_printf("\n");
+    fullReset();
+    waitIdle();
+}
+
+/* What GPUREAD returns before the first word is ready and past the end of a
+   16-word transfer. '!' = bit 27 was clear just before that read. */
+static void grEnd(int rep) {
+    fullReset();
+    uploadPattern();
+    waitIdle();
+    GPU_DATA = 0xc0000000;
+    GPU_DATA = (GR_Y << 16) | GR_X;
+    GPU_DATA = (1 << 16) | 32;
+    uint32_t s0 = GPU_STATUS;
+    uint32_t r0 = GPU_DATA;
+    delay(3000);
+    ramsyscall_printf("OBS grend rep=%d immediate:", rep);
+    printPat(r0, !(s0 & ST_READ_RDY));
+    ramsyscall_printf(" then:");
+    for (int k = 0; k < 24; k++) {
+        uint32_t s = GPU_STATUS;
+        uint32_t v = GPU_DATA;
+        printPat(v, !(s & ST_READ_RDY));
+    }
+    ramsyscall_printf(" end=%08x\n", GPU_STATUS);
+    fullReset();
+    waitIdle();
+}
+
 /* ---------------------------------------------------------------- MDEC */
 
 #define M_FULL (1u << 30)
@@ -372,30 +516,44 @@ static const char *depthName(int d) {
 }
 
 /* Out: k mono blocks (8 words each at 4-bit, 16 at 8-bit), not drained. */
-static void mdecOutArm(int depth, int k, int rep) {
+/* v2: v1's N=k commands with k < 32 left the MDEC eating later command words
+   as data. The command is now N=n words: k block words, then n-k padding
+   words FE00FE00h (skipped before a DC). firstEmpty = read index at which
+   bit 31 was first seen set. */
+#define PADWORD 0xfe00fe00u
+static uint32_t s_mo[8];
+static void mdecOutArm(int depth, int k, int n, int rep) {
     MDEC1 = 0x80000000;
     MDEC1 = 0;
-    MDEC0 = 0x20000000 | (depth << 27) | k;
+    delay(1000);
+    MDEC0 = 0x20000000 | (depth << 27) | n;
+    uint32_t sc = MDEC1;
     for (int i = 0; i < k; i++) MDEC0 = BLOCKWORD;
+    for (int i = k; i < n; i++) MDEC0 = PADWORD;
     delay(50000);
     uint32_t s = MDEC1;
-    int cnt = 0, gaps = 0;
-    for (int n = 0; n < 4096; n++) {
+    int cnt = 0, gaps = 0, firstEmpty = -1;
+    uint32_t last = 0;
+    for (int m = 0; m < 4096; m++) {
         uint32_t t = MDEC1;
         if (t & M_EMPTY) {
-            /* empty: is the decoder still going to refill? */
+            if (firstEmpty < 0) firstEmpty = cnt;
             int i = 0;
             while ((MDEC1 & M_EMPTY) && i < 20000) i++;
             if (i >= 20000) break;
             gaps++;
         }
-        (void)MDEC0;
+        last = MDEC0;
+        if (cnt < 8) s_mo[cnt] = last;
         cnt++;
     }
     uint32_t e = MDEC1;
-    ramsyscall_printf("OBS mdecout %s k=%d rep=%d undrained=%08x busy=%d rem=%04x blk=%d empty=%d read=%d gaps=%d end=%08x\n",
-                      depthName(depth), k, rep, s, !!(s & M_BUSY), s & 0xffff, (s >> 16) & 7, !!(s & M_EMPTY), cnt,
-                      gaps, e);
+    ramsyscall_printf(
+        "OBS mdecout %s k=%d n=%d rep=%d afterCmd=%08x undrained=%08x busy=%d rem=%04x blk=%d empty=%d read=%d firstEmpty=%d gaps=%d end=%08x out0..3=%08x %08x %08x %08x last=%08x\n",
+        depthName(depth), k, n, rep, sc, s, !!(s & M_BUSY), s & 0xffff, (s >> 16) & 7, !!(s & M_EMPTY), cnt, firstEmpty,
+        gaps, e, s_mo[0], s_mo[1], s_mo[2], s_mo[3], last);
+    MDEC1 = 0x80000000;
+    MDEC1 = 0;
 }
 
 static int s_fullAt;
@@ -443,9 +601,10 @@ static void mdecInArm(int depth, int slow, int rep) {
 /* Overfill: command for F+1 words, F written until full, then one more. If
    the extra word is kept the decode completes with (F+1)*16 words out; if it
    is dropped the decoder is left waiting with F*16 out. */
-static void mdecOverfill(int f, int rep) {
+static void mdecOverfill(int f, int drainFirst, int rep) {
     MDEC1 = 0x80000000;
     MDEC1 = 0;
+    delay(1000);
     MDEC0 = 0x20000000 | (1 << 27) | (f + 1);
     int fullAt = -1;
     for (int n = 0; n < f; n++) {
@@ -454,6 +613,18 @@ static void mdecOverfill(int f, int rep) {
         if ((MDEC1 & M_FULL) && fullAt < 0) fullAt = n + 1;
     }
     uint32_t sFull = MDEC1;
+    int pre = 0;
+    if (drainFirst) {
+        /* control: let the decoder empty its input before the extra word */
+        for (int n = 0; n < 8192; n++) {
+            int i = 0;
+            while ((MDEC1 & M_EMPTY) && i < 20000) i++;
+            if (i >= 20000) break;
+            (void)MDEC0;
+            pre++;
+        }
+    }
+    uint32_t sMid = MDEC1;
     uint32_t t0 = now();
     MDEC0 = BLOCKWORD;
     uint32_t sx = MDEC1;
@@ -467,8 +638,9 @@ static void mdecOverfill(int f, int rep) {
         cnt++;
     }
     uint32_t e = MDEC1;
-    ramsyscall_printf("OBS mdecover rep=%d F=%d fullAt=%d sFull=%08x extraDt8=%u sAfter=%08x read=%d expectKept=%d expectLost=%d end=%08x busy=%d\n",
-                      rep, f, fullAt, sFull, dt, sx, cnt, (f + 1) * 16, f * 16, e, !!(e & M_BUSY));
+    ramsyscall_printf(
+        "OBS mdecover drainFirst=%d rep=%d F=%d fullAt=%d sFull=%08x readBefore=%d sMid=%08x extraDt8=%u sAfter=%08x readAfter=%d total=%d expectKept=%d expectLost=%d end=%08x busy=%d\n",
+        drainFirst, rep, f, fullAt, sFull, pre, sMid, dt, sx, cnt, pre + cnt, (f + 1) * 16, f * 16, e, !!(e & M_BUSY));
     MDEC1 = 0x80000000;
     MDEC1 = 0;
 }
@@ -476,43 +648,52 @@ static void mdecOverfill(int f, int rep) {
 int main(void) {
     irqOff();
     T2_MODE = 0x200; /* sysclk/8 */
-    ramsyscall_printf("FIFODEPTH-START\n");
+    ramsyscall_printf("FIFODEPTH-START v2\n");
     fullReset();
     GPU_STATUS = 0x10000007;
     ramsyscall_printf("OBS gpuver idx7=%08x idle=%08x\n", GPU_DATA, GPU_STATUS);
 
     for (int r = 0; r < REPS; r++) copyProof(r);
+    static const int ps[] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 20};
     for (int r = 0; r < REPS; r++) {
-        gp0Arm("idle", 0, 40, r);
-        gp0Arm("busy", 1, 40, r);
-        gp0Arm("busy8", 1, 8, r);
+        gp0Dots(0, 0, 20, r);
+        gp0Dots(0, 1, 20, r);
+        for (int e = 0; e < 2; e++)
+            for (unsigned i = 0; i < sizeof(ps) / sizeof(ps[0]); i++) gp0Dots(1, e, ps[i], r);
     }
     for (int r = 0; r < REPS; r++) {
-        grArm("nofill", GR_NOFILL, 0, r);
-        grArm("fillbefore", GR_FILLBEFORE, 0, r);
-        grArm("fillduring", GR_FILLDURING, 0, r);
-        grArm("fillduring", GR_FILLDURING, 4, r);
-        grArm("fillduring", GR_FILLDURING, 10, r);
-        grTiming(r, 0);
-        grTiming(r, 1);
+        grEnd(r);
+        grAbort(0, 0, r);
+        grAbort(1, 0, r);
+        grAbort(1, 5, r);
+        grAbort(1, 20, r);
+        grAbort(2, 0, r);
+        grAbort(2, 5, r);
+        grAbort(2, 20, r);
     }
 
     mdecInit();
     for (int r = 0; r < REPS; r++) {
-        for (int k = 1; k <= 8; k++) mdecOutArm(0, k, r);
-        for (int k = 1; k <= 5; k++) mdecOutArm(1, k, r);
-        mdecOutArm(2, 6, r); /* one colour macroblock, 192 words */
+        mdecOutArm(0, 1, 1, r); /* v1 shape, now with raw output */
+        for (int k = 1; k <= 8; k++) mdecOutArm(0, k, 32, r);
+        mdecOutArm(0, 12, 32, r);
+        mdecOutArm(0, 16, 32, r);
+        mdecOutArm(0, 32, 32, r);
+        for (int k = 1; k <= 6; k++) mdecOutArm(1, k, 32, r);
+        mdecOutArm(1, 8, 32, r);
+        mdecOutArm(1, 32, 32, r);
     }
     s_fullAt = -1;
     for (int r = 0; r < REPS; r++) {
         mdecInArm(0, 0, r);
-        mdecInArm(0, 1, r);
-        mdecInArm(1, 0, r);
         mdecInArm(1, 1, r);
         mdecInArm(2, 1, r);
     }
     if (s_fullAt > 0)
-        for (int r = 0; r < REPS; r++) mdecOverfill(s_fullAt, r);
+        for (int r = 0; r < REPS; r++) {
+            mdecOverfill(s_fullAt, 0, r);
+            mdecOverfill(s_fullAt, 1, r);
+        }
     else
         ramsyscall_printf("OBS mdecover skipped: no fullAt\n");
 
