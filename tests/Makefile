@@ -15,6 +15,7 @@ all:
 	$(MAKE) -C dma-priority all
 	$(MAKE) -C gpu all
 	$(MAKE) -C gpu-nop all
+	$(MAKE) -C fifo-depths all
 	$(MAKE) -C gpu-fifo all
 	$(MAKE) -C gpu-fbrect all
 	$(MAKE) -C gpu-vram-move all
@@ -95,6 +96,7 @@ clean:
 	$(MAKE) -C dma-priority clean
 	$(MAKE) -C gpu clean
 	$(MAKE) -C gpu-nop clean
+	$(MAKE) -C fifo-depths clean
 	$(MAKE) -C gpu-fifo clean
 	$(MAKE) -C gpu-fbrect clean
 	$(MAKE) -C gpu-vram-move clean
