@@ -89,6 +89,7 @@ SKIPS=(
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "regwrites/regwrites|probe: loops forever, no verdict"
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
+    "irq-branch-slot/irq-branch-slot|needs the IRQ fix from pcsx-redux#2251 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
 )
 for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
