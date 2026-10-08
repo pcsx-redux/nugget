@@ -51,7 +51,9 @@ static void setupArea(void) {
 // Read at a specific column; the line case draws at column COL_X+8 while
 // the polygon/rectangle/sprite cases draw across the full COL_X..COL_X+W
 // range, so the readback column must match the primitive being tested.
-static void countDrawnAt(const char* label, int read_x) {
+static ProbeStats* s_stats = 0;
+
+static void countDrawnAt(const char* label, int read_x, int e_lo, int e_mid, int e_hi) {
     uint16_t buf[2];
     int drawn_lo = 0, drawn_mid = 0, drawn_hi = 0;
     for (int y = 400; y < 600; y++) {
@@ -64,9 +66,19 @@ static void countDrawnAt(const char* label, int read_x) {
     }
     PROBE_RESULT("primitives-cross %s drawn_y400_499=%d drawn_y500_519=%d drawn_y520_599=%d",
                  label, drawn_lo, drawn_mid, drawn_hi);
+    // Expected counts are measured 573 silicon (2026-05-07): each primitive
+    // rasterizes correctly across the Y=512 bank boundary into the upper bank.
+    if (drawn_lo == e_lo && drawn_mid == e_mid && drawn_hi == e_hi) {
+        PROBE_PASS(s_stats, "%s %d/%d/%d", label, drawn_lo, drawn_mid, drawn_hi);
+    } else {
+        PROBE_FAIL(s_stats, "%s %d/%d/%d expected %d/%d/%d", label, drawn_lo, drawn_mid, drawn_hi,
+                   e_lo, e_mid, e_hi);
+    }
 }
 
-static void countDrawn(const char* label) { countDrawnAt(label, COL_X + 4); }
+static void countDrawn(const char* label, int e_lo, int e_mid, int e_hi) {
+    countDrawnAt(label, COL_X + 4, e_lo, e_mid, e_hi);
+}
 
 int main(void) {
     ramsyscall_printf("\n=== 573 primitives-cross ===\n");
@@ -79,6 +91,7 @@ int main(void) {
 
     ProbeStats stats;
     probeStatsInit(&stats);
+    s_stats = &stats;
 
     // 1. Flat triangle from Y=400 to Y=600.
     setupArea();
@@ -87,7 +100,7 @@ int main(void) {
     GPU_DATA = (uint32_t)400 << 16 | (uint32_t)(COL_X + 0);
     GPU_DATA = (uint32_t)600 << 16 | (uint32_t)(COL_X + 0);
     GPU_DATA = (uint32_t)500 << 16 | (uint32_t)(COL_X + 16);
-    countDrawn("flat-triangle");
+    countDrawn("flat-triangle", 74, 20, 55);
 
     // 2. Flat-shaded rectangle (variable) at Y=400 height=200.
     setupArea();
@@ -95,7 +108,7 @@ int main(void) {
     GPU_DATA = 0x60000000u | CMD_COLOR;                  // GP0(0x60) variable rect
     GPU_DATA = (uint32_t)400 << 16 | (uint32_t)(COL_X);  // top-left
     GPU_DATA = (uint32_t)200 << 16 | (uint32_t)16;       // size (h, w)
-    countDrawn("rectangle");
+    countDrawn("rectangle", 100, 20, 80);
 
     // 3. Line from (X, 400) to (X, 600).
     setupArea();
@@ -103,7 +116,7 @@ int main(void) {
     GPU_DATA = 0x40000000u | CMD_COLOR;
     GPU_DATA = (uint32_t)400 << 16 | (uint32_t)(COL_X + 8);
     GPU_DATA = (uint32_t)600 << 16 | (uint32_t)(COL_X + 8);
-    countDrawnAt("line-vertical", COL_X + 8);
+    countDrawnAt("line-vertical", COL_X + 8, 100, 20, 80);
 
     // 4. Sprite (1x1 framebuffer-style) at Y=500 with implicit size from
     //    a variable sprite command. Uses GP0(0x64) textured sprite would
@@ -114,11 +127,9 @@ int main(void) {
     GPU_DATA = 0x60000000u | CMD_COLOR;
     GPU_DATA = (uint32_t)500 << 16 | (uint32_t)(COL_X);
     GPU_DATA = (uint32_t)100 << 16 | (uint32_t)16;
-    countDrawn("sprite-at-500-h100");
+    countDrawn("sprite-at-500-h100", 0, 20, 80);
 
-    PROBE_INFO(&stats, "primitives-cross sweep complete");
     probeStatsSummary(&stats, "primitives-cross");
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }
