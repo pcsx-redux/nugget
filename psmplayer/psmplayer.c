@@ -48,6 +48,7 @@ SOFTWARE.
 #define PSM_TEMPO_CHANGE  0x0A
 #define PSM_LOOP_POINT    0x0B
 #define PSM_END           0x0C
+#define PSM_USER          0x0D
 #define PSM_LONG_WAIT     0xFF
 
 struct PsmHeader {
@@ -289,6 +290,36 @@ unsigned PSM_voiceCount = 16;
 uint32_t PSM_currentEvent = 0;
 uint32_t PSM_eventCount = 0;
 int PSM_playing = 0;
+uint16_t PSM_noteMirrorMask = 0;
+uint32_t PSM_notifyDropped = 0;
+
+// Notifications for the program, written by PSM_Poll and read by
+// PSM_PopNotify. One writer and one reader, so the two indices need no lock.
+#define NOTIFY_QUEUE_SIZE 64
+static struct PSM_Notify s_notifyQueue[NOTIFY_QUEUE_SIZE];
+static volatile uint32_t s_notifyHead = 0;
+static volatile uint32_t s_notifyTail = 0;
+
+static void pushNotify(uint8_t kind, uint8_t tag, uint32_t data) {
+    uint32_t head = s_notifyHead;
+    uint32_t next = (head + 1) % NOTIFY_QUEUE_SIZE;
+    if (next == s_notifyTail) {
+        PSM_notifyDropped++;
+        return;
+    }
+    s_notifyQueue[head].kind = kind;
+    s_notifyQueue[head].tag = tag;
+    s_notifyQueue[head].data = data;
+    s_notifyHead = next;
+}
+
+int PSM_PopNotify(struct PSM_Notify* out) {
+    uint32_t tail = s_notifyTail;
+    if (tail == s_notifyHead) return 0;
+    *out = s_notifyQueue[tail];
+    s_notifyTail = (tail + 1) % NOTIFY_QUEUE_SIZE;
+    return 1;
+}
 
 // Private state
 static const struct PsmEvent* s_events = NULL;
@@ -602,6 +633,8 @@ uint32_t PSM_LoadSong(const void* psmData, uint32_t psmSize) {
     s_deltaConsumed = 0;
     s_globalTick = 0;
     s_reverbMask = 0;
+    s_notifyHead = s_notifyTail = 0;
+    PSM_notifyDropped = 0;
     PSM_playing = 1;
 
     // Reset channel state
@@ -681,6 +714,7 @@ static void processEvent(const struct PsmEvent* ev) {
             uint8_t velocity = (ev->data >> 8) & 0xFF;
             uint8_t program = (ev->data >> 16) & 0xFF;
             uint8_t toneIndex = (ev->data >> 24) & 0xFF;
+    if (PSM_noteMirrorMask & (1u << ch)) pushNotify(PSM_NOTIFY_NOTE, ch, note | (velocity << 8));
 
             const struct VagAtr* tone = lookupTone(program, toneIndex);
             if (!tone || tone->vag < 0) break;
@@ -819,6 +853,10 @@ static void processEvent(const struct PsmEvent* ev) {
             } else {
                 PSM_playing = 0;
             }
+            break;
+
+        case PSM_USER:
+            pushNotify(PSM_NOTIFY_USER, ch, ev->data);
             break;
 
         case PSM_LONG_WAIT:
