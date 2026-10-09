@@ -79,6 +79,17 @@ all:
 	$(MAKE) -C spu-endmute all
 	$(MAKE) -C spu-offvoice all
 	$(MAKE) -C sr-write all
+	$(MAKE) -C autoinc all
+	$(MAKE) -C bcc-narrow all
+	$(MAKE) -C dma-chopping all
+	$(MAKE) -C exp2-width all
+	$(MAKE) -C gpu-info8 all
+	$(MAKE) -C mdec-roundtrip all
+	$(MAKE) -C scanline-timing all
+	$(MAKE) -C spu-capring all
+	$(MAKE) -C spu-envx all
+	$(MAKE) -C spu-revread all
+	$(MAKE) -C spu-revstream all
 	$(MAKE) -C timers all
 
 clean:
@@ -162,4 +173,15 @@ clean:
 	$(MAKE) -C spu-endmute clean
 	$(MAKE) -C spu-offvoice clean
 	$(MAKE) -C sr-write clean
+	$(MAKE) -C autoinc clean
+	$(MAKE) -C bcc-narrow clean
+	$(MAKE) -C dma-chopping clean
+	$(MAKE) -C exp2-width clean
+	$(MAKE) -C gpu-info8 clean
+	$(MAKE) -C mdec-roundtrip clean
+	$(MAKE) -C scanline-timing clean
+	$(MAKE) -C spu-capring clean
+	$(MAKE) -C spu-envx clean
+	$(MAKE) -C spu-revread clean
+	$(MAKE) -C spu-revstream clean
 	$(MAKE) -C timers clean

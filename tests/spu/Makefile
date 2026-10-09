@@ -18,6 +18,10 @@ ifeq ($(SPU_PITCH_EDGE_GOLDENS),true)
 CPPFLAGS += -DSPU_PITCH_EDGE_GOLDENS_AVAILABLE=1
 endif
 
+ifeq ($(SPU_MODEAXES),true)
+CPPFLAGS += -DSPU_MODEAXES=1
+endif
+
 SRCS += \
 spu.c \
 
