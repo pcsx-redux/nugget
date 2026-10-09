@@ -42,6 +42,8 @@ SOFTWARE.
 //   A     nothing
 //   B     poll SPUSTAT bit 10 until clear (bounded)
 //   C     record 2048 raw SPUSTAT reads, then stop
+//   F7    poll SPUSTAT until bit 7 is set (bounded)
+//   F9    poll SPUSTAT until bit 9 is set (bounded)
 //   H1-4  wait for root counter 1 (hblank) to advance by N
 //   Sn    volatile spin of n iterations
 //   E     volatile spin of 20000 iterations, the reference
@@ -83,15 +85,29 @@ constexpr unsigned kPasses = 2;
 constexpr uint32_t kSizes[] = {0x800, 0x1000, 0x7e40};
 constexpr unsigned kNumSizes = sizeof(kSizes) / sizeof(kSizes[0]);
 
-enum ArmKind { NOTHING, BIT10, TRACE, HBLANK, SPIN };
+enum ArmKind { NOTHING, POLL, TRACE, HBLANK, SPIN };
 struct Arm {
     const char *name;
     ArmKind kind;
     unsigned n;
+    uint16_t mask = 0;
+    uint16_t want = 0;
 };
 constexpr Arm kArms[] = {
-    {"A", NOTHING, 0},  {"B", BIT10, 0},     {"C", TRACE, 0},     {"H1", HBLANK, 1},   {"H2", HBLANK, 2},
-    {"H4", HBLANK, 4},  {"S100", SPIN, 100}, {"S300", SPIN, 300}, {"S1000", SPIN, 1000}, {"S4000", SPIN, 4000},
+    {"A", NOTHING, 0},
+    {"B", POLL, 0, 0x0400, 0x0000},
+    {"C", TRACE, 0},
+    {"F7", POLL, 0, 0x0080, 0x0080},
+    {"F9", POLL, 0, 0x0200, 0x0200},
+    {"H1", HBLANK, 1},
+    {"H2", HBLANK, 2},
+    {"H4", HBLANK, 4},
+    {"S25", SPIN, 25},
+    {"S50", SPIN, 50},
+    {"S100", SPIN, 100},
+    {"S300", SPIN, 300},
+    {"S1000", SPIN, 1000},
+    {"S4000", SPIN, 4000},
     {"E", SPIN, 20000},
 };
 constexpr unsigned kNumArms = sizeof(kArms) / sizeof(kArms[0]);
@@ -138,13 +154,11 @@ ArmResult runArm(const Arm &arm) {
     switch (arm.kind) {
         case NOTHING:
             break;
-        case BIT10:
+        case POLL:
             for (r.polls = 0; r.polls < 0x10000; r.polls++) {
-                if (SPU_STATUS & 0x0400) {
-                    r.sawBusy = true;
-                } else {
-                    break;
-                }
+                uint16_t v = SPU_STATUS;
+                if (v & 0x0400) r.sawBusy = true;
+                if ((v & arm.mask) == arm.want) break;
             }
             break;
         case TRACE:
@@ -299,7 +313,8 @@ void TestScene::start(StartReason) {
     char rom[33];
     for (unsigned i = 0; i < 32; i++) rom[i] = *reinterpret_cast<volatile char *>(0xbfc7ff32 + i);
     rom[32] = 0;
-    ramsyscall_printf("SPU upload tail\nROM: %s\nSPUCNT=%04x SPUSTAT=%04x\n", rom, SPU_CTRL, SPU_STATUS);
+    ramsyscall_printf("SPU upload tail\nROM: %s\nSPUCNT=%04x SPUSTAT=%04x RAMCNT=%04x\n", rom, SPU_CTRL, SPU_STATUS,
+                      SPU_RAM_DTC);
 
     COUNTERS[2].mode = 0x0200;  // sysclk/8, free running
 
