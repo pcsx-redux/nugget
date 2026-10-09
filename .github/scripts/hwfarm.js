@@ -36,6 +36,11 @@ const TESTS = [
     'cop0;cop0/cop0',
     'cpu;cpu/cpu',
     'dma;dma/dma',
+    'gpu-command;gpu-command/gpu-command',
+    'gpu-fbrect;gpu-fbrect/gpu-fbrect',
+    'gpu-irq;gpu-irq/gpu-irq',
+    'gpu-polyline;gpu-polyline/gpu-polyline',
+    'gpu-vram-move;gpu-vram-move/gpu-vram-move',
     'gte;gte/gte',
     'gte-latency;gte-latency/gte-latency',
     'gte-latency-color;gte-latency-color/gte-latency-color',
@@ -46,6 +51,7 @@ const TESTS = [
     'gte-latency-mvmva;gte-latency-mvmva/gte-latency-mvmva',
     'gte-latency-perspective;gte-latency-perspective/gte-latency-perspective',
     'gte-latency-singles;gte-latency-singles/gte-latency-singles',
+    'icache;icache/icache',
     'libc;libc/libc',
     'load-timings;load-timings/load-timings',
     'memcpy;memcpy/memcpy',
@@ -56,6 +62,7 @@ const TESTS = [
     'spu-endmute;spu-endmute/spu-endmute',
     'spu-endx;spu-endx/spu-endx',
     'spu-offvoice;spu-offvoice/spu-offvoice',
+    'sr-write;sr-write/sr-write',
     'timers;timers/timers',
 ];
 for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase${p}/gpu-raster-phase${p}`);
@@ -67,6 +74,7 @@ const SKIPS = [
     'bcc-bits/bcc-bits|probe: prints timings, no verdict',
     'cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua',
     'cop-branch/cop-branch|no hardware baseline recorded yet',
+    'cop0-sr/cop0-sr|probe: prints what each SR bit does, no verdict, ends in the ROM through BEV',
     'dcache/dcache|no hardware baseline recorded yet',
     'dma-modes/dma-modes|probe: loops forever, no verdict',
     'dma-priority/dma-priority|probe: loops forever, no verdict',
@@ -89,6 +97,9 @@ const SKIPS = [
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
     SKIPS.push(`2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
+}
+for (const d of ['texpage-upper', 'transfer-wrap-y']) {
+    SKIPS.push(`2mb-vram/${d}/${d}|needs 2MB-VRAM hardware, the pinned consoles have 1MB`);
 }
 
 // Ticket failure codes that say nothing about the program. The lower-case
