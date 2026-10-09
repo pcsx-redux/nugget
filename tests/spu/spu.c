@@ -426,6 +426,13 @@ CESTER_BODY(
 //   5. read the captured voice1 buffer ring via DMA
 // The result is deterministic modulo at most 1 sample of jitter from the
 // CPU spin vs SPU sample-clock granularity.
+static int spu_voice1_capture_is_silent(void) {
+    for (int i = 0; i < 512; i++) {
+        if (s_capture[i] != 0) return 0;
+    }
+    return 1;
+}
+
 static void run_voice1_with_sample(const uint8_t *sample64, uint16_t pitch) {
     spu_reset_quiet();
     for (int i = 0; i < 64; i++) s_upload[i] = sample64[i];
@@ -442,7 +449,15 @@ static void run_voice1_with_sample(const uint8_t *sample64, uint16_t pitch) {
     spu_voice1_keyon(SPU_UPLOAD_ADDR, pitch);
     spu_wait_status_bit11_flip();
 
+    // On silicon the voice is in the capture by the first flip after the key-on.
+    // An emulator can still be mixing samples from before the key-on when the
+    // flip is seen, so an all-zero capture takes one more flip, a few times at
+    // most. A capture that already holds signal is read exactly as before.
     spu_read_sync(0x0800, s_capture, 1024);
+    for (int retry = 0; retry < 4 && spu_voice1_capture_is_silent(); retry++) {
+        spu_wait_status_bit11_flip();
+        spu_read_sync(0x0800, s_capture, 1024);
+    }
     SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
     muteSpu();
 }
