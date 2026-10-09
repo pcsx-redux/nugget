@@ -624,7 +624,13 @@ void psyqo::GPU::cancelTimer(uintptr_t id) {
 
 void psyqo::GPU::pumpCallbacks() {
     uint32_t lastHSyncCounter = m_lastHSyncCounter;
-    uint32_t hsyncCounter = COUNTERS[1].value;
+    uint32_t hsyncCounter;
+    // On hardware, a single read of the counter can return a wrong value. One that comes back
+    // lower than the last value is then taken for a wrap and advances time by 0x10000 hblanks,
+    // so keep reading until two consecutive reads agree.
+    do {
+        hsyncCounter = COUNTERS[1].value;
+    } while (hsyncCounter != COUNTERS[1].value);
     if (hsyncCounter < lastHSyncCounter) {
         hsyncCounter += 0x10000;
     }
