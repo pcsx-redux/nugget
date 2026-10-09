@@ -175,9 +175,10 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
 
     while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0)
         ;
-    // The DMA finishing does not mean the SPU has written everything yet: wait for the
-    // transfer to drain before leaving DMA mode, or the tail of the upload is lost.
-    while ((SPU_STATUS & 0x0400) != 0)
+    // The DMA finishing does not mean the SPU has written everything yet: leaving DMA mode
+    // now loses the last ~50-60 bytes on hardware. SPUSTAT bit 7 sets once the data has
+    // landed (bit 10 never reads busy here). The bound covers emulators that never set it.
+    for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) == 0; i++)
         ;
     SPU_CTRL &= ~0x0030;
 }
