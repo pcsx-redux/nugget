@@ -306,6 +306,7 @@ static unsigned s_numVags = 0;
 // VAG SPU RAM addresses (computed during bank load)
 #define MAX_VAGS 254
 static uint32_t s_vagAddrs[MAX_VAGS];  // SPU address in 8-byte units
+static uint32_t s_sampleEnd = 0;        // end of uploaded samples, rounded up to a DMA block
 
 // Reverb state
 static uint32_t s_reverbMask = 0;
@@ -465,6 +466,19 @@ static void setupReverb(void) {
 
     // Set reverb work area base (top of SPU RAM minus buffer)
     uint16_t mBase = (uint16_t)((0x80000 - preset->bufferSize) >> 3);
+    // SPU RAM keeps whatever ran before, so clear the work area before reverb runs over it,
+    // or the leftovers play as a burst of noise. SPUUpload moves whole 64-byte blocks, so the
+    // clear starts on a 64-byte boundary, up to 48 bytes below the work area. If the samples
+    // reach that far, leave reverb off rather than overwrite them.
+    uint32_t clearStart = ((uint32_t)mBase << 3) & ~0x3f;
+    if (s_sampleEnd > clearStart) return;
+    static uint8_t zeros[1024] __attribute__((aligned(8)));
+    for (uint32_t off = clearStart; off < 0x80000;) {
+        uint32_t len = 0x80000 - off;
+        if (len > sizeof(zeros)) len = sizeof(zeros);
+        SPUUpload(off, zeros, len);
+        off += len;
+    }
     SPU_REVERB_ADDR = mBase;
 
     // Write all 32 reverb config registers
@@ -523,6 +537,7 @@ static void uploadVAGs(const uint16_t* vagOffsetTable, const uint8_t* vagBody) {
             bodyOffset += vagSize;
         }
     }
+    s_sampleEnd = (spuAddr + 0x3f) & ~0x3f;
 }
 
 // Compute VAG addresses without uploading (when samples are already in SPU RAM).
@@ -533,6 +548,7 @@ static void computeVAGAddrs(const uint16_t* vagOffsetTable) {
         s_vagAddrs[i] = spuAddr >> 3;
         spuAddr += vagSize;
     }
+    s_sampleEnd = (spuAddr + 0x3f) & ~0x3f;
 }
 
 unsigned PSM_LoadBank(const void* vabData, uint32_t vabSize) {
