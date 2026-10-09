@@ -65,6 +65,7 @@ done
 SKIPS=(
     "bsdec/bsdec|hardware rig: needs a captured bs-in.bin staged beside it"
     "bcc-bits/bcc-bits|hardware probe: the emulator does not model bus timing, prints timings, no verdict"
+    "cd-cmd-latency/cd-cmd-latency|probe: prints CD command timings, no verdict"
     "cop0-sr/cop0-sr|hardware probe: prints what each SR bit does, no verdict, and ends in the ROM through BEV"
     "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
     "dma-modes/dma-modes|hardware probe: prints DMA register states per sync mode, loops forever, no verdict"

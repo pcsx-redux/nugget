@@ -72,6 +72,7 @@ for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase$
 const SKIPS = [
     'bsdec/bsdec|needs a captured bs-in.bin staged beside it',
     'bcc-bits/bcc-bits|probe: prints timings, no verdict',
+    'cd-cmd-latency/cd-cmd-latency|probe: prints timings, no verdict',
     'cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua',
     'cop-branch/cop-branch|no hardware baseline recorded yet',
     'cop0-sr/cop0-sr|probe: prints what each SR bit does, no verdict, ends in the ROM through BEV',
