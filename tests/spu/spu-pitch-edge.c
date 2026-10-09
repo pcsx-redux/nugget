@@ -75,6 +75,13 @@ static void spu_pitch_edge_setup_voice(int voice, uint32_t spuAddr,
     SPU_VOICES[voice].adsrHi = 0x1fc0;   // sustain rate=0x7F, increase, linear
 }
 
+static int spu_pitch_edge_capture_is_silent(void) {
+    for (int i = 0; i < 512; i++) {
+        if (s_capture[i] != 0) return 0;
+    }
+    return 1;
+}
+
 static void spu_pitch_edge_run_fmod(const uint8_t *modSample64,
                                     uint16_t modPitch,
                                     const uint8_t *carrierSample64,
@@ -103,7 +110,15 @@ static void spu_pitch_edge_run_fmod(const uint8_t *modSample64,
     SPU_KEY_ON_LOW = (1u << 0) | (1u << 1);
     spu_wait_status_bit11_flip();
 
+    // On silicon the voice is in the capture by the first flip after the key-on.
+    // An emulator can still be mixing samples from before the key-on when the
+    // flip is seen, so an all-zero capture takes one more flip, a few times at
+    // most. A capture that already holds signal is read exactly as before.
     spu_read_sync(0x0800, s_capture, 1024);
+    for (int retry = 0; retry < 4 && spu_pitch_edge_capture_is_silent(); retry++) {
+        spu_wait_status_bit11_flip();
+        spu_read_sync(0x0800, s_capture, 1024);
+    }
     SPU_KEY_OFF_LOW = 0xffff;
     SPU_KEY_OFF_HIGH = 0xffff;
     SPU_PITCH_MOD_LOW = 0;
