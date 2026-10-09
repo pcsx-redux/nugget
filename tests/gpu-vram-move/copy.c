@@ -111,3 +111,17 @@ CESTER_TEST(vram_move_honors_check_mask, gpu_vram_move,
     // Destination is mask-protected, so it keeps its green, not the red copy.
     ASSERT_PIXEL_EQ(VM_GREEN_MASKED, 102, 10);
 )
+
+// --------------------------------------------------------------------------
+// 5. A copy onto its own source rectangle still runs: with set-mask on it
+//    rewrites every pixel with bit 15 forced, so source == dest is not a no-op.
+// --------------------------------------------------------------------------
+CESTER_TEST(vram_move_in_place_honors_set_mask, gpu_vram_move,
+    rasterReset();
+    rasterClearTestRegion(0, 0, 128, 64);
+    rasterFillRect(16, 8, 8, 8, RASTER_VRAM_RED);  // bit15 = 0
+    rasterSetMaskCtrl(1, 0);                        // set-mask on
+    vramMove(16, 8, 16, 8, 8, 8);                   // source == dest
+    rasterFlushPrimitive();
+    ASSERT_PIXEL_EQ(VM_RED_MASKED, 18, 10);
+)
