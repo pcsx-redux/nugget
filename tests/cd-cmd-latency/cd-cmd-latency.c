@@ -210,7 +210,8 @@ static void arm(const char *state, const char *name, uint8_t cmd, int withParam,
 }
 
 // Issue a command with a second response (Stop, Standby) and log both.
-static void driveTo(const char *name, uint8_t cmd) {
+// Returns nonzero when both responses arrived as acknowledge then complete.
+static int driveTo(const char *name, uint8_t cmd) {
     drainResponse();
     ackAll();
     CDROM_REG0_UC = 0;
@@ -221,6 +222,7 @@ static void driveTo(const char *name, uint8_t cmd) {
     uint8_t s2 = s_respLen ? s_resp[0] : 0xff;
     ramsyscall_printf("DRIVE %s: first %s stat=%02x, second %s stat=%02x\n", name, causeName(c1), s1, causeName(c2), s2);
     waitTicks(423360u);  // 100 ms
+    return c1 == 3 && c2 == 2;
 }
 
 static void states(const char *state) {
@@ -239,10 +241,10 @@ int main(void) {
     CDROM_REG2_UC = 0x1f;  // enable every cause
     ramsyscall_printf("CDLAT-START status=%02x\n", CDROM_REG0_UC);
     states("booted");
-    driveTo("Stop", 0x08);
-    states("stopped");
-    driveTo("Standby", 0x07);
-    states("standby");
+    // A refused transition (no disc, lid open) still gets measured, under a
+    // label that says the command was refused.
+    states(driveTo("Stop", 0x08) ? "stopped" : "stop-refused");
+    states(driveTo("Standby", 0x07) ? "standby" : "standby-refused");
     ramsyscall_printf("CDLAT-DONE\n");
     __asm__ volatile("mtc0 %0, $12; nop; nop" : : "r"(sr));
     return 0;
