@@ -21,11 +21,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
 
-
-/*
- * Does the SPU drop 32-bit writes? spu/soundprocessingunitspu.md says it
- * "occasionally seems to miss" them. A sw to an SPU register pair is two
 /*
  * Delay/Size bit 13 ("auto increment"). A 32-bit access to a 16-bit device is
  * two bus transactions, and to an 8-bit device four. This checks whether the
