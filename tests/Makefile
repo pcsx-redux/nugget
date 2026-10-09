@@ -12,6 +12,7 @@ all:
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
 	$(MAKE) -C icache all
+	$(MAKE) -C irq-branch-slot all
 	$(MAKE) -C dma-modes all
 	$(MAKE) -C dma-priority all
 	$(MAKE) -C gpu all
@@ -94,6 +95,7 @@ clean:
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
 	$(MAKE) -C icache clean
+	$(MAKE) -C irq-branch-slot clean
 	$(MAKE) -C dma-modes clean
 	$(MAKE) -C dma-priority clean
 	$(MAKE) -C gpu clean
