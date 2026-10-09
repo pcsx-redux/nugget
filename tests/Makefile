@@ -2,16 +2,26 @@ all:
 	$(MAKE) -C 2mb-vram all
 	$(MAKE) -C basic all
 	$(MAKE) -C bcc-bits all
+	$(MAKE) -C cd-cmd-latency all
 	$(MAKE) -C bsdec all
 	$(MAKE) -C cdrom all
 	$(MAKE) -C cpu all
+	$(MAKE) -C cop-branch all
 	$(MAKE) -C cop0 all
+	$(MAKE) -C cop0-sr all
 	$(MAKE) -C dcache all
 	$(MAKE) -C dma all
+	$(MAKE) -C icache all
+	$(MAKE) -C dma-modes all
 	$(MAKE) -C dma-priority all
 	$(MAKE) -C gpu all
 	$(MAKE) -C gpu-nop all
 	$(MAKE) -C gpu-fifo all
+	$(MAKE) -C gpu-fbrect all
+	$(MAKE) -C gpu-vram-move all
+	$(MAKE) -C gpu-command all
+	$(MAKE) -C gpu-irq all
+	$(MAKE) -C gpu-polyline all
 	$(MAKE) -C gpu-raster-phase1 all
 	$(MAKE) -C gpu-raster-phase2 all
 	$(MAKE) -C gpu-raster-phase3 all
@@ -54,31 +64,46 @@ all:
 	$(MAKE) -C memcpy all
 	$(MAKE) -C memops-unroll all
 	$(MAKE) -C memset all
+	$(MAKE) -C msan all
+	$(MAKE) -C msan-trip all
 	$(MAKE) -C pcdrv all
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-dmachain all
+	$(MAKE) -C psyqo-spudma all
 	$(MAKE) -C regwrites all
 	$(MAKE) -C rumble all
 	$(MAKE) -C spu all
 	$(MAKE) -C spu-wide-writes all
 	$(MAKE) -C spu-endx all
+	$(MAKE) -C spu-endmute all
 	$(MAKE) -C spu-offvoice all
+	$(MAKE) -C sr-write all
 	$(MAKE) -C timers all
 
 clean:
 	$(MAKE) -C 2mb-vram clean
 	$(MAKE) -C basic clean
 	$(MAKE) -C bcc-bits clean
+	$(MAKE) -C cd-cmd-latency clean
 	$(MAKE) -C bsdec clean
 	$(MAKE) -C cdrom clean
 	$(MAKE) -C cpu clean
+	$(MAKE) -C cop-branch clean
 	$(MAKE) -C cop0 clean
+	$(MAKE) -C cop0-sr clean
 	$(MAKE) -C dcache clean
 	$(MAKE) -C dma clean
+	$(MAKE) -C icache clean
+	$(MAKE) -C dma-modes clean
 	$(MAKE) -C dma-priority clean
 	$(MAKE) -C gpu clean
 	$(MAKE) -C gpu-nop clean
 	$(MAKE) -C gpu-fifo clean
+	$(MAKE) -C gpu-fbrect clean
+	$(MAKE) -C gpu-vram-move clean
+	$(MAKE) -C gpu-command clean
+	$(MAKE) -C gpu-irq clean
+	$(MAKE) -C gpu-polyline clean
 	$(MAKE) -C gpu-raster-phase1 clean
 	$(MAKE) -C gpu-raster-phase2 clean
 	$(MAKE) -C gpu-raster-phase3 clean
@@ -121,13 +146,18 @@ clean:
 	$(MAKE) -C memcpy clean
 	$(MAKE) -C memops-unroll clean
 	$(MAKE) -C memset clean
+	$(MAKE) -C msan clean
+	$(MAKE) -C msan-trip clean
 	$(MAKE) -C pcdrv clean
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-dmachain clean
+	$(MAKE) -C psyqo-spudma clean
 	$(MAKE) -C regwrites clean
 	$(MAKE) -C rumble clean
 	$(MAKE) -C spu clean
 	$(MAKE) -C spu-wide-writes clean
 	$(MAKE) -C spu-endx clean
+	$(MAKE) -C spu-endmute clean
 	$(MAKE) -C spu-offvoice clean
+	$(MAKE) -C sr-write clean
 	$(MAKE) -C timers clean

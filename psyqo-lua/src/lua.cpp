@@ -236,15 +236,20 @@ void psyqo::Lua::setupFixedPointMetatable() {
         auto fp = L.toFixedPoint(1);
         int32_t raw = fp.raw();
 
-        // Convert to simple string representation
-        int integer = raw >> 12;
-        unsigned fraction = raw & 0xfff;
+        // Sign and magnitude, so that -0.5 prints as -0.500 rather than -1.500.
+        // lua_pushfstring only knows %d, %s, %c, %f and %p, so the three
+        // decimals go out as characters.
+        bool negative = raw < 0;
+        uint32_t magnitude = negative ? -uint32_t(raw) : uint32_t(raw);
+        unsigned integer = magnitude >> 12;
+        unsigned fraction = magnitude & 0xfff;
 
         if (fraction == 0) {
-            L.pushf("%d", integer);
+            L.pushf("%s%d", negative ? "-" : "", integer);
         } else {
             unsigned decimal = (fraction * 1000) >> 12;
-            L.pushf("%d.%03u", integer, decimal);
+            L.pushf("%s%d.%c%c%c", negative ? "-" : "", integer, '0' + decimal / 100, '0' + decimal / 10 % 10,
+                    '0' + decimal % 10);
         }
 
         return 1;

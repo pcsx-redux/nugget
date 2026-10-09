@@ -195,6 +195,10 @@ SRCS += h2700/hook.s ../monitor/monitor.c ../monitor/transport.c
 endif
 endif
 
+# Only Release reserves the code cave. The other builds are for local
+# debugging and do not fit under it.
+LDFLAGS_Release += -Wl,--defsym=__openbios_reserve_code_cave=1
+
 include ../common.mk
 
 ../shell/shell_data.o: shell

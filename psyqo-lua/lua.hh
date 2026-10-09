@@ -32,6 +32,8 @@ extern "C" {
 #include "lualib.h"
 }
 
+#include <type_traits>
+
 #include "EASTL/string_view.h"
 #include "psyqo/fixed-point.hh"
 
@@ -77,6 +79,13 @@ struct Lua {
     template <size_t S>
     void push(const char (&s)[S]) {
         lua_pushlstring(L, s, S - 1);
+    }
+    // A template so that string literals still pick the array overload above.
+    // Without it, a const char* converts to bool and a char* to void*.
+    template <typename T>
+        requires(std::is_same_v<T, const char*> || std::is_same_v<T, char*>)
+    void push(T s) {
+        lua_pushstring(L, s);
     }
     void push(eastl::string_view s) { lua_pushlstring(L, s.data(), s.size()); }
     void vpushf(const char* fmt, va_list ap) { lua_pushvfstring(L, fmt, ap); }

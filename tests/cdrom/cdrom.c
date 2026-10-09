@@ -29,6 +29,7 @@ SOFTWARE.
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
 #include "common/hardware/pcsxhw.h"
+#include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
 
 #undef unix
@@ -41,6 +42,7 @@ SOFTWARE.
 #include "cester-hw.c"
 
 #if 1
+#include "cdda.c"
 #include "cdlforward.c"
 #include "cdlgetlocl.c"
 #include "cdlgetlocp.c"
@@ -48,19 +50,25 @@ SOFTWARE.
 #include "cdlgettn.c"
 #include "cdlid.c"
 #include "cdlinit.c"
+#include "cdlmask.c"
 #include "cdlnop.c"
 #include "cdlreadn.c"
 #include "cdlreads.c"
+#include "cdlreadtoc.c"
+#include "cdlreset.c"
 #include "cdlseekl.c"
 #include "cdlseekp.c"
 #include "cdlsetloc.c"
 #include "cdlsetmode.c"
+#include "cdlsetsession.c"
+#include "cdlstop.c"
 #include "cdltest.c"
 #include "invalid.c"
 #include "misc.c"
 #include "playing.c"
 #include "race.c"
 #include "reading.c"
+#include "seekread.c"
 #include "xa.c"
 #else
 #include "misc.c"

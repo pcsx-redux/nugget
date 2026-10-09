@@ -29,8 +29,11 @@ CESTER='^Synthesis: SUCCESS Tests: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0'
 TESTS=(
     "basic;basic/basic;interpreter dynarec;$CESTER;"
     "cop0;cop0/cop0;interpreter;$CESTER;-debugger"
+    "cop-branch;cop-branch/cop-branch;interpreter;$CESTER;-debugger"
     "cpu;cpu/cpu;interpreter dynarec;$CESTER;"
     "dma;dma/dma;interpreter dynarec;$CESTER;-debugger"
+    "gpu-command;gpu-command/gpu-command;interpreter;$CESTER;"
+    "gpu-polyline;gpu-polyline/gpu-polyline;interpreter;$CESTER;"
     "gte;gte/gte;interpreter dynarec;$CESTER;"
     "gte-latency;gte-latency/gte-latency;interpreter;$CESTER;"
     "gte-latency-color;gte-latency-color/gte-latency-color;interpreter;$CESTER;"
@@ -48,6 +51,9 @@ TESTS=(
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "psyqo-dmachain;psyqo-dmachain/dmachain;interpreter dynarec;^All 3 arms passed;"
+    "psyqo-spudma;psyqo-spudma/spudma;interpreter dynarec;^All SPU DMA checks passed;"
+    "rumble;rumble/rumble;interpreter dynarec;$CESTER;-exec dofile('tests/rumble/setup.lua')"
+    "sr-write;sr-write/sr-write;interpreter;$CESTER;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
     "gpu-raster-phase23;gpu-raster-phase23/gpu-raster-phase23;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
 )
@@ -59,13 +65,20 @@ done
 SKIPS=(
     "bsdec/bsdec|hardware rig: needs a captured bs-in.bin staged beside it"
     "bcc-bits/bcc-bits|hardware probe: the emulator does not model bus timing, prints timings, no verdict"
+    "cd-cmd-latency/cd-cmd-latency|probe: prints CD command timings, no verdict"
+    "cop0-sr/cop0-sr|hardware probe: prints what each SR bit does, no verdict, and ends in the ROM through BEV"
     "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
+    "dma-modes/dma-modes|hardware probe: prints DMA register states per sync mode, loops forever, no verdict"
     "dma-priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
     "spu-wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
+    "icache/icache|emulator gap: i-cache tag and code-word access through BCC TAG/IS1 with SR.IsC is not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
     "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
+    "gpu-fbrect/gpu-fbrect|emulator gap: GP0(02h) fills at the literal X, the hardware drops its low 4 bits"
+    "gpu-vram-move/gpu-vram-move|emulator gap: GP0(80h) copies ignore the GP0(E6h) mask setting"
+    "gpu-irq/gpu-irq|emulator gap: GP0(1Fh) does not raise GPUSTAT bit 24"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
@@ -73,13 +86,18 @@ SKIPS=(
     "pocketstation-memmap/pocketstation-memmap|hardware probe: needs a PocketStation in a card slot, prints readings, no verdict"
     "spu/spu|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
+    "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "regwrites/regwrites|probe: loops forever, no verdict"
-    "rumble/rumble|needs the DualShock rumble mapping from pcsx-redux in the dev AppImage"
+    "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
+    "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
 )
-for d in bank-probe display-area-y drawing-area-y drawing-offset-y fast-fill-h-quirk fast-fill-y \
-         gp1-09-matrix primitives-cross transfer-h-quirk vram-blit-y vram-transfers-y; do
+for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")
+done
+for d in bank-probe drawing-area-y drawing-offset-y primitives-cross texpage-upper transfer-h-quirk \
+         transfer-wrap-y vram-blit-y vram-transfers-y; do
+    SKIPS+=("2mb-vram/$d/$d|needs the 2MB VRAM fitment from pcsx-redux in the dev AppImage")
 done
 
 LOGS=$(mktemp -d)

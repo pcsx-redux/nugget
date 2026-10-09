@@ -34,7 +34,12 @@ SOFTWARE.
  *       single-cycle (on-chip SRAM, no bus); on-die MMIO is ~5 cyc; main RAM is
  *       ~7 cyc and cached (KSEG0) equals uncached (KSEG1), reconfirming there is
  *       no data cache; BIOS ROM is tens of cycles (8-bit ROM behind a slow,
- *       model-dependent ROM-bus delay - observed ~27-33 across consoles).
+ *       programmable bus delay: 27 with COM_DELAY at 00031125h, 33 at
+ *       0000132Ch, which the BIOS CD-ROM read routine leaves behind; the suite
+ *       pins it, see below).
+ *
+ *   busDelaySweep - which DEV2/DEV4 delay/size bit and which COM_DELAY nibble
+ *       moves the cost of which access.
  *
  *   onDieUniformity - every on-die MMIO register (interrupt controller, DMA,
  *       root counters) reads at the same cost: one decoder, one latency.
@@ -46,6 +51,20 @@ SOFTWARE.
  *       ~2 cyc/load from s>=4: about half the 4-cyc bus stall overlaps trailing
  *       work, and ~2 cyc/load of bus occupancy is irreducible no matter how many
  *       independent instructions follow.
+ *
+ *   loadShadowByTarget / loadInterlockedByTarget (by stenzek) - the two sweeps
+ *       above only ever looked at I_STAT. These repeat them against every kind
+ *       of target, out to 48 instructions, to find out whether the shadow is a
+ *       property of on-die registers or of loads in general, and for each target
+ *       how much of the access holds the CPU up, how much can be hidden, and for
+ *       how long.
+ *
+ * Delay registers: the ROM, CD-ROM and SPU costs follow the memory-control
+ * registers, and those depend on how the console booted - a disc boot leaves
+ * COM_DELAY at 0000132Ch and CDROM_DELAY at 00020943h, a boot without one
+ * 00031125h and 00020843h. The suite saves all five delay registers on entry,
+ * pins COM_DELAY and CDROM_DELAY to the latter pair, and restores the five on
+ * exit, so every figure below is independent of how the console got here.
  *
  * Cycle source: root counter 2 in system-clock mode (1 tick / CPU cycle,
  * 16-bit), via the COUNTERS macro. IRQs masked suite-wide; minimum taken over
@@ -102,6 +121,11 @@ SOFTWARE.
 #define ADDR_RAM_C   0x80100000u  /* main RAM, cached mirror (KSEG0)            */
 #define ADDR_RAM_U   0xa0100000u  /* main RAM, uncached mirror (KSEG1)          */
 #define ADDR_BIOS    0xbfc00000u  /* BIOS ROM (KSEG1)                           */
+#define ADDR_JOYSTAT 0xbf801044u  /* on-die MMIO: controller port JOY_STAT      */
+#define ADDR_GPUSTAT 0xbf801814u  /* GPU status - the GPU is a separate chip    */
+#define ADDR_MDECST  0xbf801824u  /* MDEC status                                */
+#define ADDR_CDROM   0xbf801800u  /* CD-ROM controller index/status (8-bit bus) */
+#define ADDR_SPU     0xbf801d80u  /* SPU main volume left (16-bit bus)          */
 
 /* One measured block = N_LOADS iterations of (lw + s nops), bracketed by two
    counter-2 reads. Defined as a macro so each spacing gets its own unrolled
@@ -185,6 +209,44 @@ SOFTWARE.
         return (uint16_t)(after - before);                                                    \
     }
 
+/* Bus delay/size sweep. The memory-control registers set the access timing of
+   each external device; COM_DELAY supplies the per-cycle values that bits 8-11
+   of a device register switch in (bit 8 recovery = COM0, bit 9 hold = COM1,
+   bit 10 float = COM2, bit 11 pre-strobe = COM3). Each arm rewrites one
+   device register and/or COM_DELAY, times N_BUS back-to-back accesses, and
+   restores both before printing. */
+#define DEV2_DELAY (*(volatile uint32_t *)0xbf801010)
+#define DEV4_DELAY (*(volatile uint32_t *)0xbf801014)
+#define COM_DELAY  (*(volatile uint32_t *)0xbf801020)
+#define CDROM_DELAY (*(volatile uint32_t *)0xbf801018)
+/* The five delay registers, 1F801010h-1F801020h: BIOS ROM (DEV2), SPU (DEV4),
+   CD-ROM (DEV5), Expansion 2, COM_DELAY. */
+#define DELAY_REGS ((volatile uint32_t *)0xbf801010)
+#define PIN_COM_DELAY   0x00031125u
+#define PIN_CDROM_DELAY 0x00020843u
+#define ADDR_SPU_ADSR 0xbf801c08u /* voice 0 ADSR: unkeyed, harmless to write */
+#define N_BUS 64
+
+#define MAKE_BUS(name, insn)                                                    \
+    static __attribute__((always_inline)) uint32_t name(volatile void *p) {    \
+        register uint32_t sink = 0;                                             \
+        uint16_t before, after;                                                 \
+        before = COUNTERS[2].value;                                             \
+        __asm__ volatile(REP64(insn "\n") : "+r"(sink) : "r"(p) : "memory");    \
+        after = COUNTERS[2].value;                                              \
+        (void)sink;                                                             \
+        return (uint16_t)(after - before);                                      \
+    }
+
+#define RUN8(lo, hi, expr) do {                     \
+        lo = 0xffffu; hi = 0u;                      \
+        for (int i_ = 0; i_ < 8; i_++) {            \
+            uint32_t d_ = (expr);                   \
+            if (d_ < lo) lo = d_;                   \
+            if (d_ > hi) hi = d_;                   \
+        }                                           \
+    } while (0)
+
 #define PRIME0 ""
 #define PRIME1 PRIME0 "sw $0, 0(%0)\n"
 #define PRIME2 PRIME1 "sw $0, 4(%0)\n"
@@ -193,8 +255,103 @@ SOFTWARE.
 #define PRIME5 PRIME4 "sw $0, 16(%0)\n"
 #define PRIME6 PRIME5 "sw $0, 20(%0)\n"
 
+/* By-target sweeps. Same idea as MAKE_SPACED, with three differences:
+    - the repetition is done by the assembler, so the spacing can go out far
+      enough to find the end of the shadow on the slow targets without a macro
+      per length;
+    - fewer repetitions, so the longest block still fits in the icache;
+    - 8 nops either side, so neither counter read is inside the shadow of a
+      load being measured, or has one of them inside its own.
+   noreorder, because the assembler otherwise puts a nop of its own between a
+   load and an instruction which uses its result. */
+#define SWEEP_PAD ".rept 8\nnop\n.endr\n"
+#define SHADOW_REPS 16
+#define INTLCK_REPS 8
+#define INTLCK_LEN  48
+#define SWEEP_STR_(x) #x
+#define SWEEP_STR(x)  SWEEP_STR_(x)
+
+/* SHADOW_REPS x (op + s nops). With op being a load, the next load starts s + 1
+   instructions later, and nothing uses the result. */
+#define MAKE_SHADOW(name, op, s)                                               \
+    static __attribute__((always_inline)) uint32_t name(volatile void *p) {    \
+        register uint32_t sink;                                                \
+        uint16_t before, after;                                                \
+        before = COUNTERS[2].value;                                            \
+        __asm__ volatile(".set push\n.set noreorder\n" SWEEP_PAD               \
+                         ".rept " SWEEP_STR(SHADOW_REPS) "\n" op "\n"         \
+                         ".rept " #s "\nnop\n.endr\n.endr\n"               \
+                         SWEEP_PAD ".set pop\n"                                \
+                         : "=&r"(sink) : "r"(p) : "memory");                   \
+        after = COUNTERS[2].value;                                             \
+        (void)sink;                                                            \
+        return (uint16_t)(after - before);                                     \
+    }
+
+/* INTLCK_REPS x (load, then INTLCK_LEN instructions, the k'th of which is
+   `use`, and the rest nops). With use being the addiu, the result is read k
+   instructions after the load. k = 1 is the load delay slot, which sees the
+   old value of the register. The next load is always INTLCK_LEN + 1
+   instructions away. */
+#define MAKE_INTLCK(name, op, use, k)                                          \
+    static __attribute__((always_inline)) uint32_t name(volatile void *p) {    \
+        register uint32_t sink;                                                \
+        uint16_t before, after;                                                \
+        before = COUNTERS[2].value;                                            \
+        __asm__ volatile(".set push\n.set noreorder\n" SWEEP_PAD               \
+                         ".rept " SWEEP_STR(INTLCK_REPS) "\n" op "\n"         \
+                         ".rept " #k " - 1\nnop\n.endr\n"                      \
+                         use "\n"                                              \
+                         ".rept " SWEEP_STR(INTLCK_LEN) " - " #k "\nnop\n.endr\n" \
+                         ".endr\n" SWEEP_PAD ".set pop\n"                      \
+                         : "=&r"(sink) : "r"(p) : "memory");                   \
+        after = COUNTERS[2].value;                                             \
+        (void)sink;                                                            \
+        return (uint16_t)(after - before);                                     \
+    }
+
+/* The points sampled. Every instruction out to 12, which covers the on-die
+   shadow several times over, then coarser steps out to 48 for the targets
+   whose access takes tens of cycles. */
+#define SHADOW_POINTS(X) \
+    X(0) X(1) X(2) X(3) X(4) X(5) X(6) X(7) X(8) X(9) X(10) X(11) X(12) \
+    X(14) X(16) X(20) X(24) X(32) X(40) X(48)
+#define INTLCK_POINTS(X) \
+    X(1) X(2) X(3) X(4) X(5) X(6) X(7) X(8) X(9) X(10) X(11) X(12) \
+    X(14) X(16) X(20) X(24) X(32) X(40) X(48)
+
+#define SWEEP_LIST(n) n,
+#define SHADOW_COUNT  (sizeof(s_shadowPoints) / sizeof(s_shadowPoints[0]))
+#define INTLCK_COUNT  (sizeof(s_intlckPoints) / sizeof(s_intlckPoints[0]))
+/* Where s=8 is in SHADOW_POINTS, which is what the instrument check looks at. */
+#define SHADOW_CHECK  8
+
+/* Word loads for the 32-bit targets, byte loads for the 8 and 16-bit devices,
+   where a word load is several accesses, and on the CD-ROM controller would
+   read registers that reading has an effect on. */
+#define SHADOW_FNS(s)                                \
+    MAKE_SHADOW(shadow_w_##s, "lw %0, 0(%1)", s)     \
+    MAKE_SHADOW(shadow_b_##s, "lbu %0, 0(%1)", s)    \
+    MAKE_SHADOW(shadow_n_##s, "nop", s)
+#define INTLCK_FNS(k)                                                      \
+    MAKE_INTLCK(intlck_w_##k, "lw %0, 0(%1)", "addiu %0, %0, 1", k)        \
+    MAKE_INTLCK(intlck_b_##k, "lbu %0, 0(%1)", "addiu %0, %0, 1", k)
+
+#define SHADOW_RUN_W(s) { BENCH(x, shadow_w_##s, M); BENCH(y, shadow_n_##s, M); a[i] = x; b[i] = y; i++; }
+#define SHADOW_RUN_B(s) { BENCH(x, shadow_b_##s, M); BENCH(y, shadow_n_##s, M); a[i] = x; b[i] = y; i++; }
+#define INTLCK_RUN_W(k) { BENCH(x, intlck_w_##k, M); a[i] = x; b[i] = base; i++; }
+#define INTLCK_RUN_B(k) { BENCH(x, intlck_b_##k, M); a[i] = x; b[i] = base; i++; }
+
 CESTER_BODY(
     static int s_interruptsWereEnabled;
+
+    /* The five delay registers as found at suite entry, restored at exit. */
+    static uint32_t s_entryDelay[5];
+
+    static void pinDelayRegs(void) {
+        COM_DELAY = PIN_COM_DELAY;
+        CDROM_DELAY = PIN_CDROM_DELAY;
+    }
 
     /* N_READS back-to-back `lw` from an address, bracketed by counter-2 reads. */
     static __attribute__((always_inline)) uint32_t timed_read(volatile void *p) {
@@ -320,6 +477,62 @@ CESTER_BODY(
     MAKE_SPACED(intlck6, "lw %0, 0(%1)\nnop\nnop\nnop\nnop\nnop\nnop\naddiu %0, 1\nnop\n")
     MAKE_SPACED(intlck7, "lw %0, 0(%1)\nnop\nnop\nnop\nnop\nnop\nnop\nnop\naddiu %0, 1\n")
 
+    MAKE_BUS(bus_nop, "nop")
+    MAKE_BUS(bus_lw, "lw %0, 0(%1)")
+    MAKE_BUS(bus_lh, "lh %0, 0(%1)")
+    MAKE_BUS(bus_lb, "lb %0, 0(%1)")
+    MAKE_BUS(bus_sh, "sh %0, 0(%1)")
+    MAKE_BUS(bus_sw, "sw %0, 0(%1)")
+    MAKE_BUS(bus_lhs, "lh %0, 0(%1)")
+    MAKE_BUS(bus_lws, "lw %0, 0(%1)")
+    MAKE_BUS(bus_lbu, "lbu %0, 0(%1)")
+
+    typedef struct {
+        const char *name;
+        uint32_t clr, set, flip;
+        int nib;
+        uint32_t val;
+    } BusArm;
+    static const BusArm s_busArms[] = {
+        {"base", 0, 0, 0, -1, 0},
+        {"b8^", 0, 0, 0x100, -1, 0},
+        {"b9^", 0, 0, 0x200, -1, 0},
+        {"b10^", 0, 0, 0x400, -1, 0},
+        {"b11^", 0, 0, 0x800, -1, 0},
+        {"b8-11", 0, 0xf00, 0, -1, 0},
+        {"rd0", 0xf0, 0, 0, -1, 0},
+        {"rd15", 0, 0xf0, 0, -1, 0},
+        {"wr0", 0xf, 0, 0, -1, 0},
+        {"wr15", 0, 0xf, 0, -1, 0},
+        {"com0=0", 0, 0x100, 0, 0, 0},
+        {"com0=5", 0, 0x100, 0, 0, 5},
+        {"com0=15", 0, 0x100, 0, 0, 15},
+        {"com1=0", 0, 0x200, 0, 1, 0},
+        {"com1=5", 0, 0x200, 0, 1, 5},
+        {"com1=15", 0, 0x200, 0, 1, 15},
+        {"com2=0", 0, 0x400, 0, 2, 0},
+        {"com2=5", 0, 0x400, 0, 2, 5},
+        {"com2=15", 0, 0x400, 0, 2, 15},
+        {"com3=0", 0, 0x800, 0, 3, 0},
+        {"com3=5", 0, 0x800, 0, 3, 5},
+        {"com3=15", 0, 0x800, 0, 3, 15},
+        {"base", 0, 0, 0, -1, 0},
+    };
+
+    /* CDROM_DELAY bit 8 against COM_DELAY, at the values a boot with and
+       without a disc leaves, with the min ticks of N_BUS byte loads from the
+       CD-ROM controller (1F801800h) and the SPU (1F801D80h) each pair gives. */
+    typedef struct {
+        uint32_t cd, com;
+        uint32_t cdrom, spu;
+    } CdArm;
+    static const CdArm s_cdArms[] = {
+        {0x00020843u, 0x00031125u, 646, 1349},
+        {0x00020843u, 0x0000132cu, 646, 1790},
+        {0x00020943u, 0x00031125u, 709, 1349},
+        {0x00020943u, 0x0000132cu, 1150, 1790},
+    };
+
     /* Take the min over 8 runs, which should ensure warm icache and no stray stalls. */
 #define BENCH(ret, fn, p) uint32_t ret; do { \
         uint32_t best = 0xffffu;             \
@@ -336,17 +549,151 @@ CESTER_BODY(
         ramsyscall_printf("  %s raw256=%u  abs=%u.%02u  marginal=%u.%02u cyc/read\n", name, raw,
                           abs_cc / 100u, abs_cc % 100u, marg_cc / 100u, marg_cc % 100u);
     }
+
+    SHADOW_POINTS(SHADOW_FNS)
+    INTLCK_POINTS(INTLCK_FNS)
+
+    /* What the interlocked arms are compared against: the same load and the
+       same 48 instructions after it, none of which use the result. */
+    MAKE_INTLCK(intlck_w_base, "lw %0, 0(%1)", "nop", 1)
+    MAKE_INTLCK(intlck_b_base, "lbu %0, 0(%1)", "nop", 1)
+
+    static const uint8_t s_shadowPoints[] = { SHADOW_POINTS(SWEEP_LIST) };
+    static const uint8_t s_intlckPoints[] = { INTLCK_POINTS(SWEEP_LIST) };
+
+    /* Three lines per target: the ticks for each point, what they are compared
+       against, and the difference per load in hundredths of a cycle. */
+    static void sweepPrint(const char *sweep, const char *op, const char *target, const uint8_t *points,
+                           unsigned count, const uint32_t *a, const uint32_t *b, unsigned reps) {
+        ramsyscall_printf("  %s %s %s ticks:", sweep, op, target);
+        for (unsigned i = 0; i < count; i++) ramsyscall_printf(" %u=%u", points[i], a[i]);
+        ramsyscall_printf("\n  %s %s %s base :", sweep, op, target);
+        for (unsigned i = 0; i < count; i++) ramsyscall_printf(" %u=%u", points[i], b[i]);
+        ramsyscall_printf("\n  %s %s %s cyc  :", sweep, op, target);
+        for (unsigned i = 0; i < count; i++) {
+            int d = (int)a[i] - (int)b[i];
+            unsigned m = (unsigned)(d < 0 ? -d : d);
+            unsigned cc = (m * 100u + reps / 2u) / reps;
+            ramsyscall_printf(" %u=%s%u.%02u", points[i], d < 0 ? "-" : "", cc / 100u, cc % 100u);
+        }
+        ramsyscall_printf("\n");
+    }
+
+    /* Not inlined: each of these has every block of its sweep inside it. The
+       ticks and what they are compared against go to a and b for the asserts. */
+    static __attribute__((noinline)) uint32_t shadowSweepW(const char *target, volatile void *M, uint32_t *a, uint32_t *b) {
+        unsigned i = 0;
+        SHADOW_POINTS(SHADOW_RUN_W)
+        sweepPrint("SHADOW", "lw ", target, s_shadowPoints, SHADOW_COUNT, a, b, SHADOW_REPS);
+        return a[SHADOW_CHECK] - b[SHADOW_CHECK];
+    }
+
+    static __attribute__((noinline)) uint32_t shadowSweepB(const char *target, volatile void *M, uint32_t *a, uint32_t *b) {
+        unsigned i = 0;
+        SHADOW_POINTS(SHADOW_RUN_B)
+        sweepPrint("SHADOW", "lbu", target, s_shadowPoints, SHADOW_COUNT, a, b, SHADOW_REPS);
+        return a[SHADOW_CHECK] - b[SHADOW_CHECK];
+    }
+
+    static __attribute__((noinline)) void intlckSweepW(const char *target, volatile void *M, uint32_t *a, uint32_t *b) {
+        unsigned i = 0;
+        BENCH(base, intlck_w_base, M);
+        INTLCK_POINTS(INTLCK_RUN_W)
+        sweepPrint("INTLCK", "lw ", target, s_intlckPoints, INTLCK_COUNT, a, b, INTLCK_REPS);
+    }
+
+    static __attribute__((noinline)) void intlckSweepB(const char *target, volatile void *M, uint32_t *a, uint32_t *b) {
+        unsigned i = 0;
+        BENCH(base, intlck_b_base, M);
+        INTLCK_POINTS(INTLCK_RUN_B)
+        sweepPrint("INTLCK", "lbu", target, s_intlckPoints, INTLCK_COUNT, a, b, INTLCK_REPS);
+    }
+
+    /* Expected ticks for the by-target sweeps, min over 8 runs. SCPH-1000,
+       1001, 5501 and 7001, which boot with the delay register values the suite
+       pins, gave these byte for byte. Rows are in SHADOW_POINTS / INTLCK_POINTS
+       order. The MMIO rows serve I_STAT, JOY_STAT, GPUSTAT and MDEC status
+       alike, on-die or not. */
+    static const uint16_t s_shNop[] = {35, 51, 67, 83, 99, 115, 131, 147, 163, 179, 195, 211, 227, 259, 291, 355, 419, 547, 675, 803};
+    static const uint16_t s_shMmio[] = {97, 113, 129, 130, 131, 147, 163, 179, 195, 211, 227, 243, 259, 291, 323, 387, 451, 579, 707, 835};
+    static const uint16_t s_shRam[] = {127, 143, 159, 160, 161, 162, 163, 179, 195, 211, 227, 243, 259, 291, 323, 387, 451, 579, 707, 835};
+    static const uint16_t s_shRomW[] = {445, 460, 475, 475, 475, 475, 475, 475, 475, 475, 475, 475, 475, 475, 475, 477, 481, 579, 707, 835};
+    static const uint16_t s_shRomB[] = {157, 173, 189, 190, 191, 192, 193, 194, 195, 211, 227, 243, 259, 291, 323, 387, 451, 579, 707, 835};
+    static const uint16_t s_shCdrom[] = {173, 188, 204, 205, 206, 207, 208, 209, 210, 211, 227, 243, 259, 291, 323, 387, 451, 579, 707, 835};
+    static const uint16_t s_shSpu[] = {348, 348, 363, 363, 363, 363, 363, 363, 363, 363, 363, 363, 364, 366, 368, 387, 451, 579, 707, 835};
+    static const uint16_t s_ilMmio[] = {443, 443, 443, 435, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427};
+    static const uint16_t s_ilScratch[] = {411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411, 411};
+    static const uint16_t s_ilRam[] = {459, 459, 459, 451, 443, 435, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427};
+    static const uint16_t s_ilRomW[] = {619, 619, 619, 611, 603, 595, 587, 579, 571, 563, 555, 547, 531, 515, 483, 451, 427, 427, 427};
+    static const uint16_t s_ilRomB[] = {475, 475, 475, 467, 459, 451, 443, 435, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427};
+    static const uint16_t s_ilCdrom[] = {483, 483, 483, 475, 467, 459, 451, 443, 435, 427, 427, 427, 427, 427, 427, 427, 427, 427, 427};
+    static const uint16_t s_ilSpu[] = {563, 563, 563, 555, 547, 539, 531, 523, 515, 507, 499, 491, 475, 459, 427, 427, 427, 427, 427};
+
+    /* The targets both sweeps visit, in the order they visit them. A scratchpad
+       load is a nop as far as the shadow sweep can tell, so its load row is the
+       nop row. */
+    typedef struct {
+        const char *name;
+        uint32_t addr;
+        int byte;
+        const uint16_t *shadow, *intlck;
+        uint32_t intlckBase;
+    } SweepTarget;
+    static const SweepTarget s_sweepTargets[] = {
+        {"I_STAT    ", ADDR_ISTAT,   0, s_shMmio, s_ilMmio,   427},
+        {"JOY_STAT  ", ADDR_JOYSTAT, 0, s_shMmio, s_ilMmio,   427},
+        {"GPUSTAT   ", ADDR_GPUSTAT, 0, s_shMmio, s_ilMmio,   427},
+        {"MDEC stat ", ADDR_MDECST,  0, s_shMmio, s_ilMmio,   427},
+        {"scratchpad", ADDR_SCRATCH, 0, s_shNop,   s_ilScratch, 411},
+        {"RAM cached", ADDR_RAM_C,   0, s_shRam,   s_ilRam,     427},
+        {"RAM uncach", ADDR_RAM_U,   0, s_shRam,   s_ilRam,     427},
+        {"BIOS ROM  ", ADDR_BIOS,    0, s_shRomW,  s_ilRomW,    427},
+        {"I_STAT    ", ADDR_ISTAT,   1, s_shMmio, s_ilMmio,   427},
+        {"RAM uncach", ADDR_RAM_U,   1, s_shRam,   s_ilRam,     427},
+        {"BIOS ROM  ", ADDR_BIOS,    1, s_shRomB,  s_ilRomB,    427},
+        {"CD-ROM    ", ADDR_CDROM,   1, s_shCdrom, s_ilCdrom,   427},
+        {"SPU       ", ADDR_SPU,     1, s_shSpu,   s_ilSpu,     427},
+    };
+#define SWEEP_TARGETS (sizeof(s_sweepTargets) / sizeof(s_sweepTargets[0]))
+
+    /* Number of points in a row that differ from what is expected, each one
+       printed, so a failing assert names its target and point. */
+    static unsigned sweepMismatches(const char *sweep, const char *what, const SweepTarget *t,
+                                    const uint8_t *points, unsigned count, const uint32_t *got,
+                                    const uint16_t *row, uint32_t flat) {
+        unsigned bad = 0;
+        for (unsigned i = 0; i < count; i++) {
+            uint32_t want = row ? row[i] : flat;
+            if (got[i] == want) continue;
+            ramsyscall_printf("  MISMATCH %s %s %s %s %u: got %u, expected %u\n", sweep, t->byte ? "lbu" : "lw ",
+                              t->name, what, points[i], got[i], want);
+            bad++;
+        }
+        return bad;
+    }
 )
 
 CESTER_BEFORE_ALL(load_tests,
+#ifdef LOAD_TIMINGS_ATCONS
+    /* Dev boards with an ATCONS console: route stdout there (C0(1Bh), installStdIo). */
+    {
+        register int n asm("t1") = 0x1b;
+        __asm__ volatile("" : "=r"(n) : "r"(n));
+        ((void (*)(int))0xc0)(1);
+    }
+#endif
     /* Mask interrupts across the timed regions; set root counter 2 to the
        system-clock source (bits 8-9 = 00), free running. Writing mode resets
        the counter value to 0. */
     s_interruptsWereEnabled = enterCriticalSection();
     COUNTERS[2].mode = 0;
+    /* Pin the delay registers to the values a boot without a disc leaves. */
+    for (int i = 0; i < 5; i++) s_entryDelay[i] = DELAY_REGS[i];
+    pinDelayRegs();
 )
 
 CESTER_AFTER_ALL(load_tests,
+    for (int i = 0; i < 5; i++) DELAY_REGS[i] = s_entryDelay[i];
     if (s_interruptsWereEnabled) leaveCriticalSection();
 )
 
@@ -601,6 +948,209 @@ CESTER_MAYBE_TEST(loadInterlocked, load_tests,
     cester_assert_uint_eq(356, s5);
     cester_assert_uint_eq(356, s6);
     cester_assert_uint_eq(356, s7);
+)
+
+/* The shadow sweep, for every kind of target (by stenzek). Each SHADOW row is
+   16 loads with s nops after each one, and the cyc line is what a load costs
+   over a nop in its place, so it is the access time for small s, and whatever
+   part of the access always holds the CPU up once s is past the end of the
+   shadow.
+
+   Every bus target falls by about a cycle per added nop to a floor of 2 cycles
+   a load: on-die MMIO by s=4, RAM by s=6, CD-ROM by s=9, SPU by s=20, ROM word
+   loads by s=32. The scratchpad reads the same as the nop arm throughout. The
+   first few points are an eighth of a cycle under, as nothing comes after the
+   last load of the sixteen.
+
+   Both the load row and the nop row are asserted to the tick. The ROM, CD-ROM
+   and SPU rows hold only with the delay registers pinned. I_STAT at s=8 also
+   has to come out at the 2 cycles a load the earlier sweep settled on, or the
+   blocks here are not measuring what MAKE_SPACED does. */
+CESTER_MAYBE_TEST(loadShadowByTarget, load_tests,
+    ramsyscall_printf("=== load-shadow sweep by target (%d loads + s trailing nops) ===\n", SHADOW_REPS);
+    ramsyscall_printf("  Format: <s>=<value>. ticks = load arm, base = nop arm, cyc = (ticks - base) / %d\n",
+                      SHADOW_REPS);
+
+    uint32_t a[SHADOW_COUNT], b[SHADOW_COUNT];
+    uint32_t check = 0;
+    for (unsigned t = 0; t < SWEEP_TARGETS; t++) {
+        const SweepTarget *st = &s_sweepTargets[t];
+        volatile void *M = (volatile void *)st->addr;
+        uint32_t c = st->byte ? shadowSweepB(st->name, M, a, b) : shadowSweepW(st->name, M, a, b);
+        if (t == 0) check = c;
+        /* Counted first: the assert evaluates its arguments more than once. */
+        unsigned bad = sweepMismatches("SHADOW", "s", st, s_shadowPoints, SHADOW_COUNT, a, st->shadow, 0);
+        unsigned badNop = sweepMismatches("SHADOW", "nop s", st, s_shadowPoints, SHADOW_COUNT, b, s_shNop, 0);
+        cester_assert_uint_eq(0, bad);
+        cester_assert_uint_eq(0, badNop);
+    }
+
+    cester_assert_uint_eq((uint32_t)SHADOW_REPS * 2u, check);
+)
+
+/* The interlocked sweep, for every kind of target (by stenzek). Each INTLCK
+   row is 8 loads, with the result read k instructions after each one, and the
+   cyc line is what reading it there costs over not reading it at all. Zero
+   means the load had completed by then, so the first k that reads zero is the
+   length of the shadow, and what is read before it is how much of the access
+   can be hidden.
+
+   k=1 is the load delay slot. It reads the register's old value, so it should
+   not wait for the load, whatever the target. k=1..3 are flat, then the stall
+   drops by a cycle per instruction: 2 cycles at k<=3 for on-die MMIO, 4 for
+   RAM, 24 for a ROM word, 6 for a ROM byte, 7 for CD-ROM, 17 for SPU, none for
+   the scratchpad. Asserted to the tick, with the base arm. */
+CESTER_MAYBE_TEST(loadInterlockedByTarget, load_tests,
+    ramsyscall_printf("=== load-interlocked sweep by target (%d loads, result read k instructions later) ===\n",
+                      INTLCK_REPS);
+    ramsyscall_printf("  Format: <k>=<value>. ticks = result read, base = result not read, cyc = (ticks - base) / %d\n",
+                      INTLCK_REPS);
+
+    uint32_t a[INTLCK_COUNT], b[INTLCK_COUNT];
+    for (unsigned t = 0; t < SWEEP_TARGETS; t++) {
+        const SweepTarget *st = &s_sweepTargets[t];
+        volatile void *M = (volatile void *)st->addr;
+        if (st->byte) intlckSweepB(st->name, M, a, b);
+        else intlckSweepW(st->name, M, a, b);
+        unsigned bad = sweepMismatches("INTLCK", "k", st, s_intlckPoints, INTLCK_COUNT, a, st->intlck, 0);
+        unsigned badBase = sweepMismatches("INTLCK", "base k", st, s_intlckPoints, INTLCK_COUNT, b, 0,
+                                           st->intlckBase);
+        cester_assert_uint_eq(0, bad);
+        cester_assert_uint_eq(0, badBase);
+    }
+)
+
+/* Bus register values at program entry: the BIOS plus whatever the loader
+   left, then the same registers as the suite runs with them, the delay
+   registers pinned. Print-only; the sweep below is relative to the latter.
+   The pin is checked: it holds through every test before this one. */
+CESTER_TEST(busRegistersAtEntry, load_tests,
+    ramsyscall_printf("=== bus registers at entry ===\n");
+    for (uint32_t a = 0xbf801000u; a <= 0xbf801020u; a += 4u) {
+        uint32_t now = *(volatile uint32_t *)a;
+        uint32_t was = a >= 0xbf801010u ? s_entryDelay[(a - 0xbf801010u) / 4u] : now;
+        ramsyscall_printf("  REG %08x = %08x now %08x\n", a & 0x1fffffffu, was, now);
+    }
+    ramsyscall_printf("  REG 1f801060 = %08x\n", *(volatile uint32_t *)0xbf801060u);
+    cester_assert_uint_eq(PIN_COM_DELAY, COM_DELAY);
+    cester_assert_uint_eq(PIN_CDROM_DELAY, CDROM_DELAY);
+)
+
+/* Which delay/size bit and which COM_DELAY nibble moves the cost of which
+   access, on this console. Each arm is the entry value of the device register
+   with one change: bit 8, 9, 10 or 11 toggled alone, read or write delay
+   forced to 0 or 15, bits 8-11 all set, or one COM nibble set to 0, 5 or 15
+   with its enabling bit set. The last arm repeats the first: a restore or
+   instrument fault shows up as the two differing. Raw ticks are min/max over
+   8 runs of N_BUS accesses. Stores are timed as issued, so the last few may
+   still sit in the write queue when the counter is read; that tail is the
+   same in every arm. Stores also vary by a few ticks run to run, so the
+   repeat check on DEV4 is banded. The exact values asserted are the two arms
+   that use no COM_DELAY nibble at all (DEV2 with bit 10 cleared, DEV4 with
+   bit 8 cleared, from the BIOS values 0013243Fh and 200931E1h): those
+   reproduce to the tick on every console tested, while the other arms follow
+   COM_DELAY, which the suite pins. The BUS5 arms then set CDROM_DELAY bit 8
+   and COM_DELAY to the values a boot with and without a disc leaves, and time
+   byte loads from the CD-ROM controller and the SPU; those are asserted to
+   the tick on the min. */
+CESTER_MAYBE_TEST(busDelaySweep, load_tests,
+    volatile void *rom = (volatile void *)ADDR_BIOS;
+    volatile void *spu = (volatile void *)ADDR_SPU_ADSR;
+    uint32_t dev2 = DEV2_DELAY, dev4 = DEV4_DELAY, com = COM_DELAY;
+    uint32_t nlo, nhi;
+    RUN8(nlo, nhi, bus_nop(rom));
+    ramsyscall_printf("=== bus delay sweep (N=%d, entry dev2=%08x dev4=%08x com=%08x) ===\n", N_BUS,
+                      dev2, dev4, com);
+    ramsyscall_printf("  Format: BUSn <arm> dev=<reg> com=<reg> <access>=<min>/<max> ...\n");
+    ramsyscall_printf("  BUSNOP nop=%u/%u\n", nlo, nhi);
+
+    int subjects = 0;
+    uint32_t first2 = 0, last2 = 0, first4 = 0, last4 = 0;
+    uint32_t nocom2[3] = {0, 0, 0}, nocom4 = 0;
+    int n = (int)(sizeof(s_busArms) / sizeof(s_busArms[0]));
+    for (int d = 0; d < 2; d++) {
+        volatile uint32_t *reg = d == 0 ? &DEV2_DELAY : &DEV4_DELAY;
+        uint32_t v0 = *reg;
+        for (int k = 0; k < n; k++) {
+            const BusArm *arm = &s_busArms[k];
+            uint32_t cfg = ((v0 & ~arm->clr) | arm->set) ^ arm->flip;
+            uint32_t c = com;
+            if (arm->nib >= 0) c = (com & ~(0xfu << (4 * arm->nib))) | (arm->val << (4 * arm->nib));
+            uint32_t alo, ahi, blo, bhi, clo, chi, dlo = 0, dhi = 0;
+            COM_DELAY = c;
+            *reg = cfg;
+            if (d == 0) {
+                RUN8(alo, ahi, bus_lw(rom));
+                RUN8(blo, bhi, bus_lh(rom));
+                RUN8(clo, chi, bus_lb(rom));
+            } else {
+                RUN8(alo, ahi, bus_sh(spu));
+                RUN8(blo, bhi, bus_sw(spu));
+                RUN8(clo, chi, bus_lhs(spu));
+                RUN8(dlo, dhi, bus_lws(spu));
+            }
+            *reg = v0;
+            COM_DELAY = com;
+            if (d == 0) {
+                ramsyscall_printf("  BUS2 %-8s dev=%08x com=%08x lw=%u/%u lh=%u/%u lb=%u/%u\n", arm->name, cfg,
+                                  c, alo, ahi, blo, bhi, clo, chi);
+                if (k == 0) first2 = alo;
+                if (k == 3) { nocom2[0] = alo; nocom2[1] = blo; nocom2[2] = clo; }
+                last2 = alo;
+            } else {
+                ramsyscall_printf("  BUS4 %-8s dev=%08x com=%08x sh=%u/%u sw=%u/%u lh=%u/%u lw=%u/%u\n", arm->name,
+                                  cfg, c, alo, ahi, blo, bhi, clo, chi, dlo, dhi);
+                if (k == 0) first4 = blo;
+                if (k == 1) nocom4 = dlo;
+                last4 = blo;
+            }
+            subjects++;
+        }
+    }
+
+    /* CD-ROM delay bit 8 x COM_DELAY, byte loads from the CD-ROM controller
+       and the SPU. */
+    uint32_t cd = CDROM_DELAY;
+    int ncd = (int)(sizeof(s_cdArms) / sizeof(s_cdArms[0]));
+    uint32_t cdlo[sizeof(s_cdArms) / sizeof(s_cdArms[0])], splo[sizeof(s_cdArms) / sizeof(s_cdArms[0])];
+    for (int k = 0; k < ncd; k++) {
+        const CdArm *arm = &s_cdArms[k];
+        uint32_t clo, chi, slo, shi;
+        COM_DELAY = arm->com;
+        CDROM_DELAY = arm->cd;
+        RUN8(clo, chi, bus_lbu((volatile void *)ADDR_CDROM));
+        RUN8(slo, shi, bus_lbu((volatile void *)ADDR_SPU));
+        CDROM_DELAY = cd;
+        COM_DELAY = com;
+        ramsyscall_printf("  BUS5 cd=%08x com=%08x lbu-cdrom=%u/%u lbu-spu=%u/%u\n", arm->cd, arm->com, clo, chi,
+                          slo, shi);
+        cdlo[k] = clo;
+        splo[k] = slo;
+        subjects++;
+    }
+    ramsyscall_printf("  BUS subjects=%d\n", subjects);
+
+    cester_assert_int_eq(2 * n + ncd, subjects);
+    cester_assert_uint_eq(dev2, DEV2_DELAY);
+    cester_assert_uint_eq(dev4, DEV4_DELAY);
+    cester_assert_uint_eq(com, COM_DELAY);
+    cester_assert_uint_eq(cd, CDROM_DELAY);
+    cester_assert_uint_eq(first2, last2);
+    uint32_t d4 = first4 > last4 ? first4 - last4 : last4 - first4;
+    cester_assert_true(d4 <= (uint32_t)N_BUS / 8u);
+    if (dev2 == 0x0013243fu) {
+        cester_assert_uint_eq(1542, nocom2[0]);
+        cester_assert_uint_eq(902, nocom2[1]);
+        cester_assert_uint_eq(582, nocom2[2]);
+    }
+    if (dev4 == 0x200931e1u) cester_assert_uint_eq(2310, nocom4);
+    /* Bit 8 clear: 10 cycles a load whatever COM_DELAY is. Bit 8 set: 11 at
+       00031125h, ~17.9 at 0000132Ch. The SPU follows COM_DELAY alone. These
+       arms set both registers, so they hold on every console. */
+    for (int k = 0; k < ncd; k++) {
+        cester_assert_uint_eq(s_cdArms[k].cdrom, cdlo[k]);
+        cester_assert_uint_eq(s_cdArms[k].spu, splo[k]);
+    }
 )
 
 CESTER_OPTIONS(

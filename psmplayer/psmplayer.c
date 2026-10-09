@@ -340,6 +340,8 @@ static uint32_t s_vagAddrs[MAX_VAGS];  // SPU address in 8-byte units
 
 // Reverb state
 static uint32_t s_reverbMask = 0;
+static uint32_t s_pendingKeyOn = 0;
+static uint32_t s_pendingKeyOff = 0;
 
 // ============================================================================
 // SPU helpers (same as spudump player)
@@ -385,9 +387,14 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
     bcr <<= 16;
     bcr |= 0x10;
 
+    // Return the transfer mode to stop before reprogramming the address. Without it, on
+    // hardware only the first of several back-to-back uploads reaches SPU RAM intact.
+    SPU_CTRL &= ~0x0030;
+    while ((SPU_STATUS & 0x0030) != 0)
+        ;
     SPU_RAM_DTA = spuAddr >> 3;
     SPU_CTRL = (SPU_CTRL & ~0x0030) | 0x0020;
-    while ((SPU_CTRL & 0x0030) != 0x0020)
+    while ((SPU_STATUS & 0x0030) != 0x0020)
         ;
     SBUS_DEV4_CTRL &= ~0x0f000000;
     DMA_CTRL[DMA_SPU].MADR = (uint32_t)data;
@@ -396,6 +403,11 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
 
     while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0)
         ;
+    // The DMA finishing does not mean the SPU has written everything yet: wait for the
+    // transfer to drain before leaving DMA mode, or the tail of the upload is lost.
+    while ((SPU_STATUS & 0x0400) != 0)
+        ;
+    SPU_CTRL &= ~0x0030;
 }
 
 static void SPUUnMute(void) { SPU_CTRL = 0xc000; }
@@ -709,12 +721,7 @@ static void processEvent(const struct PsmEvent* ev) {
 
             int v = allocateVoice(ch, note, velocity, PSM_voiceCount);
 
-            // Key off the stolen voice first
-            if (s_voices[v].active) {
-                uint32_t bit = 1u << v;
-                SPU_KEY_OFF_LOW = bit & 0xFFFF;
-                if (v >= 16) SPU_KEY_OFF_HIGH = (bit >> 16) & 0xFFFF;
-            }
+            // A stolen voice needs no key off: the key on below restarts it.
 
             // Set up voice state
             s_voices[v].active = 1;
@@ -749,12 +756,8 @@ static void processEvent(const struct PsmEvent* ev) {
             SPU_REVERB_EN_LOW = s_reverbMask & 0xFFFF;
             SPU_REVERB_EN_HIGH = (s_reverbMask >> 16) & 0xFFFF;
 
-            // Key on
-            {
-                uint32_t bit = 1u << v;
-                SPU_KEY_ON_LOW = bit & 0xFFFF;
-                if (v >= 16) SPU_KEY_ON_HIGH = (bit >> 16) & 0xFFFF;
-            }
+            s_pendingKeyOff &= ~(1u << v);
+            s_pendingKeyOn |= 1u << v;
             break;
         }
 
@@ -773,10 +776,8 @@ static void processEvent(const struct PsmEvent* ev) {
                 }
             }
 
-            if (keyOffBits) {
-                SPU_KEY_OFF_LOW = keyOffBits & 0xFFFF;
-                SPU_KEY_OFF_HIGH = (keyOffBits >> 16) & 0xFFFF;
-            }
+            s_pendingKeyOn &= ~keyOffBits;
+            s_pendingKeyOff |= keyOffBits;
             break;
         }
 
@@ -814,10 +815,8 @@ static void processEvent(const struct PsmEvent* ev) {
                         keyOffBits |= (1u << v);
                     }
                 }
-                if (keyOffBits) {
-                    SPU_KEY_OFF_LOW = keyOffBits & 0xFFFF;
-                    SPU_KEY_OFF_HIGH = (keyOffBits >> 16) & 0xFFFF;
-                }
+                s_pendingKeyOn &= ~keyOffBits;
+                s_pendingKeyOff |= keyOffBits;
             }
             break;
         }
@@ -873,8 +872,26 @@ static void processEvent(const struct PsmEvent* ev) {
 // Main poll function
 // ============================================================================
 
+static void pollEvents(void);
+
+// Key on and key off are collected over a whole poll and written once each, so that
+// several notes starting or stopping on the same tick reach the SPU together.
 void PSM_Poll(void) {
     if (!PSM_playing || s_events == NULL) return;
+    s_pendingKeyOn = 0;
+    s_pendingKeyOff = 0;
+    pollEvents();
+    if (s_pendingKeyOff) {
+        SPU_KEY_OFF_LOW = s_pendingKeyOff & 0xFFFF;
+        SPU_KEY_OFF_HIGH = s_pendingKeyOff >> 16;
+    }
+    if (s_pendingKeyOn) {
+        SPU_KEY_ON_LOW = s_pendingKeyOn & 0xFFFF;
+        SPU_KEY_ON_HIGH = s_pendingKeyOn >> 16;
+    }
+}
+
+static void pollEvents(void) {
 
     s_globalTick++;
 

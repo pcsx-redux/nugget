@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: node --test .github/scripts/rfc.test.js
+      - run: node --test .github/scripts/rfc.test.js .github/scripts/hwfarm.test.js
 
   build:
     runs-on: ubuntu-latest

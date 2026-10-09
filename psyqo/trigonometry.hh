@@ -35,7 +35,7 @@ namespace psyqo {
 
 namespace TrigInternals {
 
-void generateTable(eastl::array<int32_t, 512>& table, unsigned precisionBits);
+void generateTable(eastl::array<int32_t, 513>& table, unsigned precisionBits);
 
 }
 
@@ -92,11 +92,11 @@ class Trig {
         if (a < 0.5_pi) {
             r = table[t];
         } else if (a < 1.0_pi) {
-            r = -table[(1.0_pi).value - 1 - t];
+            r = -table[(1.0_pi).value - t];
         } else if (a < 1.5_pi) {
             r = -table[t - (1.0_pi).value];
         } else {
-            r = table[(2.0_pi).value - 1 - t];
+            r = table[(2.0_pi).value - t];
         }
 
         FixedPoint<precisionBits> ret;
@@ -116,7 +116,7 @@ class Trig {
     }
 
   private:
-    eastl::array<int32_t, 512> table;
+    eastl::array<int32_t, 513> table;
 };
 
 }  // namespace psyqo

@@ -120,7 +120,7 @@ CESTER_BODY(
             hsyncCounter += 0x10000;
         }
         uint32_t currentTime = s_currentTime = s_currentTime + (hsyncCounter - lastHSyncCounter) * US_PER_HBLANK;
-        s_lastHSyncCounter = hsyncCounter;
+        s_lastHSyncCounter = hsyncCounter & 0xffff;
         return currentTime;
     }
 

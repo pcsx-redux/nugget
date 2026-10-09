@@ -51,6 +51,25 @@ void psyqo::GPU::waitFifo() {
     }
 }
 
+namespace {
+
+// GP1(06h) horizontal display range, in video-clock units relative to HSYNC.
+// X1 is the canonical first visible pixel on a normal TV set; X2 spans the
+// displayed pixels, one video clock per pixel times the dotclock divider.
+constexpr uint32_t hDisplayRange(unsigned pixels, unsigned cyclesPerPixel) {
+    constexpr uint32_t X1 = 0x260;
+    uint32_t X2 = X1 + pixels * cyclesPerPixel;
+    return 0x06000000 | X1 | (X2 << 12);
+}
+
+// GP1(07h) vertical display range, in scanlines relative to VSYNC, centered on
+// the middle scanline (NTSC 0x88, PAL 0xa3) plus/minus half the displayed lines.
+constexpr uint32_t vDisplayRange(unsigned midScanline, unsigned lines) {
+    return 0x07000000 | (midScanline - lines / 2) | ((midScanline + lines / 2) << 10);
+}
+
+}  // namespace
+
 void psyqo::GPU::reinitialize(const psyqo::GPU::Configuration &config) {
     // Reset
     Hardware::GPU::Ctrl = 0;
@@ -60,15 +79,38 @@ void psyqo::GPU::reinitialize(const psyqo::GPU::Configuration &config) {
     Hardware::GPU::Ctrl = 0x08000000 | (config.config.hResolution << 0) | (config.config.vResolution << 2) |
                           (config.config.videoMode << 3) | (config.config.colorDepth << 4) |
                           (config.config.videoInterlace << 5) | (config.config.hResolutionExtended << 6);
+    // Resolution: the number of displayed pixels and the video-clock cycles
+    // per pixel (the GPU dotclock divider, per psx-spx).
+    unsigned cyclesPerPixel = 8;
+    if (config.config.hResolutionExtended == Configuration::HRE_NORMAL) {
+        switch (config.config.hResolution) {
+            case Configuration::HR_256:
+                m_width = 256;
+                cyclesPerPixel = 10;
+                break;
+            case Configuration::HR_320:
+                m_width = 320;
+                cyclesPerPixel = 8;
+                break;
+            case Configuration::HR_512:
+                m_width = 512;
+                cyclesPerPixel = 5;
+                break;
+            case Configuration::HR_640:
+                m_width = 640;
+                cyclesPerPixel = 4;
+                break;
+        }
+    } else {
+        m_width = 368;
+        cyclesPerPixel = 7;
+    }
+
     // Horizontal Range
-    Hardware::GPU::Ctrl = 0x06000000 | 0x260 | (0xc60 << 12);
+    Hardware::GPU::Ctrl = hDisplayRange(m_width, cyclesPerPixel);
 
     // Vertical Range
-    if (config.config.videoMode == Configuration::VM_NTSC) {
-        Hardware::GPU::Ctrl = 0x07000000 | 16 | (255 << 10);
-    } else {
-        Hardware::GPU::Ctrl = 0x07046c2b;
-    }
+    Hardware::GPU::Ctrl = vDisplayRange(config.config.videoMode == Configuration::VM_NTSC ? 0x88 : 0xa3, 240);
 
     // Display Area
     Hardware::GPU::Ctrl = 0x05000000;
@@ -79,25 +121,6 @@ void psyqo::GPU::reinitialize(const psyqo::GPU::Configuration &config) {
     } else {
         m_interlaced = false;
         m_height = 240;
-    }
-
-    if (config.config.hResolutionExtended == Configuration::HRE_NORMAL) {
-        switch (config.config.hResolution) {
-            case Configuration::HR_256:
-                m_width = 256;
-                break;
-            case Configuration::HR_320:
-                m_width = 320;
-                break;
-            case Configuration::HR_512:
-                m_width = 512;
-                break;
-            case Configuration::HR_640:
-                m_width = 640;
-                break;
-        }
-    } else {
-        m_width = 368;
     }
 
     if (config.config.videoMode == Configuration::VM_NTSC) {
@@ -130,9 +153,15 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
         syscall_setTimerAutoAck(3, 1);
     }
     if (config.clearVRAM) {
+        // The fill command masks its width to 10 bits and its height to 9, so a
+        // single 1024x512 fill is 0x0 and draws nothing. Clear in quarters.
         Prim::FastFill ff;
-        ff.rect = Rect{0, 0, 1024, 512};
-        sendPrimitive(ff);
+        for (int16_t y = 0; y < 512; y += 256) {
+            for (int16_t x = 0; x < 1024; x += 512) {
+                ff.rect = Rect{x, y, 512, 256};
+                sendPrimitive(ff);
+            }
+        }
     }
     // Enable Display
     Hardware::GPU::Ctrl = 0x03000000;
@@ -595,7 +624,13 @@ void psyqo::GPU::cancelTimer(uintptr_t id) {
 
 void psyqo::GPU::pumpCallbacks() {
     uint32_t lastHSyncCounter = m_lastHSyncCounter;
-    uint32_t hsyncCounter = COUNTERS[1].value;
+    uint32_t hsyncCounter;
+    // On hardware, a single read of the counter can return a wrong value. One that comes back
+    // lower than the last value is then taken for a wrap and advances time by 0x10000 hblanks,
+    // so keep reading until two consecutive reads agree.
+    do {
+        hsyncCounter = COUNTERS[1].value;
+    } while (hsyncCounter != COUNTERS[1].value);
     if (hsyncCounter < lastHSyncCounter) {
         hsyncCounter += 0x10000;
     }
