@@ -2,6 +2,7 @@ all:
 	$(MAKE) -C 2mb-vram all
 	$(MAKE) -C basic all
 	$(MAKE) -C bcc-bits all
+	$(MAKE) -C cd-cmd-latency all
 	$(MAKE) -C bsdec all
 	$(MAKE) -C cdrom all
 	$(MAKE) -C cpu all
@@ -83,6 +84,7 @@ clean:
 	$(MAKE) -C 2mb-vram clean
 	$(MAKE) -C basic clean
 	$(MAKE) -C bcc-bits clean
+	$(MAKE) -C cd-cmd-latency clean
 	$(MAKE) -C bsdec clean
 	$(MAKE) -C cdrom clean
 	$(MAKE) -C cpu clean
