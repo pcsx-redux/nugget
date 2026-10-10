@@ -670,6 +670,9 @@ static void MOD_UpdateRow() {
                 SETVOICEVOLUME(channel, volume);
             }
             SPUSetStartAddress(channel, SPUInstrumentAddress(sampleID, channelData->samplePos));
+        } else if (effectNibble1 == 9) {
+            // 9xx without a sample number applies to the channel's current sample.
+            SPUSetStartAddress(channel, SPUInstrumentAddress(channelData->sampleID, channelData->samplePos));
         }
 
         if (period != 0) {
