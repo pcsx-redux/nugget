@@ -83,6 +83,36 @@ srwrite_cause:
     nop
     .size srwrite_cause, . - srwrite_cause
 
+# Writes Cause from a register loaded from memory, so the recompiler sees a
+# non-constant source. SR.IEc is cleared first so the software interrupt
+# bits can be set without one firing. Cause is read back into out[0] and the
+# source register itself is stored to out[1]; Cause is then cleared.
+    .global srwrite_cause_value
+    .type srwrite_cause_value, @function
+srwrite_cause_value:
+    mfc0  $v0, $12
+    nop
+    li    $at, ~1
+    and   $at, $v0, $at
+    mtc0  $at, $12
+    nop
+    lw    $t0, 0($a0)
+    nop
+    mtc0  $t0, $13
+    nop
+    nop
+    mfc0  $t1, $13
+    nop
+    sw    $t1, 0($a1)
+    sw    $t0, 4($a1)
+    mtc0  $zero, $13
+    nop
+    mtc0  $v0, $12
+    nop
+    jr    $ra
+    nop
+    .size srwrite_cause_value, . - srwrite_cause_value
+
 # RFE pops the KU/IE stack, so the previous and old pairs are first set
 # equal to the current pair, which makes the pop leave SR unchanged.
     .global srwrite_rfe
