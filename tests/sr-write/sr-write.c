@@ -37,6 +37,7 @@ CESTER_BODY(
     void srwrite_sr(const uint32_t * in, uint32_t * out);
     void srwrite_cause(const uint32_t * in, uint32_t * out);
     void srwrite_rfe(const uint32_t * in, uint32_t * out);
+    void srwrite_cause_value(const uint32_t * in, uint32_t * out);
 
     static const uint32_t s_in[8] = {
         0x11111111, 0x22222222, 0x33333333, 0x44444444,
@@ -57,6 +58,17 @@ CESTER_TEST(sr_write_keeps_registers, sr_write_tests,
 
 CESTER_TEST(cause_write_keeps_registers, sr_write_tests,
     check(srwrite_cause);
+)
+
+// Cause bits 8 and 9 (IP0, IP1) are writable; bits 10 to 15 are not, and a
+// write must not touch the source register either.
+CESTER_TEST(cause_write_from_register, sr_write_tests,
+    uint32_t in[1] = { 0xff00 };
+    uint32_t out[2] = { 0, 0 };
+    srwrite_cause_value(in, out);
+    uint32_t ip = out[0] & 0x300;
+    cester_assert_uint_eq(0x300, ip);
+    cester_assert_uint_eq(0xff00, out[1]);
 )
 
 CESTER_TEST(rfe_keeps_registers, sr_write_tests,
