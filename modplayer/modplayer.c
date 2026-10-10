@@ -66,6 +66,7 @@ struct SPUChannelData {
     int8_t vibrato;
     uint8_t fx[4];
     uint16_t samplePos;
+    uint16_t sampleOffset;
 };
 
 struct SpuInstrumentData {
@@ -656,10 +657,12 @@ static void MOD_UpdateRow() {
 
         if (effectNibble1 != 9) {
             channelData->samplePos = 0;
-        } else if (effectNibble23 != 0) {
-            // 9xx, sample offset: xx * 256 MOD sample bytes. It needs to be known before setting the
-            // start address below, which the original code did after, in the effects switch.
-            channelData->samplePos = effectNibble23 << 8;
+        } else {
+            // 9xx, sample offset: xx * 256 MOD sample bytes, 900 reuses the channel's last offset. It
+            // needs to be known before setting the start address below, which the original code did
+            // after, in the effects switch.
+            if (effectNibble23 != 0) channelData->sampleOffset = effectNibble23 << 8;
+            channelData->samplePos = channelData->sampleOffset;
         }
         if (sampleID != 0) {
             channelData->sampleID = --sampleID;
