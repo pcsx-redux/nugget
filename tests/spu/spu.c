@@ -500,3 +500,8 @@ CESTER_AFTER_ALL(spu_tests,
 #include "spu-irq.c"
 #endif
 #include "spu-reverb.c"
+// Opt-in: prints raw captures for an offline diff between two builds and asserts
+// nothing, so it stays out of the default run. Build with SPU_MODEAXES=true.
+#ifdef SPU_MODEAXES
+#include "spu-modeaxes.c"
+#endif
