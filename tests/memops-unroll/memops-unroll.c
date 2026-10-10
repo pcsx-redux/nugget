@@ -38,19 +38,25 @@ SOFTWARE.
  * before changing any of them.
  *
  * Cycle source and method are lifted from tests/load-timings: root
- * counter 2 in system-clock mode (1 tick / CPU cycle, 16-bit), IRQs masked
- * suite-wide, minimum over several runs to reject stray stalls and warm the
- * icache. Every kernel is CONTENT-CHECKED before any of its timings are
+ * counter 2 in system-clock mode (1 tick / CPU cycle, 16-bit), read INSIDE the
+ * timed code, IRQs masked suite-wide, minimum over several runs to reject stray
+ * stalls and warm the icache. Every kernel reads the counter at its own entry
+ * and exit and returns the delta, so the call and return are not in the
+ * bracket. The shipped routines cannot carry a bracket of their own, so they
+ * are timed through time_* thunks in kernels.s that call them directly, and
+ * the bare kernels they are compared against go through identical thunks. Every kernel is CONTENT-CHECKED before any of its timings are
  * reported - a kernel that copies the wrong number of bytes would otherwise
  * post a beautifully fast number.
  *
  * WHAT THIS RIG CAN AND CANNOT RESOLVE. The kernels are separate functions in a
- * 4 KiB direct-mapped icache with one word per line, reached through a function
- * pointer, so a kernel's ADDRESS is a variable. Two byte-identical kernels at
- * different addresses have been measured 8% apart in one binary on one console.
- * Treat any single-digit percentage from the 1 KiB tests as unresolved and
- * quote the 4096-word figures, where a per-call fill is amortised sixteen times
- * over. Two shapes of comparison here are immune and can be trusted small: the
+ * 4 KiB direct-mapped icache with one word per line, so a kernel's ADDRESS is a
+ * variable. Two byte-identical kernels at different addresses were measured 8%
+ * apart in one binary on one console, when the counter was read from C around
+ * the call. With the counter read inside each kernel, B8 U8/U16/U32 read
+ * 2225/2224/2224 ticks, two runs on one console print byte-identical logs, and
+ * two consoles agree to within 4 ticks on the warm rows (9 on the cold
+ * small-n ones). Below that, prefer the 4096-word figures, where a per-call
+ * fill is amortised sixteen times over. Two shapes of comparison here are immune and can be trusted small: the
  * same kernel called with two different POINTERS (the KSEG0/KSEG1 arms), and
  * one kernel's own cold first call against its own warm minimum.
  *
@@ -91,18 +97,19 @@ SOFTWARE.
 CESTER_BODY(
     static int s_interruptsWereEnabled;
 
-    typedef void (*copyfn)(void *dst, const void *src, uint32_t words);
-    typedef void (*setfn)(void *dst, uint32_t value, uint32_t words);
+    /* Every kernel returns the root counter 2 ticks it took, measured in its own body. */
+    typedef uint32_t (*copyfn)(void *dst, const void *src, uint32_t words);
+    typedef uint32_t (*setfn)(void *dst, uint32_t value, uint32_t words);
 
-    void copy_b2_u2(void *, const void *, uint32_t);
-    void copy_b4_u4(void *, const void *, uint32_t);
-    void copy_b8_u8(void *, const void *, uint32_t);
-    void copy_b8_u16(void *, const void *, uint32_t);
-    void copy_b8_u32(void *, const void *, uint32_t);
-    void copy_b2_u32(void *, const void *, uint32_t);
-    void copy_b4_u32(void *, const void *, uint32_t);
-    void copy_b16_u16(void *, const void *, uint32_t);
-    void copy_b16_u32(void *, const void *, uint32_t);
+    uint32_t copy_b2_u2(void *, const void *, uint32_t);
+    uint32_t copy_b4_u4(void *, const void *, uint32_t);
+    uint32_t copy_b8_u8(void *, const void *, uint32_t);
+    uint32_t copy_b8_u16(void *, const void *, uint32_t);
+    uint32_t copy_b8_u32(void *, const void *, uint32_t);
+    uint32_t copy_b2_u32(void *, const void *, uint32_t);
+    uint32_t copy_b4_u32(void *, const void *, uint32_t);
+    uint32_t copy_b16_u16(void *, const void *, uint32_t);
+    uint32_t copy_b16_u32(void *, const void *, uint32_t);
 
     /* The routines actually shipped in common/crt0/memory-s.s, so the sweep
        can say whether they land on the floor it just measured rather than
@@ -110,13 +117,21 @@ CESTER_BODY(
     void *__wrap_memcpy(void *, const void *, uint32_t);
     void *__wrap_memset(void *, int, uint32_t);
 
-    void set_u1(void *, uint32_t, uint32_t);
-    void set_u2(void *, uint32_t, uint32_t);
-    void set_u4(void *, uint32_t, uint32_t);
-    void set_u8(void *, uint32_t, uint32_t);
-    void set_u16(void *, uint32_t, uint32_t);
-    void set_u32(void *, uint32_t, uint32_t);
-    void set_u64(void *, uint32_t, uint32_t);
+    /* Bracketed direct calls, all with the same bracket: the shipped routines
+       (byte counts) and untimed copies of the bare kernels they are compared
+       against (word counts). */
+    uint32_t time_wrap_memcpy(void *, const void *, uint32_t bytes);
+    uint32_t time_wrap_memset(void *, uint32_t, uint32_t bytes);
+    uint32_t time_copy_b8_u8_bare(void *, const void *, uint32_t words);
+    uint32_t time_set_u4_bare(void *, uint32_t, uint32_t words);
+
+    uint32_t set_u1(void *, uint32_t, uint32_t);
+    uint32_t set_u2(void *, uint32_t, uint32_t);
+    uint32_t set_u4(void *, uint32_t, uint32_t);
+    uint32_t set_u8(void *, uint32_t, uint32_t);
+    uint32_t set_u16(void *, uint32_t, uint32_t);
+    uint32_t set_u32(void *, uint32_t, uint32_t);
+    uint32_t set_u64(void *, uint32_t, uint32_t);
 
     /* A second, much larger pair so buffer size is an axis rather than an
        assumption. 4096 words = 16 KiB; at the slowest measured rate that is
@@ -141,10 +156,7 @@ CESTER_BODY(
     static uint32_t timeCopyN(copyfn fn, void *dst, const void *src, uint32_t words, uint32_t *first) {
         uint32_t best = 0xffffu;
         for (int i = 0; i < 8; i++) {
-            uint16_t before = COUNTERS[2].value;
-            fn(dst, src, words);
-            uint16_t after = COUNTERS[2].value;
-            uint32_t d = (uint16_t)(after - before);
+            uint32_t d = fn(dst, src, words);
             if (i == 0 && first) *first = d;
             if (d < best) best = d;
         }
@@ -154,10 +166,7 @@ CESTER_BODY(
     static uint32_t timeSetN(setfn fn, void *dst, uint32_t v, uint32_t words, uint32_t *first) {
         uint32_t best = 0xffffu;
         for (int i = 0; i < 8; i++) {
-            uint16_t before = COUNTERS[2].value;
-            fn(dst, v, words);
-            uint16_t after = COUNTERS[2].value;
-            uint32_t d = (uint16_t)(after - before);
+            uint32_t d = fn(dst, v, words);
             if (i == 0 && first) *first = d;
             if (d < best) best = d;
         }
@@ -167,10 +176,7 @@ CESTER_BODY(
     static uint32_t timeCopy(copyfn fn, void *dst, const void *src) {
         uint32_t best = 0xffffu;
         for (int i = 0; i < 8; i++) {
-            uint16_t before = COUNTERS[2].value;
-            fn(dst, src, WORDS);
-            uint16_t after = COUNTERS[2].value;
-            uint32_t d = (uint16_t)(after - before);
+            uint32_t d = fn(dst, src, WORDS);
             if (d < best) best = d;
         }
         return best;
@@ -179,10 +185,7 @@ CESTER_BODY(
     static uint32_t timeSet(setfn fn, void *dst, uint32_t v) {
         uint32_t best = 0xffffu;
         for (int i = 0; i < 8; i++) {
-            uint16_t before = COUNTERS[2].value;
-            fn(dst, v, WORDS);
-            uint16_t after = COUNTERS[2].value;
-            uint32_t d = (uint16_t)(after - before);
+            uint32_t d = fn(dst, v, WORDS);
             if (d < best) best = d;
         }
         return best;
@@ -250,6 +253,8 @@ CESTER_TEST(kernelsCorrect, memops,
     cester_assert_true(setCorrect(set_u16));
     cester_assert_true(setCorrect(set_u32));
     cester_assert_true(setCorrect(set_u64));
+    cester_assert_true(copyCorrect(time_copy_b8_u8_bare));
+    cester_assert_true(setCorrect(time_set_u4_bare));
 )
 
 /* Loop-overhead amortization for stores into main RAM. A push into the
@@ -347,24 +352,10 @@ CESTER_MAYBE_TEST(copySmallUnroll, memops,
    near it. Everything here is 4-aligned and a whole number of blocks, which is
    the case those block loops exist for. */
 CESTER_MAYBE_TEST(shippedRoutines, memops,
-    uint32_t best_set = timeSet(set_u4, s_dst, 0);
-    uint32_t best_copy = timeCopy(copy_b8_u8, s_dst, s_src);
-
-    uint32_t wset = 0xffffu, wcopy = 0xffffu;
-    for (int i = 0; i < 8; i++) {
-        uint16_t b = COUNTERS[2].value;
-        __wrap_memset(s_dst, 0, WORDS * 4);
-        uint16_t a = COUNTERS[2].value;
-        uint32_t d = (uint16_t)(a - b);
-        if (d < wset) wset = d;
-    }
-    for (int i = 0; i < 8; i++) {
-        uint16_t b = COUNTERS[2].value;
-        __wrap_memcpy(s_dst, s_src, WORDS * 4);
-        uint16_t a = COUNTERS[2].value;
-        uint32_t d = (uint16_t)(a - b);
-        if (d < wcopy) wcopy = d;
-    }
+    uint32_t best_set = timeSet(time_set_u4_bare, s_dst, 0);
+    uint32_t best_copy = timeCopy(time_copy_b8_u8_bare, s_dst, s_src);
+    uint32_t wset = timeSetN(time_wrap_memset, s_dst, 0, WORDS * 4, 0);
+    uint32_t wcopy = timeCopyN(time_wrap_memcpy, s_dst, s_src, WORDS * 4, 0);
 
     ramsyscall_printf("=== shipped routines vs best swept kernel ===\n");
     reportRate("kernel set U=4", best_set);
@@ -380,6 +371,26 @@ CESTER_MAYBE_TEST(shippedRoutines, memops,
     cester_assert_true(wcopy <= best_copy + best_copy / 8u);
 )
 
+/* Settling: the same shipped-vs-bare pairs at both ends of the length axis, so
+   the per-call constant (entry, alignment dispatch, head/tail handling) is read
+   off at n=8 and the block loop's rate off n=4096, instead of both being folded
+   into one 1 KiB figure. Both sides go through identical time_* thunks. n=8 is
+   the smallest length that is a whole number of blocks for both bare kernels
+   (8 words for copy, 4 for set), so both sides move the same bytes. */
+CESTER_MAYBE_TEST(shippedSettling, memops,
+    static const uint32_t lens[] = { 8, BIGWORDS };
+    ramsyscall_printf("=== shipped vs bare thunk, n=8 and n=%d (raw ticks, min8) ===\n", BIGWORDS);
+    for (unsigned i = 0; i < sizeof(lens) / sizeof(lens[0]); i++) {
+        uint32_t n = lens[i];
+        uint32_t ws = timeSetN(time_wrap_memset, s_bigDst, 0, n * 4, 0);
+        uint32_t ks = timeSetN(time_set_u4_bare, s_bigDst, 0, n, 0);
+        uint32_t wc = timeCopyN(time_wrap_memcpy, s_bigDst, s_bigSrc, n * 4, 0);
+        uint32_t kc = timeCopyN(time_copy_b8_u8_bare, s_bigDst, s_bigSrc, n, 0);
+        ramsyscall_printf("  n=%4u  __wrap_memset=%5u  set U=4=%5u   __wrap_memcpy=%5u  copy B8U8=%5u\n",
+                          n, ws, ks, wc, kc);
+    }
+)
+
 /* The two variables every other test here holds fixed rather than controls.
 
    Buffer: the rest of this file moves 1 KiB. Main RAM rows are 1 KiB (256
@@ -388,10 +399,9 @@ CESTER_MAYBE_TEST(shippedRoutines, memops,
    crossing is 0.4% of the accesses. If the rates hold at 16 KiB then size is
    not a confound; if they do not, every number above is a small-buffer number.
 
-   icache: each kernel is reached through a function pointer, and the kernels
-   sit at different addresses in a 4 KiB direct-mapped cache with one word per
-   line and no spatial prefetch, so body size is a per-call fill cost and code
-   PLACEMENT can move a number between builds. min-over-8 warms it. Printing the
+   icache: the kernels sit at different addresses in a 4 KiB direct-mapped
+   cache with one word per line and no spatial prefetch, so body size is a
+   per-call fill cost and code PLACEMENT can move a number between builds. min-over-8 warms it. Printing the
    cold first run beside the min is what turns that into a number instead of an
    assumption. */
 CESTER_MAYBE_TEST(bufferSizeAndIcache, memops,
@@ -434,17 +444,12 @@ CESTER_MAYBE_TEST(coldCrossover, memops,
     ramsyscall_printf("=== cold cost per call, B4U4 vs B8U8 (icache evicted between) ===\n");
     for (unsigned i = 0; i < sizeof(lens) / sizeof(lens[0]); i++) {
         uint32_t n = lens[i];
-        uint16_t a, b;
         syscall_flushCache();
-        a = COUNTERS[2].value; copy_b8_u8(s_bigDst, s_bigSrc, n); b = COUNTERS[2].value;
-        uint32_t c8 = (uint16_t)(b - a);
-        a = COUNTERS[2].value; copy_b8_u8(s_bigDst, s_bigSrc, n); b = COUNTERS[2].value;
-        uint32_t w8 = (uint16_t)(b - a);
+        uint32_t c8 = copy_b8_u8(s_bigDst, s_bigSrc, n);
+        uint32_t w8 = copy_b8_u8(s_bigDst, s_bigSrc, n);
         syscall_flushCache();
-        a = COUNTERS[2].value; copy_b4_u4(s_bigDst, s_bigSrc, n); b = COUNTERS[2].value;
-        uint32_t c4 = (uint16_t)(b - a);
-        a = COUNTERS[2].value; copy_b4_u4(s_bigDst, s_bigSrc, n); b = COUNTERS[2].value;
-        uint32_t w4 = (uint16_t)(b - a);
+        uint32_t c4 = copy_b4_u4(s_bigDst, s_bigSrc, n);
+        uint32_t w4 = copy_b4_u4(s_bigDst, s_bigSrc, n);
         uint32_t pct8 = w8 ? ((c8 - w8) * 100u + w8 / 2u) / w8 : 0u;
         uint32_t pct4 = w4 ? ((c4 - w4) * 100u + w4 / 2u) / w4 : 0u;
         ramsyscall_printf("  n=%4u  B8U8 cold=%5u warm=%5u (+%u%%)   B4U4 cold=%5u warm=%5u (+%u%%)\n",

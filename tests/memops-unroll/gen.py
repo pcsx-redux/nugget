@@ -50,8 +50,18 @@ SETS = [1, 2, 4, 8, 16, 32, 64]
 TREGS = ["$t%d" % i for i in range(8)]
 SREGS = ["$s%d" % i for i in range(8)]
 
+# Each kernel times itself. Reading root counter 2 from C around an indirect
+# call leaves the call, the return and the link-address-dependent icache fill of
+# the call site inside the bracket; two byte-identical kernels at different
+# addresses measured 8% apart that way. $t8 holds the start count and $t9 the
+# I/O base; no kernel body touches either, and the delta comes back in $v0.
+# __wrap_memcpy does use $t8, which is why the thunks spill it to the stack.
+TIMER_START = ["    lui    $t9, 0x1f80", "    lhu    $t8, 0x1120($t9)"]
+TIMER_STOP = ["    lhu    $v0, 0x1120($t9)", "    nop",
+              "    subu   $v0, $v0, $t8", "    andi   $v0, $v0, 0xffff"]
 
-def copy_fn(B, U):
+
+def copy_fn(B, U, timed=True):
     """B words loaded before any is stored, U words per loop iteration.
 
     Both pointers are bumped at the top and the block is addressed with negative
@@ -60,10 +70,12 @@ def copy_fn(B, U):
     start + count-with-remainder-removed; see the note in memory-s.s about why
     it must not be written as end - blocksize.
     """
-    name = "copy_b%d_u%d" % (B, U)
+    name = "copy_b%d_u%d" % (B, U) + ("" if timed else "_bare")
     regs = (TREGS + SREGS)[:B]
     need_s = B > 8
     L = ["    .global %s" % name, "    .type %s, @function" % name, "%s:" % name]
+    if timed:
+        L += TIMER_START
     if need_s:
         L.append("    addiu  $sp, -32")
         for i, r in enumerate(SREGS):
@@ -87,6 +99,9 @@ def copy_fn(B, U):
     if need_s:
         for i, r in enumerate(SREGS):
             L.append("    lw     %s, %d($sp)" % (r, i * 4))
+    if timed:
+        L += TIMER_STOP
+    if need_s:
         L += ["    jr     $ra", "    addiu  $sp, 32"]
     else:
         L += ["    jr     $ra", "    nop"]
@@ -94,24 +109,63 @@ def copy_fn(B, U):
     return "\n".join(L)
 
 
-def set_fn(U):
-    name = "set_u%d" % U
-    L = ["    .global %s" % name, "    .type %s, @function" % name, "%s:" % name,
-         "    sll    $a2, 2", "    addu   $a3, $a0, $a2", "1:",
+def set_fn(U, timed=True):
+    name = "set_u%d" % U + ("" if timed else "_bare")
+    L = ["    .global %s" % name, "    .type %s, @function" % name, "%s:" % name]
+    if timed:
+        L += TIMER_START
+    L += ["    sll    $a2, 2", "    addu   $a3, $a0, $a2", "1:",
          "    addiu  $a0, %d" % (U * 4)]
     stores = ["    sw     $a1, %d($a0)" % (-(U * 4) + i * 4) for i in range(U)]
     L += stores[:-1]
     L.append("    bltu   $a0, $a3, 1b")
     L.append(stores[-1])
+    if timed:
+        L += TIMER_STOP
     L += ["    jr     $ra", "    nop", "    .size %s, .-%s" % (name, name), ""]
     return "\n".join(L)
+
+
+def thunk_fn(target):
+    """time_<target>(a0, a1, a2): calls target directly, returns its ticks.
+
+    For routines that cannot carry their own bracket: the shipped crt0 ones, and
+    untimed copies of the bare kernels they are compared against, so that both
+    sides of that comparison sit inside the same bracket. The start count is
+    spilled because the callee may clobber $t8.
+    """
+    name = "time_%s" % target.lstrip("_")
+    L = ["    .global %s" % name, "    .type %s, @function" % name, "%s:" % name,
+         "    addiu  $sp, -24",
+         "    sw     $ra, 20($sp)"]
+    L += TIMER_START
+    L += ["    jal    %s" % target,
+          "    sw     $t8, 16($sp)",
+          "    lui    $t9, 0x1f80",
+          "    lhu    $v0, 0x1120($t9)",
+          "    lw     $t8, 16($sp)",
+          "    lw     $ra, 20($sp)",
+          "    subu   $v0, $v0, $t8",
+          "    andi   $v0, $v0, 0xffff",
+          "    jr     $ra",
+          "    addiu  $sp, 24",
+          "    .size %s, .-%s" % (name, name), ""]
+    return "\n".join(L)
+
+
+# Bare kernels the shipped routines are compared against, and the thunks.
+BARE_COPIES = [(8, 8)]
+BARE_SETS = [4]
+THUNKS = ["__wrap_memcpy", "__wrap_memset", "copy_b8_u8_bare", "set_u4_bare"]
 
 
 def build():
     out = [LICENSE + """
 /* GENERATED - see gen.py. Copy and set kernels at varying unroll depth (U words
    per loop iteration) and batch depth (B words loaded before any is stored).
-   Every kernel moves exactly `words` words; `words` is assumed a multiple of U. */
+   Every kernel moves exactly `words` words; `words` is assumed a multiple of U,
+   and returns the root counter 2 ticks it took. *_bare are the same bodies
+   untimed, and time_* are thunks that bracket a direct call to one routine. */
 
     .section .text, "ax", @progbits
     .set noreorder
@@ -121,6 +175,12 @@ def build():
         out.append(copy_fn(B, U))
     for U in SETS:
         out.append(set_fn(U))
+    for B, U in BARE_COPIES:
+        out.append(copy_fn(B, U, timed=False))
+    for U in BARE_SETS:
+        out.append(set_fn(U, timed=False))
+    for t in THUNKS:
+        out.append(thunk_fn(t))
     return "\n".join(out)
 
 
