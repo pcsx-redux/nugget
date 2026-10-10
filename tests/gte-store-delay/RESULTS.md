@@ -14,5 +14,5 @@ N is the number of nops between the write and the use.
 
 A use with two or more instructions between it and the mtc2, ctc2 or lwc2
 sees the new value; with zero or one it sees the old one, whether the use is
-a command, mfc2, cfc2 or swc2. With N=0 SQR squares the old IR1 (4) and IR1
-then holds the written 3, not the result.
+a command, mfc2, cfc2 or swc2. With N=0, IR1 reads back after SQR as the
+written 3 rather than either square (MAC1 was not read).
