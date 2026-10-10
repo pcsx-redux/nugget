@@ -372,13 +372,13 @@ CESTER_MAYBE_TEST(shippedRoutines, memops,
 
 /* Settling: the same shipped-vs-bare pairs at both ends of the length axis, so
    the per-call constant (entry, alignment dispatch, head/tail handling) is read
-   off at n=1 and the block loop's rate off n=4096, instead of both being folded
-   into one 1 KiB figure. Both sides go through identical time_* thunks. The bare
-   kernels are do-while loops over whole blocks, so at n=1 they still move one
-   full block (8 words for copy, 4 for set); the big buffers absorb the spill. */
+   off at n=8 and the block loop's rate off n=4096, instead of both being folded
+   into one 1 KiB figure. Both sides go through identical time_* thunks. n=8 is
+   the smallest length that is a whole number of blocks for both bare kernels
+   (8 words for copy, 4 for set), so both sides move the same bytes. */
 CESTER_MAYBE_TEST(shippedSettling, memops,
-    static const uint32_t lens[] = { 1, BIGWORDS };
-    ramsyscall_printf("=== shipped vs bare thunk, n=1 and n=%d (raw ticks, min8) ===\n", BIGWORDS);
+    static const uint32_t lens[] = { 8, BIGWORDS };
+    ramsyscall_printf("=== shipped vs bare thunk, n=8 and n=%d (raw ticks, min8) ===\n", BIGWORDS);
     for (unsigned i = 0; i < sizeof(lens) / sizeof(lens[0]); i++) {
         uint32_t n = lens[i];
         uint32_t ws = timeSetN(time_wrap_memset, s_bigDst, 0, n * 4, 0);
