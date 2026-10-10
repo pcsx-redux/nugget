@@ -566,3 +566,69 @@ CESTER_MAYBE_TEST(timerDotclock368PAL, timer_tests,
     int dpl = measureDotsPerLine(50);
     cester_assert_cmp(dpl, >=, 486 - 1); cester_assert_cmp(dpl, <=, 486 + 1);
 )
+
+/* =================================================================
+ * Reset period, measured by accumulation. Timer 2 runs reset-on-target
+ * for N periods while timer 0 counts the system clock as the reference;
+ * the per-period dwell after reaching target shows up as the slope of
+ * elapsed cycles against target. Measured on SCPH-5501 and SCPH-7001: the
+ * period is target+2 cycles on the system clock and exactly target*8 on
+ * System Clock/8. The run edges cost a few cycles, hence the tolerance.
+ * ================================================================= */
+
+CESTER_BODY(
+static uint32_t timePeriods(uint16_t mode, uint16_t target, uint32_t periods) {
+    COUNTERS[0].mode = 0;
+    COUNTERS[2].target = target;
+    COUNTERS[2].mode = mode;
+    uint16_t last2 = COUNTERS[2].value;
+    /* Align to a wrap of timer 2 first. */
+    for (;;) {
+        uint16_t v = COUNTERS[2].value;
+        if (v < last2) break;
+        last2 = v;
+    }
+    uint16_t last0 = COUNTERS[0].value;
+    uint32_t elapsed = 0;
+    last2 = COUNTERS[2].value;
+    uint32_t wraps = 0;
+    while (wraps < periods) {
+        uint16_t v2 = COUNTERS[2].value;
+        uint16_t v0 = COUNTERS[0].value;
+        elapsed += (uint16_t)(v0 - last0);
+        last0 = v0;
+        if (v2 < last2) wraps++;
+        last2 = v2;
+    }
+    return elapsed;
+}
+
+static uint32_t reportPeriod(const char *name, uint16_t mode, uint16_t target, uint32_t periods) {
+    uint32_t e = timePeriods(mode, target, periods);
+    uint32_t perx100 = (e * 100u) / periods;
+    ramsyscall_printf("PERIOD %-6s target=%5u N=%5u elapsed=%8u per=%u.%02u cpu cycles\n",
+                      name, target, periods, e, perx100 / 100u, perx100 % 100u);
+    return e;
+}
+
+static int periodIs(uint32_t elapsed, uint32_t period, uint32_t periods) {
+    uint32_t want = period * periods;
+    return elapsed + 16 >= want && elapsed <= want + 16;
+}
+)
+
+CESTER_MAYBE_TEST(reset_period_accumulated, timer_tests,
+    uint32_t s200 = reportPeriod("sys", TM_RESET_TARGET, 200, 10000);
+    uint32_t s400 = reportPeriod("sys", TM_RESET_TARGET, 400, 10000);
+    uint32_t d50 = reportPeriod("div8", TM_RESET_TARGET | TM_CLK_DIV8, 50, 10000);
+    uint32_t d100 = reportPeriod("div8", TM_RESET_TARGET | TM_CLK_DIV8, 100, 10000);
+    uint32_t f = reportPeriod("free", 0, 0, 100);
+    uint32_t f8 = reportPeriod("free8", TM_CLK_DIV8, 0, 20);
+    COUNTERS[2].mode = 0;
+    cester_assert_true(periodIs(s200, 202, 10000));
+    cester_assert_true(periodIs(s400, 402, 10000));
+    cester_assert_true(periodIs(d50, 400, 10000));
+    cester_assert_true(periodIs(d100, 800, 10000));
+    cester_assert_true(periodIs(f, 65536, 100));
+    cester_assert_true(periodIs(f8, 524288, 20));
+)
