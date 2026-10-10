@@ -84,6 +84,7 @@ SKIPS=(
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
+    "spu-volsweep/spu-volsweep|needs the voice volume sweep in pcsx-redux"
     "regwrites/regwrites|probe: loops forever, no verdict"
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"

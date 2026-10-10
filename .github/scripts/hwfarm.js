@@ -55,6 +55,7 @@ const TESTS = [
     'spu-endmute;spu-endmute/spu-endmute',
     'spu-endx;spu-endx/spu-endx',
     'spu-offvoice;spu-offvoice/spu-offvoice',
+    'spu-volsweep;spu-volsweep/spu-volsweep',
     'timers;timers/timers',
 ];
 for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase${p}/gpu-raster-phase${p}`);
