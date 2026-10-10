@@ -40,8 +40,11 @@
 #define SPU_IRQ_EXPECTED_REARM_SECOND_POLLS 1u
 #endif
 
+// The sample loops blocks 0-7, so an IRQ address inside block 0 is read on
+// every pass and every one of the probe's 8 attempts fires. Measured 8 on
+// SCPH-1001 across three runs and two builds.
 #ifndef SPU_IRQ_EXPECTED_MIDBLOCK_HITS
-#define SPU_IRQ_EXPECTED_MIDBLOCK_HITS SPU_IRQ_EXPECTED_UNSET
+#define SPU_IRQ_EXPECTED_MIDBLOCK_HITS 8u
 #endif
 #ifndef SPU_IRQ_EXPECTED_MIDBLOCK_FIRST_POLLS
 #define SPU_IRQ_EXPECTED_MIDBLOCK_FIRST_POLLS SPU_IRQ_EXPECTED_UNSET
