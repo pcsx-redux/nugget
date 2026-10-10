@@ -533,10 +533,17 @@ CESTER_BODY(
         {0x00020943u, 0x0000132cu, 1150, 1790},
     };
 
-    /* Take the min over 8 runs, which should ensure warm icache and no stray stalls. */
+    /* Take the min over 8 runs, which should ensure warm icache and no stray
+       stalls. Back to back, all eight runs start at the same phase, and on
+       RAM targets some phases add one cycle that the min then keeps; a spin
+       of 19 * i iterations before run i moves each run to its own phase. It
+       stays inline: a call here costs the timed code its warm icache. */
 #define BENCH(ret, fn, p) uint32_t ret; do { \
         uint32_t best = 0xffffu;             \
         for (int i = 0; i < 8; i++) {        \
+            uint32_t skew = i * 19u;         \
+            __asm__ volatile(".set push\n.set noreorder\n1: bnez %0, 1b\naddiu %0, %0, -1\n.set pop\n" \
+                             : "+r"(skew));  \
             uint32_t d = fn(p);              \
             if (d < best) best = d;          \
         }                                    \
