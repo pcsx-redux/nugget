@@ -52,10 +52,11 @@ SOFTWARE.
  * 4 KiB direct-mapped icache with one word per line, so a kernel's ADDRESS is a
  * variable. Two byte-identical kernels at different addresses were measured 8%
  * apart in one binary on one console, when the counter was read from C around
- * the call; how much of that survives the in-kernel bracket is not yet measured.
- * Treat any single-digit percentage from the 1 KiB tests as unresolved and
- * quote the 4096-word figures, where a per-call fill is amortised sixteen times
- * over. Two shapes of comparison here are immune and can be trusted small: the
+ * the call. With the counter read inside each kernel, B8 U8/U16/U32 read
+ * 2225/2224/2224 ticks, two runs on one console print byte-identical logs, and
+ * two consoles agree to within 4 ticks on the warm rows (9 on the cold
+ * small-n ones). Below that, prefer the 4096-word figures, where a per-call
+ * fill is amortised sixteen times over. Two shapes of comparison here are immune and can be trusted small: the
  * same kernel called with two different POINTERS (the KSEG0/KSEG1 arms), and
  * one kernel's own cold first call against its own warm minimum.
  *
