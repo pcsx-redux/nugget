@@ -126,11 +126,12 @@ static int s_failures = 0;
 static void run_case(const char *tag, uint16_t startDirect, uint16_t sweep, int stride) {
     SPU_VOICES[1].volumeLeft = startDirect;
     SPU_VOICES[1].volumeRight = RIGHT_CTRL;
-    for (int i = 0; i < 3; i++) spu_tick();
+    int stalled = 0;
+    for (int i = 0; i < 3; i++) stalled += !spu_tick();
     int16_t before = VOLXL(1);
     SPU_VOICES[1].volumeLeft = sweep;
     for (int i = 0; i < TRACE_LEN; i++) {
-        for (int s = 0; s < stride; s++) spu_tick();
+        for (int s = 0; s < stride; s++) stalled += !spu_tick();
         s_trace[i] = VOLXL(1);
     }
     ramsyscall_printf("OBS volsweep %s start=%04x sweep=%04x stride=%d before=%04x", tag, startDirect, sweep,
@@ -145,6 +146,10 @@ static void run_case(const char *tag, uint16_t startDirect, uint16_t sweep, int 
     }
     if ((uint16_t)VOLXR(1) != (uint16_t)(RIGHT_CTRL * 2)) {
         ramsyscall_printf("SPUVOLSWEEP: FAIL %s - VOLXR control moved to %04x\n", tag, (uint16_t)VOLXR(1));
+        s_failures++;
+    }
+    if (stalled) {
+        ramsyscall_printf("SPUVOLSWEEP: FAIL %s - SPUSTAT bit 11 stopped moving %d times\n", tag, stalled);
         s_failures++;
     }
     if (bad >= 0) {
