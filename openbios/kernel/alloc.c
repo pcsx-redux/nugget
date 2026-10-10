@@ -91,6 +91,9 @@ static __attribute__((section(".ramtext"))) void *multi_malloc(size_t size_, con
         }
         prev = curr;
         curr = curr->next;
+        // The free list is sorted by address. A link going backwards means the
+        // caller wrote over a free block, so stop at the blocks seen so far.
+        if ((curr != &marker) && (curr <= prev)) break;
     }
 
     if (best_fit == NULL) {
@@ -172,6 +175,10 @@ static __attribute__((section(".ramtext"))) void multi_free(void *ptr_, const en
     empty_block *curr = head;
     empty_block *next = NULL;
     while ((next = curr->next) != &marker) {
+        // Same as in multi_malloc: a backward link means a free block was
+        // overwritten. WipEout (USA) does that and still frees memory, so leak
+        // the block instead of walking the damaged list forever.
+        if (next <= curr) return;
         if (next <= block) {
             curr = next;
             continue;

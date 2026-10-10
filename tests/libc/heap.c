@@ -24,13 +24,37 @@ SOFTWARE.
 
 */
 
-#undef unix
-#define CESTER_NO_SIGNAL
-#define CESTER_NO_TIME
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 1
-#include "exotic/cester.h"
-#include "heap.c"
-#include "longjmp.c"
-#include "qsort.c"
-#include "string.c"
+#include <stdint.h>
+
+#include "common/syscalls/syscalls.h"
+
+// clang-format off
+
+CESTER_BODY(
+    static uint32_t s_heap[1024];
+)
+
+CESTER_TEST(userHeapReuse, test_instance,
+    syscall_userInitheap(s_heap, sizeof(s_heap));
+    void *a = syscall_userMalloc(256);
+    void *b = syscall_userMalloc(256);
+    cester_assert_not_null(a);
+    cester_assert_not_null(b);
+    cester_assert_ptr_not_equal(a, b);
+    syscall_userFree(a);
+    void *c = syscall_userMalloc(256);
+    cester_assert_ptr_equal(a, c);
+    syscall_userFree(b);
+    syscall_userFree(c);
+)
+
+// WipEout (USA) initializes the user heap, writes over all of it with its own
+// allocator, then hands pointers into it to free. The retail BIOS returns.
+CESTER_TEST(userHeapFreeAfterOverwrite, test_instance,
+    syscall_userInitheap(s_heap, sizeof(s_heap));
+    for (unsigned i = 0; i < 1024; i++) s_heap[i] = 0;
+    syscall_userFree(&s_heap[256]);
+    syscall_userFree(&s_heap[512]);
+    syscall_userMalloc(64);
+    cester_assert_true(1);
+)
