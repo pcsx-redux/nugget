@@ -174,6 +174,46 @@ delayslot_break:
     break
 
     .align 2
+    .global delayslot_bc2f
+    .type delayslot_bc2f, @function
+
+/* bc2f always branches when it can run, but with SR.CU2 clear it raises
+   Coprocessor Unusable instead (ExcCode 11, Cause.CE = 2). The outer branch
+   goes to delayslot_mark, which sets delayslot_taken; the handler resumes at
+   delayslot_resume instead, so it must stay 0. The caller restores SR. The
+   bc2f is a raw word, since the assembler doesn't take it. */
+
+delayslot_bc2f:
+    mfc0  $t0, $12
+    lui   $t1, 0x4000
+    nor   $t1, $t1, $0
+    and   $t1, $t0, $t1
+    mtc0  $t1, $12
+    la    $t3, delayslot_taken
+    sw    $0, 0($t3)
+    la    $v0, 1f
+1:  b     delayslot_mark
+    .word 0x49000004
+
+    .align 2
+    .global delayslot_mark
+    .type delayslot_mark, @function
+
+delayslot_mark:
+    li    $t2, 1
+    la    $t3, delayslot_taken
+    sw    $t2, 0($t3)
+    j     delayslot_resume
+    nop
+
+    .section .data
+    .align 2
+    .global delayslot_taken
+delayslot_taken:
+    .word 0
+    .section .ramtext, "ax", @progbits
+
+    .align 2
     .global delayslot_resume
     .type delayslot_resume, @function
 

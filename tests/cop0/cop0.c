@@ -238,3 +238,22 @@ CESTER_TEST(cpu_BREAK_in_delay_slot, cpu_tests,
     cester_assert_uint_eq(1, bd);
     cester_assert_uint_eq(branch, s_epc);
 )
+
+// a bc2f would always branch if it could run, but with SR.CU2 clear it raises
+// Coprocessor Unusable from the delay slot: the outer branch isn't taken
+CESTER_TEST(cpu_BC2F_in_delay_slot_cu2_clear, cpu_tests,
+    uint32_t sr;
+    __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(sr));
+    s_resume = (uint32_t *)delayslot_resume;
+    uint32_t branch = delayslot_bc2f();
+    __asm__ volatile("mtc0 %0, $12\nnop" : : "r"(sr));
+    uint32_t excode = (s_cause >> 2) & 0x1f;
+    uint32_t ce = (s_cause >> 28) & 3;
+    uint32_t bd = s_cause >> 31;
+    cester_assert_uint_eq(1, s_got80);
+    cester_assert_uint_eq(11, excode);
+    cester_assert_uint_eq(2, ce);
+    cester_assert_uint_eq(1, bd);
+    cester_assert_uint_eq(branch, s_epc);
+    cester_assert_uint_eq(0, delayslot_taken);
+)
