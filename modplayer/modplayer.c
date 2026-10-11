@@ -655,14 +655,15 @@ static void MOD_UpdateRow() {
         uint8_t fx;
         effectNibble1 &= 0x0f;
 
-        if (effectNibble1 != 9) {
-            channelData->samplePos = 0;
-        } else {
-            // 9xx, sample offset: xx * 256 MOD sample bytes, 900 reuses the channel's last offset. It
-            // needs to be known before setting the start address below, which the original code did
-            // after, in the effects switch.
+        // samplePos is where the channel's sample starts, like ProTracker's n_start: a sample number
+        // resets it, and 9xx (xx * 256 MOD sample bytes, 900 reusing the channel's last offset) adds
+        // to it, so notes without a sample number keep starting there. It needs to be known before
+        // setting the start address below, which the original code did after, in the effects switch.
+        if (sampleID != 0) channelData->samplePos = 0;
+        if (effectNibble1 == 9) {
             if (effectNibble23 != 0) channelData->sampleOffset = effectNibble23 << 8;
-            channelData->samplePos = channelData->sampleOffset;
+            uint32_t samplePos = channelData->samplePos + channelData->sampleOffset;
+            channelData->samplePos = samplePos > 0xffff ? 0xffff : samplePos;
         }
         if (sampleID != 0) {
             channelData->sampleID = --sampleID;
