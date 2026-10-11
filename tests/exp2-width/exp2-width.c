@@ -21,11 +21,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
 
-
-/*
- * Does the SPU drop 32-bit writes? spu/soundprocessingunitspu.md says it
- * "occasionally seems to miss" them. A sw to an SPU register pair is two
 /*
  * iomap.md says the 1F802000h expansion region (DEV8, 8-bit) "crashes on
  * 16bit access?". This does every width of read and write there, printing

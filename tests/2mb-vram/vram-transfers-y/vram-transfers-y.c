@@ -39,6 +39,8 @@ SOFTWARE.
 // readback.
 static uint16_t encodeRow(int y) { return (uint16_t)((y * 0x97) ^ 0xa55a) | 1; }
 
+static ProbeStats* s_stats = 0;
+
 static void onePass(int16_t y, int16_t h) {
     gpuFullResetWithGate(1);
     fillColumn(COL_X, COL_W, BG_COLOR);
@@ -81,6 +83,18 @@ static void onePass(int16_t y, int16_t h) {
                  "found_y_min=%d found_y_max=%d",
                  y, h, eff_h, exact_count, first_match, last_match);
 
+    // The probe counts exact matches only in the contiguous high zone
+    // [y, min(y+eff_h, 1024)); rows that wrap past Y=1023 land at the bottom
+    // of VRAM and are verified separately by transfer-wrap-y, not counted
+    // here. Silicon (573, 2026-05-09 batch4): y=900 h=200 -> 124 (124 high +
+    // 76 wrapped away), every other case == eff_h.
+    int expected = (y + eff_h > 1024) ? (1024 - y) : eff_h;
+    if (exact_count == expected) {
+        PROBE_PASS(s_stats, "y=%d h=%d exact=%d/%d", y, h, exact_count, expected);
+    } else {
+        PROBE_FAIL(s_stats, "y=%d h=%d exact=%d expected=%d", y, h, exact_count, expected);
+    }
+
     waitGPU();
 }
 
@@ -91,6 +105,7 @@ int main(void) {
 
     ProbeStats stats;
     probeStatsInit(&stats);
+    s_stats = &stats;
 
     onePass(400, 100);
     onePass(400, 200);  // crosses
@@ -101,9 +116,7 @@ int main(void) {
     onePass(768, 256);
     onePass(900, 200);  // y+h>1024, wrap probe
 
-    PROBE_INFO(&stats, "vram-transfers-y sweep complete");
     probeStatsSummary(&stats, "vram-transfers-y");
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }

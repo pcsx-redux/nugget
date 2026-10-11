@@ -39,7 +39,9 @@ SOFTWARE.
 #define VRAM_COLOR 0x03e0u
 #define BG_COLOR   0x0000u
 
-static void onePass(int16_t y_off) {
+static ProbeStats* s_stats = 0;
+
+static void onePass(int16_t y_off, int exp_min, int exp_max) {
     fillColumn(COL_X, COL_W, BG_COLOR);
 
     // Drawing area = full VRAM (no scissoring beyond physical extent).
@@ -72,25 +74,39 @@ static void onePass(int16_t y_off) {
 
     PROBE_RESULT("drawing-offset-y y_off=%d drawn_y_min=%d drawn_y_max=%d", y_off,
                  top_drawn, bot_drawn);
+
+    // Expected values are the measured 573 silicon results (2026-05-07).
+    if (top_drawn == exp_min && bot_drawn == exp_max) {
+        PROBE_PASS(s_stats, "y_off=%d -> %d..%d", y_off, top_drawn, bot_drawn);
+    } else {
+        PROBE_FAIL(s_stats, "y_off=%d -> %d..%d expected %d..%d", y_off, top_drawn, bot_drawn,
+                   exp_min, exp_max);
+    }
 }
 
 int main(void) {
     ramsyscall_printf("\n=== 573 drawing-offset-y ===\n");
     probeReset();
+    gp1_09(1);  // open the upper bank so Y>=512 drawing is genuinely addressable
 
     static const int16_t offsets[] = {-1024, -512, -1, 0, 1, 256, 511, 512, 513, 1023};
+    // Measured 573 silicon (2026-05-07). The drawn region is the 16-tall rect
+    // shifted by the offset, sampled on even rows; offsets that push it fully
+    // off-screen (or wholly past Y=1023, which does NOT wrap on draw) show
+    // nothing.
+    static const int exp_min[] = {-1, -1, 0, 0, 2, 256, 512, 512, 514, -1};
+    static const int exp_max[] = {-1, -1, 14, 14, 16, 270, 526, 526, 528, -1};
     static const int n = sizeof(offsets) / sizeof(offsets[0]);
 
     ProbeStats stats;
     probeStatsInit(&stats);
+    s_stats = &stats;
 
     for (int i = 0; i < n; i++) {
-        onePass(offsets[i]);
+        onePass(offsets[i], exp_min[i], exp_max[i]);
     }
 
-    PROBE_INFO(&stats, "drawing-offset-y sweep complete");
     probeStatsSummary(&stats, "drawing-offset-y");
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }

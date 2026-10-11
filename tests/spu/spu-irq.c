@@ -2,15 +2,16 @@
 // Characterize SPU IRQs from the voice ADPCM read pointer
 // ==========================================================================
 //
-// Hardware goldens captured on real silicon. Only the deterministic latch-
-// semantics values are pinned: where the IRQ-gated data lands in the capture
-// buffer (firstNonzero, nonzeroCount, sum), that an ack re-arms immediately
-// (rearm.secondPolls), and the mid-block re-fire count (midblock.hits). The
+// Hardware goldens captured on real silicon. Two values are pinned: that an
+// ack re-arms immediately (rearm.secondPolls), and that a mid-block IRQ
+// address fires on every one of the 8 attempts (midblock.hits), since the
+// sample loops through block 0 (SCPH-1001, both 5501s and the 7001). The
 // poll counts (aligned.polls, rearm.firstPolls, midblock.firstPolls) and the
-// capture tail index (aligned.lastNonzero) are left UNSET on purpose: they are
-// CPU-vs-SPU timing / capture-window-edge quantities that vary run-to-run even
-// on the same console (measured across repeat hardware runs), so pinning them
-// would assert a value neither hardware nor an emulator reproduces.
+// aligned capture (firstNonzero, lastNonzero, nonzeroCount, sum) are left
+// UNSET and printed as OBS lines: they are CPU-vs-SPU timing quantities that
+// vary run-to-run on silicon (nonzeroCount read 22 to 493
+// across 17 hardware runs), so pinning them would assert a
+// value neither hardware nor an emulator reproduces.
 
 #ifndef SPU_IRQ_EXPECTED_UNSET
 #define SPU_IRQ_EXPECTED_UNSET 0xffffffffu
@@ -20,16 +21,16 @@
 #define SPU_IRQ_EXPECTED_ALIGNED_POLLS SPU_IRQ_EXPECTED_UNSET
 #endif
 #ifndef SPU_IRQ_EXPECTED_ALIGNED_FIRST_NONZERO
-#define SPU_IRQ_EXPECTED_ALIGNED_FIRST_NONZERO 0u
+#define SPU_IRQ_EXPECTED_ALIGNED_FIRST_NONZERO SPU_IRQ_EXPECTED_UNSET
 #endif
 #ifndef SPU_IRQ_EXPECTED_ALIGNED_LAST_NONZERO
 #define SPU_IRQ_EXPECTED_ALIGNED_LAST_NONZERO SPU_IRQ_EXPECTED_UNSET
 #endif
 #ifndef SPU_IRQ_EXPECTED_ALIGNED_NONZERO_COUNT
-#define SPU_IRQ_EXPECTED_ALIGNED_NONZERO_COUNT 345u
+#define SPU_IRQ_EXPECTED_ALIGNED_NONZERO_COUNT SPU_IRQ_EXPECTED_UNSET
 #endif
 #ifndef SPU_IRQ_EXPECTED_ALIGNED_SUM
-#define SPU_IRQ_EXPECTED_ALIGNED_SUM 18806188u
+#define SPU_IRQ_EXPECTED_ALIGNED_SUM SPU_IRQ_EXPECTED_UNSET
 #endif
 
 #ifndef SPU_IRQ_EXPECTED_REARM_FIRST_POLLS
@@ -40,7 +41,7 @@
 #endif
 
 #ifndef SPU_IRQ_EXPECTED_MIDBLOCK_HITS
-#define SPU_IRQ_EXPECTED_MIDBLOCK_HITS 2u
+#define SPU_IRQ_EXPECTED_MIDBLOCK_HITS 8u
 #endif
 #ifndef SPU_IRQ_EXPECTED_MIDBLOCK_FIRST_POLLS
 #define SPU_IRQ_EXPECTED_MIDBLOCK_FIRST_POLLS SPU_IRQ_EXPECTED_UNSET
@@ -261,7 +262,7 @@ CESTER_MAYBE_TEST(irq_voice_read_pointer_ack_rearms, spu_tests,
     spu_irq_expect_u32("rearm.secondPolls", SPU_IRQ_EXPECTED_REARM_SECOND_POLLS, secondPolls);
 )
 
-CESTER_MAYBE_TEST(irq_voice_read_pointer_mid_block_probe, spu_tests,
+CESTER_TEST(irq_voice_read_pointer_mid_block_probe, spu_tests,
     uint32_t hits = 0;
     uint32_t firstPolls = 0;
 

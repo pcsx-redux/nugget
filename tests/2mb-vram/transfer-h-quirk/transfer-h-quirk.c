@@ -50,6 +50,8 @@ static uint16_t encodeRow(int y) { return (uint16_t)((y * 0x97) ^ 0xa55a) | 1; }
 // Upload at (Y=0, h) and report which rows got our pattern. We send
 // exactly copyHeightEff(h) rows of data so the GPU's data phase consumes
 // every word and we never overflow into the command stream.
+static ProbeStats* s_stats = 0;
+
 static void uploadPass(int16_t h) {
     gpuFullResetWithGate(1);
     fillColumn(UP_X, COL_W, BG_COLOR);
@@ -83,6 +85,13 @@ static void uploadPass(int16_t h) {
     PROBE_RESULT("transfer-h-quirk cmd=upload h=%d eff_h=%d wrote_y_min=%d wrote_y_max=%d "
                  "exact=%d",
                  h, eff_h, top, bot, exact);
+    // Silicon (573, 2026-05-09 batch4): upload writes exactly eff_h rows,
+    // eff_h = ((h-1) & 0x1ff)+1. All cases land within Y<512 (no wrap).
+    if (exact == eff_h) {
+        PROBE_PASS(s_stats, "upload h=%d exact=%d/%d", h, exact, eff_h);
+    } else {
+        PROBE_FAIL(s_stats, "upload h=%d exact=%d expected eff_h=%d", h, exact, eff_h);
+    }
     waitGPU();
 }
 
@@ -137,6 +146,12 @@ static void blitPass(int16_t h) {
     PROBE_RESULT("transfer-h-quirk cmd=blit h=%d eff_h=%d found_y_min=%d found_y_max=%d "
                  "exact=%d",
                  h, eff_h, top, bot, exact);
+    // Silicon (573, 2026-05-09 batch4): blit moves exactly eff_h rows.
+    if (exact == eff_h) {
+        PROBE_PASS(s_stats, "blit h=%d exact=%d/%d", h, exact, eff_h);
+    } else {
+        PROBE_FAIL(s_stats, "blit h=%d exact=%d expected eff_h=%d", h, exact, eff_h);
+    }
     waitGPU();
 }
 
@@ -147,6 +162,7 @@ int main(void) {
 
     ProbeStats stats;
     probeStatsInit(&stats);
+    s_stats = &stats;
 
     static const int16_t hs[] = {509, 510, 511, 512, 513, 514, 515, 516, 520, 768, 1023, 1024};
     static const int n_h = sizeof(hs) / sizeof(hs[0]);
@@ -158,9 +174,7 @@ int main(void) {
         blitPass(hs[i]);
     }
 
-    PROBE_INFO(&stats, "transfer-h-quirk sweep complete");
     probeStatsSummary(&stats, "transfer-h-quirk");
-    while (1) {
-    }
+    probeExit(&stats);
     return 0;
 }

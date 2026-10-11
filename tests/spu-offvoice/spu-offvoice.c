@@ -4,13 +4,11 @@
  * Two properties psx-spx documents, both observable from the guest through
  * SPUCNT.6 and SPUSTAT.6 alone, so this needs no capture buffer and no golden.
  *
- * Phase 1, with the voice audibly playing: the SPU disables its own interrupt
- * when it fires. SPUCNT bit 6 is documented "IRQ9 Enable (0=Disabled/
- * Acknowledge, 1=Enabled)" and SPUSTAT bit 6 is the IRQ9 flag, so after an
- * address match the flag must read set, the enable must read clear, and writing
- * the enable back to 0 must acknowledge. Without the self-disable the same
- * address keeps re-firing for as long as the voice loops over it, which is what
- * a streaming driver re-pointing IRQA per chunk sees as extra interrupts.
+ * Phase 1, with the voice audibly playing: an address match sets the SPUSTAT
+ * bit 6 flag and leaves SPUCNT bit 6, "IRQ9 Enable (0=Disabled/Acknowledge,
+ * 1=Enabled)", reading set; the SPU does not clear the enable itself. Writing
+ * the enable to 0 acknowledges. Measured on two SCPH-5501s: SPUCNT reads c040
+ * after the match.
  *
  * Phase 2, with the same voice keyed off and its envelope down to zero: the
  * ADPCM readout does not stop. "All voices are permanently reading data from
@@ -84,7 +82,7 @@ static void spu_dma_write(uint32_t spuByteAddr, const void *src, uint32_t bytes)
     DMA_CTRL[DMA_SPU].MADR = (uint32_t)src & 0x1fffffff;
     DMA_CTRL[DMA_SPU].BCR = (blocks << 16) | 0x10;
     DMA_CTRL[DMA_SPU].CHCR = 0x01000201;
-    while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0) __asm__ volatile("");
+    for (int i = 0; i < 0x100000 && (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0; i++);
     SPU_CTRL = (SPU_CTRL & ~0x0030);
     for (volatile int i = 0; i < 60; i++);
 }
@@ -129,8 +127,21 @@ int main() {
     SPU_IRQ_ADDR = 0;
     for (volatile int i = 0; i < 60; i++);
 
+    /* The SPU has to be enabled for DMA4 to drain into it; with SPUCNT at 0 the
+       transfer never completes on silicon. */
+    SPU_CTRL = SPU_CTRL_ENABLE;
+    for (volatile int i = 0; i < 60; i++);
+
     make_sample();
     spu_dma_write(SPU_UPLOAD_ADDR, s_sample, sizeof(s_sample));
+    ramsyscall_printf("SPUOFFVOICE: uploaded chcr=%08x stat=%04x\n", (unsigned)DMA_CTRL[DMA_SPU].CHCR,
+                      (unsigned)SPU_STATUS);
+    if (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) {
+        ramsyscall_printf("SPUOFFVOICE: FAIL - the sample upload never finished; nothing below would "
+                          "be testing the uploaded sample\n");
+        pcsx_exit(1);
+        return 1;
+    }
 
     /* Release shift 0 with a linear release, so the key-off in phase 2 takes the
        envelope to zero promptly. Sustain holds at full, so phase 1 measures a
@@ -145,7 +156,8 @@ int main() {
     SPU_CTRL = SPU_CTRL_ENABLE | SPU_CTRL_UNMUTE;
     for (volatile int i = 0; i < 60; i++);
 
-    /* ---------------- Phase 1: the interrupt disables itself ---------------- */
+    /* ---------------- Phase 1: the flag latches, the enable stays ---------------- */
+    ramsyscall_printf("SPUOFFVOICE: arming\n");
     irq_arm(SPU_IRQ_BYTE_ADDR);
     SPU_KEY_ON_LOW = 1u << 1;
     SPU_KEY_ON_HIGH = 0;
@@ -214,9 +226,9 @@ int main() {
                           "IRQA; the IRQ flag is not implemented, and phase 2 proves nothing\n");
         failures++;
     } else {
-        if (ctrlAtFire & SPU_CTRL_IRQ_ENABLE) {
-            ramsyscall_printf("SPUOFFVOICE: FAIL - SPUCNT.6 still set after the match; the SPU did "
-                              "not disable its own interrupt, so the address keeps re-firing\n");
+        if (!(ctrlAtFire & SPU_CTRL_IRQ_ENABLE)) {
+            ramsyscall_printf("SPUOFFVOICE: FAIL - SPUCNT.6 cleared after the match; on silicon the "
+                              "enable reads back set until software writes it to 0\n");
             failures++;
         }
         if (!ackCleared) {

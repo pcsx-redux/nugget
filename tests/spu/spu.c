@@ -249,6 +249,13 @@ static void spu_dma_sync(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes,
     DMA_CTRL[DMA_SPU].CHCR = chcr;
     while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0) __asm__ volatile("");
 
+    // The DMA finishing does not mean the SPU has written everything yet: leaving DMA mode
+    // now loses the last ~50-60 bytes of a write on hardware. SPUSTAT bit 7 sets once the
+    // data has landed. The bound covers emulators that never set it.
+    if (!isRead) {
+        for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) == 0; i++)
+            ;
+    }
     SPU_CTRL = (SPU_CTRL & ~0x0030);
     for (volatile int i = 0; i < 60; i++) ;
 }
@@ -366,14 +373,23 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
                           name, keptS, SPU_ONSET_SKIP);
     }
 
+    // A periodic golden matches at every rotation that differs by a whole period,
+    // and only the one nearest the sync point is the real alignment: the others
+    // put the key-on gap and the ring seam inside the periodicity window. Try the
+    // offsets nearest zero first so a tie resolves toward the sync point. The true
+    // offset is not always zero on silicon - key-on is serviced on a 2-sample grid
+    // whose parity against the capture ring is fixed per boot, so the onset lands
+    // one sample early in about half of all boots.
     int bestS = 0, bestBad = 0x7fffffff;
-    for (int s = 0; s < 512; s++) {
+    for (int k = 0; k < 512; k++) {
+        const int s = (k & 1) ? -((k + 1) >> 1) : (k >> 1);
         int bad = 0;
         for (int i = startS; i < keptS; i++) {
             if (a[(s + i) & 511] != golden[i]) bad++;
         }
         if (bad < bestBad) { bestBad = bad; bestS = s; }
     }
+    ramsyscall_printf("OBS spu_capture %s ring_offset=%d\n", name, bestS);
 
     for (int i = startS; i < keptS; i++) {
         int j = (bestS + i) & 511;
@@ -417,6 +433,13 @@ CESTER_BODY(
 //   5. read the captured voice1 buffer ring via DMA
 // The result is deterministic modulo at most 1 sample of jitter from the
 // CPU spin vs SPU sample-clock granularity.
+static int spu_voice1_capture_is_silent(void) {
+    for (int i = 0; i < 512; i++) {
+        if (s_capture[i] != 0) return 0;
+    }
+    return 1;
+}
+
 static void run_voice1_with_sample(const uint8_t *sample64, uint16_t pitch) {
     spu_reset_quiet();
     for (int i = 0; i < 64; i++) s_upload[i] = sample64[i];
@@ -433,7 +456,15 @@ static void run_voice1_with_sample(const uint8_t *sample64, uint16_t pitch) {
     spu_voice1_keyon(SPU_UPLOAD_ADDR, pitch);
     spu_wait_status_bit11_flip();
 
+    // On silicon the voice is in the capture by the first flip after the key-on.
+    // An emulator can still be mixing samples from before the key-on when the
+    // flip is seen, so an all-zero capture takes one more flip, a few times at
+    // most. A capture that already holds signal is read exactly as before.
     spu_read_sync(0x0800, s_capture, 1024);
+    for (int retry = 0; retry < 4 && spu_voice1_capture_is_silent(); retry++) {
+        spu_wait_status_bit11_flip();
+        spu_read_sync(0x0800, s_capture, 1024);
+    }
     SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
     muteSpu();
 }
@@ -462,6 +493,7 @@ CESTER_AFTER_ALL(spu_tests,
 #include "spu-adpcm.c"
 #include "spu-adpcm-edge.c"
 #include "spu-capture.c"
+#include "spu-pitch-edge.c"
 #include "spu-adsr.c"
 // A dump build exists to write .test.pcm goldens, and these two write none.
 // spu-adsr-edge walks a full ENVX trace for every envelope shape, which costs
@@ -475,3 +507,8 @@ CESTER_AFTER_ALL(spu_tests,
 #include "spu-irq.c"
 #endif
 #include "spu-reverb.c"
+// Opt-in: prints raw captures for an offline diff between two builds and asserts
+// nothing, so it stays out of the default run. Build with SPU_MODEAXES=true.
+#ifdef SPU_MODEAXES
+#include "spu-modeaxes.c"
+#endif

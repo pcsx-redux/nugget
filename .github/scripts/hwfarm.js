@@ -36,6 +36,11 @@ const TESTS = [
     'cop0;cop0/cop0',
     'cpu;cpu/cpu',
     'dma;dma/dma',
+    'gpu-command;gpu-command/gpu-command',
+    'gpu-fbrect;gpu-fbrect/gpu-fbrect',
+    'gpu-irq;gpu-irq/gpu-irq',
+    'gpu-polyline;gpu-polyline/gpu-polyline',
+    'gpu-vram-move;gpu-vram-move/gpu-vram-move',
     'gte;gte/gte',
     'gte-latency;gte-latency/gte-latency',
     'gte-latency-color;gte-latency-color/gte-latency-color',
@@ -46,15 +51,20 @@ const TESTS = [
     'gte-latency-mvmva;gte-latency-mvmva/gte-latency-mvmva',
     'gte-latency-perspective;gte-latency-perspective/gte-latency-perspective',
     'gte-latency-singles;gte-latency-singles/gte-latency-singles',
+    'icache;icache/icache',
+    'irq-branch-slot;irq-branch-slot/irq-branch-slot',
     'libc;libc/libc',
     'load-timings;load-timings/load-timings',
     'memcpy;memcpy/memcpy',
     'memops-unroll;memops-unroll/memops-unroll',
     'memset;memset/memset',
+    'psyqo-spudma;psyqo-spudma/spudma',
     'spu;spu/spu',
     'spu-endmute;spu-endmute/spu-endmute',
     'spu-endx;spu-endx/spu-endx',
     'spu-offvoice;spu-offvoice/spu-offvoice',
+    'spu-volsweep;spu-volsweep/spu-volsweep',
+    'sr-write;sr-write/sr-write',
     'timers;timers/timers',
 ];
 for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase${p}/gpu-raster-phase${p}`);
@@ -64,8 +74,10 @@ for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase$
 const SKIPS = [
     'bsdec/bsdec|needs a captured bs-in.bin staged beside it',
     'bcc-bits/bcc-bits|probe: prints timings, no verdict',
+    'cd-cmd-latency/cd-cmd-latency|probe: prints timings, no verdict',
     'cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua',
     'cop-branch/cop-branch|no hardware baseline recorded yet',
+    'cop0-sr/cop0-sr|probe: prints what each SR bit does, no verdict, ends in the ROM through BEV',
     'dcache/dcache|no hardware baseline recorded yet',
     'dma-modes/dma-modes|probe: loops forever, no verdict',
     'dma-priority/dma-priority|probe: loops forever, no verdict',
@@ -84,10 +96,24 @@ const SKIPS = [
     'pcdrv/pcdrv|needs a pcdrv host directory',
     'psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
     'psyqo-dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
+    'autoinc/autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
+    'bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
+    'dma-chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
+    'exp2-width/exp2-width|probe: prints every access width to the EXP2 region, no verdict',
+    'gpu-info8/gpu-info8|probe: prints GP1(10h) index 08h readings, no verdict',
+    'mdec-roundtrip/mdec-roundtrip|needs a job file over pcdrv, no verdict',
+    'scanline-timing/scanline-timing|probe: prints scanline and frame lengths, loops forever, no verdict',
+    'spu-capring/spu-capring|probe: prints capture ring readings, no verdict',
+    'spu-envx/spu-envx|probe: prints ENVX readings beside the expected values, always exits 0',
+    'spu-revread/revread|graded on the digital audio tap, loops forever, no verdict',
+    'spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict',
 ];
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
     SKIPS.push(`2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
+}
+for (const d of ['texpage-upper', 'transfer-wrap-y']) {
+    SKIPS.push(`2mb-vram/${d}/${d}|needs 2MB-VRAM hardware, the pinned consoles have 1MB`);
 }
 
 // Ticket failure codes that say nothing about the program. The lower-case
@@ -255,10 +281,19 @@ async function run(argv) {
             if ((ticket && ['DONE', 'FAILED'].includes(ticket.state)) || Date.now() > deadline) break;
             await new Promise((resolve) => setTimeout(resolve, POLL_MS));
         }
+        // A terminal ticket can come back with no envelope when the result
+        // call fails, and that reads as "verdict none". Ask again before
+        // grading it as infra.
         let envelopes = [];
-        try {
-            envelopes = hwtest(['result', r.ticketId]).resultEnvelopes || [];
-        } catch (e) {}
+        for (let attempt = 0; attempt < 6 && envelopes.length === 0; attempt++) {
+            if (attempt) await new Promise((resolve) => setTimeout(resolve, POLL_MS));
+            try {
+                envelopes = hwtest(['result', r.ticketId]).resultEnvelopes || [];
+            } catch (e) {
+                console.log(`${r.name}: result ${r.ticketId} failed: ${e.message.split('\n')[0]}`);
+            }
+            if (!ticket || !['DONE', 'FAILED'].includes(ticket.state)) break;
+        }
         Object.assign(r, classify(ticket, envelopes));
         const last = envelopes[envelopes.length - 1];
         // Only a runner-written envelope measures the console; a synthesized

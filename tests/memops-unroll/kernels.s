@@ -26,7 +26,9 @@ SOFTWARE.
 
 /* GENERATED - see gen.py. Copy and set kernels at varying unroll depth (U words
    per loop iteration) and batch depth (B words loaded before any is stored).
-   Every kernel moves exactly `words` words; `words` is assumed a multiple of U. */
+   Every kernel moves exactly `words` words; `words` is assumed a multiple of U,
+   and returns the root counter 2 ticks it took. *_bare are the same bodies
+   untimed, and time_* are thunks that bracket a direct call to one routine. */
 
     .section .text, "ax", @progbits
     .set noreorder
@@ -35,6 +37,8 @@ SOFTWARE.
     .global copy_b2_u2
     .type copy_b2_u2, @function
 copy_b2_u2:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -45,6 +49,10 @@ copy_b2_u2:
     sw     $t0, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b2_u2, .-copy_b2_u2
@@ -52,6 +60,8 @@ copy_b2_u2:
     .global copy_b4_u4
     .type copy_b4_u4, @function
 copy_b4_u4:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -66,6 +76,10 @@ copy_b4_u4:
     sw     $t2, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t3, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b4_u4, .-copy_b4_u4
@@ -73,6 +87,8 @@ copy_b4_u4:
     .global copy_b8_u8
     .type copy_b8_u8, @function
 copy_b8_u8:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -95,6 +111,10 @@ copy_b8_u8:
     sw     $t6, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t7, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b8_u8, .-copy_b8_u8
@@ -102,6 +122,8 @@ copy_b8_u8:
     .global copy_b8_u16
     .type copy_b8_u16, @function
 copy_b8_u16:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -140,6 +162,10 @@ copy_b8_u16:
     sw     $t6, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t7, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b8_u16, .-copy_b8_u16
@@ -147,6 +173,8 @@ copy_b8_u16:
     .global copy_b8_u32
     .type copy_b8_u32, @function
 copy_b8_u32:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -217,6 +245,10 @@ copy_b8_u32:
     sw     $t6, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t7, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b8_u32, .-copy_b8_u32
@@ -224,6 +256,8 @@ copy_b8_u32:
     .global copy_b2_u32
     .type copy_b2_u32, @function
 copy_b2_u32:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -294,6 +328,10 @@ copy_b2_u32:
     sw     $t0, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b2_u32, .-copy_b2_u32
@@ -301,6 +339,8 @@ copy_b2_u32:
     .global copy_b4_u32
     .type copy_b4_u32, @function
 copy_b4_u32:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -371,6 +411,10 @@ copy_b4_u32:
     sw     $t2, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $t3, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size copy_b4_u32, .-copy_b4_u32
@@ -378,6 +422,8 @@ copy_b4_u32:
     .global copy_b16_u16
     .type copy_b16_u16, @function
 copy_b16_u16:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     addiu  $sp, -32
     sw     $s0, 0($sp)
     sw     $s1, 4($sp)
@@ -433,6 +479,10 @@ copy_b16_u16:
     lw     $s5, 20($sp)
     lw     $s6, 24($sp)
     lw     $s7, 28($sp)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     addiu  $sp, 32
     .size copy_b16_u16, .-copy_b16_u16
@@ -440,6 +490,8 @@ copy_b16_u16:
     .global copy_b16_u32
     .type copy_b16_u32, @function
 copy_b16_u32:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     addiu  $sp, -32
     sw     $s0, 0($sp)
     sw     $s1, 4($sp)
@@ -527,6 +579,10 @@ copy_b16_u32:
     lw     $s5, 20($sp)
     lw     $s6, 24($sp)
     lw     $s7, 28($sp)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     addiu  $sp, 32
     .size copy_b16_u32, .-copy_b16_u32
@@ -534,12 +590,18 @@ copy_b16_u32:
     .global set_u1
     .type set_u1, @function
 set_u1:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
     addiu  $a0, 4
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u1, .-set_u1
@@ -547,6 +609,8 @@ set_u1:
     .global set_u2
     .type set_u2, @function
 set_u2:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -554,6 +618,10 @@ set_u2:
     sw     $a1, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u2, .-set_u2
@@ -561,6 +629,8 @@ set_u2:
     .global set_u4
     .type set_u4, @function
 set_u4:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -570,6 +640,10 @@ set_u4:
     sw     $a1, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u4, .-set_u4
@@ -577,6 +651,8 @@ set_u4:
     .global set_u8
     .type set_u8, @function
 set_u8:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -590,6 +666,10 @@ set_u8:
     sw     $a1, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u8, .-set_u8
@@ -597,6 +677,8 @@ set_u8:
     .global set_u16
     .type set_u16, @function
 set_u16:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -618,6 +700,10 @@ set_u16:
     sw     $a1, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u16, .-set_u16
@@ -625,6 +711,8 @@ set_u16:
     .global set_u32
     .type set_u32, @function
 set_u32:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -662,6 +750,10 @@ set_u32:
     sw     $a1, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u32, .-set_u32
@@ -669,6 +761,8 @@ set_u32:
     .global set_u64
     .type set_u64, @function
 set_u64:
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
     sll    $a2, 2
     addu   $a3, $a0, $a2
 1:
@@ -738,6 +832,131 @@ set_u64:
     sw     $a1, -8($a0)
     bltu   $a0, $a3, 1b
     sw     $a1, -4($a0)
+    lhu    $v0, 0x1120($t9)
+    nop
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
     jr     $ra
     nop
     .size set_u64, .-set_u64
+
+    .global copy_b8_u8_bare
+    .type copy_b8_u8_bare, @function
+copy_b8_u8_bare:
+    sll    $a2, 2
+    addu   $a3, $a0, $a2
+1:
+    addiu  $a1, 32
+    addiu  $a0, 32
+    lw     $t0, -32($a1)
+    lw     $t1, -28($a1)
+    lw     $t2, -24($a1)
+    lw     $t3, -20($a1)
+    lw     $t4, -16($a1)
+    lw     $t5, -12($a1)
+    lw     $t6, -8($a1)
+    lw     $t7, -4($a1)
+    sw     $t0, -32($a0)
+    sw     $t1, -28($a0)
+    sw     $t2, -24($a0)
+    sw     $t3, -20($a0)
+    sw     $t4, -16($a0)
+    sw     $t5, -12($a0)
+    sw     $t6, -8($a0)
+    bltu   $a0, $a3, 1b
+    sw     $t7, -4($a0)
+    jr     $ra
+    nop
+    .size copy_b8_u8_bare, .-copy_b8_u8_bare
+
+    .global set_u4_bare
+    .type set_u4_bare, @function
+set_u4_bare:
+    sll    $a2, 2
+    addu   $a3, $a0, $a2
+1:
+    addiu  $a0, 16
+    sw     $a1, -16($a0)
+    sw     $a1, -12($a0)
+    sw     $a1, -8($a0)
+    bltu   $a0, $a3, 1b
+    sw     $a1, -4($a0)
+    jr     $ra
+    nop
+    .size set_u4_bare, .-set_u4_bare
+
+    .global time_wrap_memcpy
+    .type time_wrap_memcpy, @function
+time_wrap_memcpy:
+    addiu  $sp, -24
+    sw     $ra, 20($sp)
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
+    jal    __wrap_memcpy
+    sw     $t8, 16($sp)
+    lui    $t9, 0x1f80
+    lhu    $v0, 0x1120($t9)
+    lw     $t8, 16($sp)
+    lw     $ra, 20($sp)
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
+    jr     $ra
+    addiu  $sp, 24
+    .size time_wrap_memcpy, .-time_wrap_memcpy
+
+    .global time_wrap_memset
+    .type time_wrap_memset, @function
+time_wrap_memset:
+    addiu  $sp, -24
+    sw     $ra, 20($sp)
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
+    jal    __wrap_memset
+    sw     $t8, 16($sp)
+    lui    $t9, 0x1f80
+    lhu    $v0, 0x1120($t9)
+    lw     $t8, 16($sp)
+    lw     $ra, 20($sp)
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
+    jr     $ra
+    addiu  $sp, 24
+    .size time_wrap_memset, .-time_wrap_memset
+
+    .global time_copy_b8_u8_bare
+    .type time_copy_b8_u8_bare, @function
+time_copy_b8_u8_bare:
+    addiu  $sp, -24
+    sw     $ra, 20($sp)
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
+    jal    copy_b8_u8_bare
+    sw     $t8, 16($sp)
+    lui    $t9, 0x1f80
+    lhu    $v0, 0x1120($t9)
+    lw     $t8, 16($sp)
+    lw     $ra, 20($sp)
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
+    jr     $ra
+    addiu  $sp, 24
+    .size time_copy_b8_u8_bare, .-time_copy_b8_u8_bare
+
+    .global time_set_u4_bare
+    .type time_set_u4_bare, @function
+time_set_u4_bare:
+    addiu  $sp, -24
+    sw     $ra, 20($sp)
+    lui    $t9, 0x1f80
+    lhu    $t8, 0x1120($t9)
+    jal    set_u4_bare
+    sw     $t8, 16($sp)
+    lui    $t9, 0x1f80
+    lhu    $v0, 0x1120($t9)
+    lw     $t8, 16($sp)
+    lw     $ra, 20($sp)
+    subu   $v0, $v0, $t8
+    andi   $v0, $v0, 0xffff
+    jr     $ra
+    addiu  $sp, 24
+    .size time_set_u4_bare, .-time_set_u4_bare

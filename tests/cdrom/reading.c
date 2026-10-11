@@ -903,3 +903,98 @@ CESTER_TEST(simpleReadingNoSeekNopQueries, test_instances,
     cester_assert_uint_le(dtime3, 2000000);
     ramsyscall_printf("Reading without seeking first, different nop count = %i, response1 = 0x%02x, dtime1 = %ius, response2 = 0x%02x, dtime2 = %ius, response3 = 0x%02x, dtime3 = %ius, time1 = %ius, time2 = %ius, time3 = %ius, time4 = %ius\n", responseCount, responses[0], dtime1, responses[1], dtime2, responses[2], dtime3, time1, time2, time3, time4);
 )
+
+// Setloc, ReadN and Nop resent in a loop, the way a game that sees a 0x02 stat right after
+// ReadN retries. The drive keeps the read in flight and the first sector still arrives.
+CESTER_TEST(simpleReadingResendLoop, test_instances,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    int setModeDone = setMode(0xa0);
+    if (!setModeDone) {
+        cester_assert_true(setModeDone);
+        return;
+    }
+
+    int seekDone = seekLTo(0x10, 0, 0);
+    if (!seekDone) {
+        cester_assert_true(seekDone);
+        return;
+    }
+
+    uint8_t nops[256];
+    int nopCount = 0;
+    int gotData = 0;
+    int timedOut = 0;
+    int badCause = 0;
+    int iterations = 0;
+    uint32_t dataTime = 0;
+    initializeTime();
+    for (iterations = 0; (iterations < 256) && !gotData && !timedOut && !badCause; iterations++) {
+        for (int step = 0; (step < 3) && !gotData && !timedOut && !badCause; step++) {
+            CDROM_REG0 = 0;
+            if (step == 0) {
+                CDROM_REG2 = 0x00;
+                CDROM_REG2 = 0x02;
+                CDROM_REG2 = 0x16;
+                CDROM_REG1 = CDL_SETLOC;
+            } else if (step == 1) {
+                CDROM_REG1 = CDL_READN;
+            } else {
+                uint32_t until = updateTime() + 1000;
+                while (updateTime() < until);
+                CDROM_REG1 = CDL_NOP;
+            }
+            uint32_t timeout = 1000000;
+            if (!waitCDRomIRQWithTimeout(&timeout)) {
+                timedOut = 1;
+                break;
+            }
+            uint8_t cause = ackCDRomCause();
+            uint8_t response[16];
+            readResponse(response);
+            if (cause == 1) {
+                gotData = 1;
+                dataTime = timeout;
+            } else if (cause != 3) {
+                badCause = cause;
+            } else if (step == 2) {
+                nops[nopCount++] = response[0];
+            }
+        }
+    }
+
+    for (int i = 0; i < 8; i++) {
+        uint32_t timeout = 50000;
+        if (!waitCDRomIRQWithTimeout(&timeout)) break;
+        ackCDRomCause();
+        uint8_t response[16];
+        readResponse(response);
+    }
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_PAUSE;
+    for (int i = 0; i < 8; i++) {
+        uint32_t timeout = 2000000;
+        if (!waitCDRomIRQWithTimeout(&timeout)) break;
+        uint8_t cause = ackCDRomCause();
+        uint8_t response[16];
+        readResponse(response);
+        if (cause == 2) break;
+    }
+
+    int seeking = 0;
+    for (int i = 0; i < nopCount; i++) {
+        if (nops[i] == 0x42) seeking++;
+    }
+
+    cester_assert_false(timedOut);
+    cester_assert_uint_eq(0, badCause);
+    cester_assert_true(gotData);
+    cester_assert_uint_le(dataTime, 1500000);
+    cester_assert_int_ge(seeking, 1);
+    ramsyscall_printf("Resent Setloc/ReadN/Nop: %i iterations, %i nops, %i seeking, data at %ius\n", iterations, nopCount,
+                      seeking, dataTime);
+)

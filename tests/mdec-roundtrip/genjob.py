@@ -273,6 +273,47 @@ def build(arm):
         # ZACC: val = (300*16*1 + 4)/8 = 600
         acs = [[], [], [(1, 300)], [(1, 300)], [(1, 300)], [(1, 300)]]
 
+    # ARB / ARB2 / CTRL (2026-10-07): does the silicon apply an ARBITRARY, non-
+    # orthogonal MDEC(3) matrix as a plain matrix multiply, or only behave for
+    # tables that are scaled cosines? The halved arm B was the only custom table
+    # ever run on a console, and a halved table is still orthogonal up to a gain,
+    # so it cannot tell a general multiply from a cosine engine with a gain knob.
+    # Identity dequant (quant 1, q_scale 8: DC = v, AC = (v*8+4)/8 = v), chroma flat
+    # so R = G = B = Y, and every luma block carries several ACs on raster rows and
+    # columns 0..3, because a basis row with no coefficient on it is never read and
+    # a DC-only job would only ever exercise row 0. ARB replaces rows 0-3 of the
+    # standard table (row 0 is a triangle, so even the DC basis is non-constant);
+    # ARB2 replaces rows 0-4 with an unrelated pattern so a single-table fit cannot
+    # pass both. CTRL is the same coefficients on the standard table, the in-run
+    # control: ARB ~= CTRL on silicon would mean the table was ignored.
+    # Host model (real_idct_core): no output byte at 0 or 255 in any of the three;
+    # ARB and ARB2 differ from CTRL on ~251 of 256 luma pixels, mean |d| ~18.7.
+    if arm in ('ARB', 'ARB2', 'CTRL'):
+        quant, qscale = 1, 8
+        dc = [0, 0, 0, 100, -80, 40]
+        def zz(pairs):                    # (zigzag k, value) -> (run, value)
+            out, prev = [], 0
+            for k, v in pairs:
+                out.append((k - prev - 1, v))
+                prev = k
+            return out
+        acs = [[], [],
+               zz([(1, 120), (2, -100), (3, 80), (4, 60), (5, -70)]),
+               zz([(1, -90), (3, 110), (6, 70)]),
+               zz([(4, 150), (12, -100), (24, 120)]),
+               zz([(2, -130), (7, 90), (9, 110)])]
+        if arm == 'ARB':
+            st[0:8] = [0x1000, 0x2000, 0x3000, 0x4000, 0x5000, 0x4000, 0x3000, 0x2000]
+            st[8:16] = [0x6000, 0x5000, 0x3000, 0x0800, -0x1000, -0x2800, -0x4000, -0x5800]
+            st[16:24] = [0x4000, 0x0000, -0x4000, 0x2000, 0x6000, 0x2000, -0x2000, 0x0000]
+            st[24:32] = [0x5000, 0x5000, 0x5000, 0x5000, 0, 0, 0, 0]
+        if arm == 'ARB2':
+            st[0:8] = [0x5A82, 0x5000, 0x4000, 0x3000, 0x2000, 0x1000, 0x0800, 0x0400]
+            st[8:16] = [0x2000, 0x4000, 0x6000, 0x4000, 0x2000, 0, -0x2000, -0x4000]
+            st[16:24] = [-0x3000, 0x5000, -0x1000, 0x3000, -0x5000, 0x1000, 0x4000, -0x2000]
+            st[24:32] = [0x0000, 0x1000, 0x2000, 0x3000, 0x4000, 0x5000, 0x6000, 0x7000]
+            st[32:40] = [0x4000] * 8
+
     if acs is None: acs = [ac] * 6
 
     rl = []
@@ -311,7 +352,7 @@ MAX_RL_WORDS = 4096
 
 ARMS = frozenset("""
 A B C D D8 D63 D8F S S2 Z Z2 ZK5 DSAT DSAT2 ASAT ZTWO ZMIX WRAP
-ZDC ZDCC ZAC ZACC GSPLIT R1 R2 R3 R4
+ZDC ZDCC ZAC ZACC GSPLIT R1 R2 R3 R4 ARB ARB2 CTRL
 YUVCR YUVCRN YUVCRBIG YUVCB YUVCBN YUVCBBIG
 """.split())
 

@@ -30,6 +30,7 @@ SOFTWARE.
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 #include "exotic/cester.h"
+#include "heap.c"
 #include "longjmp.c"
 #include "qsort.c"
 #include "string.c"

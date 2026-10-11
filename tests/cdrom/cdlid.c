@@ -75,6 +75,66 @@ CESTER_TEST(cdlId, test_instance,
         response2[4], response2[5], response2[6], response2[7]);
 )
 
+CESTER_TEST(cdlIdAckWithoutReading, test_instance,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    initializeTime();
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_GETID;
+
+    // Acknowledging INT3 without reading its response must not hold back INT2.
+    waitCDRomIRQ();
+    uint8_t cause1 = ackCDRomCause();
+
+    uint32_t timeout = 200000;
+    int gotComplete = waitCDRomIRQWithTimeout(&timeout);
+    uint8_t cause2 = ackCDRomCause();
+    uint8_t response2[16];
+    uint8_t responseSize2 = readResponse(response2);
+
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_true(gotComplete);
+    cester_assert_uint_eq(2, cause2);
+    cester_assert_uint_eq(8, responseSize2);
+    ramsyscall_printf("cdlId, INT3 acked unread, complete in %ius\n", timeout);
+)
+
+CESTER_TEST(cdlIdLateAckWithoutReading, test_instance,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    initializeTime();
+
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_GETID;
+
+    // INT2 is queued behind INT3 while INT3 sits unacknowledged; acknowledging INT3
+    // without reading its response must still deliver INT2.
+    waitCDRomIRQ();
+    uint32_t until = updateTime() + 100000;
+    while (updateTime() < until);
+    uint8_t cause1 = ackCDRomCause();
+
+    uint32_t timeout = 200000;
+    int gotComplete = waitCDRomIRQWithTimeout(&timeout);
+    uint8_t cause2 = ackCDRomCause();
+    uint8_t response2[16];
+    uint8_t responseSize2 = readResponse(response2);
+
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_true(gotComplete);
+    cester_assert_uint_eq(2, cause2);
+    cester_assert_uint_eq(8, responseSize2);
+)
+
 CESTER_TEST(cdlIdTooManyArgs, test_instance,
     int resetDone = resetCDRom();
     if (!resetDone) {

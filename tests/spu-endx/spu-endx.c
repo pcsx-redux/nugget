@@ -71,6 +71,11 @@ int main() {
     SPU_KEY_OFF_HIGH = 0xffff;
     for (volatile int i = 0; i < 60; i++);
 
+    // The SPU has to be enabled for DMA4 to drain into it; with SPUCNT at 0
+    // the transfer never completes on silicon.
+    SPU_CTRL = 0x8000;
+    for (volatile int i = 0; i < 60; i++);
+
     for (int i = 0; i < 64; i++) s_upload[i] = kAdpcmSine[i];
     for (int i = 64; i < 128; i++) s_upload[i] = 0xaa;
 #ifdef ENDX_ONESHOT
@@ -80,6 +85,12 @@ int main() {
     s_upload[3 * 16 + 1] = 0x01;
 #endif
     spu_dma_write(SPU_UPLOAD_ADDR, s_upload, 128);
+    ramsyscall_printf("SPUENDX: uploaded chcr=%08x\n", (unsigned)DMA_CTRL[DMA_SPU].CHCR);
+    if (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) {
+        ramsyscall_printf("SPUENDX: FAIL - the sample upload never finished\n");
+        pcsx_exit(1);
+        return 1;
+    }
 
     SPU_VOICES[1].sampleStartAddr = SPU_UPLOAD_ADDR >> 3;
     SPU_VOICES[1].sampleRate = 0x1000;

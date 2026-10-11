@@ -32,6 +32,11 @@ TESTS=(
     "cop-branch;cop-branch/cop-branch;interpreter;$CESTER;-debugger"
     "cpu;cpu/cpu;interpreter dynarec;$CESTER;"
     "dma;dma/dma;interpreter dynarec;$CESTER;-debugger"
+    "gpu-command;gpu-command/gpu-command;interpreter;$CESTER;"
+    "gpu-fbrect;gpu-fbrect/gpu-fbrect;interpreter;$CESTER;"
+    "gpu-irq;gpu-irq/gpu-irq;interpreter;$CESTER;"
+    "gpu-polyline;gpu-polyline/gpu-polyline;interpreter;$CESTER;"
+    "gpu-vram-move;gpu-vram-move/gpu-vram-move;interpreter;$CESTER;"
     "gte;gte/gte;interpreter dynarec;$CESTER;"
     "gte-latency;gte-latency/gte-latency;interpreter;$CESTER;"
     "gte-latency-color;gte-latency-color/gte-latency-color;interpreter;$CESTER;"
@@ -41,6 +46,7 @@ TESTS=(
     "gte-latency-mvmva;gte-latency-mvmva/gte-latency-mvmva;interpreter;$CESTER;"
     "gte-latency-perspective;gte-latency-perspective/gte-latency-perspective;interpreter;$CESTER;"
     "gte-latency-singles;gte-latency-singles/gte-latency-singles;interpreter;$CESTER;"
+    "irq-branch-slot;irq-branch-slot/irq-branch-slot;interpreter dynarec;$CESTER;"
     "libc;libc/libc;interpreter dynarec;$CESTER;"
     "load-timings;load-timings/load-timings;interpreter;$CESTER;"
     "memcpy;memcpy/memcpy;interpreter dynarec;$CESTER;"
@@ -49,7 +55,9 @@ TESTS=(
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
     "psyqo-dmachain;psyqo-dmachain/dmachain;interpreter dynarec;^All 3 arms passed;"
+    "psyqo-spudma;psyqo-spudma/spudma;interpreter dynarec;^All SPU DMA checks passed;"
     "rumble;rumble/rumble;interpreter dynarec;$CESTER;-exec dofile('tests/rumble/setup.lua')"
+    "sr-write;sr-write/sr-write;interpreter;$CESTER;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
     "gpu-raster-phase23;gpu-raster-phase23/gpu-raster-phase23;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
 )
@@ -61,11 +69,14 @@ done
 SKIPS=(
     "bsdec/bsdec|hardware rig: needs a captured bs-in.bin staged beside it"
     "bcc-bits/bcc-bits|hardware probe: the emulator does not model bus timing, prints timings, no verdict"
+    "cd-cmd-latency/cd-cmd-latency|probe: prints CD command timings, no verdict"
+    "cop0-sr/cop0-sr|hardware probe: prints what each SR bit does, no verdict, and ends in the ROM through BEV"
     "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
     "dma-modes/dma-modes|hardware probe: prints DMA register states per sync mode, loops forever, no verdict"
     "dma-priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
     "spu-wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
     "dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
+    "icache/icache|emulator gap: i-cache tag and code-word access through BCC TAG/IS1 with SR.IsC is not modelled"
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
     "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
@@ -78,13 +89,28 @@ SKIPS=(
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
+    "spu-volsweep/spu-volsweep|needs the voice volume sweep in pcsx-redux"
     "regwrites/regwrites|probe: loops forever, no verdict"
+    "autoinc/autoinc|hardware probe: prints what Delay/Size bit 13 does to split accesses, no verdict"
+    "bcc-narrow/bcc-narrow|hardware probe: prints BCC narrow-read results, no verdict"
+    "dma-chopping/dma-chopping|hardware probe: prints CPU progress during a chopped DMA2 transfer, no verdict"
+    "exp2-width/exp2-width|hardware probe: prints every access width to the EXP2 region, no verdict"
+    "gpu-info8/gpu-info8|hardware probe: prints GP1(10h) index 08h readings, no verdict"
+    "mdec-roundtrip/mdec-roundtrip|rig: needs a job file over pcdrv, writes the decoded output back, no verdict"
+    "scanline-timing/scanline-timing|hardware probe: prints scanline and frame lengths, loops forever, no verdict"
+    "spu-capring/spu-capring|hardware probe: prints capture ring readings, no verdict"
+    "spu-envx/spu-envx|hardware probe: prints ENVX readings beside the expected values, always exits 0"
+    "spu-revread/revread|hardware probe: graded on the digital audio tap, loops forever, no verdict"
+    "spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict"
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
 )
-for d in bank-probe display-area-y drawing-area-y drawing-offset-y fast-fill-h-quirk fast-fill-y \
-         gp1-09-matrix primitives-cross transfer-h-quirk vram-blit-y vram-transfers-y; do
+for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")
+done
+for d in bank-probe drawing-area-y drawing-offset-y primitives-cross texpage-upper transfer-h-quirk \
+         transfer-wrap-y vram-blit-y vram-transfers-y; do
+    SKIPS+=("2mb-vram/$d/$d|needs the 2MB VRAM fitment from pcsx-redux in the dev AppImage")
 done
 
 LOGS=$(mktemp -d)

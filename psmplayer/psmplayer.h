@@ -79,3 +79,27 @@ void PSM_Poll(void);
 
 // Stop all playback and silence all voices.
 void PSM_Silence(void);
+
+// Notifications for the program playing the song. PSM_Poll queues them as it
+// reaches them; drain the queue from the main loop, e.g. once per frame.
+//   PSM_NOTIFY_USER: a USER event from the song. tag is the event's user tag,
+//                    data its payload.
+//   PSM_NOTIFY_NOTE: a NOTE_ON on a channel set in PSM_noteMirrorMask. tag is
+//                    the MIDI channel, data is note | (velocity << 8).
+#define PSM_NOTIFY_USER 0
+#define PSM_NOTIFY_NOTE 1
+
+struct PSM_Notify {
+    uint8_t kind;
+    uint8_t tag;
+    uint32_t data;
+};
+
+// Bit n set: NOTE_ONs on MIDI channel n (0-15) are also queued. Default 0.
+extern uint16_t PSM_noteMirrorMask;
+
+// Notifications lost because the queue was full.
+extern uint32_t PSM_notifyDropped;
+
+// Pops the oldest notification into *out. Returns 1, or 0 if there is none.
+int PSM_PopNotify(struct PSM_Notify* out);

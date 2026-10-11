@@ -32,6 +32,13 @@ CESTER_BODY(
     static int icmp(const void * a, const void * b) {
         return *(const int *) a - *(const int *) b;
     }
+    // The retail kernel's qsort mallocs a temporary element from the user
+    // heap, so the heap has to exist before it is called. Without this, the
+    // malloc walks whatever the heap pointer holds and takes a bus error.
+    static uint32_t s_qsortHeap[256];
+    static void qsortInitHeap(void) {
+        syscall_userInitheap(s_qsortHeap, sizeof(s_qsortHeap));
+    }
 )
 
 CESTER_TEST(qsortWithNumbers, test_instance,
@@ -74,6 +81,7 @@ CESTER_TEST(qsortWithNumbers, test_instance,
 
     static const int size = sizeof(input) / sizeof(input[0]);
 
+    qsortInitHeap();
     syscall_qsort(input, size, sizeof(input[0]), icmp);
 
     for (int i = 0; i < size; i++) {
@@ -141,6 +149,7 @@ CESTER_TEST(qsortWithStrings, test_instance,
 
     static const int size = sizeof(input) / sizeof(input[0]);
 
+    qsortInitHeap();
     syscall_qsort(input, size, sizeof(input[0]), scmp);
 
     for (int i = 0; i < size; i++) {

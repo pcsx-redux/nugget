@@ -30,6 +30,20 @@ SOFTWARE.
 
 CESTER_BODY(
 
+/* The off-page probes read VRAM outside the fixtures. Write a known
+   value there first, so the readback says which address was sampled
+   instead of whatever the console happened to leave in VRAM. Then
+   flush the texture cache so the draw sees it. */
+static void writeVramPixel(uint16_t x, uint16_t y, uint16_t value) {
+    waitGPU();
+    GPU_DATA = 0xa0000000u;
+    GPU_DATA = ((uint32_t)y << 16) | x;
+    GPU_DATA = (1u << 16) | 1u;
+    GPU_DATA = value;
+    waitGPU();
+    GPU_DATA = 0x01000000u;
+}
+
 static void drawTex8At(uint8_t u, uint8_t v) {
     rasterReset();
     rasterClearTestRegion(0, 0, 32, 8);
@@ -120,6 +134,7 @@ CESTER_TEST(uv15_u63_v0, gpu_raster_phase16,
 )
 
 CESTER_TEST(uv15_u64_v0, gpu_raster_phase16,
+    writeVramPixel(704, 0, UV15_PROBE_TEXEL);
     drawTex15At(64, 0);
     /* First off-page. Wrap mod 64 -> texel(0, 0) = transparent? Or
        extend into next texpage? */
@@ -127,12 +142,14 @@ CESTER_TEST(uv15_u64_v0, gpu_raster_phase16,
 )
 
 CESTER_TEST(uv15_u128_v0, gpu_raster_phase16,
+    writeVramPixel(768, 0, UV15_PROBE_TEXEL);
     drawTex15At(128, 0);
     /* Two pages over. */
     ASSERT_PIXEL_EQ(UV15_U128_V0, 0, 0);
 )
 
 CESTER_TEST(uv15_u255_v0, gpu_raster_phase16,
+    writeVramPixel(895, 0, UV15_PROBE_TEXEL);
     drawTex15At(255, 0);
     ASSERT_PIXEL_EQ(UV15_U255_V0, 0, 0);
 )
@@ -150,12 +167,9 @@ CESTER_TEST(uv15_u255_v0, gpu_raster_phase16,
 // (which wraps via uint8 truncation back to V=0).
 // ============================================================================
 
-/* Reads row 255 of the TEX8 page, which is uninitialized VRAM on
-   real hardware (boot junk left over from BIOS / prior tests).
-   That value can't be reproduced under emulation, so the assertion
-   only holds when running against silicon. Skip in the emulator
-   build (PCSX_TESTS=1) and let the hardware harness gate it. */
-CESTER_MAYBE_TEST(uv8_u0_v255, gpu_raster_phase16,
+/* Reads row 255 of the TEX8 page, outside the fixture upload. */
+CESTER_TEST(uv8_u0_v255, gpu_raster_phase16,
+    writeVramPixel(TEX8_VRAM_BASE_X, 255, UV8_V255_PROBE_INDEX);
     drawTex8At(0, 255);
     ASSERT_PIXEL_EQ(UV8_U0_V255, 0, 0);
 )
@@ -173,15 +187,15 @@ CESTER_TEST(uv4_u15_v0, gpu_raster_phase16,
 )
 
 /* Reads u=16 of the TEX4 page, just past the fixture pattern
-   (which only writes u=0..15). The texel comes from uninitialized
-   VRAM, same boot-junk story as uv8_u0_v255. Skip in the emulator
-   build (PCSX_TESTS=1) and let the hardware harness gate it. */
-CESTER_MAYBE_TEST(uv4_u16_v0, gpu_raster_phase16,
+   (which only writes u=0..15): VRAM pixel 516, low nibble. */
+CESTER_TEST(uv4_u16_v0, gpu_raster_phase16,
+    writeVramPixel(TEX4_VRAM_BASE_X + 4, 0, UV4_U16_PROBE_INDEX);
     drawTex4At(16, 0);
     ASSERT_PIXEL_EQ(UV4_U16_V0, 0, 0);
 )
 
 CESTER_TEST(uv4_u255_v0, gpu_raster_phase16,
+    writeVramPixel(TEX4_VRAM_BASE_X + 63, 0, UV4_U255_PROBE_INDEX << 12);
     drawTex4At(255, 0);
     /* Last representable U at 4-bit. Still within the 4-bit page
        (256 wide). Outside fixture data. */

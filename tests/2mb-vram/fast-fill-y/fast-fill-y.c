@@ -72,6 +72,7 @@ static void onePass(int16_t y, int16_t h) {
 int main(void) {
     ramsyscall_printf("\n=== 573 fast-fill-y ===\n");
     probeReset();
+    gp1_09(1);  // open the upper bank so Y>=512 fills are genuinely addressable
 
     ProbeStats stats;
     probeStatsInit(&stats);

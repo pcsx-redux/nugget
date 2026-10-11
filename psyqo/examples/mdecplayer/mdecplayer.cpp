@@ -478,22 +478,34 @@ void PlayScene::frame() {
             ramsyscall_printf("MDPL: capture frame %d but the stream has %d\n", want, m_hdr.frames());
             pcsx_exit(20);
         }
-        for (uint32_t i = 0; i <= want; i++) {
-            if (!decodeInto(i, 0)) {
-                ramsyscall_printf("MDPL: decode failed on frame %d\n", i);
-                pcsx_exit(21);
-            }
-            // frame() re-seats the MDEC after waitUpload() when a decode leaves a
-            // command half-consumed. Nothing here reaches that, so a capture of
-            // frame n > 0 would feed the next command into a stalled MDEC.
+        // start() already decoded frame 0 into buffer 0, straight after a fresh
+        // reset, so frame 0 is captured from that and nothing re-decodes it. A
+        // second decode of it lands on the command start()'s decode left
+        // half-consumed, and on an SCPH-1001 that gives different pixels on every
+        // run, and the re-seat after it then times out on both table uploads.
+        // Later frames re-seat before their decode, so none lands on a stale
+        // command. That re-seat still times out on an SCPH-1001 when it directly
+        // follows start()'s decode, so a capture of frame n > 0 exits 24 there.
+        for (uint32_t i = 1; i <= want; i++) {
             if (m_needReset) {
                 const int bad = mdecReset();
                 m_needReset = false;
                 if (bad) {
-                    ramsyscall_printf("MDPL: MDEC re-seat failed (%d) after frame %d\n", bad, i);
+                    ramsyscall_printf("MDPL: MDEC re-seat failed (%d) before frame %d\n", bad, i);
                     pcsx_exit(24);
                 }
             }
+            if (!decodeInto(i, 0)) {
+                ramsyscall_printf("MDPL: decode failed on frame %d\n", i);
+                pcsx_exit(21);
+            }
+        }
+        {
+            // Printed before the pcdrv handoff, so a host that never answers still
+            // leaves proof the decode finished, and two runs can be compared.
+            uint32_t sum = 0;
+            for (uint32_t i = 0; i < m_hdr.width() * m_hdr.height(); i++) sum = sum * 31u + s_pixels[0][i];
+            ramsyscall_printf("MDPL: frame %d decoded, pixel sum %08x\n", want, sum);
         }
         PCinit();
         const int fd = PCcreat("mdecplay.bin", 0);

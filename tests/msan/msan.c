@@ -42,8 +42,7 @@ SOFTWARE.
 
 // clang-format off
 
-// The emulator reads the size from $a0 when handling the msan allocation register. Keep this
-// out of line so the dynarec has $a0 written back to the guest registers at that point.
+// Out of line allocation helper; the msan_inline_* tests below cover the inlined form.
 CESTER_BODY(
 static __attribute__((noipa)) void *msanAlloc(uint32_t size) { return pcsx_msanAlloc(size); }
 )
@@ -106,4 +105,56 @@ CESTER_TEST(msan_unaligned_pair, msan_tests,
     cester_assert_uint_eq(v, r);
     cester_assert_uint_eq(0xca, p[12]);
     pcsx_msanFree(p);
+)
+
+// The tests below inline the allocation calls, so the size reaches the register access as a
+// constant or as a value held in a host register, and the emulator must still read it from
+// $a0. Consecutive allocations sit size + 1kB of redzone apart, rounded up to 16 bytes, which
+// pins the size the emulator received.
+#define MSAN_STRIDE(size) (((size) + 1024 + 15) & ~15)
+
+CESTER_TEST(msan_inline_alloc, msan_tests,
+    uint8_t *p = pcsx_msanAlloc(40);
+    uint8_t *q = pcsx_msanAlloc(8);
+    cester_assert_uint_eq(MSAN_STRIDE(40), (uintptr_t)q - (uintptr_t)p);
+    p[39] = 1;
+    q[7] = 1;
+    pcsx_msanFree(q);
+    pcsx_msanFree(p);
+)
+
+CESTER_TEST(msan_inline_alloc_computed, msan_tests,
+    volatile uint32_t base = 32;
+    uint32_t n = base + 24;
+    uint8_t *p = pcsx_msanAlloc(n);
+    uint8_t *q = pcsx_msanAlloc(n + 8);
+    uint8_t *r = pcsx_msanAlloc(4);
+    cester_assert_uint_eq(MSAN_STRIDE(56), (uintptr_t)q - (uintptr_t)p);
+    cester_assert_uint_eq(MSAN_STRIDE(64), (uintptr_t)r - (uintptr_t)q);
+    pcsx_msanFree(r);
+    pcsx_msanFree(q);
+    pcsx_msanFree(p);
+)
+
+CESTER_TEST(msan_inline_realloc, msan_tests,
+    uint8_t *p = msanAlloc(8);
+    p[0] = 0x5a;
+    uint8_t *q = pcsx_msanRealloc(p, 100);
+    uint8_t *r = pcsx_msanAlloc(4);
+    cester_assert_uint_eq(MSAN_STRIDE(100), (uintptr_t)r - (uintptr_t)q);
+    cester_assert_uint_eq(0x5a, q[0]);
+    pcsx_msanFree(r);
+    pcsx_msanFree(q);
+)
+
+// The chain registers take the header as the stored value or $a0, the next pointer in $a0
+// and the word count in $a1. The header gets the chain marker and the count.
+CESTER_TEST(msan_chain_ptr, msan_tests,
+    uint32_t *header = pcsx_msanAlloc(4);
+    uint32_t *next = pcsx_msanAlloc(4);
+    pcsx_msanSetChainPtr(header, next, 3);
+    cester_assert_uint_eq((uint32_t)next, (uint32_t)pcsx_msanGetChainPtr(header));
+    cester_assert_uint_eq(3, header[0] >> 24);
+    pcsx_msanFree(next);
+    pcsx_msanFree(header);
 )
