@@ -65,7 +65,7 @@ struct SPUChannelData {
     uint8_t sampleID;
     int8_t vibrato;
     uint8_t fx[4];
-    uint16_t samplePos;
+    uint32_t samplePos;  // MOD samples can be up to 128kB long
     uint16_t sampleOffset;
 };
 
@@ -662,8 +662,7 @@ static void MOD_UpdateRow() {
         if (sampleID != 0) channelData->samplePos = 0;
         if (effectNibble1 == 9) {
             if (effectNibble23 != 0) channelData->sampleOffset = effectNibble23 << 8;
-            uint32_t samplePos = channelData->samplePos + channelData->sampleOffset;
-            channelData->samplePos = samplePos > 0xffff ? 0xffff : samplePos;
+            channelData->samplePos += channelData->sampleOffset;
         }
         if (sampleID != 0) {
             channelData->sampleID = --sampleID;
