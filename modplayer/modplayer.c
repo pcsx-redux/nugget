@@ -65,16 +65,54 @@ struct SPUChannelData {
     uint8_t sampleID;
     int8_t vibrato;
     uint8_t fx[4];
-    uint16_t samplePos;
+    uint32_t samplePos;  // MOD samples can be up to 128kB long
+    uint16_t sampleOffset;
 };
 
 struct SpuInstrumentData {
     uint16_t baseAddress;
     uint8_t finetune;
     uint8_t volume;
+    // The fields below are only used to locate 9xx sample offsets in the ADPCM data.
+    uint16_t length;      // ADPCM bytes
+    uint32_t loopStart;   // MOD sample bytes
+    uint32_t loopLength;  // MOD sample bytes, 0 for one-shot samples
+    uint8_t skip;         // MOD sample bytes dropped at the start of the sample
+    uint8_t pad;          // silent samples inserted at the start of the ADPCM data
 };
 
 static struct SpuInstrumentData s_spuInstrumentData[31];
+
+static uint16_t readBE16(const void* ptr) {
+    const uint8_t* bytes = (const uint8_t*)ptr;
+    return (bytes[0] << 8) | bytes[1];
+}
+
+// SPU address of an instrument, started at samplePos, in MOD sample bytes. The SPU can only start
+// on a 16 bytes ADPCM block of 28 samples, so the position is rounded down to its block. This follows
+// the layout modconv uses: the first word of the MOD sample is skipped, unless a loop starts at 0, and
+// looped samples are front-padded with silence so that the loop starts on a block boundary. Both are
+// derived from the instrument's loop fields, which modconv keeps from the MOD file. Files converted by
+// older versions of modconv have no padding, and offsets into their looped samples can land a block late.
+static uint32_t SPUInstrumentAddress(unsigned sampleID, uint32_t samplePos) {
+    const struct SpuInstrumentData* instrument = &s_spuInstrumentData[sampleID];
+    uint32_t address = instrument->baseAddress << 4;
+    if (samplePos == 0) return address;
+    if (instrument->loopLength != 0) {
+        uint32_t loopEnd = instrument->loopStart + instrument->loopLength;
+        // Past the loop end, MOD players are back into the loop.
+        if (samplePos >= loopEnd) {
+            samplePos = instrument->loopStart + (samplePos - instrument->loopStart) % instrument->loopLength;
+        }
+    }
+    if (samplePos < instrument->skip) samplePos = instrument->skip;
+    uint32_t offset = (instrument->pad + samplePos - instrument->skip) / 28 * 16;
+    if ((offset + 16) >= instrument->length) {
+        // Past the end of a one-shot sample: its last block is the silent loop block.
+        offset = instrument->length >= 16 ? instrument->length - 16 : 0;
+    }
+    return address + offset;
+}
 
 static void SPUInit() {
     DPCR |= 0x000b0000;
@@ -227,7 +265,18 @@ static uint32_t loadInternal(const struct MODFileFormat* module, const uint8_t* 
         s_spuInstrumentData[i].baseAddress = currentSpuAddress >> 4;
         s_spuInstrumentData[i].finetune = module->samples[i].finetune;
         s_spuInstrumentData[i].volume = module->samples[i].volume;
-        currentSpuAddress += module->samples[i].lenarr[0] * 0x100 + module->samples[i].lenarr[1];
+        uint16_t length = module->samples[i].lenarr[0] * 0x100 + module->samples[i].lenarr[1];
+        // These match the sample layout of modconv, see SPUInstrumentAddress.
+        uint32_t loopStart = readBE16(&module->samples[i].repeatLocation) * 2;
+        uint32_t loopLength = readBE16(&module->samples[i].repeatLength) * 2;
+        if (loopLength <= 2) loopLength = 0;
+        uint8_t skip = ((loopLength != 0) && (loopStart == 0)) ? 0 : 2;
+        s_spuInstrumentData[i].length = length;
+        s_spuInstrumentData[i].loopStart = loopStart;
+        s_spuInstrumentData[i].loopLength = loopLength;
+        s_spuInstrumentData[i].skip = skip;
+        s_spuInstrumentData[i].pad = loopLength != 0 ? (28 - (loopStart - skip) % 28) % 28 : 0;
+        currentSpuAddress += length;
     }
 
     MOD_SongLength = module->songLength;
@@ -606,7 +655,15 @@ static void MOD_UpdateRow() {
         uint8_t fx;
         effectNibble1 &= 0x0f;
 
-        if (effectNibble1 != 9) channelData->samplePos = 0;
+        // samplePos is where the channel's sample starts, like ProTracker's n_start: a sample number
+        // resets it, and 9xx (xx * 256 MOD sample bytes, 900 reusing the channel's last offset) adds
+        // to it, so notes without a sample number keep starting there. It needs to be known before
+        // setting the start address below, which the original code did after, in the effects switch.
+        if (sampleID != 0) channelData->samplePos = 0;
+        if (effectNibble1 == 9) {
+            if (effectNibble23 != 0) channelData->sampleOffset = effectNibble23 << 8;
+            channelData->samplePos += channelData->sampleOffset;
+        }
         if (sampleID != 0) {
             channelData->sampleID = --sampleID;
             volume = s_spuInstrumentData[sampleID].volume;
@@ -615,7 +672,10 @@ static void MOD_UpdateRow() {
             if (effectNibble1 != 7) {
                 SETVOICEVOLUME(channel, volume);
             }
-            SPUSetStartAddress(channel, s_spuInstrumentData[sampleID].baseAddress << 4 + channelData->samplePos);
+            SPUSetStartAddress(channel, SPUInstrumentAddress(sampleID, channelData->samplePos));
+        } else if (effectNibble1 == 9) {
+            // 9xx without a sample number applies to the channel's current sample.
+            SPUSetStartAddress(channel, SPUInstrumentAddress(channelData->sampleID, channelData->samplePos));
         }
 
         if (period != 0) {
@@ -678,11 +738,7 @@ static void MOD_UpdateRow() {
                     channelData->fx[2] = fx;
                 }
                 break;
-            case 9:  // sample jump
-                if (effectNibble23 != 0) {
-                    uint16_t newSamplePos = effectNibble23;
-                    channelData->samplePos = newSamplePos << 7;
-                }
+            case 9:  // sample jump, handled above
                 break;
             case 11:  // order jump
                 if (!MOD_ChangeOrderNextTick) {
@@ -808,7 +864,7 @@ void MOD_PlayNote(unsigned channel, unsigned sampleID, unsigned note, int16_t vo
     struct SPUChannelData* const channelData = &s_channelData[channel];
     channelData->samplePos = 0;
     SPUSetVoiceVolume(channel, volume << 8, volume << 8);
-    SPUSetStartAddress(channel, s_spuInstrumentData[sampleID].baseAddress << 4 + channelData->samplePos);
+    SPUSetStartAddress(channel, SPUInstrumentAddress(sampleID, channelData->samplePos));
     SPUWaitIdle();
     SPUKeyOn(1 << channel);
     channelData->note = note = note + s_spuInstrumentData[sampleID].finetune * 36;
