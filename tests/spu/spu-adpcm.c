@@ -17,7 +17,7 @@ CESTER_MAYBE_TEST(adpcm_decode_sinewave_lowpitch, spu_tests,
     SPU_ASSERT_GOLDEN(sine_low);
 )
 
-CESTER_MAYBE_TEST(adpcm_decode_sinewave_highpitch, spu_tests,
+CESTER_TEST(adpcm_decode_sinewave_highpitch, spu_tests,
     run_voice1_with_sample(kAdpcmSine5512Hz, 0x1000);
     SPU_ASSERT_GOLDEN(sine_high);
 )

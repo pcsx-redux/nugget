@@ -2,10 +2,10 @@
 // Characterize SPU IRQs from the voice ADPCM read pointer
 // ==========================================================================
 //
-// Hardware goldens captured on real silicon. Only the deterministic latch-
-// semantics value is pinned: that an ack re-arms immediately
-// (rearm.secondPolls). The mid-block re-fire count (midblock.hits) read 8 on
-// one SCPH-5501 and 2 on another, three runs each, so it is printed. The
+// Hardware goldens captured on real silicon. Two values are pinned: that an
+// ack re-arms immediately (rearm.secondPolls), and that a mid-block IRQ
+// address fires on every one of the 8 attempts (midblock.hits), since the
+// sample loops through block 0 (SCPH-1001, both 5501s and the 7001). The
 // poll counts (aligned.polls, rearm.firstPolls, midblock.firstPolls) and the
 // aligned capture (firstNonzero, lastNonzero, nonzeroCount, sum) are left
 // UNSET and printed as OBS lines: they are CPU-vs-SPU timing quantities that
@@ -41,7 +41,7 @@
 #endif
 
 #ifndef SPU_IRQ_EXPECTED_MIDBLOCK_HITS
-#define SPU_IRQ_EXPECTED_MIDBLOCK_HITS SPU_IRQ_EXPECTED_UNSET
+#define SPU_IRQ_EXPECTED_MIDBLOCK_HITS 8u
 #endif
 #ifndef SPU_IRQ_EXPECTED_MIDBLOCK_FIRST_POLLS
 #define SPU_IRQ_EXPECTED_MIDBLOCK_FIRST_POLLS SPU_IRQ_EXPECTED_UNSET
@@ -262,7 +262,7 @@ CESTER_MAYBE_TEST(irq_voice_read_pointer_ack_rearms, spu_tests,
     spu_irq_expect_u32("rearm.secondPolls", SPU_IRQ_EXPECTED_REARM_SECOND_POLLS, secondPolls);
 )
 
-CESTER_MAYBE_TEST(irq_voice_read_pointer_mid_block_probe, spu_tests,
+CESTER_TEST(irq_voice_read_pointer_mid_block_probe, spu_tests,
     uint32_t hits = 0;
     uint32_t firstPolls = 0;
 

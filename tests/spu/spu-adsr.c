@@ -316,7 +316,7 @@ CESTER_TEST(adsr_attack_exponential, spu_tests,
 )
 
 // test decay rate after attack peaks; higher value means slower decay
-CESTER_MAYBE_TEST(adsr_decay_shift, spu_tests,
+CESTER_TEST(adsr_decay_shift, spu_tests,
     uint16_t envx[0x40];
 
     spu_adsr_capture(
@@ -498,7 +498,7 @@ CESTER_TEST(adsr_sustain_up_linear, spu_tests,
 )
 
 // sustain at various levels while direction scale negative linearly
-CESTER_MAYBE_TEST(adsr_sustain_down_linear, spu_tests,
+CESTER_TEST(adsr_sustain_down_linear, spu_tests,
     uint16_t envx[0x20];
 
     spu_adsr_capture(
