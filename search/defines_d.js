@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['n_0',['n',['../d7/d65/spu-wide-writes_8c.html#a0240ac851181b84ac374872dc5434ee4',1,'N:&#160;spu-wide-writes.c'],['../d6/dad/monitor_2tests_2cksum_2main_2main_8c.html#a0240ac851181b84ac374872dc5434ee4',1,'N:&#160;main.c']]],
+  ['n_5fbus_1',['N_BUS',['../d0/d19/load-timings_8c.html#a5310211cdc52f1b3947ca32dfdd527ae',1,'load-timings.c']]],
+  ['n_5floads_2',['N_LOADS',['../d0/d19/load-timings_8c.html#a321f713cb3c5f64f038bb7555a3f2c77',1,'load-timings.c']]],
+  ['n_5freads_3',['N_READS',['../d0/d19/load-timings_8c.html#aa0d710ca7fea7f77aa747d48cc64f5e1',1,'load-timings.c']]],
+  ['nbench_4',['NBENCH',['../d4/d07/bcc-bits_8c.html#ad0881893b09990469aceaad4d54fc215',1,'bcc-bits.c']]],
+  ['nbuf_5',['NBUF',['../d4/d63/dma-modes_8c.html#ad51e2f8dffd163c263ec676a268d0f0a',1,'dma-modes.c']]],
+  ['ncases_6',['NCASES',['../da/d8a/gte-latency-lzcs_8c.html#a87b4977344071ba519c4183402668852',1,'gte-latency-lzcs.c']]],
+  ['ncdt_5fhelpers_5fdefined_7',['NCDT_HELPERS_DEFINED',['../df/d12/gte-latency_8c.html#a03d63b2b8d243f3b41c97a179afec787',1,'gte-latency.c']]],
+  ['ncommands_8',['NCOMMANDS',['../dc/de1/gte-timing_8c.html#aa574d54049e364ff660f19bb5283459e',1,'gte-timing.c']]],
+  ['nfields_9',['NFIELDS',['../d5/d00/scanline-timing_8c.html#a7986f01c038f396ce7df280bb2903099',1,'scanline-timing.c']]],
+  ['ngap_10',['NGAP',['../dc/de1/gte-timing_8c.html#af1830693e04d2b2057a09b30143b6816',1,'gte-timing.c']]],
+  ['ninfo_11',['NINFO',['../d6/d69/common_2libc_2xprintf_8c.html#a2c99791078dc25960f78b09d606c68e5',1,'xprintf.c']]],
+  ['nl_12',['NL',['../df/db5/shell_2main_8c.html#a4fc34b120ed3bd1120c1eb36abbcd6af',1,'main.c']]],
+  ['nops_13',['NOPS',['../d2/d46/gte-store-delay_8c.html#ab19051a3fcc53aeaa99f1e87d6e1860f',1,'gte-store-delay.c']]],
+  ['notify_5fqueue_5fsize_14',['NOTIFY_QUEUE_SIZE',['../df/d91/psmplayer_8c.html#a2c9d6965c68c01e7e5648114f64b556a',1,'psmplayer.c']]],
+  ['nsamp_15',['NSAMP',['../d1/d99/spu-adsrsus_8c.html#af1132329fe1ff0b6e6f02d6e5e650448',1,'spu-adsrsus.c']]],
+  ['nsamples_16',['NSAMPLES',['../d5/da5/cd-cmd-latency_8c.html#a7cf32ae937c5c8a34941e0f2d8309beb',1,'cd-cmd-latency.c']]],
+  ['num_5fbaselines_17',['NUM_BASELINES',['../dd/d77/regwrites_8c.html#a6f9c8d9cd803d794ff3b5e96b83544b1',1,'regwrites.c']]],
+  ['num_5fcases_18',['NUM_CASES',['../d3/d9e/spu-volsweep_8c.html#a39d3318d9377ef64441a1a071da6455a',1,'spu-volsweep.c']]],
+  ['num_5fsources_19',['NUM_SOURCES',['../dd/d77/regwrites_8c.html#a32dab2958741954c553be53105ac70a9',1,'regwrites.c']]],
+  ['num_5ftargets_20',['NUM_TARGETS',['../dd/d77/regwrites_8c.html#a0ffe2342c6229ee124c6ed24ac970e2a',1,'regwrites.c']]],
+  ['nval_21',['NVAL',['../d6/df1/mult-timing_8c.html#aad0629d32299aee19cd8666a8e24a295',1,'mult-timing.c']]],
+  ['nwho_22',['NWHO',['../dc/de1/gte-timing_8c.html#a2825ef6eded974af6d371ccab6777682',1,'gte-timing.c']]],
+  ['nwords_23',['nwords',['../db/d39/dma-chopping_8c.html#a3cd2baa6a4e5edb7a622ad2d706cac13',1,'NWORDS:&#160;dma-chopping.c'],['../d0/d5f/dma-priority_8c.html#a3cd2baa6a4e5edb7a622ad2d706cac13',1,'NWORDS:&#160;dma-priority.c']]]
+];

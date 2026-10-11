@@ -1,0 +1,15 @@
+<map id="common/hardware/sio.h" name="common/hardware/sio.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="442,5,621,31"/>
+<area shape="rect" id="Node000002" href="$d8/de6/link-sio1_8h.html" title=" " alt="" coords="5,93,151,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="429,35,302,54,164,81,112,96,111,91,163,76,301,49,428,29"/>
+<area shape="rect" id="Node000003" href="$df/da7/monitor_2tests_2siolines_2main_2main_8c.html" title=" " alt="" coords="175,86,338,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="482,37,318,88,316,83,481,32"/>
+<area shape="rect" id="Node000004" href="$d7/d8f/card_8c.html" title=" " alt="" coords="362,93,517,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="511,42,454,95,450,91,507,38"/>
+<area shape="rect" id="Node000005" href="$d1/d56/driver_8c.html" title=" " alt="" coords="541,93,705,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="556,38,612,91,609,95,552,42"/>
+<area shape="rect" id="Node000006" href="$d5/de6/pocketstation-memmap_8c.html" title=" " alt="" coords="729,79,912,133"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="584,32,733,76,732,81,582,37"/>
+<area shape="rect" id="Node000007" href="$da/d7f/rumble_8c.html" title=" " alt="" coords="937,93,1102,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="635,29,773,49,925,76,982,91,981,96,924,81,772,54,634,34"/>
+</map>

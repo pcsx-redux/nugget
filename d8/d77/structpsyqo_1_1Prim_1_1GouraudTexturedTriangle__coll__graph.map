@@ -1,0 +1,18 @@
+<map id="psyqo::Prim::GouraudTexturedTriangle" name="psyqo::Prim::GouraudTexturedTriangle">
+<area shape="rect" id="Node000001" title="A textured, blended triangle." alt="" coords="408,159,627,199"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="165,21,275,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="290,39,337,50,385,68,419,88,451,112,499,157,496,161,447,116,416,93,383,73,336,55,288,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,46,64,71"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,50,164,38,165,44,78,56"/>
+<area shape="rect" id="Node000006" href="$dd/d74/unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="169,70,271,95"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="78,73,88,76,129,81,169,82,169,88,129,87,88,81,76,78"/>
+<area shape="rect" id="Node000004" href="$dc/d89/structpsyqo_1_1PrimPieces_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="145,120,295,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="309,149,408,162,407,167,308,154"/>
+<area shape="rect" id="Node000005" href="$dc/d45/structpsyqo_1_1PrimPieces_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="145,184,295,224"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="308,199,384,195,407,192,408,198,384,200,308,205"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="285,93,385,120,474,156,472,161,383,125,284,98"/>
+<area shape="rect" id="Node000007" href="$dc/de2/structpsyqo_1_1PrimPieces_1_1TPageAttr.html" title="A primitive&#39;s tpage attribute." alt="" coords="145,248,295,288"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="307,242,383,220,457,196,459,201,385,225,309,247"/>
+<area shape="rect" id="Node000008" href="$d1/d1c/structpsyqo_1_1PrimPieces_1_1UVCoordsPadded.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="145,312,295,352"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="284,304,383,259,485,196,488,201,385,264,287,309"/>
+</map>

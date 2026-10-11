@@ -1,0 +1,20 @@
+<map id="bsdec/hostfuzz.c" name="bsdec/hostfuzz.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="65,5,195,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="60,225,131,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,33,46,51,30,64,16,80,9,98,9,116,13,134,22,153,46,187,73,215,69,218,42,190,17,155,8,136,3,116,4,96,12,77,26,60,43,46,82,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="26,79,93,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="120,33,82,71,79,67,117,29"/>
+<area shape="rect" id="Node000004" href="$dc/d9c/stdlib_8h.html" title=" " alt="" coords="263,79,333,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="158,28,259,71,257,76,156,33"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="168,79,239,104"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="144,29,183,67,180,71,140,33"/>
+<area shape="rect" id="Node000008" href="$dc/d5a/bsdec_8h.html" title=" " alt="" coords="59,152,131,177"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="130,32,104,139,99,138,125,30"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="253,225,327,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="308,103,322,136,326,157,325,178,308,215,304,213,320,177,321,157,317,138,303,105"/>
+<area shape="rect" id="Node000006" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="156,152,309,177"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="289,106,255,144,251,140,285,103"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="212,180,131,221,129,217,209,175"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="244,176,274,213,270,216,240,179"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="98,178,98,212,93,212,93,178"/>
+</map>

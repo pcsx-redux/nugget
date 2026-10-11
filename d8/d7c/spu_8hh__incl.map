@@ -1,0 +1,22 @@
+<map id="psyqo/spu.hh" name="psyqo/spu.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="265,5,373,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="248,152,391,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,31,322,138,317,138,317,31"/>
+<area shape="rect" id="Node000003" href="$da/dbc/fixed-point_8hh.html" title=" " alt="" coords="366,79,521,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="341,28,413,69,410,74,338,33"/>
+<area shape="rect" id="Node000008" href="$dc/d84/kernel_8hh.html" title=" " alt="" coords="142,79,267,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="302,33,236,74,234,69,300,28"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="425,106,353,147,350,143,422,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="153,152,224,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="403,107,238,152,237,147,402,101"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="415,152,493,177"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="448,104,453,138,448,139,442,105"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="518,152,598,177"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="463,102,529,142,526,147,460,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="623,152,715,177"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="480,101,620,145,618,150,479,107"/>
+<area shape="poly" id="edge9_Node000008_Node000002" title=" " alt="" coords="224,102,290,142,288,147,222,106"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="205,105,197,139,192,138,199,104"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="5,152,129,177"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="184,106,103,148,101,143,181,102"/>
+</map>

@@ -1,0 +1,25 @@
+<map id="psyqo/buffer.hh" name="psyqo/buffer.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="137,5,259,31"/>
+<area shape="rect" id="Node000002" href="$d3/da5/common_2util_2buffer_8hh.html" title=" " alt="" coords="25,79,190,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,33,135,72,131,68,182,29"/>
+<area shape="rect" id="Node000008" href="$d6/daf/psyqo_2alloc_8h.html" title=" " alt="" coords="263,79,371,104"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="218,28,287,69,284,74,216,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="127,299,197,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="72,107,38,125,23,138,11,153,8,164,11,177,18,216,24,232,37,249,54,264,74,277,115,295,112,300,71,281,51,268,33,252,20,235,13,218,6,178,3,164,6,151,19,134,35,120,70,102"/>
+<area shape="rect" id="Node000004" href="$d4/d87/bitfield_8hh.html" title=" " alt="" coords="21,152,194,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="110,104,110,138,105,138,105,104"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="90,179,71,194,53,211,43,230,43,240,47,249,60,265,77,278,115,296,112,301,74,283,56,269,42,252,38,241,38,229,49,208,67,190,87,175"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="57,225,137,251"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="108,178,103,212,98,211,103,177"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="161,225,253,251"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="125,175,181,215,178,219,122,180"/>
+<area shape="rect" id="Node000007" href="$d9/d59/common_2util_2util_8h.html" title=" " alt="" coords="277,225,332,251"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="140,175,265,220,263,225,138,180"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="283,253,199,295,196,290,280,248"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="357,225,431,251"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="321,104,330,137,346,176,374,214,370,217,341,179,325,139,316,105"/>
+<area shape="rect" id="Node000010" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="355,152,508,177"/>
+<area shape="poly" id="edge11_Node000008_Node000010" title=" " alt="" coords="336,102,402,142,400,147,334,106"/>
+<area shape="poly" id="edge13_Node000010_Node000003" title=" " alt="" coords="440,177,453,213,454,233,445,252,429,265,406,276,344,292,275,303,212,310,211,304,274,298,343,287,404,271,427,261,441,249,448,232,448,214,435,179"/>
+<area shape="poly" id="edge12_Node000010_Node000009" title=" " alt="" coords="427,179,409,215,404,212,423,176"/>
+</map>
