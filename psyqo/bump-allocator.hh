@@ -67,7 +67,9 @@ class BumpAllocator {
     }
     template <typename T, typename... Args>
     T &allocate(Args &&...args) {
-        size_t size = sizeof(T);
+        // Rounding to 4 keeps the cursor 4-aligned, so fragments allocated
+        // afterwards stay aligned.
+        size_t size = (sizeof(T) + 3) & ~size_t(3);
         uint8_t *ptr = m_current;
         if constexpr (alignof(T) > 1) {
             static constexpr size_t a = alignof(T) - 1;
@@ -101,7 +103,12 @@ template <Safe safety = Safe::Yes>
 class DynamicBumpAllocator {
   public:
     DynamicBumpAllocator(void *storage, size_t size)
-        : m_memory(reinterpret_cast<uint8_t *>(storage)), m_current(m_memory), m_size(size) {}
+        : m_memory(reinterpret_cast<uint8_t *>(storage)), m_current(m_memory), m_size(size) {
+        if constexpr (safety == Safe::Yes) {
+            psyqo::Kernel::assert(storage && (reinterpret_cast<uintptr_t>(storage) & 3) == 0,
+                                  "DynamicBumpAllocator: storage must be non-null and 4-byte aligned");
+        }
+    }
 
     template <Primitive P, typename... Args>
     Fragments::SimpleFragment<P> &allocateFragment(Args &&...args) {
@@ -116,7 +123,9 @@ class DynamicBumpAllocator {
 
     template <typename T, typename... Args>
     T &allocate(Args &&...args) {
-        size_t size = sizeof(T);
+        // Rounding to 4 keeps the cursor 4-aligned, so fragments allocated
+        // afterwards stay aligned.
+        size_t size = (sizeof(T) + 3) & ~size_t(3);
         uint8_t *ptr = m_current;
         if constexpr (alignof(T) > 1) {
             static constexpr size_t a = alignof(T) - 1;

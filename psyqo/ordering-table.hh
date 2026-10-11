@@ -31,6 +31,7 @@ SOFTWARE.
 
 #include "psyqo/fragment-concept.hh"
 #include "psyqo/fragments.hh"
+#include "psyqo/kernel.hh"
 #include "psyqo/shared.hh"
 
 namespace psyqo {
@@ -120,6 +121,9 @@ template <Safe safety = Safe::Yes>
 class DynamicOrderingTable : public OrderingTableBase {
   public:
     DynamicOrderingTable(psyqo::Fragments::ChainEntry* storage, size_t buckets) : m_table(storage), m_size(buckets) {
+        if constexpr (safety == Safe::Yes) {
+            psyqo::Kernel::assert(storage && buckets > 0, "DynamicOrderingTable: needs storage and at least one bucket");
+        }
         clear();
     }
     void clear() { OrderingTableBase::clear(m_table, m_size); }
