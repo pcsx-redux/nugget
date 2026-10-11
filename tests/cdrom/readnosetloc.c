@@ -65,6 +65,20 @@ CESTER_BODY(
         return count;
     }
 
+    // Pauses and consumes every interrupt up to the Pause completion, so that
+    // nothing is left pending for the next test. Returns 1 once INT2 is seen.
+    static int noSetLocPauseAndDrain() {
+        CDROM_REG0 = 0;
+        CDROM_REG1 = CDL_PAUSE;
+        while (1) {
+            uint32_t timeout = 3000000;
+            if (!waitCDRomIRQWithTimeout(&timeout)) return 0;
+            uint8_t cause = ackCDRomCause();
+            discardResponse();
+            if (cause == 2) return 1;
+        }
+    }
+
     static void printNoSetLocEvents(const char* name, const NoSetLocEvent* events, unsigned count, unsigned split) {
         ramsyscall_printf("%s, %u events:", name, count);
         for (unsigned i = 0; i < count; i++) {
@@ -118,13 +132,7 @@ CESTER_TEST(readSResentMidStreamNoSetLoc, test_instances,
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_READS;
     count = noSetLocCollect(events, count, 24, 4);
-
-    CDROM_REG0 = 0;
-    CDROM_REG1 = CDL_PAUSE;
-    uint32_t timeout = 3000000;
-    waitCDRomIRQWithTimeout(&timeout);
-    ackCDRomCause();
-    discardResponse();
+    int drained = noSetLocPauseAndDrain();
 
     printNoSetLocEvents("ReadS at 00:02:16, six sectors, ReadS again with no Setloc", events, count, split);
     uint32_t before = noSetLocLastLBA(events, 0, split);
@@ -132,9 +140,10 @@ CESTER_TEST(readSResentMidStreamNoSetLoc, test_instances,
     ramsyscall_printf("last LBA before %u, first LBA after %u, Setloc LBA %u\n", before, after, MSF2LBA(0, 2, 16));
     cester_assert_uint_ne(0, before);
     cester_assert_uint_ne(0, after);
-    // No rewind to the Setloc target: the second read carries on from where
-    // the first one was.
-    cester_assert_uint_gt(after, before);
+    cester_assert_true(drained);
+    // No rewind to the Setloc target: the second read carries on with the
+    // next sector.
+    cester_assert_uint_eq(before + 1, after);
 )
 
 CESTER_TEST(readSAfterPauseNoSetLoc, test_instances,
@@ -169,19 +178,14 @@ CESTER_TEST(readSAfterPauseNoSetLoc, test_instances,
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_READS;
     count = noSetLocCollect(events, count, 24, 4);
-
-    CDROM_REG0 = 0;
-    CDROM_REG1 = CDL_PAUSE;
-    uint32_t timeout = 3000000;
-    waitCDRomIRQWithTimeout(&timeout);
-    ackCDRomCause();
-    discardResponse();
+    int drained = noSetLocPauseAndDrain();
 
     printNoSetLocEvents("ReadS at 00:02:16, six sectors, Pause, ReadS again with no Setloc", events, count, split);
     uint32_t before = noSetLocLastLBA(events, 0, split);
     uint32_t after = noSetLocFirstLBA(events, split, count);
     ramsyscall_printf("last LBA before %u, first LBA after %u, Setloc LBA %u\n", before, after, MSF2LBA(0, 2, 16));
     cester_assert_true(paused);
+    cester_assert_true(drained);
     cester_assert_uint_ne(0, before);
     cester_assert_uint_ne(0, after);
     // Resumes one sector before the last one delivered, not at the Setloc
