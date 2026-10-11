@@ -249,6 +249,13 @@ static void spu_dma_sync(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes,
     DMA_CTRL[DMA_SPU].CHCR = chcr;
     while ((DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0) __asm__ volatile("");
 
+    // The DMA finishing does not mean the SPU has written everything yet: leaving DMA mode
+    // now loses the last ~50-60 bytes of a write on hardware. SPUSTAT bit 7 sets once the
+    // data has landed. The bound covers emulators that never set it.
+    if (!isRead) {
+        for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) == 0; i++)
+            ;
+    }
     SPU_CTRL = (SPU_CTRL & ~0x0030);
     for (volatile int i = 0; i < 60; i++) ;
 }
