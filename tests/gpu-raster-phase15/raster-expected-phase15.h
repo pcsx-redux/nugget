@@ -61,8 +61,10 @@ SOFTWARE.
 #define WX_WINDOW_TRANS_X0        0x81efu  /* same value: x=0 windows to filtered=0 */
 
 // Out-of-fixture-range window tests. Filtered_u lands beyond the
-// 64-byte uploaded TEX8 region; hardware samples whatever VRAM
-// contains there. Locking in for regression - not a window-formula
-// finding, an artefact of the fixture upload size.
-#define WT_MASK0F_OFF0F_X0_HW     0x03e0u  /* HW captured: reads 0 at u=120 */
-#define WT_MASK1F_OFF1F_X0_HW     0x007cu  /* HW captured: reads 124 at u=248 */
+// 64-byte TEX8 upload, so each test writes these indices at the
+// texel it samples (u=120 is VRAM x=TEX8_VRAM_BASE_X+60, u=248 is
+// x=TEX8_VRAM_BASE_X+124, low byte) before drawing.
+#define WT_U120_PROBE_INDEX       0x55u
+#define WT_U248_PROBE_INDEX       0x2au
+#define WT_MASK0F_OFF0F_X0_HW     expectedClut8Color(WT_U120_PROBE_INDEX)
+#define WT_MASK1F_OFF1F_X0_HW     expectedClut8Color(WT_U248_PROBE_INDEX)

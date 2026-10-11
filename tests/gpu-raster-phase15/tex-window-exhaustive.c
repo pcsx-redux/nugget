@@ -34,6 +34,18 @@ SOFTWARE.
 
 CESTER_BODY(
 
+/* Writes one VRAM pixel and flushes the texture cache, for the probes
+   that sample outside the fixture uploads. */
+static void writeVramPixel(uint16_t x, uint16_t y, uint16_t value) {
+    waitGPU();
+    GPU_DATA = 0xa0000000u;
+    GPU_DATA = ((uint32_t)y << 16) | x;
+    GPU_DATA = (1u << 16) | 1u;
+    GPU_DATA = value;
+    waitGPU();
+    GPU_DATA = 0x01000000u;
+}
+
 // Draw a 32x16 8-bit textured triangle with UV matching screen, then
 // the test reads back at a given probe pixel position. Window state
 // is set just before the draw via the caller.
@@ -174,20 +186,16 @@ CESTER_TEST(wt_mask0f_off03_x0, gpu_raster_phase15,
     ASSERT_PIXEL_EQ(expectedClut8Color(0x18), 0, 0);
 )
 CESTER_TEST(wt_mask0f_off0f_x0, gpu_raster_phase15,
+    writeVramPixel(TEX8_VRAM_BASE_X + 60, 0, WT_U120_PROBE_INDEX);
     drawWindowTri(0x0f, 0, 0x0f, 0);
-    /* filtered_u = 0 | 0x78 = 0x78 = 120. Per the formula CLUT8[120]
-       would apply, but the 8-bit fixture is only uploaded for u=0..63
-       so u=120 reads BEYOND the uploaded region into whatever VRAM
-       contains there. Hardware truth captured at 0x03e0; this is an
-       artefact of the test fixture not covering the full mask range,
-       not a window-formula divergence. The formula was already
-       verified within-range above. */
+    /* filtered_u = 0 | 0x78 = 0x78 = 120, past the u=0..63 fixture;
+       the texel there was written above. */
     ASSERT_PIXEL_EQ(WT_MASK0F_OFF0F_X0_HW, 0, 0);
 )
 CESTER_TEST(wt_mask1f_off1f_x0, gpu_raster_phase15,
+    writeVramPixel(TEX8_VRAM_BASE_X + 124, 0, WT_U248_PROBE_INDEX);
     drawWindowTri(0x1f, 0, 0x1f, 0);
-    /* filtered_u = 0xf8 = 248. Outside uploaded texture range; hardware
-       truth captured. Same caveat as above. */
+    /* filtered_u = 0xf8 = 248, past the fixture; written above. */
     ASSERT_PIXEL_EQ(WT_MASK1F_OFF1F_X0_HW, 0, 0);
 )
 
