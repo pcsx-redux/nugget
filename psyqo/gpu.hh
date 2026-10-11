@@ -366,6 +366,19 @@ class GPU {
     }
 
     /**
+     * @brief Chains a runtime-sized ordering table to the next DMA chain transfer.
+     *
+     * @details Same as the `OrderingTable` overload above.
+     * @param table The ordering table to chain.
+     */
+    template <Safe safety = Safe::Yes>
+    void chain(DynamicOrderingTable<safety> &table) {
+        size_t n = table.size();
+        chain(&table.m_table[n].head, &table.m_table[0].head, 0);
+        scheduleOTC(&table.m_table[n].head, n + 1);
+    }
+
+    /**
      * @brief Immediately sends the current DMA chain
      *
      * @details This method will immediately send the current DMA chain to the GPU, and block until completion.

@@ -67,7 +67,9 @@ class BumpAllocator {
     }
     template <typename T, typename... Args>
     T &allocate(Args &&...args) {
-        size_t size = sizeof(T);
+        // Rounding to 4 keeps the cursor 4-aligned, so fragments allocated
+        // afterwards stay aligned.
+        size_t size = (sizeof(T) + 3) & ~size_t(3);
         uint8_t *ptr = m_current;
         if constexpr (alignof(T) > 1) {
             static constexpr size_t a = alignof(T) - 1;
@@ -88,6 +90,65 @@ class BumpAllocator {
   private:
     uint8_t m_memory[N] __attribute__((aligned(4)));
     uint8_t *m_current = m_memory;
+};
+
+/**
+ * @brief A bump allocator whose capacity is chosen at runtime.
+ *
+ * @details Same interface as `BumpAllocator`, for when the capacity is only known
+ * at runtime. It does not own its storage: the caller provides `size` bytes,
+ * 4-byte aligned, which must outlive every fragment allocated from it.
+ */
+template <Safe safety = Safe::Yes>
+class DynamicBumpAllocator {
+  public:
+    DynamicBumpAllocator(void *storage, size_t size)
+        : m_memory(reinterpret_cast<uint8_t *>(storage)), m_current(m_memory), m_size(size) {
+        if constexpr (safety == Safe::Yes) {
+            psyqo::Kernel::assert(storage && (reinterpret_cast<uintptr_t>(storage) & 3) == 0,
+                                  "DynamicBumpAllocator: storage must be non-null and 4-byte aligned");
+        }
+    }
+
+    template <Primitive P, typename... Args>
+    Fragments::SimpleFragment<P> &allocateFragment(Args &&...args) {
+        static constexpr size_t size = sizeof(Fragments::SimpleFragment<P>);
+        if constexpr (safety == Safe::Yes) {
+            psyqo::Kernel::assert(remaining() >= size, "BumpAllocator: Out of memory");
+        }
+        uint8_t *ptr = m_current;
+        m_current += size;
+        return *new (ptr) Fragments::SimpleFragment<P>(eastl::forward<Args>(args)...);
+    }
+
+    template <typename T, typename... Args>
+    T &allocate(Args &&...args) {
+        // Rounding to 4 keeps the cursor 4-aligned, so fragments allocated
+        // afterwards stay aligned.
+        size_t size = (sizeof(T) + 3) & ~size_t(3);
+        uint8_t *ptr = m_current;
+        if constexpr (alignof(T) > 1) {
+            static constexpr size_t a = alignof(T) - 1;
+            auto alignedptr = reinterpret_cast<uint8_t *>((reinterpret_cast<uintptr_t>(ptr) + a) & ~a);
+            size += alignedptr - ptr;
+            ptr = alignedptr;
+        }
+        if constexpr (safety == Safe::Yes) {
+            psyqo::Kernel::assert(remaining() >= size, "BumpAllocator: Out of memory");
+        }
+        m_current += size;
+        return *new (ptr) T(eastl::forward<Args>(args)...);
+    }
+
+    void reset() { m_current = m_memory; }
+    size_t remaining() const { return m_size - (m_current - m_memory); }
+    size_t used() const { return m_current - m_memory; }
+    size_t capacity() const { return m_size; }
+
+  private:
+    uint8_t *m_memory;
+    uint8_t *m_current;
+    size_t m_size;
 };
 
 }  // namespace psyqo

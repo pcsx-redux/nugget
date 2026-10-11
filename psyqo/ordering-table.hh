@@ -31,6 +31,7 @@ SOFTWARE.
 
 #include "psyqo/fragment-concept.hh"
 #include "psyqo/fragments.hh"
+#include "psyqo/kernel.hh"
 #include "psyqo/shared.hh"
 
 namespace psyqo {
@@ -106,6 +107,52 @@ class OrderingTable : public OrderingTableBase {
     // NOTE: can't use from other classes (PCGPU) otherwise
     psyqo::Fragments::ChainEntry m_table[N + 1];
   private:
+    friend class GPU;
+};
+/**
+ * @brief An ordering table whose bucket count is chosen at runtime.
+ *
+ * @details Behaves like `OrderingTable`, for when the number of buckets is only
+ * known at runtime, for example when it comes from loaded data. It does not own
+ * its storage: the caller provides `buckets + 1` entries, which must outlive the
+ * table and every frame the GPU reads it in. Schedule it with `GPU::chain`.
+ */
+template <Safe safety = Safe::Yes>
+class DynamicOrderingTable : public OrderingTableBase {
+  public:
+    DynamicOrderingTable(psyqo::Fragments::ChainEntry* storage, size_t buckets) : m_table(storage), m_size(buckets) {
+        if constexpr (safety == Safe::Yes) {
+            psyqo::Kernel::assert(storage && buckets > 0, "DynamicOrderingTable: needs storage and at least one bucket");
+        }
+        clear();
+    }
+    void clear() { OrderingTableBase::clear(m_table, m_size); }
+
+    /**
+     * @brief Inserts a fragment into the ordering table, as `OrderingTable::insert`.
+     */
+    template <Fragment Frag>
+    void insert(Frag& frag, int32_t z) {
+        static_assert((sizeof(Frag) - sizeof(Fragments::ChainEntry)) / sizeof(uint32_t) <= 255,
+                      "Fragment too big to be inserted into an ordering table");
+        auto* table = m_table + 1;
+        if constexpr (safety == Safe::Yes) {
+            z = eastl::clamp(z, int32_t(0), int32_t(m_size - 1));
+        }
+#ifdef PS1_PC_PORT
+        frag.set(table[z].next, frag.getActualFragmentSize());
+        table[z].set(&frag, 0);
+#else
+        frag.set(&table[z], frag.getActualFragmentSize());
+        table[z].head = reinterpret_cast<uint32_t>(&frag) & 0xffffff;
+#endif
+    }
+    size_t size() const { return m_size; }
+
+    // NOTE: can't use from other classes (PCGPU) otherwise
+    psyqo::Fragments::ChainEntry* m_table;
+  private:
+    size_t m_size;
     friend class GPU;
 };
 

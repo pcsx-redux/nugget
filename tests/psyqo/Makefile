@@ -12,6 +12,7 @@ test-adler32.cpp \
 test-bezier.cpp \
 test-primitives.cpp \
 test-gte-math.cpp \
+test-bump-allocator.cpp \
 
 CXXFLAGS = -std=c++20
 
