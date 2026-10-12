@@ -68,6 +68,7 @@ SOFTWARE.
 #include "playing.c"
 #include "race.c"
 #include "reading.c"
+#include "readnosetloc.c"
 #include "seekread.c"
 #include "xa.c"
 #else
