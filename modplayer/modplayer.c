@@ -617,8 +617,9 @@ static void MOD_UpdateEffect() {
                 switch (effectNibble3) {
                     case 9:  // retrigger sample
                         // this doesn't look right, we probably want to reset the sample location
-                        if (effectNibble2 && (MOD_Tick % effectNibble2) == 0)
+                        if (effectNibble2 && (MOD_Tick % effectNibble2) == 0) {
                             SPUKeyOnInstrument(channel, channelData->sampleID);
+                        }
                         break;
                     case 12:  // cut sample
                         if (MOD_Tick != effectNibble2) break;
