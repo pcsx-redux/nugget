@@ -744,8 +744,8 @@ static void processEvent(const struct PsmEvent* ev) {
             SPU_VOICES[v].volumeRight = volR;
             SPU_VOICES[v].sampleRate = pitch;
             SPU_VOICES[v].sampleStartAddr = s_vagAddrs[tone->vag];
-            SPU_VOICES[v].adsrLo = tone->adsr1;   // offset +0x08: sustain rate/mode + release rate/mode
-            SPU_VOICES[v].adsrHi = tone->adsr2;   // offset +0x0A: attack mode/rate + decay rate + sustain level
+            SPU_VOICES[v].adsrLo = tone->adsr1;   // offset +0x08: attack mode/rate + decay rate + sustain level
+            SPU_VOICES[v].adsrHi = tone->adsr2;   // offset +0x0A: sustain mode/dir/rate + release mode/rate
 
             // Update reverb mask
             if (chanState->reverb > 0) {
