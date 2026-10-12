@@ -83,6 +83,24 @@ STD = [v - 0x10000 if v > 0x7fff else v for v in STD]
 #            if it is wrong.
 # ---------------------------------------------------------------------------
 
+# Colour-matrix sweep arms, see build(). Names are parsed, not free text: the sign is
+# a letter because arm names may only hold A-Z and 0-9, and there is no N000.
+YUV_SWEEP_LUMA = (-64, 0, 64, 32)          # Y1..Y4 planes -> levels 64, 128, 192, 160
+
+def yuv_sweep_offset(arm):
+    if len(arm) != 8 or arm[:4] not in ('YUVR', 'YUVB') or arm[4] not in 'PN' \
+            or not arm[5:].isdigit():
+        raise ValueError(arm)
+    v = int(arm[5:]) * (1 if arm[4] == 'P' else -1)
+    if not -128 <= v <= 127 or (v == 0 and arm[4] == 'N'):
+        raise ValueError(arm)
+    return v
+
+def yuv_sweep_names():
+    for c in 'RB':
+        for v in range(-128, 128):
+            yield f"YUV{c}{'N' if v < 0 else 'P'}{abs(v):03d}"
+
 def build(arm):
     upload = arm != 'A'
     st = list(STD)
@@ -175,13 +193,36 @@ def build(arm):
     # The negative arms are not symmetry theatre: a ties-round-down rule (D8F, measured)
     # lands differently on a negative product, and that is where a /1000 and a /1024
     # implementation part company first.
-    if arm.startswith('YUV'):
+    if arm.startswith('YUVC'):
         quant, qscale = 1, 8
         v = 504 if arm.endswith('BIG') else 400
         if 'N' in arm[3:]: v = -v
         dc = [0] * 6
         dc[0 if 'CR' in arm else 1] = v   # the active chroma block
         dc[2] = v                         # Y1: the luma control, same DC, same table
+        acs = [[] for _ in range(6)]
+
+    # YUVR{P|N}nnn / YUVB{P|N}nnn (2026-10-11): the colour-matrix SWEEP, one chroma
+    # point per capture. The rig reads exactly one 16x16 macroblock (OUT_BYTES), and
+    # Cr and Cb are one block each for the whole macroblock, so a flat-chroma capture
+    # can only ever carry ONE (Cr, Cb) pair. The four luma quadrants are what one
+    # capture multiplies: four Y levels per chroma point.
+    #   YUVR: Cr plane = +-nnn, Cb plane = 0 (so B reads Y back in every quadrant)
+    #   YUVB: Cb plane = +-nnn, Cr plane = 0 (so R reads Y back in every quadrant)
+    #   YUVRP000 == YUVBP000 apart from the name: the full-neutral control, R=G=B=Y.
+    # INTEGER PLANES. quant = 8 on both tables and every block DC-only, so the
+    # dequantised DC is val = 8*dc (DC ignores q_scale, D8/D63) and the flat plane is
+    # val/8 = dc - an integer offset, never a .5 (D8F: silicon ties round DOWN). The
+    # range is the 11-bit dequant clamp: 8*dc must stay in -1024..+1023, so dc in
+    # -128..+127, which is also the signed-10-bit DC field's comfortable range. ⚠ "exact"
+    # is up to the standard table's DC basis, 0x5A82^2 / 2^29 = 0.999959, so the plane
+    # is dc * 0.999959 if the silicon carries the fraction (|err| <= 0.0053 at dc 128).
+    # Luma: Y1..Y4 planes -64, 0, +64, +32 -> levels 64, 128, 192, 160.
+    if arm[:4] in ('YUVR', 'YUVB'):
+        v = yuv_sweep_offset(arm)
+        quant, qscale = 8, 8
+        dc = [0, 0] + list(YUV_SWEEP_LUMA)
+        dc[0 if arm[3] == 'R' else 1] = v
         acs = [[] for _ in range(6)]
 
     # --- single-term arms. Chroma is flat in every one of them on purpose. ---
@@ -354,7 +395,7 @@ ARMS = frozenset("""
 A B C D D8 D63 D8F S S2 Z Z2 ZK5 DSAT DSAT2 ASAT ZTWO ZMIX WRAP
 ZDC ZDCC ZAC ZACC GSPLIT R1 R2 R3 R4 ARB ARB2 CTRL
 YUVCR YUVCRN YUVCRBIG YUVCB YUVCBN YUVCBBIG
-""".split())
+""".split()) | frozenset(yuv_sweep_names())
 
 # `genjob.py --show <capture>` prints a capture's provenance header. It lives here
 # rather than in its own script because a header nothing reads is a header nobody
