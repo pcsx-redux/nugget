@@ -231,3 +231,52 @@ CESTER_TEST(cdlTestRegionAndChip, test_instance,
         }
     }
 )
+
+CESTER_TEST(cdlTestCountersSwitchesDecoder, test_instance,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    // 05h answers the SCEx counters (total, success), 21h the switches (bit 0 head at
+    // POS0, bit 1 door open), 25h the decoder chip string. psx-spx: 25h is vC1 and up,
+    // vC0 errors with 10h.
+    // Seen on silicon: 05h 01 01 on a SCPH-7001 and 00 00 on a SCPH-5501 and a SCPH-1001
+    // with no readable disc; a modchipped SCPH-9002 counts every looped string, 09 01.
+    // 21h 00 on a SCPH-9002 spinning a disc, 01 on idle drives, 02 with the lid open.
+    // 25h CXD2940Q (SCPH-9002), CXD1817Q (SCPH-7001), CXD1815Q (SCPH-5501), CXD1199BQ
+    // (SCPH-1001).
+    static const char* decoderChips[] = {"CXD2940Q", "CXD1817Q", "CXD1815Q", "CXD1199BQ", "CXD1815BQ"};
+    uint8_t cause, size, response[16];
+    uint32_t time;
+
+    cester_assert_true(cdlTestSub(0x20, &cause, response, &size, &time));
+    cester_assert_uint_eq(4, size);
+    if (size != 4) return;
+    uint8_t version = response[3];
+
+    cester_assert_true(cdlTestSub(0x05, &cause, response, &size, &time));
+    cester_assert_uint_eq(3, cause);
+    cester_assert_uint_eq(2, size);
+    uint8_t total = response[0];
+    uint8_t success = response[1];
+    cester_assert_uint_le(success, total);
+
+    // Bits 0 and 1 follow the head and the lid, so only the unused bits are checked.
+    cester_assert_true(cdlTestSub(0x21, &cause, response, &size, &time));
+    cester_assert_uint_eq(3, cause);
+    cester_assert_uint_eq(1, size);
+    uint8_t switches = response[0] & 0xfc;
+    cester_assert_uint_eq(0, switches);
+
+    cester_assert_true(cdlTestSub(0x25, &cause, response, &size, &time));
+    if (version == 0xc0) {
+        cester_assert_uint_eq(5, cause);
+        cester_assert_uint_eq(2, size);
+        cester_assert_uint_eq(0x10, response[1]);
+        return;
+    }
+    cester_assert_uint_eq(3, cause);
+    cester_assert_true(cdlTestKnownString(decoderChips, sizeof(decoderChips) / sizeof(decoderChips[0]), response, size));
+)
