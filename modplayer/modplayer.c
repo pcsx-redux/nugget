@@ -188,6 +188,21 @@ static void SPUKeyOn(uint32_t voiceBits) {
     SPU_KEY_ON_HIGH = voiceBits >> 16;
 }
 
+static void SPUKeyOff(uint32_t voiceBits) {
+    SPU_KEY_OFF_LOW = voiceBits;
+    SPU_KEY_OFF_HIGH = voiceBits >> 16;
+}
+
+// An empty instrument has no SPU data of its own, and its address is the next instrument's.
+// Play silence for it instead, like pt2-clone does, by stopping the voice rather than keying it on.
+static void SPUKeyOnInstrument(int voiceID, unsigned sampleID) {
+    if (s_spuInstrumentData[sampleID].length == 0) {
+        SPUKeyOff(1 << voiceID);
+    } else {
+        SPUKeyOn(1 << voiceID);
+    }
+}
+
 static void SPUSetVoiceSampleRate(int voiceID, uint16_t sampleRate) { SPU_VOICES[voiceID].sampleRate = sampleRate; }
 
 unsigned MOD_Check(const struct MODFileFormat* module) {
@@ -602,7 +617,7 @@ static void MOD_UpdateEffect() {
                 switch (effectNibble3) {
                     case 9:  // retrigger sample
                         // this doesn't look right, we probably want to reset the sample location
-                        if ((MOD_Tick % effectNibble2) == 0) SPUKeyOn(1 << channel);
+                        if ((MOD_Tick % effectNibble2) == 0) SPUKeyOnInstrument(channel, channelData->sampleID);
                         break;
                     case 12:  // cut sample
                         if (MOD_Tick != effectNibble2) break;
@@ -694,7 +709,7 @@ static void MOD_UpdateRow() {
             }
             if ((effectNibble1 != 3) && (effectNibble1 != 5)) {
                 SPUWaitIdle();
-                SPUKeyOn(1 << channel);
+                SPUKeyOnInstrument(channel, channelData->sampleID);
                 channelData->period = MOD_PeriodTable[channelData->note];
             }
             newPeriod = channelData->period;
@@ -866,8 +881,8 @@ void MOD_PlayNote(unsigned channel, unsigned sampleID, unsigned note, int16_t vo
     SPUSetVoiceVolume(channel, volume << 8, volume << 8);
     SPUSetStartAddress(channel, SPUInstrumentAddress(sampleID, channelData->samplePos));
     SPUWaitIdle();
-    SPUKeyOn(1 << channel);
-    channelData->note = note = note + s_spuInstrumentData[sampleID].finetune * 36;
+    SPUKeyOnInstrument(channel, sampleID);
+    channelData->note = note = note +s_spuInstrumentData[sampleID].finetune * 36;
     int32_t newPeriod = channelData->period = MOD_PeriodTable[note];
     SETVOICESAMPLERATE(channel, newPeriod);
 }
