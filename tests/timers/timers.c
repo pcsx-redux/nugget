@@ -622,7 +622,7 @@ static int periodIs(uint32_t elapsed, uint32_t period, uint32_t periods) {
 }
 )
 
-CESTER_MAYBE_TEST(reset_period_accumulated, timer_tests,
+CESTER_TEST(reset_period_accumulated, timer_tests,
     uint32_t s200 = reportPeriod("sys", TM_RESET_TARGET, 200, 10000);
     uint32_t s400 = reportPeriod("sys", TM_RESET_TARGET, 400, 10000);
     uint32_t d50 = reportPeriod("div8", TM_RESET_TARGET | TM_CLK_DIV8, 50, 10000);
