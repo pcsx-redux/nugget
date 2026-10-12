@@ -59,6 +59,8 @@ jobs:
     # A downstream build: nugget's own suite can stay green while breaking a
     # project that consumes it.
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 20
     container: ghcr.io/grumpycoders/pcsx-redux-build:latest
 
@@ -68,6 +70,7 @@ jobs:
           path: nugget
           submodules: recursive
           set-safe-directory: true
+          persist-credentials: false
 
       - name: psxdemo against this nugget
         # Build-only. psxdemo packs its parts with ps1-packer, which this image
