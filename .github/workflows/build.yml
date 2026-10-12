@@ -54,3 +54,30 @@ jobs:
 
       - name: Run tests
         run: tests/run-emulator.sh "$GITHUB_WORKSPACE/squashfs-root/AppRun" openbios/openbios.bin
+
+  psxdemo:
+    # A downstream build: nugget's own suite can stay green while breaking a
+    # project that consumes it.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container: ghcr.io/grumpycoders/pcsx-redux-build:latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: nugget
+          submodules: recursive
+          set-safe-directory: true
+
+      - name: psxdemo against this nugget
+        # Build-only. psxdemo packs its parts with ps1-packer, which this image
+        # does not have, so a stub copies each input through to its -o output.
+        # The result does not run; the job checks that it compiles and links.
+        run: |
+          git clone -q --depth 1 https://github.com/rixnobis/psxdemo
+          rm -rf psxdemo/third_party/nugget
+          ln -s "$GITHUB_WORKSPACE/nugget" psxdemo/third_party/nugget
+          printf '#!/bin/sh\nin="$1"; out=""\nwhile [ $# -gt 0 ]; do [ "$1" = "-o" ] && out="$2"; shift; done\ncp "$in" "$out"\n' > stub-packer
+          chmod +x stub-packer
+          make -C psxdemo -j2 PS1PACKER="$PWD/stub-packer"
+          ls -l psxdemo/demo.ps-exe
