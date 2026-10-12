@@ -195,6 +195,39 @@ delayslot_bc2f:
 1:  b     delayslot_mark
     .word 0x49000004
 
+/* A Cause write raising software interrupt 0, in a taken branch's delay slot.
+   The caller enables the interrupt in SR and clears Cause in its handler. */
+
+    .align 2
+    .global delayslot_swi
+    .type delayslot_swi, @function
+
+delayslot_swi:
+    la    $t3, delayslot_taken
+    sw    $0, 0($t3)
+    li    $t0, 0x100
+    la    $v0, 1f
+1:  b     delayslot_mark
+    mtc0  $t0, $13
+
+/* A syscall in the delay slot of a not-taken bne, itself in the delay slot of
+   a taken b: the bne's delay slot is the b's target. */
+
+    .align 2
+    .global delayslot_nested
+    .type delayslot_nested, @function
+
+delayslot_nested:
+    la    $t3, delayslot_taken
+    sw    $0, 0($t3)
+    la    $v0, 1f
+1:  b     2f
+    bne   $0, $0, 3f
+    nop
+2:  syscall
+3:  b     delayslot_mark
+    nop
+
     .align 2
     .global delayslot_mark
     .type delayslot_mark, @function

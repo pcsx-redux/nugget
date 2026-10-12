@@ -257,3 +257,39 @@ CESTER_TEST(cpu_BC2F_in_delay_slot_cu2_clear, cpu_tests,
     cester_assert_uint_eq(branch, s_epc);
     cester_assert_uint_eq(0, delayslot_taken);
 )
+
+CESTER_BODY(
+    static uint32_t delayslot_clear_cause() {
+        __asm__ volatile("mtc0 $0, $13\nnop");
+        return (uint32_t)delayslot_resume;
+    }
+)
+
+// a software interrupt raised by a Cause write in a taken branch's delay slot
+// is taken before the branch target runs; EPC and Cause.BD for this case
+// have not been measured on hardware, so they are not checked
+CESTER_TEST(cpu_software_interrupt_in_delay_slot, cpu_tests,
+    uint32_t sr;
+    __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(sr));
+    s_customhandler = delayslot_clear_cause;
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"((sr & ~0xff00) | 0x101));
+    delayslot_swi();
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(sr));
+    s_customhandler = NULL;
+    uint32_t excode = (s_cause >> 2) & 0x1f;
+    cester_assert_uint_eq(1, s_got80);
+    cester_assert_uint_eq(0, excode);
+    cester_assert_uint_eq(0, delayslot_taken);
+)
+
+// a syscall in the delay slot of a not-taken branch that itself sits in a
+// taken branch's delay slot; EPC and Cause.BD for this case have not been
+// measured on hardware, so they are not checked
+CESTER_TEST(cpu_SYSCALL_in_nested_delay_slot, cpu_tests,
+    s_resume = (uint32_t *)delayslot_resume;
+    delayslot_nested();
+    uint32_t excode = (s_cause >> 2) & 0x1f;
+    cester_assert_uint_eq(1, s_got80);
+    cester_assert_uint_eq(8, excode);
+    cester_assert_uint_eq(0, delayslot_taken);
+)
