@@ -24,6 +24,8 @@ SOFTWARE.
 
 */
 
+// Most of these were originally written for uC-sdk (libc/include/string.h) by Nicolas Noble, who relicensed them here under the MIT license above.
+
 #pragma once
 
 #include <stddef.h>

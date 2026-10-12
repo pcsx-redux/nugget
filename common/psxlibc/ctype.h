@@ -24,6 +24,8 @@ SOFTWARE.
 
 */
 
+// Originally written for uC-sdk (libc/include/ctype.h) by Nicolas Noble, who relicensed it here under the MIT license above.
+
 #pragma once
 
 static __inline__ int isascii(int c) { return (c & 0x80) == 0; }
