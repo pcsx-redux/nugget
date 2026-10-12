@@ -1,7 +1,7 @@
 TARGET = primitives-cross
 TYPE = ps-exe
 
-include ../printf.mk
+SRCS += ../../../common/syscalls/printf.s
 
 SRCS += \
 ../../../common/crt0/memory-s.s \
