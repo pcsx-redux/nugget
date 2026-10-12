@@ -34,6 +34,17 @@ SOFTWARE.
     .type _start, @function
 
 _start:
+.ifdef MONITOR_PLATFORM_SYS573
+    # The System 573 monitor loader, launched by whatever program: DEV0 (the
+    # 573's own registers, its watchdog among them) at its usual base and
+    # timing, and one watchdog clear, before the stack or bss is touched.
+    li    $t0, 0x1f000000
+    sw    $t0, SBUS_DEV0_ADDR
+    li    $t0, 0x24173f47
+    sw    $t0, SBUS_DEV0_CTRL
+    lui   $t0, 0x1f5c
+    sh    $0, 0($t0)
+.endif
     lw    $t2, SBUS_DEV8_CTRL
     lui   $t0, 8
     lui   $t1, 1

@@ -57,6 +57,26 @@ void installSio1Tty(void);
 void releaseTty(void);
 void drawLoaderSplash(void);
 
+/* The first 64 KiB of RAM, the kernel's, through any segment (the retail
+   kernel's own vector jumps to 0x00000C80). */
+static int inKernelRam(uint32_t a) {
+    uint32_t seg = a >> 29;
+    return a && (seg == 0 || seg == 4 || seg == 5) && (a & 0x1fff0000) == 0;
+}
+
+/* Where the 0x80 vector jumps: `lui r / addiu r, r` or `lui r / ori r, r`,
+   then `jr r`. 0 for anything else. */
+static uint32_t vectorTarget(const volatile uint32_t *v) {
+    uint32_t r = (v[0] >> 16) & 0x1f;
+    if ((v[0] >> 21) != (0x0f << 5)) return 0; /* lui r */
+    if (((v[1] >> 16) & 0x3ff) != ((r << 5) | r)) return 0;
+    if ((v[2] & 0xfc1fffff) != 0x00000008 || ((v[2] >> 21) & 0x1f) != r) return 0;
+    uint32_t op = v[1] >> 26;
+    if (op == 0x09) return (v[0] << 16) + (uint32_t)(int32_t)(int16_t)v[1];
+    if (op == 0x0d) return (v[0] << 16) | (v[1] & 0xffff);
+    return 0;
+}
+
 int main(void) {
     /* Before touching anything: the resident monitor takes the break
        wherever it comes from, whatever the interrupt state. */
@@ -128,6 +148,33 @@ int main(void) {
     ramsyscall_printf("monitor: entry imask %08x ireg %08x sio1 stat %08x mode %04x ctrl %04x baud %04x\n",
                       entryImask, entryIreg, entrySioStat, entrySioMode, entrySioCtrl, entrySioBaud);
     ramsyscall_printf("monitor: shell chains %08x %08x %08x %08x\n", chains[0], chains[1], chains[2], chains[3]);
-    if (monitorHook() == MONITOR_SLOT_OPENBIOS) ramsyscall_printf("monitor: slot 4 installed by OpenBIOS\n");
+
+    /* The 0x80 vector as the launcher left it. On a 573, a launcher with its
+       own exception handler (573in1) may leave the vector pointing there;
+       point it back at the kernel's handler, taken from the kernel's own C0
+       table (entry 6), when that is in the kernel's RAM. */
+    volatile uint32_t *v80 = (volatile uint32_t *)0x80;
+    uint32_t target = vectorTarget(v80);
+    ramsyscall_printf("monitor: vector 80000080: %08x %08x %08x %08x -> %08x\n", v80[0], v80[1], v80[2], v80[3],
+                      target);
+#ifdef MONITOR_PLATFORM_SYS573
+    if (!inKernelRam(target)) {
+        uint32_t h = isOpenBiosPresent() ? 0 : (uint32_t)monitorGetC0Table()[6];
+        if (!(h & 3) && inKernelRam(h)) {
+            v80[0] = 0x3c1a0000 | ((h + 0x8000) >> 16); /* lui k0, hi */
+            v80[1] = 0x275a0000 | (h & 0xffff);         /* addiu k0, k0, lo */
+            v80[2] = 0x03400008;                        /* jr k0 */
+            v80[3] = 0;
+            syscall_flushCache();
+            ramsyscall_printf("monitor: vector restored -> %08x\n", h);
+        } else {
+            ramsyscall_printf("monitor: vector foreign, not restored\n");
+        }
+    }
+#endif
+
+    static const char *const slotNames[] = {"NONE", "FOUND", "OPENBIOS"};
+    int slot = monitorHook();
+    ramsyscall_printf("monitor: slot %s at %08x\n", slotNames[slot], (uint32_t)s_monitorSlot);
     monitorEnter();
 }

@@ -37,6 +37,10 @@ MONITOR_LINK ?= SIO1
 CPPFLAGS += -DMONITOR_LINK_$(MONITOR_LINK)
 include ../ft232h-boards.mk
 include ../platforms.mk
+# crt0 sets up the 573's DEV0 and clears its watchdog before anything else.
+ifeq ($(MONITOR_PLATFORM),sys573)
+ASFLAGS += -Wa,--defsym,MONITOR_PLATFORM_SYS573=1
+endif
 # SIO1 baud reload at x16, see monitor/link-sio1.h.
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)

@@ -503,6 +503,13 @@ static __attribute__((noinline)) void monitorTake(struct Registers *r) {
                the break. What it means is the host's business, and so is
                stepping past it. */
             if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
+#if defined(MONITOR_PLATFORM_SYS573) && defined(MONITOR_LINK_SIO1)
+                /* Bring-up trace: one raw 'B' on the link says the break
+                   reached the monitor, ahead of HELLO. */
+                for (unsigned i = 0; i < 0x10000 && !(*(volatile uint16_t *)0xbf801054 & 1); i++);
+                *(volatile uint8_t *)0xbf801050 = 'B';
+                monitorWatchdogKick();
+#endif
                 s_mon.running = 0;
 #ifdef MONITOR_HAS_WATCHDOG
                 g_monitorKick = 1;
