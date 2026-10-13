@@ -22,3 +22,7 @@ endif
 # spin). See monitor/watchdog.h.
 MONITOR_WDT_KICK_SHIFT ?= 0
 CPPFLAGS += -DMONITOR_WDT_KICK_SHIFT=$(MONITOR_WDT_KICK_SHIFT)
+
+# Kick at most this many times a second (0 = on every poll). See watchdog.h.
+MONITOR_WDT_KICK_HZ ?= 0
+CPPFLAGS += -DMONITOR_WDT_KICK_HZ=$(MONITOR_WDT_KICK_HZ)

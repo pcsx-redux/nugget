@@ -65,6 +65,8 @@ SOFTWARE.
 volatile uint8_t g_monitorKick __attribute__((used)) = 1;
 volatile uint32_t g_monitorKickCount __attribute__((used)) = 0;
 volatile uint32_t g_monitorSpin __attribute__((used)) = 0;
+volatile uint32_t g_monitorKickElapsed __attribute__((used)) = 0;
+volatile uint16_t g_monitorKickLast __attribute__((used)) = 0;
 #else
 #define MON_CAPS_WATCHDOG 0
 #endif
@@ -494,8 +496,9 @@ static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t 
 static __attribute__((noinline)) void monitorTake(struct Registers *r) {
     uint32_t excode = CAUSE_EXCCODE(r->Cause);
 
-    /* While RUNNING with MON_FEAT_WATCHDOG, every interrupt kicks. */
-    if (excode == EXCCODE_INT) monitorWatchdogIdle();
+    /* While RUNNING with MON_FEAT_WATCHDOG, every interrupt kicks; with
+       MONITOR_WDT_KICK_HZ set, only VBlank does. */
+    if (excode == EXCCODE_INT) monitorWatchdogIrq();
 
     if (excode == EXCCODE_BP) {
         uint32_t insn = *(uint32_t *)(r->returnPC);

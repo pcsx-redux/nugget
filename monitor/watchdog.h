@@ -64,6 +64,45 @@ static inline void monitorWatchdogKick(void) {
 #ifndef MONITOR_WDT_KICK_SHIFT
 #define MONITOR_WDT_KICK_SHIFT 0
 #endif
+
+/* MONITOR_WDT_KICK_HZ=N (default 0 = off) makes monitorWatchdogIdle kick at
+   most N times a second, timed by root counter 2 at sysclk/8 (free-running,
+   16 bits, no IRQ). The 16-bit deltas accumulate into a 32-bit tick count, so
+   calls must come more often than every 15 ms. If the counter's mode is not
+   what we set (a guest reconfigured it), it is set up again. While RUNNING,
+   interrupts kick only on VBlank (I_STAT bit 0). */
+#ifndef MONITOR_WDT_KICK_HZ
+#define MONITOR_WDT_KICK_HZ 0
+#endif
+#if MONITOR_WDT_KICK_HZ > 0
+#define MONITOR_WDT_TICK_HZ 4233600u /* 33868800 / 8 */
+#define MONITOR_WDT_TIMER_COUNT (*(volatile uint32_t *)0xbf801120)
+#define MONITOR_WDT_TIMER_MODE (*(volatile uint32_t *)0xbf801124)
+#define MONITOR_WDT_TIMER_TARGET (*(volatile uint32_t *)0xbf801128)
+#define MONITOR_WDT_TIMER_MODE_VAL 0x200 /* free-running, sysclk/8 */
+extern volatile uint32_t g_monitorKickElapsed;
+extern volatile uint16_t g_monitorKickLast;
+static inline void monitorWatchdogIdle(void) {
+    if (!g_monitorKick) return;
+    if ((MONITOR_WDT_TIMER_MODE & 0x3ff) != MONITOR_WDT_TIMER_MODE_VAL) {
+        MONITOR_WDT_TIMER_MODE = MONITOR_WDT_TIMER_MODE_VAL;
+        MONITOR_WDT_TIMER_TARGET = 0xffff;
+        MONITOR_WDT_TIMER_COUNT = 0;
+        g_monitorKickLast = 0;
+        g_monitorKickElapsed = MONITOR_WDT_TICK_HZ; /* kick at once */
+    }
+    uint16_t now = (uint16_t)MONITOR_WDT_TIMER_COUNT;
+    g_monitorKickElapsed += (uint16_t)(now - g_monitorKickLast);
+    g_monitorKickLast = now;
+    if (g_monitorKickElapsed < MONITOR_WDT_TICK_HZ / MONITOR_WDT_KICK_HZ) return;
+    g_monitorKickElapsed = 0;
+    monitorWatchdogKick();
+}
+static inline void monitorWatchdogIrq(void) {
+    if (!g_monitorKick) return;
+    if (*(volatile uint32_t *)0xbf801070 & 1) monitorWatchdogKick();
+}
+#else
 static inline void monitorWatchdogIdle(void) {
     if (!g_monitorKick) return;
 #if MONITOR_WDT_KICK_SHIFT > 0
@@ -72,7 +111,10 @@ static inline void monitorWatchdogIdle(void) {
 #endif
     monitorWatchdogKick();
 }
+static inline void monitorWatchdogIrq(void) { monitorWatchdogIdle(); }
+#endif
 #else
 static inline void monitorWatchdogKick(void) {}
 static inline void monitorWatchdogIdle(void) {}
+static inline void monitorWatchdogIrq(void) {}
 #endif
