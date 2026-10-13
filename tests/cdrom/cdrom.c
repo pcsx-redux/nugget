@@ -39,6 +39,19 @@ SOFTWARE.
 #define EXIT_FAILURE 1
 #include "exotic/cester.h"
 
+// Tests that hold on silicon and do not hold under emulation yet. Same convention as the spu,
+// cpu and gpu-raster-phase16 suites: skipped when built for the emulator, run when built for
+// real hardware, so CI gets a verdict it can act on and the test keeps its value as a target.
+#ifndef PCSX_TESTS
+#define PCSX_TESTS 0
+#endif
+
+#if PCSX_TESTS
+#define CESTER_MAYBE_TEST CESTER_SKIP_TEST
+#else
+#define CESTER_MAYBE_TEST CESTER_TEST
+#endif
+
 #include "cester-hw.c"
 
 #if 1

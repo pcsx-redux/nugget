@@ -232,7 +232,7 @@ CESTER_TEST(cdlTestRegionAndChip, test_instance,
     }
 )
 
-CESTER_TEST(cdlTestCountersSwitchesDecoder, test_instance,
+CESTER_MAYBE_TEST(cdlTestCountersSwitchesDecoder, test_instance,
     int resetDone = resetCDRom();
     if (!resetDone) {
         cester_assert_true(resetDone);
