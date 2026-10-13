@@ -50,6 +50,9 @@ SOFTWARE.
    Only the orion preset has run on hardware (SCPH-1001 and SCPH-7502). */
 
 #define MONITOR_LINK_IS_STREAM 1
+/* A whole bulk frame waits in the chip and the host's USB stack while the
+   monitor finishes the previous one (MON_CAP_PIPELINE). */
+#define LINK_DEEP_RX 1
 
 #ifndef MONITOR_FT232H_DATA
 #define MONITOR_FT232H_DATA 0xbf000000
@@ -78,13 +81,13 @@ static inline void linkRxOpen(void) {}
 
 static inline void linkRxClose(void) {}
 
-static inline uint8_t linkGetByte(void) {
+static inline __attribute__((always_inline)) uint8_t linkGetByte(void) {
     while (!FT232H_READY(FT232H_RXF)) {
     }
     return FT232H_DATA;
 }
 
-static inline void linkPutByte(uint8_t b) {
+static inline __attribute__((always_inline)) void linkPutByte(uint8_t b) {
     while (!FT232H_READY(FT232H_TXE)) {
     }
     FT232H_DATA = b;

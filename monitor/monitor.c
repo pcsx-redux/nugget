@@ -53,7 +53,13 @@ SOFTWARE.
 #define MON_CAPS_STOP 0
 #endif
 
-#define MON_CAPS (MON_CAPS_LZ4 | MON_CAPS_STOP)
+#ifdef LINK_DEEP_RX
+#define MON_CAPS_PIPELINE MON_CAP_PIPELINE
+#else
+#define MON_CAPS_PIPELINE 0
+#endif
+
+#define MON_CAPS (MON_CAPS_LZ4 | MON_CAPS_STOP | MON_CAPS_PIPELINE)
 
 /* READ_MEM responses stream out of target memory in 8 KiB chunks (design
    section 13). Nothing is staged: bulk data goes straight to/from the operation's
@@ -177,12 +183,7 @@ static int cmdReadMem(const uint16_t *p) {
 
         transportSendBegin(MON_DATA, (uint16_t)(2 + words));
         sendWord32(chunk); /* nbytes in THIS frame */
-        for (uint32_t i = 0; i < words; i++) {
-            uint32_t bi = off + 2 * i;
-            uint8_t b0 = src[bi];
-            uint8_t b1 = (2 * i + 1 < chunk) ? src[bi + 1] : 0;
-            transportSendWord((uint16_t)(b0 | (b1 << 8)));
-        }
+        transportSendBytes(src + off, chunk);
         transportSendEnd();
         off += chunk;
     } while (off < len);
@@ -212,12 +213,7 @@ static int streamWriteMem(uint16_t frameWords) {
     uint8_t *dst = (uint8_t *)addr;
     s_mon.memWritten = 1;
 
-    for (uint16_t w = consumed; w < frameWords; w++) {
-        uint16_t word = transportRecvWord();
-        uint32_t bi = (uint32_t)(w - consumed) * 2;
-        if (bi < nbytes) dst[bi] = (uint8_t)(word & 0xff);
-        if (bi + 1 < nbytes) dst[bi + 1] = (uint8_t)(word >> 8);
-    }
+    transportRecvBytes(dst, nbytes, frameWords - consumed);
 
     return transportRecvEnd() == TRANSPORT_OK ? 0 : MON_ECKSUM;
 }

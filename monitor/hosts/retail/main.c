@@ -53,6 +53,7 @@ extern uint32_t __core_start[];
 extern uint32_t __core_end[];
 
 void installSio1Tty(void);
+void releaseTty(void);
 void drawLoaderSplash(void);
 
 int main(void) {
@@ -104,6 +105,12 @@ int main(void) {
     syscall_enqueueRCntIrqs(1);
 
     drawLoaderSplash();
+
+    /* A resident monitor (a cart's) may own the tty and slot 4 with code in
+       the range the copy overwrites: let go of both while that code is
+       still there. */
+    releaseTty();
+    monitorReleaseSlot();
 
     const uint32_t *src = _binary_monitor_core_bin_start;
     uint32_t *dst = __core_start;

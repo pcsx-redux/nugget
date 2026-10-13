@@ -106,14 +106,29 @@ static inline uint32_t *monitorHandlerFromVector(void) {
    not know the monitor's loader and halts the machine; there the handler
    comes from the 0x80 vector instead (the same place on OpenBIOS). OpenBIOS
    API 1 and up installs the slot itself, see monitorInstallSlot. */
-static inline uint32_t *monitorFindSlot(void) {
+static inline uint32_t *monitorSlotAddress(void) {
     uint32_t *h = isOpenBiosPresent() ? monitorHandlerFromVector() : monitorGetC0Table()[6];
     uintptr_t a = (uintptr_t)h;
     if ((a & 3) || (a & 0x1fffffff) >= 0x00200000 - 0xb4) return 0; /* not in main RAM */
     if (h[0x6c / 4] != 0xaf430080 || h[0xb0 / 4] != 0xaf440010) return 0;
-    uint32_t *slot = h + 0xa0 / 4;
-    if (slot[0] | slot[1] | slot[2] | slot[3]) return 0;
+    return h + 0xa0 / 4;
+}
+
+static inline uint32_t *monitorFindSlot(void) {
+    uint32_t *slot = monitorSlotAddress();
+    if (!slot || (slot[0] | slot[1] | slot[2] | slot[3])) return 0;
     return slot;
+}
+
+/* A monitor already resident (a cart's, chainloading this one) left its
+   `lui at / ori at / jalr at / nop` call in slot 4, aimed into the core this
+   loader is about to overwrite. Give the slot back before the copy. */
+static inline void monitorReleaseSlot(void) {
+    uint32_t *slot = monitorSlotAddress();
+    if (!slot) return;
+    if ((slot[0] >> 16) != 0x3c01 || (slot[1] >> 16) != 0x3421 || slot[2] != 0x0020f809 || slot[3]) return;
+    slot[0] = slot[1] = slot[2] = 0;
+    syscall_flushCache();
 }
 #endif
 
