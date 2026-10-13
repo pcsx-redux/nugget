@@ -71,8 +71,8 @@ CESTER_TEST(cdlSetSession1, test_instance,
     cester_assert_uint_eq(2, cause2);
     cester_assert_uint_eq(1, size);
     cester_assert_uint_eq(2, response[0]);
-    // 2.64 s on a SCPH-9002.
-    cester_assert_uint_ge(completeTime, 2000000);
+    // SCPH-9002: 2.64 s on the test disc, 1.86 to 1.95 s on a two-session CD-R.
+    cester_assert_uint_ge(completeTime, 1500000);
     cester_assert_uint_lt(completeTime, 3500000);
 )
 
@@ -95,4 +95,35 @@ CESTER_TEST(cdlSetSession0, test_instance,
     cester_assert_uint_eq(2, size);
     cester_assert_uint_eq(3, response[0]);
     cester_assert_uint_eq(0x10, response[1]);
+)
+
+CESTER_MAYBE_TEST(cdlSetSessionPastLast, test_instance,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+    initializeTime();
+
+    uint8_t session = 9;
+    uint8_t response[16] = {0};
+    uint8_t size;
+    sqSend(CDL_READT, &session, 1);
+    uint8_t cause1 = sqWait(1000000, response, &size);
+    uint8_t stat1 = response[0];
+    uint8_t size1 = size;
+    uint8_t cause2 = sqWait(12000000, response, &size);
+    uint32_t completeTime = updateTime();
+
+    ramsyscall_printf("Setsession 9: ack cause %i, then cause %i, %i bytes %02x %02x in %ius\n", cause1, cause2, size,
+                      response[0], response[1], completeTime);
+    cester_assert_uint_eq(3, cause1);
+    cester_assert_uint_eq(1, size1);
+    cester_assert_uint_eq(2, stat1);
+    cester_assert_uint_eq(5, cause2);
+    cester_assert_uint_eq(2, size);
+    // SCPH-9002, two-session CD-R: error 0x20 in 4.0 s or 0x40 in 9.8 to 10.0 s, seek error set
+    // in both. Setsession 3 on the same disc: 0x20 in 6.8 to 7.7 s.
+    cester_assert_uint_eq(6, response[0]);
+    cester_assert_uint_ge(completeTime, 3000000);
 )
