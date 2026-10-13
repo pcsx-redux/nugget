@@ -48,9 +48,29 @@ SOFTWARE.
 #ifdef MONITOR_WATCHDOG_ADDR
 #define MONITOR_HAS_WATCHDOG 1
 extern volatile uint8_t g_monitorKick;
-static inline void monitorWatchdogKick(void) { *(volatile uint16_t *)MONITOR_WATCHDOG_ADDR = 0; }
+/* Watchdog stores made through monitorWatchdogKick, for a host to peek and
+   see whether the monitor is still kicking. Defined in monitor.c, in the core
+   image. */
+extern volatile uint32_t g_monitorKickCount;
+extern volatile uint32_t g_monitorSpin;
+static inline void monitorWatchdogKick(void) {
+    *(volatile uint16_t *)MONITOR_WATCHDOG_ADDR = 0;
+    g_monitorKickCount = g_monitorKickCount + 1;
+}
+
+/* MONITOR_WDT_KICK_SHIFT=N (default 0) makes monitorWatchdogIdle kick only
+   when the low N bits of a spin counter are zero, i.e. once every 2^N calls,
+   instead of on every call. */
+#ifndef MONITOR_WDT_KICK_SHIFT
+#define MONITOR_WDT_KICK_SHIFT 0
+#endif
 static inline void monitorWatchdogIdle(void) {
-    if (g_monitorKick) monitorWatchdogKick();
+    if (!g_monitorKick) return;
+#if MONITOR_WDT_KICK_SHIFT > 0
+    uint32_t n = g_monitorSpin++;
+    if ((n & ((1u << MONITOR_WDT_KICK_SHIFT) - 1)) != 0) return;
+#endif
+    monitorWatchdogKick();
 }
 #else
 static inline void monitorWatchdogKick(void) {}

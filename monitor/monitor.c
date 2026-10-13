@@ -63,6 +63,8 @@ SOFTWARE.
 #define MON_CAPS_WATCHDOG MON_CAP_WATCHDOG
 /* 1 while HALTED; while RUNNING, MON_FEAT_WATCHDOG from RUN (watchdog.h). */
 volatile uint8_t g_monitorKick __attribute__((used)) = 1;
+volatile uint32_t g_monitorKickCount __attribute__((used)) = 0;
+volatile uint32_t g_monitorSpin __attribute__((used)) = 0;
 #else
 #define MON_CAPS_WATCHDOG 0
 #endif

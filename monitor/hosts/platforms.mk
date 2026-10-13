@@ -17,3 +17,8 @@ CPPFLAGS += -DMONITOR_PLATFORM_GV -DMONITOR_SIO1_RTS_ALWAYS
 else ifneq ($(MONITOR_PLATFORM),retail)
 $(error unknown MONITOR_PLATFORM '$(MONITOR_PLATFORM)', see monitor/hosts/platforms.mk)
 endif
+
+# Watchdog boards: kick from the byte loops once every 2^N spins (0 = every
+# spin). See monitor/watchdog.h.
+MONITOR_WDT_KICK_SHIFT ?= 0
+CPPFLAGS += -DMONITOR_WDT_KICK_SHIFT=$(MONITOR_WDT_KICK_SHIFT)
