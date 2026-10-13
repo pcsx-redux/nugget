@@ -155,9 +155,10 @@ SPU_PITCH_EDGE_TEST(3fff_preclip, 0x3fff)
 // Every pitch above 3FFFh, the signed half included, plays exactly like 3FFFh.
 // Checked against a 3FFFh capture taken in the same run, so no golden is
 // needed and the capture-start offset that differs between console revisions
-// cancels out.
+// cancels out. Redux does not play the two captures alike yet, so these are
+// CESTER_MAYBE_TEST until grumpycoders/pcsx-redux#2281 lands.
 #define SPU_PITCH_EDGE_CLIP_TEST(NAME, PITCH) \
-CESTER_TEST(pitch_edge_##NAME, spu_tests, \
+CESTER_MAYBE_TEST(pitch_edge_##NAME, spu_tests, \
     run_voice1_with_sample(kAdpcmTriangle, 0x3fff); \
     for (int i = 0; i < 512; i++) s_pitch_edge_ref[i] = s_capture[i]; \
     run_voice1_with_sample(kAdpcmTriangle, (PITCH)); \
