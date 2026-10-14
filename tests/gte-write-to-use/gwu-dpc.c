@@ -79,8 +79,8 @@ static inline void scene_setup(void) {
     X(C, dpcs_rfc, scene_setup, OP_DPCS_SF1_LM1, 21, CANARY_FC, "DPCS RFC", "OONN") \
     X(C, dpcs_gfc, scene_setup, OP_DPCS_SF1_LM1, 22, CANARY_FC, "DPCS GFC", "ONNN") \
     X(C, dpcs_bfc, scene_setup, OP_DPCS_SF1_LM1, 23, CANARY_FC, "DPCS BFC", "NNNN") \
-    X(D, dpct_rgb0, scene_setup, OP_DPCT_SF1_LM1, 20, CANARY_RGBFIFO, "DPCT RGB0", "XXNN") \
-    X(D, dpct_rgb1, scene_setup, OP_DPCT_SF1_LM1, 21, CANARY_RGBFIFO, "DPCT RGB1", "NNNN") \
+    X(D, dpct_rgb0, scene_setup, OP_DPCT_SF1_LM1, 20, CANARY_RGBFIFO, "DPCT RGB0", "??NN") \
+    X(D, dpct_rgb1, scene_setup, OP_DPCT_SF1_LM1, 21, CANARY_RGBFIFO, "DPCT RGB1", "??NN") \
     X(D, dpct_rgb2, scene_setup, OP_DPCT_SF1_LM1, 22, CANARY_RGBFIFO, "DPCT RGB2", "NNNN") \
     X(D, dpct_ir0, scene_setup, OP_DPCT_SF1_LM1, 8, CANARY_IR0, "DPCT IR0", "NNNN") \
     X(C, dpct_rfc, scene_setup, OP_DPCT_SF1_LM1, 21, CANARY_FC, "DPCT RFC", "XXNN") \

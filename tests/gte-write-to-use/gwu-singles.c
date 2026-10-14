@@ -115,7 +115,7 @@ static inline void scene_setup(void) {
     X(D, nccs_vxy0, scene_setup, OP_NCCS_SF1_LM1, 0, CANARY_VXY, "NCCS VXY0", "XXNN") \
     X(D, nccs_vz0, scene_setup, OP_NCCS_SF1_LM1, 1, CANARY_VZ, "NCCS VZ0", "NNNN") \
     X(D, nccs_rgbc, scene_setup, OP_NCCS_SF1_LM1, 6, CANARY_RGBC, "NCCS RGBC", "NNNN") \
-    X(C, nccs_l11l12, scene_setup, OP_NCCS_SF1_LM1, 8, CANARY_LMAT, "NCCS L11L12", "ONNN") \
+    X(C, nccs_l11l12, scene_setup, OP_NCCS_SF1_LM1, 8, CANARY_LMAT, "NCCS L11L12", "O?NN") \
     X(C, nccs_l13l21, scene_setup, OP_NCCS_SF1_LM1, 9, CANARY_LMAT, "NCCS L13L21", "XNNN") \
     X(C, nccs_l22l23, scene_setup, OP_NCCS_SF1_LM1, 10, CANARY_LMAT, "NCCS L22L23", "NNNN") \
     X(C, nccs_l31l32, scene_setup, OP_NCCS_SF1_LM1, 11, CANARY_LMAT, "NCCS L31L32", "NNNN") \

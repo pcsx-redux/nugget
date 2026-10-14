@@ -44,8 +44,9 @@ SOFTWARE.
  *
  * The last column of each cell is what SCPH-1000, -1001, -5501 and -7001
  * printed for N = 0..3 cached (see RESULTS.md). The cached passes are
- * checked against it and the program returns 1 on any difference. The
- * uncached pass is printed, not checked.
+ * checked against it and the program returns 1 on any difference; a '?'
+ * is a letter that moved between builds or between consoles, and is not
+ * checked. The uncached pass is printed, not checked.
  */
 
 #pragma once

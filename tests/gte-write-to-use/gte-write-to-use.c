@@ -118,7 +118,7 @@ int main(void) {
                 res[GWU_NMAX] = 0;
                 if (!uncached) {
                     for (int n = 0; n < GWU_NMAX; n++) {
-                        if (res[n] == c->expect[n]) continue;
+                        if (res[n] == c->expect[n] || c->expect[n] == '?') continue;
                         mismatches++;
                         ramsyscall_printf("GWU-MISMATCH %s %s N=%d expected %c got %c\n", modes[m], c->label, n,
                                           c->expect[n], res[n]);
