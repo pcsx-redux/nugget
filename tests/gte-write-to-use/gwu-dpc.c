@@ -94,11 +94,11 @@ static inline void scene_setup(void) {
     X(C, dcpl_rfc, scene_setup, OP_DCPL_SF1_LM1, 21, CANARY_FC, "DCPL RFC", "OONN") \
     X(C, dcpl_gfc, scene_setup, OP_DCPL_SF1_LM1, 22, CANARY_FC, "DCPL GFC", "ONNN") \
     X(C, dcpl_bfc, scene_setup, OP_DCPL_SF1_LM1, 23, CANARY_FC, "DCPL BFC", "NNNN") \
-    X(D, intpl_ir1, scene_setup, OP_INTPL_SF1_LM1, 9, CANARY_IR, "INTPL IR1", "OXNN") \
+    X(D, intpl_ir1, scene_setup, OP_INTPL_SF1_LM1, 9, CANARY_IR, "INTPL IR1", "O?NN") \
     X(D, intpl_ir2, scene_setup, OP_INTPL_SF1_LM1, 10, CANARY_IR, "INTPL IR2", "XNNN") \
     X(D, intpl_ir3, scene_setup, OP_INTPL_SF1_LM1, 11, CANARY_IR, "INTPL IR3", "NNNN") \
     X(D, intpl_ir0, scene_setup, OP_INTPL_SF1_LM1, 8, CANARY_IR0, "INTPL IR0", "NNNN") \
-    X(C, intpl_rfc, scene_setup, OP_INTPL_SF1_LM1, 21, CANARY_FC, "INTPL RFC", "OONN") \
+    X(C, intpl_rfc, scene_setup, OP_INTPL_SF1_LM1, 21, CANARY_FC, "INTPL RFC", "O?NN") \
     X(C, intpl_gfc, scene_setup, OP_INTPL_SF1_LM1, 22, CANARY_FC, "INTPL GFC", "ONNN") \
     X(C, intpl_bfc, scene_setup, OP_INTPL_SF1_LM1, 23, CANARY_FC, "INTPL BFC", "NNNN") \
 

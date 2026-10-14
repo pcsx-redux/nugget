@@ -123,11 +123,11 @@ static inline void scene_setup(void) {
     X(C, rtpt_r11r12, scene_setup, OP_RTPT_SF1_LM1, 0, CANARY_RMAT, "RTPT R11R12", "XNNN") \
     X(C, rtpt_r13r21, scene_setup, OP_RTPT_SF1_LM1, 1, CANARY_RMAT, "RTPT R13R21", "NNNN") \
     X(C, rtpt_r22r23, scene_setup, OP_RTPT_SF1_LM1, 2, CANARY_RMAT, "RTPT R22R23", "NNNN") \
-    X(C, rtpt_r31r32, scene_setup, OP_RTPT_SF1_LM1, 3, CANARY_RMAT, "RTPT R31R32", "XXNN") \
+    X(C, rtpt_r31r32, scene_setup, OP_RTPT_SF1_LM1, 3, CANARY_RMAT, "RTPT R31R32", "X?NN") \
     X(C, rtpt_r33, scene_setup, OP_RTPT_SF1_LM1, 4, CANARY_RMAT, "RTPT R33", "NNNN") \
     X(C, rtpt_trx, scene_setup, OP_RTPT_SF1_LM1, 5, CANARY_TR, "RTPT TRX", "XNNN") \
     X(C, rtpt_try, scene_setup, OP_RTPT_SF1_LM1, 6, CANARY_TR, "RTPT TRY", "NNNN") \
-    X(C, rtpt_trz, scene_setup, OP_RTPT_SF1_LM1, 7, CANARY_TR, "RTPT TRZ", "XXNN") \
+    X(C, rtpt_trz, scene_setup, OP_RTPT_SF1_LM1, 7, CANARY_TR, "RTPT TRZ", "X?NN") \
     X(C, rtpt_ofx, scene_setup, OP_RTPT_SF1_LM1, 24, CANARY_OF, "RTPT OFX", "NNNN") \
     X(C, rtpt_ofy, scene_setup, OP_RTPT_SF1_LM1, 25, CANARY_OF, "RTPT OFY", "NNNN") \
     X(C, rtpt_h, scene_setup, OP_RTPT_SF1_LM1, 26, CANARY_H, "RTPT H", "NNNN") \
