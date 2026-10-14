@@ -67,12 +67,19 @@ constexpr uint32_t ITERS = 2048;
 constexpr uint16_t WRAP_WARN = 55000;
 constexpr uint32_t REPEATS = 3;
 
-// 1 KB of scratchpad lives here. Only the second half is touched, and it is
-// saved and put back, because psyqo may be using the rest. 512 bytes is also
-// exactly a 256-entry halfword primary table, which is why the arms below can
-// ask what the scratchpad is worth without taking the half psyqo may hold.
+// 1 KB of scratchpad lives at 0x1f800000. psyqo does not use it, but it is saved
+// and put back anyway so the bench leaves the machine as it found it. The early
+// arms use the upper 512 bytes, exactly a 256-entry halfword primary table; the
+// prim9 spm arm takes the whole kilobyte, a 512-entry halfword table.
 volatile uint32_t *const SPM = (volatile uint32_t *)0x1f800200;
 constexpr uint32_t SPM_WORDS = 128;
+volatile uint32_t *const SPM_FULL = (volatile uint32_t *)0x1f800000;
+constexpr uint32_t SPM_FULL_WORDS = 256;
+uint32_t s_spmFullSave[SPM_FULL_WORDS];
+// The arms from s_hwBase on accumulate entries with the length field masked off,
+// because the direct tables carry the whole code length where c_bsdecVlc carries
+// the suffix width. They are checked against the first of them instead.
+uint32_t s_hwBase = 0;
 
 uint32_t s_ram[256];
 uint32_t s_spmSave[SPM_WORDS];
@@ -108,11 +115,11 @@ uint16_t s_prim8[256];
 // A sink the compiler cannot reason about, so no arm's body can be folded away.
 volatile uint32_t g_sink;
 
-uint16_t s_best[32];
-uint16_t s_worst[32];
-uint32_t s_check[32];
-uint8_t s_baseIdx[32];
-const char *s_name[32];
+uint16_t s_best[40];
+uint16_t s_worst[40];
+uint32_t s_check[40];
+uint8_t s_baseIdx[40];
+const char *s_name[40];
 uint32_t s_arms = 0;
 // Index of the baseline the whole-symbol arms subtract. They do not run the
 // xorshift - their input is the payload - so the xorshift-carrying `empty` arm
@@ -678,6 +685,104 @@ void runBench() {
     });
     g_sink = win + (uint32_t)dctr + feed;
 
+    // From here on every arm sums the entry with bits 16..20 masked off, so the
+    // check compares the run-level halfword and the kind, which is what the
+    // decoder stores, rather than the length field the tables spell differently.
+    // The first arm is the 09-20 prim9 arm with only that mask added: it is the
+    // reference the two below are checked against.
+    s_hwBase = s_arms;
+    ARMB("sym prim9 hwck   ", { win = 0; dctr = 16; feed = 0; }, {
+        while (dctr >= 0) {
+            uint32_t half = 0;
+            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+            feed += 2;
+            win |= half << dctr;
+            dctr -= 16;
+        }
+        const uint32_t p = prim[win >> 23];
+        if (p) {
+            const uint32_t len = p >> 9;
+            acc += c_bsdecVlc[p & 0x1ffu] & 0xffe0ffffu;
+            win <<= len;
+            dctr += (int32_t)len;
+        } else {
+            const uint32_t n = clzTable8Sat(clz8, win);
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += e & 0xffe0ffffu;
+        }
+    });
+    g_sink = win + (uint32_t)dctr + feed;
+
+    // What bsdec.c spells now: the top nine bits, then bits 6..14, each to a
+    // finished 32-bit entry carrying the whole length, one load per hit.
+    ARMB("sym prim9+sec9   ", { win = 0; dctr = 16; feed = 0; }, {
+        while (dctr >= 0) {
+            uint32_t half = 0;
+            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+            feed += 2;
+            win |= half << dctr;
+            dctr -= 16;
+        }
+        uint32_t e = c_bsdecPrim9[win >> 23];
+        if (!e) e = c_bsdecSec9[(win << 6) >> 23];
+        if (e) {
+            const uint32_t len = BSDEC_VLC_LENGTH(e);
+            win <<= len;
+            dctr += (int32_t)len;
+            acc += e & 0xffe0ffffu;
+        } else {
+            const uint32_t n = clzTable8Sat(clz8, win);
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t f = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(f);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += f & 0xffe0ffffu;
+        }
+    });
+    g_sink = win + (uint32_t)dctr + feed;
+
+    // The 09-20 halfword prim9 table in the whole scratchpad, second load from
+    // RAM: one 4-cycle load and one 6-cycle load against the arm above's single
+    // 6-cycle one.
+    for (uint32_t i = 0; i < SPM_FULL_WORDS; i++) s_spmFullSave[i] = SPM_FULL[i];
+    for (uint32_t i = 0; i < SPM_FULL_WORDS; i++)
+        SPM_FULL[i] = (uint32_t)s_prim[i * 2] | ((uint32_t)s_prim[i * 2 + 1] << 16);
+    const uint16_t *const prim9Spm = (const uint16_t *)0x1f800000;
+    ARMB("sym prim9 spm    ", { win = 0; dctr = 16; feed = 0; }, {
+        while (dctr >= 0) {
+            uint32_t half = 0;
+            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+            feed += 2;
+            win |= half << dctr;
+            dctr -= 16;
+        }
+        const uint32_t p = prim9Spm[win >> 23];
+        if (p) {
+            const uint32_t len = p >> 9;
+            acc += c_bsdecVlc[p & 0x1ffu] & 0xffe0ffffu;
+            win <<= len;
+            dctr += (int32_t)len;
+        } else {
+            const uint32_t n = clzTable8Sat(clz8, win);
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += e & 0xffe0ffffu;
+        }
+    });
+    g_sink = win + (uint32_t)dctr + feed;
+    for (uint32_t i = 0; i < SPM_FULL_WORDS; i++) SPM_FULL[i] = s_spmFullSave[i];
+
     const uint32_t bytesWalked = feed;
 
     for (uint32_t i = 0; i < SPM_WORDS; i++) SPM[i] = s_spmSave[i];
@@ -696,13 +801,15 @@ void runBench() {
         const int32_t cyc100 = (net * 8 * 100) / (int32_t)ITERS;
         // A whole-symbol arm that does not accumulate what the first one did
         // decoded a different stream, so its timing is about something else.
-        const int mismatch = s_baseIdx[i] != 0 && i > s_noxBase && s_check[i] != s_check[firstSym];
+        const uint32_t ref = (s_hwBase && i >= s_hwBase) ? s_hwBase : firstSym;
+        const int mismatch = s_baseIdx[i] != 0 && i > s_noxBase && s_check[i] != s_check[ref];
         ramsyscall_printf("BSB: %s lo %5d hi %5d  net %5d  %3d.%02d cyc/iter%s%s\n", s_name[i], s_best[i],
                           s_worst[i], net, cyc100 / 100, (cyc100 < 0 ? -cyc100 : cyc100) % 100,
                           (s_worst[i] > WRAP_WARN || net < 0) ? "  ** SUSPECT **" : "",
                           mismatch ? "  ** CHECK MISMATCH **" : "");
     }
     ramsyscall_printf("BSB: check %08x over %d symbols\n", s_check[firstSym], ITERS);
+    ramsyscall_printf("BSB: check %08x masked, from arm %d\n", s_check[s_hwBase], s_hwBase);
     ramsyscall_printf("BSB: end\n");
 }
 
