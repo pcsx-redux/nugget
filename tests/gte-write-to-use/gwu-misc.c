@@ -92,7 +92,7 @@ static inline void scene_setup(void) {
     X(D, gpf_ir2, scene_setup, OP_GPF_SF1_LM1, 10, CANARY_IR, "GPF IR2", "ONNN") \
     X(D, gpf_ir3, scene_setup, OP_GPF_SF1_LM1, 11, CANARY_IR, "GPF IR3", "NNNN") \
     X(D, gpl_ir0, scene_setup, OP_GPL_SF1_LM1, 8, CANARY_IR0, "GPL IR0", "XXNN") \
-    X(D, gpl_ir1, scene_setup, OP_GPL_SF1_LM1, 9, CANARY_IR, "GPL IR1", "OONN") \
+    X(D, gpl_ir1, scene_setup, OP_GPL_SF1_LM1, 9, CANARY_IR, "GPL IR1", "O?NN") \
     X(D, gpl_ir2, scene_setup, OP_GPL_SF1_LM1, 10, CANARY_IR, "GPL IR2", "ONNN") \
     X(D, gpl_ir3, scene_setup, OP_GPL_SF1_LM1, 11, CANARY_IR, "GPL IR3", "NNNN") \
     X(D, gpl_mac1, scene_setup, OP_GPL_SF1_LM1, 25, CANARY_MAC, "GPL MAC1", "OONN") \

@@ -118,7 +118,7 @@ static inline void scene_setup(void) {
     X(C, mvmva_ll_v0_bk_rbk, scene_setup, OP_MVMVA_LL_V0_BK, 13, CANARY_BK, "MVMVA(LL,V0,BK) RBK", "OONN") \
     X(C, mvmva_ll_v0_bk_gbk, scene_setup, OP_MVMVA_LL_V0_BK, 14, CANARY_BK, "MVMVA(LL,V0,BK) GBK", "ONNN") \
     X(C, mvmva_ll_v0_bk_bbk, scene_setup, OP_MVMVA_LL_V0_BK, 15, CANARY_BK, "MVMVA(LL,V0,BK) BBK", "NNNN") \
-    X(D, mvmva_lc_ir_bk_ir1, scene_setup, OP_MVMVA_LC_IR_BK, 9, CANARY_IR, "MVMVA(LC,IR,BK) IR1", "OONN") \
+    X(D, mvmva_lc_ir_bk_ir1, scene_setup, OP_MVMVA_LC_IR_BK, 9, CANARY_IR, "MVMVA(LC,IR,BK) IR1", "O?NN") \
     X(D, mvmva_lc_ir_bk_ir2, scene_setup, OP_MVMVA_LC_IR_BK, 10, CANARY_IR, "MVMVA(LC,IR,BK) IR2", "NNNN") \
     X(D, mvmva_lc_ir_bk_ir3, scene_setup, OP_MVMVA_LC_IR_BK, 11, CANARY_IR, "MVMVA(LC,IR,BK) IR3", "NNNN") \
     X(C, mvmva_lc_ir_bk_lr1lr2, scene_setup, OP_MVMVA_LC_IR_BK, 16, CANARY_MAT, "MVMVA(LC,IR,BK) LR1LR2", "OXNN") \
@@ -126,7 +126,7 @@ static inline void scene_setup(void) {
     X(C, mvmva_lc_ir_bk_lg2lg3, scene_setup, OP_MVMVA_LC_IR_BK, 18, CANARY_MAT, "MVMVA(LC,IR,BK) LG2LG3", "NNNN") \
     X(C, mvmva_lc_ir_bk_lb1lb2, scene_setup, OP_MVMVA_LC_IR_BK, 19, CANARY_MAT, "MVMVA(LC,IR,BK) LB1LB2", "NNNN") \
     X(C, mvmva_lc_ir_bk_lb3, scene_setup, OP_MVMVA_LC_IR_BK, 20, CANARY_MAT, "MVMVA(LC,IR,BK) LB3", "NNNN") \
-    X(C, mvmva_lc_ir_bk_rbk, scene_setup, OP_MVMVA_LC_IR_BK, 13, CANARY_BK, "MVMVA(LC,IR,BK) RBK", "OONN") \
+    X(C, mvmva_lc_ir_bk_rbk, scene_setup, OP_MVMVA_LC_IR_BK, 13, CANARY_BK, "MVMVA(LC,IR,BK) RBK", "O?NN") \
     X(C, mvmva_lc_ir_bk_gbk, scene_setup, OP_MVMVA_LC_IR_BK, 14, CANARY_BK, "MVMVA(LC,IR,BK) GBK", "ONNN") \
     X(C, mvmva_lc_ir_bk_bbk, scene_setup, OP_MVMVA_LC_IR_BK, 15, CANARY_BK, "MVMVA(LC,IR,BK) BBK", "NNNN") \
     X(D, mvmva_rt_v0_none_vxy0, scene_setup, OP_MVMVA_RT_V0_NONE, 0, CANARY_VXY, "MVMVA(RT,V0,NONE,lm0) VXY0", "XXNN") \
