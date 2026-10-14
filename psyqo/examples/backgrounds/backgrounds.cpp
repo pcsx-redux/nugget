@@ -182,6 +182,11 @@ void BackgroundScene::loadScene(unsigned index) {
     // ignored: the application owns the layout here. Uploading straight over
     // the previous scene's page is the whole point of a single slot, so
     // swapping costs one transfer and no bookkeeping.
+    //
+    // A switch happens mid-run, while the previous frame's DMA chain may still
+    // be going out, and the GPU takes one transfer at a time. Wait for the
+    // chain first.
+    gpu().waitChainIdle();
     m_texture.upload(gpu(), c_texturePosition, c_clutPosition);
 }
 

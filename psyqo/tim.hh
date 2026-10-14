@@ -130,6 +130,10 @@ struct TIM {
      * them, and the wrong choice as soon as anything decides placement at
      * runtime, since the file wins. Prefer the overload taking explicit
      * positions when the application owns the VRAM layout.
+     *
+     * This is a blocking transfer with the same rules as
+     * `GPU::uploadToVRAM`: no other GPU transfer may be in flight. Called
+     * while a frame is running, use `GPU::waitChainIdle` first.
      */
     void upload(GPU& gpu) const;
 
@@ -142,6 +146,8 @@ struct TIM {
      * @param clutPosition Where the palette goes, ignored when the file has no
      * CLUT. CLUTs are addressed in 16 pixel steps, so x should be a multiple
      * of 16.
+     *
+     * Same blocking rules as the other overload.
      */
     void upload(GPU& gpu, Vertex texturePosition, Vertex clutPosition) const;
 
