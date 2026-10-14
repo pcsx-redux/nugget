@@ -100,6 +100,8 @@ SKIPS=(
     "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-endredirect/spu-endredirect|needs the end-block redirect from pcsx-redux#2355 in the dev AppImage"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
+    "spu-upload-tail/spu-upload-tail|hardware probe: prints per-arm tail loss across wait strategies, verdict only on its own controls"
+    "modplayer-upload-tail/modplayer-upload-tail|hardware probe: prints per-arm tail loss across wait strategies, verdict only on its own controls"
     "regwrites/regwrites|probe: loops forever, no verdict"
     "autoinc/autoinc|hardware probe: prints what Delay/Size bit 13 does to split accesses, no verdict"
     "bcc-narrow/bcc-narrow|hardware probe: prints BCC narrow-read results, no verdict"
