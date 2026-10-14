@@ -83,7 +83,7 @@ static char comp(uint32_t o, uint32_t n, uint32_t a, int shift, uint32_t m) {
     return o == n ? '.' : a == o ? 'O' : a == n ? 'N' : 'X';
 }
 
-static void printFields(const GwuCell* c, int n, const probe_result_t* o, const probe_result_t* nw,
+static void printFields(const GwuCell* c, int n, int off, const probe_result_t* o, const probe_result_t* nw,
                         const probe_result_t* a) {
     const uint32_t* po = (const uint32_t*)o;
     const uint32_t* pn = (const uint32_t*)nw;
@@ -101,7 +101,7 @@ static void printFields(const GwuCell* c, int n, const probe_result_t* o, const 
         if (i == 2 || i == 6 || i == 10 || i == 13 || i == 17) f[k++] = ' ';
     }
     f[k] = 0;
-    ramsyscall_printf("GWU-FIELDS %s N=%d %s\n", c->label, n, f);
+    ramsyscall_printf("GWU-FIELDS %s N=%d A%d %s\n", c->label, n, off, f);
 }
 
 // O / N: the command's outputs match the old / new reference.
@@ -111,7 +111,6 @@ static void printFields(const GwuCell* c, int n, const probe_result_t* o, const 
 static char classify(const GwuCell* c, int n, int a, int uncached) {
     probe_result_t o, nw, r;
     uint32_t oldv, ignored;
-    int show = !uncached && a == 0;
     uint32_t opost = run(c, n, a, uncached, 0, &o, &oldv);
     uint32_t npost = run(c, n, a, uncached, 1, &nw, &ignored);
     run(c, n, a, uncached, 2, &r, &ignored);
@@ -134,7 +133,7 @@ static char classify(const GwuCell* c, int n, int a, int uncached) {
             if (results_equal(&mr, &mn)) return 'n';
         }
     }
-    if (show) printFields(c, n, &o, &nw, &r);
+    if (!uncached) printFields(c, n, a, &o, &nw, &r);
     return 'X';
 }
 
