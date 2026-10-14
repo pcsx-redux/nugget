@@ -18,11 +18,6 @@ else ifneq ($(MONITOR_PLATFORM),retail)
 $(error unknown MONITOR_PLATFORM '$(MONITOR_PLATFORM)', see monitor/hosts/platforms.mk)
 endif
 
-# Watchdog boards: kick from the byte loops once every 2^N spins (0 = every
-# spin). See monitor/watchdog.h.
-MONITOR_WDT_KICK_SHIFT ?= 0
-CPPFLAGS += -DMONITOR_WDT_KICK_SHIFT=$(MONITOR_WDT_KICK_SHIFT)
-
 # Kick at most this many times a second (0 = on every poll). See watchdog.h.
 # The 573 watchdog resets the board when kicked on every poll and holds at
 # one kick per frame, the rate Konami's own code uses.

@@ -399,7 +399,9 @@ Command loop, per frame:
    verify the checksum (section 6). A frame with LEN < 4 is drained and
    answers `ERROR(EBADLEN)` whatever the checksum. With `MON_LZ4` set, the
    payload is fed to the LZ4 decoder instead; a monitor built without LZ4
-   drains the frame and answers `ERROR(EBADCMD)` whatever the checksum.
+   drains the frame and answers `ERROR(EBADCMD)` whatever the checksum. So
+   does a System 573 or GV build (RTS held up, no receive throttle) while the
+   SIO1 rate is above 518400 baud (reload < 4); the host sends raw there.
 3. Anything else: buffer up to 16 payload words, drain the rest, verify the
    checksum.
 4. Checksum failure -> `ERROR(ECKSUM)`. Otherwise LEN > 16 ->

@@ -38,6 +38,9 @@ SOFTWARE.
 #include "monitor/transport.h"
 
 #ifdef MONITOR_LZ4
+/* SIO1 reload for 518400 baud (33868800 / 16 / reload): the fastest rate an
+   LZ4 LOAD is accepted at on a board that holds RTS up. */
+#define MONITOR_LZ4_MIN_RELOAD 4
 #define LZ4STREAM_TRUSTED 1
 #include "monitor/lz4stream.c"
 #define MON_CAPS_LZ4 MON_CAP_LZ4
@@ -63,8 +66,6 @@ SOFTWARE.
 #define MON_CAPS_WATCHDOG MON_CAP_WATCHDOG
 /* 1 while HALTED; while RUNNING, MON_FEAT_WATCHDOG from RUN (watchdog.h). */
 volatile uint8_t g_monitorKick __attribute__((used)) = 1;
-volatile uint32_t g_monitorKickCount __attribute__((used)) = 0;
-volatile uint32_t g_monitorSpin __attribute__((used)) = 0;
 volatile uint32_t g_monitorKickElapsed __attribute__((used)) = 0;
 volatile uint16_t g_monitorKickLast __attribute__((used)) = 0;
 #else
@@ -447,7 +448,19 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
             if (!(type & MON_LZ4)) {
                 reply = streamWriteMem(len);
             } else {
-#ifdef MONITOR_LZ4
+#if defined(MONITOR_LZ4) && defined(MONITOR_SIO1_RTS_ALWAYS) && defined(MONITOR_LINK_HAS_RATE)
+                /* RTS is held up, so nothing throttles the host while the
+                   decoder runs: above this rate the 8-byte FIFO overruns
+                   (measured: 691200 stalls, 518400 is clean). Refuse like a
+                   build without LZ4; the host falls back to raw. */
+                if (linkGetRate() < MONITOR_LZ4_MIN_RELOAD) {
+                    for (uint16_t i = 0; i < len; i++) transportRecvWord();
+                    transportRecvEnd();
+                    reply = MON_EBADCMD;
+                } else {
+                    reply = streamWriteMemLz4(len);
+                }
+#elif defined(MONITOR_LZ4)
                 reply = streamWriteMemLz4(len);
 #else
                 for (uint16_t i = 0; i < len; i++) transportRecvWord();
@@ -508,13 +521,6 @@ static __attribute__((noinline)) void monitorTake(struct Registers *r) {
                the break. What it means is the host's business, and so is
                stepping past it. */
             if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
-#if defined(MONITOR_PLATFORM_SYS573) && defined(MONITOR_LINK_SIO1)
-                /* Bring-up trace: one raw 'B' on the link says the break
-                   reached the monitor, ahead of HELLO. */
-                for (unsigned i = 0; i < 0x10000 && !(*(volatile uint16_t *)0xbf801054 & 1); i++);
-                *(volatile uint8_t *)0xbf801050 = 'B';
-                monitorWatchdogKick();
-#endif
                 s_mon.running = 0;
 #ifdef MONITOR_HAS_WATCHDOG
                 g_monitorKick = 1;
