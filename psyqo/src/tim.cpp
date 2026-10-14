@@ -110,7 +110,11 @@ bool psyqo::TIM::parse(const uint8_t* data, uint32_t size) {
         // it transfers past the end of the buffer. That surfaces later,
         // somewhere unrelated, as memory corruption with nothing pointing back
         // here.
-        if (declared != width * 2 * height + c_sectionHeaderSize) {
+        //
+        // Compared in halfwords: width * height always fits 32 bits, while
+        // width * 2 * height can wrap and match a bogus declared size.
+        uint32_t bytes = declared - c_sectionHeaderSize;
+        if (declared < c_sectionHeaderSize || (bytes & 1) || (bytes >> 1) != width * height) {
             m_error = Error::BadSectionSize;
             return false;
         }

@@ -117,6 +117,23 @@ TEST_CASE("TIM section size disagreeing with its dimensions is rejected") {
     REQUIRE(tim.error() == TIM::Error::BadSectionSize);
 }
 
+TEST_CASE("TIM section size check does not wrap") {
+    // 0xffff by 0xffff halfwords is 0x1fffc0002 bytes, which wraps to
+    // 0xfffc0002 in 32 bits. A declared size of that plus the header must not
+    // be taken for a match.
+    alignas(4) uint8_t buffer[64];
+    uint32_t size = buildTIM(buffer, 0x02, 0, 0, 1, 1);
+    uint32_t declared = 0xfffc0002 + 12;
+    for (unsigned i = 0; i < 4; i++) buffer[8 + i] = uint8_t(declared >> (i * 8));
+    buffer[8 + 8] = 0xff;
+    buffer[8 + 9] = 0xff;
+    buffer[8 + 10] = 0xff;
+    buffer[8 + 11] = 0xff;
+    TIM tim;
+    REQUIRE(!tim.parse(buffer, size));
+    REQUIRE(tim.error() == TIM::Error::BadSectionSize);
+}
+
 #ifdef DEBUG_TIM
 TEST_CASE("TIM debug checks reject malformed files") {
     alignas(4) uint8_t buffer[64];
