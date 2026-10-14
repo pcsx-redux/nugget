@@ -77,6 +77,21 @@ static uint32_t run(const GwuCell* c, int n, int uncached, int which, probe_resu
 // o / n: same, once the written register is left out, for a register the
 // command also writes (the write landed after the command's own result).
 // B: the two references agree, so the cell cannot tell. X: neither.
+// For a mixed result, which outputs saw what: one letter per probe_result_t
+// field in declaration order (RGB0-2, MAC0-3, IR0-3, SXY0-2, SZ0-3, FLAG),
+// '.' where the two references agree.
+_Static_assert(sizeof(probe_result_t) == 19 * sizeof(uint32_t), "probe_result_t layout");
+static void printFields(const GwuCell* c, int n, const probe_result_t* o, const probe_result_t* nw,
+                        const probe_result_t* a) {
+    const uint32_t* po = (const uint32_t*)o;
+    const uint32_t* pn = (const uint32_t*)nw;
+    const uint32_t* pa = (const uint32_t*)a;
+    char f[20];
+    for (int i = 0; i < 19; i++) f[i] = po[i] == pn[i] ? '.' : pa[i] == po[i] ? 'O' : pa[i] == pn[i] ? 'N' : 'X';
+    f[19] = 0;
+    ramsyscall_printf("GWU-FIELDS %s N=%d %s\n", c->label, n, f);
+}
+
 static char classify(const GwuCell* c, int n, int uncached) {
     probe_result_t o, nw, a;
     uint32_t oldv, ignored;
@@ -92,13 +107,17 @@ static char classify(const GwuCell* c, int n, int uncached) {
     if (results_equal(&o, &nw)) return 'B';
     if (results_equal(&a, &o)) return 'O';
     if (results_equal(&a, &nw)) return 'N';
-    if (!kept) return 'X';
+    if (!kept) {
+        if (!uncached) printFields(c, n, &o, &nw, &a);
+        return 'X';
+    }
     mask(&o, c);
     mask(&nw, c);
     mask(&a, c);
     if (results_equal(&o, &nw)) return 'X';
     if (results_equal(&a, &o)) return 'o';
     if (results_equal(&a, &nw)) return 'n';
+    if (!uncached) printFields(c, n, &o, &nw, &a);
     return 'X';
 }
 
