@@ -349,7 +349,7 @@ class ArchiveManager {
      * UCL_NRV2E decompressor will not be registered. This will reduce the
      * final binary size of the program, as the decompressor code will not
      * be included in the final binary. The UCL_NRV2E decompressor takes
-     * 340 bytes of code, while the LZ4 decompressor takes 200 bytes of code.
+     * 276 bytes of code, while the LZ4 decompressor takes 200 bytes of code.
      * It is also reasonable to not register any decompressors at all, if the
      * user is sure that the archive will not contain any compressed files.
      */
