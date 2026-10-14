@@ -37,16 +37,17 @@ SOFTWARE.
  * the same function: a = b = scene value (old), a = b = canary (new).
  * The written register itself is left out of the comparison.
  *
- * Varied: N = 0..3, and whether the cell code is fetched cached (C) or
- * uncached (U). Held: interrupts off, nop as the filler and as the
+ * Varied: N = 0..3; A = 0..3, the word within a 16-byte cache line the
+ * sequence starts at (A0..A3, cached); and cached vs uncached fetch (U,
+ * at A = 0). Held: interrupts off, nop as the filler and as the
  * instruction before the second write, mtc2/ctc2 as the writer, the
  * measured pass is the second of two back to back.
  *
- * The last column of each cell is what SCPH-1000, -1001, -5501 and -7001
- * printed for N = 0..3 cached (see RESULTS.md). The cached passes are
- * checked against it and the program returns 1 on any difference; a '?'
- * is a letter that moved between builds or between consoles, and is not
- * checked. The uncached pass is printed, not checked.
+ * The last column of each cell is the cached result from SCPH-1000, -1001,
+ * -5501 (two) -7001 and -9002 (see RESULTS.md). A letter that is the same
+ * at every A is checked against it, and the program returns 1 on any
+ * difference; '?' marks a letter that moves with A or between consoles,
+ * which is printed and not checked. The uncached pass is printed only.
  */
 
 #pragma once
@@ -56,6 +57,7 @@ SOFTWARE.
 #include "gte-latency-common.h"
 
 #define GWU_NMAX 4
+#define GWU_AMAX 4
 
 typedef void (*GwuFn)(uint32_t, uint32_t);
 
@@ -63,7 +65,7 @@ typedef struct {
     const char* label;
     void (*scene)(void);
     uint32_t (*read)(void);
-    GwuFn fn[GWU_NMAX];
+    GwuFn fn[GWU_NMAX][GWU_AMAX];
     uint32_t canary;
     uint8_t ctrl;
     uint8_t reg;
@@ -77,24 +79,34 @@ typedef struct {
 #define GWU_ISC_D 0
 #define GWU_ISC_C 1
 
-#define GWU_FN(W, name, op, reg, N)                                                                      \
-    static void name##_##N(uint32_t a, uint32_t b) {                                                     \
-        __asm__ volatile(".set push\n.set noreorder\n" W " %0, $" #reg "\nnop\nnop\nnop\nnop\n" W        \
-                         " %1, $" #reg "\n.rept " #N "\nnop\n.endr\ncop2 %2\nnop\nnop\n.set pop\n"         \
+// A = how many words past a 16-byte cache line boundary the sequence starts.
+#define GWU_FN(W, name, op, reg, N, A)                                                                   \
+    static void name##_##N##_##A(uint32_t a, uint32_t b) {                                               \
+        __asm__ volatile(".set push\n.set noreorder\n.balign 16\n.rept " #A "\nnop\n.endr\n" W " %0, $" #reg \
+                         "\nnop\nnop\nnop\nnop\n" W " %1, $" #reg "\n.rept " #N                            \
+                         "\nnop\n.endr\ncop2 %2\nnop\nnop\n.set pop\n"                                     \
                          :                                                                               \
                          : "r"(a), "r"(b), "i"(op));                                                     \
     }
 
+#define GWU_FN_A(W, name, op, reg, N) \
+    GWU_FN(W, name, op, reg, N, 0)    \
+    GWU_FN(W, name, op, reg, N, 1)    \
+    GWU_FN(W, name, op, reg, N, 2)    \
+    GWU_FN(W, name, op, reg, N, 3)
+
 #define GWU_FUNCS(K, name, scene, op, reg, canary, label, expect) \
-    GWU_FN(GWU_W_##K, name, op, reg, 0)                   \
-    GWU_FN(GWU_W_##K, name, op, reg, 1)                   \
-    GWU_FN(GWU_W_##K, name, op, reg, 2)                   \
-    GWU_FN(GWU_W_##K, name, op, reg, 3)                   \
+    GWU_FN_A(GWU_W_##K, name, op, reg, 0)                 \
+    GWU_FN_A(GWU_W_##K, name, op, reg, 1)                 \
+    GWU_FN_A(GWU_W_##K, name, op, reg, 2)                 \
+    GWU_FN_A(GWU_W_##K, name, op, reg, 3)                 \
     static uint32_t name##_rd(void) {                     \
         uint32_t v;                                       \
         GWU_GET_##K(reg, v);                              \
         return v;                                         \
     }
 
-#define GWU_ENTRY(K, name, scene, op, reg, canary, label, expect) \
-    {label, scene, name##_rd, {name##_0, name##_1, name##_2, name##_3}, canary, GWU_ISC_##K, reg, expect},
+#define GWU_ROW(name, N) {name##_##N##_0, name##_##N##_1, name##_##N##_2, name##_##N##_3}
+#define GWU_ENTRY(K, name, scene, op, reg, canary, label, expect)                                         \
+    {label, scene, name##_rd, {GWU_ROW(name, 0), GWU_ROW(name, 1), GWU_ROW(name, 2), GWU_ROW(name, 3)}, \
+     canary, GWU_ISC_##K, reg, expect},

@@ -61,8 +61,8 @@ static void mask(probe_result_t* r, const GwuCell* c) {
 
 // which: 0 = old reference, 1 = new reference, 2 = old then new.
 // Returns the written register's value after the command.
-static uint32_t run(const GwuCell* c, int n, int uncached, int which, probe_result_t* r, uint32_t* old) {
-    GwuFn f = c->fn[n];
+static uint32_t run(const GwuCell* c, int n, int a, int uncached, int which, probe_result_t* r, uint32_t* old) {
+    GwuFn f = c->fn[n][a];
     if (uncached) f = (GwuFn)((uintptr_t)f | 0xa0000000u);
     for (int pass = 0; pass < 2; pass++) {
         c->scene();
@@ -73,51 +73,68 @@ static uint32_t run(const GwuCell* c, int n, int uncached, int which, probe_resu
     return c->read();
 }
 
-// O / N: the command's outputs match the old / new reference.
-// o / n: same, once the written register is left out, for a register the
-// command also writes (the write landed after the command's own result).
-// B: the two references agree, so the cell cannot tell. X: neither.
-// For a mixed result, which outputs saw what: one letter per probe_result_t
-// field in declaration order (RGB0-2, MAC0-3, IR0-3, SXY0-2, SZ0-3, FLAG),
-// '.' where the two references agree.
-_Static_assert(sizeof(probe_result_t) == 19 * sizeof(uint32_t), "probe_result_t layout");
+// For a mixed result, which outputs saw what: RGB0-2 as R,G,B, MAC0-3,
+// IR0-3, SXY0-2 as X,Y, SZ0-3, FLAG. O / N / X per component, '.' where the
+// two references agree.
+static char comp(uint32_t o, uint32_t n, uint32_t a, int shift, uint32_t m) {
+    o = (o >> shift) & m;
+    n = (n >> shift) & m;
+    a = (a >> shift) & m;
+    return o == n ? '.' : a == o ? 'O' : a == n ? 'N' : 'X';
+}
+
 static void printFields(const GwuCell* c, int n, const probe_result_t* o, const probe_result_t* nw,
                         const probe_result_t* a) {
     const uint32_t* po = (const uint32_t*)o;
     const uint32_t* pn = (const uint32_t*)nw;
     const uint32_t* pa = (const uint32_t*)a;
-    char f[20];
-    for (int i = 0; i < 19; i++) f[i] = po[i] == pn[i] ? '.' : pa[i] == po[i] ? 'O' : pa[i] == pn[i] ? 'N' : 'X';
-    f[19] = 0;
+    char f[40];
+    int k = 0;
+    for (int i = 0; i < 19; i++) {
+        if (i < 3) {
+            for (int b = 0; b < 3; b++) f[k++] = comp(po[i], pn[i], pa[i], b * 8, 0xff);
+        } else if (i >= 11 && i < 14) {
+            for (int b = 0; b < 2; b++) f[k++] = comp(po[i], pn[i], pa[i], b * 16, 0xffff);
+        } else {
+            f[k++] = comp(po[i], pn[i], pa[i], 0, 0xffffffffu);
+        }
+        if (i == 2 || i == 6 || i == 10 || i == 13 || i == 17) f[k++] = ' ';
+    }
+    f[k] = 0;
     ramsyscall_printf("GWU-FIELDS %s N=%d %s\n", c->label, n, f);
 }
 
-static char classify(const GwuCell* c, int n, int uncached) {
-    probe_result_t o, nw, a;
+// O / N: the command's outputs match the old / new reference.
+// o / n: same, once the written register is left out, for a register the
+// command also writes (the write landed after the command's own result).
+// B: the two references agree, so the cell cannot tell. X: neither.
+static char classify(const GwuCell* c, int n, int a, int uncached) {
+    probe_result_t o, nw, r;
     uint32_t oldv, ignored;
-    uint32_t opost = run(c, n, uncached, 0, &o, &oldv);
-    uint32_t npost = run(c, n, uncached, 1, &nw, &ignored);
-    run(c, n, uncached, 2, &a, &ignored);
+    int show = !uncached && a == 0;
+    uint32_t opost = run(c, n, a, uncached, 0, &o, &oldv);
+    uint32_t npost = run(c, n, a, uncached, 1, &nw, &ignored);
+    run(c, n, a, uncached, 2, &r, &ignored);
     int kept = !c->ctrl && !(opost == oldv && npost == c->canary);
     if (!kept) {
         mask(&o, c);
         mask(&nw, c);
-        mask(&a, c);
+        mask(&r, c);
     }
     if (results_equal(&o, &nw)) return 'B';
-    if (results_equal(&a, &o)) return 'O';
-    if (results_equal(&a, &nw)) return 'N';
-    if (!kept) {
-        if (!uncached) printFields(c, n, &o, &nw, &a);
-        return 'X';
+    if (results_equal(&r, &o)) return 'O';
+    if (results_equal(&r, &nw)) return 'N';
+    if (kept) {
+        probe_result_t mo = o, mn = nw, mr = r;
+        mask(&mo, c);
+        mask(&mn, c);
+        mask(&mr, c);
+        if (!results_equal(&mo, &mn)) {
+            if (results_equal(&mr, &mo)) return 'o';
+            if (results_equal(&mr, &mn)) return 'n';
+        }
     }
-    mask(&o, c);
-    mask(&nw, c);
-    mask(&a, c);
-    if (results_equal(&o, &nw)) return 'X';
-    if (results_equal(&a, &o)) return 'o';
-    if (results_equal(&a, &nw)) return 'n';
-    if (!uncached) printFields(c, n, &o, &nw, &a);
+    if (show) printFields(c, n, &o, &nw, &r);
     return 'X';
 }
 
@@ -125,37 +142,31 @@ int main(void) {
     gte_enable();
     uint32_t sr = irq_disable();
     ramsyscall_printf("GWU-START\n");
-    int cells = 0, blind = 0, late = 0, lateTotal = 0, mismatches = 0;
-    static const char* const modes[3] = {"C0", "C1", "U0"};
-    for (int m = 0; m < 3; m++) {
-        int uncached = m == 2;
-        for (unsigned fam = 0; fam < sizeof(s_families) / sizeof(s_families[0]); fam++) {
-            for (int i = 0; i < *s_families[fam].count; i++) {
-                const GwuCell* c = &s_families[fam].cells[i];
-                char res[GWU_NMAX + 1];
-                for (int n = 0; n < GWU_NMAX; n++) res[n] = classify(c, n, uncached);
-                res[GWU_NMAX] = 0;
-                if (!uncached) {
-                    for (int n = 0; n < GWU_NMAX; n++) {
-                        if (res[n] == c->expect[n] || c->expect[n] == '?') continue;
-                        mismatches++;
-                        ramsyscall_printf("GWU-MISMATCH %s %s N=%d expected %c got %c\n", modes[m], c->label, n,
-                                          c->expect[n], res[n]);
-                    }
-                }
-                if (m == 0) {
-                    cells++;
-                    if (res[GWU_NMAX - 1] == 'B') blind++;
-                }
-                if (res[GWU_NMAX - 1] != 'B') {
-                    lateTotal++;
-                    if (res[GWU_NMAX - 1] == 'N' || res[GWU_NMAX - 1] == 'n') late++;
-                }
-                ramsyscall_printf("GWU %s %s = %s\n", modes[m], c->label, res);
+    int cells = 0, blind = 0, mismatches = 0, moved = 0;
+    for (unsigned fam = 0; fam < sizeof(s_families) / sizeof(s_families[0]); fam++) {
+        for (int i = 0; i < *s_families[fam].count; i++) {
+            const GwuCell* c = &s_families[fam].cells[i];
+            char res[GWU_AMAX + 1][GWU_NMAX + 1];
+            for (int a = 0; a <= GWU_AMAX; a++) {
+                int uncached = a == GWU_AMAX;
+                for (int n = 0; n < GWU_NMAX; n++) res[a][n] = classify(c, n, uncached ? 0 : a, uncached);
+                res[a][GWU_NMAX] = 0;
             }
+            cells++;
+            if (res[0][GWU_NMAX - 1] == 'B') blind++;
+            for (int n = 0; n < GWU_NMAX; n++) {
+                int same = 1;
+                for (int a = 1; a < GWU_AMAX; a++) same &= res[a][n] == res[0][n];
+                if (!same) moved++;
+                if (c->expect[n] == '?' || (same && res[0][n] == c->expect[n])) continue;
+                mismatches++;
+                ramsyscall_printf("GWU-MISMATCH %s N=%d expected %c got %c%c%c%c\n", c->label, n, c->expect[n],
+                                  res[0][n], res[1][n], res[2][n], res[3][n]);
+            }
+            ramsyscall_printf("GWU %s = %s %s %s %s U %s\n", c->label, res[0], res[1], res[2], res[3], res[4]);
         }
     }
-    ramsyscall_printf("GWU-DONE cells=%d blind=%d late_new=%d/%d\n", cells, blind, late, lateTotal);
+    ramsyscall_printf("GWU-DONE cells=%d blind=%d moved=%d\n", cells, blind, moved);
     irq_restore(sr);
     ramsyscall_printf("GWU-%s mismatches=%d\n", mismatches ? "FAIL" : "PASS", mismatches);
     return mismatches ? 1 : 0;
