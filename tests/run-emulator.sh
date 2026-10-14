@@ -37,6 +37,7 @@ TESTS=(
     "gpu-irq;gpu-irq/gpu-irq;interpreter;$CESTER;"
     "gpu-polyline;gpu-polyline/gpu-polyline;interpreter;$CESTER;"
     "gpu-vram-move;gpu-vram-move/gpu-vram-move;interpreter;$CESTER;"
+    "gpu-async-stress;gpu-async-stress/gpu-async-stress;interpreter;$CESTER;"
     "gte;gte/gte;interpreter dynarec;$CESTER;"
     "gte-latency;gte-latency/gte-latency;interpreter;$CESTER;"
     "gte-latency-color;gte-latency-color/gte-latency-color;interpreter;$CESTER;"
