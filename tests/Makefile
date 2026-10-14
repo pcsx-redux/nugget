@@ -20,6 +20,7 @@ all:
 	$(MAKE) -C gpu-fifo all
 	$(MAKE) -C gpu-fbrect all
 	$(MAKE) -C gpu-vram-move all
+	$(MAKE) -C gpu-async-stress all
 	$(MAKE) -C gpu-command all
 	$(MAKE) -C gpu-irq all
 	$(MAKE) -C gpu-polyline all
@@ -115,6 +116,7 @@ clean:
 	$(MAKE) -C gpu-fifo clean
 	$(MAKE) -C gpu-fbrect clean
 	$(MAKE) -C gpu-vram-move clean
+	$(MAKE) -C gpu-async-stress clean
 	$(MAKE) -C gpu-command clean
 	$(MAKE) -C gpu-irq clean
 	$(MAKE) -C gpu-polyline clean
