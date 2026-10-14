@@ -279,6 +279,13 @@ void PlayScene::start(Scene::StartReason) {
         m_broken = true;
         return;
     }
+    // frame() re-seats after its upload wait; this decode has no upload, so it
+    // re-seats here. Skipping it left frame 1's command landing on a busy MDEC
+    // still waiting on the tail of frame 0 (MDEC1 6e0018ff on an SCPH-5501).
+    if (m_needReset) {
+        m_resetBad = mdecReset();
+        m_needReset = false;
+    }
     m_haveFrame = true;
     m_index = 1 < m_hdr.frames() ? 1 : 0;
 #ifdef MDECPLAYER_PROFILE
@@ -318,6 +325,9 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
     const uint32_t outWords = (m_hdr.width() * m_hdr.height() * 2) / 4;
     const uint32_t inWords = (r.halfwords + 1) / 2;
 
+#ifdef MDECPLAYER_PROFILE
+    if (m_trace) ramsyscall_printf("MDPL: MDEC1 %08x before frame %d\n", MDEC1, index);
+#endif
     MDEC0 = r.mdecCommand;  // word 0 of the BS header IS the decode command
     if (waitDma(DMA_MDECIN) < 0 || waitDma(DMA_MDECOUT) < 0) {
 #ifdef MDECPLAYER_PROFILE
