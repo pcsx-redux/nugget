@@ -29,14 +29,15 @@ SOFTWARE.
 // orbited, so the camera only pans and tilts a little, and the interesting
 // motion comes from the directional light sweeping across the geometry.
 //
-// L1 and R1 cycle scenes, the d-pad moves the camera, square and circle sweep
-// the light by hand, and cross toggles the automatic light sweep.
+// L1 and R1 cycle scenes, the d-pad moves the camera across and forwards, L2
+// and R2 move it vertically, square and circle sweep the light by hand, cross
+// toggles the automatic light sweep, and triangle cycles the culling mode.
 //
 // The meshes and textures are by MrQuetch (https://github.com/MrQuetch).
 
 #include <stdint.h>
 
-#include "psxm.hh"
+#include "mesh-renderer.hh"
 
 extern "C" {
 #include "common/syscalls/syscalls.h"

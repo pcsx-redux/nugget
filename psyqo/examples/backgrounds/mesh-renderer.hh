@@ -24,16 +24,15 @@ SOFTWARE.
 
 */
 
-// Reader and renderer for the PXM2 blobs the nugget.psxm build rule produces
-// from Wavefront OBJs. Geometry only: the texture lives in a TIM and is loaded
-// separately, so nothing here knows anything about images.
-//
-// The render state and the model data are kept apart deliberately, so this can
-// be pulled into something else without dragging an example's main loop along.
+// Renders the PXM2 meshes described in common/util/psxm.hh. Geometry only: the
+// texture lives in a TIM and is loaded separately, so nothing here knows
+// anything about images.
 
 #pragma once
 
 #include <stdint.h>
+
+#include "common/util/psxm.hh"
 
 #include "psyqo/fixed-point.hh"
 #include "psyqo/fragments.hh"
@@ -49,54 +48,7 @@ SOFTWARE.
 
 namespace psxm {
 
-// Every section carries its own offset so that adding or reordering one later
-// cannot silently shift everything behind it.
-struct Header {
-    char magic[4];  // "PXM2"
-    uint16_t vertexCount;
-    uint16_t normalCount;
-    uint16_t triangleCount;
-    uint16_t reserved;
-    uint32_t vertexOffset;
-    uint32_t normalOffset;
-    uint32_t triangleOffset;
-};
-static_assert(sizeof(Header) == 24, "PXM2 header size mismatch");
-
-struct Triangle {
-    uint16_t vertices[3];
-    uint16_t normals[3];
-    psyqo::PrimPieces::UVCoords uv[3];
-    uint16_t padding;
-};
-static_assert(sizeof(Triangle) == 20, "PXM2 triangle size mismatch");
-
-// Points into the blob rather than copying it, so the blob has to outlive it.
-// For an asset linked in by the build rule that costs nothing.
-class Model {
-  public:
-    bool parse(const uint8_t* blob) {
-        auto header = reinterpret_cast<const Header*>(blob);
-        if (header->magic[0] != 'P' || header->magic[1] != 'X' || header->magic[2] != 'M' ||
-            header->magic[3] != '2') {
-            return false;
-        }
-        m_header = header;
-        m_vertices = reinterpret_cast<const psyqo::GTE::PackedVec3*>(blob + header->vertexOffset);
-        m_normals = reinterpret_cast<const psyqo::GTE::PackedVec3*>(blob + header->normalOffset);
-        m_triangles = reinterpret_cast<const Triangle*>(blob + header->triangleOffset);
-        return true;
-    }
-
-    unsigned vertexCount() const { return m_header->vertexCount; }
-    unsigned normalCount() const { return m_header->normalCount; }
-    unsigned triangleCount() const { return m_header->triangleCount; }
-
-    const Header* m_header = nullptr;
-    const psyqo::GTE::PackedVec3* m_vertices = nullptr;
-    const psyqo::GTE::PackedVec3* m_normals = nullptr;
-    const Triangle* m_triangles = nullptr;
-};
+static_assert(sizeof(psyqo::GTE::PackedVec3) == sizeof(Vec3), "PXM2 vertex layout mismatch");
 
 // Scratch space and primitive storage. Templated so an application sizes it to
 // the largest model it will actually show rather than to some arbitrary
@@ -147,20 +99,19 @@ class Renderer {
         psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::Rotation>(view);
     }
 
-    // Directional light, evaluated once per unique normal rather than once per
-    // vertex. These meshes carry far fewer normals than triangles, so a fully
-    // dynamic light costs a few dozen dot products a frame no matter how much
-    // geometry ends up on screen.
+    // Directional light, evaluated once per unique normal into a table the
+    // triangle loop then indexes, so the cost tracks the normal count rather
+    // than the corner count.
     void computeShading(const Model& model, const psyqo::Vec3& lightDirection, psyqo::Color ambient,
                         psyqo::Color diffuse) {
         int32_t lx = lightDirection.x.raw();
         int32_t ly = lightDirection.y.raw();
         int32_t lz = lightDirection.z.raw();
+        if (!fits(model)) return;
         unsigned count = model.normalCount();
-        if (count > MaxNormals) count = MaxNormals;
         for (unsigned i = 0; i < count; i++) {
-            const auto& n = model.m_normals[i];
-            int32_t intensity = (n.x.raw() * lx + n.y.raw() * ly + n.z.raw() * lz) >> 12;
+            const auto& n = model.normals()[i];
+            int32_t intensity = (n.x * lx + n.y * ly + n.z * lz) >> 12;
             if (intensity < 0) intensity = 0;
             if (intensity > 4096) intensity = 4096;
             m_shading[i].r = uint8_t(ambient.r + (((diffuse.r - ambient.r) * intensity) >> 12));
@@ -175,16 +126,18 @@ class Renderer {
     template <size_t N, psyqo::Safe Safety>
     unsigned render(const Model& model, psyqo::OrderingTable<N, Safety>& ot, unsigned parity,
                     psyqo::PrimPieces::TPageAttr tpage, psyqo::PrimPieces::ClutIndex clut) {
+        m_stats = {};
+        // A model larger than this renderer was sized for draws nothing, which
+        // is easier to notice than a model drawn from half-filled scratch space.
+        if (!fits(model)) return 0;
         project(model);
 
         auto& fragments = m_fragments[parity];
         unsigned count = model.triangleCount();
-        if (count > MaxTriangles) count = MaxTriangles;
         unsigned drawn = 0;
-        m_stats = {};
 
         for (unsigned i = 0; i < count; i++) {
-            const auto& tri = model.m_triangles[i];
+            const auto& tri = model.triangles()[i];
             unsigned a = tri.vertices[0];
             unsigned b = tri.vertices[1];
             unsigned c = tri.vertices[2];
@@ -239,8 +192,10 @@ class Renderer {
             prim.pointA = pa;
             prim.pointB = pb;
             prim.pointC = pc;
-            prim.uvA = tri.uv[0];
-            prim.uvB = tri.uv[1];
+            prim.uvA.u = tri.uv[0].u;
+            prim.uvA.v = tri.uv[0].v;
+            prim.uvB.u = tri.uv[1].u;
+            prim.uvB.v = tri.uv[1].v;
             prim.uvC.u = tri.uv[2].u;
             prim.uvC.v = tri.uv[2].v;
             prim.clutIndex = clut;
@@ -258,20 +213,27 @@ class Renderer {
         return drawn;
     }
 
+    // Whether the model fits the scratch space this renderer was sized for.
+    static bool fits(const Model& model) {
+        return model.vertexCount() <= MaxVertices && model.normalCount() <= MaxNormals &&
+               model.triangleCount() <= MaxTriangles;
+    }
+
   private:
     static constexpr int32_t c_nearThreshold = 8;
 
     void project(const Model& model) {
         unsigned count = model.vertexCount();
-        if (count > MaxVertices) count = MaxVertices;
+        // The GTE takes the same three packed int16 the format stores.
+        auto vertices = reinterpret_cast<const psyqo::GTE::PackedVec3*>(model.vertices());
         unsigned i = 0;
 
         // The GTE transforms three vertices per rtpt, hence the stride, with
         // whatever is left over going through one at a time below.
         for (; i + 3 <= count; i += 3) {
-            psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V0>(model.m_vertices[i + 0]);
-            psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V1>(model.m_vertices[i + 1]);
-            psyqo::GTE::writeSafe<psyqo::GTE::PseudoRegister::V2>(model.m_vertices[i + 2]);
+            psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V0>(vertices[i + 0]);
+            psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V1>(vertices[i + 1]);
+            psyqo::GTE::writeSafe<psyqo::GTE::PseudoRegister::V2>(vertices[i + 2]);
             psyqo::GTE::Kernels::rtpt();
             psyqo::GTE::read<psyqo::GTE::Register::SXY0>(&m_projected[i + 0].packed);
             psyqo::GTE::read<psyqo::GTE::Register::SXY1>(&m_projected[i + 1].packed);
@@ -286,7 +248,7 @@ class Renderer {
         }
 
         for (; i < count; i++) {
-            psyqo::GTE::writeSafe<psyqo::GTE::PseudoRegister::V0>(model.m_vertices[i]);
+            psyqo::GTE::writeSafe<psyqo::GTE::PseudoRegister::V0>(vertices[i]);
             psyqo::GTE::Kernels::rtps();
             psyqo::GTE::read<psyqo::GTE::Register::SXY2>(&m_projected[i].packed);
             uint32_t z;

@@ -1,6 +1,6 @@
 # PSYQo backgrounds example
 
-Five textured background scenes, each a half skybox with a few props inside it, lit by a directional light that sweeps across the geometry. It shows how to load a TIM with `psyqo::TIM` and upload it to VRAM coordinates chosen by the application rather than by the file, and how to draw an indexed, textured mesh through the GTE with an ordering table.
+Five textured background scenes, each a half skybox with a few props inside it, lit by a directional light that sweeps across the geometry. It shows how to load a TIM with `psyqo::TIM` and upload it to VRAM coordinates chosen by the application rather than by the file, and how to draw an indexed, textured mesh through the GTE with an ordering table. The mesh format, PXM2, is described in [`common/util/psxm.hh`](../../../common/util/psxm.hh), and the rule that builds it lives in [`tools/xmake/assets.lua`](../../../tools/xmake/assets.lua).
 
 The meshes and textures are by [MrQuetch](https://github.com/MrQuetch), and are distributed under the same licence as the rest of psyqo.
 
@@ -17,7 +17,7 @@ The output is `build/psx/mipsel/release/backgrounds.ps-exe`. Defining `BACKGROUN
 
 ## Controls
 
-L1 and R1 cycle the scenes, the d-pad moves the camera, square and circle move the light by hand, and cross toggles the automatic light sweep.
+L1 and R1 cycle the scenes, the d-pad moves the camera across and forwards, L2 and R2 move it vertically, square and circle move the light by hand, cross toggles the automatic light sweep, and triangle cycles the backface culling mode.
 
 ## Assets
 
