@@ -74,34 +74,34 @@ static inline void scene_setup(void) {
 
 
 #define CELLS(X) \
-    X(D, cc_rgbc, scene_setup, OP_CC_SF1_LM1, 6, CANARY_RGBC, "CC RGBC") \
-    X(D, cc_ir1, scene_setup, OP_CC_SF1_LM1, 9, CANARY_IR, "CC IR1") \
-    X(D, cc_ir2, scene_setup, OP_CC_SF1_LM1, 10, CANARY_IR, "CC IR2") \
-    X(D, cc_ir3, scene_setup, OP_CC_SF1_LM1, 11, CANARY_IR, "CC IR3") \
-    X(C, cc_lr1lr2, scene_setup, OP_CC_SF1_LM1, 16, CANARY_LMAT, "CC LR1LR2") \
-    X(C, cc_lr3lg1, scene_setup, OP_CC_SF1_LM1, 17, CANARY_LMAT, "CC LR3LG1") \
-    X(C, cc_lg2lg3, scene_setup, OP_CC_SF1_LM1, 18, CANARY_LMAT, "CC LG2LG3") \
-    X(C, cc_lb1lb2, scene_setup, OP_CC_SF1_LM1, 19, CANARY_LMAT, "CC LB1LB2") \
-    X(C, cc_lb3, scene_setup, OP_CC_SF1_LM1, 20, CANARY_LMAT, "CC LB3") \
-    X(C, cc_rbk, scene_setup, OP_CC_SF1_LM1, 13, CANARY_BK, "CC RBK") \
-    X(C, cc_gbk, scene_setup, OP_CC_SF1_LM1, 14, CANARY_BK, "CC GBK") \
-    X(C, cc_bbk, scene_setup, OP_CC_SF1_LM1, 15, CANARY_BK, "CC BBK") \
-    X(D, cdp_rgbc, scene_setup, OP_CDP_SF1_LM1, 6, CANARY_RGBC, "CDP RGBC") \
-    X(D, cdp_ir0, scene_setup, OP_CDP_SF1_LM1, 8, CANARY_IR0, "CDP IR0") \
-    X(D, cdp_ir1, scene_setup, OP_CDP_SF1_LM1, 9, CANARY_IR, "CDP IR1") \
-    X(D, cdp_ir2, scene_setup, OP_CDP_SF1_LM1, 10, CANARY_IR, "CDP IR2") \
-    X(D, cdp_ir3, scene_setup, OP_CDP_SF1_LM1, 11, CANARY_IR, "CDP IR3") \
-    X(C, cdp_lr1lr2, scene_setup, OP_CDP_SF1_LM1, 16, CANARY_LMAT, "CDP LR1LR2") \
-    X(C, cdp_lr3lg1, scene_setup, OP_CDP_SF1_LM1, 17, CANARY_LMAT, "CDP LR3LG1") \
-    X(C, cdp_lg2lg3, scene_setup, OP_CDP_SF1_LM1, 18, CANARY_LMAT, "CDP LG2LG3") \
-    X(C, cdp_lb1lb2, scene_setup, OP_CDP_SF1_LM1, 19, CANARY_LMAT, "CDP LB1LB2") \
-    X(C, cdp_lb3, scene_setup, OP_CDP_SF1_LM1, 20, CANARY_LMAT, "CDP LB3") \
-    X(C, cdp_rbk, scene_setup, OP_CDP_SF1_LM1, 13, CANARY_BK, "CDP RBK") \
-    X(C, cdp_gbk, scene_setup, OP_CDP_SF1_LM1, 14, CANARY_BK, "CDP GBK") \
-    X(C, cdp_bbk, scene_setup, OP_CDP_SF1_LM1, 15, CANARY_BK, "CDP BBK") \
-    X(C, cdp_rfc, scene_setup, OP_CDP_SF1_LM1, 21, CANARY_FC, "CDP RFC") \
-    X(C, cdp_gfc, scene_setup, OP_CDP_SF1_LM1, 22, CANARY_FC, "CDP GFC") \
-    X(C, cdp_bfc, scene_setup, OP_CDP_SF1_LM1, 23, CANARY_FC, "CDP BFC") \
+    X(D, cc_rgbc, scene_setup, OP_CC_SF1_LM1, 6, CANARY_RGBC, "CC RGBC", "NNNN") \
+    X(D, cc_ir1, scene_setup, OP_CC_SF1_LM1, 9, CANARY_IR, "CC IR1", "OONN") \
+    X(D, cc_ir2, scene_setup, OP_CC_SF1_LM1, 10, CANARY_IR, "CC IR2", "NNNN") \
+    X(D, cc_ir3, scene_setup, OP_CC_SF1_LM1, 11, CANARY_IR, "CC IR3", "NNNN") \
+    X(C, cc_lr1lr2, scene_setup, OP_CC_SF1_LM1, 16, CANARY_LMAT, "CC LR1LR2", "OXNN") \
+    X(C, cc_lr3lg1, scene_setup, OP_CC_SF1_LM1, 17, CANARY_LMAT, "CC LR3LG1", "XNNN") \
+    X(C, cc_lg2lg3, scene_setup, OP_CC_SF1_LM1, 18, CANARY_LMAT, "CC LG2LG3", "NNNN") \
+    X(C, cc_lb1lb2, scene_setup, OP_CC_SF1_LM1, 19, CANARY_LMAT, "CC LB1LB2", "NNNN") \
+    X(C, cc_lb3, scene_setup, OP_CC_SF1_LM1, 20, CANARY_LMAT, "CC LB3", "NNNN") \
+    X(C, cc_rbk, scene_setup, OP_CC_SF1_LM1, 13, CANARY_BK, "CC RBK", "OONN") \
+    X(C, cc_gbk, scene_setup, OP_CC_SF1_LM1, 14, CANARY_BK, "CC GBK", "ONNN") \
+    X(C, cc_bbk, scene_setup, OP_CC_SF1_LM1, 15, CANARY_BK, "CC BBK", "NNNN") \
+    X(D, cdp_rgbc, scene_setup, OP_CDP_SF1_LM1, 6, CANARY_RGBC, "CDP RGBC", "NNNN") \
+    X(D, cdp_ir0, scene_setup, OP_CDP_SF1_LM1, 8, CANARY_IR0, "CDP IR0", "NNNN") \
+    X(D, cdp_ir1, scene_setup, OP_CDP_SF1_LM1, 9, CANARY_IR, "CDP IR1", "OONN") \
+    X(D, cdp_ir2, scene_setup, OP_CDP_SF1_LM1, 10, CANARY_IR, "CDP IR2", "NNNN") \
+    X(D, cdp_ir3, scene_setup, OP_CDP_SF1_LM1, 11, CANARY_IR, "CDP IR3", "NNNN") \
+    X(C, cdp_lr1lr2, scene_setup, OP_CDP_SF1_LM1, 16, CANARY_LMAT, "CDP LR1LR2", "OXNN") \
+    X(C, cdp_lr3lg1, scene_setup, OP_CDP_SF1_LM1, 17, CANARY_LMAT, "CDP LR3LG1", "XNNN") \
+    X(C, cdp_lg2lg3, scene_setup, OP_CDP_SF1_LM1, 18, CANARY_LMAT, "CDP LG2LG3", "NNNN") \
+    X(C, cdp_lb1lb2, scene_setup, OP_CDP_SF1_LM1, 19, CANARY_LMAT, "CDP LB1LB2", "NNNN") \
+    X(C, cdp_lb3, scene_setup, OP_CDP_SF1_LM1, 20, CANARY_LMAT, "CDP LB3", "NNNN") \
+    X(C, cdp_rbk, scene_setup, OP_CDP_SF1_LM1, 13, CANARY_BK, "CDP RBK", "OONN") \
+    X(C, cdp_gbk, scene_setup, OP_CDP_SF1_LM1, 14, CANARY_BK, "CDP GBK", "ONNN") \
+    X(C, cdp_bbk, scene_setup, OP_CDP_SF1_LM1, 15, CANARY_BK, "CDP BBK", "NNNN") \
+    X(C, cdp_rfc, scene_setup, OP_CDP_SF1_LM1, 21, CANARY_FC, "CDP RFC", "NNNN") \
+    X(C, cdp_gfc, scene_setup, OP_CDP_SF1_LM1, 22, CANARY_FC, "CDP GFC", "NNNN") \
+    X(C, cdp_bfc, scene_setup, OP_CDP_SF1_LM1, 23, CANARY_FC, "CDP BFC", "NNNN") \
 
 CELLS(GWU_FUNCS)
 

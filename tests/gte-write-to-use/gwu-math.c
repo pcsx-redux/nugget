@@ -80,18 +80,18 @@ static inline void scene_setup(void) {
 
 
 #define CELLS(X) \
-    X(D, sqr_ir1, scene_setup, OP_SQR_SF1_LM1, 9, CANARY_IR, "SQR IR1") \
-    X(D, sqr_ir2, scene_setup, OP_SQR_SF1_LM1, 10, CANARY_IR, "SQR IR2") \
-    X(D, sqr_ir3, scene_setup, OP_SQR_SF1_LM1, 11, CANARY_IR, "SQR IR3") \
-    X(D, op_ir1, scene_setup, OP_OP_SF1_LM1, 9, CANARY_IR, "OP IR1") \
-    X(D, op_ir2, scene_setup, OP_OP_SF1_LM1, 10, CANARY_IR, "OP IR2") \
-    X(D, op_ir3, scene_setup, OP_OP_SF1_LM1, 11, CANARY_IR, "OP IR3") \
-    X(C, op_r11r12, scene_setup, OP_OP_SF1_LM1, 0, CANARY_RMAT, "OP R11R12") \
-    X(C, op_r22r23, scene_setup, OP_OP_SF1_LM1, 2, CANARY_RMAT, "OP R22R23") \
-    X(C, op_r33, scene_setup, OP_OP_SF1_LM1, 4, CANARY_RMAT, "OP R33") \
-    X(D, nclip_sxy0, scene_setup, OP_NCLIP, 12, CANARY_SXY, "NCLIP SXY0") \
-    X(D, nclip_sxy1, scene_setup, OP_NCLIP, 13, CANARY_SXY, "NCLIP SXY1") \
-    X(D, nclip_sxy2, scene_setup, OP_NCLIP, 14, CANARY_SXY, "NCLIP SXY2") \
+    X(D, sqr_ir1, scene_setup, OP_SQR_SF1_LM1, 9, CANARY_IR, "SQR IR1", "OONN") \
+    X(D, sqr_ir2, scene_setup, OP_SQR_SF1_LM1, 10, CANARY_IR, "SQR IR2", "ONNN") \
+    X(D, sqr_ir3, scene_setup, OP_SQR_SF1_LM1, 11, CANARY_IR, "SQR IR3", "NNNN") \
+    X(D, op_ir1, scene_setup, OP_OP_SF1_LM1, 9, CANARY_IR, "OP IR1", "NNNN") \
+    X(D, op_ir2, scene_setup, OP_OP_SF1_LM1, 10, CANARY_IR, "OP IR2", "ONNN") \
+    X(D, op_ir3, scene_setup, OP_OP_SF1_LM1, 11, CANARY_IR, "OP IR3", "XXNN") \
+    X(C, op_r11r12, scene_setup, OP_OP_SF1_LM1, 0, CANARY_RMAT, "OP R11R12", "XNNN") \
+    X(C, op_r22r23, scene_setup, OP_OP_SF1_LM1, 2, CANARY_RMAT, "OP R22R23", "XXNN") \
+    X(C, op_r33, scene_setup, OP_OP_SF1_LM1, 4, CANARY_RMAT, "OP R33", "XNNN") \
+    X(D, nclip_sxy0, scene_setup, OP_NCLIP, 12, CANARY_SXY, "NCLIP SXY0", "XXNN") \
+    X(D, nclip_sxy1, scene_setup, OP_NCLIP, 13, CANARY_SXY, "NCLIP SXY1", "XNNN") \
+    X(D, nclip_sxy2, scene_setup, OP_NCLIP, 14, CANARY_SXY, "NCLIP SXY2", "XXNN") \
 
 CELLS(GWU_FUNCS)
 

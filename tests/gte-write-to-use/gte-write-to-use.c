@@ -106,7 +106,7 @@ int main(void) {
     gte_enable();
     uint32_t sr = irq_disable();
     ramsyscall_printf("GWU-START\n");
-    int cells = 0, blind = 0, late = 0, lateTotal = 0;
+    int cells = 0, blind = 0, late = 0, lateTotal = 0, mismatches = 0;
     static const char* const modes[3] = {"C0", "C1", "U0"};
     for (int m = 0; m < 3; m++) {
         int uncached = m == 2;
@@ -116,6 +116,14 @@ int main(void) {
                 char res[GWU_NMAX + 1];
                 for (int n = 0; n < GWU_NMAX; n++) res[n] = classify(c, n, uncached);
                 res[GWU_NMAX] = 0;
+                if (!uncached) {
+                    for (int n = 0; n < GWU_NMAX; n++) {
+                        if (res[n] == c->expect[n]) continue;
+                        mismatches++;
+                        ramsyscall_printf("GWU-MISMATCH %s %s N=%d expected %c got %c\n", modes[m], c->label, n,
+                                          c->expect[n], res[n]);
+                    }
+                }
                 if (m == 0) {
                     cells++;
                     if (res[GWU_NMAX - 1] == 'B') blind++;
@@ -130,5 +138,6 @@ int main(void) {
     }
     ramsyscall_printf("GWU-DONE cells=%d blind=%d late_new=%d/%d\n", cells, blind, late, lateTotal);
     irq_restore(sr);
-    return 0;
+    ramsyscall_printf("GWU-%s mismatches=%d\n", mismatches ? "FAIL" : "PASS", mismatches);
+    return mismatches ? 1 : 0;
 }

@@ -99,40 +99,40 @@ static inline void scene_setup(void) {
 
 
 #define CELLS(X) \
-    X(D, rtps_vxy0, scene_setup, OP_RTPS_SF1_LM1, 0, CANARY_VXY, "RTPS VXY0") \
-    X(D, rtps_vz0, scene_setup, OP_RTPS_SF1_LM1, 1, CANARY_VZ, "RTPS VZ0") \
-    X(C, rtps_r11r12, scene_setup, OP_RTPS_SF1_LM1, 0, CANARY_RMAT, "RTPS R11R12") \
-    X(C, rtps_r13r21, scene_setup, OP_RTPS_SF1_LM1, 1, CANARY_RMAT, "RTPS R13R21") \
-    X(C, rtps_r22r23, scene_setup, OP_RTPS_SF1_LM1, 2, CANARY_RMAT, "RTPS R22R23") \
-    X(C, rtps_r31r32, scene_setup, OP_RTPS_SF1_LM1, 3, CANARY_RMAT, "RTPS R31R32") \
-    X(C, rtps_r33, scene_setup, OP_RTPS_SF1_LM1, 4, CANARY_RMAT, "RTPS R33") \
-    X(C, rtps_trx, scene_setup, OP_RTPS_SF1_LM1, 5, CANARY_TR, "RTPS TRX") \
-    X(C, rtps_try, scene_setup, OP_RTPS_SF1_LM1, 6, CANARY_TR, "RTPS TRY") \
-    X(C, rtps_trz, scene_setup, OP_RTPS_SF1_LM1, 7, CANARY_TR, "RTPS TRZ") \
-    X(C, rtps_ofx, scene_setup, OP_RTPS_SF1_LM1, 24, CANARY_OF, "RTPS OFX") \
-    X(C, rtps_ofy, scene_setup, OP_RTPS_SF1_LM1, 25, CANARY_OF, "RTPS OFY") \
-    X(C, rtps_h, scene_setup, OP_RTPS_SF1_LM1, 26, CANARY_H, "RTPS H") \
-    X(C, rtps_dqa, scene_setup, OP_RTPS_SF1_LM1, 27, CANARY_DQA, "RTPS DQA") \
-    X(C, rtps_dqb, scene_setup, OP_RTPS_SF1_LM1, 28, CANARY_DQB, "RTPS DQB") \
-    X(D, rtpt_vxy0, scene_setup, OP_RTPT_SF1_LM1, 0, CANARY_VXY, "RTPT VXY0") \
-    X(D, rtpt_vz0, scene_setup, OP_RTPT_SF1_LM1, 1, CANARY_VZ, "RTPT VZ0") \
-    X(D, rtpt_vxy1, scene_setup, OP_RTPT_SF1_LM1, 2, CANARY_VXY, "RTPT VXY1") \
-    X(D, rtpt_vz1, scene_setup, OP_RTPT_SF1_LM1, 3, CANARY_VZ, "RTPT VZ1") \
-    X(D, rtpt_vxy2, scene_setup, OP_RTPT_SF1_LM1, 4, CANARY_VXY, "RTPT VXY2") \
-    X(D, rtpt_vz2, scene_setup, OP_RTPT_SF1_LM1, 5, CANARY_VZ, "RTPT VZ2") \
-    X(C, rtpt_r11r12, scene_setup, OP_RTPT_SF1_LM1, 0, CANARY_RMAT, "RTPT R11R12") \
-    X(C, rtpt_r13r21, scene_setup, OP_RTPT_SF1_LM1, 1, CANARY_RMAT, "RTPT R13R21") \
-    X(C, rtpt_r22r23, scene_setup, OP_RTPT_SF1_LM1, 2, CANARY_RMAT, "RTPT R22R23") \
-    X(C, rtpt_r31r32, scene_setup, OP_RTPT_SF1_LM1, 3, CANARY_RMAT, "RTPT R31R32") \
-    X(C, rtpt_r33, scene_setup, OP_RTPT_SF1_LM1, 4, CANARY_RMAT, "RTPT R33") \
-    X(C, rtpt_trx, scene_setup, OP_RTPT_SF1_LM1, 5, CANARY_TR, "RTPT TRX") \
-    X(C, rtpt_try, scene_setup, OP_RTPT_SF1_LM1, 6, CANARY_TR, "RTPT TRY") \
-    X(C, rtpt_trz, scene_setup, OP_RTPT_SF1_LM1, 7, CANARY_TR, "RTPT TRZ") \
-    X(C, rtpt_ofx, scene_setup, OP_RTPT_SF1_LM1, 24, CANARY_OF, "RTPT OFX") \
-    X(C, rtpt_ofy, scene_setup, OP_RTPT_SF1_LM1, 25, CANARY_OF, "RTPT OFY") \
-    X(C, rtpt_h, scene_setup, OP_RTPT_SF1_LM1, 26, CANARY_H, "RTPT H") \
-    X(C, rtpt_dqa, scene_setup, OP_RTPT_SF1_LM1, 27, CANARY_DQA, "RTPT DQA") \
-    X(C, rtpt_dqb, scene_setup, OP_RTPT_SF1_LM1, 28, CANARY_DQB, "RTPT DQB") \
+    X(D, rtps_vxy0, scene_setup, OP_RTPS_SF1_LM1, 0, CANARY_VXY, "RTPS VXY0", "NNNN") \
+    X(D, rtps_vz0, scene_setup, OP_RTPS_SF1_LM1, 1, CANARY_VZ, "RTPS VZ0", "NNNN") \
+    X(C, rtps_r11r12, scene_setup, OP_RTPS_SF1_LM1, 0, CANARY_RMAT, "RTPS R11R12", "NNNN") \
+    X(C, rtps_r13r21, scene_setup, OP_RTPS_SF1_LM1, 1, CANARY_RMAT, "RTPS R13R21", "NNNN") \
+    X(C, rtps_r22r23, scene_setup, OP_RTPS_SF1_LM1, 2, CANARY_RMAT, "RTPS R22R23", "NNNN") \
+    X(C, rtps_r31r32, scene_setup, OP_RTPS_SF1_LM1, 3, CANARY_RMAT, "RTPS R31R32", "OXNN") \
+    X(C, rtps_r33, scene_setup, OP_RTPS_SF1_LM1, 4, CANARY_RMAT, "RTPS R33", "NNNN") \
+    X(C, rtps_trx, scene_setup, OP_RTPS_SF1_LM1, 5, CANARY_TR, "RTPS TRX", "NNNN") \
+    X(C, rtps_try, scene_setup, OP_RTPS_SF1_LM1, 6, CANARY_TR, "RTPS TRY", "NNNN") \
+    X(C, rtps_trz, scene_setup, OP_RTPS_SF1_LM1, 7, CANARY_TR, "RTPS TRZ", "OONN") \
+    X(C, rtps_ofx, scene_setup, OP_RTPS_SF1_LM1, 24, CANARY_OF, "RTPS OFX", "NNNN") \
+    X(C, rtps_ofy, scene_setup, OP_RTPS_SF1_LM1, 25, CANARY_OF, "RTPS OFY", "NNNN") \
+    X(C, rtps_h, scene_setup, OP_RTPS_SF1_LM1, 26, CANARY_H, "RTPS H", "NNNN") \
+    X(C, rtps_dqa, scene_setup, OP_RTPS_SF1_LM1, 27, CANARY_DQA, "RTPS DQA", "NNNN") \
+    X(C, rtps_dqb, scene_setup, OP_RTPS_SF1_LM1, 28, CANARY_DQB, "RTPS DQB", "NNNN") \
+    X(D, rtpt_vxy0, scene_setup, OP_RTPT_SF1_LM1, 0, CANARY_VXY, "RTPT VXY0", "XNNN") \
+    X(D, rtpt_vz0, scene_setup, OP_RTPT_SF1_LM1, 1, CANARY_VZ, "RTPT VZ0", "NNNN") \
+    X(D, rtpt_vxy1, scene_setup, OP_RTPT_SF1_LM1, 2, CANARY_VXY, "RTPT VXY1", "NNNN") \
+    X(D, rtpt_vz1, scene_setup, OP_RTPT_SF1_LM1, 3, CANARY_VZ, "RTPT VZ1", "NNNN") \
+    X(D, rtpt_vxy2, scene_setup, OP_RTPT_SF1_LM1, 4, CANARY_VXY, "RTPT VXY2", "NNNN") \
+    X(D, rtpt_vz2, scene_setup, OP_RTPT_SF1_LM1, 5, CANARY_VZ, "RTPT VZ2", "NNNN") \
+    X(C, rtpt_r11r12, scene_setup, OP_RTPT_SF1_LM1, 0, CANARY_RMAT, "RTPT R11R12", "XNNN") \
+    X(C, rtpt_r13r21, scene_setup, OP_RTPT_SF1_LM1, 1, CANARY_RMAT, "RTPT R13R21", "NNNN") \
+    X(C, rtpt_r22r23, scene_setup, OP_RTPT_SF1_LM1, 2, CANARY_RMAT, "RTPT R22R23", "NNNN") \
+    X(C, rtpt_r31r32, scene_setup, OP_RTPT_SF1_LM1, 3, CANARY_RMAT, "RTPT R31R32", "XXNN") \
+    X(C, rtpt_r33, scene_setup, OP_RTPT_SF1_LM1, 4, CANARY_RMAT, "RTPT R33", "NNNN") \
+    X(C, rtpt_trx, scene_setup, OP_RTPT_SF1_LM1, 5, CANARY_TR, "RTPT TRX", "XNNN") \
+    X(C, rtpt_try, scene_setup, OP_RTPT_SF1_LM1, 6, CANARY_TR, "RTPT TRY", "NNNN") \
+    X(C, rtpt_trz, scene_setup, OP_RTPT_SF1_LM1, 7, CANARY_TR, "RTPT TRZ", "XXNN") \
+    X(C, rtpt_ofx, scene_setup, OP_RTPT_SF1_LM1, 24, CANARY_OF, "RTPT OFX", "NNNN") \
+    X(C, rtpt_ofy, scene_setup, OP_RTPT_SF1_LM1, 25, CANARY_OF, "RTPT OFY", "NNNN") \
+    X(C, rtpt_h, scene_setup, OP_RTPT_SF1_LM1, 26, CANARY_H, "RTPT H", "NNNN") \
+    X(C, rtpt_dqa, scene_setup, OP_RTPT_SF1_LM1, 27, CANARY_DQA, "RTPT DQA", "NNNN") \
+    X(C, rtpt_dqb, scene_setup, OP_RTPT_SF1_LM1, 28, CANARY_DQB, "RTPT DQB", "NNNN") \
 
 CELLS(GWU_FUNCS)
 

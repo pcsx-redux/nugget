@@ -41,6 +41,11 @@ SOFTWARE.
  * uncached (U). Held: interrupts off, nop as the filler and as the
  * instruction before the second write, mtc2/ctc2 as the writer, the
  * measured pass is the second of two back to back.
+ *
+ * The last column of each cell is what SCPH-1000, -1001, -5501 and -7001
+ * printed for N = 0..3 cached (see RESULTS.md). The cached passes are
+ * checked against it and the program returns 1 on any difference. The
+ * uncached pass is printed, not checked.
  */
 
 #pragma once
@@ -61,6 +66,7 @@ typedef struct {
     uint32_t canary;
     uint8_t ctrl;
     uint8_t reg;
+    const char* expect;
 } GwuCell;
 
 #define GWU_W_D "mtc2"
@@ -78,7 +84,7 @@ typedef struct {
                          : "r"(a), "r"(b), "i"(op));                                                     \
     }
 
-#define GWU_FUNCS(K, name, scene, op, reg, canary, label) \
+#define GWU_FUNCS(K, name, scene, op, reg, canary, label, expect) \
     GWU_FN(GWU_W_##K, name, op, reg, 0)                   \
     GWU_FN(GWU_W_##K, name, op, reg, 1)                   \
     GWU_FN(GWU_W_##K, name, op, reg, 2)                   \
@@ -89,5 +95,5 @@ typedef struct {
         return v;                                         \
     }
 
-#define GWU_ENTRY(K, name, scene, op, reg, canary, label) \
-    {label, scene, name##_rd, {name##_0, name##_1, name##_2, name##_3}, canary, GWU_ISC_##K, reg},
+#define GWU_ENTRY(K, name, scene, op, reg, canary, label, expect) \
+    {label, scene, name##_rd, {name##_0, name##_1, name##_2, name##_3}, canary, GWU_ISC_##K, reg, expect},

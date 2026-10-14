@@ -78,26 +78,26 @@ static inline void scene_setup(void) {
 
 
 #define CELLS(X) \
-    X(D, avsz3_sz1, scene_setup, OP_AVSZ3, 17, CANARY_SZ, "AVSZ3 SZ1") \
-    X(D, avsz3_sz2, scene_setup, OP_AVSZ3, 18, CANARY_SZ, "AVSZ3 SZ2") \
-    X(D, avsz3_sz3, scene_setup, OP_AVSZ3, 19, CANARY_SZ, "AVSZ3 SZ3") \
-    X(C, avsz3_zsf3, scene_setup, OP_AVSZ3, 29, CANARY_ZSF, "AVSZ3 ZSF3") \
-    X(D, avsz4_sz0, scene_setup, OP_AVSZ4, 16, CANARY_SZ, "AVSZ4 SZ0") \
-    X(D, avsz4_sz1, scene_setup, OP_AVSZ4, 17, CANARY_SZ, "AVSZ4 SZ1") \
-    X(D, avsz4_sz2, scene_setup, OP_AVSZ4, 18, CANARY_SZ, "AVSZ4 SZ2") \
-    X(D, avsz4_sz3, scene_setup, OP_AVSZ4, 19, CANARY_SZ, "AVSZ4 SZ3") \
-    X(C, avsz4_zsf4, scene_setup, OP_AVSZ4, 30, CANARY_ZSF, "AVSZ4 ZSF4") \
-    X(D, gpf_ir0, scene_setup, OP_GPF_SF1_LM1, 8, CANARY_IR0, "GPF IR0") \
-    X(D, gpf_ir1, scene_setup, OP_GPF_SF1_LM1, 9, CANARY_IR, "GPF IR1") \
-    X(D, gpf_ir2, scene_setup, OP_GPF_SF1_LM1, 10, CANARY_IR, "GPF IR2") \
-    X(D, gpf_ir3, scene_setup, OP_GPF_SF1_LM1, 11, CANARY_IR, "GPF IR3") \
-    X(D, gpl_ir0, scene_setup, OP_GPL_SF1_LM1, 8, CANARY_IR0, "GPL IR0") \
-    X(D, gpl_ir1, scene_setup, OP_GPL_SF1_LM1, 9, CANARY_IR, "GPL IR1") \
-    X(D, gpl_ir2, scene_setup, OP_GPL_SF1_LM1, 10, CANARY_IR, "GPL IR2") \
-    X(D, gpl_ir3, scene_setup, OP_GPL_SF1_LM1, 11, CANARY_IR, "GPL IR3") \
-    X(D, gpl_mac1, scene_setup, OP_GPL_SF1_LM1, 25, CANARY_MAC, "GPL MAC1") \
-    X(D, gpl_mac2, scene_setup, OP_GPL_SF1_LM1, 26, CANARY_MAC, "GPL MAC2") \
-    X(D, gpl_mac3, scene_setup, OP_GPL_SF1_LM1, 27, CANARY_MAC, "GPL MAC3") \
+    X(D, avsz3_sz1, scene_setup, OP_AVSZ3, 17, CANARY_SZ, "AVSZ3 SZ1", "OONN") \
+    X(D, avsz3_sz2, scene_setup, OP_AVSZ3, 18, CANARY_SZ, "AVSZ3 SZ2", "ONNN") \
+    X(D, avsz3_sz3, scene_setup, OP_AVSZ3, 19, CANARY_SZ, "AVSZ3 SZ3", "NNNN") \
+    X(C, avsz3_zsf3, scene_setup, OP_AVSZ3, 29, CANARY_ZSF, "AVSZ3 ZSF3", "XXNN") \
+    X(D, avsz4_sz0, scene_setup, OP_AVSZ4, 16, CANARY_SZ, "AVSZ4 SZ0", "NNNN") \
+    X(D, avsz4_sz1, scene_setup, OP_AVSZ4, 17, CANARY_SZ, "AVSZ4 SZ1", "OONN") \
+    X(D, avsz4_sz2, scene_setup, OP_AVSZ4, 18, CANARY_SZ, "AVSZ4 SZ2", "ONNN") \
+    X(D, avsz4_sz3, scene_setup, OP_AVSZ4, 19, CANARY_SZ, "AVSZ4 SZ3", "NNNN") \
+    X(C, avsz4_zsf4, scene_setup, OP_AVSZ4, 30, CANARY_ZSF, "AVSZ4 ZSF4", "XXNN") \
+    X(D, gpf_ir0, scene_setup, OP_GPF_SF1_LM1, 8, CANARY_IR0, "GPF IR0", "XXNN") \
+    X(D, gpf_ir1, scene_setup, OP_GPF_SF1_LM1, 9, CANARY_IR, "GPF IR1", "OONN") \
+    X(D, gpf_ir2, scene_setup, OP_GPF_SF1_LM1, 10, CANARY_IR, "GPF IR2", "ONNN") \
+    X(D, gpf_ir3, scene_setup, OP_GPF_SF1_LM1, 11, CANARY_IR, "GPF IR3", "NNNN") \
+    X(D, gpl_ir0, scene_setup, OP_GPL_SF1_LM1, 8, CANARY_IR0, "GPL IR0", "XXNN") \
+    X(D, gpl_ir1, scene_setup, OP_GPL_SF1_LM1, 9, CANARY_IR, "GPL IR1", "OONN") \
+    X(D, gpl_ir2, scene_setup, OP_GPL_SF1_LM1, 10, CANARY_IR, "GPL IR2", "ONNN") \
+    X(D, gpl_ir3, scene_setup, OP_GPL_SF1_LM1, 11, CANARY_IR, "GPL IR3", "NNNN") \
+    X(D, gpl_mac1, scene_setup, OP_GPL_SF1_LM1, 25, CANARY_MAC, "GPL MAC1", "OONN") \
+    X(D, gpl_mac2, scene_setup, OP_GPL_SF1_LM1, 26, CANARY_MAC, "GPL MAC2", "ONNN") \
+    X(D, gpl_mac3, scene_setup, OP_GPL_SF1_LM1, 27, CANARY_MAC, "GPL MAC3", "NNNN") \
 
 CELLS(GWU_FUNCS)
 

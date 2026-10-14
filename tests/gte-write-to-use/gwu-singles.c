@@ -97,56 +97,56 @@ static inline void scene_setup(void) {
 
 
 #define CELLS(X) \
-    X(D, ncs_vxy0, scene_setup, OP_NCS_SF1_LM1, 0, CANARY_VXY, "NCS VXY0") \
-    X(D, ncs_vz0, scene_setup, OP_NCS_SF1_LM1, 1, CANARY_VZ, "NCS VZ0") \
-    X(C, ncs_l11l12, scene_setup, OP_NCS_SF1_LM1, 8, CANARY_LMAT, "NCS L11L12") \
-    X(C, ncs_l13l21, scene_setup, OP_NCS_SF1_LM1, 9, CANARY_LMAT, "NCS L13L21") \
-    X(C, ncs_l22l23, scene_setup, OP_NCS_SF1_LM1, 10, CANARY_LMAT, "NCS L22L23") \
-    X(C, ncs_l31l32, scene_setup, OP_NCS_SF1_LM1, 11, CANARY_LMAT, "NCS L31L32") \
-    X(C, ncs_l33, scene_setup, OP_NCS_SF1_LM1, 12, CANARY_LMAT, "NCS L33") \
-    X(C, ncs_lr1lr2, scene_setup, OP_NCS_SF1_LM1, 16, CANARY_LMAT, "NCS LR1LR2") \
-    X(C, ncs_lr3lg1, scene_setup, OP_NCS_SF1_LM1, 17, CANARY_LMAT, "NCS LR3LG1") \
-    X(C, ncs_lg2lg3, scene_setup, OP_NCS_SF1_LM1, 18, CANARY_LMAT, "NCS LG2LG3") \
-    X(C, ncs_lb1lb2, scene_setup, OP_NCS_SF1_LM1, 19, CANARY_LMAT, "NCS LB1LB2") \
-    X(C, ncs_lb3, scene_setup, OP_NCS_SF1_LM1, 20, CANARY_LMAT, "NCS LB3") \
-    X(C, ncs_rbk, scene_setup, OP_NCS_SF1_LM1, 13, CANARY_BK, "NCS RBK") \
-    X(C, ncs_gbk, scene_setup, OP_NCS_SF1_LM1, 14, CANARY_BK, "NCS GBK") \
-    X(C, ncs_bbk, scene_setup, OP_NCS_SF1_LM1, 15, CANARY_BK, "NCS BBK") \
-    X(D, nccs_vxy0, scene_setup, OP_NCCS_SF1_LM1, 0, CANARY_VXY, "NCCS VXY0") \
-    X(D, nccs_vz0, scene_setup, OP_NCCS_SF1_LM1, 1, CANARY_VZ, "NCCS VZ0") \
-    X(D, nccs_rgbc, scene_setup, OP_NCCS_SF1_LM1, 6, CANARY_RGBC, "NCCS RGBC") \
-    X(C, nccs_l11l12, scene_setup, OP_NCCS_SF1_LM1, 8, CANARY_LMAT, "NCCS L11L12") \
-    X(C, nccs_l13l21, scene_setup, OP_NCCS_SF1_LM1, 9, CANARY_LMAT, "NCCS L13L21") \
-    X(C, nccs_l22l23, scene_setup, OP_NCCS_SF1_LM1, 10, CANARY_LMAT, "NCCS L22L23") \
-    X(C, nccs_l31l32, scene_setup, OP_NCCS_SF1_LM1, 11, CANARY_LMAT, "NCCS L31L32") \
-    X(C, nccs_l33, scene_setup, OP_NCCS_SF1_LM1, 12, CANARY_LMAT, "NCCS L33") \
-    X(C, nccs_lr1lr2, scene_setup, OP_NCCS_SF1_LM1, 16, CANARY_LMAT, "NCCS LR1LR2") \
-    X(C, nccs_lr3lg1, scene_setup, OP_NCCS_SF1_LM1, 17, CANARY_LMAT, "NCCS LR3LG1") \
-    X(C, nccs_lg2lg3, scene_setup, OP_NCCS_SF1_LM1, 18, CANARY_LMAT, "NCCS LG2LG3") \
-    X(C, nccs_lb1lb2, scene_setup, OP_NCCS_SF1_LM1, 19, CANARY_LMAT, "NCCS LB1LB2") \
-    X(C, nccs_lb3, scene_setup, OP_NCCS_SF1_LM1, 20, CANARY_LMAT, "NCCS LB3") \
-    X(C, nccs_rbk, scene_setup, OP_NCCS_SF1_LM1, 13, CANARY_BK, "NCCS RBK") \
-    X(C, nccs_gbk, scene_setup, OP_NCCS_SF1_LM1, 14, CANARY_BK, "NCCS GBK") \
-    X(C, nccs_bbk, scene_setup, OP_NCCS_SF1_LM1, 15, CANARY_BK, "NCCS BBK") \
-    X(D, ncds_vxy0, scene_setup, OP_NCDS_SF1_LM1, 0, CANARY_VXY, "NCDS VXY0") \
-    X(D, ncds_vz0, scene_setup, OP_NCDS_SF1_LM1, 1, CANARY_VZ, "NCDS VZ0") \
-    X(D, ncds_rgbc, scene_setup, OP_NCDS_SF1_LM1, 6, CANARY_RGBC, "NCDS RGBC") \
-    X(C, ncds_l11l12, scene_setup, OP_NCDS_SF1_LM1, 8, CANARY_LMAT, "NCDS L11L12") \
-    X(C, ncds_l13l21, scene_setup, OP_NCDS_SF1_LM1, 9, CANARY_LMAT, "NCDS L13L21") \
-    X(C, ncds_l22l23, scene_setup, OP_NCDS_SF1_LM1, 10, CANARY_LMAT, "NCDS L22L23") \
-    X(C, ncds_l31l32, scene_setup, OP_NCDS_SF1_LM1, 11, CANARY_LMAT, "NCDS L31L32") \
-    X(C, ncds_l33, scene_setup, OP_NCDS_SF1_LM1, 12, CANARY_LMAT, "NCDS L33") \
-    X(C, ncds_lr1lr2, scene_setup, OP_NCDS_SF1_LM1, 16, CANARY_LMAT, "NCDS LR1LR2") \
-    X(C, ncds_lr3lg1, scene_setup, OP_NCDS_SF1_LM1, 17, CANARY_LMAT, "NCDS LR3LG1") \
-    X(C, ncds_lg2lg3, scene_setup, OP_NCDS_SF1_LM1, 18, CANARY_LMAT, "NCDS LG2LG3") \
-    X(C, ncds_lb1lb2, scene_setup, OP_NCDS_SF1_LM1, 19, CANARY_LMAT, "NCDS LB1LB2") \
-    X(C, ncds_lb3, scene_setup, OP_NCDS_SF1_LM1, 20, CANARY_LMAT, "NCDS LB3") \
-    X(C, ncds_rbk, scene_setup, OP_NCDS_SF1_LM1, 13, CANARY_BK, "NCDS RBK") \
-    X(C, ncds_gbk, scene_setup, OP_NCDS_SF1_LM1, 14, CANARY_BK, "NCDS GBK") \
-    X(C, ncds_bbk, scene_setup, OP_NCDS_SF1_LM1, 15, CANARY_BK, "NCDS BBK") \
-    X(C, ncds_rfc, scene_setup, OP_NCDS_SF1_LM1, 21, CANARY_FC, "NCDS RFC") \
-    X(C, ncds_gfc, scene_setup, OP_NCDS_SF1_LM1, 22, CANARY_FC, "NCDS GFC") \
-    X(C, ncds_bfc, scene_setup, OP_NCDS_SF1_LM1, 23, CANARY_FC, "NCDS BFC") \
+    X(D, ncs_vxy0, scene_setup, OP_NCS_SF1_LM1, 0, CANARY_VXY, "NCS VXY0", "XXNN") \
+    X(D, ncs_vz0, scene_setup, OP_NCS_SF1_LM1, 1, CANARY_VZ, "NCS VZ0", "NNNN") \
+    X(C, ncs_l11l12, scene_setup, OP_NCS_SF1_LM1, 8, CANARY_LMAT, "NCS L11L12", "OXNN") \
+    X(C, ncs_l13l21, scene_setup, OP_NCS_SF1_LM1, 9, CANARY_LMAT, "NCS L13L21", "XNNN") \
+    X(C, ncs_l22l23, scene_setup, OP_NCS_SF1_LM1, 10, CANARY_LMAT, "NCS L22L23", "NNNN") \
+    X(C, ncs_l31l32, scene_setup, OP_NCS_SF1_LM1, 11, CANARY_LMAT, "NCS L31L32", "NNNN") \
+    X(C, ncs_l33, scene_setup, OP_NCS_SF1_LM1, 12, CANARY_LMAT, "NCS L33", "NNNN") \
+    X(C, ncs_lr1lr2, scene_setup, OP_NCS_SF1_LM1, 16, CANARY_LMAT, "NCS LR1LR2", "NNNN") \
+    X(C, ncs_lr3lg1, scene_setup, OP_NCS_SF1_LM1, 17, CANARY_LMAT, "NCS LR3LG1", "NNNN") \
+    X(C, ncs_lg2lg3, scene_setup, OP_NCS_SF1_LM1, 18, CANARY_LMAT, "NCS LG2LG3", "NNNN") \
+    X(C, ncs_lb1lb2, scene_setup, OP_NCS_SF1_LM1, 19, CANARY_LMAT, "NCS LB1LB2", "NNNN") \
+    X(C, ncs_lb3, scene_setup, OP_NCS_SF1_LM1, 20, CANARY_LMAT, "NCS LB3", "NNNN") \
+    X(C, ncs_rbk, scene_setup, OP_NCS_SF1_LM1, 13, CANARY_BK, "NCS RBK", "NNNN") \
+    X(C, ncs_gbk, scene_setup, OP_NCS_SF1_LM1, 14, CANARY_BK, "NCS GBK", "NNNN") \
+    X(C, ncs_bbk, scene_setup, OP_NCS_SF1_LM1, 15, CANARY_BK, "NCS BBK", "NNNN") \
+    X(D, nccs_vxy0, scene_setup, OP_NCCS_SF1_LM1, 0, CANARY_VXY, "NCCS VXY0", "XXNN") \
+    X(D, nccs_vz0, scene_setup, OP_NCCS_SF1_LM1, 1, CANARY_VZ, "NCCS VZ0", "NNNN") \
+    X(D, nccs_rgbc, scene_setup, OP_NCCS_SF1_LM1, 6, CANARY_RGBC, "NCCS RGBC", "NNNN") \
+    X(C, nccs_l11l12, scene_setup, OP_NCCS_SF1_LM1, 8, CANARY_LMAT, "NCCS L11L12", "ONNN") \
+    X(C, nccs_l13l21, scene_setup, OP_NCCS_SF1_LM1, 9, CANARY_LMAT, "NCCS L13L21", "XNNN") \
+    X(C, nccs_l22l23, scene_setup, OP_NCCS_SF1_LM1, 10, CANARY_LMAT, "NCCS L22L23", "NNNN") \
+    X(C, nccs_l31l32, scene_setup, OP_NCCS_SF1_LM1, 11, CANARY_LMAT, "NCCS L31L32", "NNNN") \
+    X(C, nccs_l33, scene_setup, OP_NCCS_SF1_LM1, 12, CANARY_LMAT, "NCCS L33", "NNNN") \
+    X(C, nccs_lr1lr2, scene_setup, OP_NCCS_SF1_LM1, 16, CANARY_LMAT, "NCCS LR1LR2", "NNNN") \
+    X(C, nccs_lr3lg1, scene_setup, OP_NCCS_SF1_LM1, 17, CANARY_LMAT, "NCCS LR3LG1", "NNNN") \
+    X(C, nccs_lg2lg3, scene_setup, OP_NCCS_SF1_LM1, 18, CANARY_LMAT, "NCCS LG2LG3", "NNNN") \
+    X(C, nccs_lb1lb2, scene_setup, OP_NCCS_SF1_LM1, 19, CANARY_LMAT, "NCCS LB1LB2", "NNNN") \
+    X(C, nccs_lb3, scene_setup, OP_NCCS_SF1_LM1, 20, CANARY_LMAT, "NCCS LB3", "NNNN") \
+    X(C, nccs_rbk, scene_setup, OP_NCCS_SF1_LM1, 13, CANARY_BK, "NCCS RBK", "NNNN") \
+    X(C, nccs_gbk, scene_setup, OP_NCCS_SF1_LM1, 14, CANARY_BK, "NCCS GBK", "NNNN") \
+    X(C, nccs_bbk, scene_setup, OP_NCCS_SF1_LM1, 15, CANARY_BK, "NCCS BBK", "NNNN") \
+    X(D, ncds_vxy0, scene_setup, OP_NCDS_SF1_LM1, 0, CANARY_VXY, "NCDS VXY0", "XXNN") \
+    X(D, ncds_vz0, scene_setup, OP_NCDS_SF1_LM1, 1, CANARY_VZ, "NCDS VZ0", "NNNN") \
+    X(D, ncds_rgbc, scene_setup, OP_NCDS_SF1_LM1, 6, CANARY_RGBC, "NCDS RGBC", "NNNN") \
+    X(C, ncds_l11l12, scene_setup, OP_NCDS_SF1_LM1, 8, CANARY_LMAT, "NCDS L11L12", "OXNN") \
+    X(C, ncds_l13l21, scene_setup, OP_NCDS_SF1_LM1, 9, CANARY_LMAT, "NCDS L13L21", "XNNN") \
+    X(C, ncds_l22l23, scene_setup, OP_NCDS_SF1_LM1, 10, CANARY_LMAT, "NCDS L22L23", "NNNN") \
+    X(C, ncds_l31l32, scene_setup, OP_NCDS_SF1_LM1, 11, CANARY_LMAT, "NCDS L31L32", "NNNN") \
+    X(C, ncds_l33, scene_setup, OP_NCDS_SF1_LM1, 12, CANARY_LMAT, "NCDS L33", "NNNN") \
+    X(C, ncds_lr1lr2, scene_setup, OP_NCDS_SF1_LM1, 16, CANARY_LMAT, "NCDS LR1LR2", "NNNN") \
+    X(C, ncds_lr3lg1, scene_setup, OP_NCDS_SF1_LM1, 17, CANARY_LMAT, "NCDS LR3LG1", "NNNN") \
+    X(C, ncds_lg2lg3, scene_setup, OP_NCDS_SF1_LM1, 18, CANARY_LMAT, "NCDS LG2LG3", "NNNN") \
+    X(C, ncds_lb1lb2, scene_setup, OP_NCDS_SF1_LM1, 19, CANARY_LMAT, "NCDS LB1LB2", "NNNN") \
+    X(C, ncds_lb3, scene_setup, OP_NCDS_SF1_LM1, 20, CANARY_LMAT, "NCDS LB3", "NNNN") \
+    X(C, ncds_rbk, scene_setup, OP_NCDS_SF1_LM1, 13, CANARY_BK, "NCDS RBK", "NNNN") \
+    X(C, ncds_gbk, scene_setup, OP_NCDS_SF1_LM1, 14, CANARY_BK, "NCDS GBK", "NNNN") \
+    X(C, ncds_bbk, scene_setup, OP_NCDS_SF1_LM1, 15, CANARY_BK, "NCDS BBK", "NNNN") \
+    X(C, ncds_rfc, scene_setup, OP_NCDS_SF1_LM1, 21, CANARY_FC, "NCDS RFC", "NNNN") \
+    X(C, ncds_gfc, scene_setup, OP_NCDS_SF1_LM1, 22, CANARY_FC, "NCDS GFC", "NNNN") \
+    X(C, ncds_bfc, scene_setup, OP_NCDS_SF1_LM1, 23, CANARY_FC, "NCDS BFC", "NNNN") \
 
 CELLS(GWU_FUNCS)
 

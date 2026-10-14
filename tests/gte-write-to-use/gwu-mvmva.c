@@ -98,44 +98,44 @@ static inline void scene_setup(void) {
 #define OP_MVMVA_RT_V0_NONE COP2_MVMVA(1, COP2_MX_RT, COP2_V_V0, COP2_CV_NONE, 0)
 
 #define CELLS(X) \
-    X(D, mvmva_rt_v0_tr_vxy0, scene_setup, OP_MVMVA_RT_V0_TR, 0, CANARY_VXY, "MVMVA(RT,V0,TR) VXY0") \
-    X(D, mvmva_rt_v0_tr_vz0, scene_setup, OP_MVMVA_RT_V0_TR, 1, CANARY_VZ, "MVMVA(RT,V0,TR) VZ0") \
-    X(C, mvmva_rt_v0_tr_r11r12, scene_setup, OP_MVMVA_RT_V0_TR, 0, CANARY_MAT, "MVMVA(RT,V0,TR) R11R12") \
-    X(C, mvmva_rt_v0_tr_r13r21, scene_setup, OP_MVMVA_RT_V0_TR, 1, CANARY_MAT, "MVMVA(RT,V0,TR) R13R21") \
-    X(C, mvmva_rt_v0_tr_r22r23, scene_setup, OP_MVMVA_RT_V0_TR, 2, CANARY_MAT, "MVMVA(RT,V0,TR) R22R23") \
-    X(C, mvmva_rt_v0_tr_r31r32, scene_setup, OP_MVMVA_RT_V0_TR, 3, CANARY_MAT, "MVMVA(RT,V0,TR) R31R32") \
-    X(C, mvmva_rt_v0_tr_r33, scene_setup, OP_MVMVA_RT_V0_TR, 4, CANARY_MAT, "MVMVA(RT,V0,TR) R33") \
-    X(C, mvmva_rt_v0_tr_trx, scene_setup, OP_MVMVA_RT_V0_TR, 5, CANARY_TR, "MVMVA(RT,V0,TR) TRX") \
-    X(C, mvmva_rt_v0_tr_try, scene_setup, OP_MVMVA_RT_V0_TR, 6, CANARY_TR, "MVMVA(RT,V0,TR) TRY") \
-    X(C, mvmva_rt_v0_tr_trz, scene_setup, OP_MVMVA_RT_V0_TR, 7, CANARY_TR, "MVMVA(RT,V0,TR) TRZ") \
-    X(D, mvmva_ll_v0_bk_vxy0, scene_setup, OP_MVMVA_LL_V0_BK, 0, CANARY_VXY, "MVMVA(LL,V0,BK) VXY0") \
-    X(D, mvmva_ll_v0_bk_vz0, scene_setup, OP_MVMVA_LL_V0_BK, 1, CANARY_VZ, "MVMVA(LL,V0,BK) VZ0") \
-    X(C, mvmva_ll_v0_bk_l11l12, scene_setup, OP_MVMVA_LL_V0_BK, 8, CANARY_MAT, "MVMVA(LL,V0,BK) L11L12") \
-    X(C, mvmva_ll_v0_bk_l13l21, scene_setup, OP_MVMVA_LL_V0_BK, 9, CANARY_MAT, "MVMVA(LL,V0,BK) L13L21") \
-    X(C, mvmva_ll_v0_bk_l22l23, scene_setup, OP_MVMVA_LL_V0_BK, 10, CANARY_MAT, "MVMVA(LL,V0,BK) L22L23") \
-    X(C, mvmva_ll_v0_bk_l31l32, scene_setup, OP_MVMVA_LL_V0_BK, 11, CANARY_MAT, "MVMVA(LL,V0,BK) L31L32") \
-    X(C, mvmva_ll_v0_bk_l33, scene_setup, OP_MVMVA_LL_V0_BK, 12, CANARY_MAT, "MVMVA(LL,V0,BK) L33") \
-    X(C, mvmva_ll_v0_bk_rbk, scene_setup, OP_MVMVA_LL_V0_BK, 13, CANARY_BK, "MVMVA(LL,V0,BK) RBK") \
-    X(C, mvmva_ll_v0_bk_gbk, scene_setup, OP_MVMVA_LL_V0_BK, 14, CANARY_BK, "MVMVA(LL,V0,BK) GBK") \
-    X(C, mvmva_ll_v0_bk_bbk, scene_setup, OP_MVMVA_LL_V0_BK, 15, CANARY_BK, "MVMVA(LL,V0,BK) BBK") \
-    X(D, mvmva_lc_ir_bk_ir1, scene_setup, OP_MVMVA_LC_IR_BK, 9, CANARY_IR, "MVMVA(LC,IR,BK) IR1") \
-    X(D, mvmva_lc_ir_bk_ir2, scene_setup, OP_MVMVA_LC_IR_BK, 10, CANARY_IR, "MVMVA(LC,IR,BK) IR2") \
-    X(D, mvmva_lc_ir_bk_ir3, scene_setup, OP_MVMVA_LC_IR_BK, 11, CANARY_IR, "MVMVA(LC,IR,BK) IR3") \
-    X(C, mvmva_lc_ir_bk_lr1lr2, scene_setup, OP_MVMVA_LC_IR_BK, 16, CANARY_MAT, "MVMVA(LC,IR,BK) LR1LR2") \
-    X(C, mvmva_lc_ir_bk_lr3lg1, scene_setup, OP_MVMVA_LC_IR_BK, 17, CANARY_MAT, "MVMVA(LC,IR,BK) LR3LG1") \
-    X(C, mvmva_lc_ir_bk_lg2lg3, scene_setup, OP_MVMVA_LC_IR_BK, 18, CANARY_MAT, "MVMVA(LC,IR,BK) LG2LG3") \
-    X(C, mvmva_lc_ir_bk_lb1lb2, scene_setup, OP_MVMVA_LC_IR_BK, 19, CANARY_MAT, "MVMVA(LC,IR,BK) LB1LB2") \
-    X(C, mvmva_lc_ir_bk_lb3, scene_setup, OP_MVMVA_LC_IR_BK, 20, CANARY_MAT, "MVMVA(LC,IR,BK) LB3") \
-    X(C, mvmva_lc_ir_bk_rbk, scene_setup, OP_MVMVA_LC_IR_BK, 13, CANARY_BK, "MVMVA(LC,IR,BK) RBK") \
-    X(C, mvmva_lc_ir_bk_gbk, scene_setup, OP_MVMVA_LC_IR_BK, 14, CANARY_BK, "MVMVA(LC,IR,BK) GBK") \
-    X(C, mvmva_lc_ir_bk_bbk, scene_setup, OP_MVMVA_LC_IR_BK, 15, CANARY_BK, "MVMVA(LC,IR,BK) BBK") \
-    X(D, mvmva_rt_v0_none_vxy0, scene_setup, OP_MVMVA_RT_V0_NONE, 0, CANARY_VXY, "MVMVA(RT,V0,NONE,lm0) VXY0") \
-    X(D, mvmva_rt_v0_none_vz0, scene_setup, OP_MVMVA_RT_V0_NONE, 1, CANARY_VZ, "MVMVA(RT,V0,NONE,lm0) VZ0") \
-    X(C, mvmva_rt_v0_none_r11r12, scene_setup, OP_MVMVA_RT_V0_NONE, 0, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R11R12") \
-    X(C, mvmva_rt_v0_none_r13r21, scene_setup, OP_MVMVA_RT_V0_NONE, 1, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R13R21") \
-    X(C, mvmva_rt_v0_none_r22r23, scene_setup, OP_MVMVA_RT_V0_NONE, 2, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R22R23") \
-    X(C, mvmva_rt_v0_none_r31r32, scene_setup, OP_MVMVA_RT_V0_NONE, 3, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R31R32") \
-    X(C, mvmva_rt_v0_none_r33, scene_setup, OP_MVMVA_RT_V0_NONE, 4, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R33") \
+    X(D, mvmva_rt_v0_tr_vxy0, scene_setup, OP_MVMVA_RT_V0_TR, 0, CANARY_VXY, "MVMVA(RT,V0,TR) VXY0", "XXNN") \
+    X(D, mvmva_rt_v0_tr_vz0, scene_setup, OP_MVMVA_RT_V0_TR, 1, CANARY_VZ, "MVMVA(RT,V0,TR) VZ0", "NNNN") \
+    X(C, mvmva_rt_v0_tr_r11r12, scene_setup, OP_MVMVA_RT_V0_TR, 0, CANARY_MAT, "MVMVA(RT,V0,TR) R11R12", "OXNN") \
+    X(C, mvmva_rt_v0_tr_r13r21, scene_setup, OP_MVMVA_RT_V0_TR, 1, CANARY_MAT, "MVMVA(RT,V0,TR) R13R21", "XNNN") \
+    X(C, mvmva_rt_v0_tr_r22r23, scene_setup, OP_MVMVA_RT_V0_TR, 2, CANARY_MAT, "MVMVA(RT,V0,TR) R22R23", "NNNN") \
+    X(C, mvmva_rt_v0_tr_r31r32, scene_setup, OP_MVMVA_RT_V0_TR, 3, CANARY_MAT, "MVMVA(RT,V0,TR) R31R32", "NNNN") \
+    X(C, mvmva_rt_v0_tr_r33, scene_setup, OP_MVMVA_RT_V0_TR, 4, CANARY_MAT, "MVMVA(RT,V0,TR) R33", "NNNN") \
+    X(C, mvmva_rt_v0_tr_trx, scene_setup, OP_MVMVA_RT_V0_TR, 5, CANARY_TR, "MVMVA(RT,V0,TR) TRX", "OONN") \
+    X(C, mvmva_rt_v0_tr_try, scene_setup, OP_MVMVA_RT_V0_TR, 6, CANARY_TR, "MVMVA(RT,V0,TR) TRY", "ONNN") \
+    X(C, mvmva_rt_v0_tr_trz, scene_setup, OP_MVMVA_RT_V0_TR, 7, CANARY_TR, "MVMVA(RT,V0,TR) TRZ", "NNNN") \
+    X(D, mvmva_ll_v0_bk_vxy0, scene_setup, OP_MVMVA_LL_V0_BK, 0, CANARY_VXY, "MVMVA(LL,V0,BK) VXY0", "XXNN") \
+    X(D, mvmva_ll_v0_bk_vz0, scene_setup, OP_MVMVA_LL_V0_BK, 1, CANARY_VZ, "MVMVA(LL,V0,BK) VZ0", "NNNN") \
+    X(C, mvmva_ll_v0_bk_l11l12, scene_setup, OP_MVMVA_LL_V0_BK, 8, CANARY_MAT, "MVMVA(LL,V0,BK) L11L12", "OXNN") \
+    X(C, mvmva_ll_v0_bk_l13l21, scene_setup, OP_MVMVA_LL_V0_BK, 9, CANARY_MAT, "MVMVA(LL,V0,BK) L13L21", "XNNN") \
+    X(C, mvmva_ll_v0_bk_l22l23, scene_setup, OP_MVMVA_LL_V0_BK, 10, CANARY_MAT, "MVMVA(LL,V0,BK) L22L23", "NNNN") \
+    X(C, mvmva_ll_v0_bk_l31l32, scene_setup, OP_MVMVA_LL_V0_BK, 11, CANARY_MAT, "MVMVA(LL,V0,BK) L31L32", "NNNN") \
+    X(C, mvmva_ll_v0_bk_l33, scene_setup, OP_MVMVA_LL_V0_BK, 12, CANARY_MAT, "MVMVA(LL,V0,BK) L33", "NNNN") \
+    X(C, mvmva_ll_v0_bk_rbk, scene_setup, OP_MVMVA_LL_V0_BK, 13, CANARY_BK, "MVMVA(LL,V0,BK) RBK", "OONN") \
+    X(C, mvmva_ll_v0_bk_gbk, scene_setup, OP_MVMVA_LL_V0_BK, 14, CANARY_BK, "MVMVA(LL,V0,BK) GBK", "ONNN") \
+    X(C, mvmva_ll_v0_bk_bbk, scene_setup, OP_MVMVA_LL_V0_BK, 15, CANARY_BK, "MVMVA(LL,V0,BK) BBK", "NNNN") \
+    X(D, mvmva_lc_ir_bk_ir1, scene_setup, OP_MVMVA_LC_IR_BK, 9, CANARY_IR, "MVMVA(LC,IR,BK) IR1", "OONN") \
+    X(D, mvmva_lc_ir_bk_ir2, scene_setup, OP_MVMVA_LC_IR_BK, 10, CANARY_IR, "MVMVA(LC,IR,BK) IR2", "NNNN") \
+    X(D, mvmva_lc_ir_bk_ir3, scene_setup, OP_MVMVA_LC_IR_BK, 11, CANARY_IR, "MVMVA(LC,IR,BK) IR3", "NNNN") \
+    X(C, mvmva_lc_ir_bk_lr1lr2, scene_setup, OP_MVMVA_LC_IR_BK, 16, CANARY_MAT, "MVMVA(LC,IR,BK) LR1LR2", "OXNN") \
+    X(C, mvmva_lc_ir_bk_lr3lg1, scene_setup, OP_MVMVA_LC_IR_BK, 17, CANARY_MAT, "MVMVA(LC,IR,BK) LR3LG1", "XNNN") \
+    X(C, mvmva_lc_ir_bk_lg2lg3, scene_setup, OP_MVMVA_LC_IR_BK, 18, CANARY_MAT, "MVMVA(LC,IR,BK) LG2LG3", "NNNN") \
+    X(C, mvmva_lc_ir_bk_lb1lb2, scene_setup, OP_MVMVA_LC_IR_BK, 19, CANARY_MAT, "MVMVA(LC,IR,BK) LB1LB2", "NNNN") \
+    X(C, mvmva_lc_ir_bk_lb3, scene_setup, OP_MVMVA_LC_IR_BK, 20, CANARY_MAT, "MVMVA(LC,IR,BK) LB3", "NNNN") \
+    X(C, mvmva_lc_ir_bk_rbk, scene_setup, OP_MVMVA_LC_IR_BK, 13, CANARY_BK, "MVMVA(LC,IR,BK) RBK", "OONN") \
+    X(C, mvmva_lc_ir_bk_gbk, scene_setup, OP_MVMVA_LC_IR_BK, 14, CANARY_BK, "MVMVA(LC,IR,BK) GBK", "ONNN") \
+    X(C, mvmva_lc_ir_bk_bbk, scene_setup, OP_MVMVA_LC_IR_BK, 15, CANARY_BK, "MVMVA(LC,IR,BK) BBK", "NNNN") \
+    X(D, mvmva_rt_v0_none_vxy0, scene_setup, OP_MVMVA_RT_V0_NONE, 0, CANARY_VXY, "MVMVA(RT,V0,NONE,lm0) VXY0", "XXNN") \
+    X(D, mvmva_rt_v0_none_vz0, scene_setup, OP_MVMVA_RT_V0_NONE, 1, CANARY_VZ, "MVMVA(RT,V0,NONE,lm0) VZ0", "NNNN") \
+    X(C, mvmva_rt_v0_none_r11r12, scene_setup, OP_MVMVA_RT_V0_NONE, 0, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R11R12", "OXNN") \
+    X(C, mvmva_rt_v0_none_r13r21, scene_setup, OP_MVMVA_RT_V0_NONE, 1, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R13R21", "XNNN") \
+    X(C, mvmva_rt_v0_none_r22r23, scene_setup, OP_MVMVA_RT_V0_NONE, 2, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R22R23", "NNNN") \
+    X(C, mvmva_rt_v0_none_r31r32, scene_setup, OP_MVMVA_RT_V0_NONE, 3, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R31R32", "NNNN") \
+    X(C, mvmva_rt_v0_none_r33, scene_setup, OP_MVMVA_RT_V0_NONE, 4, CANARY_MAT, "MVMVA(RT,V0,NONE,lm0) R33", "NNNN") \
 
 CELLS(GWU_FUNCS)
 
