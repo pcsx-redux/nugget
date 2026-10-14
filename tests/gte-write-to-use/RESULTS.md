@@ -1,8 +1,17 @@
 # gte-write-to-use results
 
-SCPH-1000, SCPH-1001, SCPH-5501 and SCPH-7001: the cached columns are identical on all four,
-and the two cached passes agree with each other. The uncached column is SCPH-5501; it differs
-elsewhere in one cell (CC IR2, NNNN on the other three).
+The table is the first build on SCPH-1000, SCPH-1001, SCPH-5501 and SCPH-7001: the cached
+columns are identical on all four, and the two cached passes agree with each other. The
+uncached column is SCPH-5501. Two later builds, also run on a second SCPH-5501 and an SCPH-9002,
+moved three cells, which the program does not check:
+
+- NCCS L11L12, N=1: X instead of N on every console with the second build, so it depends on
+  where the code lands in the cache.
+- DPCT RGB0 / RGB1, N=0..1: the SCPH-9002 gives NN for RGB0 and XX for RGB1, the others the
+  reverse.
+
+The uncached column also varies in a few cells (CC IR2, DCPL IR3, DPCT RGB0/RGB1).
+With those three cells unchecked, the current build passes on all six consoles.
 
 Letters, for N = 0..3 nops between the write and the command: O / N the outputs match the
 old / new value, o / n the same with the written register left out (the late write landed
@@ -114,7 +123,7 @@ over the command's own result), X some outputs old and some new.
 | VXY0 | 2 | XXNN | XNNN |
 | VZ0 | 0 | NNNN | NNNN |
 | RGBC | 0 | NNNN | NNNN |
-| L11L12 | 1 | ONNN | ONNN |
+| L11L12 | 1 or 2 | ONNN | ONNN |
 | L13L21 | 1 | XNNN | XNNN |
 | L22L23 | 0 | NNNN | NNNN |
 | L31L32 | 0 | NNNN | NNNN |
