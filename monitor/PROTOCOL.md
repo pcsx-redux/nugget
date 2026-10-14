@@ -191,6 +191,15 @@ text and frames share one byte stream in each direction.
   CKSUM words, then returns to TTY mode. Zero bytes inside a frame are data.
 - The PS1 tty driver never emits `0x00`.
 
+The receiver has no timeout inside a frame. If host bytes are lost after
+LEN, the monitor reads that many of the following bytes as the rest of the
+frame, PINGs included, so a host PINGing at its usual pace may not get
+through. A host resyncs by sending 8232 `0x00` bytes (TYPE, LEN, 4112
+payload words, CKSUM) and then PINGing: the zeros complete any frame in
+progress, which fails its checksum since 0 is never a valid CKSUM on a byte
+link, and the remainder are one frame start. Zeros lost while the monitor
+sends the error reply are harmless.
+
 Wire bytes of a PING (no payload):
 
     00  AA 55  01 00  00 00  01 00 02 00
