@@ -74,8 +74,10 @@ CESTER_BODY(
     uint32_t delayslot_bc2f();
     uint32_t delayslot_swi();
     uint32_t delayslot_nested();
+    uint32_t plain_swi();
     extern volatile uint32_t delayslot_taken;
     void delayslot_resume();
+    void delayslot_mark();
     uint32_t cpu_LWR_LWL_half(uint32_t buff[], uint32_t initial);
     uint32_t cpu_LWR_LWL_nodelay(uint32_t buff[], uint32_t initial);
     uint32_t cpu_LWR_LWL_delayed(uint32_t buff[], uint32_t initial);

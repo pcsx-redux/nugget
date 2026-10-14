@@ -265,9 +265,27 @@ CESTER_BODY(
     }
 )
 
-// a software interrupt raised by a Cause write in a taken branch's delay slot
-// is taken before the branch target runs; EPC and Cause.BD for this case
-// have not been measured on hardware, so they are not checked
+// a software interrupt raised by a Cause write is taken before the next
+// instruction in execution order, with BD clear; EPC is that instruction
+CESTER_TEST(cpu_software_interrupt, cpu_tests,
+    uint32_t sr;
+    __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(sr));
+    s_customhandler = delayslot_clear_cause;
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"((sr & ~0xff00) | 0x101));
+    uint32_t next = plain_swi();
+    __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(sr));
+    s_customhandler = NULL;
+    uint32_t excode = (s_cause >> 2) & 0x1f;
+    uint32_t bd = s_cause >> 31;
+    cester_assert_uint_eq(1, s_got80);
+    cester_assert_uint_eq(0, excode);
+    cester_assert_uint_eq(0, bd);
+    cester_assert_uint_eq(next, s_epc);
+    cester_assert_uint_eq(0, delayslot_taken);
+)
+
+// in a taken branch's delay slot the slot completes first: the interrupt is
+// taken at the branch target, with BD clear
 CESTER_TEST(cpu_software_interrupt_in_delay_slot, cpu_tests,
     uint32_t sr;
     __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(sr));
@@ -277,19 +295,25 @@ CESTER_TEST(cpu_software_interrupt_in_delay_slot, cpu_tests,
     __asm__ volatile("mtc0 %0, $12\nnop\nnop" : : "r"(sr));
     s_customhandler = NULL;
     uint32_t excode = (s_cause >> 2) & 0x1f;
+    uint32_t bd = s_cause >> 31;
     cester_assert_uint_eq(1, s_got80);
     cester_assert_uint_eq(0, excode);
+    cester_assert_uint_eq(0, bd);
+    cester_assert_uint_eq((uint32_t)delayslot_mark, s_epc);
     cester_assert_uint_eq(0, delayslot_taken);
 )
 
 // a syscall in the delay slot of a not-taken branch that itself sits in a
-// taken branch's delay slot; EPC and Cause.BD for this case have not been
-// measured on hardware, so they are not checked
+// taken branch's delay slot: the slot belongs to the not-taken branch, so BD
+// is set and EPC points at it, not at the word before the syscall
 CESTER_TEST(cpu_SYSCALL_in_nested_delay_slot, cpu_tests,
     s_resume = (uint32_t *)delayslot_resume;
-    delayslot_nested();
+    uint32_t branch = delayslot_nested();
     uint32_t excode = (s_cause >> 2) & 0x1f;
+    uint32_t bd = s_cause >> 31;
     cester_assert_uint_eq(1, s_got80);
     cester_assert_uint_eq(8, excode);
+    cester_assert_uint_eq(1, bd);
+    cester_assert_uint_eq(branch + 4, s_epc);
     cester_assert_uint_eq(0, delayslot_taken);
 )
