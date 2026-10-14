@@ -211,7 +211,7 @@ CESTER_TEST(mixed_draw_upload_copy, gpu_async_stress,
     cester_assert_int_eq(0, stressCheck());
 )
 
-// GPUSTAT reflects E1 and E6 immediately, with draws still queued ahead.
+// GPUSTAT reflects E1 and E6 once the GPU can take a command again.
 CESTER_TEST(status_follows_env_commands, gpu_async_stress,
     stressReset();
     s_seed = 4;
@@ -224,6 +224,10 @@ CESTER_TEST(status_follows_env_commands, gpu_async_stress,
         uint32_t mask = stressRand() & 3;
         sendGPUData(0xe1000000u | tpage);
         sendGPUData(0xe6000000u | mask);
+        // On hardware E1 and E6 sit in the FIFO behind the rectangle until
+        // GPUSTAT bit 26 comes back. The soft GPU keeps bit 26 set, so this
+        // wait does not hold for its worker thread.
+        waitGPU();
         uint32_t stat = GPU_STATUS;
         if ((stat & 0x7ff) != tpage) bad++;
         if (((stat >> 11) & 3) != mask) bad++;
