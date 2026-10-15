@@ -32,7 +32,8 @@ SOFTWARE.
 #include "psyqo/utility-polyfill.h"
 #include "ucl-demo/n2e-d.h"
 
-eastl::array<void (psyqo::paths::ArchiveManager::*)(const psyqo::paths::ArchiveManager::IndexEntry*), 3>
+eastl::array<void (psyqo::paths::ArchiveManager::*)(const psyqo::paths::ArchiveManager::IndexEntry*),
+             psyqo::toUnderlying(psyqo::paths::ArchiveManager::IndexEntry::Method::COUNT)>
     psyqo::paths::ArchiveManager::s_decompressors = {nullptr};
 
 void psyqo::paths::ArchiveManager::setupInitQueue(eastl::string_view archiveName, ISO9660Parser& parser,
@@ -122,7 +123,7 @@ void psyqo::paths::ArchiveManager::setupQueue(const IndexEntry* entry, CDRom& de
         return;
     }
     const auto method = entry->getCompressionMethod();
-    Kernel::assert(toUnderlying(method) < toUnderlying(IndexEntry::Method::COUNT),
+    Kernel::assert(method != IndexEntry::Method::STREAM,
                    "ArchiveManager: this entry is a stream, use its sectors directly");
     const uint32_t sectorCount = entry->getCompressedSize();
     const uint32_t decompSize = entry->getDecompSize();

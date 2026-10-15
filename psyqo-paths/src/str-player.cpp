@@ -228,7 +228,7 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
 
   private:
     StrPlayer *m_player = nullptr;
-    volatile bool m_pending = false;
+    bool m_pending = false;
 };
 
 }  // namespace psyqo::paths
@@ -252,6 +252,10 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     finish();
     m_options = options;
     m_stats = {};
+    // Saved before any allocation: finish() restores them once m_slots exists.
+    m_savedSpuCtrl = SPU_CTRL;
+    m_savedCdLeft = SPU_VOL_CD_LEFT;
+    m_savedCdRight = SPU_VOL_CD_RIGHT;
     const uint32_t slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
     const uint32_t sliceHalfwords = (options.rgb24 ? 24 : 16) * options.displayHeight;
     m_slots = new Slot[options.frameSlots];
@@ -292,9 +296,6 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     mdecReset();
     m_needReset = false;
 
-    m_savedSpuCtrl = SPU_CTRL;
-    m_savedCdLeft = SPU_VOL_CD_LEFT;
-    m_savedCdRight = SPU_VOL_CD_RIGHT;
     if (options.audio) {
         SPU_VOL_CD_LEFT = 0x7fff;
         SPU_VOL_CD_RIGHT = 0x7fff;
@@ -492,8 +493,7 @@ void psyqo::paths::StrPlayer::startDecode() {
 // one VRAM upload is in flight at a time, which is all psyqo allows.
 void psyqo::paths::StrPlayer::pump() {
     if (!m_uploading && m_upStarted < m_colDone) {
-        const unsigned c = m_upStarted;
-        m_upStarted = c + 1;
+        const unsigned c = m_upStarted++;
         m_uploading = true;
         Rect region = {.pos = {{.x = int16_t(m_x0 + c * m_colHw), .y = m_y0}},
                        .size = {{.w = m_colHw, .h = int16_t(m_colHeight)}}};
@@ -501,7 +501,7 @@ void psyqo::paths::StrPlayer::pump() {
             m_slices[c & 1], region,
             [this]() {
                 m_uploading = false;
-                m_upDone = m_upDone + 1;
+                m_upDone++;
                 pump();
             },
             DMA::FROM_ISR);
@@ -513,7 +513,7 @@ void psyqo::paths::StrPlayer::pump() {
         DMA_CTRL[DMA_MDECOUT].MADR = reinterpret_cast<uintptr_t>(m_slices[m_colArmed & 1]);
         DMA_CTRL[DMA_MDECOUT].BCR = (m_colWords / 32) << 16 | 32;
         DMA_CTRL[DMA_MDECOUT].CHCR = 0x01000200;
-        m_colArmed = m_colArmed + 1;
+        m_colArmed++;
     }
     if (m_upDone == m_colCount) m_decodeDone = true;
     eastl::atomic_signal_fence(eastl::memory_order_release);
@@ -522,7 +522,7 @@ void psyqo::paths::StrPlayer::pump() {
 void psyqo::paths::StrPlayer::mdecOutIRQ() {
     if (!m_decoding || !m_dma1Busy) return;
     m_dma1Busy = false;
-    m_colDone = m_colDone + 1;
+    m_colDone++;
     s_streamAction.servicePending();
     pump();
 }
@@ -532,15 +532,7 @@ void psyqo::paths::StrPlayer::mdecOutIRQ() {
 bool psyqo::paths::StrPlayer::finishDecode() {
     m_decoding = false;
     if (!m_decodeOk || !m_decodeDone) {
-        DMA_CTRL[DMA_MDECOUT].CHCR = 0;
-        DMA_CTRL[DMA_MDECIN].CHCR = 0;
-        Kernel::fastEnterCriticalSection();
-        m_dma1Busy = false;
-        s_streamAction.servicePending();
-        Kernel::fastLeaveCriticalSection();
-        for (unsigned i = 0; m_uploading && i < 1000000; i++) {
-        }
-        m_needReset = true;
+        abortDecode();
         return false;
     }
     if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) {
@@ -577,6 +569,9 @@ psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
     if (m_status != Status::PLAYING) return m_status;
     const unsigned linesPerFrame = m_gpu.getRefreshRate() == 60 ? 263 : 314;
     while (true) {
+        // The interrupt handlers move the decode and stream state forward
+        // while this loop waits on it.
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
         hsyncs();
         if (!m_haveRl) vlcNext();
         if (m_decoding) {
@@ -638,11 +633,32 @@ void psyqo::paths::StrPlayer::checkStall() {
     s_streamAction.requestPause();
 }
 
+// Stops the MDEC mid-frame and waits for the VRAM upload in flight, which reads
+// from a slice buffer, so the buffers can be freed afterwards.
+void psyqo::paths::StrPlayer::abortDecode() {
+    m_decoding = false;
+    DMA_CTRL[DMA_MDECOUT].CHCR = 0;
+    DMA_CTRL[DMA_MDECIN].CHCR = 0;
+    Kernel::fastEnterCriticalSection();
+    m_dma1Busy = false;
+    s_streamAction.servicePending();
+    Kernel::fastLeaveCriticalSection();
+    while (m_uploading) {
+        Kernel::Internal::pumpCallbacks();
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+    }
+    m_needReset = true;
+}
+
 void psyqo::paths::StrPlayer::stop() {
     if (m_status != Status::PLAYING) return;
     m_stopping = true;
     s_streamAction.requestPause();
-    while (m_cdRunning) Kernel::Internal::pumpCallbacks();
+    while (m_cdRunning) {
+        Kernel::Internal::pumpCallbacks();
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+    }
+    if (m_decoding) abortDecode();
     m_status = Status::ENDED;
     finish();
 }

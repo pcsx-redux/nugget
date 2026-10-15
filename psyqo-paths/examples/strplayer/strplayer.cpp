@@ -130,6 +130,10 @@ void StrPlayerScene::frame() {
     auto status = app.m_player.frame();
     if (status == psyqo::paths::StrPlayer::Status::PLAYING) {
         const auto &s = app.m_player.stats();
+#ifdef STRPLAYER_STOPAT
+        // Stops the first pass mid-movie, then lets the next one play.
+        if (app.m_pass == 0 && s.framesShown == STRPLAYER_STOPAT) app.m_player.stop();
+#endif
         if ((s.framesShown % 30) == 1) {
             ramsyscall_printf("STRP: progress shown %d dropped %d rejected %d video %d\n", s.framesShown,
                               s.framesDropped, s.framesRejected, s.videoSectors);

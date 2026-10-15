@@ -139,12 +139,12 @@ class ArchiveManager {
             NONE = 0,
             UCL_NRV2E = 1,
             LZ4 = 2,
-            COUNT = 3,
             // Raw sectors stored as-is, such as an STR movie with interleaved
             // XA audio, meant to be streamed rather than loaded. The entry's
             // first 32-bit field holds the sector count instead of the
             // decompressed size and padding. `readFile` refuses these.
-            STREAM = 7,
+            STREAM = 3,
+            COUNT = 4,
         };
         typedef Utilities::BitSpan<uint32_t, 21> DecompSizeField;
         typedef Utilities::BitSpan<uint32_t, 11> PaddingField;

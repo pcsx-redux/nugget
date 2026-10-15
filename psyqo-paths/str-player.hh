@@ -145,6 +145,9 @@ class StrPlayer {
 
     /**
      * @brief Stops the playback early. The drive is paused and the buffers freed.
+     *
+     * @details Call it from the main loop, between two calls to `frame()`, never
+     * from a callback: it pumps callbacks itself while it waits for the drive.
      */
     void stop();
 
@@ -159,7 +162,7 @@ class StrPlayer {
         uint16_t chunks;
         uint16_t width;
         uint16_t height;
-        volatile uint8_t state;
+        uint8_t state;
     };
     friend class StrStreamAction;
     uint8_t *sectorDest(const uint8_t *header, uint32_t lba);
@@ -172,6 +175,7 @@ class StrPlayer {
     void pump();
     void mdecOutIRQ();
     bool finishDecode();
+    void abortDecode();
     void mdecReset();
     void finish();
     uint32_t hsyncs();
@@ -201,15 +205,15 @@ class StrPlayer {
     int16_t m_colHw = 0;
     int16_t m_x0 = 0;
     int16_t m_y0 = 0;
-    volatile uint8_t m_colCount = 0;
-    volatile uint8_t m_colArmed = 0;
-    volatile uint8_t m_colDone = 0;
-    volatile uint8_t m_upStarted = 0;
-    volatile uint8_t m_upDone = 0;
-    volatile bool m_uploading = false;
-    volatile bool m_dma1Busy = false;
-    volatile bool m_decodeDone = false;
-    volatile bool m_decoding = false;
+    uint8_t m_colCount = 0;
+    uint8_t m_colArmed = 0;
+    uint8_t m_colDone = 0;
+    uint8_t m_upStarted = 0;
+    uint8_t m_upDone = 0;
+    bool m_uploading = false;
+    bool m_dma1Busy = false;
+    bool m_decodeDone = false;
+    bool m_decoding = false;
     bool m_decodeOk = false;
     uint16_t *m_slices[2] = {nullptr, nullptr};
     uint32_t m_lba = 0;
@@ -223,8 +227,8 @@ class StrPlayer {
     bool m_haveDecoded = false;
     bool m_needReset = false;
     bool m_failed = false;
-    volatile bool m_cdRunning = false;
-    volatile uint32_t m_lastSectorFrame = 0;
+    bool m_cdRunning = false;
+    uint32_t m_lastSectorFrame = 0;
     uint32_t m_lastPresentVsync = 0;
     uint32_t m_hsyncHigh = 0;
     uint16_t m_hsyncLast = 0;
@@ -234,7 +238,7 @@ class StrPlayer {
     uint16_t m_savedCdLeft = 0;
     uint16_t m_savedCdRight = 0;
     uint8_t m_retries = 0;
-    volatile bool m_stopping = false;
+    bool m_stopping = false;
     Status m_status = Status::IDLE;
 };
 
