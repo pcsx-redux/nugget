@@ -120,22 +120,6 @@ class StrPlayer {
         // Scanlines from the start of a decode to its last column landing in
         // VRAM, in buckets of 64 lines, the last one 704 and up.
         uint32_t decodeLineHistogram[12] = {};
-        // Diagnostics: the first sector that was not taken as video, and the
-        // state of the decode pipeline at the first rejected frame.
-        uint8_t firstOther[16] = {};
-        uint32_t firstOtherLba = 0;
-        uint32_t rejectWhy = 0;
-        uint32_t rejectMdec1 = 0;
-        uint32_t rejectChcr0 = 0;
-        uint32_t rejectChcr1 = 0;
-        uint32_t rejectCols = 0;
-        uint32_t rejectMadr0 = 0;
-        uint32_t rejectBcr0 = 0;
-        uint32_t rejectCommand = 0;
-        uint32_t rejectInWords = 0;
-        uint32_t rejectRlStart = 0;
-        uint32_t cdDmaTimeouts = 0;
-        uint32_t cdDmaChcr[4] = {};
     };
 
     StrPlayer(CDRomDevice &cdrom, GPU &gpu) : m_cdrom(cdrom), m_gpu(gpu) {}
@@ -227,9 +211,6 @@ class StrPlayer {
     volatile bool m_decodeDone = false;
     volatile bool m_decoding = false;
     bool m_decodeOk = false;
-    uint32_t m_decodeCommand = 0;
-    uint32_t m_decodeInWords = 0;
-    uint32_t m_decodeRl = 0;
     uint16_t *m_slices[2] = {nullptr, nullptr};
     uint32_t m_lba = 0;
     uint32_t m_end = 0;

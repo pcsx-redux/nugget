@@ -42,9 +42,6 @@ extern "C" {
 #include "psyqo/kernel.hh"
 #include "psyqo/msf.hh"
 
-#ifdef STRPLAYER_TRACE
-#include "common/syscalls/syscalls.h"
-#endif
 
 namespace {
 
@@ -319,10 +316,7 @@ uint8_t *psyqo::paths::StrPlayer::sectorDest(const uint8_t *header, uint32_t lba
     m_lastSectorFrame = m_gpu.getLiveFrameCount();
     const uint8_t *chunk = header + 12;
     if (lba < m_lba || lba >= m_end || le16(chunk) != 0x0160) {
-        if (!m_stats.otherSectors++) {
-            for (unsigned i = 0; i < 16; i++) m_stats.firstOther[i] = header[i];
-            m_stats.firstOtherLba = lba;
-        }
+        m_stats.otherSectors++;
         return nullptr;
     }
     m_stats.videoSectors++;
@@ -411,7 +405,7 @@ bool psyqo::paths::StrPlayer::vlcNext() {
             m_stats.lastFrameNumber = s.frameNumber;
         }
     }
-    if (!ok && !m_stats.framesRejected++) m_stats.rejectWhy = 1 | (need << 8);
+    if (!ok) m_stats.framesRejected++;
     eastl::atomic_signal_fence(eastl::memory_order_release);
     s.state = SLOT_FREE;
     if (++m_readSlot >= m_options.frameSlots) m_readSlot = 0;
@@ -482,9 +476,6 @@ void psyqo::paths::StrPlayer::startDecode() {
     // Both transfers are armed before either is waited on: the MDEC stops
     // asking for input once it holds a finished block, so serialising them
     // deadlocks on hardware.
-    m_decodeCommand = command;
-    m_decodeInWords = inWords;
-    m_decodeRl = reinterpret_cast<uintptr_t>(m_rlBufs[m_rlIdx]);
     DMA_CTRL[DMA_MDECIN].MADR = reinterpret_cast<uintptr_t>(m_rlBufs[m_rlIdx]);
     // Sync mode 1: block size in the low half, block count in the high half.
     // The MDEC asks for 32 words at a time.
@@ -541,16 +532,6 @@ void psyqo::paths::StrPlayer::mdecOutIRQ() {
 bool psyqo::paths::StrPlayer::finishDecode() {
     m_decoding = false;
     if (!m_decodeOk || !m_decodeDone) {
-        if (!m_stats.framesRejected) {
-            m_stats.rejectMdec1 = MDEC1;
-            m_stats.rejectChcr0 = DMA_CTRL[DMA_MDECIN].CHCR;
-            m_stats.rejectChcr1 = DMA_CTRL[DMA_MDECOUT].CHCR;
-            m_stats.rejectMadr0 = DMA_CTRL[DMA_MDECIN].MADR;
-            m_stats.rejectBcr0 = DMA_CTRL[DMA_MDECIN].BCR;
-            m_stats.rejectCommand = m_decodeCommand;
-            m_stats.rejectInWords = m_decodeInWords;
-            m_stats.rejectRlStart = m_decodeRl;
-        }
         DMA_CTRL[DMA_MDECOUT].CHCR = 0;
         DMA_CTRL[DMA_MDECIN].CHCR = 0;
         Kernel::fastEnterCriticalSection();
@@ -580,15 +561,7 @@ uint32_t psyqo::paths::StrPlayer::hsyncs() {
 
 void psyqo::paths::StrPlayer::waitVBlankEdge() {
     const uint32_t f = m_gpu.getLiveFrameCount();
-#ifdef STRPLAYER_TRACE
-    uint32_t spins = 0;
-    while (m_gpu.getLiveFrameCount() == f) {
-        hsyncs();
-        if (++spins == 300000) ramsyscall_printf("STRT: vblank edge stuck at %d, dicr %08x istat %04x\n", f, DICR, *reinterpret_cast<volatile uint16_t *>(0xbf801070));
-    }
-#else
     while (m_gpu.getLiveFrameCount() == f) hsyncs();
-#endif
     m_vblankRef = hsyncs();
 }
 
@@ -602,46 +575,9 @@ void psyqo::paths::StrPlayer::present() {
 
 psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
     if (m_status != Status::PLAYING) return m_status;
-#ifdef STRPLAYER_TRACE
-    {
-        static uint32_t s_lastReturn = 0;
-        const uint32_t now = m_gpu.getLiveFrameCount();
-        if (s_lastReturn && now - s_lastReturn > 4)
-            ramsyscall_printf("STRT: outside frame() for %d vsyncs (shown %d)\n", now - s_lastReturn, m_stats.framesShown);
-        s_lastReturn = now;
-    }
-#endif
     const unsigned linesPerFrame = m_gpu.getRefreshRate() == 60 ? 263 : 314;
-#ifdef STRPLAYER_TRACE
-    uint32_t iter = 0;
-#endif
     while (true) {
         hsyncs();
-#ifdef STRPLAYER_TRACE
-        if ((++iter % 200000) == 0) {
-            ramsyscall_printf("STRT: it %d shown %d dec %d done %d ok %d cols %d/%d/%d/%d rl %d decd %d cd %d slot %d vs %d\n",
-                              iter, m_stats.framesShown, m_decoding, m_decodeDone, m_decodeOk, m_colArmed, m_colDone,
-                              m_upStarted, m_upDone, m_haveRl, m_haveDecoded, m_cdRunning, m_slots[m_readSlot].state,
-                              m_stats.videoSectors);
-            ramsyscall_printf("STRT: act %x err %d retries %d stopping %d lastlba %d end %d lastsec %d\n",
-                              s_streamAction.state(), m_stats.readErrors, m_retries, m_stopping, m_lastLba, m_end,
-                              m_lastSectorFrame);
-            {
-                volatile uint8_t *cd = reinterpret_cast<volatile uint8_t *>(0xbf801800);
-                const uint8_t st = cd[0];
-                cd[0] = 1;
-                const uint8_t ien = cd[2];
-                const uint8_t cause = cd[3];
-                cd[0] = st & 3;
-                ramsyscall_printf("STRT: istat %04x imask %04x cdstat %02x cdien %02x cdcause %02x\n",
-                                  *reinterpret_cast<volatile uint16_t *>(0xbf801070),
-                                  *reinterpret_cast<volatile uint16_t *>(0xbf801074), st, ien, cause);
-            }
-            ramsyscall_printf("STRT: mdec1 %08x chcr0 %08x chcr1 %08x chcr2 %08x dicr %08x live %d\n", MDEC1,
-                              DMA_CTRL[DMA_MDECIN].CHCR, DMA_CTRL[DMA_MDECOUT].CHCR, DMA_CTRL[DMA_GPU].CHCR, DICR,
-                              m_gpu.getLiveFrameCount());
-        }
-#endif
         if (!m_haveRl) vlcNext();
         if (m_decoding) {
             if (!m_decodeDone && (m_gpu.getLiveFrameCount() - m_decodeStart < m_gpu.getRefreshRate())) {
@@ -658,9 +594,8 @@ psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
                     const uint32_t line = (hsyncs() - m_vblankRef) % linesPerFrame;
                     m_stats.switchLineHistogram[line / 32 > 9 ? 9 : line / 32]++;
                 }
-            } else if (!m_stats.framesRejected++) {
-                m_stats.rejectWhy = 2 | (m_decodeOk ? 4 : 0) | (m_decodeDone ? 8 : 0);
-                m_stats.rejectCols = m_colArmed | (m_colDone << 8) | (m_upStarted << 16) | (m_upDone << 24);
+            } else {
+                m_stats.framesRejected++;
             }
             continue;
         }
