@@ -26,8 +26,6 @@ SOFTWARE.
 
 #include "psyqo/cdrom-device.hh"
 
-#include <EASTL/atomic.h>
-
 #include "common/kernel/events.h"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/gpu.hh"
@@ -143,10 +141,10 @@ void psyqo::CDRomDevice::irq() {
         if (callCallback) {
             Kernel::assert(!!m_callback, "Wrong CDRomDevice state");
             m_action = nullptr;
+            Kernel::dmaAcquireBarrier();
             if (m_blocking) {
                 actionComplete();
             } else {
-                eastl::atomic_signal_fence(eastl::memory_order_acquire);
                 Kernel::queueCallbackFromISR([this]() { actionComplete(); });
             }
         }
@@ -169,6 +167,7 @@ psyqo::CDRomDevice::BlockingAction::~BlockingAction() {
         }
         gpu->pumpCallbacks();
     }
+    Kernel::dmaAcquireBarrier();
     device->m_blocking = false;
     Hardware::CPU::IMask.set(Hardware::CPU::IRQ::CDRom);
 }

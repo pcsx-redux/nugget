@@ -72,9 +72,9 @@ class ReadSectorsAction : public psyqo::CDRomDevice::Action<ReadSectorsActionSta
         psyqo::Hardware::CDRom::DataRequest = 0x80;
         psyqo::Hardware::SBus::Dev5Ctrl = 0x20943;
         psyqo::Hardware::SBus::ComCtrl = 0x132c;
-        eastl::atomic_signal_fence(eastl::memory_order_acquire);
         DMA_CTRL[DMA_CDROM].MADR = reinterpret_cast<uintptr_t>(m_ptr);
         DMA_CTRL[DMA_CDROM].BCR = 512 | 0x10000;
+        psyqo::Kernel::dmaReleaseBarrier();
         DMA_CTRL[DMA_CDROM].CHCR = 0x11000000;
         m_ptr += 2048;
         if (--m_count == 0) {

@@ -26,8 +26,6 @@ SOFTWARE.
 
 #include "psyqo/spu.hh"
 
-#include <EASTL/atomic.h>
-
 #include "common/hardware/dma.h"
 #include "common/hardware/spu.h"
 #include "psyqo/kernel.hh"
@@ -85,6 +83,7 @@ void setupTransfer(uint32_t spuAddress, const void* ramAddress, size_t dataSize,
 void psyqo::SPU::dmaWrite(const uint32_t spuAddress, const void* ramAddress, const size_t dataSize, size_t blockSize) {
     blockSize = validateTransfer(spuAddress, ramAddress, dataSize, blockSize);
     setupTransfer(spuAddress, ramAddress, dataSize, blockSize);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_SPU].CHCR = 1 | 1 << 9 | 1 << 24;
 
     Kernel::waitForStatus<uint32_t>(1 << 24, 0 << 24, &DMA_CTRL[DMA_SPU].CHCR);
@@ -101,7 +100,7 @@ void psyqo::SPU::dmaWrite(const uint32_t spuAddress, const void* ramAddress, con
     m_fromISR = dmaCallback == DMA::FROM_ISR;
     m_transferPending = true;
     setupTransfer(spuAddress, ramAddress, dataSize, blockSize);
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_SPU].CHCR = 1 | 1 << 9 | 1 << 24;
 }
 
@@ -161,7 +160,7 @@ void psyqo::SPU::initAsync() {
     Kernel::assert(!m_initialized, "SPU::initAsync called twice");
     m_initialized = true;
     m_dmaEventSlot = Kernel::registerDmaEvent(Kernel::DMA::SPU, [this]() {
-        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        Kernel::dmaAcquireBarrier();
         // Take the callback and clear the in-flight flag before running it, so
         // that a callback which queues the next transfer isn't rejected, and so
         // that the callback it installs doesn't get wiped afterwards.

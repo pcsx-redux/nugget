@@ -168,7 +168,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
     Kernel::enableDma(Kernel::DMA::GPU);
     Kernel::enableDma(Kernel::DMA::OTC);
     Kernel::registerDmaEvent(Kernel::DMA::GPU, [this]() {
-        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        Kernel::dmaAcquireBarrier();
         uint32_t mode = (DMA_CTRL[DMA_GPU].CHCR & 0x00000600) >> 9;
         switch (mode) {
             case 1: {  // was a normal DMA
@@ -235,7 +235,10 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
         }
         checkOTCAndTriggerCallback();
     });
-    Kernel::registerDmaEvent(Kernel::DMA::OTC, [this]() { checkOTCAndTriggerCallback(); });
+    Kernel::registerDmaEvent(Kernel::DMA::OTC, [this]() {
+        Kernel::dmaAcquireBarrier();
+        checkOTCAndTriggerCallback();
+    });
     // Enable DMA interrupt for GPU
     uint32_t dicr = Hardware::CPU::DICR;
     dicr &= 0xffffff;
@@ -250,7 +253,7 @@ void psyqo::GPU::checkOTCAndTriggerCallback() {
         DMA_CTRL[DMA_GPUOTC].MADR = uint32_t(otc.start);
         DMA_CTRL[DMA_GPUOTC].BCR = otc.count;
         OTCs.pop_front();
-        eastl::atomic_signal_fence(eastl::memory_order_release);
+        Kernel::dmaReleaseBarrier();
         DMA_CTRL[DMA_GPUOTC].CHCR = 0x11000002;
     } else {
         if (m_fromISR) {
@@ -382,6 +385,7 @@ void psyqo::GPU::uploadToVRAM(const uint16_t *data, Rect rect) {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::GPU::uploadToVRAM(const uint16_t *data, Rect region, eastl::function<void()> &&callback,
@@ -421,7 +425,7 @@ void psyqo::GPU::uploadToVRAM(const uint16_t *data, Rect region, eastl::function
     while ((Hardware::GPU::Ctrl & uint32_t(0x10000000)) == 0);
     DMA_CTRL[DMA_GPU].MADR = ptr;
     DMA_CTRL[DMA_GPU].BCR = bcr;
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_GPU].CHCR = 0x01000201;
 }
 
@@ -439,6 +443,7 @@ void psyqo::GPU::sendFragment(const uint32_t *data, size_t count) {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::GPU::sendFragment(const uint32_t *data, size_t count, eastl::function<void()> &&callback,
@@ -472,7 +477,7 @@ void psyqo::GPU::scheduleNormalDMA(uintptr_t data, size_t count) {
     while ((Hardware::GPU::Ctrl & uint32_t(0x10000000)) == 0);
     DMA_CTRL[DMA_GPU].MADR = data;
     DMA_CTRL[DMA_GPU].BCR = bcr;
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_GPU].CHCR = 0x01000201;
 }
 
@@ -512,6 +517,7 @@ void psyqo::GPU::sendChain() {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::GPU::sendChain(eastl::function<void()> &&callback, DMA::DmaCallback dmaCallback) {
@@ -549,7 +555,7 @@ void psyqo::GPU::scheduleChainedDMA(uintptr_t head) {
     // Using block command mode, probably?
     Hardware::GPU::Ctrl = 0x04000002;
     DMA_CTRL[DMA_GPU].MADR = head;
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_GPU].CHCR = 0x01000401;
 }
 
