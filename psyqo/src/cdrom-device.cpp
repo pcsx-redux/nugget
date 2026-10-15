@@ -79,6 +79,10 @@ void psyqo::CDRomDevice::irq() {
             Hardware::CDRom::Cause = 0x18;
         }
 
+        // A re-entry can find the flags already serviced by the previous pass
+        // of this loop; there is nothing to do then.
+        if ((cause & 7) == 0) break;
+
         bool callCallback = false;
         Response response;
         while ((Hardware::CDRom::Ctrl.access() & 0x20) && (response.size() < 16)) {

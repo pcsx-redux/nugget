@@ -287,8 +287,19 @@ void psyqo::Kernel::Internal::addInitializer(eastl::function<void(Application&)>
 }
 
 namespace {
+void dmaIRQOnce();
+// DICR bit 31 is the OR of every enabled channel flag, and I_STAT only sees its
+// rising edge. A channel finishing after DICR is read keeps bit 31 high through
+// the ack of the others, so loop until it drops.
 void dmaIRQ() {
     psyqo::Hardware::CPU::IReg.clear(psyqo::Hardware::CPU::IRQ::DMA);
+    for (unsigned pass = 0; pass < 16; pass++) {
+        if ((uint32_t(psyqo::Hardware::CPU::DICR) & 0x80000000) == 0) break;
+        dmaIRQOnce();
+    }
+}
+
+void dmaIRQOnce() {
     uint32_t dicr = psyqo::Hardware::CPU::DICR;
     uint32_t dirqs = dicr >> 24;
     dicr &= 0xff7fff;
