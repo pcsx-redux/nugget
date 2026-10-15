@@ -742,8 +742,8 @@ int __attribute__((section(".ramtext"))) cdromInnerInit() {
     enterCriticalSection();
     IMASK &= ~IRQ_CDROM;
     IMASK &= ~IRQ_DMA;
-    IREG &= ~IRQ_CDROM;
-    IREG &= ~IRQ_DMA;
+    IREG = ~IRQ_CDROM;
+    IREG = ~IRQ_DMA;
     s_irqAutoAck[1] = 1;
     s_irqAutoAck[0] = 1;
     DPCR = 0x9099;
@@ -757,7 +757,7 @@ int __attribute__((section(".ramtext"))) cdromInnerInit() {
     s_gotInt3 = 0;
     resetAllCDRomIRQs();
     enableAllCDRomIRQs();
-    IREG &= ~IRQ_CDROM;
+    IREG = ~IRQ_CDROM;
     IMASK |= IRQ_CDROM;
     IMASK |= IRQ_DMA;
     leaveCriticalSection();
