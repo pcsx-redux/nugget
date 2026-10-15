@@ -103,25 +103,25 @@ __wrap_memcpy:
     subu   $a3, $a2
 
 .Lmemcpy_loop32_aligned:
-    lw     $t0, 0($a1)
-    lw     $t1, 4($a1)
-    lw     $t2, 8($a1)
-    lw     $t3, 12($a1)
-    lw     $t4, 16($a1)
-    lw     $t5, 20($a1)
-    lw     $t6, 24($a1)
-    lw     $t7, 28($a1)
     addiu  $a1, 32
-    sw     $t0, 0($a0)
-    sw     $t1, 4($a0)
-    sw     $t2, 8($a0)
-    sw     $t3, 12($a0)
-    sw     $t4, 16($a0)
-    sw     $t5, 20($a0)
-    sw     $t6, 24($a0)
-    sw     $t7, 28($a0)
-    bltu   $a1, $a3, .Lmemcpy_loop32_aligned
     addiu  $a0, 32
+    lw     $t0, -32($a1)
+    lw     $t1, -28($a1)
+    lw     $t2, -24($a1)
+    lw     $t3, -20($a1)
+    lw     $t4, -16($a1)
+    lw     $t5, -12($a1)
+    lw     $t6, -8($a1)
+    lw     $t7, -4($a1)
+    sw     $t0, -32($a0)
+    sw     $t1, -28($a0)
+    sw     $t2, -24($a0)
+    sw     $t3, -20($a0)
+    sw     $t4, -16($a0)
+    sw     $t5, -12($a0)
+    sw     $t6, -8($a0)
+    bltu   $a1, $a3, .Lmemcpy_loop32_aligned
+    sw     $t7, -4($a0)
 
 .Lmemcpy_last32_aligned:
     bltu   $a2, 4, .Lmemcpy_last4
