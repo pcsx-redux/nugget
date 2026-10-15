@@ -467,7 +467,10 @@ void psyqo::paths::StrPlayer::startDecode() {
         m_decoding = true;
         return;
     }
-    m_colArmed = m_colDone = m_upStarted = m_upDone = 0;
+    m_colArmed = 0;
+    m_colDone = 0;
+    m_upStarted = 0;
+    m_upDone = 0;
     m_uploading = false;
     m_dma1Busy = false;
     m_decodeDone = false;
@@ -498,7 +501,8 @@ void psyqo::paths::StrPlayer::startDecode() {
 // one VRAM upload is in flight at a time, which is all psyqo allows.
 void psyqo::paths::StrPlayer::pump() {
     if (!m_uploading && m_upStarted < m_colDone) {
-        const unsigned c = m_upStarted++;
+        const unsigned c = m_upStarted;
+        m_upStarted = c + 1;
         m_uploading = true;
         Rect region = {.pos = {{.x = int16_t(m_x0 + c * m_colHw), .y = m_y0}},
                        .size = {{.w = m_colHw, .h = int16_t(m_colHeight)}}};
@@ -506,7 +510,7 @@ void psyqo::paths::StrPlayer::pump() {
             m_slices[c & 1], region,
             [this]() {
                 m_uploading = false;
-                m_upDone++;
+                m_upDone = m_upDone + 1;
                 pump();
             },
             DMA::FROM_ISR);
@@ -518,7 +522,7 @@ void psyqo::paths::StrPlayer::pump() {
         DMA_CTRL[DMA_MDECOUT].MADR = reinterpret_cast<uintptr_t>(m_slices[m_colArmed & 1]);
         DMA_CTRL[DMA_MDECOUT].BCR = (m_colWords / 32) << 16 | 32;
         DMA_CTRL[DMA_MDECOUT].CHCR = 0x01000200;
-        m_colArmed++;
+        m_colArmed = m_colArmed + 1;
     }
     if (m_upDone == m_colCount) m_decodeDone = true;
     eastl::atomic_signal_fence(eastl::memory_order_release);
@@ -527,7 +531,7 @@ void psyqo::paths::StrPlayer::pump() {
 void psyqo::paths::StrPlayer::mdecOutIRQ() {
     if (!m_decoding || !m_dma1Busy) return;
     m_dma1Busy = false;
-    m_colDone++;
+    m_colDone = m_colDone + 1;
     s_streamAction.servicePending();
     pump();
 }

@@ -70,9 +70,13 @@ class StrPlayer {
         // Show a decoded frame at the first vblank after the NEXT frame has
         // arrived off the disc, the way Sony's libraries do: the disc sets the
         // rate, and the vblank wait keeps the swap out of the visible picture.
+        // A 320x240 24-bit frame takes about 480 scanlines to decode, so a
+        // 30 fps movie holds 30 fps at 60 Hz but is shown at 25 fps at 50 Hz,
+        // dropping one frame in six.
         STREAM,
         // Switch the display to a frame the moment it is decoded, wherever the
-        // beam is. Lowest latency, and the swap can land mid-picture.
+        // beam is. Keeps 30 fps at 50 Hz, but the swap lands anywhere in the
+        // picture and tears visibly on fast motion.
         ASAP,
     };
 
