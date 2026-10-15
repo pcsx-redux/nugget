@@ -141,7 +141,7 @@ int main(void) {
     gte_enable();
     uint32_t sr = irq_disable();
     ramsyscall_printf("GWU-START\n");
-    int cells = 0, blind = 0, mismatches = 0, moved = 0;
+    int cells = 0, blind = 0, mismatches = 0, moved = 0, coarse = 0;
     for (unsigned fam = 0; fam < sizeof(s_families) / sizeof(s_families[0]); fam++) {
         for (int i = 0; i < *s_families[fam].count; i++) {
             const GwuCell* c = &s_families[fam].cells[i];
@@ -159,6 +159,7 @@ int main(void) {
                 if (!same) moved++;
                 if (c->expect[n] == '?' || (same && res[0][n] == c->expect[n])) continue;
                 mismatches++;
+                if (c->expect[n] != 'X') coarse++;
                 ramsyscall_printf("GWU-MISMATCH %s N=%d expected %c got %c%c%c%c\n", c->label, n, c->expect[n],
                                   res[0][n], res[1][n], res[2][n], res[3][n]);
             }
@@ -167,6 +168,10 @@ int main(void) {
     }
     ramsyscall_printf("GWU-DONE cells=%d blind=%d moved=%d\n", cells, blind, moved);
     irq_restore(sr);
+    ramsyscall_printf("GWU-COARSE-%s mismatches=%d\n", coarse ? "FAIL" : "PASS", coarse);
     ramsyscall_printf("GWU-%s mismatches=%d\n", mismatches ? "FAIL" : "PASS", mismatches);
-    return mismatches ? 1 : 0;
+    // 0: every checked letter matches. 2: only X letters differ (a model without per-term read
+    // timing). 1: anything else.
+    if (!mismatches) return 0;
+    return coarse ? 1 : 2;
 }

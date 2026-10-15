@@ -14,6 +14,8 @@ The SCPH-9002 swaps DPCT RGB0 and RGB1 at N=0..1 (RGB0 NN, RGB1 XX); the others 
 Otherwise every cached letter is the same on all six consoles. The uncached column is the
 SCPH-5501 #3; a few uncached letters differ between consoles. The program checks every cached
 letter that is the same at all four offsets on all six consoles, and passes on all six.
+It exits 0 when every checked letter matches, 2 when only X letters differ (GWU-COARSE-PASS: a
+model with one delay per command and register, without per-term read timing), and 1 otherwise.
 
 ## NCCT
 
