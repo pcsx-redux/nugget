@@ -82,6 +82,10 @@ static void spu_dma_write(uint32_t spuByteAddr, const void *src, uint32_t bytes)
     DMA_CTRL[DMA_SPU].BCR = (blocks << 16) | 0x10;
     DMA_CTRL[DMA_SPU].CHCR = 0x01000201;
     for (int i = 0; i < 0x100000 && (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) != 0; i++);
+    /* The SPU is still writing the last ~60 bytes when CHCR clears, and SPUSTAT
+       bit 10 never reads busy by then: wait a fixed time before leaving transfer
+       mode, or both samples lose their end blocks on hardware. */
+    for (volatile int i = 0; i < 20000; i++);
     SPU_CTRL = (SPU_CTRL & ~0x0030);
     for (volatile int i = 0; i < 60; i++);
 }

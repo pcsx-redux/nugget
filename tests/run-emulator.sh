@@ -92,6 +92,7 @@ SKIPS=(
     "spu/spu|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
+    "spu-endredirect/spu-endredirect|needs the end-block redirect from pcsx-redux#2355 in the dev AppImage"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "regwrites/regwrites|probe: loops forever, no verdict"
     "autoinc/autoinc|hardware probe: prints what Delay/Size bit 13 does to split accesses, no verdict"
