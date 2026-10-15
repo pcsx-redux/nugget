@@ -113,6 +113,9 @@ class StrPlayer {
         // Scanline the display switch happened on, counted from the start of
         // vblank, in buckets of 32 lines. Only filled in Present::ASAP.
         uint32_t switchLineHistogram[10] = {};
+        // Scanlines from the start of a decode to its last column landing in
+        // VRAM, in buckets of 64 lines, the last one 704 and up.
+        uint32_t decodeLineHistogram[12] = {};
         // Diagnostics: the first sector that was not taken as video, and the
         // state of the decode pipeline at the first rejected frame.
         uint8_t firstOther[16] = {};
@@ -205,6 +208,7 @@ class StrPlayer {
     unsigned m_dmaSlot = ~0u;
     uint32_t m_colWords = 0;
     uint32_t m_decodeStart = 0;
+    uint32_t m_decodeStartLine = 0;
     uint16_t m_colHeight = 0;
     int16_t m_colHw = 0;
     int16_t m_x0 = 0;

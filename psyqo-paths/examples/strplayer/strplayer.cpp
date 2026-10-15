@@ -85,6 +85,9 @@ void report(const psyqo::paths::StrPlayer::Stats &s, unsigned pass, int status) 
                       s.switchLineHistogram[1], s.switchLineHistogram[2], s.switchLineHistogram[3],
                       s.switchLineHistogram[4], s.switchLineHistogram[5], s.switchLineHistogram[6],
                       s.switchLineHistogram[7], s.switchLineHistogram[8], s.switchLineHistogram[9]);
+    ramsyscall_printf("STRP: decode lines/64");
+    for (unsigned i = 0; i < 12; i++) ramsyscall_printf(" %d", s.decodeLineHistogram[i]);
+    ramsyscall_printf("\n");
     const uint8_t *o = s.firstOther;
     ramsyscall_printf("STRP: first other lba %d: %02x %02x %02x %02x | %02x %02x %02x %02x %02x %02x %02x %02x | %02x %02x %02x %02x\n",
                       s.firstOtherLba, o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8], o[9], o[10], o[11], o[12],

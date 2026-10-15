@@ -472,6 +472,7 @@ void psyqo::paths::StrPlayer::startDecode() {
     m_dma1Busy = false;
     m_decodeDone = false;
     m_decodeStart = m_gpu.getLiveFrameCount();
+    m_decodeStartLine = hsyncs();
     m_decoding = true;
     eastl::atomic_signal_fence(eastl::memory_order_release);
     MDEC0 = command;
@@ -646,6 +647,8 @@ psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
             }
             if (finishDecode()) {
                 m_haveDecoded = true;
+                const uint32_t lines = hsyncs() - m_decodeStartLine;
+                m_stats.decodeLineHistogram[lines / 64 > 11 ? 11 : lines / 64]++;
                 if (m_options.present == Present::ASAP) {
                     Hardware::GPU::Ctrl = 0x05000000 | ((m_gpu.getParity() ? 256 : 0) << 10);
                     const uint32_t line = (hsyncs() - m_vblankRef) % linesPerFrame;
