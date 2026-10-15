@@ -210,6 +210,21 @@ delayslot_swi:
 1:  b     delayslot_mark
     mtc0  $t0, $13
 
+/* The same Cause write outside any delay slot. */
+
+    .align 2
+    .global plain_swi
+    .type plain_swi, @function
+
+plain_swi:
+    la    $t3, delayslot_taken
+    sw    $0, 0($t3)
+    li    $t0, 0x100
+    la    $v0, 1f
+    mtc0  $t0, $13
+1:  b     delayslot_mark
+    nop
+
 /* A syscall in the delay slot of a not-taken bne, itself in the delay slot of
    a taken b: the bne's delay slot is the b's target. */
 
