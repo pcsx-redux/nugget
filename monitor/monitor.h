@@ -65,6 +65,13 @@ SOFTWARE.
    send the next WRITE_MEM/LOAD frame before the previous one's ACK. Not on
    SIO1, whose 8-byte FIFO overruns. */
 #define MON_CAP_PIPELINE 0x0008
+/* The board has a watchdog the monitor kicks, and RUN's features word
+   decides whether it keeps kicking while the target runs. */
+#define MON_CAP_WATCHDOG 0x0010
+
+/* RUN's optional features word. A RUN without it gets MON_FEAT_DEFAULT. */
+#define MON_FEAT_WATCHDOG 0x0001
+#define MON_FEAT_DEFAULT MON_FEAT_WATCHDOG
 
 /* LZ4 WRITE_MEM/LOAD on SIO1 by default: the wire is slow enough that decoding
    hides under it. Elsewhere decoding would cost more than it saves. */
