@@ -140,6 +140,11 @@ class ArchiveManager {
             UCL_NRV2E = 1,
             LZ4 = 2,
             COUNT = 3,
+            // Raw sectors stored as-is, such as an STR movie with interleaved
+            // XA audio, meant to be streamed rather than loaded. The entry's
+            // first 32-bit field holds the sector count instead of the
+            // decompressed size and padding. `readFile` refuses these.
+            STREAM = 7,
         };
         typedef Utilities::BitSpan<uint32_t, 21> DecompSizeField;
         typedef Utilities::BitSpan<uint32_t, 11> PaddingField;
@@ -164,6 +169,8 @@ class ArchiveManager {
         uint32_t getCompressedSize() const { return entry.get<CompressedSizeField>(); }
         // Return the compression method used to compress the data.
         Method getCompressionMethod() const { return entry.get<MethodField>(); }
+        // Return the number of sectors of a STREAM entry.
+        uint32_t getStreamSectors() const { return asArray[2]; }
         uint32_t asArray[4];
         struct {
             uint64_t hash;

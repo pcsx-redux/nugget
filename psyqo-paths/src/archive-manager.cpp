@@ -122,6 +122,8 @@ void psyqo::paths::ArchiveManager::setupQueue(const IndexEntry* entry, CDRom& de
         return;
     }
     const auto method = entry->getCompressionMethod();
+    Kernel::assert(toUnderlying(method) < toUnderlying(IndexEntry::Method::COUNT),
+                   "ArchiveManager: this entry is a stream, use its sectors directly");
     const uint32_t sectorCount = entry->getCompressedSize();
     const uint32_t decompSize = entry->getDecompSize();
     m_request.LBA = m_archiveDirentry.LBA + entry->getSectorOffset();
