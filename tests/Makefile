@@ -92,6 +92,7 @@ all:
 	$(MAKE) -C spu-capring all
 	$(MAKE) -C spu-envx all
 	$(MAKE) -C spu-volsweep all
+	$(MAKE) -C spu-irqrefire all
 	$(MAKE) -C spu-revread all
 	$(MAKE) -C spu-revstream all
 	$(MAKE) -C timers all
@@ -190,6 +191,7 @@ clean:
 	$(MAKE) -C spu-capring clean
 	$(MAKE) -C spu-envx clean
 	$(MAKE) -C spu-volsweep clean
+	$(MAKE) -C spu-irqrefire clean
 	$(MAKE) -C spu-revread clean
 	$(MAKE) -C spu-revstream clean
 	$(MAKE) -C timers clean

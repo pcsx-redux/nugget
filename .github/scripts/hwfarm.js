@@ -62,6 +62,7 @@ const TESTS = [
     'spu;spu/spu',
     'spu-endmute;spu-endmute/spu-endmute',
     'spu-endx;spu-endx/spu-endx',
+    'spu-irqrefire;spu-irqrefire/spu-irqrefire',
     'spu-offvoice;spu-offvoice/spu-offvoice',
     'spu-volsweep;spu-volsweep/spu-volsweep',
     'sr-write;sr-write/sr-write',

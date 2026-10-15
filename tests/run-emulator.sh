@@ -59,6 +59,7 @@ TESTS=(
     "psyqo-spudma;psyqo-spudma/spudma;interpreter dynarec;^All SPU DMA checks passed;"
     "rumble;rumble/rumble;interpreter dynarec;$CESTER;-exec dofile('tests/rumble/setup.lua')"
     "spu-volsweep;spu-volsweep/spu-volsweep;interpreter;^SPUVOLSWEEP: PASS \(0 failures\);"
+    "spu-irqrefire;spu-irqrefire/spu-irqrefire;interpreter;^SPUIRQREFIRE: PASS \(0 failures\);"
     "sr-write;sr-write/sr-write;interpreter;$CESTER;"
     "timers;timers/timers;interpreter dynarec;$CESTER;"
     "gpu-raster-phase23;gpu-raster-phase23/gpu-raster-phase23;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
