@@ -1,0 +1,5 @@
+# Sony's SDK, fetched by the user per the README in this directory. Never
+# committed: it is not ours to redistribute. inline_n.h is ours and is tracked.
+/lib/
+/include/*
+!/include/inline_n.h

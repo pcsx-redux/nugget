@@ -105,6 +105,7 @@ SKIPS=(
     "spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict"
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
+    "alloc-tracker/alloc-tracker|needs the guest command port from pcsx-redux"
 )
 for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")
