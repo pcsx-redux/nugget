@@ -84,6 +84,7 @@ SKIPS=(
     "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
+    "gte-write-to-use/gte-write-to-use|emulator gap: GTE write-to-use delay per command and register not in the dev AppImage; run by the pcsx-redux gtests"
     "mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
     "gte-timing/gte-timing|hardware probe: prints GTE command timings, no verdict"
     "pocketstation-memmap/pocketstation-memmap|hardware probe: needs a PocketStation in a card slot, prints readings, no verdict"

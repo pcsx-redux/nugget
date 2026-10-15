@@ -62,6 +62,7 @@ all:
 	$(MAKE) -C gte-latency-mvmva all
 	$(MAKE) -C gte-latency-perspective all
 	$(MAKE) -C gte-latency-singles all
+	$(MAKE) -C gte-write-to-use all
 	$(MAKE) -C libc all
 	$(MAKE) -C load-timings all
 	$(MAKE) -C memcpy all
@@ -159,6 +160,7 @@ clean:
 	$(MAKE) -C gte-latency-mvmva clean
 	$(MAKE) -C gte-latency-perspective clean
 	$(MAKE) -C gte-latency-singles clean
+	$(MAKE) -C gte-write-to-use clean
 	$(MAKE) -C libc clean
 	$(MAKE) -C load-timings clean
 	$(MAKE) -C memcpy clean
