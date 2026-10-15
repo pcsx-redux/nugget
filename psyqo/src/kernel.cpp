@@ -160,7 +160,7 @@ void psyqo::Kernel::takeOverKernel() {
         handlers[3] = Mips::Encoder::nop();
         // b0
         handlers[4] = Mips::Encoder::jr(Mips::Encoder::Reg::RA);
-        handlers[5] = Mips::Encoder::li(Mips::Encoder::Reg::T0, lo);
+        handlers[5] = Mips::Encoder::addiu(Mips::Encoder::Reg::T0, lo);
         handlers[6] = Mips::Encoder::jr(Mips::Encoder::Reg::T0);
         handlers[7] = Mips::Encoder::nop();
         // c0
