@@ -335,6 +335,7 @@ uint8_t *psyqo::paths::StrPlayer::sectorDest(const uint8_t *header, uint32_t lba
         m_slots[m_filling].state = SLOT_FREE;
         m_filling = -1;
         m_stats.framesDropped++;
+        m_stats.dropIncomplete++;
     }
     if (chunks == 0 || chunks > m_options.maxSectorsPerFrame || index >= chunks) {
         m_skipFrame = frame;
@@ -347,6 +348,7 @@ uint8_t *psyqo::paths::StrPlayer::sectorDest(const uint8_t *header, uint32_t lba
             // The decoder is behind and the ring is full: this frame is lost.
             m_skipFrame = frame;
             m_stats.framesDropped++;
+            m_stats.dropRingFull++;
             return nullptr;
         }
         s.frameNumber = frame;

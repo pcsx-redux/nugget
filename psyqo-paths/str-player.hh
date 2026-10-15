@@ -101,6 +101,8 @@ class StrPlayer {
     struct Stats {
         uint32_t framesShown = 0;
         uint32_t framesDropped = 0;   // lost in reassembly: missing chunks, or no free slot
+        uint32_t dropIncomplete = 0;  // of which a new frame started before every chunk arrived
+        uint32_t dropRingFull = 0;    // of which the decoder was behind and no slot was free
         uint32_t framesRejected = 0;  // complete, but bsdec or the MDEC refused them
         uint32_t videoSectors = 0;
         uint32_t otherSectors = 0;

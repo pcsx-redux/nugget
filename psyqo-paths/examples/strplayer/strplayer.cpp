@@ -68,14 +68,17 @@ psyqo::paths::StrPlayer::Options options() {
 #ifdef STRPLAYER_ASAP
     o.present = psyqo::paths::StrPlayer::Present::ASAP;
 #endif
+#ifdef STRPLAYER_SLOTS
+    o.frameSlots = STRPLAYER_SLOTS;
+#endif
     return o;
 }
 
 void report(const psyqo::paths::StrPlayer::Stats &s, unsigned pass, int status) {
     ramsyscall_printf("STRP: pass %d status %d shown %d dropped %d rejected %d last %d\n", pass, status,
                       s.framesShown, s.framesDropped, s.framesRejected, s.lastFrameNumber);
-    ramsyscall_printf("STRP: sectors video %d other %d errors %d\n", s.videoSectors, s.otherSectors,
-                      s.readErrors);
+    ramsyscall_printf("STRP: sectors video %d other %d errors %d incomplete %d ringfull %d\n", s.videoSectors,
+                      s.otherSectors, s.readErrors, s.dropIncomplete, s.dropRingFull);
     ramsyscall_printf("STRP: vsyncs/frame 1:%d 2:%d 3:%d 4+:%d\n", s.vsyncHistogram[0], s.vsyncHistogram[1],
                       s.vsyncHistogram[2], s.vsyncHistogram[3]);
     ramsyscall_printf("STRP: switch line/32 %d %d %d %d %d %d %d %d %d %d\n", s.switchLineHistogram[0],
