@@ -29,7 +29,7 @@ CESTER='^Synthesis: SUCCESS Tests: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0'
 TESTS=(
     "basic;basic/basic;interpreter dynarec;$CESTER;"
     "cop0;cop0/cop0;interpreter;$CESTER;-debugger"
-    "cop-branch;cop-branch/cop-branch;interpreter;$CESTER;-debugger"
+    "cop-branch;cop-branch/cop-branch;interpreter dynarec;$CESTER;-debugger"
     "cpu;cpu/cpu;interpreter dynarec;$CESTER;"
     "dma;dma/dma;interpreter dynarec;$CESTER;-debugger"
     "gpu-command;gpu-command/gpu-command;interpreter;$CESTER;"
