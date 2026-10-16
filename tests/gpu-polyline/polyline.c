@@ -140,3 +140,40 @@ CESTER_TEST(polyline_50000000_single_nibble_no_terminate, gpu_polyline,
     ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
     ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_PROBE_X, PL_PROBE_Y); // probe drew -> not terminated
 )
+
+// --------------------------------------------------------------------------
+// 5. The terminator is not checked on the command word. A gouraud poly-line
+//    whose first color has a green byte of 0x5X makes the command word itself
+//    match the pattern (0x58F858F8 & 0xF000F000 == 0x50005000); it still
+//    starts a list, and the v0->v1 spine draws in that color.
+// --------------------------------------------------------------------------
+CESTER_TEST(polyline_command_word_is_not_a_terminator, gpu_polyline,
+    uint32_t color = rasterCmdColor(0x1f, 0x0b, 0x1f);
+    plSetup();
+    waitGPU();
+    GPU_DATA = 0x58000000u | color;
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
+    GPU_DATA = color;
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V1Y << 16) | (uint32_t)(uint16_t)PL_V1X;
+    GPU_DATA = 0x55555555u;
+    plSettle();
+    rasterReset();
+    ASSERT_PIXEL_EQ(rasterVram555(0x1f, 0x0b, 0x1f), PL_SPINE_X, PL_SPINE_Y);
+)
+
+// --------------------------------------------------------------------------
+// 6. Nor on the second vertex. A flat poly-line needs two vertices before it
+//    can end, so a v1 word matching the pattern is still a vertex: its x and y
+//    keep only their low 11 bits, (0x5000 | 40, 0x5000 | 10) lands on (40, 10).
+// --------------------------------------------------------------------------
+CESTER_TEST(polyline_second_vertex_is_not_a_terminator, gpu_polyline,
+    plSetup();
+    waitGPU();
+    GPU_DATA = 0x48000000u | (RASTER_CMD_WHITE);
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
+    GPU_DATA = ((uint32_t)(0x5000u | PL_V1Y) << 16) | (uint32_t)(0x5000u | PL_V1X);
+    GPU_DATA = 0x55555555u;
+    plSettle();
+    rasterReset();
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
+)
