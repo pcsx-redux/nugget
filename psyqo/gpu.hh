@@ -139,6 +139,18 @@ class GPU {
     uint32_t getFrameCount() const { return m_previousFrameCount; }
 
     /**
+     * @brief Returns the number of vsyncs since the GPU was initialized, as of now.
+     *
+     * @details Unlike `getFrameCount`, which is latched once per frame, this is
+     * the live counter the vblank interrupt increments. Spinning until it changes
+     * is how to wait for the start of the next vblank.
+     */
+    uint32_t getLiveFrameCount() const {
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        return *const_cast<const volatile uint32_t *>(&m_frameCount);
+    }
+
+    /**
      * @brief Get the index of the current display buffer.
      *
      * @details This method will return the index of the current display buffer.
