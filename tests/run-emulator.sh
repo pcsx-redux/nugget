@@ -67,6 +67,12 @@ TESTS=(
 for p in $(seq 1 22); do
     TESTS+=("gpu-raster-phase$p;gpu-raster-phase$p/gpu-raster-phase$p;interpreter;$CESTER;")
 done
+PROBE='^SUMMARY name=[^ ]+ passed=[1-9][0-9]* failed=0'
+TESTS+=("2mb-vram-bank-probe-1mb;2mb-vram/bank-probe/bank-probe;interpreter;$PROBE;")
+for d in bank-probe drawing-area-y drawing-offset-y primitives-cross texpage-upper transfer-h-quirk \
+         transfer-wrap-y vram-blit-y vram-transfers-y; do
+    TESTS+=("2mb-vram-$d;2mb-vram/$d/$d;interpreter;$PROBE;-2mbvram")
+done
 
 # ps-exe|reason
 SKIPS=(
@@ -112,10 +118,6 @@ SKIPS=(
 )
 for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")
-done
-for d in bank-probe drawing-area-y drawing-offset-y primitives-cross texpage-upper transfer-h-quirk \
-         transfer-wrap-y vram-blit-y vram-transfers-y; do
-    SKIPS+=("2mb-vram/$d/$d|needs the 2MB VRAM fitment from pcsx-redux in the dev AppImage")
 done
 
 LOGS=$(mktemp -d)
