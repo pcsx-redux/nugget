@@ -83,6 +83,8 @@ const SKIPS = [
     'dma-modes/dma-modes|probe: loops forever, no verdict',
     'dma-priority/dma-priority|probe: loops forever, no verdict',
     'spu-wide-writes/spu-wide-writes|probe: loops forever, no verdict',
+    'spu-upload-tail/spu-upload-tail|probe: prints per-arm tail loss across wait strategies, verdict only on its own controls',
+    'modplayer-upload-tail/modplayer-upload-tail|probe: prints per-arm tail loss across wait strategies, verdict only on its own controls',
     'gpu/gpu|probe: loops forever, no verdict',
     'gpu-nop/gpu-nop|probe: loops forever, no verdict',
     'gpu-fifo/gpu-fifo|probe: prints FIFO readings, no verdict',
