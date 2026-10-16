@@ -442,14 +442,12 @@ void PlayScene::uploadNext() {
     psyqo::Rect region;
     const uint16_t *src;
     if (m_hdr.columnMajor()) {
-        // ⛔ UNREACHABLE TODAY AND DELIBERATELY KEPT. `mdec` emits raster order, and
-        // packstream's --order flag DECLARES what the encoder emits rather than
-        // reordering anything, so passing --order column writes a header byte that
-        // lies about the data. Caught by the pixel sums coming back byte-identical
-        // to the raster build, which they could not be if the order had changed.
-        // A whole 16-wide column is ONE contiguous run: 15 macroblocks back to
-        // back, each 16 rows of 16, which is exactly what a 16x240 VRAM rect
-        // consumes. 20 transfers instead of 300, for the same bytes.
+        // The default path: `mdec` encodes column-major unless told -order raster,
+        // and packstream passes its --order to the encoder and records the same
+        // value in the header, so this byte describes the data. A whole 16-wide
+        // column is ONE contiguous run: 15 macroblocks back to back, each 16 rows
+        // of 16, which is exactly what a 16x240 VRAM rect consumes. 20 transfers
+        // instead of 300, for the same bytes.
         region = {.pos = {{.x = int16_t(i * 16), .y = m_upBufY}},
                   .size = {{.w = 16, .h = int16_t(rows * 16)}}};
         src = s_pixels[m_showBuf] + i * rows * 16 * 16;
