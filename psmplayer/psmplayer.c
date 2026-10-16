@@ -503,7 +503,7 @@ static void setupReverb(void) {
     // reach that far, leave reverb off rather than overwrite them.
     uint32_t clearStart = ((uint32_t)mBase << 3) & ~0x3f;
     if (s_sampleEnd > clearStart) return;
-    static uint8_t zeros[1024] __attribute__((aligned(8)));
+    static uint8_t zeros[1024] __attribute__((aligned(4)));
     for (uint32_t off = clearStart; off < 0x80000;) {
         uint32_t len = 0x80000 - off;
         if (len > sizeof(zeros)) len = sizeof(zeros);
