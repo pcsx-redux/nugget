@@ -91,6 +91,8 @@ all:
 	$(MAKE) -C mdec-roundtrip all
 	$(MAKE) -C scanline-timing all
 	$(MAKE) -C spu-capring all
+	$(MAKE) -C spu-upload-tail all
+	$(MAKE) -C modplayer-upload-tail all
 	$(MAKE) -C spu-envx all
 	$(MAKE) -C spu-volsweep all
 	$(MAKE) -C spu-irqrefire all
@@ -191,6 +193,8 @@ clean:
 	$(MAKE) -C mdec-roundtrip clean
 	$(MAKE) -C scanline-timing clean
 	$(MAKE) -C spu-capring clean
+	$(MAKE) -C spu-upload-tail clean
+	$(MAKE) -C modplayer-upload-tail clean
 	$(MAKE) -C spu-envx clean
 	$(MAKE) -C spu-volsweep clean
 	$(MAKE) -C spu-irqrefire clean
