@@ -36,6 +36,11 @@ endif
 MONITOR_LINK ?= SIO1
 CPPFLAGS += -DMONITOR_LINK_$(MONITOR_LINK)
 include ../ft232h-boards.mk
+include ../platforms.mk
+# crt0 sets up the 573's DEV0 and clears its watchdog before anything else.
+ifeq ($(MONITOR_PLATFORM),sys573)
+ASFLAGS += -Wa,--defsym,MONITOR_PLATFORM_SYS573=1
+endif
 # SIO1 baud reload at x16, see monitor/link-sio1.h.
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
@@ -47,7 +52,7 @@ LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
 
 core/monitor-core.bin: core/monitor-core.elf
 core/monitor-core.elf: FORCE
-	CPPFLAGS="$(CORE_CPPFLAGS)" LDFLAGS="$(CORE_LDFLAGS)" $(MAKE) -C core MONITOR_LINK=$(MONITOR_LINK) MONITOR_FT232H_BOARD=$(MONITOR_FT232H_BOARD) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
+	CPPFLAGS="$(CORE_CPPFLAGS)" LDFLAGS="$(CORE_LDFLAGS)" $(MAKE) -C core MONITOR_LINK=$(MONITOR_LINK) MONITOR_PLATFORM=$(MONITOR_PLATFORM) MONITOR_FT232H_BOARD=$(MONITOR_FT232H_BOARD) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 
 monitor-core-blob.o: core/monitor-core.bin
 	cd core && $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips monitor-core.bin ../$@

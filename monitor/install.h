@@ -33,6 +33,7 @@ SOFTWARE.
 #include "common/kernel/openbios.h"
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
+#include "monitor/watchdog.h"
 
 /* The monitor's exception chain entry, defined in monitor.c. */
 extern struct HandlerInfo s_monitorHandler;
@@ -53,6 +54,7 @@ static inline uint32_t monitorBiosChecksum(void) {
     const volatile uint32_t *p = (const volatile uint32_t *)0xbfc00000;
     uint32_t s1 = 0, s2 = 0;
     for (unsigned i = 0; i < 0x80000 / 4; i++) {
+        if ((i & 0xfff) == 0) monitorWatchdogKick();
         uint32_t w = p[i];
         s1 += w & 0xffff;
         s2 += s1;
