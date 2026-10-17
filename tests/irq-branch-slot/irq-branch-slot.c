@@ -160,7 +160,8 @@ CESTER_TEST(irq_branch_slot_irqs_handled, irq_branch_slot_tests,
 
 CESTER_MAYBE_TEST(irq_branch_slot_epc_on_inner_branch, irq_branch_slot_tests,
     // An IRQ taken right after B2 ran in B1's delay slot reports EPC = B2
-    // with Cause.BD set.
+    // with Cause.BD set. Redux's dynarec polls interrupts only between blocks
+    // and compiles B2 together with its delay slot, so it never gets here.
     cester_assert_uint_ne(0, s_atB2BD);
 )
 
