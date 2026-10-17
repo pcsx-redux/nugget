@@ -301,6 +301,34 @@ int main(void) {
     setDrawingOffsetMasked(0, 0);
     report("O3_off_m1000_x1500", "DRAW 500..600 iff offset precedes truncation", 80, 500, 579);
 
+    /* ---- W: does the edge check see the coordinates before or after the
+     * offset wraps them? Shape taken from Grandia's Port of Parm pier, drawn
+     * into its right-hand buffer with offset (360,0).
+     *
+     * W0 control: v0 at 650 lands at 1010, no wrap, every edge in limit.
+     * W1: v0 at 670 lands at 1030 and wraps to -1018. On the command coords
+     * the widest edge is 320; on the wrapped screen coords v0-v1 is 1762.
+     *   check before the offset: draws a quad from -1018 to 949
+     *   check after the wrap: culled, count=0
+     * Checking before the offset smears a plank across Grandia's pier,
+     * which is why the second is predicted. EXPECTED VALUES ON BOTH ARMS ARE
+     * PENDING A SILICON RUN; W0's span is the soft renderer's own. */
+    rasterReset();
+    clearBand();
+    setDrawingOffsetMasked(360, 0);
+    rasterFlatQuad(RASTER_CMD_GREEN, 650, 0, 384, 0, 589, 40, 350, 40);
+    rasterFlushPrimitive();
+    setDrawingOffsetMasked(0, 0);
+    report("W0_ctl_off360_nowrap", "DRAW 738..997", 260, 738, 997);
+
+    rasterReset();
+    clearBand();
+    setDrawingOffsetMasked(360, 0);
+    rasterFlatQuad(RASTER_CMD_GREEN, 670, 0, 384, 0, 589, 40, 350, 40);
+    rasterFlushPrimitive();
+    setDrawingOffsetMasked(0, 0);
+    report("W1_off360_wrap_v0", "CULL iff check follows wrap", 0, -1, -1);
+
     /* ---- R: variable rectangle dimension masking -----------------------
      * psx-spx line 553 documents  Xsiz = ((Xsiz-1) AND 3FFh) + 1.
      * phase-14 measured  Xsiz = Xsiz AND 3FFh  but probed only 16/1023/
