@@ -26,9 +26,19 @@ SOFTWARE.
 
 // clang-format off
 
-// These tests cannot be easily automated.
+// On hardware these need someone to open the lid during waitForDoor and leave it open for
+// doorOpenedOrMissingDisc. Under PCSX_TESTS the runner registers PCSX.execSlots handlers
+// that open (CDROM_LID_OPEN_SLOT) and close (CDROM_LID_CLOSE_SLOT) the emulated lid.
+#define CDROM_LID_OPEN_SLOT 0xd0
+#define CDROM_LID_CLOSE_SLOT 0xd1
 
-CESTER_SKIP_TEST(waitForDoor, test_instances,
+#if PCSX_TESTS
+#define CESTER_LID_TEST CESTER_TEST
+#else
+#define CESTER_LID_TEST CESTER_SKIP_TEST
+#endif
+
+CESTER_LID_TEST(waitForDoor, test_instances,
     int resetDone = resetCDRom();
     if (!resetDone) {
         cester_assert_true(resetDone);
@@ -42,6 +52,9 @@ CESTER_SKIP_TEST(waitForDoor, test_instances,
     }
 
     ramsyscall_printf("Waiting for door to open...\n");
+#if PCSX_TESTS
+    pcsx_execSlot(CDROM_LID_OPEN_SLOT);
+#endif
 
     initializeTime();
     uint32_t ackTime = waitCDRomIRQ();
@@ -61,7 +74,7 @@ CESTER_SKIP_TEST(waitForDoor, test_instances,
     cester_assert_uint_eq(2, responseSize);
 )
 
-CESTER_SKIP_TEST(doorOpenedOrMissingDisc, test_instances,
+CESTER_LID_TEST(doorOpenedOrMissingDisc, test_instances,
     int resetDone = resetCDRom();
     if (!resetDone) {
         cester_assert_true(resetDone);
@@ -80,6 +93,15 @@ CESTER_SKIP_TEST(doorOpenedOrMissingDisc, test_instances,
     uint8_t ctrl2 = CDROM_REG0 & ~3;
     CDROM_REG0 = 1;
     uint8_t cause1b = CDROM_REG3_UC;
+#if PCSX_TESTS
+    pcsx_execSlot(CDROM_LID_CLOSE_SLOT);
+    // The shell-open status bit stays latched until a GetStat; clear it for the tests after this one.
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_NOP;
+    waitCDRomIRQ();
+    ackCDRomCause();
+    discardResponse();
+#endif
 
     cester_assert_uint_eq(5, cause1);
     cester_assert_uint_eq(0x38, ctrl1);
