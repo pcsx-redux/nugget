@@ -1,0 +1,23 @@
+<map id="tests/alloc&#45;tracker/alloc&#45;tracker.cpp" name="tests/alloc&#45;tracker/alloc&#45;tracker.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="218,5,356,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="116,240,186,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,37,160,46,100,58,49,75,31,84,19,95,9,114,10,133,18,152,33,170,74,205,117,231,115,236,71,209,29,174,14,155,5,134,4,113,14,92,28,80,47,70,99,53,159,40,217,31"/>
+<area shape="rect" id="Node000003" href="$d0/d54/allocdesc_8h.html" title=" " alt="" coords="28,93,250,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,48,174,89,172,84,250,43"/>
+<area shape="rect" id="Node000004" href="$d8/d07/pcsxcmd_8h.html" title=" " alt="" coords="105,167,197,192"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="289,46,282,82,275,102,264,120,235,146,203,164,200,159,232,142,260,117,270,100,277,81,284,45"/>
+<area shape="rect" id="Node000005" href="$d7/d18/pcsxhw_8h.html" title=" " alt="" coords="222,167,430,192"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="295,45,308,93,323,153,318,154,303,94,290,47"/>
+<area shape="rect" id="Node000006" href="$d6/daf/psyqo_2alloc_8h.html" title=" " alt="" coords="477,93,585,119"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="346,43,483,86,481,92,345,48"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="127,121,100,153,93,172,95,191,108,212,125,230,122,233,104,215,90,193,88,171,96,150,123,117"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="144,119,149,153,144,154,138,119"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="154,192,154,226,148,226,148,192"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="299,194,193,237,191,232,297,190"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="551,240,626,265"/>
+<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="563,116,596,135,611,149,623,166,627,182,625,200,609,230,605,228,620,198,622,183,618,168,607,153,593,140,561,121"/>
+<area shape="rect" id="Node000008" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="454,167,608,192"/>
+<area shape="poly" id="edge11_Node000006_Node000008" title=" " alt="" coords="534,119,534,153,528,153,528,119"/>
+<area shape="poly" id="edge13_Node000008_Node000002" title=" " alt="" coords="471,195,201,245,200,240,470,189"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="543,191,572,227,568,231,538,194"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="monitor/link&#45;sio1.h" name="monitor/link&#45;sio1.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="52,5,198,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="144,225,215,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,33,41,51,24,64,11,80,8,91,12,103,25,143,52,175,91,202,132,220,130,225,88,207,49,179,21,146,6,105,3,91,7,77,21,60,38,46,77,28"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="22,79,228,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="128,31,128,65,122,65,122,31"/>
+<area shape="rect" id="Node000005" href="$da/dda/sio_8h.html" title=" " alt="" coords="253,79,432,104"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="161,28,295,72,293,77,159,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="106,106,86,120,69,138,58,157,58,166,62,176,76,192,93,205,132,223,130,228,90,210,72,196,57,179,53,167,53,156,64,135,83,116,103,102"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="72,152,288,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="136,103,165,140,160,143,132,106"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="182,178,182,212,177,212,177,178"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="341,105,328,141,316,161,302,179,267,205,229,223,227,219,264,201,298,175,312,158,323,139,337,104"/>
+<area shape="rect" id="Node000006" href="$d2/de7/irq_8h.html" title=" " alt="" coords="363,152,540,177"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="361,102,424,142,421,147,358,106"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="409,180,229,227,227,222,407,175"/>
+</map>

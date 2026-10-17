@@ -1,0 +1,8 @@
+<map id="psyqo/hardware/sio.hh" name="psyqo/hardware/sio.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,175,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,152,125,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,32,63,53,50,79,48,95,52,111,70,140,66,143,47,113,43,96,45,78,59,50,76,29"/>
+<area shape="rect" id="Node000003" href="$d8/d02/hwregs_8hh.html" title=" " alt="" coords="59,79,257,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="103,29,139,67,135,70,99,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="149,106,113,144,109,140,145,102"/>
+</map>
