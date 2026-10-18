@@ -69,7 +69,7 @@ for p in $(seq 1 22); do
 done
 PROBE='^SUMMARY name=[^ ]+ passed=[1-9][0-9]* failed=0'
 TESTS+=("2mb-vram-bank-probe-1mb;2mb-vram/bank-probe/bank-probe;interpreter;$PROBE;")
-for d in bank-probe drawing-area-y drawing-offset-y primitives-cross texpage-upper transfer-h-quirk \
+for d in bank-probe drawing-area-y drawing-offset-y gate-flip-queued primitives-cross texpage-upper transfer-h-quirk \
          transfer-wrap-y vram-blit-y vram-transfers-y; do
     TESTS+=("2mb-vram-$d;2mb-vram/$d/$d;interpreter;$PROBE;-2mbvram")
 done
