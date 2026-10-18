@@ -277,6 +277,7 @@ target("nugget.crt", function()
     add_values("psx.no_gpopt", true)
     add_asflags("-mabi=32")
     add_cxflags("-mabi=32", "-fno-reg-struct-return", "-G0")
+    add_cxflags("-fno-fuse-ops-with-volatile-access")
 end)
 
 rule("nugget", function()
@@ -288,6 +289,10 @@ rule("nugget", function()
         target:add("values", "psx.no_gpopt", true)
         target:add("asflags", "-mabi=32")
         target:add("cxflags", "-mabi=32", "-fno-reg-struct-return", "-G0", "-fno-strict-aliasing")
+        -- gcc 16 can narrow a 32-bit volatile hardware register load; xmake
+        -- checks these and drops them on compilers that lack the option.
+        target:add("cxflags", "-fno-fuse-ops-with-volatile-access")
+        target:add("ldflags", "-fno-fuse-ops-with-volatile-access")
     end)
     before_config(function(target)
         if target:get("kind") == "binary" then

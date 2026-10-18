@@ -26,6 +26,12 @@ CPPFLAGS += -ffunction-sections
 endif
 CPPFLAGS += -fdata-sections -mno-gpopt -fomit-frame-pointer
 CPPFLAGS += -fno-builtin -fno-strict-aliasing -Wno-attributes
+
+# gcc 16 folds volatile loads into the following operation and can narrow a
+# 32-bit hardware register read to lhu/lbu. Probed so older compilers still build.
+NOFUSEVOLATILE := $(shell $(CC) -Werror -fno-fuse-ops-with-volatile-access -x c -c /dev/null -o /dev/null 2>/dev/null && echo -fno-fuse-ops-with-volatile-access)
+CPPFLAGS += $(NOFUSEVOLATILE)
+LDFLAGS += $(NOFUSEVOLATILE)
 CPPFLAGS += $(ARCHFLAGS)
 CPPFLAGS += -I$(ROOTDIR)
 CPPFLAGS += $(foreach f, $(DEFINES), -D$(f))
