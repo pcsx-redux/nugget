@@ -73,6 +73,21 @@ static inline void linkPutByte(uint8_t b) {
     SIOS[1].fifo = b;
 }
 
+/* Non-blocking transmit test for the console path, which must not wait on a
+   host that dropped RTS (sio1-tty.c). TX is CTS-gated, so this stays 0 while
+   CTS is low and the holding register is full. */
+static inline int linkTxReady(void) { return (SIOS[1].stat & SIO_STAT_TXRDY) != 0; }
+
+/* How many linkTxReady polls the console path waits for before it gives up on
+   a byte. One byte is 10 bits of 16 SIO clocks per reload unit, and the SIO
+   clock is the CPU clock: 160 * reload cycles, 85 us at reload 18. The wait is
+   at least 1024 byte times, 87 ms at reload 18 and 19 ms at reload 4, which
+   covers a USB latency timer period (16 ms by default on FTDI parts) for a
+   host that does gate us with RTS while it is reading; psxmon itself raises
+   RTS at open and keeps it up. A poll costs at least 4 cycles, hence
+   1024 * 160 / 4 polls per reload unit; slower polls only make it longer. */
+static inline uint32_t linkTxStallPolls(void) { return (uint32_t)SIOS[1].baudRate * 40960u; }
+
 /* Sticky receive overrun since the last linkClearErrors(). */
 static inline int linkOverrun(void) { return (SIOS[1].stat & SIO_STAT_OE) != 0; }
 

@@ -44,13 +44,31 @@ extern const struct Device s_ttyDevice;
 #else
 static int ttyNull(void) { return 0; }
 
+/* Console text is best effort. A host that closed the port leaves TX stalled
+   for good (SIO1 CTS low, or an FT232H FIFO nobody reads), and a printf must
+   not wedge the program then. So a byte that cannot leave within
+   linkTxStallPolls() polls is dropped with the rest of its write, and later
+   writes are dropped without waiting until the link takes a byte again. The
+   frame path keeps linkPutByte's unbounded wait: a lost reply is worse than a
+   late one. */
+static int s_txStalled;
+
 static int ttyAction(struct File *file, enum FileAction action) {
     if (action != PSXWRITE) return 0;
     const uint8_t *p = (const uint8_t *)file->buffer;
     int count = file->count;
+    if (s_txStalled && !linkTxReady()) return count;
+    s_txStalled = 0;
     for (const uint8_t *end = p + count; p < end; p++) {
         uint8_t b = *p;
-        if (b) linkPutByte(b);
+        if (!b) continue;
+        for (uint32_t n = linkTxStallPolls(); !linkTxReady();) {
+            if (--n == 0) {
+                s_txStalled = 1;
+                return count;
+            }
+        }
+        linkPutByte(b);
     }
     return count;
 }
