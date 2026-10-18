@@ -48,6 +48,8 @@ __ftext_len     = (__ftext_end - __ftext_start);
 __fdata_len     = (__fdata_end - __fdata_start);
 
 __stack_start   = ORIGIN(ram) + LENGTH(ram);
+/* Stack space the heap leaves free. Raise it with -Wl,--defsym=__stack_reserve=<bytes>. */
+PROVIDE(__stack_reserve = 0x8000);
 
 SECTIONS {
     .CPE_Header : {

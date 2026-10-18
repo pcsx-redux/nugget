@@ -13,6 +13,7 @@ test-bezier.cpp \
 test-primitives.cpp \
 test-gte-math.cpp \
 test-bump-allocator.cpp \
+test-heap-limit.cpp \
 
 CXXFLAGS = -std=c++20
 
