@@ -62,6 +62,13 @@ extern "C" {
 #include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 }
+
+// pcsx_exit is a store only Redux traps; on hardware it does nothing and the
+// capture would run on into playback. The monitor's exit break stops it there.
+[[noreturn]] static void captureExit(int code) {
+    pcsx_exit(code);
+    PCexit(code);
+}
 #endif
 
 // Build with -DMDECPLAYER_PROFILE to print where a frame's time goes. Counter 1
@@ -494,7 +501,7 @@ void PlayScene::frame() {
         const uint32_t want = MDECPLAYER_CAPTURE;
         if (want >= m_hdr.frames()) {
             ramsyscall_printf("MDPL: capture frame %d but the stream has %d\n", want, m_hdr.frames());
-            pcsx_exit(20);
+            captureExit(20);
         }
         // start() already decoded frame 0 into buffer 0, straight after a fresh
         // reset, so frame 0 is captured from that and nothing re-decodes it. A
@@ -510,12 +517,12 @@ void PlayScene::frame() {
                 m_needReset = false;
                 if (bad) {
                     ramsyscall_printf("MDPL: MDEC re-seat failed (%d) before frame %d\n", bad, i);
-                    pcsx_exit(24);
+                    captureExit(24);
                 }
             }
             if (!decodeInto(i, 0)) {
                 ramsyscall_printf("MDPL: decode failed on frame %d\n", i);
-                pcsx_exit(21);
+                captureExit(21);
             }
         }
         {
@@ -529,7 +536,7 @@ void PlayScene::frame() {
         const int fd = PCcreat("mdecplay.bin", 0);
         if (fd < 0) {
             ramsyscall_printf("MDPL: PCcreat failed\n");
-            pcsx_exit(22);
+            captureExit(22);
         }
         uint8_t hdr[8];
         hdr[0] = (uint8_t)m_hdr.width();
@@ -546,11 +553,11 @@ void PlayScene::frame() {
         PCclose(fd);
         if (wh != (int)sizeof(hdr) || wb != bytes) {
             ramsyscall_printf("MDPL: short write %d/%d and %d/%d\n", wh, (int)sizeof(hdr), wb, bytes);
-            pcsx_exit(23);
+            captureExit(23);
         }
         ramsyscall_printf("MDPL: captured frame %d, %d bytes, %s order\nMDPL: end\n", want, bytes,
                           m_hdr.columnMajor() ? "column" : "raster");
-        pcsx_exit(0);
+        captureExit(0);
     }
 #endif
 
