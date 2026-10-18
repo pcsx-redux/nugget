@@ -75,10 +75,14 @@ static void drawThenFlip(uint32_t newGate) {
 }
 
 static void expectRow(const char* label, int y, int wantMarker) {
-    uint16_t px = readPixel(COL_X + 4, y);
-    int isMarker = px == MARK_VRAM;
-    PROBE_RESULT("gate-flip-queued %s y=%d px=%04x", label, y, px);
-    if (isMarker == wantMarker) {
+    // Both halves of the GPUREAD word are used (the second is printed): when
+    // only the low half is live, gcc -Os narrows the load to a 16-bit lhu,
+    // which does not read the pixel back.
+    uint16_t buf[2];
+    readStrip(COL_X + 4, y, 2, buf);
+    uint16_t px = buf[0];
+    PROBE_RESULT("gate-flip-queued %s y=%d px=%04x next=%04x", label, y, px, buf[1]);
+    if (px == (wantMarker ? MARK_VRAM : BG_COLOR)) {
         PROBE_PASS(s_stats, "%s y=%d %s", label, y, wantMarker ? "marker" : "background");
     } else {
         PROBE_FAIL(s_stats, "%s y=%d px=%04x expected %s", label, y, px, wantMarker ? "marker" : "background");
