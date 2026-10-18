@@ -163,6 +163,9 @@ static inline uint16_t readPixel(int16_t x, int16_t y) {
     while ((GPU_STATUS & 0x08000000) == 0) {
     }
     uint32_t word = GPU_DATA;
+    // Only the low half is returned, so without this the compiler may narrow
+    // the GPUREAD load to a halfword access.
+    __asm__ volatile("" : "+r"(word));
     return (uint16_t)(word & 0xffff);
 }
 
