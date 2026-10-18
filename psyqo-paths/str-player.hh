@@ -93,8 +93,10 @@ class StrPlayer {
         // single frame. A frame using more chunks than this is dropped.
         uint8_t frameSlots = 3;
         uint8_t maxSectorsPerFrame = 12;
-        // Run-level buffer for bsdec, in halfwords. A frame needing more is dropped.
-        uint32_t rlHalfwords = 20480;
+        // Run-level buffer for bsdec, in halfwords; two are allocated. A frame
+        // needing more is dropped. Retail 320x240 movies need up to 26304
+        // (Suikoden II) and 25600 (Castlevania SOTN).
+        uint32_t rlHalfwords = 28672;
         // Size of the display the frame is centered in, in pixels.
         uint16_t displayWidth = 320;
         uint16_t displayHeight = 240;
