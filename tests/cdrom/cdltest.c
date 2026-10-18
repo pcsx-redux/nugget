@@ -280,3 +280,121 @@ CESTER_MAYBE_TEST(cdlTestCountersSwitchesDecoder, test_instance,
     cester_assert_uint_eq(3, cause);
     cester_assert_true(cdlTestKnownString(decoderChips, sizeof(decoderChips) / sizeof(decoderChips[0]), response, size));
 )
+
+CESTER_BODY(
+    // Sends Test 21h on the running clock (no initializeTime, so a phase keeps one time base),
+    // then Nop for the status byte, and prints one tagged line.
+    // Returns the 21h byte, or 0xff if the reply was not one byte with cause 3.
+    static uint8_t cdlT21Sample(const char* phase, int* ok) {
+        uint8_t response[16];
+        __builtin_memset(response, 0xff, 16);
+        uint32_t t = updateTime();
+        CDROM_REG0 = 0;
+        CDROM_REG2 = 0x21;
+        CDROM_REG1 = CDL_TEST;
+        uint32_t timeout = 1000000;
+        int irq = waitCDRomIRQWithTimeout(&timeout);
+        uint8_t cause = irq ? ackCDRomCause() : 0;
+        uint8_t size = irq ? readResponse(response) : 0;
+        CDROM_REG0 = 0;
+        CDROM_REG1 = CDL_NOP;
+        timeout = 1000000;
+        irq = waitCDRomIRQWithTimeout(&timeout);
+        uint8_t nopCause = irq ? ackCDRomCause() : 0;
+        uint8_t stat[16];
+        uint8_t nopSize = irq ? readResponse(stat) : 0;
+        ramsyscall_printf("T21 phase=%s t=%u v=%02x cause=%u size=%u stat=%02x\n", phase, t / 1000, response[0], cause,
+                          size, (nopCause == 3 && nopSize >= 1) ? stat[0] : 0xff);
+        if ((cause != 3) || (size != 1) || (response[0] & 0xfc)) {
+            *ok = 0;
+            return 0xff;
+        }
+        return response[0];
+    }
+
+    // Samples 21h every 200ms from now (time 0) to `durationMs` inclusive.
+    static void cdlT21Poll(const char* phase, uint32_t durationMs, int* ok) {
+        initializeTime();
+        for (uint32_t ms = 0; ms <= durationMs; ms += 200) {
+            while (updateTime() < ms * 1000);
+            cdlT21Sample(phase, ok);
+        }
+    }
+
+    // Sends a parameterless command and waits for its completion (INT2), acking and
+    // discarding anything else on the way (stray INT1 sectors, the INT3 ack).
+    // Returns the completion's status byte, or 0xff on an error or a timeout.
+    static uint8_t cdlT21Complete(uint8_t command, uint32_t timeoutUs, uint32_t* completeTime) {
+        initializeTime();
+        CDROM_REG0 = 0;
+        CDROM_REG1 = command;
+        while (1) {
+            uint32_t timeout = timeoutUs;
+            if (!waitCDRomIRQWithTimeout(&timeout)) return 0xff;
+            uint8_t cause = ackCDRomCause();
+            uint8_t response[16];
+            response[0] = 0xff;
+            readResponse(response);
+            if (cause == 2) {
+                *completeTime = timeout;
+                return response[0];
+            }
+            if (cause == 5) return 0xff;
+        }
+    }
+)
+
+CESTER_MAYBE_TEST(cdlTestSwitchesAfterStop, test_instance,
+    int resetDone = resetCDRom();
+    if (!resetDone) {
+        cester_assert_true(resetDone);
+        return;
+    }
+
+    // Records 21h (bit 0 head at POS0, bit 1 lid open) across Stop, Init and Pause. Silicon
+    // so far: 00 on a SCPH-9002 spinning a disc, 01 on idle drives. Whether bit 0 comes back
+    // once the drive stops, and how soon, is what this prints; only the reply shape and the
+    // unused bits are checked. Lines are tagged "T21 phase=<p> t=<ms since phase start>".
+    int ok = 1;
+    uint32_t completeTime = 0;
+
+    cdlT21Poll("spin", 0, &ok);
+
+    uint8_t stopStat = cdlT21Complete(CDL_STOP, 5000000, &completeTime);
+    ramsyscall_printf("T21 Stop complete stat %02x in %ius\n", stopStat, completeTime);
+    cester_assert_uint_ne(0xff, stopStat);
+    cdlT21Poll("stop", 2000, &ok);
+
+    uint8_t initStat = cdlT21Complete(CDL_INIT, 6000000, &completeTime);
+    ramsyscall_printf("T21 Init complete stat %02x in %ius\n", initStat, completeTime);
+    cester_assert_uint_ne(0xff, initStat);
+    cester_assert_true(setMode(0));
+    cdlT21Poll("init", 2000, &ok);
+
+    // A short ReadN so the head has moved off wherever Init left it, then Pause with the
+    // motor still on.
+    cester_assert_true(setLoc(0x00, 0x02, 0x16));
+    initializeTime();
+    CDROM_REG0 = 0;
+    CDROM_REG1 = CDL_READN;
+    unsigned sectors = 0;
+    while (sectors < 4) {
+        uint32_t timeout = 5000000;
+        if (!waitCDRomIRQWithTimeout(&timeout)) break;
+        uint8_t cause = ackCDRomCause();
+        discardResponse();
+        if (cause == 1) sectors++;
+        if (cause == 5) break;
+    }
+    ramsyscall_printf("T21 ReadN sectors %u\n", sectors);
+    cester_assert_uint_eq(4, sectors);
+    uint8_t pauseStat = cdlT21Complete(CDL_PAUSE, 3000000, &completeTime);
+    ramsyscall_printf("T21 Pause complete stat %02x in %ius\n", pauseStat, completeTime);
+    cester_assert_uint_ne(0xff, pauseStat);
+    cdlT21Poll("pause", 1000, &ok);
+
+    cester_assert_true(ok);
+
+    // Leave the drive spinning in mode 0 for whatever runs next, as resetCDRom does.
+    cester_assert_true(resetCDRom());
+)
