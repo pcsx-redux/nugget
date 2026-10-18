@@ -99,6 +99,7 @@ SKIPS=(
     "spu-endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu-endredirect/spu-endredirect|needs the end-block redirect from pcsx-redux#2355 in the dev AppImage"
+    "spu-konlatch/spu-konlatch|needs the key-on timeline in pcsx-redux"
     "spu-offvoice/spu-offvoice|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu-upload-tail/spu-upload-tail|hardware probe: prints per-arm tail loss across wait strategies, verdict only on its own controls"
     "modplayer-upload-tail/modplayer-upload-tail|hardware probe: prints per-arm tail loss across wait strategies, verdict only on its own controls"
