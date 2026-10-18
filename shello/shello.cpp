@@ -251,6 +251,8 @@ void Shell::createScene() {
 
 void Shell::requestBoot() {
     m_sound.uninit(gpu());
+    // psyqo turns on the emulator's kernel checker; the game must not inherit it.
+    pcsx_checkKernel(0);
     syscall_longjmp(&m_exitJmpBuf, 1);
 }
 
@@ -550,4 +552,22 @@ int main() {
     // Reached after requestBoot() longjmps here: the shell is done, return so
     // the BIOS continues booting the disc.
     return 0;
+}
+
+// Entered from crt0.s. Runs the static constructors psyqo's crt0 would have
+// run, then returns main()'s result to the BIOS.
+typedef void (*InitFunc)();
+extern "C" InitFunc __preinit_array_start[] __attribute__((weak));
+extern "C" InitFunc __preinit_array_end[] __attribute__((weak));
+extern "C" InitFunc __init_array_start[] __attribute__((weak));
+extern "C" InitFunc __init_array_end[] __attribute__((weak));
+
+extern "C" int shelloStart() {
+    for (InitFunc* f = __preinit_array_start; f < __preinit_array_end; f++) {
+        if (*f) (*f)();
+    }
+    for (InitFunc* f = __init_array_start; f < __init_array_end; f++) {
+        if (*f) (*f)();
+    }
+    return main();
 }
