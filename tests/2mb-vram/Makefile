@@ -5,6 +5,7 @@ all:
 	$(MAKE) -C drawing-offset-y all
 	$(MAKE) -C fast-fill-h-quirk all
 	$(MAKE) -C fast-fill-y all
+	$(MAKE) -C gate-flip-queued all
 	$(MAKE) -C gp1-09-matrix all
 	$(MAKE) -C primitives-cross all
 	$(MAKE) -C texpage-upper all
@@ -20,6 +21,7 @@ clean:
 	$(MAKE) -C drawing-offset-y clean
 	$(MAKE) -C fast-fill-h-quirk clean
 	$(MAKE) -C fast-fill-y clean
+	$(MAKE) -C gate-flip-queued clean
 	$(MAKE) -C gp1-09-matrix clean
 	$(MAKE) -C primitives-cross clean
 	$(MAKE) -C texpage-upper clean
