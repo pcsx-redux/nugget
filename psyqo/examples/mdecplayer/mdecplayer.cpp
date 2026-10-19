@@ -148,7 +148,9 @@ constexpr unsigned kMaxRl = 24576;  // blob says 16768 for q_scale 4 at this siz
 // Two frame buffers: the GPU uploads one while the MDEC fills the other. 150 KB
 // each, which is what buys the overlap.
 uint16_t s_pixels[2][kMaxWidth * kMaxHeight] __attribute__((aligned(4)));
-uint16_t s_rl[kMaxRl] __attribute__((aligned(4)));
+// Two run-level buffers: bsdec fills one with the next frame while the MDEC
+// reads the other.
+uint16_t s_rl[2][kMaxRl] __attribute__((aligned(4)));
 uint8_t s_quant[128] __attribute__((aligned(4)));
 int16_t s_scale[64] __attribute__((aligned(4)));
 
@@ -179,8 +181,15 @@ int waitDmaRaw(int ch) {
 // each, which is noise next to a frame.
 int mdecReset() {
     int bad = 0;
+    // Both writes need time to settle before the table uploads. Without the
+    // waits, a build whose re-seat landed at a different point after the
+    // previous decode stalled the quant upload on an SCPH-5501 (MDEC1 a004001f,
+    // Data-In Request low); with them it re-seats every time. Which of the two
+    // waits is the one that matters has not been measured.
     MDEC1 = 0x80000000;  // abort whatever the last command left behind
+    for (volatile unsigned k = 0; k < 2000; k = k + 1) {}
     MDEC1 = 0x60000000;  // re-enable the data-in and data-out requests
+    for (volatile unsigned k = 0; k < 2000; k = k + 1) {}
 
     MDEC0 = MDEC_CMD_QUANT | 1;  // bit0 = colour, so 128 bytes follow
     DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)s_quant;
@@ -218,6 +227,9 @@ class PlayScene final : public psyqo::Scene {
     void frame() override;
 
     bool decodeInto(uint32_t index, unsigned buf);
+    bool bsdecInto(uint32_t index, uint16_t *rl, BsdecResult &r);
+    bool mdecStart(const BsdecResult &r, const uint16_t *rl, unsigned buf);
+    bool mdecFinish(const BsdecResult &r, unsigned buf, uint16_t tMdec);
     void startUpload(unsigned buf);
     void uploadNext();
     void waitUpload();
@@ -238,6 +250,9 @@ class PlayScene final : public psyqo::Scene {
     uint32_t m_trace = 0;     // milestone prints remaining, for the first frames
     int m_lastErr = 0;        // bsdec error, or -1/-2 for a DMA that never finished
 #endif
+    BsdecResult m_next{};     // the frame at m_index, already through bsdec
+    uint16_t *m_nextRl = s_rl[1];
+    bool m_nextOk = false;
     bool m_needReset = false; // the last decode left the MDEC mid-command
     int m_resetBad = 0;       // what the last re-seat reported, for the -1 dump
     unsigned m_showBuf = 0;   // being uploaded to VRAM
@@ -294,6 +309,11 @@ void PlayScene::start(Scene::StartReason) {
         m_broken = true;
         return;
     }
+    m_haveFrame = true;
+    m_index = 1 < m_hdr.frames() ? 1 : 0;
+    // frame() hands this one to the MDEC while bsdec runs on the frame after it.
+    m_nextRl = s_rl[1];
+    m_nextOk = bsdecInto(m_index, m_nextRl, m_next);
     // frame() re-seats after its upload wait; this decode has no upload, so it
     // re-seats here. Skipping it left frame 1's command landing on a busy MDEC
     // still waiting on the tail of frame 0 (MDEC1 6e0018ff on an SCPH-5501).
@@ -301,8 +321,6 @@ void PlayScene::start(Scene::StartReason) {
         m_resetBad = mdecReset();
         m_needReset = false;
     }
-    m_haveFrame = true;
-    m_index = 1 < m_hdr.frames() ? 1 : 0;
 #ifdef MDECPLAYER_PROFILE
     COUNTERS[1].mode = 0x0100;  // hblank source, free running
 #ifdef BSDEC_PROFILE
@@ -316,7 +334,6 @@ void PlayScene::start(Scene::StartReason) {
 }
 
 bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
-    uint16_t *const dst = s_pixels[buf];
     // Only when the previous frame left the command half-consumed. Resetting
     // unconditionally means resetting twice in a row on frame 0, right behind
     // start()'s own reset, and on an SCPH-1001 that makes the quant upload stall
@@ -325,9 +342,15 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
     // that is running right now, and on an SCPH-1001 with 20 column-sized
     // transfers in flight the quant upload stalls 29 words in (MDEC1 a004001d,
     // ticket f41e90ef). It runs in the quiet window after waitUpload instead.
-    const int resetBad = m_resetBad;
+    BsdecResult r;
+    if (!bsdecInto(index, s_rl[0], r)) return false;
+    const uint16_t tMdec = PROF_HB();
+    return mdecStart(r, s_rl[0], buf) && mdecFinish(r, buf, tMdec);
+}
+
+bool PlayScene::bsdecInto(uint32_t index, uint16_t *rl, BsdecResult &r) {
     const uint16_t tBs = PROF_HB();
-    const BsdecResult r = bsdecFrame(m_hdr.frame(index), m_hdr.frameBytes(index), s_rl, kMaxRl);
+    r = bsdecFrame(m_hdr.frame(index), m_hdr.frameBytes(index), rl, kMaxRl);
     PROF_ACC(tBs, m_bsHb);
     if (!bsdecUsable(r.error)) {
 #ifdef MDECPLAYER_PROFILE
@@ -335,19 +358,23 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
 #endif
         return false;
     }
-    const uint16_t tMdec = PROF_HB();
+    return true;
+}
 
+bool PlayScene::mdecStart(const BsdecResult &r, const uint16_t *rl, unsigned buf) {
+    uint16_t *const dst = s_pixels[buf];
+    const int resetBad = m_resetBad;
     const uint32_t outWords = (m_hdr.width() * m_hdr.height() * 2) / 4;
     const uint32_t inWords = (r.halfwords + 1) / 2;
 
 #ifdef MDECPLAYER_PROFILE
-    if (m_trace) ramsyscall_printf("MDPL: MDEC1 %08x before frame %d\n", MDEC1, index);
+    if (m_trace) ramsyscall_printf("MDPL: MDEC1 %08x before decode into buf %d\n", MDEC1, buf);
 #endif
     MDEC0 = r.mdecCommand;  // word 0 of the BS header IS the decode command
     if (waitDma(DMA_MDECIN) < 0 || waitDma(DMA_MDECOUT) < 0) {
 #ifdef MDECPLAYER_PROFILE
         m_lastErr = -1;  // a channel was still busy before the transfers were armed
-        ramsyscall_printf("MDPL: -1 at frame %d. reset bad=%d (1 quant, 2 scale)\n", index, resetBad);
+        ramsyscall_printf("MDPL: -1 into buf %d. reset bad=%d (1 quant, 2 scale)\n", buf, resetBad);
         ramsyscall_printf("MDPL: MDEC1 %08x  ch0 CHCR %08x  ch1 CHCR %08x\n", MDEC1,
                           DMA_CTRL[DMA_MDECIN].CHCR, DMA_CTRL[DMA_MDECOUT].CHCR);
 #else
@@ -374,7 +401,7 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
     // high half, and a block may not exceed the 32-word FIFO. The swapped order
     // decodes correctly in Redux, which ignores the block size, and produces
     // vertical colour stripes on an SCPH-5501.
-    DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)s_rl;
+    DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)rl;
     DMA_CTRL[DMA_MDECIN].BCR = ((inWords + 31) / 32) << 16 | 32;
     psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECIN].CHCR = 0x01000201;
@@ -382,6 +409,13 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
     DMA_CTRL[DMA_MDECOUT].BCR = (outWords / 32) << 16 | 32;
     psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECOUT].CHCR = 0x01000200;
+    return true;
+}
+
+bool PlayScene::mdecFinish(const BsdecResult &r, unsigned buf, uint16_t tMdec) {
+    uint16_t *const dst = s_pixels[buf];
+    const uint32_t outWords = (m_hdr.width() * m_hdr.height() * 2) / 4;
+    const uint32_t inWords = (r.halfwords + 1) / 2;
     // THE OUTPUT IS WHAT FINISHES A FRAME, NOT THE INPUT. bsdec pads the run-level
     // buffer out to a 32-word block and the BS header's word count covers the
     // padding, so the MDEC emits all 300 macroblocks and then stops consuming with
@@ -432,7 +466,7 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
         // the pixels rather than on whether anything crashed.
         uint32_t sum = 0;
         for (uint32_t i = 0; i < m_hdr.width() * m_hdr.height(); i++) sum = sum * 31u + dst[i];
-        ramsyscall_printf("MDPL: frame %d pixel sum %08x\n", index, sum);
+        ramsyscall_printf("MDPL: buf %d pixel sum %08x\n", buf, sum);
     }
 #endif
     return true;
@@ -575,8 +609,19 @@ void PlayScene::frame() {
     const uint16_t tUp = PROF_HB();
     startUpload(m_showBuf);
 
+    // The MDEC decodes the frame bsdec prepared last time while the CPU runs bsdec
+    // on the one after it, so a frame costs the longer of the two instead of the
+    // sum. Only the MDEC time left over once bsdec is done counts as mdec below.
     const uint16_t t0 = PROF_HB();
-    const bool ok = decodeInto(m_index, m_fillBuf);
+    const uint32_t following = m_index + 1 < m_hdr.frames() ? m_index + 1 : 0;
+    uint16_t *const otherRl = m_nextRl == s_rl[0] ? s_rl[1] : s_rl[0];
+    BsdecResult nr{};
+    bool ok = m_nextOk && mdecStart(m_next, m_nextRl, m_fillBuf);
+    const bool nextOk = ok && bsdecInto(following, otherRl, nr);
+    ok = ok && mdecFinish(m_next, m_fillBuf, PROF_HB());
+    m_next = nr;
+    m_nextRl = otherRl;
+    m_nextOk = nextOk;
     PROF_ACC(t0, m_decHb);
 
     // The GPU has to be finished before psyqo flips, so the wait lands here, after
