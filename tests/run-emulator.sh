@@ -25,7 +25,7 @@ TIMEOUT=${TIMEOUT:-60}
 
 CESTER='^Synthesis: SUCCESS Tests: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0'
 
-# name;ps-exe;cpu;success regex;extra flags
+# name;ps-exe;cpu;success regex;extra flags[;timeout in seconds, default $TIMEOUT]
 TESTS=(
     "basic;basic/basic;interpreter dynarec;$CESTER;"
     "cop0;cop0/cop0;interpreter;$CESTER;-debugger"
@@ -52,6 +52,8 @@ TESTS=(
     "load-timings;load-timings/load-timings;interpreter;$CESTER;"
     "memcpy;memcpy/memcpy;interpreter dynarec;$CESTER;"
     "memops-unroll;memops-unroll/memops-unroll;interpreter;$CESTER;"
+    "memcard;memcard/memcard;interpreter;^memcard port 0: all [0-9]+ checks passed;;240"
+    "memcard-bios;memcard-bios/memcard-bios;interpreter;^memcard-bios port 0: all [0-9]+ checks passed;;120"
     "memset;memset/memset;interpreter dynarec;$CESTER;"
     "pcdrv;pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
@@ -117,6 +119,8 @@ SKIPS=(
     "spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict"
     "msan/msan|needs the msan fix from pcsx-redux#2203 in the dev AppImage"
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
+    "memcard-slot2/memcard-slot2|the memcard test built for slot 2, for the farm console whose test card is there"
+    "memcard-bios-slot2/memcard-bios-slot2|the memcard-bios test built for slot 2, for the farm console whose test card is there"
     "alloc-tracker/alloc-tracker|needs the guest command port from pcsx-redux"
 )
 for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
@@ -146,7 +150,7 @@ done
 BIOSFLAG=(-bios "$BIOS")
 
 run_one() {
-    local name=$1 exe=$2 cpu=$3 token=$4 extra=$5
+    local name=$1 exe=$2 cpu=$3 token=$4 extra=$5 limit=${6:-$TIMEOUT}
     local log="$LOGS/$name-$cpu.log"
     local t0=$SECONDS
     # A config dir each: concurrent first launches racing to create the
@@ -155,7 +159,7 @@ run_one() {
     mkdir -p "$home"
     extra=${extra//@HOME@/$home}
     # shellcheck disable=SC2086
-    HOME="$home" XDG_CONFIG_HOME="$home/.config" timeout -k 10 "$TIMEOUT" "$EMU" -no-ui -run -stdout -testmode "-$cpu" \
+    HOME="$home" XDG_CONFIG_HOME="$home/.config" timeout -k 10 "$limit" "$EMU" -no-ui -run -stdout -testmode "-$cpu" \
         "${BIOSFLAG[@]}" $extra -loadexe "tests/$exe.ps-exe" > "$log" 2>&1
     local rc=$?
     local line
@@ -175,15 +179,15 @@ export BIOSFLAG_STR="${BIOSFLAG[*]}"
 
 jobs=()
 for t in "${TESTS[@]}"; do
-    IFS=';' read -r name exe cpus token extra <<< "$t"
-    for cpu in $cpus; do jobs+=("$name;$exe;$cpu;$token;$extra"); done
+    IFS=';' read -r name exe cpus token extra limit <<< "$t"
+    for cpu in $cpus; do jobs+=("$name;$exe;$cpu;$token;$extra;$limit"); done
 done
 
 # Streamed as each run finishes, so a stuck run is visible while it is stuck.
 printf '%s\n' "${jobs[@]}" | xargs -P "$JOBS" -d '\n' -I{} bash -c '
-    IFS=";" read -r name exe cpu token extra <<< "$1"
+    IFS=";" read -r name exe cpu token extra limit <<< "$1"
     read -ra BIOSFLAG <<< "$BIOSFLAG_STR"
-    run_one "$name" "$exe" "$cpu" "$token" "$extra"
+    run_one "$name" "$exe" "$cpu" "$token" "$extra" "$limit"
 ' _ {} | tee "$LOGS/results"
 
 ran=${#jobs[@]}

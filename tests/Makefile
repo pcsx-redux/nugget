@@ -65,6 +65,10 @@ all:
 	$(MAKE) -C gte-write-to-use all
 	$(MAKE) -C libc all
 	$(MAKE) -C load-timings all
+	$(MAKE) -C memcard all
+	$(MAKE) -C memcard-bios all
+	$(MAKE) -C memcard-bios-slot2 all
+	$(MAKE) -C memcard-slot2 all
 	$(MAKE) -C memcpy all
 	$(MAKE) -C memops-unroll all
 	$(MAKE) -C memset all
@@ -168,6 +172,10 @@ clean:
 	$(MAKE) -C gte-write-to-use clean
 	$(MAKE) -C libc clean
 	$(MAKE) -C load-timings clean
+	$(MAKE) -C memcard clean
+	$(MAKE) -C memcard-bios clean
+	$(MAKE) -C memcard-bios-slot2 clean
+	$(MAKE) -C memcard-slot2 clean
 	$(MAKE) -C memcpy clean
 	$(MAKE) -C memops-unroll clean
 	$(MAKE) -C memset clean
