@@ -40,7 +40,8 @@ SOFTWARE.
 // test then writes one-block files until the filesystem stops, and checks the
 // directory after each one. Whatever the card's size, the filesystem has to
 // either keep every file intact or refuse the write; a write that reports OK
-// and breaks the directory is a failure.
+// and breaks the directory is a failure. A 64 KiB card holds 7 one-block
+// files and refuses the 8th with OutOfSpace.
 
 #include <stdint.h>
 
@@ -291,7 +292,7 @@ void testRawFrames() {
     check(result == Error::OK && same(s_frame, s_frame2, 128), "raw frames: callback read returns the frame");
 }
 
-void testFileSystem() {
+void testFileSystem(unsigned capacity) {
     auto &gpu = app.gpu();
     auto &fs = app.m_fs;
     uint32_t freeBlocks = 0, len = 0, count = 0;
@@ -302,7 +303,9 @@ void testFileSystem() {
     if (!checkError(fs.formatBlocking(gpu, kPort), Error::OK, "fs: format")) return;
     checkError(fs.getCardStateBlocking(gpu, kPort), Error::OK, "fs: formatted card state");
     Error e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
-    check(e == Error::OK && freeBlocks == 15, "fs: 15 free blocks after format");
+    // A 64 KiB card has 7 usable file blocks, a 128 KiB card 15.
+    const uint32_t usable = capacity == 8 ? 7 : 15;
+    check(e == Error::OK && freeBlocks == usable, "fs: every usable block free after format");
 
     fillPayload(s_payload, 200, 1);
     checkError(fs.writeFileBlocking(gpu, kPort, "BIMEMTEST-RW", kTitle, icon, s_payload, 200), Error::OK,
@@ -335,7 +338,7 @@ void testFileSystem() {
     e = fs.readFileBlocking(gpu, kPort, "BIMEMTEST-BIG", s_readback, kBig, &len);
     check(e == Error::OK && len == kBig && same(s_payload, s_readback, kBig), "fs: read back 9000 bytes");
     e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
-    check(e == Error::OK && freeBlocks == 12, "fs: 12 free blocks with 1 + 2 in use");
+    check(e == Error::OK && freeBlocks == usable - 3, "fs: 3 fewer free blocks with 1 + 2 in use");
 
     fillPayload(s_payload, 200, 3);
     checkError(fs.writeFileBlocking(gpu, kPort, "BIMEMTEST-RW", kTitle, icon, s_payload, 200), Error::OK,
@@ -343,7 +346,7 @@ void testFileSystem() {
     e = fs.readFileBlocking(gpu, kPort, "BIMEMTEST-RW", s_readback, 200, &len);
     check(e == Error::OK && len == 200 && same(s_payload, s_readback, 200), "fs: read back the new payload");
     e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
-    check(e == Error::OK && freeBlocks == 12, "fs: overwrite left 12 free blocks");
+    check(e == Error::OK && freeBlocks == usable - 3, "fs: overwrite left the free count alone");
 
     checkError(fs.writeFileBlocking(gpu, kPort, "BIMEMTEST-NAME-TOO-LONG", kTitle, icon, s_payload, 1),
                Error::NameTooLong, "fs: 23-character name");
@@ -362,7 +365,31 @@ void testFileSystem() {
     check(e == Error::OK && len == kBig && same(s_payload, s_readback, kBig), "fs: other file still intact");
     checkError(fs.deleteFileBlocking(gpu, kPort, "BIMEMTEST-BIG"), Error::OK, "fs: delete the two-block file");
     e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
-    check(e == Error::OK && freeBlocks == 15, "fs: 15 free blocks after both deletes");
+    check(e == Error::OK && freeBlocks == usable, "fs: every usable block free after both deletes");
+
+    // Make sector 512 repeat sector 0, the way a 64 KiB card reads, so the
+    // filesystem's size probe is exercised on a 128 KiB card too. Then zero
+    // sector 512 (sector 0 itself on a 64 KiB card) and format again.
+    e = app.m_card.readSectorBlocking(kPort, 0, s_frame);
+    if (e == Error::OK) e = app.m_card.writeSectorBlocking(kPort, 512, s_frame);
+    if (e == Error::OK) e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
+    check(e == Error::OK && freeBlocks == 7, "fs: sector 512 repeating sector 0 reads as 7 usable blocks");
+    unsigned aliasWritten = 0;
+    Error aliasRefused = Error::OK;
+    fillPayload(s_payload, 512, 0x200);
+    for (unsigned n = 1; n <= 8; n++) {
+        char name[21];
+        __builtin_memcpy(name, "BIMEMTEST-A00", 14);
+        name[12] = static_cast<char>('0' + n);
+        aliasRefused = fs.writeFileBlocking(gpu, kPort, name, kTitle, icon, s_payload, 512);
+        if (aliasRefused != Error::OK) break;
+        aliasWritten = n;
+    }
+    check(aliasWritten == 7 && aliasRefused == Error::OutOfSpace,
+          "fs: sector 512 repeating sector 0 takes 7 files, then out of space");
+    __builtin_memset(s_frame, 0, sizeof(s_frame));
+    checkError(app.m_card.writeSectorBlocking(kPort, 512, s_frame), Error::OK, "fs: clear sector 512");
+    checkError(fs.formatBlocking(gpu, kPort), Error::OK, "fs: format again");
 }
 
 bool readsBack(char names[][21], unsigned k, unsigned after) {
@@ -421,8 +448,8 @@ void testFill(unsigned capacity) {
     check(intact, "fill: every file written stays listed and readable");
     if (intact) {
         bool expected = written == 15 && refused == Error::OutOfSpace;
-        if (capacity == 8) expected = written == 7 && refused != Error::OK;
-        check(expected, capacity == 8 ? "fill: half-size card refused after 7 files"
+        if (capacity == 8) expected = written == 7 && refused == Error::OutOfSpace;
+        check(expected, capacity == 8 ? "fill: half-size card, 7 files, then out of space"
                                       : "fill: 15 files, then out of space");
     }
 }
@@ -450,7 +477,7 @@ void TestScene::frame() {
         testRange();
         unsigned capacity = testCapacity();
         testRawFrames();
-        testFileSystem();
+        testFileSystem(capacity);
         testFill(capacity);
         checkError(app.m_fs.formatBlocking(app.gpu(), kPort), Error::OK, "cleanup: format");
     } else {
