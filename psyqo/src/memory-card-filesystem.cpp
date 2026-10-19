@@ -272,7 +272,12 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
         }
 
         case Phase::Format: {
-            uint16_t sector = static_cast<uint16_t>(m_idx);
+            // Steps 0..2 zero the size-probe sectors 512, 256 and 128, so a card
+            // that only looked small because one of them held a copy of the
+            // header reads full size again. On a 64KiB card sector 512 is
+            // sector 0 itself, so steps 3..66, block 0's sectors 0..63 in
+            // order, run after it.
+            uint16_t sector = m_idx < 3 ? static_cast<uint16_t>(512 >> m_idx) : static_cast<uint16_t>(m_idx - 3);
             __builtin_memset(m_scratch.bytes, 0, sizeof(m_scratch.bytes));
             if (sector == 0 || sector == 63) {
                 // Header frame and the write-test frame: "MC".
@@ -291,7 +296,7 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
                 put16(m_scratch.bytes + 0x08, 0xffff);
                 finishDirEntry(m_scratch.bytes);
             }
-            // sectors 36..62: zero (already memset).
+            // sectors 36..62 and the probe sectors: zero (already memset).
             m_card.writeSector(m_port, sector, m_scratch.bytes, [this](Error e) { onSectorDone(e); });
             return;
         }
@@ -495,7 +500,7 @@ void psyqo::MemoryCardFileSystem::onSectorDone(Error error) {
             break;
 
         case Phase::Format:
-            if (++m_idx > 63) {
+            if (++m_idx > 66) {
                 finish(m_result);
                 return;
             }

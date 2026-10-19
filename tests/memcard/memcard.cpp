@@ -368,8 +368,8 @@ void testFileSystem(unsigned capacity) {
     check(e == Error::OK && freeBlocks == usable, "fs: every usable block free after both deletes");
 
     // Make sector 512 repeat sector 0, the way a 64 KiB card reads, so the
-    // filesystem's size probe is exercised on a 128 KiB card too. Then zero
-    // sector 512 (sector 0 itself on a 64 KiB card) and format again.
+    // filesystem's size probe is exercised on a 128 KiB card too. Formatting
+    // again has to clear it.
     e = app.m_card.readSectorBlocking(kPort, 0, s_frame);
     if (e == Error::OK) e = app.m_card.writeSectorBlocking(kPort, 512, s_frame);
     if (e == Error::OK) e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
@@ -387,9 +387,9 @@ void testFileSystem(unsigned capacity) {
     }
     check(aliasWritten == 7 && aliasRefused == Error::OutOfSpace,
           "fs: sector 512 repeating sector 0 takes 7 files, then out of space");
-    __builtin_memset(s_frame, 0, sizeof(s_frame));
-    checkError(app.m_card.writeSectorBlocking(kPort, 512, s_frame), Error::OK, "fs: clear sector 512");
     checkError(fs.formatBlocking(gpu, kPort), Error::OK, "fs: format again");
+    e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
+    check(e == Error::OK && freeBlocks == usable, "fs: format clears the copy of sector 0 at sector 512");
 }
 
 bool readsBack(char names[][21], unsigned k, unsigned after) {
