@@ -198,6 +198,10 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
             m_card.readSector(m_port, 0, m_scratch.bytes, [this](Error e) { onSectorDone(e); });
             return;
 
+        case Phase::Probe:
+            m_card.readSector(m_port, m_probeSector, m_probe.bytes, [this](Error e) { onSectorDone(e); });
+            return;
+
         case Phase::ReadDir:
             m_card.readSector(m_port, static_cast<uint16_t>(m_idx + 1), m_dir[m_idx].bytes,
                               [this](Error e) { onSectorDone(e); });
@@ -319,6 +323,37 @@ void psyqo::MemoryCardFileSystem::onSectorDone(Error error) {
                 m_result = Error::NotFormatted;
                 finish(m_result);
                 return;
+            }
+            m_cardBlocks = 16;
+            if (m_op == Op::WriteFile || m_op == Op::GetFreeBlockCount) {
+                // Only these two depend on how many blocks really exist.
+                m_probeSector = 512;
+                m_phase = Phase::Probe;
+                break;
+            }
+            m_phase = Phase::ReadDir;
+            m_idx = 0;
+            break;
+        }
+
+        case Phase::Probe: {
+            // A card that drops the sector address bit at m_probeSector returns
+            // sector 0 here, byte for byte. A full-size card returns the first
+            // frame of a data block: a "SC" title frame or never-written data,
+            // which does not match the "MC" header.
+            bool alias = true;
+            for (uint32_t i = 0; i < sizeof(m_probe.bytes); i++) {
+                if (m_probe.bytes[i] != m_scratch.bytes[i]) {
+                    alias = false;
+                    break;
+                }
+            }
+            if (alias) {
+                m_cardBlocks = m_probeSector / MemoryCard::c_sectorsPerBlock;
+                if (m_probeSector > 128) {
+                    m_probeSector >>= 1;
+                    break;
+                }
             }
             m_phase = Phase::ReadDir;
             m_idx = 0;
@@ -472,7 +507,7 @@ psyqo::MemoryCardFileSystem::StepResult psyqo::MemoryCardFileSystem::afterReadDi
         case Op::GetFreeBlockCount: {
             uint16_t inUse = reachableBlocks(m_dir);
             uint32_t free = 0;
-            for (unsigned i = 0; i < 15; i++) {
+            for (unsigned i = 0; i + 1 < m_cardBlocks; i++) {
                 if (!(inUse & (1 << (i + 1)))) free++;
             }
             if (m_outFreeBlocks) *m_outFreeBlocks = free;
@@ -579,12 +614,14 @@ psyqo::MemoryCardFileSystem::StepResult psyqo::MemoryCardFileSystem::afterReadDi
             // recoverable) and ignoring blocks any valid file still references.
             uint16_t inUse = reachableBlocks(m_dir);
             m_chainLen = 0;
-            for (unsigned i = 0; i < 15 && m_chainLen < m_blocksNeeded; i++) {
+            // Blocks at or past m_cardBlocks alias lower blocks, the directory
+            // included, so they are never handed out.
+            for (unsigned i = 0; i + 1 < m_cardBlocks && m_chainLen < m_blocksNeeded; i++) {
                 if (!(inUse & (1 << (i + 1))) && m_dir[i].bytes[c_offAlloc] == c_stateFree) {
                     m_chain[m_chainLen++] = static_cast<uint8_t>(i + 1);
                 }
             }
-            for (unsigned i = 0; i < 15 && m_chainLen < m_blocksNeeded; i++) {
+            for (unsigned i = 0; i + 1 < m_cardBlocks && m_chainLen < m_blocksNeeded; i++) {
                 if (!(inUse & (1 << (i + 1))) && m_dir[i].bytes[c_offAlloc] != c_stateFree) {
                     m_chain[m_chainLen++] = static_cast<uint8_t>(i + 1);
                 }

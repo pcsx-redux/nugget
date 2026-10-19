@@ -46,7 +46,12 @@ class GPU;
  *
  * The card is laid out as a 16-block device (block 0 is the directory, blocks
  * 1..15 hold files). A file occupies one or more whole 8KiB blocks, chained
- * through the directory as a linked list. The first block of a file starts
+ * through the directory as a linked list. Some third-party cards are only 64KiB
+ * and ignore the top sector address bit, so block N+8 is block N. Before it
+ * counts or allocates blocks, the filesystem compares sector 0 with sector 512
+ * (and, if those match, 256 and 128); on a card that aliases, only the blocks
+ * below the alias are counted as free or handed to new files, so such a card
+ * holds 7 one-block files and then reports OutOfSpace. The first block of a file starts
  * with a "title frame" (magic "SC", a Shift-JIS title and a 16-colour palette)
  * followed by 1..3 icon frames (16x16, 4bpp); the rest of the blocks hold the
  * caller's payload.
@@ -143,6 +148,8 @@ class MemoryCardFileSystem {
 
     /**
      * @brief Counts the free 8KiB blocks (0..15) into *outFreeBlocks.
+     *
+     * @details On a 64KiB card the count only covers blocks 1..7.
      */
     void getFreeBlockCount(Port port, uint32_t *outFreeBlocks, eastl::function<void(Error)> &&callback);
 
@@ -290,6 +297,7 @@ class MemoryCardFileSystem {
     enum class Phase : uint8_t {
         Fail,       // m_result is set; finish on the next tick
         Header,     // read sector 0, validate "MC"
+        Probe,      // read sector m_probeSector, compare it with sector 0
         ReadDir,    // read the 15 directory frames (m_idx = 0..14)
         ReadTitle,  // read a file's first frame to size its header (readFile)
         ReadData,   // read a file's payload frames (readFile)
@@ -328,6 +336,11 @@ class MemoryCardFileSystem {
     // working buffers / per-operation state
     Frame m_dir[15];
     Frame m_scratch;
+    Frame m_probe;
+    // The card's size in blocks, as measured by the Probe phase: 16, or the
+    // block where sector 0 first repeats on a smaller card.
+    uint32_t m_cardBlocks = 16;
+    uint16_t m_probeSector = 0;
     uint8_t m_chain[16];
     uint32_t m_chainLen = 0;
     uint32_t m_headerFrames = 0;
