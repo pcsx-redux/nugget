@@ -339,8 +339,11 @@ void psyqo::MemoryCardFileSystem::onSectorDone(Error error) {
         case Phase::Probe: {
             // A card that drops the sector address bit at m_probeSector returns
             // sector 0 here, byte for byte. A full-size card returns the first
-            // frame of a data block: a "SC" title frame or never-written data,
-            // which does not match the "MC" header.
+            // frame of a data block: a "SC" title frame or never-written data.
+            // A full-size card whose block 8 starts with a copy of the header
+            // (a raw 64KiB image written twice, or a card built to look small)
+            // also reads as 64KiB. That costs it blocks 8..15 for new files;
+            // files already there stay listed and readable.
             bool alias = true;
             for (uint32_t i = 0; i < sizeof(m_probe.bytes); i++) {
                 if (m_probe.bytes[i] != m_scratch.bytes[i]) {

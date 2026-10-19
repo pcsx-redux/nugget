@@ -374,6 +374,19 @@ void testFileSystem(unsigned capacity) {
     if (e == Error::OK) e = app.m_card.writeSectorBlocking(kPort, 512, s_frame);
     if (e == Error::OK) e = fs.getFreeBlockCountBlocking(gpu, kPort, &freeBlocks);
     check(e == Error::OK && freeBlocks == 7, "fs: sector 512 repeating sector 0 reads as 7 usable blocks");
+    unsigned aliasWritten = 0;
+    Error aliasRefused = Error::OK;
+    fillPayload(s_payload, 512, 0x200);
+    for (unsigned n = 1; n <= 8; n++) {
+        char name[21];
+        __builtin_memcpy(name, "BIMEMTEST-A00", 14);
+        name[12] = static_cast<char>('0' + n);
+        aliasRefused = fs.writeFileBlocking(gpu, kPort, name, kTitle, icon, s_payload, 512);
+        if (aliasRefused != Error::OK) break;
+        aliasWritten = n;
+    }
+    check(aliasWritten == 7 && aliasRefused == Error::OutOfSpace,
+          "fs: sector 512 repeating sector 0 takes 7 files, then out of space");
     __builtin_memset(s_frame, 0, sizeof(s_frame));
     checkError(app.m_card.writeSectorBlocking(kPort, 512, s_frame), Error::OK, "fs: clear sector 512");
     checkError(fs.formatBlocking(gpu, kPort), Error::OK, "fs: format again");
