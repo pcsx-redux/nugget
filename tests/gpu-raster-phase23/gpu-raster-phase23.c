@@ -40,8 +40,10 @@ SOFTWARE.
  * Redux turned out to agree on every one of those arms - it sign-extends to
  * 11 bits when it parses the vertex - so the hypothesis that it over-culled
  * the wrapped cases was wrong. What it did NOT agree on was Q2 and O3: the
- * quad's shared diagonal was not in its edge check, and its 11-bit wrap was
- * applied to the vertex but not to the vertex-plus-draw-offset sum.
+ * quad's shared diagonal was not in its edge check, and its draw offset did
+ * not wrap the way hardware does. The W arms settle that: the vertex plus
+ * offset sum is NOT wrapped for setup or the edge check, and the pixel
+ * address wraps modulo 2048 on both axes before the drawing-area clip.
  *
  * This binary reports COVERAGE over a full 1024-pixel VRAM row per arm
  * rather than one pixel: count of non-sentinel pixels, and the leftmost and
@@ -49,7 +51,7 @@ SOFTWARE.
  * reads as count>0 with a span that says where it went.
  *
  * Every expected value here is hardware truth, identical on SCPH-1000,
- * SCPH-5501 and SCPH-7001. Grep '^OBS' to re-capture it on a farm run.
+ * SCPH-5501 and SCPH-7001 (the W arms on SCPH-1001 and SCPH-5501). Grep '^OBS' to re-capture it on a farm run.
  */
 
 #include <stdint.h>
@@ -301,18 +303,14 @@ int main(void) {
     setDrawingOffsetMasked(0, 0);
     report("O3_off_m1000_x1500", "DRAW 500..600 iff offset precedes truncation", 80, 500, 579);
 
-    /* ---- W: does the edge check see the coordinates before or after the
-     * offset wraps them? Shape taken from Grandia's Port of Parm pier, drawn
-     * into its right-hand buffer with offset (360,0).
+    /* ---- W: where does the draw offset wrap? Shape taken from Grandia's
+     * Port of Parm pier, drawn into its right-hand buffer with offset (360,0).
      *
      * W0 control: v0 at 650 lands at 1010, no wrap, every edge in limit.
-     * W1: v0 at 670 lands at 1030 and wraps to -1018. On the command coords
-     * the widest edge is 320; on the wrapped screen coords v0-v1 is 1762.
-     *   check before the offset: draws a quad from -1018 to 949
-     *   check after the wrap: culled, count=0
-     * Checking before the offset smears a plank across Grandia's pier,
-     * which is why the second is predicted. EXPECTED VALUES ON BOTH ARMS ARE
-     * PENDING A SILICON RUN; W0's span is the soft renderer's own. */
+     * W1: v0 at 670 lands at 1030. Wrapping the sum to 11 bits would put it
+     * at -1018 and either cull the quad or smear it from x=0. Hardware does
+     * neither: v0 stays at 1030 and the right edge reaches 1013 on this row,
+     * past W0's 997. The sum is not wrapped. */
     rasterReset();
     clearBand();
     setDrawingOffsetMasked(360, 0);
@@ -327,7 +325,46 @@ int main(void) {
     rasterFlatQuad(RASTER_CMD_GREEN, 670, 0, 384, 0, 589, 40, 350, 40);
     rasterFlushPrimitive();
     setDrawingOffsetMasked(0, 0);
-    report("W1_off360_wrap_v0", "CULL iff check follows wrap", 0, -1, -1);
+    report("W1_off360_v0_1030", "DRAW 738..1013, sum not wrapped", 276, 738, 1013);
+
+    /* W2..W5: the PIXEL address wraps instead. Offset -1000 puts a primitive
+     * at -1100..-900. Pixels at -1100..-1025 wrap to 948..1023 and the rest
+     * land at 1024 and up, outside the drawing area. The same holds for a
+     * triangle, a line and a rectangle, and on Y (W3: offset -1024, rows
+     * -2044..-2004 show at 4..44). An 11-bit sum wrap would instead put the
+     * left end at 948 and the right end at -900 and cull the triangle. */
+
+    rasterReset();
+    clearBand();
+    setDrawingOffsetMasked(-1000, 0);
+    rasterFlatTri(RASTER_CMD_GREEN, -100, 0, 100, 0, -100, 40);
+    rasterFlushPrimitive();
+    setDrawingOffsetMasked(0, 0);
+    report("W2_tri_straddle_m1000", "DRAW 948..1023", 76, 948, 1023);
+
+    rasterReset();
+    clearBand();
+    setDrawingOffsetMasked(0, -1024);
+    rasterFlatTri(RASTER_CMD_GREEN, 500, -1020, 600, -1020, 500, -980);
+    rasterFlushPrimitive();
+    setDrawingOffsetMasked(0, 0);
+    report("W3_y_m2044_wrap", "DRAW 500..589", 90, 500, 589);
+
+    rasterReset();
+    clearBand();
+    setDrawingOffsetMasked(-1000, 0);
+    rasterFlatLine(RASTER_CMD_RED, -100, PROBE_Y, 100, PROBE_Y);
+    rasterFlushPrimitive();
+    setDrawingOffsetMasked(0, 0);
+    report("W4_line_straddle_m1000", "DRAW 948..1023", 76, 948, 1023);
+
+    rasterReset();
+    clearBand();
+    setDrawingOffsetMasked(-1000, 0);
+    rasterFlatRect(RASTER_CMD_WHITE, -100, 0, 200, 40);
+    rasterFlushPrimitive();
+    setDrawingOffsetMasked(0, 0);
+    report("W5_rect_straddle_m1000", "DRAW 948..1023", 76, 948, 1023);
 
     /* ---- R: variable rectangle dimension masking -----------------------
      * psx-spx line 553 documents  Xsiz = ((Xsiz-1) AND 3FFh) + 1.
