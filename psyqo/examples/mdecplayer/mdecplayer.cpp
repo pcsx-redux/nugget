@@ -370,12 +370,16 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
     // block ready it stops asserting Data-In Request, so DMA0 never completes
     // until DMA1 drains it - serialising them deadlocks on real silicon while
     // passing in the emulator, whose dma0 runs the pending dma1 for you.
+    // Sync mode 1 takes the block size in the low half and the block count in the
+    // high half, and a block may not exceed the 32-word FIFO. The swapped order
+    // decodes correctly in Redux, which ignores the block size, and produces
+    // vertical colour stripes on an SCPH-5501.
     DMA_CTRL[DMA_MDECIN].MADR = (uintptr_t)s_rl;
-    DMA_CTRL[DMA_MDECIN].BCR = 32 << 16 | ((inWords + 31) / 32);
+    DMA_CTRL[DMA_MDECIN].BCR = ((inWords + 31) / 32) << 16 | 32;
     psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECIN].CHCR = 0x01000201;
     DMA_CTRL[DMA_MDECOUT].MADR = (uintptr_t)dst;
-    DMA_CTRL[DMA_MDECOUT].BCR = 32 << 16 | (outWords / 32);
+    DMA_CTRL[DMA_MDECOUT].BCR = (outWords / 32) << 16 | 32;
     psyqo::Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_MDECOUT].CHCR = 0x01000200;
     // THE OUTPUT IS WHAT FINISHES A FRAME, NOT THE INPUT. bsdec pads the run-level
@@ -414,13 +418,13 @@ bool PlayScene::decodeInto(uint32_t index, unsigned buf) {
 #endif
         return false;
     }
-    // The frame is done the moment the output lands. If the input never drained,
-    // drop the tail and remember that the MDEC needs re-seating before the next
-    // command; if it drained by itself there is nothing to clean up.
-    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) {
-        DMA_CTRL[DMA_MDECIN].CHCR = 0;
-        m_needReset = true;
-    }
+    // The frame is done the moment the output lands. Drop whatever input is left,
+    // and re-seat the MDEC before the next command even when DMA0 did finish: its
+    // last words can still be sitting in the input FIFO, and the next command then
+    // reads them as data. On an SCPH-5501 that hung a later frame with DMA1 six
+    // blocks short.
+    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) DMA_CTRL[DMA_MDECIN].CHCR = 0;
+    m_needReset = true;
     PROF_ACC(tMdec, m_mdecHb);
 #ifdef MDECPLAYER_PROFILE
     if (m_trace) {
