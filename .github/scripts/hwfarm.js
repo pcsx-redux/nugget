@@ -88,6 +88,7 @@ const SKIPS = [
     'gpu/gpu|probe: loops forever, no verdict',
     'gpu-nop/gpu-nop|probe: loops forever, no verdict',
     'gpu-fifo/gpu-fifo|probe: prints FIFO readings, no verdict',
+    'fifo-depths/fifo-depths|probe: prints FIFO depth readings, no verdict',
     'gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict',
     'mult-timing/mult-timing|probe: prints timings, no verdict',
     'gte-timing/gte-timing|probe: prints timings, no verdict',

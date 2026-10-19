@@ -91,6 +91,7 @@ SKIPS=(
     "gpu/gpu|probe: loops forever, no verdict"
     "gpu-nop/gpu-nop|probe: loops forever, no verdict"
     "gpu-fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
+    "fifo-depths/fifo-depths|hardware probe: prints FIFO depth readings, no verdict"
     "gte-latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "gte-write-to-use/gte-write-to-use|emulator gap: GTE write-to-use delay per command and register not in the dev AppImage; run by the pcsx-redux gtests"
