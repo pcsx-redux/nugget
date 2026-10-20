@@ -141,8 +141,10 @@ class MemoryCardFileSystem {
      * @brief Writes a fresh, empty Sony filesystem to the card.
      *
      * @details This erases the directory; any existing files become
-     * unreachable. The 15 file blocks themselves are not touched (they are
-     * simply marked free), matching what the BIOS does.
+     * unreachable. The file blocks are marked free, as the BIOS does, and only
+     * the first sector of blocks 2, 4 and 8 is written (zeroed), so that a
+     * stale copy of the header there cannot make the card read as smaller
+     * than it is.
      */
     void format(Port port, eastl::function<void(Error)> &&callback);
 
@@ -304,7 +306,7 @@ class MemoryCardFileSystem {
         ReadInfo,   // read a file's title + icon frames (readFileInfo)
         WriteData,  // write title/icon/payload frames (writeFile)
         WriteDir,   // commit the dirty directory frames (write/delete)
-        Format,     // write the format frames (m_idx = 0..63)
+        Format,     // zero the probe sectors, then write the format frames (m_idx = 0..66)
     };
     enum class StepResult : uint8_t { Continue, Done };
 
