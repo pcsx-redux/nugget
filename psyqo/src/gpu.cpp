@@ -71,6 +71,22 @@ constexpr uint32_t vDisplayRange(unsigned midScanline, unsigned lines) {
 }  // namespace
 
 void psyqo::GPU::reinitialize(const psyqo::GPU::Configuration &config) {
+    // The reset clears the FIFO and turns DMA requests off, so let any
+    // transfer in flight finish, then let the GPU drain what it was sent.
+    eastl::atomic_signal_fence(eastl::memory_order_acquire);
+    while (m_dmaCallback) {
+        pumpCallbacks();
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+    }
+    while ((DMA_CTRL[DMA_GPU].CHCR & 0x01000000) != 0);
+    // GPUSTAT bit 26, ready for a command, and bit 28, GP0 FIFO empty.
+    while ((Hardware::GPU::Ctrl & uint32_t(0x14000000)) != uint32_t(0x14000000));
+    applyConfiguration(config);
+    // The reset turned the display off.
+    Hardware::GPU::Ctrl = 0x03000000;
+}
+
+void psyqo::GPU::applyConfiguration(const psyqo::GPU::Configuration &config) {
     // Reset
     Hardware::GPU::Ctrl = 0;
     // FIFO polling mode
@@ -134,7 +150,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
     COUNTERS[1].mode = 0x100;
     COUNTERS[1].value = 0;
 
-    reinitialize(config);
+    applyConfiguration(config);
 
     // Install VBlank interrupt handler
     if (Kernel::isKernelTakenOver()) {
