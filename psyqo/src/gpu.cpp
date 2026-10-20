@@ -462,19 +462,16 @@ void psyqo::GPU::sendFragment(const uint32_t *data, size_t count, eastl::functio
 }
 
 void psyqo::GPU::scheduleNormalDMA(uintptr_t data, size_t count) {
-    uint32_t bcr = count;
-
+    // One word per block, paced by "FIFO not full". With GP1(04h)=2 the GPU drops
+    // the request after a polygon or line command word until the command completes,
+    // so a block boundary inside one of those deadlocks the transfer, and blocks
+    // bigger than one word overrun the FIFO when paced by "not full".
     Kernel::assert((DMA_CTRL[DMA_GPU].CHCR & 0x01000000) == 0, "GPU DMA busy");
-    unsigned bs = 1;
-    while (((bcr & 1) == 0) && (bs < 16)) {
-        bs <<= 1;
-        bcr >>= 1;
-    }
-    Kernel::assert(bcr < 65536, "Transfer too big or block size too small");
-    bcr <<= 16;
-    bcr |= bs;
+    Kernel::assert(count < 65536, "Transfer too big");
+    uint32_t bcr = (count << 16) | 1;
 
     while ((Hardware::GPU::Ctrl & uint32_t(0x10000000)) == 0);
+    Hardware::GPU::Ctrl = 0x04000001;
     DMA_CTRL[DMA_GPU].MADR = data;
     DMA_CTRL[DMA_GPU].BCR = bcr;
     Kernel::dmaReleaseBarrier();
