@@ -173,3 +173,12 @@ void MOD_PlaySoundEffect(unsigned channel, unsigned sampleID, unsigned note, int
 
 // Added API to reset the SPU and silence everything.
 void MOD_Silence();
+
+// Read-only channel state, for visualizers. The channel has
+// to be below MOD_Channels. The volume is the channel's
+// current volume between 0 and 63, as set by the sample, Cxx
+// and the volume slides; tremolo is not included. The key on
+// count goes up by one, modulo 256, each time the player keys
+// on the channel's voice, so compare it to the previous value.
+unsigned MOD_GetChannelVolume(unsigned channel);
+unsigned MOD_GetChannelKeyOns(unsigned channel);

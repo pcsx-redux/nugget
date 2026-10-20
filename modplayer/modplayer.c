@@ -67,6 +67,7 @@ struct SPUChannelData {
     uint8_t fx[4];
     uint32_t samplePos;  // MOD samples can be up to 128kB long
     uint16_t sampleOffset;
+    uint8_t keyOns;
 };
 
 struct SpuInstrumentData {
@@ -622,6 +623,7 @@ static void MOD_UpdateEffect() {
                         // this doesn't look right, we probably want to reset the sample location
                         if (effectNibble2 && (MOD_Tick % effectNibble2) == 0) {
                             SPUKeyOnInstrument(channel, channelData->sampleID);
+                            channelData->keyOns++;
                         }
                         break;
                     case 12:  // cut sample
@@ -715,6 +717,7 @@ static void MOD_UpdateRow() {
             if ((effectNibble1 != 3) && (effectNibble1 != 5)) {
                 SPUWaitIdle();
                 SPUKeyOnInstrument(channel, channelData->sampleID);
+                channelData->keyOns++;
                 channelData->period = MOD_PeriodTable[channelData->note];
             }
             newPeriod = channelData->period;
@@ -905,3 +908,7 @@ void MOD_SetMusicVolume(uint32_t musicVolume) {
         SETVOICEVOLUME(channel, s_channelData[channel].volume);
     }
 }
+
+unsigned MOD_GetChannelVolume(unsigned channel) { return s_channelData[channel].volume; }
+
+unsigned MOD_GetChannelKeyOns(unsigned channel) { return s_channelData[channel].keyOns; }
