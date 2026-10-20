@@ -29,8 +29,9 @@ const RUN_SECONDS = 300;
 const TOTAL_SECONDS = 3600;
 const POLL_MS = 10000;
 
-// name;ps-exe under tests/. Each one ends on the exit break from
-// tests/support/runtime.c, which the farm reads back as the verdict.
+// name;ps-exe under tests/[;feature]. Each one ends on the exit break from
+// tests/support/runtime.c, which the farm reads back as the verdict. A feature
+// restricts the test to the consoles advertising it, through its own job file.
 const TESTS = [
     'basic;basic/basic',
     'cop0;cop0/cop0',
@@ -67,6 +68,13 @@ const TESTS = [
     'spu-volsweep;spu-volsweep/spu-volsweep',
     'sr-write;sr-write/sr-write',
     'timers;timers/timers',
+    // Each card test erases the card in one fixed slot, so it only runs on a
+    // console whose card in that slot is a test card. Another console's slot 1
+    // holds a PocketStation.
+    'memcard;memcard/memcard;memcard-slot1',
+    'memcard-slot2;memcard-slot2/memcard-slot2;memcard-slot2',
+    'memcard-bios;memcard-bios/memcard-bios;memcard-slot1',
+    'memcard-bios-slot2;memcard-bios-slot2/memcard-bios-slot2;memcard-slot2',
 ];
 for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase${p}/gpu-raster-phase${p}`);
 
@@ -99,13 +107,6 @@ const SKIPS = [
     'pcdrv/pcdrv|needs a pcdrv host directory',
     'psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
     'psyqo-dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
-    // Each card test erases the card in one fixed slot. The test cards are in
-    // #3 slot 2 and #4 slot 1, #3 slot 1 holds the PocketStation, and the
-    // revision pin picks either console, so each runs pinned to its console.
-    'memcard/memcard|erases slot 1: run pinned to console #4',
-    'memcard-slot2/memcard-slot2|erases slot 2: run pinned to console #3',
-    'memcard-bios/memcard-bios|erases slot 1: run pinned to console #4',
-    'memcard-bios-slot2/memcard-bios-slot2|erases slot 2: run pinned to console #3',
     'autoinc/autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
     'bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
     'dma-chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
@@ -256,20 +257,34 @@ async function run(argv) {
 
     const tests = TESTS.map((t) => t.split(';')).filter(([name]) => !only.length || only.includes(name));
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hwfarm-'));
-    const manifest = path.join(tmp, 'job.json');
-    fs.writeFileSync(manifest, JSON.stringify({ capabilityRequest: { consoleRevisions: [REVISION] } }));
+    // The feature sits in the job file beside the revision, so the whole
+    // capabilityRequest is in one place.
+    const jobFile = (feature) => {
+        const file = path.join(tmp, feature ? `job-${feature}.json` : 'job.json');
+        const capabilityRequest = { consoleRevisions: [REVISION] };
+        if (feature) capabilityRequest.requiredFeatures = [feature];
+        fs.writeFileSync(file, JSON.stringify({ capabilityRequest }));
+        return file;
+    };
     const key = `${process.env.GITHUB_SHA || 'local'}-${process.env.GITHUB_RUN_ID || Date.now()}-${process.env.GITHUB_RUN_ATTEMPT || 1}`;
 
     const results = [];
-    for (const [name, exe] of tests) {
-        const args = ['submit', '--exe', `tests/${exe}.ps-exe`, '--manifest', manifest, '--pool', 'ps1',
+    for (const [name, exe, feature] of tests) {
+        const args = ['submit', '--exe', `tests/${exe}.ps-exe`, '--manifest', jobFile(feature), '--pool', 'ps1',
                       '--exclude-feature', 'flaky', '--priority', 'CI', '--run-seconds', String(RUN_SECONDS),
                       '--total-seconds', String(TOTAL_SECONDS), '--idempotency-key', `${key}-${name}`];
         console.log(`hwtest ${args.join(' ')}`);
         try {
             const submitted = hwtest(args);
+            const required = ((submitted.jobSpec || {}).capabilityRequest || {}).requiredFeatures || [];
+            if (feature && !required.includes(feature)) {
+                // Not graded as the test's result: it may be running on the wrong console.
+                results.push({ name, ticketId: submitted.ticket.ticketId, kind: 'infra', state: 'error',
+                               detail: `feature lost: asked ${feature}, job requires "${required.join(',')}"` });
+                continue;
+            }
             results.push({ name, ticketId: submitted.ticket.ticketId });
-            console.log(`${name}: ${submitted.ticket.ticketId}`);
+            console.log(`${name}: ${submitted.ticket.ticketId}${feature ? ` (${feature})` : ''}`);
         } catch (e) {
             results.push({ name, kind: 'infra', state: 'error', detail: `submit failed: ${e.message.split('\n')[0]}` });
         }
@@ -280,7 +295,7 @@ async function run(argv) {
     // extra margin here covers the coordinator's own reaping.
     const deadline = Date.now() + (TOTAL_SECONDS + 600) * 1000;
     for (const r of results) {
-        if (!r.ticketId) continue;
+        if (!r.ticketId || r.kind) continue;
         let ticket;
         for (;;) {
             try {
