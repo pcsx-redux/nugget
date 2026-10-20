@@ -737,7 +737,7 @@ static void MOD_UpdateRow() {
                 if (effectNibble2 != 0) {
                     fx = channelData->fx[1];
                     fx &= ~0xf0;
-                    fx |= effectNibble3 << 4;
+                    fx |= effectNibble2 << 4;
                     channelData->fx[1] = fx;
                 }
                 break;
