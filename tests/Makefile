@@ -76,6 +76,8 @@ all:
 	$(MAKE) -C msan all
 	$(MAKE) -C msan-trip all
 	$(MAKE) -C pcdrv all
+	$(MAKE) -C pcdrv-net all
+	$(MAKE) -C pcdrv-net-off all
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-dmachain all
 	$(MAKE) -C psyqo-spudma all
@@ -184,6 +186,8 @@ clean:
 	$(MAKE) -C msan clean
 	$(MAKE) -C msan-trip clean
 	$(MAKE) -C pcdrv clean
+	$(MAKE) -C pcdrv-net clean
+	$(MAKE) -C pcdrv-net-off clean
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-dmachain clean
 	$(MAKE) -C psyqo-spudma clean
