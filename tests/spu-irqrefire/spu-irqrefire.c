@@ -189,6 +189,22 @@ int main() {
     watch(&w);
     check_window("rewrite-enable-1", &w, 1);
 
+    /* SPUSTAT is read-only. Writing zeroes must not clear the flag: if it did, the
+       next lap would latch it again and raise a fresh IRQ9, which the window counts.
+       Writing ones must not set anything. Bit 11 moves on its own and is ignored. */
+    {
+        static const uint16_t vals[2] = {0x0000, 0xffff};
+        for (int k = 0; k < 2; k++) {
+            IREG = ~IRQ9;
+            const uint16_t before = SPU_STATUS & 0xffff;
+            SPU_STATUS = vals[k];
+            watch(&w);
+            ramsyscall_printf("SPUIRQREFIRE: stat-write %04x before=%04x\n", (unsigned)vals[k], (unsigned)before);
+            check_window(k ? "after-stat-ffff" : "after-stat-0000", &w, 1);
+            check((w.statEnd & 0xf7ff) == (before & 0xf7ff), "writing SPUSTAT changed a bit other than 11");
+        }
+    }
+
     /* Bit 6 = 0 acknowledges; matches while disabled leave no trace. */
     SPU_CTRL = SPU_CTRL & ~SPU_CTRL_IRQ_ENABLE;
     for (volatile int i = 0; i < 200; i++);
