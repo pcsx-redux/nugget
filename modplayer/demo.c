@@ -24,6 +24,7 @@ SOFTWARE.
 
 */
 
+#include "common/hardware/gpu.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
 #include "common/syscalls/syscalls.h"
@@ -67,6 +68,76 @@ static void waitVSync() {
     if (!wasLocked) leaveCriticalSection();
 }
 
+// VU meter: one segmented bar per channel. A key on jumps the bar to the
+// channel's volume, volume changes move it, and it falls a fixed amount per
+// frame. Levels are kept as volume * 16, so 63 is 1008.
+#define VU_SEGMENTS 16
+#define VU_SEGMENT_HEIGHT 8
+#define VU_SEGMENT_PITCH 12
+#define VU_BOTTOM 216
+#define VU_FULL (63 << 4)
+#define VU_DECAY 24
+#define VU_MAX_BARS 20
+
+static const union Color s_lit[3] = {
+    {.r = 0, .g = 224, .b = 0}, {.r = 240, .g = 224, .b = 0}, {.r = 240, .g = 0, .b = 0}};
+static const union Color s_dim[3] = {{.r = 0, .g = 40, .b = 0}, {.r = 48, .g = 44, .b = 0}, {.r = 48, .g = 0, .b = 0}};
+
+static int16_t s_level[VU_MAX_BARS];
+static uint8_t s_lastVolume[VU_MAX_BARS];
+static uint8_t s_lastKeyOns[VU_MAX_BARS];
+
+static void initDisplay() {
+    struct DisplayModeConfig config = {.hResolution = HR_320,
+                                       .vResolution = VR_240,
+                                       .videoMode = VM_NTSC,
+                                       .colorDepth = CD_15BITS,
+                                       .videoInterlace = VI_OFF,
+                                       .hResolutionExtended = HRE_NORMAL};
+    sendGPUStatus(0x00000000);  // reset
+    setDisplayArea(0, 0);
+    setHorizontalRange(0x260, 0x260 + 320 * 8);
+    setVerticalRange(16, 256);
+    setDisplayMode(&config);
+    struct FastFill ff = {.c = {.r = 0, .g = 0, .b = 0}, .x = 0, .y = 0, .w = 320, .h = 240};
+    fastFill(&ff);
+    waitGPU();
+    enableDisplay();
+}
+
+static void drawVU() {
+    unsigned channels = MOD_Channels;
+    if (channels > VU_MAX_BARS) channels = VU_MAX_BARS;
+    // Fast fills work on 16 pixel columns, so every x and width is a multiple of 16.
+    int16_t pitch = (320 / channels) & ~15;
+    int16_t width = pitch >= 48 ? 32 : 16;
+    int16_t x = ((320 - channels * pitch) / 2 + (pitch - width) / 2) & ~15;
+    for (unsigned ch = 0; ch < channels; ch++, x += pitch) {
+        uint8_t volume = MOD_GetChannelVolume(ch);
+        uint8_t keyOns = MOD_GetChannelKeyOns(ch);
+        int16_t level = s_level[ch] - VU_DECAY;
+        if (keyOns != s_lastKeyOns[ch]) {
+            level = volume << 4;
+        } else {
+            level += (volume - s_lastVolume[ch]) << 4;
+        }
+        if (level < 0) level = 0;
+        if (level > VU_FULL) level = VU_FULL;
+        s_level[ch] = level;
+        s_lastVolume[ch] = volume;
+        s_lastKeyOns[ch] = keyOns;
+
+        int lit = (level * VU_SEGMENTS + VU_FULL - 1) / VU_FULL;
+        struct FastFill ff = {.x = x, .w = width, .h = VU_SEGMENT_HEIGHT};
+        for (int seg = 0; seg < VU_SEGMENTS; seg++) {
+            int band = seg < 10 ? 0 : seg < 13 ? 1 : 2;
+            ff.c.packed = seg < lit ? s_lit[band].packed : s_dim[band].packed;
+            ff.y = VU_BOTTOM - (seg + 1) * VU_SEGMENT_PITCH;
+            fastFill(&ff);
+        }
+    }
+}
+
 void main() {
     printf("Loading MOD:\'%s\'\n", _binary_timewarped_hit_start);
     // We are going to use timer1 and its hblank counter to tell us when
@@ -78,6 +149,7 @@ void main() {
     unsigned row = 0xffffffff;
     unsigned order = 0xffffffff;
     unsigned pattern = 0xffffffff;
+    initDisplay();
     // Giving our initial counter a proper value.
     s_nextCounter = COUNTERS[1].value + MOD_hblanks;
     while (1) {
@@ -88,5 +160,6 @@ void main() {
             printf("Row: %02d, Order: %02d, Pattern: %02d\n", row, order, pattern);
         }
         waitVSync();
+        drawVU();
     }
 }
