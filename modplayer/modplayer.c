@@ -501,7 +501,7 @@ static void MOD_UpdateEffect() {
                 break;
             case 5:
                 volume = channelData->volume;
-                if (effectNibble23 <= 0x10) {
+                if (effectNibble23 < 0x10) {
                     volume -= effectNibble23;
                     if (volume < 0) volume = 0;
                 } else {
@@ -526,7 +526,7 @@ static void MOD_UpdateEffect() {
                 break;
             case 6:
                 volume = channelData->volume;
-                if (effectNibble23 <= 0x10) {
+                if (effectNibble23 < 0x10) {
                     volume -= effectNibble23;
                     if (volume < 0) volume = 0;
                 } else {
@@ -607,7 +607,7 @@ static void MOD_UpdateEffect() {
                 break;
             case 10:  // volume slide
                 volume = channelData->volume;
-                if (effectNibble23 <= 0x10) {
+                if (effectNibble23 < 0x10) {
                     volume -= effectNibble23;
                     if (volume < 0) volume = 0;
                 } else {
