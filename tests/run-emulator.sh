@@ -83,6 +83,7 @@ SKIPS=(
     "cdrom/cd-cmd-latency/cd-cmd-latency|probe: prints CD command timings, no verdict"
     "cop0-sr/cop0-sr|hardware probe: prints what each SR bit does, no verdict, and ends in the ROM through BEV"
     "cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua and the CD-ROM code from pcsx-redux#1129"
+    "gpu-dma-dreq/gpu-dma-dreq|emulator gap: the stalled sync mode 1 transfers complete until pcsx-redux#2417"
     "dma-modes/dma-modes|hardware probe: prints DMA register states per sync mode, loops forever, no verdict"
     "dma-priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
     "spu-wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
