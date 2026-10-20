@@ -569,8 +569,10 @@ static void MOD_UpdateEffect() {
                 SETVOICESAMPLERATE(channel, newPeriod);
                 break;
             case 7:  // tremolo
-                mutation = s_channelData[0].fx[0] & 0x1f;
-                switch (s_channelData[0].fx[3] & 3) {
+                // fx[0] is the tremolo position, fx[2] holds speed (low) and depth (high),
+                // and the tremolo waveform is the high nibble of fx[3] (E7x).
+                mutation = channelData->fx[0] & 0x1f;
+                switch ((channelData->fx[3] >> 4) & 3) {
                     case 0:
                     case 3:  // 3 is technically random
                         mutation = MOD_SineTable[mutation];
@@ -587,7 +589,7 @@ static void MOD_UpdateEffect() {
                         mutation = 0xff;
                         break;
                 }
-                mutation *= channelData->fx[3] >> 4;
+                mutation *= channelData->fx[2] >> 4;
                 mutation >>= 6;
                 volume = channelData->volume;
                 if (channelData->fx[0] & 0x80) {
@@ -598,6 +600,7 @@ static void MOD_UpdateEffect() {
                 newValue = channelData->fx[0] + (channelData->fx[2] & 0x0f);
                 if (newValue >= 32) newValue -= 64;
                 channelData->fx[0] = newValue;
+                if (volume < 0) volume = 0;
                 if (volume > 63) volume = 63;
                 SETVOICEVOLUME(channel, volume);
                 break;
