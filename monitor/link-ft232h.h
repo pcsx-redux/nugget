@@ -93,6 +93,14 @@ static inline __attribute__((always_inline)) void linkPutByte(uint8_t b) {
     FT232H_DATA = b;
 }
 
+/* Non-blocking transmit test for the console path (sio1-tty.c). TXE stays
+   busy once the chip's TX FIFO is full and nobody on the USB side reads it. */
+static inline int linkTxReady(void) { return FT232H_READY(FT232H_TXE); }
+
+/* The FIFO has no line rate to size a wait from: 2^20 polls, at least 124 ms
+   at 4 cycles a poll, above a USB latency timer period (16 ms by default). */
+static inline uint32_t linkTxStallPolls(void) { return 1u << 20; }
+
 /* The received-byte test the exception entry makes in assembly on every
    interrupt (monitor.c, monitorSlotEntry): RXF in the status register. */
 #define LINK_RX_STAT_ADDR MONITOR_FT232H_STATUS

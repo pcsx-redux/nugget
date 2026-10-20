@@ -99,6 +99,13 @@ const SKIPS = [
     'pcdrv/pcdrv|needs a pcdrv host directory',
     'psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
     'psyqo-dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
+    // Each card test erases the card in one fixed slot. The test cards are in
+    // #3 slot 2 and #4 slot 1, #3 slot 1 holds the PocketStation, and the
+    // revision pin picks either console, so each runs pinned to its console.
+    'memcard/memcard|erases slot 1: run pinned to console #4',
+    'memcard-slot2/memcard-slot2|erases slot 2: run pinned to console #3',
+    'memcard-bios/memcard-bios|erases slot 1: run pinned to console #4',
+    'memcard-bios-slot2/memcard-bios-slot2|erases slot 2: run pinned to console #3',
     'autoinc/autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
     'bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
     'dma-chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
