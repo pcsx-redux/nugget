@@ -32,9 +32,10 @@ SOFTWARE.
 //
 // The mode bits prove each reinitialize() reached the GPU, so a display bit
 // reading 0 is not the GPU having ignored the call. The last arm calls
-// reinitialize() while a chain is still transferring: the chain's final node
-// sets the texpage to a marker, so a marker in GPUSTAT afterwards means part
-// of the chain landed after the reset.
+// reinitialize() while a chain is still transferring. The chain ends with a
+// small fill, read back from VRAM afterwards, which the reset would discard
+// if it was still queued, then a node setting the texpage to a marker, which
+// GPUSTAT shows afterwards if it reached the GPU after the reset.
 
 #include <stdint.h>
 
@@ -51,6 +52,8 @@ SOFTWARE.
 namespace {
 
 constexpr uint32_t kMark = 0x555;
+constexpr uint32_t kProbeX = 992;
+constexpr uint32_t kProbeY = 500;
 
 template <size_t N>
 struct RawFragment : public psyqo::Fragments::ChainEntry {
@@ -69,7 +72,7 @@ class TestScene final : public psyqo::Scene {
     bool m_done = false;
     unsigned m_failures = 0;
 
-    RawFragment<3> m_fills[4];
+    RawFragment<3> m_fills[5];
     RawFragment<1> m_mark;
 
     void check(const char *name, bool pass, uint32_t stat, unsigned reads = 1);
@@ -134,6 +137,16 @@ psyqo::GPU::Configuration makeConfig(psyqo::GPU::Resolution res, psyqo::GPU::Vid
     return config;
 }
 
+// GP0(C0h) for two pixels, after the GPU has drained its FIFO.
+uint32_t readPixelPair(uint32_t x, uint32_t y) {
+    for (unsigned i = 0; i < 2000000 && (gpustat() & 0x14000000) != 0x14000000; i++);
+    psyqo::Hardware::GPU::Data = 0xc0000000;
+    psyqo::Hardware::GPU::Data = (y << 16) | x;
+    psyqo::Hardware::GPU::Data = (1u << 16) | 2u;
+    for (unsigned i = 0; i < 100000 && !(gpustat() & 0x08000000); i++);
+    return psyqo::Hardware::GPU::Data;
+}
+
 }  // namespace
 
 void ReinitTest::prepare() { gpu().initialize(makeConfig(psyqo::GPU::Resolution::W320, psyqo::GPU::VideoMode::NTSC)); }
@@ -162,6 +175,11 @@ void TestScene::inFlight() {
         m_fills[i].words[2] = (256u << 16) | 512u;
         app.gpu().chain(m_fills[i]);
     }
+    // 0x00ff00 is 0x03e0 in 15 bits, a pair of pixels reads 0x03e003e0.
+    m_fills[4].words[0] = 0x0200ff00;
+    m_fills[4].words[1] = (uint32_t(kProbeY) << 16) | kProbeX;
+    m_fills[4].words[2] = (1u << 16) | 16u;
+    app.gpu().chain(m_fills[4]);
     m_mark.words[0] = 0xe1000000 | kMark;
     app.gpu().chain(m_mark);
 
@@ -178,13 +196,15 @@ void TestScene::inFlight() {
     app.gpu().waitReady();
     unsigned reads;
     uint32_t stat = settle(0x00800000, 0, reads);
-    ramsyscall_printf("in-flight: dma busy at reinitialize = %d, chain completed = %d\n", busy ? 1 : 0,
-                      done ? 1 : 0);
+    uint32_t pixels = readPixelPair(kProbeX, kProbeY);
+    ramsyscall_printf("in-flight: dma busy at reinitialize = %d, chain completed = %d, probe pixels %08x\n",
+                      busy ? 1 : 0, done ? 1 : 0, pixels);
     if (!busy) {
         ramsyscall_printf("%-34s gpustat %08x  INCONCLUSIVE (transfer had finished)\n", "reinit during chain", stat);
         return;
     }
-    check("reinit during chain", done && ((stat & 0x7ff) == 0) && !displayOff(stat), stat, reads);
+    check("reinit during chain", done && ((stat & 0x7ff) == 0) && (pixels == 0x03e003e0) && !displayOff(stat), stat,
+          reads);
 }
 
 void TestScene::frame() {

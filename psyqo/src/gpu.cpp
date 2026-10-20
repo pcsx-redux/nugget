@@ -72,13 +72,15 @@ constexpr uint32_t vDisplayRange(unsigned midScanline, unsigned lines) {
 
 void psyqo::GPU::reinitialize(const psyqo::GPU::Configuration &config) {
     // The reset clears the FIFO and turns DMA requests off, so let any
-    // transfer in flight finish first, or its tail lands after the reset.
+    // transfer in flight finish, then let the GPU drain what it was sent.
     eastl::atomic_signal_fence(eastl::memory_order_acquire);
     while (m_dmaCallback) {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
     while ((DMA_CTRL[DMA_GPU].CHCR & 0x01000000) != 0);
+    // GPUSTAT bit 26, ready for a command, and bit 28, GP0 FIFO empty.
+    while ((Hardware::GPU::Ctrl & uint32_t(0x14000000)) != uint32_t(0x14000000));
     applyConfiguration(config);
     // The reset turned the display off.
     Hardware::GPU::Ctrl = 0x03000000;
