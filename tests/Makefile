@@ -78,6 +78,7 @@ all:
 	$(MAKE) -C pcdrv all
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-dmachain all
+	$(MAKE) -C psyqo-reinit all
 	$(MAKE) -C psyqo-spudma all
 	$(MAKE) -C regwrites all
 	$(MAKE) -C rumble all
@@ -186,6 +187,7 @@ clean:
 	$(MAKE) -C pcdrv clean
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-dmachain clean
+	$(MAKE) -C psyqo-reinit clean
 	$(MAKE) -C psyqo-spudma clean
 	$(MAKE) -C regwrites clean
 	$(MAKE) -C rumble clean

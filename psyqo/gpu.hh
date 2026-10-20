@@ -566,6 +566,7 @@ class GPU {
     void chain(uintptr_t *first, uintptr_t *last, size_t count);
     void scheduleOTC(uintptr_t *start, uint32_t count);
     void checkOTCAndTriggerCallback();
+    void applyConfiguration(const Configuration &config);
     void prepareForTakeover();
 
     eastl::function<void(void)> m_dmaCallback = nullptr;
