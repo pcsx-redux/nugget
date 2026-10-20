@@ -410,13 +410,13 @@ void __attribute__((section(".ramtext"))) stopPad() {
     leaveCriticalSection();
 }
 
-void exceptionHandlerPatchSlot1();
+extern uint32_t exceptionHandlerPatchSlot1[];
 void exceptionHandlerCardFastTrackPatch();
 
 /* The original code incorrectly uses $k0 and $k1 for this loop */
 static void __attribute__((section(".ramtext"))) patchExceptionHandlerForMC() {
     const uint32_t* src = (const uint32_t*)exceptionHandlerCardFastTrackPatch;
-    uint32_t* dst = (uint32_t*)exceptionHandlerPatchSlot1;
+    uint32_t* dst = exceptionHandlerPatchSlot1;
     for (unsigned i = 0; i < 4; i++) dst[i] = src[i];
     syscall_flushCache();
 }
