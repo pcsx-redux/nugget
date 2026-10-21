@@ -102,3 +102,24 @@ masks interrupts specifically so nothing can donate cycles to the gap,
 and under those conditions the answer is 2 everywhere. That controls the
 stall away without measuring it, so the icache explanation is consistent
 with these numbers and untested here.
+
+## Cycles, not opcodes (2026-10-21)
+
+Five arms put one instruction sequence other than nops between `mtc2`
+LZCS and `mfc2` LZCR, same 126 inputs, same DRAIN and poison, on the same
+four revisions (one run each). Every arm ran all 126 rows on every
+console, and the N sweep above reproduced (cached 2, uncached 1).
+
+| Filler | cached | uncached |
+|---|---|---|
+| `lw` from I_STAT (`0x1f801070`) | 126/126 correct | 126/126 correct |
+| `mult` (rs = 0x7fffffff), `mflo` | 126/126 correct | 126/126 correct |
+| `mult` (rs = 7), `mflo` | 126/126 correct | 126/126 correct |
+| `div`, `mflo` | 126/126 correct | 126/126 correct |
+| `mult` alone | 126/126 stale | 126/126 correct |
+
+Identical on SCPH-1000, SCPH-1001, SCPH-5501 and SCPH-7001. A single
+`lw` from an I/O register is one opcode and covers the delay alone, and
+so does any `mflo` that has to wait for the multiplier. A `mult` nobody
+waits for issues in one cycle and reads stale, like one `nop`. The delay
+is counted in CPU cycles: two cycles, however they are spent.
