@@ -223,6 +223,7 @@ static uint16_t periodToPitch(int32_t period, unsigned rateShift) {
         pitch = (49708u * s_exp2[x - octave * 768]) >> 21;  // 776.68 * 2^(frac / 768)
         octave -= rateShift;
         if (octave > 6) return 0x3fff;
+        if (octave < -15) return 0;
         pitch = octave >= 0 ? pitch << octave : pitch >> -octave;
     } else {
         // 8363 * 1712 / period Hz, times 4096 / 44100
@@ -348,9 +349,11 @@ static void resetInstrument(struct XMChannel* ch) {
 }
 
 static void readCell(struct XMChannel* ch) {
+    ch->cellNote = ch->cellInstrument = ch->cellVolume = ch->cellEffect = ch->cellParam = 0;
+    // an order pointing past the pattern table plays as an empty pattern
+    if (!s_rowPointer) return;
     const uint8_t* p = s_rowPointer;
     uint8_t b = *p++;
-    ch->cellNote = ch->cellInstrument = ch->cellVolume = ch->cellEffect = ch->cellParam = 0;
     if (b & 0x80) {
         if (b & 1) ch->cellNote = *p++;
         if (b & 2) ch->cellInstrument = *p++;
@@ -781,7 +784,6 @@ void XM_Poll(void) {
     s_keyOn = 0;
     advanceHblanks();
     const int newRow = XM_Tick == 0 && !s_inDelay;
-    if (newRow && !s_rowPointer) return;
     for (unsigned c = 0; c < XM_Channels; c++) {
         struct XMChannel* ch = &s_channels[c];
         if (newRow) {
