@@ -152,6 +152,52 @@ class ISO9660Parser {
     }
 
     /**
+     * @brief Walk the entries of a directory.
+     *
+     * @details This method reads every sector of the directory `dir`, and calls
+     * `visitor` once per entry, in the order they appear on the disc, with the
+     * entry's name as recorded on the disc (including the `;1` version suffix of
+     * files) and its parsed DirEntry. The `.` and `..` entries are passed too,
+     * as CURRENT_DIR and PARENT_DIR. The name only lives for the duration of the
+     * call, and the visitor must not call into the parser. Returning true from
+     * the visitor stops the walk. Then `callback` is called, with false if the
+     * CDRom device failed reading, if the parser isn't initialized, or if `dir`
+     * isn't a directory; stopping early still counts as success. `dir` is
+     * copied, so it doesn't need to outlive the call.
+     *
+     * @param[in] dir The directory to walk, as returned by getDirentry.
+     * @param[in] visitor Called for each entry; returns true to stop the walk.
+     */
+    void walkDirectory(const DirEntry& dir, eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor,
+                       eastl::function<void(bool success)> callback);
+    TaskQueue::Task scheduleWalkDirectory(const DirEntry& dir,
+                                          eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor);
+    struct WalkDirectoryAwaiter {
+        WalkDirectoryAwaiter(ISO9660Parser& parser, const DirEntry& dir,
+                             eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor)
+            : m_parser(parser), m_dir(dir), m_visitor(eastl::move(visitor)) {}
+        bool await_ready() const { return false; }
+        template <typename U>
+        void await_suspend(std::coroutine_handle<U> handle) {
+            m_parser.walkDirectory(m_dir, eastl::move(m_visitor), [handle, this](bool success) {
+                m_success = success;
+                handle.resume();
+            });
+        }
+        bool await_resume() { return m_success; }
+
+      private:
+        ISO9660Parser& m_parser;
+        DirEntry m_dir;
+        eastl::function<bool(eastl::string_view name, const DirEntry& entry)> m_visitor;
+        bool m_success;
+    };
+    WalkDirectoryAwaiter walkDirectory(const DirEntry& dir,
+                                       eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor) {
+        return WalkDirectoryAwaiter(*this, dir, eastl::move(visitor));
+    }
+
+    /**
      * @brief Read a file asynchronously.
      *
      * @details This method reads a file asynchronously. It will read the file
@@ -186,6 +232,8 @@ class ISO9660Parser {
     void parseDirEntry(const uint8_t* data, DirEntry* entry);
     eastl::string_view getEntryName(const uint8_t* data);
     void findDirEntry();
+    void walkSector();
+    void walkDone(bool success);
 
     uint8_t m_buffer[2048];
     eastl::function<void(bool success)> m_callback = nullptr;
@@ -197,6 +245,9 @@ class ISO9660Parser {
     DirEntry m_cachedEntry;
     eastl::fixed_string<char, 128> m_cachedPath;
     bool m_initialized = false;
+    eastl::function<bool(eastl::string_view name, const DirEntry& entry)> m_walkVisitor = nullptr;
+    uint32_t m_walkLBA = 0;
+    uint32_t m_walkEnd = 0;
 };
 
 }  // namespace psyqo
