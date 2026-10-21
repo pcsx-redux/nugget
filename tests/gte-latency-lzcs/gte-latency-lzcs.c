@@ -390,6 +390,106 @@ static void run_regime(int uncached) {
                                  : "VARIES with input magnitude");
 }
 
+// ==========================================================================
+// Arms: one instruction sequence other than nops between the two moves,
+// asking whether the store delay is counted in cycles or in opcodes. Each
+// arm has the same DRAIN, poison and readback as the N sweep; only the
+// filler differs. a and b feed the multiplier and divider, io is the
+// address the load reads.
+// ==========================================================================
+
+#define MK_LZC_ARM(NAME, FILLER)                                           \
+    uint32_t __attribute__((noinline))                                     \
+    lzc_arm_##NAME(uint32_t poison, uint32_t value) {                      \
+        uint32_t out, scratch;                                             \
+        uint32_t a = 0x7fffffffu, b = 0x00000003u;                         \
+        uint32_t s = 0x00000007u;                                          \
+        volatile uint32_t* io = (volatile uint32_t*)0xbf801070u;           \
+        __asm__ volatile(                                                  \
+            ".set push\n\t"                                                \
+            ".set noreorder\n\t"                                           \
+            "mtc2 %2, $30\n\t"                                             \
+            ".rept " LZC_STR(DRAIN) "\n\tnop\n\t.endr\n\t"                 \
+            "mtc2 %3, $30\n\t"                                             \
+            FILLER                                                         \
+            "mfc2 %0, $31\n\t"                                             \
+            "nop\n\t"                                                      \
+            "nop\n\t"                                                      \
+            ".set pop\n\t"                                                 \
+            : "=&r"(out), "=&r"(scratch)                                   \
+            : "r"(poison), "r"(value), "r"(a), "r"(b), "r"(s), "r"(io)     \
+            : "hi", "lo", "memory");                                       \
+        return out;                                                        \
+    }
+
+// One load from I_STAT: a single opcode that stalls on the bus.
+MK_LZC_ARM(iostat, "lw %1, 0(%7)\n\t")
+// A multiply by a large rs, read back at once: mflo waits for the result.
+MK_LZC_ARM(multbig_mflo, "mult %4, %5\n\tmflo %1\n\t")
+// A multiply by a small rs (3 bits), read back at once.
+MK_LZC_ARM(multsmall_mflo, "mult %6, %5\n\tmflo %1\n\t")
+// A divide, read back at once.
+MK_LZC_ARM(div_mflo, "div $0, %4, %5\n\tmflo %1\n\t")
+// Control: a multiply nobody waits for, one opcode like N=1.
+MK_LZC_ARM(lonemult, "mult %4, %5\n\t")
+
+typedef struct {
+    lzc_probe_fn fn;
+    const char* name;
+} lzc_arm_t;
+
+static const lzc_arm_t g_arms[] = {
+    { lzc_arm_iostat, "iostat" },
+    { lzc_arm_multbig_mflo, "multbig_mflo" },
+    { lzc_arm_multsmall_mflo, "multsmall_mflo" },
+    { lzc_arm_div_mflo, "div_mflo" },
+    { lzc_arm_lonemult, "lonemult" },
+};
+#define NARMS ((int)(sizeof(g_arms) / sizeof(g_arms[0])))
+
+// Per arm: how many of the inputs read the new count, how many the stale
+// one, how many anything else, and how many disagreed with the warm-up
+// call. rows is the number of inputs the arm actually ran.
+static int g_arm_rows[NARMS], g_arm_correct[NARMS], g_arm_stale[NARMS], g_arm_other[NARMS],
+    g_arm_unstable[NARMS];
+
+static void run_arms(int uncached) {
+    const char r = uncached ? 'U' : 'C';
+    ramsyscall_printf("=== LZCS->LZCR arms, %s, DRAIN=%d ===\n",
+                      uncached ? "UNCACHED (kseg1)" : "CACHED (kseg0)", DRAIN);
+    for (int a = 0; a < NARMS; a++) {
+        g_arm_rows[a] = g_arm_correct[a] = g_arm_stale[a] = g_arm_other[a] = g_arm_unstable[a] = 0;
+        lzc_probe_fn f = uncached ? KSEG1(g_arms[a].fn) : g_arms[a].fn;
+        for (int i = 0; i < NCASES; i++) {
+            uint32_t value = g_cases[i].value;
+            uint32_t expected = lzcr_expect(value);
+            uint32_t poison = poison_for(expected);
+            uint32_t stale = lzcr_expect(poison);
+            uint32_t warm = f(poison, value);
+            uint32_t sr = lzc_irq_disable();
+            uint32_t got = f(poison, value);
+            lzc_irq_restore(sr);
+            g_arm_rows[a]++;
+            if (got == expected) {
+                g_arm_correct[a]++;
+            } else if (got == stale) {
+                g_arm_stale[a]++;
+            } else {
+                g_arm_other[a]++;
+            }
+            if (got != warm) g_arm_unstable[a]++;
+            if (got != expected) {
+                ramsyscall_printf("ARMROW %c %s v=%08x exp=%d stale=%d got=%d warm=%d\n", r,
+                                  g_arms[a].name, value, (int)expected, (int)stale, (int)got,
+                                  (int)warm);
+            }
+        }
+        ramsyscall_printf("ARM %c %s rows=%d/%d correct=%d stale=%d other=%d unstable=%d\n", r,
+                          g_arms[a].name, g_arm_rows[a], NCASES, g_arm_correct[a], g_arm_stale[a],
+                          g_arm_other[a], g_arm_unstable[a]);
+    }
+}
+
 #endif // GTE_LATENCY_LZCS_HELPERS_DEFINED
 
 #undef unix
@@ -435,4 +535,14 @@ CESTER_TEST(lzcs_sweep_uncached, gte_lzcs_tests,
     // Deliberately NO negative-control assertion here. An uncached
     // opcode fetch is several cycles, so N=0 reading correctly is the
     // documented expectation, not a broken control.
+)
+
+CESTER_TEST(lzcs_arms_cached, gte_lzcs_tests,
+    run_arms(0);
+    for (int a = 0; a < NARMS; a++) cester_assert_int_eq(NCASES, g_arm_rows[a]);
+)
+
+CESTER_TEST(lzcs_arms_uncached, gte_lzcs_tests,
+    run_arms(1);
+    for (int a = 0; a < NARMS; a++) cester_assert_int_eq(NCASES, g_arm_rows[a]);
 )
