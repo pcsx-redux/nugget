@@ -76,7 +76,7 @@ static void waitVSync() {
 #define VU_SEGMENT_PITCH 12
 #define VU_BOTTOM 216
 #define VU_FULL (63 << 4)
-#define VU_DECAY 24
+#define VU_DECAY 20
 #define VU_MAX_BARS 20
 
 static const union Color s_lit[3] = {
