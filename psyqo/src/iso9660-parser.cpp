@@ -103,6 +103,22 @@ void psyqo::ISO9660Parser::getDirentry(eastl::string_view path, DirEntry* entry,
     m_path = path;
     m_dirEntry = entry;
     entry->type = DirEntry::INVALID;
+    // A previous lookup may have left a later sector of the cached directory in
+    // m_buffer; the scan has to start from its first one.
+    if ((m_cachedEntry.type == DirEntry::DIRECTORY) && (m_cachedLBA != m_cachedEntry.LBA)) {
+        m_cachedLBA = 0;
+        m_cdrom->readSectors(m_cachedEntry.LBA, 1, m_buffer, [this](bool success) {
+            if (!success) {
+                auto callback = eastl::move(m_callback);
+                m_callback = nullptr;
+                callback(false);
+                return;
+            }
+            m_cachedLBA = m_cachedEntry.LBA;
+            findDirEntry();
+        });
+        return;
+    }
     findDirEntry();
 }
 
@@ -119,6 +135,68 @@ psyqo::TaskQueue::Task psyqo::ISO9660Parser::scheduleReadRequest(const ReadReque
         m_cdrom->readSectors(request->entry.LBA, count, request->buffer,
                              [task](bool success) { task->complete(success); });
     });
+}
+
+void psyqo::ISO9660Parser::walkDirectory(const DirEntry& dir,
+                                         eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor,
+                                         eastl::function<void(bool success)> callback) {
+    if (!m_initialized || ((dir.type != DirEntry::DIRECTORY) && (dir.type != DirEntry::CURRENT_DIR) &&
+                           (dir.type != DirEntry::PARENT_DIR))) {
+        callback(false);
+        return;
+    }
+    Kernel::assert(m_callback == nullptr, "Only one outstanding async operation allowed");
+    // The walk reads through m_buffer, so the sector getDirentry caches is gone.
+    m_cachedEntry.type = DirEntry::INVALID;
+    m_cachedLBA = 0;
+    m_cachedPath.clear();
+    m_callback = eastl::move(callback);
+    m_walkVisitor = eastl::move(visitor);
+    m_walkLBA = dir.LBA;
+    m_walkEnd = dir.LBA + (dir.size + 2047) / 2048;
+    walkSector();
+}
+
+psyqo::TaskQueue::Task psyqo::ISO9660Parser::scheduleWalkDirectory(
+    const DirEntry& dir, eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor) {
+    return TaskQueue::Task([this, dir, visitor = eastl::move(visitor)](auto task) mutable {
+        walkDirectory(dir, eastl::move(visitor), [task](bool success) { task->complete(success); });
+    });
+}
+
+void psyqo::ISO9660Parser::walkSector() {
+    if (m_walkLBA >= m_walkEnd) {
+        walkDone(true);
+        return;
+    }
+    m_cdrom->readSectors(m_walkLBA, 1, m_buffer, [this](bool success) {
+        if (!success) {
+            walkDone(false);
+            return;
+        }
+        // Records never straddle a sector; a zero length ends the sector's list.
+        uint32_t offset = 0;
+        while (offset < 2048) {
+            auto data = &m_buffer[offset];
+            if (data[0] == 0) break;
+            DirEntry entry;
+            parseDirEntry(data, &entry);
+            if (m_walkVisitor(getEntryName(data), entry)) {
+                walkDone(true);
+                return;
+            }
+            offset += data[0];
+        }
+        m_walkLBA++;
+        walkSector();
+    });
+}
+
+void psyqo::ISO9660Parser::walkDone(bool success) {
+    m_walkVisitor = nullptr;
+    auto callback = eastl::move(m_callback);
+    m_callback = nullptr;
+    callback(success);
 }
 
 void psyqo::ISO9660Parser::parseDirEntry(const uint8_t* data, DirEntry* entry) {
