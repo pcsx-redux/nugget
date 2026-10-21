@@ -106,7 +106,8 @@ extern unsigned XM_Tick;
 extern unsigned XM_BPM;
 extern unsigned XM_GlobalVolume;
 
-// Number of hblanks between two calls to XM_Poll at the current tempo, as for modplayer's MOD_hblanks.
+// Number of hblanks to wait before the next call to XM_Poll. It changes from one call to the next, as the
+// fractional part of the tick length is carried over, so read it again after every call.
 extern uint32_t XM_hblanks;
 
 // Checks the song file. Returns the number of channels, or 0 if the file isn't a song this player can
