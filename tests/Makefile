@@ -96,6 +96,7 @@ all:
 	$(MAKE) -C bcc-narrow all
 	$(MAKE) -C dma-chopping all
 	$(MAKE) -C exp2-width all
+	$(MAKE) -C sio-reset all
 	$(MAKE) -C gpu-info8 all
 	$(MAKE) -C mdec-roundtrip all
 	$(MAKE) -C scanline-timing all
@@ -207,6 +208,7 @@ clean:
 	$(MAKE) -C bcc-narrow clean
 	$(MAKE) -C dma-chopping clean
 	$(MAKE) -C exp2-width clean
+	$(MAKE) -C sio-reset clean
 	$(MAKE) -C gpu-info8 clean
 	$(MAKE) -C mdec-roundtrip clean
 	$(MAKE) -C scanline-timing clean
