@@ -799,7 +799,7 @@ void XM_Poll(void) {
         ch->outVolume = ch->volume;
         // tremor runs on ticks 1+ only; tick 0 keeps its last state unless the cell sets a volume
         if (newRow && ch->cellEffect == 29 && ch->tremorMute && !ch->cellNote && !ch->cellInstrument &&
-            ch->cellVolume < 0x10) {
+            (ch->cellVolume < 0x10 || ch->cellVolume > 0x50)) {
             ch->outVolume = 0;
         }
         if (!newRow) tickEffects(ch, c);
