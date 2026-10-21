@@ -179,6 +179,8 @@ void psyqo::ISO9660Parser::walkSector() {
         while (offset < 2048) {
             auto data = &m_buffer[offset];
             if (data[0] == 0) break;
+            // A record has to hold its fixed part and its name inside the sector.
+            if ((data[0] < 34) || (offset + data[0] > 2048) || (33u + data[32] > data[0])) break;
             DirEntry entry;
             parseDirEntry(data, &entry);
             if (m_walkVisitor(getEntryName(data), entry)) {
