@@ -82,7 +82,7 @@ static const uint8_t* s_loopPointer;
 static uint32_t s_keyOn;
 static uint32_t s_masterVolume = 16384;
 static uint16_t s_exp2[768];  // 2^(i/768) in Q15
-static uint16_t s_panLaw[257];  // sqrt(i/256) in Q15
+static uint16_t s_panLaw[257];  // i/256 in Q15: linear panning, as the reference renders measure
 
 unsigned XM_Channels;
 unsigned XM_SongLength;
@@ -100,21 +100,6 @@ static const uint8_t s_sine[32] = {
     0xff, 0xfd, 0xfa, 0xf4, 0xeb, 0xe0, 0xd4, 0xc5, 0xb4, 0xa1, 0x8d, 0x78, 0x61, 0x4a, 0x31, 0x18,
 };
 
-static unsigned isqrt(uint32_t v) {
-    uint32_t r = 0, b = 1u << 30;
-    while (b > v) b >>= 2;
-    while (b) {
-        if (v >= r + b) {
-            v -= r + b;
-            r = (r >> 1) + b;
-        } else {
-            r >>= 1;
-        }
-        b >>= 2;
-    }
-    return r;
-}
-
 static void initTables(void) {
     if (s_exp2[0]) return;
     // 2^(1/768) in Q30, iterated in Q30 so the rounding error stays far below a Q15 step.
@@ -123,7 +108,7 @@ static void initTables(void) {
         s_exp2[i] = v >> 15;
         v = ((uint64_t)v * 1074711351u) >> 30;
     }
-    for (unsigned i = 0; i <= 256; i++) s_panLaw[i] = isqrt(i << 22);
+    for (unsigned i = 0; i <= 256; i++) s_panLaw[i] = i << 7;
 }
 
 // SPU helpers
