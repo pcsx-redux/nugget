@@ -57,7 +57,7 @@ struct XMChannel {
     uint16_t autoVibPos, autoVibRamp;
     uint8_t vibPos, vibSpeed, vibDepth, vibWave;
     uint8_t tremPos, tremSpeed, tremDepth, tremWave;
-    uint8_t tremorPos;
+    uint8_t tremorPos, tremorMute;
     // effect memories
     uint8_t portaUp, portaDown, portaSpeed, volSlide, finePortaUp, finePortaDown, fineVolUp, fineVolDown;
     uint8_t globalSlide, panSlide, retrig, tremor, offset, xfinePortaUp, xfinePortaDown;
@@ -345,7 +345,7 @@ static void resetInstrument(struct XMChannel* ch) {
     ch->fadeVolume = 32768;
     ch->volEnvTick = ch->panEnvTick = 0;
     ch->autoVibPos = ch->autoVibRamp = 0;
-    ch->tremorPos = 0;
+    ch->tremorPos = ch->tremorMute = 0;
 }
 
 static void readCell(struct XMChannel* ch) {
@@ -657,7 +657,7 @@ static void tickEffects(struct XMChannel* ch, unsigned voice) {
                     if (y && (XM_Tick % y) == 0) triggerNote(ch, voice, 0);
                     break;
                 case 12:
-                    if (XM_Tick == y) ch->volume = 0;
+                    if (XM_Tick == y) ch->volume = ch->outVolume = 0;
                     break;
             }
             break;
@@ -689,7 +689,8 @@ static void tickEffects(struct XMChannel* ch, unsigned voice) {
             break;
         case 29: {
             unsigned on = (ch->tremor >> 4) + 1, off = (ch->tremor & 15) + 1;
-            if ((ch->tremorPos % (on + off)) >= on) ch->outVolume = 0;
+            ch->tremorMute = (ch->tremorPos % (on + off)) >= on;
+            if (ch->tremorMute) ch->outVolume = 0;
             ch->tremorPos++;
             break;
         }
@@ -796,6 +797,11 @@ void XM_Poll(void) {
         }
         ch->outPeriod = ch->period;
         ch->outVolume = ch->volume;
+        // tremor runs on ticks 1+ only; tick 0 keeps its last state unless the cell sets a volume
+        if (newRow && ch->cellEffect == 29 && ch->tremorMute && !ch->cellNote && !ch->cellInstrument &&
+            ch->cellVolume < 0x10) {
+            ch->outVolume = 0;
+        }
         if (!newRow) tickEffects(ch, c);
         updateVoice(ch, c);
     }
