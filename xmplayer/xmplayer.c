@@ -183,6 +183,14 @@ static void SPUUpload(uint32_t spuAddr, const uint8_t* data, uint32_t size) {
     SPU_CTRL &= ~0x0030;
 }
 
+static uint32_t s_hblankStep, s_hblankFraction;
+
+static void advanceHblanks(void) {
+    s_hblankFraction += s_hblankStep;
+    XM_hblanks = s_hblankFraction >> 16;
+    s_hblankFraction &= 0xffff;
+}
+
 static void setBPM(unsigned bpm) {
     XM_BPM = bpm;
     uint32_t status = GPU_STATUS;
@@ -198,7 +206,11 @@ static void setBPM(unsigned bpm) {
     } else {
         base = 39336;
     }
-    XM_hblanks = base / bpm;
+    // Q16, so the fraction is carried from tick to tick instead of truncated: a whole number of
+    // hblanks per tick runs up to 0.3% fast.
+    s_hblankStep = (base << 16) / bpm;
+    s_hblankFraction = 0;
+    advanceHblanks();
 }
 
 // Pitch math. Periods are FT2's: linear periods are 64 per semitone, 7680 - note * 64 - finetune / 2;
@@ -781,6 +793,7 @@ unsigned XM_Load(const void* song, const uint8_t* samples) {
 
 void XM_Poll(void) {
     s_keyOn = 0;
+    advanceHblanks();
     const int newRow = XM_Tick == 0 && !s_inDelay;
     if (newRow && !s_rowPointer) return;
     for (unsigned c = 0; c < XM_Channels; c++) {
