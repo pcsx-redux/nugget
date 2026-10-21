@@ -456,7 +456,7 @@ static void startRow(struct XMChannel* ch, unsigned voice) {
             volumeSlide(ch, (v & 15) << 4);
             break;
         case 10:
-            ch->vibSpeed = (v & 15) << 2;
+            ch->vibSpeed = v & 15;
             break;
         case 11:
             if (v & 15) ch->vibDepth = v & 15;
@@ -483,7 +483,7 @@ static void rowEffects(struct XMChannel* ch, unsigned voice) {
             if (p) ch->portaSpeed = p;
             break;
         case 4:
-            if (x) ch->vibSpeed = x << 2;
+            if (x) ch->vibSpeed = x;
             if (y) ch->vibDepth = y;
             break;
         case 5:
@@ -492,7 +492,7 @@ static void rowEffects(struct XMChannel* ch, unsigned voice) {
             if (p) ch->volSlide = p;
             break;
         case 7:
-            if (x) ch->tremSpeed = x << 2;
+            if (x) ch->tremSpeed = x;
             if (y) ch->tremDepth = y;
             break;
         case 8:
@@ -625,12 +625,13 @@ static void tickEffects(struct XMChannel* ch, unsigned voice) {
     switch (ch->cellEffect) {
         case 0:
             if (p == 0) break;
+            // FT2 plays the low nibble on the tick after the base note, then the high nibble.
             switch (XM_Tick % 3) {
                 case 1:
-                    ch->outPeriod = arpeggioPeriod(ch, x);
+                    ch->outPeriod = arpeggioPeriod(ch, y);
                     break;
                 case 2:
-                    ch->outPeriod = arpeggioPeriod(ch, y);
+                    ch->outPeriod = arpeggioPeriod(ch, x);
                     break;
             }
             break;
@@ -734,7 +735,7 @@ static void updateVoice(struct XMChannel* ch, unsigned voice) {
             }
             uint8_t pos = ch->autoVibPos >> 2;
             int w = waveform(ins->vibType == 1 ? 2 : ins->vibType == 2 ? 1 : 0, pos);
-            period += (w * ins->vibDepth * (int)ramp) >> 14;
+            period -= (w * ins->vibDepth * (int)ramp) >> 16;
             ch->autoVibPos += ins->vibRate;
         }
     }
