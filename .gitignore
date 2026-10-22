@@ -13,3 +13,7 @@ cmake-build-*/
 *.o
 *.a
 html/
+
+# xmake
+.xmake/
+build/
