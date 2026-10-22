@@ -257,6 +257,20 @@ function listed(root) {
     return problems;
 }
 
+// The manifest gate's problems to a results file. A refusal is neither a
+// regression nor a sick farm: nothing was submitted, and the fix is a line in
+// TESTS or SKIPS above.
+function refusal(problems) {
+    const names = (tag) => problems.filter((p) => p.startsWith(`${tag}: `)).map((p) => p.split(' ')[1]);
+    const unlisted = names('UNLISTED');
+    const missing = names('MISSING');
+    const parts = [];
+    if (unlisted.length) parts.push(`${unlisted.length} unlisted`);
+    if (missing.length) parts.push(`${missing.length} not built`);
+    const description = `MANIFEST REFUSED: ${parts.join(', ')}, see hwfarm.js TESTS/SKIPS`;
+    return { summary: { state: 'error', description }, refused: { unlisted, missing }, results: [] };
+}
+
 async function run(argv) {
     let out = 'hwfarm-results.json';
     const only = [];
@@ -266,7 +280,12 @@ async function run(argv) {
     }
     const problems = only.length ? [] : listed('tests');
     problems.forEach((p) => console.log(p));
-    if (problems.length) process.exit(2);
+    if (problems.length) {
+        // Exit 2 fails the job. The results file carries the refused names so
+        // the workflow can open an issue and the status can say what happened.
+        fs.writeFileSync(out, JSON.stringify(refusal(problems), null, 2));
+        process.exit(2);
+    }
 
     const tests = TESTS.map((t) => t.split(';')).filter(([name]) => !only.length || only.includes(name));
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hwfarm-'));
@@ -345,7 +364,7 @@ async function run(argv) {
     console.log(`\n${summary.state}: ${summary.description}`);
 }
 
-module.exports = { classify, summarize, TESTS, SKIPS, REVISION };
+module.exports = { classify, summarize, listed, refusal, TESTS, SKIPS, REVISION };
 
 if (require.main === module) {
     const [cmd, ...rest] = process.argv.slice(2);
