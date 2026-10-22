@@ -40,6 +40,7 @@ TESTS=(
     "gpu-vram-move;gpu-vram-move/gpu-vram-move;interpreter;$CESTER;"
     "gpu-async-stress;gpu-async-stress/gpu-async-stress;interpreter;$CESTER;"
     "sio-reset;sio-reset/sio-reset;interpreter dynarec;^SIORST-PASS;"
+    "alloc-tracker;alloc-tracker/alloc-tracker;interpreter;^alloc-tracker: all [0-9]+ checks passed;-debugger"
     "gte;gte/gte;interpreter dynarec;$CESTER;"
     "gte-latency;gte-latency/gte-latency;interpreter;$CESTER;"
     "gte-latency-color;gte-latency-color/gte-latency-color;interpreter;$CESTER;"
@@ -125,7 +126,6 @@ SKIPS=(
     "msan-trip/msan-trip|expects exit 1, run by the pcsx-redux gtests"
     "memcard-slot2/memcard-slot2|the memcard test built for slot 2, for the farm console whose test card is there"
     "memcard-bios-slot2/memcard-bios-slot2|the memcard-bios test built for slot 2, for the farm console whose test card is there"
-    "alloc-tracker/alloc-tracker|needs the guest command port from pcsx-redux"
     "pcdrv-net/pcdrv-net|needs a TCP echo peer on 127.0.0.1:37373, run by the pcsx-redux gtests"
     "pcdrv-net-off/pcdrv-net-off|needs PCdrv networking from pcsx-redux#2327 in the dev AppImage"
 )
