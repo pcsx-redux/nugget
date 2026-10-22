@@ -813,7 +813,15 @@ void XM_Poll(void) {
             (ch->cellVolume < 0x10 || ch->cellVolume > 0x50)) {
             ch->outVolume = 0;
         }
-        if (!newRow) tickEffects(ch, c);
+        if (!newRow) {
+            // slides move the base period and volume for this tick already; effects that offset them
+            // (vibrato, tremolo, arpeggio, tremor, note cut) write the output values themselves
+            ch->outPeriod = INT32_MIN;
+            ch->outVolume = -1;
+            tickEffects(ch, c);
+            if (ch->outPeriod == INT32_MIN) ch->outPeriod = ch->period;
+            if (ch->outVolume < 0) ch->outVolume = ch->volume;
+        }
         updateVoice(ch, c);
     }
     if (s_keyOn) {
