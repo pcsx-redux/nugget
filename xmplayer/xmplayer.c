@@ -206,7 +206,16 @@ static int linear(void) { return s_header->flags & 1; }
 static int32_t notePeriod(int realNote, int finetune) {
     int32_t x = realNote * 64 + finetune / 2;  // 1/768 octave above C-0
     if (linear()) return 7680 - x;
-    // 1712 * 2^((3072 - x) / 768)
+    if (finetune == 0) {
+        // the ProTracker table, times 4, as the reference plays it: octave 3 here, halved (rounding down)
+        // or doubled per octave from it
+        static const uint16_t c_amiga[12] = {3424, 3232, 3048, 2880, 2712, 2560, 2416, 2280, 2152, 2032, 1920, 1812};
+        int octave = realNote >= 0 ? realNote / 12 : -((-realNote + 11) / 12);
+        uint32_t p = c_amiga[realNote - octave * 12];
+        if (octave >= 3) return (int32_t)(octave - 3 > 15 ? 1 : p >> (octave - 3));
+        return octave < -4 ? 0x7fffffff : (int32_t)(p << (3 - octave));
+    }
+    // finetuned: 1712 * 2^((3072 - x) / 768)
     int32_t e = 3072 - x;
     int32_t octave = e >= 0 ? e / 768 : -((-e + 767) / 768);
     uint32_t p = (1712u * s_exp2[e - octave * 768]) >> 15;
