@@ -52,6 +52,7 @@ TESTS=(
     "irq-branch-slot;irq-branch-slot/irq-branch-slot;interpreter dynarec;$CESTER;"
     "libc;libc/libc;interpreter dynarec;$CESTER;"
     "load-timings;load-timings/load-timings;interpreter;$CESTER;"
+    "loadexe;loadexe/loadexe;interpreter dynarec;$CESTER;"
     "memcpy;memcpy/memcpy;interpreter dynarec;$CESTER;"
     "memops-unroll;memops-unroll/memops-unroll;interpreter;$CESTER;"
     "memcard;memcard/memcard;interpreter;^memcard port 0: all [0-9]+ checks passed;;240"
