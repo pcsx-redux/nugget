@@ -31,7 +31,6 @@ SOFTWARE.
 
 #include "common/hardware/counters.h"
 #include "common/hardware/dma.h"
-#include "common/hardware/pcsxhw.h"
 #include "common/kernel/events.h"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/hardware/cpu.hh"
@@ -302,14 +301,18 @@ void psyqo::GPU::flip() {
         } else {
             Hardware::GPU::Ctrl = 0x05000000;
         }
-    } else if (!pcsx_present()) {
+    } else {
+        // NTSC 480i alternates a 263-line and a 262-line field. GPUSTAT.31 reads 1 from line 23
+        // of the 263-line field until the next vblank, and 0 everywhere else, on every GPU
+        // revision. GPUSTAT.13 never sets on the first-generation GPU, so it cannot be used.
+        // Parity 0 waits for the 263-line field, parity 1 for the 262-line one, which is the
+        // field that follows a frame where pumpCallbacks() saw GPUSTAT.31 set.
         while (1) {
-            uint32_t stat = Hardware::GPU::Ctrl;
-            int isDrawingEven = (stat & 0x80000000) == 0;
-            int isMaskingEven = (stat & 0x00002000) == 0;
-            if (parity && isDrawingEven && !isMaskingEven) break;
-            if (!parity && !isDrawingEven && isMaskingEven) break;
             pumpCallbacks();
+            eastl::atomic_signal_fence(eastl::memory_order_acquire);
+            uint32_t sinceLong = m_frameCount - m_lastLongFieldFrame;
+            bool inLong = (Hardware::GPU::Ctrl & 0x80000000) || (sinceLong == 2);
+            if (parity ? (sinceLong == 1) : inLong) break;
         }
     }
 
@@ -674,6 +677,13 @@ void psyqo::GPU::pumpCallbacks() {
     }
     Kernel::Internal::pumpCallbacks();
     m_lastHSyncCounter = hsyncCounter;
+    if (m_interlaced) {
+        // Frame count first: a GPUSTAT.31 read of 1 is taken before the vblank that ends the
+        // field, so before that vblank's IRQ moves m_frameCount.
+        uint32_t frame = m_frameCount;
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        if (Hardware::GPU::Ctrl & 0x80000000) m_lastLongFieldFrame = frame;
+    }
 }
 
 void psyqo::GPU::scheduleOTC(uintptr_t *start, uint32_t count) { m_OTCs[m_parity].emplace_back(start, count); }
