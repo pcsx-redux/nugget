@@ -575,6 +575,8 @@ class GPU {
     uint32_t m_currentTime = 0;
     uint32_t m_frameCount = 0;
     uint32_t m_previousFrameCount = 0;
+    // Value of m_frameCount during the last 480i field GPUSTAT.31 was seen set in.
+    uint32_t m_lastLongFieldFrame = 0x80000000;
     unsigned m_parity = 0;
     uintptr_t *m_chainHead = nullptr;
     uintptr_t *m_chainTail = nullptr;
