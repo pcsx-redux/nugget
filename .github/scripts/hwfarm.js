@@ -38,11 +38,13 @@ const TESTS = [
     'cpu;cpu/cpu',
     'dma;dma/dma',
     'gpu-command;gpu-command/gpu-command',
+    'gpu-async-stress;gpu-async-stress/gpu-async-stress',
     'gpu-dfe-480i;gpu-dfe-480i/gpu-dfe-480i',
     'gpu-dma-dreq;gpu-dma-dreq/gpu-dma-dreq',
     'gpu-fbrect;gpu-fbrect/gpu-fbrect',
     'gpu-irq;gpu-irq/gpu-irq',
     'gpu-polyline;gpu-polyline/gpu-polyline',
+    'gpustat-480i;gpustat-480i/gpustat-480i',
     'gpu-vram-move;gpu-vram-move/gpu-vram-move',
     'gte;gte/gte',
     'gte-latency;gte-latency/gte-latency',
@@ -54,6 +56,7 @@ const TESTS = [
     'gte-latency-mvmva;gte-latency-mvmva/gte-latency-mvmva',
     'gte-latency-perspective;gte-latency-perspective/gte-latency-perspective',
     'gte-latency-singles;gte-latency-singles/gte-latency-singles',
+    'gte-write-to-use;gte-write-to-use/gte-write-to-use',
     'icache;icache/icache',
     'irq-branch-slot;irq-branch-slot/irq-branch-slot',
     'libc;libc/libc',
@@ -65,8 +68,10 @@ const TESTS = [
     'psyqo-spudma;psyqo-spudma/spudma',
     'spu;spu/spu',
     'spu-endmute;spu-endmute/spu-endmute',
+    'spu-endredirect;spu-endredirect/spu-endredirect',
     'spu-endx;spu-endx/spu-endx',
     'spu-irqrefire;spu-irqrefire/spu-irqrefire',
+    'spu-konlatch;spu-konlatch/spu-konlatch',
     'spu-offvoice;spu-offvoice/spu-offvoice',
     'spu-volsweep;spu-volsweep/spu-volsweep',
     'sr-write;sr-write/sr-write',
@@ -107,7 +112,11 @@ const SKIPS = [
     'rumble/rumble|needs a DualShock and someone to feel it',
     'msan/msan|exercises the emulator memory sanitizer',
     'msan-trip/msan-trip|exercises the emulator memory sanitizer',
+    'alloc-tracker/alloc-tracker|exercises the emulator allocation tracker, needs -debugger',
+    'loadexe/loadexe|covers the emulator -loadexe path on the dynarec (pcsx-redux#2443), nothing to measure on silicon',
     'pcdrv/pcdrv|needs a pcdrv host directory',
+    'pcdrv-net/pcdrv-net|needs a pcdrv host and a TCP echo peer',
+    'pcdrv-net-off/pcdrv-net-off|needs a pcdrv host, checks the emulator with -pcdrvnet off',
     'psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
     'psyqo-dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
     'autoinc/autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
@@ -121,12 +130,13 @@ const SKIPS = [
     'spu-envx/spu-envx|probe: prints ENVX readings beside the expected values, always exits 0',
     'spu-revread/revread|graded on the digital audio tap, loops forever, no verdict',
     'spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict',
+    'sio-reset/sio-reset|verdict is the printed SIORST-PASS line only, exits 0 either way',
 ];
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
     SKIPS.push(`2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
 }
-for (const d of ['texpage-upper', 'transfer-wrap-y']) {
+for (const d of ['gate-flip-queued', 'texpage-upper', 'transfer-wrap-y']) {
     SKIPS.push(`2mb-vram/${d}/${d}|needs 2MB-VRAM hardware, the pinned consoles have 1MB`);
 }
 
@@ -247,6 +257,20 @@ function listed(root) {
     return problems;
 }
 
+// The manifest gate's problems to a results file. A refusal is neither a
+// regression nor a sick farm: nothing was submitted, and the fix is a line in
+// TESTS or SKIPS above.
+function refusal(problems) {
+    const names = (tag) => problems.filter((p) => p.startsWith(`${tag}: `)).map((p) => p.split(' ')[1]);
+    const unlisted = names('UNLISTED');
+    const missing = names('MISSING');
+    const parts = [];
+    if (unlisted.length) parts.push(`${unlisted.length} unlisted`);
+    if (missing.length) parts.push(`${missing.length} not built`);
+    const description = `MANIFEST REFUSED: ${parts.join(', ')}, see hwfarm.js TESTS/SKIPS`;
+    return { summary: { state: 'error', description }, refused: { unlisted, missing }, results: [] };
+}
+
 async function run(argv) {
     let out = 'hwfarm-results.json';
     const only = [];
@@ -256,7 +280,12 @@ async function run(argv) {
     }
     const problems = only.length ? [] : listed('tests');
     problems.forEach((p) => console.log(p));
-    if (problems.length) process.exit(2);
+    if (problems.length) {
+        // Exit 2 fails the job. The results file carries the refused names so
+        // the workflow can open an issue and the status can say what happened.
+        fs.writeFileSync(out, JSON.stringify(refusal(problems), null, 2));
+        process.exit(2);
+    }
 
     const tests = TESTS.map((t) => t.split(';')).filter(([name]) => !only.length || only.includes(name));
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hwfarm-'));
@@ -335,7 +364,7 @@ async function run(argv) {
     console.log(`\n${summary.state}: ${summary.description}`);
 }
 
-module.exports = { classify, summarize, TESTS, SKIPS, REVISION };
+module.exports = { classify, summarize, listed, refusal, TESTS, SKIPS, REVISION };
 
 if (require.main === module) {
     const [cmd, ...rest] = process.argv.slice(2);

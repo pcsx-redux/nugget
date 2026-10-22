@@ -9,7 +9,11 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
-const { classify, summarize } = require('./hwfarm.js');
+const { execFileSync } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { classify, summarize, refusal } = require('./hwfarm.js');
 
 const done = { state: 'DONE', failure: null };
 const failed = (code, message = '') => ({ state: 'FAILED', failure: { code, message, retryable: true } });
@@ -119,4 +123,39 @@ test('summary: nothing submitted is error', () => {
 test('description fits a commit status', () => {
     const many = Array.from({ length: 47 }, (_, i) => r(`gpu-raster-phase${i}`, 'test'));
     assert.ok(summarize(many).description.length <= 140);
+});
+
+test('refusal: names the unlisted and the unbuilt tests', () => {
+    const r = refusal([
+        'UNLISTED: tests/loadexe/loadexe.ps-exe is neither run nor skipped',
+        'UNLISTED: tests/sio-reset/sio-reset.ps-exe is neither run nor skipped',
+        'MISSING: tests/basic/basic.ps-exe was not built',
+    ]);
+    assert.deepStrictEqual(r.refused, {
+        unlisted: ['tests/loadexe/loadexe.ps-exe', 'tests/sio-reset/sio-reset.ps-exe'],
+        missing: ['tests/basic/basic.ps-exe'],
+    });
+    assert.strictEqual(r.summary.state, 'error');
+    assert.ok(r.summary.description.startsWith('MANIFEST REFUSED: 2 unlisted, 1 not built'));
+    assert.ok(r.summary.description.length <= 140);
+});
+
+// The gate runs before anything is submitted, so this never reaches the farm:
+// every listed ps-exe is missing from the scratch tree as well.
+test('an unlisted ps-exe exits 2 and leaves the refusal in the results file', () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'hwfarm-test-'));
+    fs.mkdirSync(path.join(root, 'tests', 'stray'), { recursive: true });
+    fs.writeFileSync(path.join(root, 'tests', 'stray', 'stray.ps-exe'), '');
+    let status = 0;
+    try {
+        execFileSync(process.execPath, [path.join(__dirname, 'hwfarm.js'), 'run', '--out', 'out.json'],
+                     { cwd: root, stdio: 'pipe', env: { ...process.env, HWTEST_TOKEN: '' } });
+    } catch (e) {
+        status = e.status;
+    }
+    assert.strictEqual(status, 2);
+    const out = JSON.parse(fs.readFileSync(path.join(root, 'out.json')));
+    assert.deepStrictEqual(out.refused.unlisted, ['tests/stray/stray.ps-exe']);
+    assert.ok(out.summary.description.startsWith('MANIFEST REFUSED: 1 unlisted'));
+    fs.rmSync(root, { recursive: true, force: true });
 });
