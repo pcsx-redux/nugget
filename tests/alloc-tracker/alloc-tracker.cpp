@@ -54,6 +54,8 @@ what you get otherwise.
 #include "common/hardware/allocdesc.h"
 #include "common/hardware/pcsxcmd.h"
 #include "common/hardware/pcsxhw.h"
+#include "common/psxlibc/setjmp.h"
+#include "common/syscalls/syscalls.h"
 #include "psyqo/alloc.h"
 
 namespace {
@@ -124,6 +126,31 @@ union DescriptorStorage {
 
 DescriptorStorage g_storage;
 const char g_name[] = "psyqo";
+
+// A second arena around an allocator that can leave by longjmp instead of
+// returning, the way one that calls an out-of-memory handler can.
+union JumperStorage {
+    struct pcsx_AllocDescriptor descriptor;
+    uint8_t raw[sizeof(struct pcsx_AllocDescriptor) + sizeof(struct pcsx_AllocEntry)];
+};
+
+JumperStorage g_jumper;
+const char g_jumperName[] = "jumper";
+uint8_t g_jumperBlock[64];
+struct JmpBuf g_jmp;
+volatile bool g_jumpOut = false;
+
+__attribute__((noinline)) void* jumperAlloc(uint32_t size) {
+    if (g_jumpOut) syscall_longjmp(&g_jmp, 1);
+    return size ? g_jumperBlock : nullptr;
+}
+
+// Gives the abandoned call a frame below main's, as a real call chain would.
+__attribute__((noinline)) void* callJumper(uint32_t size) {
+    void* ret = jumperAlloc(size);
+    __asm__ volatile("" : : : "memory");
+    return ret;
+}
 
 }  // namespace
 
@@ -261,6 +288,32 @@ int main() {
     if (!expect("realloc(p,0) blocks", preBlocks - g_report.liveBlocks, 1)) return g_check;
     psyqo_free(moved);
 
+    // 7. A tracked call that never returns. The jumper leaves through longjmp,
+    // so its return capture never fires. The next call must still be recorded
+    // rather than taken for the allocator calling itself.
+    pcsx_allocDescriptorInit(&g_jumper.descriptor, 1);
+    g_jumper.descriptor.nameAddr = (uint32_t)g_jumperName;
+    g_jumper.descriptor.heapStart = (uint32_t)g_jumperBlock;
+    g_jumper.descriptor.heapEnd = (uint32_t)g_jumperBlock + sizeof(g_jumperBlock);
+    g_jumper.descriptor.entries[0].address = (uint32_t)&jumperAlloc;
+    g_jumper.descriptor.entries[0].kind = PCSX_ALLOC_KIND_ALLOC;
+    g_jumper.descriptor.entries[0].argSize = 0;
+    g_jumper.descriptor.entries[0].argPtr = PCSX_ALLOCARG_NONE;
+    g_jumper.descriptor.entries[0].argCount = PCSX_ALLOCARG_NONE;
+    pcsx_command(&g_jumper.descriptor);
+    if (!expect("jumper register status", g_jumper.descriptor.header.results.status, PCSX_CMDSTATUS_OK)) {
+        return g_check;
+    }
+    g_jumpOut = true;
+    if (syscall_setjmp(&g_jmp) == 0) callJumper(32);
+    g_jumpOut = false;
+    jumperAlloc(16);
+    if (!fetch(1)) return 89;
+    if (!expect("arena count with jumper", g_report.arenaCount, 2)) return g_check;
+    if (!expect("allocs after longjmp", g_report.allocCount, 1)) return g_check;
+    if (!expect("bytes after longjmp", g_report.liveBytes, 16)) return g_check;
+    if (!expect("no capture left behind", g_report.pendingCaptures, 0)) return g_check;
+
     // Everything past this point deliberately corrupts the heap, so nothing
     // that needs a working allocator may follow it. PSYQo does not abort on a
     // bad free the way psy-q does; it corrupts its free list, and the next
@@ -275,7 +328,7 @@ int main() {
     void* doomed = psyqo_malloc(48);
     psyqo_free(doomed);
 
-    // 7. Deliberate fault: free a pointer inside a live block rather than its
+    // 8. Deliberate fault: free a pointer inside a live block rather than its
     // base. This is the finding that is only possible because sizes come from
     // the calls, and it must not be confused with an unknown pointer.
     psyqo_free((void*)((uint32_t)c + 8));
@@ -285,7 +338,7 @@ int main() {
         return g_check;
     }
 
-    // 8. Deliberate fault: free something already freed. Distinct finding.
+    // 9. Deliberate fault: free something already freed. Distinct finding.
     psyqo_free(doomed);
     if (!fetch(0)) return 95;
     if (!expect("double free found", g_report.findingCounts[PCSX_ALLOCFINDING_DOUBLE_OR_UNKNOWN_FREE], 1)) {
@@ -293,11 +346,11 @@ int main() {
     }
     if (!expect("interior still 1", g_report.findingCounts[PCSX_ALLOCFINDING_INTERIOR_FREE], 1)) return g_check;
 
-    // 9. A healthy allocator must produce no overlap findings across all of
+    // 10. A healthy allocator must produce no overlap findings across all of
     // the above. This one is about the allocator, not about the program.
     if (!expect("no overlaps", g_report.findingCounts[PCSX_ALLOCFINDING_OVERLAP], 0)) return g_check;
 
-    // 10. Peak must have covered the largest simultaneous live set.
+    // 11. Peak must have covered the largest simultaneous live set.
     if (g_report.peakBytes < 400) {
         expect("peak at least 400", g_report.peakBytes, 400);
         return g_check;
