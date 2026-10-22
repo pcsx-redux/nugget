@@ -220,14 +220,15 @@ static uint16_t periodToPitch(int32_t period, unsigned rateShift) {
         // 8363 * 2^((4608 - period) / 768) Hz, times 4096 / 44100
         int32_t x = 4608 - period;
         int32_t octave = x >= 0 ? x / 768 : -((-x + 767) / 768);
-        pitch = (49708u * s_exp2[x - octave * 768]) >> 21;  // 776.68 * 2^(frac / 768)
+        uint32_t scaled = 49708u * s_exp2[x - octave * 768];  // 776.68 * 2^(frac / 768), Q21
         octave -= rateShift;
         if (octave > 6) return 0x3fff;
-        if (octave < -15) return 0;
-        pitch = octave >= 0 ? pitch << octave : pitch >> -octave;
+        int shift = 21 - octave;  // rounded: truncating 776.7 to 776 plays C-4 0.1% flat
+        if (shift > 31) return 0;
+        pitch = ((scaled >> (shift - 1)) + 1) >> 1;
     } else {
         // 8363 * 1712 / period Hz, times 4096 / 44100
-        pitch = (1329803u / (uint32_t)period) >> rateShift;
+        pitch = ((1329803u >> rateShift) + (uint32_t)period / 2) / (uint32_t)period;
     }
     return pitch > 0x3fff ? 0x3fff : pitch;
 }
