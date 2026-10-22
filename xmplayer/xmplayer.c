@@ -228,6 +228,7 @@ static uint16_t periodToPitch(int32_t period, unsigned rateShift) {
         pitch = ((scaled >> (shift - 1)) + 1) >> 1;
     } else {
         // 8363 * 1712 / period Hz, times 4096 / 44100
+        if (rateShift > 20) return 0;  // 1329803 >> 21 is already 0
         pitch = ((1329803u >> rateShift) + (uint32_t)period / 2) / (uint32_t)period;
     }
     return pitch > 0x3fff ? 0x3fff : pitch;
