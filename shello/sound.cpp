@@ -39,6 +39,8 @@ namespace shello {
 
 void Sound::init(psyqo::GPU &gpu) {
     MOD_Load(&_binary_blip_hit_start);
+    // blip.hit's samples are stored at 2/3 of the rate the song was written for.
+    MOD_SampleRateScale = 2731;
     // Poll the module on its own cadence. MOD_hblanks is the number of HBlanks
     // between ticks; the module may change it, so we re-read it every poll.
     m_timer = gpu.armPeriodicTimer(MOD_hblanks * psyqo::GPU::US_PER_HBLANK, [this, &gpu](uint32_t) {

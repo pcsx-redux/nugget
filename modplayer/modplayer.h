@@ -116,6 +116,12 @@ extern int MOD_Stereo;
 // tempo change.
 extern uint32_t MOD_hblanks;
 
+// Scales every voice's sample rate, in 4.12 fixed point. Defaults to
+// 4096 (1.0). Set it when the module's samples were resampled from the
+// rate the module was authored for, e.g. 2731 for samples stored at 2/3
+// of their original rate.
+extern uint32_t MOD_SampleRateScale;
+
 // It is possible to reclaim memory from the initial call
 // to MOD_Load, in case the module was loaded from an
 // external source. The number of bytes needed for the
