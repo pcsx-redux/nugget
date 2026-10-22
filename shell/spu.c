@@ -44,6 +44,8 @@ void initSPU() {
     s_oldMode = COUNTERS[1].mode;
     COUNTERS[1].mode = 0x0100;
     MOD_Load(&_binary_blip_hit_start);
+    // blip.hit's samples are stored at 2/3 of the rate the song was written for.
+    MOD_SampleRateScale = 2731;
     printf("(TS) SPU: Loaded %02d Channels, %02d Orders\n", MOD_Channels, MOD_SongLength);
     s_nextCounter = COUNTERS[1].value + MOD_hblanks;
 }

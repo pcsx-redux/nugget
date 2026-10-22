@@ -241,6 +241,7 @@ unsigned MOD_LoopStart = 0;
 unsigned MOD_LoopCount = 0;
 int MOD_Stereo = 0;
 uint32_t MOD_hblanks;
+uint32_t MOD_SampleRateScale = 4096;
 
 // This function is now more of a helper to calculate the number of hsync
 // values to wait until the next call to MOD_Poll. If the user wants to use
@@ -436,7 +437,7 @@ const uint16_t MOD_PeriodTable[36 * 16] = {
 };
 
 #define SETVOICESAMPLERATE(channel, newPeriod) \
-    SPUSetVoiceSampleRate(channel, ((7093789 / (newPeriod * 2)) << 12) / 44100)
+    SPUSetVoiceSampleRate(channel, ((((7093789 / (newPeriod * 2)) << 12) / 44100) * MOD_SampleRateScale) >> 12)
 #define SETVOICEVOLUME(channel, volume)             \
     volume <<= 8;                                   \
     if (MOD_Stereo) {                               \
