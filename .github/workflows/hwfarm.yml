@@ -16,7 +16,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
   statuses: write
 
 # A newer run supersedes an older one. Tickets already on the farm finish
@@ -72,6 +71,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: read
+      issues: write
+      statuses: write
 
     steps:
       - uses: actions/checkout@v4
@@ -119,7 +122,7 @@ jobs:
           REPO: ${{ github.repository }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          title='hwfarm nightly: manifest refused unlisted tests'
+          title='hwfarm nightly: manifest refused the run'
           {
             echo "The hardware farm run on ${GITHUB_SHA::12} submitted nothing: the manifest gate in .github/scripts/hwfarm.js refused it. $RUN_URL"
             if [ -f hwfarm-results.json ]; then
