@@ -34,6 +34,9 @@ SOFTWARE.
              left button down.
      nohost: every field the same, but hostInput 0: no tap, no mouse, no host
              buttons, which is how input behaves without the block.
+     req1:   as host, but a neGcon in slot A and slots B to D empty, the
+             setup a real tap was measured with; only the replay of that
+             measurement runs.
    The tap follows psx-spx, "Controller and Memory Card Multitap Adaptor". */
 
 #ifndef PCSX_TESTS
@@ -57,6 +60,7 @@ SOFTWARE.
 CESTER_BODY(
 static int s_interruptsWereEnabled;
 static int s_host;
+static int s_req1;
 
 /* What the pads answered, byte by byte, and whether each byte was
    acknowledged, which is how a device asks for the next one. */
@@ -149,7 +153,9 @@ CESTER_BEFORE_ALL(multitap_tests,
     IMASK = 0;
     IREG = 0;
     s_host = arm[0] == 0x5041544d && arm[1] == 1;
-    ramsyscall_printf("multitap arm: %08x %08x -> %s\n", arm[0], arm[1], s_host ? "host" : "nohost");
+    s_req1 = arm[0] == 0x5041544d && arm[1] == 2;
+    ramsyscall_printf("multitap arm: %08x %08x -> %s\n", arm[0], arm[1],
+                      s_req1 ? "req1" : s_host ? "host" : "nohost");
 )
 
 CESTER_AFTER_ALL(multitap_tests,
@@ -163,6 +169,7 @@ CESTER_TEST(multitapArmIsSet, multitap_tests,
 
 /* "01 42 00 00 .. ;normal read": slot A answers as a pad without a tap would. */
 CESTER_TEST(multitapSlotAPlainRead, multitap_tests,
+    if (s_req1) return;
     padRead(0, 0x01, 0x00, 5);
     dumpReply("01 42 00", 5);
     cester_assert_uint_eq(s_reply[1], 0x41);
@@ -182,6 +189,7 @@ CESTER_TEST(multitapLongRead, multitap_tests,
         { 0x41, 0x5a, 0xff, 0x7f, 0xff, 0xff, 0xff, 0xff },
     };
     int i;
+    if (s_req1) return;
 
     padRead(0, 0x01, 0x01, 5);
     dumpReply("01 42 01", 5);
@@ -215,9 +223,11 @@ CESTER_TEST(multitapLongRead, multitap_tests,
 )
 
 /* psx-spx says a request made during a long read gets a short garbage
-   reply next; like mednafen and DuckStation, this tap gives another long
-   read, which psyqo's AdvancedPad depends on. */
+   reply next; a real tap only does that when the host did not send 42h at
+   the start of slot A's block (see multitapReq1Replay). With 42h there, as
+   psyqo's AdvancedPad sends it, the next one is another long read. */
 CESTER_TEST(multitapRequestDuringLongRead, multitap_tests,
+    if (s_req1) return;
     padRead(0, 0x01, 0x01, 5);
     padReadLong(0x01);
     cester_assert_uint_eq(s_reply[1], s_host ? 0x80 : 0x41);
@@ -232,6 +242,7 @@ CESTER_TEST(multitapRequestDuringLongRead, multitap_tests,
 
 /* "0n 42 00 00 .. ;method 2: receive data from pad number "n" (1..4)". */
 CESTER_TEST(multitapSlotAddresses, multitap_tests,
+    if (s_req1) return;
     padRead(0, 0x02, 0x00, 5);
     dumpReply("02 42 00", 5);
     if (s_host) {
@@ -258,6 +269,7 @@ CESTER_TEST(multitapSlotAddresses, multitap_tests,
 
 /* Port 2 has no tap, so its addresses 02h-04h stay silent. */
 CESTER_TEST(multitapAbsentOnPort2, multitap_tests,
+    if (s_req1) return;
     padRead(1, 0x02, 0x00, 5);
     dumpReply("port 2: 02 42 00", 5);
     cester_assert_uint_eq(s_ack[0], 0);
@@ -269,6 +281,7 @@ CESTER_TEST(mouseFromHost, multitap_tests,
     static const uint8_t dx[4] = { 0x7f, 0x7f, 0x2e, 0x00 };
     static const uint8_t dy[4] = { 0xfb, 0x00, 0x00, 0x00 };
     int i;
+    if (s_req1) return;
     for (i = 0; i < 4; i++) {
         padRead(1, 0x01, 0x00, 7);
         dumpReply("port 2: 01 42 00", 7);
@@ -283,5 +296,64 @@ CESTER_TEST(mouseFromHost, multitap_tests,
         cester_assert_uint_eq(s_reply[4], 0xf4);  /* left button down */
         cester_assert_uint_eq(s_reply[5], dx[i]);
         cester_assert_uint_eq(s_reply[6], dy[i]);
+    }
+)
+
+/* Replays a measurement of a real SCPH-1070 with a neGcon (id 23h) in slot A
+   and slots B to D empty, on port 1: 36-byte polls of 01 42 REQ and zeroes,
+   the last eight also with 42h at the start of each slot's block. Both runs
+   gave, poll by poll (L long, S short, G garbage):
+     2 x REQ=0           L S
+     8 x REQ=1           S L G G G G G G
+     1 x REQ=0           G
+     8 x REQ=1           S L G G G G G G
+     1 x REQ=0           G
+     8 x REQ=1, 42h      S L L L L L L L
+   A long read after a long read that did not start slot A's block with 42h
+   is the psx-spx "Garbage response": "the multitap returns ONLY four bytes,
+   like so: Hiz,80h,5Ah,LSB ... and aborts transfer after that four bytes".
+   The access before poll 0 was not seen; a short one with REQ=1 stands in. */
+CESTER_TEST(multitapReq1Replay, multitap_tests,
+    static const char expected[] = "LSSLGGGGGGGSLGGGGGGGSLLLLLLL";
+    uint8_t out[36];
+    int poll, i;
+    if (!s_req1) return;
+    padRead(0, 0x01, 0x01, 9);
+    for (poll = 0; poll < 28; poll++) {
+        const uint8_t req = (poll < 2 || poll == 10 || poll == 19) ? 0x00 : 0x01;
+        for (i = 0; i < 36; i++) out[i] = 0;
+        out[0] = 0x01;
+        out[1] = 0x42;
+        out[2] = req;
+        if (poll >= 20) {
+            for (i = 0; i < 4; i++) out[3 + i * 8] = 0x42;
+        }
+        padFrame(0, out, 36);
+        ramsyscall_printf("req1 poll %d, expected %c, ", poll, expected[poll]);
+        dumpReply("got", 36);
+        switch (expected[poll]) {
+            case 'S':
+                cester_assert_uint_eq(s_reply[1], 0x23);
+                cester_assert_uint_eq(s_reply[2], 0x5a);
+                cester_assert_uint_eq(s_ack[7], 1);
+                cester_assert_uint_eq(s_ack[8], 0);
+                break;
+            case 'L':
+                cester_assert_uint_eq(s_reply[1], 0x80);
+                cester_assert_uint_eq(s_reply[2], 0x5a);
+                cester_assert_uint_eq(s_reply[3], 0x23);
+                cester_assert_uint_eq(s_reply[4], 0x5a);
+                for (i = 11; i < 35; i++) cester_assert_uint_eq(s_reply[i], 0xff);
+                for (i = 0; i < 34; i++) cester_assert_uint_eq(s_ack[i], 1);
+                cester_assert_uint_eq(s_ack[34], 0);
+                break;
+            case 'G':
+                cester_assert_uint_eq(s_reply[1], 0x80);
+                cester_assert_uint_eq(s_reply[2], 0x5a);
+                cester_assert_uint_eq(s_reply[3], 0x23);
+                for (i = 0; i < 3; i++) cester_assert_uint_eq(s_ack[i], 1);
+                cester_assert_uint_eq(s_ack[3], 0);
+                break;
+        }
     }
 )

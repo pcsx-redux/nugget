@@ -1,7 +1,7 @@
 -- Writes the host input fields of this process's shared display block (needs -shmdisplay) for the
--- multitap test, and leaves the arm in the scratchpad for the guest: 'MTAP', then 1 for host, 0 for
--- nohost. Word offsets are the byte offsets from the static_asserts in pcsx-redux's
--- src/core/shmdisplay.h, divided by 4. Called by setup-host.lua and setup-nohost.lua.
+-- multitap test, and leaves the arm in the scratchpad for the guest: 'MTAP', then 0 for nohost, 1 for
+-- host, 2 for req1. Word offsets are the byte offsets from the static_asserts in pcsx-redux's
+-- src/core/shmdisplay.h, divided by 4. Called by the setup-*.lua scripts beside this file.
 local ffi = require("ffi")
 ffi.cdef [[
 int getpid(void);
@@ -9,7 +9,8 @@ int shm_open(const char* name, int oflag, int mode);
 void* mmap(void* addr, size_t length, int prot, int flags, int fd, long offset);
 ]]
 
-return function(host)
+return function(arm)
+    local host = arm ~= 0
     local fd = ffi.C.shm_open("pcsx-redux-display-" .. ffi.C.getpid(), 2, 0) -- O_RDWR
     assert(fd >= 0, "no shared display block, is -shmdisplay missing?")
     local u32 = ffi.cast("volatile uint32_t*", ffi.C.mmap(nil, 4096, 3, 1, fd, 0)) -- RW, MAP_SHARED
@@ -23,6 +24,12 @@ return function(host)
     u32[SLOTPADS + 1] = 0xefff
     u32[SLOTPADS + 2] = 0xffffffff
     u32[SLOTPADS + 3] = 0x7fff
+    if arm == 2 then
+        -- req1: the setup the real tap was measured with, a neGcon in slot A and B to D empty.
+        u32[DEVICE + 0] = 1 + 3
+        u32[SLOTPADS + 1] = 0xffffffff
+        u32[SLOTPADS + 3] = 0xffffffff
+    end
     -- Port 2: a Mouse, 300 right and 5 up pending, left button down.
     u32[HOSTPADS + 1] = 0xffff
     u32[DEVICE + 1] = 1 + 2
@@ -31,10 +38,10 @@ return function(host)
     u32[BUTTONS + 1] = 1
     u32[HOSTINPUT] = host and 1 or 0
 
-    -- Pad 2 stays disconnected in the host arm: a device the host picks plugs it in.
+    -- Pad 2 stays disconnected in the host arms: a device the host picks plugs it in.
     PCSX.settings.pads[2].Connected = not host
 
     local scratch = ffi.cast("uint32_t*", PCSX.getScratchPtr())
     scratch[0] = 0x5041544d
-    scratch[1] = host and 1 or 0
+    scratch[1] = arm
 end
