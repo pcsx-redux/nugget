@@ -486,8 +486,9 @@ void SPD_Poll() {
         switch (type) {
             case PKT_REG_WRITE: {
                 uint32_t waitTicks = applyRegWrites(payload, len);
+                // This poll is the first of the wait's ticks.
                 if (waitTicks > 0) {
-                    s_waitRemaining = waitTicks;
+                    s_waitRemaining = waitTicks - 1;
                     s_stream = payload + len;
                     return;
                 }
@@ -495,11 +496,12 @@ void SPD_Poll() {
             }
 
             case PKT_WAIT:
-                if (len >= 1) {
-                    s_waitRemaining = payload[0];
+                if (len >= 1 && payload[0] > 0) {
+                    s_waitRemaining = payload[0] - 1;
+                    s_stream = payload + len;
+                    return;
                 }
-                s_stream = payload + len;
-                return;
+                break;
 
             case PKT_END_PATTERN:
                 s_stream = payload + len;
