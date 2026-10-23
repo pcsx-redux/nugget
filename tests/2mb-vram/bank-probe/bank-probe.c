@@ -118,6 +118,15 @@ static BankDecode probePass(uint32_t gp1_09_value, int* lowerOk) {
 }
 
 int main(void) {
+#ifdef BANK_PROBE_ATCONS
+    // Dev boards with an ATCONS console (DTL-H2700): route stdout there,
+    // C0(1Bh) installStdIo(1). Same call as tests/load-timings.
+    {
+        register int n asm("t1") = 0x1b;
+        __asm__ volatile("" : "=r"(n) : "r"(n));
+        ((void (*)(int))0xc0)(1);
+    }
+#endif
     ramsyscall_printf("\n=== 573 bank-probe ===\n");
 
     ProbeStats stats;
