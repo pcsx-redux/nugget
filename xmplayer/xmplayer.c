@@ -203,23 +203,46 @@ static void setBPM(unsigned bpm) {
 
 static int linear(void) { return s_header->flags & 1; }
 
+// Amiga periods for octave 3 (notes 37-48), one row per finetune -8..7: the ProTracker table times 4,
+// as the reference renders it. Other octaves halve (rounding down) or double it, and an XM finetune
+// between two rows takes their mean.
+static const uint16_t c_amiga[16][12] = {
+    {3628, 3424, 3232, 3048, 2880, 2712, 2560, 2416, 2280, 2152, 2032, 1920},
+    {3600, 3400, 3208, 3028, 2860, 2700, 2544, 2404, 2268, 2140, 2020, 1908},
+    {3576, 3376, 3184, 3008, 2836, 2680, 2528, 2388, 2252, 2128, 2008, 1896},
+    {3548, 3352, 3164, 2984, 2816, 2660, 2512, 2368, 2236, 2112, 1992, 1880},
+    {3524, 3328, 3140, 2964, 2796, 2640, 2492, 2352, 2220, 2096, 1976, 1868},
+    {3500, 3304, 3116, 2944, 2776, 2620, 2476, 2336, 2204, 2080, 1964, 1852},
+    {3472, 3280, 3096, 2920, 2756, 2604, 2456, 2320, 2188, 2064, 1948, 1840},
+    {3448, 3256, 3072, 2900, 2736, 2584, 2440, 2300, 2172, 2052, 1936, 1828},
+    {3424, 3232, 3048, 2880, 2712, 2560, 2416, 2280, 2152, 2032, 1920, 1812},
+    {3400, 3208, 3028, 2860, 2700, 2544, 2404, 2268, 2140, 2020, 1908, 1800},
+    {3376, 3184, 3008, 2836, 2680, 2528, 2388, 2252, 2128, 2008, 1896, 1788},
+    {3352, 3164, 2984, 2816, 2660, 2512, 2368, 2236, 2112, 1992, 1880, 1772},
+    {3328, 3140, 2964, 2796, 2640, 2492, 2352, 2220, 2096, 1976, 1868, 1760},
+    {3304, 3116, 2944, 2776, 2620, 2476, 2336, 2204, 2080, 1964, 1852, 1748},
+    {3280, 3096, 2920, 2756, 2604, 2456, 2320, 2188, 2064, 1948, 1840, 1736},
+    {3256, 3072, 2900, 2736, 2584, 2440, 2300, 2172, 2052, 1936, 1828, 1724},
+};
+
 static int32_t notePeriod(int realNote, int finetune) {
-    int32_t x = realNote * 64 + finetune / 2;  // 1/768 octave above C-0
-    if (linear()) return 7680 - x;
-    if (finetune == 0) {
-        // the ProTracker table, times 4, as the reference plays it: octave 3 here, halved (rounding down)
-        // or doubled per octave from it
-        static const uint16_t c_amiga[12] = {3424, 3232, 3048, 2880, 2712, 2560, 2416, 2280, 2152, 2032, 1920, 1812};
-        int octave = realNote >= 0 ? realNote / 12 : -((-realNote + 11) / 12);
-        uint32_t p = c_amiga[realNote - octave * 12];
-        if (octave >= 3) return (int32_t)(octave - 3 > 15 ? 1 : p >> (octave - 3));
-        return octave < -4 ? 0x7fffffff : (int32_t)(p << (3 - octave));
+    if (linear()) return 7680 - realNote * 64 - finetune / 2;
+    int octave = realNote >= 0 ? realNote / 12 : -((-realNote + 11) / 12);
+    unsigned n = realNote - octave * 12;
+    unsigned k = (unsigned)(finetune + 128) >> 3;  // half-rows, 0..31
+    unsigned row = k >> 1;
+    uint32_t p = c_amiga[row][n] * 2;  // twice the period, so a mean of two rows stays exact
+    if (k & 1) {
+        if (row < 15) {
+            p = c_amiga[row][n] + c_amiga[row + 1][n];
+        } else if (n < 11) {
+            p = c_amiga[15][n] + c_amiga[8][n + 1];  // past +7 is the next note at finetune 0
+        } else {
+            p = c_amiga[15][11] * 2;  // B at the last half-row does not reach into the next octave
+        }
     }
-    // finetuned: 1712 * 2^((3072 - x) / 768)
-    int32_t e = 3072 - x;
-    int32_t octave = e >= 0 ? e / 768 : -((-e + 767) / 768);
-    uint32_t p = (1712u * s_exp2[e - octave * 768]) >> 15;
-    return octave >= 0 ? (int32_t)(p << octave) : (int32_t)(p >> -octave);
+    if (octave >= 3) return (int32_t)(octave - 3 > 14 ? 1 : p >> (octave - 2));
+    return octave < -4 ? 0x7fffffff : (int32_t)((p << (3 - octave)) >> 1);
 }
 
 static uint16_t periodToPitch(int32_t period, unsigned rateShift) {
