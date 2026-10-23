@@ -34,6 +34,9 @@ SOFTWARE.
 #define CESTER_MAYBE_TEST CESTER_TEST
 #endif
 
+// DMA6 cases the emulator does not pass yet; flip to CESTER_TEST once it does.
+#define CESTER_OTC_TEST CESTER_MAYBE_TEST
+
 #include "common/hardware/dma.h"
 
 #include "common/hardware/gpu.h"
@@ -834,4 +837,190 @@ CESTER_TEST(disabled_dma_odd_address, dma_tests,
     cester_assert_uint_eq(expectedAddr, madr);
     cester_assert_uint_eq(0x01000201, chcr);
     cester_assert_uint_eq(0x00840000, dicr);
+)
+
+CESTER_BODY(
+    struct OtcResult {
+        uint32_t written, before, timeout, chcr, madr, bcr, dicr, good, term, guardLo, guardHi;
+    };
+    static uint32_t s_otcBuf[10];
+    static void otcRun(uint32_t dpcrBefore, uint32_t chcrWrite, uint32_t dpcrAfter, struct OtcResult *r) {
+        for (unsigned i = 0; i < 10; i++) s_otcBuf[i] = 0xdeadbeef;
+        DPCR = dpcrBefore;
+        DICR = 0x00c00000;
+        IREG = 0;
+        DMA_CTRL[DMA_GPUOTC].CHCR = 0;
+        DMA_CTRL[DMA_GPUOTC].MADR = (uintptr_t)&s_otcBuf[8];
+        DMA_CTRL[DMA_GPUOTC].BCR = 8;
+        DMA_CTRL[DMA_GPUOTC].CHCR = chcrWrite;
+        r->written = chcrWrite;
+        r->before = DMA_CTRL[DMA_GPUOTC].CHCR;
+        if (dpcrAfter != dpcrBefore) DPCR = dpcrAfter;
+        unsigned count = 0;
+        r->timeout = 0;
+        while (DMA_CTRL[DMA_GPUOTC].CHCR & 0x01000000) {
+            if (count++ == 100000) {
+                r->timeout = 1;
+                break;
+            }
+        }
+        r->chcr = DMA_CTRL[DMA_GPUOTC].CHCR;
+        r->madr = DMA_CTRL[DMA_GPUOTC].MADR;
+        r->bcr = DMA_CTRL[DMA_GPUOTC].BCR;
+        r->dicr = DICR;
+        DMA_CTRL[DMA_GPUOTC].CHCR = 0;
+        DICR = 0x7f000000;
+        DICR = 0;
+        IREG = 0;
+        r->good = 0;
+        for (unsigned i = 2; i <= 8; i++) {
+            if (s_otcBuf[i] == (((uintptr_t)&s_otcBuf[i - 1]) & 0xffffff)) r->good++;
+        }
+        r->term = s_otcBuf[1];
+        r->guardLo = s_otcBuf[0];
+        r->guardHi = s_otcBuf[9];
+        ramsyscall_printf("OTC write=%08x before=%08x timeout=%u chcr=%08x madr=%08x bcr=%08x dicr=%08x good=%u term=%08x guards=%08x,%08x\n",
+                          r->written, r->before, r->timeout, r->chcr, r->madr, r->bcr, r->dicr, r->good, r->term,
+                          r->guardLo, r->guardHi);
+    }
+)
+
+CESTER_OTC_TEST(otc_chcr_readback, dma_tests,
+    DPCR = 0;
+    DMA_CTRL[DMA_GPUOTC].CHCR = 0xffffffff;
+    uint32_t ones = DMA_CTRL[DMA_GPUOTC].CHCR;
+    DMA_CTRL[DMA_GPUOTC].CHCR = 0xeeffffff;
+    uint32_t onesNoStart = DMA_CTRL[DMA_GPUOTC].CHCR;
+    DMA_CTRL[DMA_GPUOTC].CHCR = 0;
+    uint32_t zero = DMA_CTRL[DMA_GPUOTC].CHCR;
+    ramsyscall_printf("OTC readback ffffffff->%08x eeffffff->%08x 0->%08x\n", ones, onesNoStart, zero);
+    cester_assert_uint_eq(0x51000002, ones);
+    cester_assert_uint_eq(0x40000002, onesNoStart);
+    cester_assert_uint_eq(0x00000002, zero);
+)
+
+CESTER_OTC_TEST(otc_start_11000002, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x11000002, 0x08000000, &r);
+    cester_assert_uint_eq(0, r.timeout);
+    cester_assert_uint_eq(0x00000002, r.chcr);
+    const uintptr_t expectedAddr = ((uintptr_t)&s_otcBuf[8]) & 0xffffff;
+    cester_assert_uint_eq(expectedAddr, r.madr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0xc0c00000, r.dicr);
+    cester_assert_uint_eq(7, r.good);
+    cester_assert_uint_eq(0x00ffffff, r.term);
+    cester_assert_uint_eq(0xdeadbeef, r.guardLo);
+    cester_assert_uint_eq(0xdeadbeef, r.guardHi);
+)
+
+CESTER_OTC_TEST(otc_start_11000000, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x11000000, 0x08000000, &r);
+    cester_assert_uint_eq(0, r.timeout);
+    cester_assert_uint_eq(0x00000002, r.chcr);
+    const uintptr_t expectedAddr = ((uintptr_t)&s_otcBuf[8]) & 0xffffff;
+    cester_assert_uint_eq(expectedAddr, r.madr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0xc0c00000, r.dicr);
+    cester_assert_uint_eq(7, r.good);
+    cester_assert_uint_eq(0x00ffffff, r.term);
+    cester_assert_uint_eq(0xdeadbeef, r.guardLo);
+    cester_assert_uint_eq(0xdeadbeef, r.guardHi);
+)
+
+CESTER_OTC_TEST(otc_start_51000f07, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x51000f07, 0x08000000, &r);
+    cester_assert_uint_eq(0, r.timeout);
+    cester_assert_uint_eq(0x40000002, r.chcr);
+    const uintptr_t expectedAddr = ((uintptr_t)&s_otcBuf[8]) & 0xffffff;
+    cester_assert_uint_eq(expectedAddr, r.madr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0xc0c00000, r.dicr);
+    cester_assert_uint_eq(7, r.good);
+    cester_assert_uint_eq(0x00ffffff, r.term);
+    cester_assert_uint_eq(0xdeadbeef, r.guardLo);
+    cester_assert_uint_eq(0xdeadbeef, r.guardHi);
+)
+
+CESTER_OTC_TEST(otc_start_11000f05, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x11000f05, 0x08000000, &r);
+    cester_assert_uint_eq(0, r.timeout);
+    cester_assert_uint_eq(0x00000002, r.chcr);
+    const uintptr_t expectedAddr = ((uintptr_t)&s_otcBuf[8]) & 0xffffff;
+    cester_assert_uint_eq(expectedAddr, r.madr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0xc0c00000, r.dicr);
+    cester_assert_uint_eq(7, r.good);
+    cester_assert_uint_eq(0x00ffffff, r.term);
+    cester_assert_uint_eq(0xdeadbeef, r.guardLo);
+    cester_assert_uint_eq(0xdeadbeef, r.guardHi);
+)
+
+CESTER_OTC_TEST(otc_start_41000002, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x41000002, 0x08000000, &r);
+    cester_assert_uint_eq(1, r.timeout);
+    cester_assert_uint_eq(0x41000002, r.chcr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0x00c00000, r.dicr);
+    cester_assert_uint_eq(0, r.good);
+    cester_assert_uint_eq(0xdeadbeef, r.term);
+)
+
+CESTER_OTC_TEST(otc_start_01000002, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x01000002, 0x08000000, &r);
+    cester_assert_uint_eq(1, r.timeout);
+    cester_assert_uint_eq(0x01000002, r.chcr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0x00c00000, r.dicr);
+    cester_assert_uint_eq(0, r.good);
+    cester_assert_uint_eq(0xdeadbeef, r.term);
+)
+
+CESTER_OTC_TEST(otc_start_01000000, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x01000000, 0x08000000, &r);
+    cester_assert_uint_eq(1, r.timeout);
+    cester_assert_uint_eq(0x01000002, r.chcr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0x00c00000, r.dicr);
+    cester_assert_uint_eq(0, r.good);
+    cester_assert_uint_eq(0xdeadbeef, r.term);
+)
+
+CESTER_TEST(otc_start_10000002, dma_tests,
+    struct OtcResult r;
+    otcRun(0x08000000, 0x10000002, 0x08000000, &r);
+    cester_assert_uint_eq(0, r.timeout);
+    cester_assert_uint_eq(0x10000002, r.chcr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0x00c00000, r.dicr);
+    cester_assert_uint_eq(0, r.good);
+    cester_assert_uint_eq(0xdeadbeef, r.term);
+)
+
+CESTER_TEST(otc_start_disabled, dma_tests,
+    struct OtcResult r;
+    otcRun(0x00000000, 0x11000002, 0x00000000, &r);
+    cester_assert_uint_eq(1, r.timeout);
+    cester_assert_uint_eq(0x11000002, r.chcr);
+    cester_assert_uint_eq(8, r.bcr);
+    cester_assert_uint_eq(0x00c00000, r.dicr);
+    cester_assert_uint_eq(0, r.good);
+    cester_assert_uint_eq(0xdeadbeef, r.term);
+)
+
+// Enabling the channel in DPCR starts a transfer already latched in CHCR.
+CESTER_MAYBE_TEST(otc_start_disabled_then_enabled, dma_tests,
+    struct OtcResult r;
+    otcRun(0x00000000, 0x11000002, 0x08000000, &r);
+    cester_assert_uint_eq(0, r.timeout);
+    cester_assert_uint_eq(0x00000002, r.chcr);
+    cester_assert_uint_eq(0xc0c00000, r.dicr);
+    cester_assert_uint_eq(7, r.good);
+    cester_assert_uint_eq(0x00ffffff, r.term);
 )
