@@ -295,7 +295,7 @@ void psyqo::GPU::flip() {
             pumpCallbacks();
             eastl::atomic_signal_fence(eastl::memory_order_acquire);
             uint32_t sinceLong = m_frameCount - m_lastLongFieldFrame;
-            bool inLong = (Hardware::GPU::Ctrl & 0x80000000) || (sinceLong == 2);
+            bool inLong = (Hardware::GPU::Ctrl & uint32_t(0x80000000)) || (sinceLong == 2);
             if (parity ? (sinceLong == 1) : inLong) break;
         }
     }
@@ -669,7 +669,7 @@ void psyqo::GPU::pumpCallbacks() {
         // field, so before that vblank's IRQ moves m_frameCount.
         uint32_t frame = m_frameCount;
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
-        if (Hardware::GPU::Ctrl & 0x80000000) m_lastLongFieldFrame = frame;
+        if (Hardware::GPU::Ctrl & uint32_t(0x80000000)) m_lastLongFieldFrame = frame;
     }
 }
 
