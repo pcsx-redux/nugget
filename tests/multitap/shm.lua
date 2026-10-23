@@ -31,7 +31,8 @@ return function(host)
     u32[BUTTONS + 1] = 1
     u32[HOSTINPUT] = host and 1 or 0
 
-    PCSX.settings.pads[2].Connected = true
+    -- Pad 2 stays disconnected in the host arm: a device the host picks plugs it in.
+    PCSX.settings.pads[2].Connected = not host
 
     local scratch = ffi.cast("uint32_t*", PCSX.getScratchPtr())
     scratch[0] = 0x5041544d
