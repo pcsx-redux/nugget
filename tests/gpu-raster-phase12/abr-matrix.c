@@ -271,6 +271,8 @@ CESTER_TEST(abr0_setmask_b16_f16, gpu_raster_phase12, drawAbrTriSetMask(16, 16, 
 CESTER_TEST(abr1_setmask_b16_f16, gpu_raster_phase12, drawAbrTriSetMask(16, 16, 1); ASSERT_PIXEL_EQ(ABR1_SETMASK, 4, 4); )
 CESTER_TEST(abr2_setmask_b16_f16, gpu_raster_phase12, drawAbrTriSetMask(16, 16, 2); ASSERT_PIXEL_EQ(ABR2_SETMASK, 4, 4); )
 CESTER_TEST(abr3_setmask_b16_f16, gpu_raster_phase12, drawAbrTriSetMask(16, 16, 3); ASSERT_PIXEL_EQ(ABR3_SETMASK, 4, 4); )
+CESTER_TEST(abr1_setmask_b16_f0, gpu_raster_phase12, drawAbrTriSetMask(16, 0, 1); ASSERT_PIXEL_EQ(ABR1_SETMASK_F0, 4, 4); )
+CESTER_TEST(abr1_nomask_b16_f0, gpu_raster_phase12, drawAbrTri(16, 0, 1); ASSERT_PIXEL_EQ(ABR1_NOMASK_F0, 4, 4); )
 
 CESTER_TEST(abr0_checkmask_b16_f16, gpu_raster_phase12, drawAbrTriCheckMask(16, 16, 0); ASSERT_PIXEL_EQ(ABR0_CHECKMASK, 4, 4); )
 CESTER_TEST(abr1_checkmask_b16_f16, gpu_raster_phase12, drawAbrTriCheckMask(16, 16, 1); ASSERT_PIXEL_EQ(ABR1_CHECKMASK, 4, 4); )

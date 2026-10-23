@@ -163,6 +163,12 @@ SOFTWARE.
 #define ABR2_SETMASK   (VR(0)  | 0x8000u)
 #define ABR3_SETMASK   (VR(20) | 0x8000u)
 
+// (B16, F0, ABR=1): B+F = B, so the blended colour equals the
+// destination. Set-mask must still force bit-15 on the written pixel;
+// the no-mask control shows the same draw leaves bit-15 clear.
+#define ABR1_SETMASK_F0   (VR(16) | 0x8000u)
+#define ABR1_NOMASK_F0    VR(16)
+
 // ============================================================================
 // ABR_CHECKMASK: pre-fill has bit-15 set, so writes are skipped. The
 // pre-fill value (B_R = 16, with bit-15 set) survives untouched.
