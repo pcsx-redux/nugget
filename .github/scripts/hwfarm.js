@@ -74,6 +74,7 @@ const TESTS = [
     'spu-konlatch;spu-konlatch/spu-konlatch',
     'spu-offvoice;spu-offvoice/spu-offvoice',
     'spu-volsweep;spu-volsweep/spu-volsweep',
+    'sio-reset;sio-reset/sio-reset',
     'sr-write;sr-write/sr-write',
     'timers;timers/timers',
     // Each card test erases the card in one fixed slot, so it only runs on a
@@ -130,7 +131,6 @@ const SKIPS = [
     'spu-envx/spu-envx|probe: prints ENVX readings beside the expected values, always exits 0',
     'spu-revread/revread|graded on the digital audio tap, loops forever, no verdict',
     'spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict',
-    'sio-reset/sio-reset|verdict is the printed SIORST-PASS line only, exits 0 either way',
 ];
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {

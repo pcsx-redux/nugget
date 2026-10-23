@@ -66,5 +66,5 @@ int main(void) {
     R32(0xbf801070) = ~((1u << 7) | (1u << 8));
     __asm__ volatile("mtc0 %0, $12" ::"r"(sr));
     ramsyscall_printf(ok ? "SIORST-PASS\n" : "SIORST-FAIL\n");
-    return 0;
+    return ok ? 0 : 1;
 }
