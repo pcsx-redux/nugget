@@ -703,8 +703,9 @@ static void MOD_UpdateRow() {
 
         if (period != 0) {
             int periodIndex;
-            // original code erroneously does >= 0
-            for (periodIndex = 35; periodIndex--; periodIndex > 0) {
+            // Scan the whole finetune 0 row, down to C-1 at index 0. A period that
+            // isn't in it leaves periodIndex at -1.
+            for (periodIndex = 35; periodIndex >= 0; periodIndex--) {
                 if (MOD_PeriodTable[periodIndex] == period) break;
             }
             channelData->note = periodIndex + s_spuInstrumentData[channelData->sampleID].finetune * 36;
@@ -803,7 +804,9 @@ static void MOD_UpdateRow() {
                         channelData->fx[3] = fx;
                         break;
                     case 5:  // set finetune value
-                        s_spuInstrumentData[sampleID].finetune = effectNibble2;
+                        // Applies to the channel's current sample, which a sample number
+                        // on this row has already selected.
+                        s_spuInstrumentData[channelData->sampleID].finetune = effectNibble2;
                         break;
                     case 6:  // loop pattern
                         if (MOD_LoopCount-- == 0) {
