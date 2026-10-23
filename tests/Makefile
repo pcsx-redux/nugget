@@ -87,6 +87,7 @@ all:
 	$(MAKE) -C psyqo-reinit all
 	$(MAKE) -C psyqo-spudma all
 	$(MAKE) -C regwrites all
+	$(MAKE) -C multitap all
 	$(MAKE) -C rumble all
 	$(MAKE) -C spu all
 	$(MAKE) -C spu-wide-writes all
@@ -203,6 +204,7 @@ clean:
 	$(MAKE) -C psyqo-reinit clean
 	$(MAKE) -C psyqo-spudma clean
 	$(MAKE) -C regwrites clean
+	$(MAKE) -C multitap clean
 	$(MAKE) -C rumble clean
 	$(MAKE) -C spu clean
 	$(MAKE) -C spu-wide-writes clean
