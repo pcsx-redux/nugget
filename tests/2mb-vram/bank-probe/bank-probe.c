@@ -79,10 +79,9 @@ static const char* decodeName(BankDecode d) {
 // classifies the upper-bank decode behavior. Upper writes come AFTER
 // lower writes so that mirroring (upper aliasing to lower) is visible
 // as a stomped lower bank on readback.
-static BankDecode probePass(uint32_t gp1_09_value, int* lowerOk) {
-    probeReset();
-    gp1_09(gp1_09_value);
-
+// The 4-write/4-read body shared by every arm. The caller has already put
+// the GPU into the configuration under test.
+static BankDecode probeBody(const char* tag, uint32_t value, int* lowerOk) {
     writePixel(PROBE_X, 0, SENT_LOWER_0);
     writePixel(PROBE_X, 511, SENT_LOWER_511);
     writePixel(PROBE_X, 512, SENT_UPPER_512);
@@ -93,8 +92,8 @@ static BankDecode probePass(uint32_t gp1_09_value, int* lowerOk) {
     uint16_t r512 = readPixel(PROBE_X, 512);
     uint16_t r1023 = readPixel(PROBE_X, 1023);
 
-    PROBE_RESULT("bank-probe gate=%02x r0=%04x r511=%04x r512=%04x r1023=%04x",
-                 gp1_09_value, r0, r511, r512, r1023);
+    PROBE_RESULT("bank-probe %s=%02x r0=%04x r511=%04x r512=%04x r1023=%04x", tag, value, r0, r511,
+                 r512, r1023);
 
     int lowerCleanRoundTrip = (r0 == SENT_LOWER_0) && (r511 == SENT_LOWER_511);
     int upperCleanRoundTrip = (r512 == SENT_UPPER_512) && (r1023 == SENT_UPPER_1023);
@@ -117,6 +116,38 @@ static BankDecode probePass(uint32_t gp1_09_value, int* lowerOk) {
     return DECODE_BROKEN;
 }
 
+static BankDecode probePass(uint32_t gp1_09_value, int* lowerOk) {
+    probeReset();
+    gp1_09(gp1_09_value);
+    return probeBody("gate", gp1_09_value, lowerOk);
+}
+
+// GP1(20h) arm. psx-spx documents GP1(20h) as the VRAM size select of the
+// v1 (208-pin) GPU, which ignores GP1(09h): 504h = 2 MB, 501h = 1 MB. On a
+// v2 GPU the command is not expected to open anything. GP1(00h) does NOT
+// reset GP1(09h) (psx-spx, and measured on SCPH-5501: without the explicit
+// gate clear these arms inherited gate=1 and read open-bus), so clear the
+// gate explicitly before GP1(20h).
+static BankDecode probePass20(uint32_t gp1_20_value, int* lowerOk) {
+    probeReset();
+    gp1_09(0);
+    sendGPUStatus(0x20000000 | (gp1_20_value & 0xffffff));
+    return probeBody("gp1_20", gp1_20_value, lowerOk);
+}
+
+// GP1(10h) index 7 is the GPU version on v2 (00000002h). On v0 it returns
+// nothing, leaving GPUREAD at the previous latch, so seed the latch with
+// index 4 (drawing area bottom-right, set by probeReset) first: idx7 == seed
+// means the index was not answered.
+static void printGpuVersion(void) {
+    probeReset();
+    GPU_STATUS = 0x10000004;
+    uint32_t seed = GPU_DATA;
+    GPU_STATUS = 0x10000007;
+    uint32_t idx7 = GPU_DATA;
+    PROBE_RESULT("gpu-version idx7=%08x seed=%08x", idx7, seed);
+}
+
 int main(void) {
 #ifdef BANK_PROBE_ATCONS
     // Dev boards with an ATCONS console (DTL-H2700): route stdout there,
@@ -132,10 +163,16 @@ int main(void) {
     ProbeStats stats;
     probeStatsInit(&stats);
 
+    printGpuVersion();
+
     int lowerOk0 = 0;
     int lowerOk1 = 0;
     BankDecode gate0 = probePass(0, &lowerOk0);
     BankDecode gate1 = probePass(1, &lowerOk1);
+    int lowerOk504 = 0;
+    int lowerOk501 = 0;
+    BankDecode g20_504 = probePass20(0x504, &lowerOk504);
+    BankDecode g20_501 = probePass20(0x501, &lowerOk501);
 
     // Reset gate to 0 before leaving so any subsequent code starts in a
     // retail-compatible state.
@@ -143,6 +180,8 @@ int main(void) {
 
     PROBE_RESULT("bank-probe summary lower_ok=%d gate0=%s gate1=%s",
                  lowerOk0 && lowerOk1, decodeName(gate0), decodeName(gate1));
+    PROBE_RESULT("bank-probe gp1_20 summary lower_ok_504=%d lower_ok_501=%d gp1_20_504=%s gp1_20_501=%s",
+                 lowerOk504, lowerOk501, decodeName(g20_504), decodeName(g20_501));
 
     if (lowerOk0 && lowerOk1) {
         PROBE_PASS(&stats, "lower-bank round-trips under both gate polarities");
