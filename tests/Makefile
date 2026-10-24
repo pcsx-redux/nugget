@@ -25,6 +25,7 @@ all:
 	$(MAKE) -C gpu-command all
 	$(MAKE) -C gpu-dfe-480i all
 	$(MAKE) -C gpu-dma-dreq all
+	$(MAKE) -C gpu-dma-loop all
 	$(MAKE) -C gpu-irq all
 	$(MAKE) -C gpustat-480i all
 	$(MAKE) -C gpu-polyline all
@@ -141,6 +142,7 @@ clean:
 	$(MAKE) -C gpu-command clean
 	$(MAKE) -C gpu-dfe-480i clean
 	$(MAKE) -C gpu-dma-dreq clean
+	$(MAKE) -C gpu-dma-loop clean
 	$(MAKE) -C gpu-irq clean
 	$(MAKE) -C gpustat-480i clean
 	$(MAKE) -C gpu-polyline clean
