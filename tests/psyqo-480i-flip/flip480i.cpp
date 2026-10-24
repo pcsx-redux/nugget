@@ -140,8 +140,14 @@ void TestScene::frame() {
     psyqo::Hardware::GPU::Data = (kRows << 16) | 2;
     for (unsigned n = 0; n < 100000 && !(gpustat() & 0x08000000); n++);
     for (unsigned y = 0; y < kRows; y++) s_col[y] = psyqo::Hardware::GPU::Data;
+    // Rows 0 and 1 are left out: on a v0 GPU (SCPH-1000) a fill whose first row has the skipped
+    // parity draws that row and skips the next one, so the 262-line field's clear leaves row 1.
     unsigned rows[2] = {0, 0};
-    for (unsigned y = 0; y < kRows; y++) rows[y & 1] += (s_col[y] & 0x7fff7fff) != 0;
+    for (unsigned y = 2; y < kRows; y++) {
+        bool written = (s_col[y] & 0x7fff7fff) != 0;
+        rows[y & 1] += written;
+        if (!written) ramsyscall_printf("row %d not written: %08x\n", (int)y, s_col[y]);
+    }
 
     unsigned failures = 0;
     // Frame 0 has no history; from frame 1 on, GPUSTAT.31 must alternate.
@@ -150,9 +156,9 @@ void TestScene::frame() {
         if (!pass) failures++;
         ramsyscall_printf("frame %d GPUSTAT.31 after flip = %d  %s\n", (int)f, (int)m_bit31[f], pass ? "PASS" : "FAIL");
     }
-    bool covered = (rows[0] == kRows / 2) && (rows[1] == kRows / 2);
+    bool covered = (rows[0] == kRows / 2 - 1) && (rows[1] == kRows / 2 - 1);
     if (!covered) failures++;
-    ramsyscall_printf("rows written by the last two frames: even %d/240, odd %d/240  %s\n", (int)rows[0],
+    ramsyscall_printf("rows 2-479 written by the last two frames: even %d/239, odd %d/239  %s\n", (int)rows[0],
                       (int)rows[1], covered ? "PASS" : "FAIL");
     ramsyscall_printf(failures == 0 ? "All 480i flip checks passed\n" : "480i flip checks FAILED\n");
     finish(failures == 0 ? 0 : 1);
