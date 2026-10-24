@@ -58,30 +58,6 @@ SOFTWARE.
 CESTER_BODY(
 static int s_interruptsWereEnabled;
 
-// Custom 15-bit texture with bit-15 mask SET on every texel. Used by
-// the semi-trans tests below to fire the gate at the 15-bit path.
-// Overrides the standard 15-bit fixture in the same VRAM slot.
-static void uploadTex15Masked(void) {
-    waitGPU();
-    GPU_DATA = 0xa0000000u;
-    GPU_DATA = ((uint32_t)(uint16_t)TEX15_VRAM_BASE_Y << 16) |
-               (uint32_t)(uint16_t)TEX15_VRAM_BASE_X;
-    GPU_DATA = ((uint32_t)(uint16_t)16 << 16) | (uint32_t)(uint16_t)64;
-    for (int v = 0; v < 16; v++) {
-        for (int u = 0; u < 64; u += 2) {
-            uint16_t t0 = (uint16_t)(rasterVram555((uint8_t)(u & 0x1f),
-                                                   (uint8_t)(v & 0x1f),
-                                                   (uint8_t)((u + v) & 0x1f))
-                                     | 0x8000u);
-            uint16_t t1 = (uint16_t)(rasterVram555((uint8_t)((u + 1) & 0x1f),
-                                                   (uint8_t)(v & 0x1f),
-                                                   (uint8_t)((u + 1 + v) & 0x1f))
-                                     | 0x8000u);
-            GPU_DATA = (uint32_t)t0 | ((uint32_t)t1 << 16);
-        }
-    }
-}
-
 // Re-upload the standard 15-bit texture to clear the masked variant.
 // Called between test groups so a later 15-bit basic test sees
 // unmasked texels again.
