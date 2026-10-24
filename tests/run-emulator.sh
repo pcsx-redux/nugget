@@ -102,6 +102,7 @@ SKIPS=(
     "gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "gte-write-to-use/gte-write-to-use|emulator gap: GTE write-to-use delay per command and register not in the dev AppImage; run by the pcsx-redux gtests"
     "gpu-dfe-480i/gpu-dfe-480i|emulator gap: GP0(E1h).10 row skipping in 480i not in the dev AppImage; run by the pcsx-redux gtests"
+    "gpu-dma-ring/gpu-dma-ring|emulator gap: a GPU linked list used as a ring needs GPU timing and back-pressure; Redux ends the loop at once (every assert is hardware-only)"
     "gpustat-480i/gpustat-480i|emulator gap: GPUSTAT bits 13 and 31 by beam position in 480i not in the dev AppImage; run by the pcsx-redux gtests"
     "mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
     "gte-timing/gte-timing|hardware probe: prints GTE command timings, no verdict"

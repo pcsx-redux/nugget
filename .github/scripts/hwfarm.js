@@ -42,6 +42,7 @@ const TESTS = [
     'gpu-dfe-480i;gpu-dfe-480i/gpu-dfe-480i',
     'gpu-dma-dreq;gpu-dma-dreq/gpu-dma-dreq',
     'gpu-dma-loop;gpu-dma-loop/gpu-dma-loop',
+    'gpu-dma-ring;gpu-dma-ring/gpu-dma-ring',
     'gpu-fbrect;gpu-fbrect/gpu-fbrect',
     'gpu-irq;gpu-irq/gpu-irq',
     'gpu-polyline;gpu-polyline/gpu-polyline',
