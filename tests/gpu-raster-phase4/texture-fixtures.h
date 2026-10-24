@@ -267,6 +267,29 @@ static inline void uploadTex15(void) {
     }
 }
 
+// The 15-bit fixture with bit 15 (the semi-transparency flag) set on every
+// texel, in the same VRAM slot as uploadTex15().
+static inline void uploadTex15Masked(void) {
+    waitGPU();
+    GPU_DATA = 0xa0000000u;
+    GPU_DATA = ((uint32_t)(uint16_t)TEX15_VRAM_BASE_Y << 16) |
+               (uint32_t)(uint16_t)TEX15_VRAM_BASE_X;
+    GPU_DATA = ((uint32_t)(uint16_t)16 << 16) | (uint32_t)(uint16_t)64;
+    for (int v = 0; v < 16; v++) {
+        for (int u = 0; u < 64; u += 2) {
+            uint16_t t0 = (uint16_t)(rasterVram555((uint8_t)(u & 0x1f),
+                                                   (uint8_t)(v & 0x1f),
+                                                   (uint8_t)((u + v) & 0x1f))
+                                     | 0x8000u);
+            uint16_t t1 = (uint16_t)(rasterVram555((uint8_t)((u + 1) & 0x1f),
+                                                   (uint8_t)(v & 0x1f),
+                                                   (uint8_t)((u + 1 + v) & 0x1f))
+                                     | 0x8000u);
+            GPU_DATA = (uint32_t)t0 | ((uint32_t)t1 << 16);
+        }
+    }
+}
+
 // Bulk fixture upload - call once at BEFORE_ALL.
 static inline void uploadAllTextureFixtures(void) {
     uploadClut4();

@@ -28,7 +28,8 @@ SOFTWARE.
  * A GPU DMA (channel 2) linked list used as a ring buffer under load. The
  * ring is RING slots, each one node carrying a full-screen gouraud-shaded,
  * textured, semi-transparent quad (GP0(3Eh)) sampling the 15-bit fixture
- * texture of the gpu-raster tests, linked in a circle, so the transfer never
+ * texture of the gpu-raster tests with bit 15 set on every texel, so every
+ * pixel blends, linked in a circle, so the transfer never
  * ends on its own.
  * While it runs, the CPU rewrites the quad colours of the slots behind the
  * read pointer it sees in D2_MADR, trailing it by 2 slots (HIGH) or by half
@@ -148,7 +149,7 @@ static void setupGpu(void) {
 
 static void run(struct Arm *a, unsigned trail, const char *name) {
     setupGpu();
-    uploadTex15();
+    uploadTex15Masked();
     waitGPU();
     buildRing();
     D_DPCR |= 0x00000800;
