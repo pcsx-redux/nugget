@@ -822,6 +822,14 @@ static void MOD_UpdateRow() {
                         fx |= effectNibble2 << 4;
                         channelData->fx[3] = fx;
                         break;
+                    case 9:  // retrigger sample
+                        // Like ProTracker, a row without a note retriggers on tick 0 too. With a note,
+                        // the note itself is the tick 0 trigger. Later ticks are in MOD_UpdateEffect.
+                        if (effectNibble2 && (period == 0)) {
+                            SPUKeyOnInstrument(channel, channelData->sampleID);
+                            channelData->keyOns++;
+                        }
+                        break;
                     case 10:  // fine volume up
                         volume = channelData->volume;
                         volume += effectNibble2;
