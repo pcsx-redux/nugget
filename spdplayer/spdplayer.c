@@ -476,7 +476,9 @@ void SPD_Poll() {
 
     if (s_stream == NULL) return;
 
-    // Process packets until we hit a wait or run out of stream
+    // Process packets until we hit a wait or run out of stream. Passing through more orders than
+    // the song has, without a wait, means a loop that never waits: stop rather than spin.
+    unsigned ordersWalked = 0;
     while (1) {
         uint32_t header = readPacketHeader(s_stream);
         uint8_t type = packetType(header);
@@ -486,8 +488,9 @@ void SPD_Poll() {
         switch (type) {
             case PKT_REG_WRITE: {
                 uint32_t waitTicks = applyRegWrites(payload, len);
+                // This poll is the first of the wait's ticks.
                 if (waitTicks > 0) {
-                    s_waitRemaining = waitTicks;
+                    s_waitRemaining = waitTicks - 1;
                     s_stream = payload + len;
                     return;
                 }
@@ -495,13 +498,18 @@ void SPD_Poll() {
             }
 
             case PKT_WAIT:
-                if (len >= 1) {
-                    s_waitRemaining = payload[0];
+                if (len >= 1 && payload[0] > 0) {
+                    s_waitRemaining = payload[0] - 1;
+                    s_stream = payload + len;
+                    return;
                 }
-                s_stream = payload + len;
-                return;
+                break;
 
             case PKT_END_PATTERN:
+                if (++ordersWalked > SPD_OrderCount) {
+                    s_stream = NULL;
+                    return;
+                }
                 s_stream = payload + len;
                 advanceOrder();
                 if (s_stream == NULL) return;
