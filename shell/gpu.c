@@ -71,8 +71,9 @@ void waitVSync(int interlaced, void (*idle)()) {
         // NTSC 480i alternates a 263-line and a 262-line field. GPUSTAT.31 reads 1 from line 23
         // of the 263-line field until the next vblank, and 0 everywhere else, on every GPU
         // revision. GPUSTAT.13 never sets on the first-generation GPU, so it cannot be used.
-        // Even calls wait for the 263-line field, odd calls for the 262-line one, which is the
-        // field that follows a vblank where GPUSTAT.31 was last seen set.
+        // With GP0(E1h).10 clear the GPU skips the rows whose parity equals GPUSTAT.31 at draw
+        // time, so even calls wait until GPUSTAT.31 reads 1, and odd calls for the 262-line
+        // field, which follows a vblank where GPUSTAT.31 was last seen set.
         static int lastField = 0;
         static uint32_t frameCount = 0;
         static uint32_t lastLongFieldFrame = 0;
@@ -85,8 +86,7 @@ void waitVSync(int interlaced, void (*idle)()) {
             int bit31 = (GPU_STATUS & 0x80000000) != 0;
             if (bit31) lastLongFieldFrame = frameCount;
             uint32_t sinceLong = frameCount - lastLongFieldFrame;
-            int inLong = bit31 || (sinceLong == 2);
-            if (lastField ? (sinceLong == 1) : inLong) break;
+            if (lastField ? (sinceLong == 1) : bit31) break;
             idle();
         }
         lastField = !lastField;
