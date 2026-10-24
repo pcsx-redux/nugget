@@ -476,7 +476,9 @@ void SPD_Poll() {
 
     if (s_stream == NULL) return;
 
-    // Process packets until we hit a wait or run out of stream
+    // Process packets until we hit a wait or run out of stream. Passing through more orders than
+    // the song has, without a wait, means a loop that never waits: stop rather than spin.
+    unsigned ordersWalked = 0;
     while (1) {
         uint32_t header = readPacketHeader(s_stream);
         uint8_t type = packetType(header);
@@ -504,6 +506,10 @@ void SPD_Poll() {
                 break;
 
             case PKT_END_PATTERN:
+                if (++ordersWalked > SPD_OrderCount) {
+                    s_stream = NULL;
+                    return;
+                }
                 s_stream = payload + len;
                 advanceOrder();
                 if (s_stream == NULL) return;
