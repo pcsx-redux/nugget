@@ -15,6 +15,9 @@ else
 FLASH_MODE := DRY
 endif
 CPPFLAGS += -DMODE='"$(FLASH_MODE)"'
+ifeq ($(SILENT),1)
+CPPFLAGS += -DFLASH_SILENT
+endif
 
 include ../../../common.mk
 
