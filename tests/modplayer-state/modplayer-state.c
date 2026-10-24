@@ -80,13 +80,13 @@ CESTER_BODY(
         for (unsigned i = 0; i < row * 6 + 1; i++) MOD_Poll();
     }
 
-    // Plays row 0, then records channel 0's key-on count after each poll of
-    // row 1, ticks 0 to 5, and of row 2's tick 0, and prints them.
-    static void keyOnsThroughRow1(const char *name, uint8_t keyOns[7]) {
+    // Plays row 0, then records channel 0's key-on count after each of the
+    // next polls, starting with row 1's tick 0, and prints them.
+    static void keyOnsAfterRow0(const char *name, uint8_t *keyOns, unsigned polls) {
         MOD_LoadEx((const struct MODFileFormat *)s_module, (const uint8_t *)-1);
         for (unsigned i = 0; i < 6; i++) MOD_Poll();
-        ramsyscall_printf("%s: row 0 key-ons %u, row 1 ticks 0-5 then row 2 tick 0:", name, s_channelData[0].keyOns);
-        for (unsigned i = 0; i < 7; i++) {
+        ramsyscall_printf("%s: row 0 key-ons %u, then per poll:", name, s_channelData[0].keyOns);
+        for (unsigned i = 0; i < polls; i++) {
             MOD_Poll();
             keyOns[i] = s_channelData[0].keyOns;
             ramsyscall_printf(" %u", keyOns[i]);
@@ -141,7 +141,7 @@ CESTER_TEST(modplayer_e9x_noteless, test_instance,
     buildModule();
     setCell(0, 0, 1, 428, 0, 0);
     setCell(1, 0, 0, 0, 0xe, 0x93);
-    keyOnsThroughRow1("e9x_noteless", keyOns);
+    keyOnsAfterRow0("e9x_noteless", keyOns, 7);
     cester_assert_uint_eq(2, keyOns[0]);
     cester_assert_uint_eq(2, keyOns[1]);
     cester_assert_uint_eq(2, keyOns[2]);
@@ -158,7 +158,7 @@ CESTER_TEST(modplayer_e9x_with_note, test_instance,
     buildModule();
     setCell(0, 0, 1, 428, 0, 0);
     setCell(1, 0, 0, 428, 0xe, 0x93);
-    keyOnsThroughRow1("e9x_with_note", keyOns);
+    keyOnsAfterRow0("e9x_with_note", keyOns, 7);
     cester_assert_uint_eq(2, keyOns[0]);
     cester_assert_uint_eq(2, keyOns[1]);
     cester_assert_uint_eq(2, keyOns[2]);
@@ -166,4 +166,33 @@ CESTER_TEST(modplayer_e9x_with_note, test_instance,
     cester_assert_uint_eq(3, keyOns[4]);
     cester_assert_uint_eq(3, keyOns[5]);
     cester_assert_uint_eq(3, keyOns[6]);
+)
+
+CESTER_TEST(modplayer_e9x_with_note_pattern_delay, test_instance,
+    // E93 on a row with a note, and EE1 on channel 1: the row plays twice.
+    // pt2-clone runs the effects on tick 0 of the repeat, but its retrigNote
+    // still skips tick 0 because the row has a note, so each pass retriggers
+    // on tick 3 only. Row 2 is empty, so its tick 0 keys nothing on.
+    static const uint8_t expected[13] = {2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4};
+    uint8_t keyOns[13];
+    buildModule();
+    setCell(0, 0, 1, 428, 0, 0);
+    setCell(1, 0, 0, 428, 0xe, 0x93);
+    setCell(1, 1, 0, 0, 0xe, 0xe1);
+    keyOnsAfterRow0("e9x_with_note_pattern_delay", keyOns, 13);
+    for (unsigned i = 0; i < 13; i++) cester_assert_uint_eq(expected[i], keyOns[i]);
+)
+
+CESTER_TEST(modplayer_e9x_noteless_pattern_delay, test_instance,
+    // E93 on a row without a note, and EE1 on channel 1: with no note to
+    // skip for, pt2-clone's retrigNote fires on tick 0 of both passes, and
+    // on tick 3 of both.
+    static const uint8_t expected[13] = {2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5};
+    uint8_t keyOns[13];
+    buildModule();
+    setCell(0, 0, 1, 428, 0, 0);
+    setCell(1, 0, 0, 0, 0xe, 0x93);
+    setCell(1, 1, 0, 0, 0xe, 0xe1);
+    keyOnsAfterRow0("e9x_noteless_pattern_delay", keyOns, 13);
+    for (unsigned i = 0; i < 13; i++) cester_assert_uint_eq(expected[i], keyOns[i]);
 )

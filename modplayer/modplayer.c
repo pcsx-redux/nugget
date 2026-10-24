@@ -622,6 +622,9 @@ static void MOD_UpdateEffect() {
                 switch (effectNibble3) {
                     case 9:  // retrigger sample
                         // this doesn't look right, we probably want to reset the sample location
+                        // Tick 0 only gets here on the repeats of a delayed row. Like ProTracker, a row
+                        // with a note doesn't retrigger on tick 0, even then.
+                        if ((MOD_Tick == 0) && (((rowPointer[0] & 0x0f) << 8) | rowPointer[1])) break;
                         if (effectNibble2 && (MOD_Tick % effectNibble2) == 0) {
                             SPUKeyOnInstrument(channel, channelData->sampleID);
                             channelData->keyOns++;
