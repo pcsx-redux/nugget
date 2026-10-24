@@ -85,11 +85,13 @@ all:
 	$(MAKE) -C pcdrv-net all
 	$(MAKE) -C pcdrv-net-off all
 	$(MAKE) -C psyqo all
+	$(MAKE) -C psyqo-480i-flip all
 	$(MAKE) -C psyqo-dmachain all
 	$(MAKE) -C psyqo-reinit all
 	$(MAKE) -C psyqo-spudma all
 	$(MAKE) -C regwrites all
 	$(MAKE) -C rumble all
+	$(MAKE) -C shell-480i-wait all
 	$(MAKE) -C spu all
 	$(MAKE) -C spu-wide-writes all
 	$(MAKE) -C spu-endx all
@@ -203,11 +205,13 @@ clean:
 	$(MAKE) -C pcdrv-net clean
 	$(MAKE) -C pcdrv-net-off clean
 	$(MAKE) -C psyqo clean
+	$(MAKE) -C psyqo-480i-flip clean
 	$(MAKE) -C psyqo-dmachain clean
 	$(MAKE) -C psyqo-reinit clean
 	$(MAKE) -C psyqo-spudma clean
 	$(MAKE) -C regwrites clean
 	$(MAKE) -C rumble clean
+	$(MAKE) -C shell-480i-wait clean
 	$(MAKE) -C spu clean
 	$(MAKE) -C spu-wide-writes clean
 	$(MAKE) -C spu-endx clean

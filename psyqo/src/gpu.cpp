@@ -305,14 +305,15 @@ void psyqo::GPU::flip() {
         // NTSC 480i alternates a 263-line and a 262-line field. GPUSTAT.31 reads 1 from line 23
         // of the 263-line field until the next vblank, and 0 everywhere else, on every GPU
         // revision. GPUSTAT.13 never sets on the first-generation GPU, so it cannot be used.
-        // Parity 0 waits for the 263-line field, parity 1 for the 262-line one, which is the
-        // field that follows a frame where pumpCallbacks() saw GPUSTAT.31 set.
+        // With GP0(E1h).10 clear the GPU skips the rows whose parity equals GPUSTAT.31 at draw
+        // time, so parity 0 waits until GPUSTAT.31 reads 1, and parity 1 for the 262-line field,
+        // which follows a frame where pumpCallbacks() saw GPUSTAT.31 set.
         while (1) {
             pumpCallbacks();
             eastl::atomic_signal_fence(eastl::memory_order_acquire);
             uint32_t sinceLong = m_frameCount - m_lastLongFieldFrame;
-            bool inLong = (Hardware::GPU::Ctrl & uint32_t(0x80000000)) || (sinceLong == 2);
-            if (parity ? (sinceLong == 1) : inLong) break;
+            bool bit31 = Hardware::GPU::Ctrl & uint32_t(0x80000000);
+            if (parity ? (sinceLong == 1) : bit31) break;
         }
     }
 
