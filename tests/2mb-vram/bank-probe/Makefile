@@ -10,5 +10,8 @@ SRCS += \
 bank-probe.c \
 
 CPPFLAGS = -I..
+ifeq ($(ATCONS),1)
+CPPFLAGS += -DBANK_PROBE_ATCONS
+endif
 
 include ../../../common.mk
