@@ -69,6 +69,7 @@ struct XMChannel {
 static struct XMChannel s_channels[24];
 static const uint8_t* s_song;
 static const struct XMSongHeader* s_header;
+static const uint16_t* s_ptPeriods;  // NULL for FastTracker 2 Amiga periods
 static const uint8_t* s_orders;
 static const struct XMPatternEntry* s_patterns;
 static const struct XMInstrument* s_instruments;
@@ -225,8 +226,33 @@ static const uint16_t c_amiga[16][12] = {
     {3256, 3072, 2900, 2736, 2584, 2440, 2300, 2172, 2052, 1936, 1828, 1724},
 };
 
+// ProTracker period limits, times 4. Only applied with a ProTracker period table.
+static int32_t limitPeriod(int32_t period) {
+    if (!s_ptPeriods) return period;
+    return period < 113 * 4 ? 113 * 4 : period > 856 * 4 ? 856 * 4 : period;
+}
+
+// One entry of the song's ProTracker table, any note: outside C-1..B-3 halves or doubles the nearest
+// octave, twice the period like notePeriod's working value.
+static uint32_t ptEntry(unsigned row, int index) {
+    int shift = 0;
+    while (index < 0) index += 12, shift--;
+    while (index > 35) index -= 12, shift++;
+    uint32_t p = (uint32_t)s_ptPeriods[row * 36 + index] * 2;
+    if (shift > 0) return shift > 15 ? 0 : p >> shift;
+    return shift < -8 ? 0x3fffffff : p << -shift;
+}
+
 static int32_t notePeriod(int realNote, int finetune) {
     if (linear()) return 7680 - realNote * 64 - finetune / 2;
+    if (s_ptPeriods) {
+        int index = realNote - 36;  // C-1, the first note of the table, is the Amiga table's octave 3
+        unsigned k = (unsigned)(finetune + 128) >> 3;
+        unsigned row = k >> 1;
+        uint32_t p = ptEntry(row, index);
+        if (k & 1) p = (p + (row < 15 ? ptEntry(row + 1, index) : ptEntry(8, index + 1))) / 2;
+        return limitPeriod((int32_t)(p >> 1));
+    }
     int octave = realNote >= 0 ? realNote / 12 : -((-realNote + 11) / 12);
     unsigned n = realNote - octave * 12;
     unsigned k = (unsigned)(finetune + 128) >> 3;  // half-rows, 0..31
@@ -535,11 +561,11 @@ static void rowEffects(struct XMChannel* ch, unsigned voice) {
             switch (x) {
                 case 1:
                     if (y) ch->finePortaUp = y;
-                    ch->period -= ch->finePortaUp * 4;
+                    ch->period = limitPeriod(ch->period - ch->finePortaUp * 4);
                     break;
                 case 2:
                     if (y) ch->finePortaDown = y;
-                    ch->period += ch->finePortaDown * 4;
+                    ch->period = limitPeriod(ch->period + ch->finePortaDown * 4);
                     break;
                 case 4:
                     ch->vibWave = y;
@@ -660,10 +686,12 @@ static void tickEffects(struct XMChannel* ch, unsigned voice) {
         case 1:
             ch->period -= ch->portaUp * 4;
             if (ch->period < 1) ch->period = 1;
+            ch->period = limitPeriod(ch->period);
             break;
         case 2:
             ch->period += ch->portaDown * 4;
             if (ch->period > 32000) ch->period = 32000;
+            ch->period = limitPeriod(ch->period);
             break;
         case 3:
             tonePortamento(ch);
@@ -791,6 +819,7 @@ unsigned XM_Load(const void* song, const uint8_t* samples) {
     if (!XM_Channels) return 0;
     s_song = (const uint8_t*)song;
     s_header = (const struct XMSongHeader*)song;
+    s_ptPeriods = s_header->periodTableOffset ? (const uint16_t*)(s_song + s_header->periodTableOffset) : NULL;
     s_orders = s_song + s_header->ordersOffset;
     s_patterns = (const struct XMPatternEntry*)(s_song + s_header->patternsOffset);
     s_instruments = (const struct XMInstrument*)(s_song + s_header->instrumentsOffset);
