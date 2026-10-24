@@ -1,0 +1,65 @@
+<map id="common/hardware/spu.h" name="common/hardware/spu.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="2737,5,2919,31"/>
+<area shape="rect" id="Node000002" href="$d3/d33/modplayer_8c.html" title=" " alt="" coords="5,93,181,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2723,23,1382,41,632,58,357,69,195,81,130,96,129,91,194,76,357,64,632,53,1381,35,2723,18"/>
+<area shape="rect" id="Node000004" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="206,93,373,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="2723,23,1477,41,787,59,535,69,386,81,324,96,323,91,385,76,535,64,787,53,1477,36,2723,18"/>
+<area shape="rect" id="Node000005" href="$df/d91/psmplayer_8c.html" title=" " alt="" coords="397,93,571,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="2722,22,2285,22,1666,29,1344,36,1042,47,781,62,584,81,520,96,519,91,584,76,781,56,1041,41,1344,31,1666,23,2285,17,2722,16"/>
+<area shape="rect" id="Node000006" href="$d8/d16/str-player_8cpp.html" title=" " alt="" coords="596,86,743,126"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="2722,21,2314,21,1745,27,1450,34,1173,45,935,61,755,81,724,89,722,83,754,76,934,55,1173,40,1450,29,1745,22,2314,16,2722,16"/>
+<area shape="rect" id="Node000007" href="$d2/dcd/spu_8cpp.html" title=" " alt="" coords="767,93,905,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="2723,21,2344,22,1822,29,1552,36,1300,47,1083,62,919,81,866,96,865,91,918,76,1082,56,1300,41,1552,31,1822,23,2344,17,2723,16"/>
+<area shape="rect" id="Node000008" href="$d7/d48/spdplayer_8c.html" title=" " alt="" coords="930,93,1094,119"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="2723,22,2378,26,1911,35,1446,52,1253,65,1107,81,1046,96,1045,91,1106,76,1253,60,1446,47,1911,29,2378,20,2723,17"/>
+<area shape="rect" id="Node000009" href="$da/db7/tests_2cdrom_2cdrom_8c.html" title=" " alt="" coords="1119,93,1273,119"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="2723,23,2411,27,1996,36,1586,54,1416,66,1287,81,1229,96,1228,91,1286,76,1415,61,1586,48,1996,31,2411,21,2723,17"/>
+<area shape="rect" id="Node000010" href="$de/d83/modplayer-seq_8c.html" title=" " alt="" coords="1298,86,1475,126"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="2723,24,2092,41,1743,58,1598,69,1488,81,1452,88,1451,83,1488,76,1598,64,1743,53,2092,36,2723,19"/>
+<area shape="rect" id="Node000011" href="$d0/d97/modplayer-upload-tail_8cpp.html" title=" " alt="" coords="1499,79,1677,133"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="2723,25,2189,44,1900,61,1781,71,1690,81,1677,83,1676,78,1689,76,1780,65,1900,55,2189,39,2723,19"/>
+<area shape="rect" id="Node000012" href="$dd/dba/spudma_8cpp.html" title=" " alt="" coords="1701,86,1856,126"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="2723,21,2558,23,2344,31,2107,49,1986,63,1868,81,1836,89,1835,83,1868,76,1985,58,2106,44,2344,26,2558,17,2723,16"/>
+<area shape="rect" id="Node000013" href="$dd/d77/regwrites_8c.html" title=" " alt="" coords="1880,93,2075,119"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="2723,25,2436,42,2262,59,2088,81,2020,96,2019,91,2088,76,2261,53,2435,37,2723,20"/>
+<area shape="rect" id="Node000014" href="$d8/d10/spu-capamp_8c.html" title=" " alt="" coords="2099,86,2261,126"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="2723,28,2515,46,2394,62,2274,81,2243,88,2241,83,2273,76,2393,56,2514,41,2723,23"/>
+<area shape="rect" id="Node000015" href="$df/dc4/spu-capmin_8c.html" title=" " alt="" coords="2285,86,2446,126"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="2726,35,2598,55,2459,81,2429,89,2428,83,2458,76,2597,50,2725,30"/>
+<area shape="rect" id="Node000016" href="$dc/d67/spu-capphase_8c.html" title=" " alt="" coords="2470,86,2631,126"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="2778,37,2613,88,2611,83,2777,32"/>
+<area shape="rect" id="Node000017" href="$d3/df2/spu-capring_8c.html" title=" " alt="" coords="2655,86,2817,126"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="2807,42,2758,88,2754,84,2804,38"/>
+<area shape="rect" id="Node000018" href="$d5/d1f/spu-dbuf_8c.html" title=" " alt="" coords="2841,86,3002,126"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="2853,38,2903,84,2899,88,2849,42"/>
+<area shape="rect" id="Node000019" href="$df/ddc/spu-endmute_8c.html" title=" " alt="" coords="3027,86,3197,126"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="2880,32,3050,83,3049,88,2878,37"/>
+<area shape="rect" id="Node000020" href="$df/d74/spu-endredirect_8c.html" title=" " alt="" coords="3221,86,3381,126"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="2933,30,3066,49,3210,76,3239,83,3238,88,3209,81,3065,54,2933,35"/>
+<area shape="rect" id="Node000021" href="$de/de5/spu-endx_8c.html" title=" " alt="" coords="3406,86,3551,126"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="2933,22,3147,39,3271,55,3394,76,3423,83,3422,89,3393,81,3270,60,3146,45,2933,27"/>
+<area shape="rect" id="Node000022" href="$d1/d99/spu-adsrsus_8c.html" title=" " alt="" coords="3575,86,3721,126"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="2933,18,3061,22,3219,32,3392,49,3565,76,3594,83,3593,89,3563,81,3392,55,3219,37,3061,28,2933,23"/>
+<area shape="rect" id="Node000023" href="$da/da5/spu-envx_8c.html" title=" " alt="" coords="3745,86,3890,126"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="2933,16,3089,18,3290,26,3512,44,3624,58,3734,76,3764,83,3763,89,3733,81,3623,64,3511,50,3289,31,3089,23,2933,21"/>
+<area shape="rect" id="Node000024" href="$d1/d48/spu-irqrefire_8c.html" title=" " alt="" coords="3914,86,4051,126"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="2933,19,3436,37,3707,53,3818,64,3903,76,3932,83,3931,88,3902,81,3817,69,3706,59,3436,42,2933,24"/>
+<area shape="rect" id="Node000025" href="$da/dbb/spu-konlatch_8c.html" title=" " alt="" coords="4076,86,4217,126"/>
+<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="2933,18,3188,24,3514,34,3833,51,3964,63,4064,76,4095,83,4094,89,4064,81,3964,68,3832,57,3514,40,3188,29,2933,24"/>
+<area shape="rect" id="Node000026" href="$df/dde/spu-offvoice_8c.html" title=" " alt="" coords="4241,86,4380,126"/>
+<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="2933,17,3219,22,3594,31,3962,49,4114,61,4230,76,4260,83,4258,89,4229,81,4113,66,3961,54,3593,37,3219,27,2933,23"/>
+<area shape="rect" id="Node000027" href="$d5/d28/revread_8c.html" title=" " alt="" coords="4405,93,4606,119"/>
+<area shape="poly" id="edge26_Node000001_Node000027" title=" " alt="" coords="2933,18,3249,24,3670,35,4087,52,4261,63,4392,76,4465,91,4464,96,4392,81,4260,68,4087,57,3670,40,3249,29,2933,23"/>
+<area shape="rect" id="Node000028" href="$de/df8/revstream_8c.html" title=" " alt="" coords="4630,86,4783,126"/>
+<area shape="poly" id="edge27_Node000001_Node000028" title=" " alt="" coords="2933,17,3290,19,3778,27,4264,44,4466,58,4619,76,4652,83,4651,89,4618,81,4466,64,4264,50,3777,32,3290,24,2933,22"/>
+<area shape="rect" id="Node000029" href="$db/d5b/spu-upload-tail_8cpp.html" title=" " alt="" coords="4807,86,4963,126"/>
+<area shape="poly" id="edge28_Node000001_Node000029" title=" " alt="" coords="2934,16,3323,17,3861,24,4140,32,4402,42,4626,57,4796,76,4830,83,4829,89,4796,81,4626,62,4401,48,4140,37,3861,30,3323,23,2933,22"/>
+<area shape="rect" id="Node000030" href="$d3/d9e/spu-volsweep_8c.html" title=" " alt="" coords="4988,86,5135,126"/>
+<area shape="poly" id="edge29_Node000001_Node000030" title=" " alt="" coords="2933,18,4030,36,4628,54,4847,64,4976,76,5008,83,5007,89,4976,81,4847,70,4628,59,4030,42,2933,23"/>
+<area shape="rect" id="Node000031" href="$d7/d65/spu-wide-writes_8c.html" title=" " alt="" coords="5159,86,5321,126"/>
+<area shape="poly" id="edge30_Node000001_Node000031" title=" " alt="" coords="2933,18,4116,36,4767,54,5006,64,5147,76,5182,83,5181,89,5146,81,5006,70,4767,59,4116,42,2933,23"/>
+<area shape="rect" id="Node000032" href="$d5/d70/tests_2spu_2spu_8c.html" title=" " alt="" coords="5346,93,5465,119"/>
+<area shape="poly" id="edge31_Node000001_Node000032" title=" " alt="" coords="2933,17,3462,21,4211,31,4920,48,5180,61,5334,76,5381,91,5379,96,5333,81,5180,66,4920,54,4211,36,3462,26,2933,22"/>
+<area shape="rect" id="Node000003" href="$d2/d25/modplayer-state_8c.html" title=" " alt="" coords="10,181,177,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,132,96,181,91,181,91,132"/>
+</map>

@@ -1,0 +1,16 @@
+<map id="monitor/hosts/splash.c" name="monitor/hosts/splash.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="113,5,282,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="46,225,117,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,27,85,34,58,45,34,60,14,80,9,97,10,121,16,148,28,176,42,197,58,214,54,218,37,200,23,179,11,150,4,122,3,96,10,77,31,56,56,40,84,29,112,22"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="23,79,230,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,33,150,71,146,67,184,29"/>
+<area shape="rect" id="Node000005" href="$d2/de7/irq_8h.html" title=" " alt="" coords="287,152,465,177"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="211,29,295,102,349,142,346,146,292,106,208,33"/>
+<area shape="rect" id="Node000006" href="$d3/da1/splash_8h.html" title=" " alt="" coords="305,79,481,104"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="230,28,349,71,348,76,228,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="95,107,63,125,48,138,37,153,33,169,37,184,59,214,55,217,33,187,28,169,32,151,44,134,60,121,93,102"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="47,152,263,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="134,103,148,138,143,140,129,105"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="144,180,105,218,101,214,141,176"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="329,180,131,228,130,222,328,175"/>
+</map>
