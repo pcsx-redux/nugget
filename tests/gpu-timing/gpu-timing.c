@@ -53,6 +53,8 @@ SOFTWARE.
  *   D mode w h min med max base                       GP0(C0h), mode 0 CPU, 1 DMA2
  *   B bs w h min med max ok                           GP0(A0h) by DMA2, block size bs
  * Arm T repeats the textured classes inside a 16x16 texture window.
+ * Arm Z draws primitives that cover no pixel (clipped or degenerate), see
+ * zeroArm().
  * Every class also prints "K <tag> drawn=<0|1> grow=<0|1>": drawn reads one
  * pixel back after a draw over a cleared background, grow says the largest
  * size took longer than the smallest by the class's margin.
@@ -679,6 +681,83 @@ static void windowArm(void) {
     GPU_DATA = 0xe2000000;
 }
 
+// Primitives that draw no pixel, to time setup on its own. Prints
+//   Z how quad gouraud tex semi L min med max base
+// how 0: the primitive at (0,0)..(L,L) with the drawing area moved to
+// (1000,500)..(1010,510), so it is clipped away entirely. how 1: every vertex
+// at (0,0). how 2: vertices on one row, (0,0) (L,0) (0,0) [(L,0)], no area.
+// Rects: how 0 clipped, how 3 width 0, how 4 height 0 (quad=2 in the line).
+static void zeroPoint(unsigned how, unsigned quad, unsigned g, unsigned tex, unsigned semi, unsigned L) {
+    unsigned n;
+    if (quad == 2) {
+        n = buildRect(s_cmd, 0, tex, semi, 0, how == 3 ? 0 : L, how == 4 ? 0 : L);
+    } else {
+        n = buildPoly(s_cmd, quad, g, tex, semi, 0, how == 1 ? 0 : L, how == 0 ? L : 0);
+    }
+    struct Sample s = measure(s_cmd, n, 0);
+    ramsyscall_printf("Z %d %d %d %d %d %d %d %d %d %d\n", how, quad, g, tex, semi, L, s.min, s.med, s.max, s.base);
+}
+
+static void zeroArm(void) {
+    static const unsigned sizes[] = {1, 64, 240};
+    for (unsigned quad = 0; quad < 3; quad++)
+        for (unsigned g = 0; g < (quad == 2 ? 1u : 2u); g++)
+            for (unsigned ti = 0; ti < 4; ti++)
+                for (unsigned semi = 0; semi < 2; semi++) {
+                    unsigned tex = ti == 0 ? 0 : ti == 1 ? 4 : ti == 2 ? 8 : 15;
+                    setE1(tex, semi, 0);
+                    waitIdle();
+                    GPU_DATA = 0xe3000000 | 1000 | (500 << 10);
+                    GPU_DATA = 0xe4000000 | 1010 | (510 << 10);
+                    for (unsigned i = 0; i < 3; i++) zeroPoint(0, quad, g, tex, semi, sizes[i]);
+                    waitIdle();
+                    GPU_DATA = 0xe3000000;
+                    GPU_DATA = 0xe4000000 | 1023 | (511 << 10);
+                    if (quad == 2) {
+                        for (unsigned i = 0; i < 3; i++) zeroPoint(3, quad, g, tex, semi, sizes[i]);
+                        for (unsigned i = 0; i < 3; i++) zeroPoint(4, quad, g, tex, semi, sizes[i]);
+                    } else {
+                        zeroPoint(1, quad, g, tex, semi, 1);
+                        for (unsigned i = 0; i < 3; i++) zeroPoint(2, quad, g, tex, semi, sizes[i]);
+                    }
+                }
+    // Did the zero-pixel draws really draw nothing? Each is drawn over the
+    // cleared background and the pixel it would have touched is read back
+    // (sentinel 0421 = untouched).
+    setE1(0, 0, 0);
+    gp0Fill(0, 0, 256, 256, SENTINEL_FILL);
+    unsigned n = buildPoly(s_cmd, 1, 0, 0, 0, 0, 240, 0);
+    timeWords(s_cmd, n, 0);
+    uint16_t quadRow = readPixel(60, 0);
+    gp0Fill(0, 0, 256, 256, SENTINEL_FILL);
+    n = buildPoly(s_cmd, 0, 0, 0, 0, 0, 0, 0);
+    timeWords(s_cmd, n, 0);
+    uint16_t triPoint = readPixel(0, 0);
+    gp0Fill(0, 0, 256, 256, SENTINEL_FILL);
+    n = buildRect(s_cmd, 0, 0, 0, 0, 0, 240);
+    timeWords(s_cmd, n, 0);
+    uint16_t rectW0 = readPixel(0, 60);
+    gp0Fill(0, 0, 256, 256, SENTINEL_FILL);
+    n = buildRect(s_cmd, 0, 0, 0, 0, 240, 0);
+    timeWords(s_cmd, n, 0);
+    uint16_t rectH0 = readPixel(60, 0);
+    // and with the drawing area moved away, a full-size quad and rect
+    waitIdle();
+    GPU_DATA = 0xe3000000 | 1000 | (500 << 10);
+    GPU_DATA = 0xe4000000 | 1010 | (510 << 10);
+    gp0Fill(0, 0, 256, 256, SENTINEL_FILL);
+    n = buildPoly(s_cmd, 1, 0, 0, 0, 0, 240, 240);
+    timeWords(s_cmd, n, 0);
+    n = buildRect(s_cmd, 0, 0, 0, 0, 240, 240);
+    timeWords(s_cmd, n, 0);
+    waitIdle();
+    GPU_DATA = 0xe3000000;
+    GPU_DATA = 0xe4000000 | 1023 | (511 << 10);
+    uint16_t clipped = readPixel(60, 60);
+    ramsyscall_printf("Z control quadrow=%04x tripoint=%04x rectw0=%04x recth0=%04x clipped=%04x\n", quadRow, triPoint,
+                      rectW0, rectH0, clipped);
+}
+
 static void probeRevision(void) {
     gp0Fill(0, 0, 16, 16, 0x00f8f8);
     s_idx7Primed = readWord(0, 0);
@@ -706,6 +785,7 @@ static void runAll(void) {
     polyShapes(1, 0, 4, 0, 0);
     polyShapes(1, 0, 8, 0, 0);
     windowArm();
+    zeroArm();
     ramsyscall_printf("# R arm size tex semi raw w h min med max base cold\n");
     for (unsigned ti = 0; ti < 4; ti++) {
         unsigned tex = ti == 0 ? 0 : ti == 1 ? 4 : ti == 2 ? 8 : 15;
