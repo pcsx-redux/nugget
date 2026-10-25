@@ -39,17 +39,20 @@ SOFTWARE.
  * Arm D repeats some classes with the display disabled (GP1(03h)).
  *
  * Output lines, one per point:
- *   P arm quad gouraud tex semi dither x w h min med max base list
+ *   P arm quad gouraud tex semi dither x w h min med max base list cold
  *     tex: 0 untextured, 4/8/15 texture depth. semi: 0 opaque, 1..4 is
  *     GP0(E1h) blend mode 0..3. list: median per primitive of a DMA linked
- *     list of 16 copies (sizes up to 64 only, else 0).
- *   R arm size tex semi raw w h min med max base     (size 0 variable,
+ *     list of 16 copies (sizes up to 64 only, else 0). cold: median with
+ *     GP0(01h) before each sample (textured, arm M only, else 0).
+ *   R arm size tex semi raw w h min med max base cold (size 0 variable,
  *     1/8/16 the fixed-size commands)
  *   L arm kind dither semi segs len min med max base
  *   F w h min med max base                            GP0(02h)
  *   C w h min med max base                            GP0(80h)
  *   U mode w h min med max base                       GP0(A0h), mode 0 CPU, 1 DMA2
  *   D mode w h min med max base                       GP0(C0h), mode 0 CPU, 1 DMA2
+ *   B bs w h min med max ok                           GP0(A0h) by DMA2, block size bs
+ * Arm T repeats the textured classes inside a 16x16 texture window.
  * Every class also prints "K <tag> drawn=<0|1> grow=<0|1>": drawn reads one
  * pixel back after a draw over a cleared background, grow says the largest
  * size took longer than the smallest by the class's margin.
@@ -204,6 +207,19 @@ static struct Sample measure(const uint32_t *w, unsigned n, int pace) {
     sort5(b);
     struct Sample s = {t[0], t[REPS / 2], t[REPS - 1], b[REPS / 2]};
     return s;
+}
+
+// Median with the texture cache invalidated (GP0(01h)) before every sample.
+static uint32_t measureCold(const uint32_t *w, unsigned n) {
+    uint32_t t[REPS];
+    for (int r = 0; r < REPS; r++) {
+        waitIdle();
+        GPU_DATA = 0x01000000;
+        waitIdle();
+        t[r] = timeWords(w, n, 0);
+    }
+    sort5(t);
+    return t[REPS / 2];
 }
 
 static uint32_t measureList(const uint32_t *w, unsigned n) {
@@ -378,8 +394,9 @@ static void polyPoint(char arm, unsigned quad, unsigned g, unsigned tex, unsigne
     unsigned n = buildPoly(s_cmd, quad, g, tex, semi, x0, w, h);
     struct Sample s = measure(s_cmd, n, 0);
     uint32_t list = (w <= LIST_MAX_SIZE && h <= LIST_MAX_SIZE && arm == 'M') ? measureList(s_cmd, n) : 0;
-    ramsyscall_printf("P %c %d %d %d %d %d %d %d %d %d %d %d %d %d\n", arm, quad, g, tex, semi, d, x0, w, h, s.min,
-                      s.med, s.max, s.base, list);
+    uint32_t cold = (tex && arm == 'M') ? measureCold(s_cmd, n) : 0;
+    ramsyscall_printf("P %c %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n", arm, quad, g, tex, semi, d, x0, w, h, s.min,
+                      s.med, s.max, s.base, list, cold);
     if (out) *out = s;
 }
 
@@ -415,8 +432,9 @@ static void rectPoint(char arm, unsigned size, unsigned tex, unsigned semi, unsi
                       struct Sample *out) {
     unsigned n = buildRect(s_cmd, size, tex, semi, raw, w, h);
     struct Sample s = measure(s_cmd, n, 0);
-    ramsyscall_printf("R %c %d %d %d %d %d %d %d %d %d %d\n", arm, size, tex, semi, raw, w, h, s.min, s.med, s.max,
-                      s.base);
+    uint32_t cold = (tex && arm == 'M') ? measureCold(s_cmd, n) : 0;
+    ramsyscall_printf("R %c %d %d %d %d %d %d %d %d %d %d %d\n", arm, size, tex, semi, raw, w, h, s.min, s.med, s.max,
+                      s.base, cold);
     if (out) *out = s;
 }
 
@@ -524,7 +542,10 @@ struct Shape {
 static const struct Shape s_xferShapes[] = {{8, 8}, {16, 16}, {32, 32}, {64, 64}, {128, 128}, {240, 240}, {320, 16}, {16, 240}};
 #define N_XFER (sizeof(s_xferShapes) / sizeof(s_xferShapes[0]))
 
-static uint32_t timeUpload(unsigned w, unsigned h, int dma) {
+static unsigned s_dmaTimeouts;
+
+// |dma| is the DMA2 block size in words, 0 for CPU writes.
+static uint32_t timeUpload(unsigned w, unsigned h, unsigned dma) {
     unsigned words = w * h / 2;
     waitIdle();
     startClock();
@@ -534,9 +555,18 @@ static uint32_t timeUpload(unsigned w, unsigned h, int dma) {
     if (dma) {
         GPU_STATUS = 0x04000002;
         D2_MADR = (uint32_t)s_big & 0xffffff;
-        D2_BCR = 16 | ((words / 16) << 16);
+        D2_BCR = dma | ((words / dma) << 16);
         D2_CHCR = 0x01000201;
-        while (D2_CHCR & 0x01000000) tick();
+        unsigned polls = 0;
+        while (D2_CHCR & 0x01000000) {
+            tick();
+            if (++polls > 4000000) {
+                D2_CHCR = 0x00000201;
+                s_dmaTimeouts++;
+                GPU_STATUS = 0x01000000;
+                break;
+            }
+        }
         GPU_STATUS = 0x04000001;
     } else {
         for (unsigned i = 0; i < words; i++) {
@@ -585,7 +615,7 @@ static void xferClass(char kind, int dma) {
         for (int r = 0; r < REPS; r++) {
             if (kind == 'U') {
                 for (unsigned j = 0; j < w * h / 2; j++) s_big[j] = 0x7c1f03e0u ^ (j * 0x00210021u);
-                t[r] = timeUpload(w, h, dma);
+                t[r] = timeUpload(w, h, dma ? 16 : 0);
             } else {
                 t[r] = timeDownload(w, h, dma);
             }
@@ -610,6 +640,42 @@ static void xferClass(char kind, int dma) {
     classDone(kind, 0x500000 | dma, ok, net(&last) > net(&first) + 1000, 0);
 }
 
+// A0h upload through DMA2 at other block sizes. Prints
+//   B bs w h min med max ok   (ok: first and last pixel read back)
+static void uploadBlockSizes(void) {
+    static const uint8_t sizes[] = {1, 2, 4, 8, 16, 32, 64};
+    static const struct Shape shapes[] = {{16, 16}, {64, 64}, {240, 240}, {320, 16}};
+    for (unsigned b = 0; b < sizeof(sizes); b++) {
+        for (unsigned i = 0; i < sizeof(shapes) / sizeof(shapes[0]); i++) {
+            unsigned w = shapes[i].w, h = shapes[i].h, words = w * h / 2;
+            uint32_t t[REPS];
+            for (int r = 0; r < REPS; r++) {
+                for (unsigned j = 0; j < words; j++) s_big[j] = 0x7c1f03e0u ^ ((j + r) * 0x00210021u);
+                t[r] = timeUpload(w, h, sizes[b]);
+            }
+            int ok = readPixel(0, UPLOAD_Y) == (s_big[0] & 0xffff) &&
+                     readPixel(w - 1, UPLOAD_Y + h - 1) == (s_big[words - 1] >> 16);
+            sort5(t);
+            ramsyscall_printf("B %d %d %d %d %d %d %d\n", sizes[b], w, h, t[0], t[REPS / 2], t[REPS - 1], ok);
+        }
+    }
+    ramsyscall_printf("B timeouts=%d\n", s_dmaTimeouts);
+}
+
+// Textured classes again with a 16x16 texture window (GP0(E2h)), so the
+// texels stay in the cache whatever the primitive size.
+static void windowArm(void) {
+    waitIdle();
+    GPU_DATA = 0xe2000000 | 0x1e | (0x1e << 5);
+    for (unsigned quad = 0; quad < 2; quad++)
+        for (unsigned g = 0; g < 2; g++)
+            for (unsigned ti = 1; ti < 4; ti++)
+                for (unsigned semi = 0; semi < 5; semi += 4) polyClass('T', quad, g, ti == 1 ? 4 : ti == 2 ? 8 : 15, semi, 0);
+    for (unsigned ti = 1; ti < 4; ti++) rectClass('T', ti == 1 ? 4 : ti == 2 ? 8 : 15, 0, 1);
+    waitIdle();
+    GPU_DATA = 0xe2000000;
+}
+
 static void probeRevision(void) {
     gp0Fill(0, 0, 16, 16, 0x00f8f8);
     s_idx7Primed = readWord(0, 0);
@@ -626,7 +692,7 @@ static void runAll(void) {
     T2_MODE = 0;
     setupGpu();
     probeRevision();
-    ramsyscall_printf("# P arm quad gouraud tex semi dither x w h min med max base list\n");
+    ramsyscall_printf("# P arm quad gouraud tex semi dither x w h min med max base list cold\n");
     for (unsigned quad = 0; quad < 2; quad++)
         for (unsigned g = 0; g < 2; g++)
             for (unsigned ti = 0; ti < 4; ti++)
@@ -636,7 +702,8 @@ static void runAll(void) {
     polyShapes(1, 1, 15, 1, 1);
     polyShapes(1, 0, 4, 0, 0);
     polyShapes(1, 0, 8, 0, 0);
-    ramsyscall_printf("# R arm size tex semi raw w h min med max base\n");
+    windowArm();
+    ramsyscall_printf("# R arm size tex semi raw w h min med max base cold\n");
     for (unsigned ti = 0; ti < 4; ti++) {
         unsigned tex = ti == 0 ? 0 : ti == 1 ? 4 : ti == 2 ? 8 : 15;
         for (unsigned semi = 0; semi < 5; semi++)
@@ -652,6 +719,7 @@ static void runAll(void) {
     xferClass('U', 1);
     xferClass('D', 0);
     xferClass('D', 1);
+    uploadBlockSizes();
     GPU_STATUS = 0x03000001;
     polyClass('D', 1, 0, 0, 0, 0);
     polyClass('D', 1, 1, 15, 1, 1);
