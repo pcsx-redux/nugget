@@ -24,6 +24,7 @@ all:
 	$(MAKE) -C gpu-async-stress all
 	$(MAKE) -C gpu-command all
 	$(MAKE) -C gpu-dfe-480i all
+	$(MAKE) -C gpustat10 all
 	$(MAKE) -C gpu-dma-dreq all
 	$(MAKE) -C gpu-dma-loop all
 	$(MAKE) -C gpu-dma-ring all
@@ -145,6 +146,7 @@ clean:
 	$(MAKE) -C gpu-async-stress clean
 	$(MAKE) -C gpu-command clean
 	$(MAKE) -C gpu-dfe-480i clean
+	$(MAKE) -C gpustat10 clean
 	$(MAKE) -C gpu-dma-dreq clean
 	$(MAKE) -C gpu-dma-loop clean
 	$(MAKE) -C gpu-dma-ring clean
