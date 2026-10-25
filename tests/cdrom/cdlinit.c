@@ -69,9 +69,9 @@ CESTER_TEST(cdlInit, test_instance,
     // Typical value seems to be around 2ms.
     cester_assert_uint_ge(ackTime, 500);
     cester_assert_uint_lt(ackTime, 7000);
-    // These may be a bit flaky on real hardware, depending on the motors status when starting.
-    // Typical value seems to be around 120ms.
-    cester_assert_uint_ge(completeTime, 50000);
+    // Depends on what the drive was doing before; here, right after boot, 3ms to 135ms.
+    // See timing.c for the slow cases.
+    cester_assert_uint_ge(completeTime, 1000);
     cester_assert_uint_lt(completeTime, 150000);
     ramsyscall_printf("Basic initialization: CD-Rom controller initialized, ack in %ius, complete in %ius\n", ackTime, completeTime);
 )
