@@ -45,6 +45,17 @@ CESTER_BODY(
         return cause;
     }
 
+    // Same, skipping data ready causes, at most 16 of them, so a response
+    // that never comes cannot keep the wait going while sectors arrive.
+    static uint8_t timingNextNonData(uint32_t timeout, uint32_t* time, uint8_t* stat) {
+        uint8_t cause;
+        unsigned skipped = 0;
+        while ((cause = timingNextCause(timeout, time, stat)) == 1) {
+            if (++skipped > 16) return 1;
+        }
+        return cause;
+    }
+
     // ReadN at 00:02:16 in the given mode, n sectors acknowledged without
     // reading them, then Pause. Returns the Pause INT2 time from its INT3,
     // or 0 if a step failed. Late INT1s around the Pause are skipped.
@@ -65,10 +76,10 @@ CESTER_BODY(
         CDROM_REG0 = 0;
         CDROM_REG1 = CDL_PAUSE;
         uint32_t ackTime;
-        while ((cause = timingNextCause(100000, &ackTime, &stat)) == 1);
+        cause = timingNextNonData(100000, &ackTime, &stat);
         if (cause != 3) return 0;
         uint32_t completeTime;
-        while ((cause = timingNextCause(3000000, &completeTime, pauseStat)) == 1);
+        cause = timingNextNonData(3000000, &completeTime, pauseStat);
         if (cause != 2) return 0;
         return completeTime - ackTime;
     }
@@ -214,8 +225,8 @@ CESTER_TEST(readNAfterStop, test_instance,
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_PAUSE;
     uint32_t t;
-    while ((cause = timingNextCause(100000, &t, &pauseStat)) == 1);
-    while ((cause = timingNextCause(3000000, &t, &pauseStat)) == 1);
+    timingNextNonData(100000, &t, &pauseStat);
+    cause = timingNextNonData(3000000, &t, &pauseStat);
     ramsyscall_printf("ReadN after Stop: ack stat %02x, first sector in %ius stat %02x, Pause stat %02x\n", readAckStat,
                       readyTime, readyStat, pauseStat);
     cester_assert_uint_eq(3, readCause);
