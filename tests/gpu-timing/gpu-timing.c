@@ -642,8 +642,11 @@ static void xferClass(char kind, int dma) {
 
 // A0h upload through DMA2 at other block sizes. Prints
 //   B bs w h min med max ok   (ok: first and last pixel read back)
+// Stops at 16 words: a 240x240 upload in 36-word blocks on an SCPH-1000, and
+// in 60-word blocks on an SCPH-1001, stopped the CPU with the transfer still
+// running (32 on the SCPH-1000 stopped it once in five).
 static void uploadBlockSizes(void) {
-    static const uint8_t sizes[] = {1, 2, 4, 8, 16, 32, 64};
+    static const uint8_t sizes[] = {1, 2, 4, 8, 16};
     static const struct Shape shapes[] = {{16, 16}, {64, 64}, {240, 240}, {320, 16}};
     for (unsigned b = 0; b < sizeof(sizes); b++) {
         for (unsigned i = 0; i < sizeof(shapes) / sizeof(shapes[0]); i++) {
