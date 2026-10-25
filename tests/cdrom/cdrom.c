@@ -83,6 +83,7 @@ SOFTWARE.
 #include "reading.c"
 #include "readnosetloc.c"
 #include "seekread.c"
+#include "timing.c"
 #include "xa.c"
 #else
 #include "misc.c"
