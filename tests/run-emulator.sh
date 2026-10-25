@@ -103,6 +103,7 @@ SKIPS=(
     "gte-write-to-use/gte-write-to-use|emulator gap: GTE write-to-use delay per command and register not in the dev AppImage; run by the pcsx-redux gtests"
     "gpu-dfe-480i/gpu-dfe-480i|emulator gap: GP0(E1h).10 row skipping in 480i not in the dev AppImage; run by the pcsx-redux gtests"
     "gpu-dma-ring/gpu-dma-ring|emulator gap: a GPU linked list used as a ring needs GPU timing and back-pressure; Redux ends the loop at once (every assert is hardware-only)"
+    "gpu-timing/gpu-timing|emulator gap: GPU draw and transfer time per primitive; Redux has no per-pixel GPU timing (the size-growth asserts are hardware-only)"
     "gpustat-480i/gpustat-480i|emulator gap: GPUSTAT bits 13 and 31 by beam position in 480i not in the dev AppImage; run by the pcsx-redux gtests"
     "psyqo-480i-flip/flip480i|emulator gap: GP0(E1h).10 row skipping in 480i not in the dev AppImage; run by the pcsx-redux gtests"
     "shell-480i-wait/shell-480i-wait|emulator gap: GP0(E1h).10 row skipping in 480i not in the dev AppImage; run by the pcsx-redux gtests"
