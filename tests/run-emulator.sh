@@ -135,6 +135,7 @@ SKIPS=(
     "memcard-bios-slot2/memcard-bios-slot2|the memcard-bios test built for slot 2, for the farm console whose test card is there"
     "pcdrv-net/pcdrv-net|needs a TCP echo peer on 127.0.0.1:37373, run by the pcsx-redux gtests"
     "pcdrv-net-off/pcdrv-net-off|needs PCdrv networking from pcsx-redux#2327 in the dev AppImage"
+    "multitap/multitap|needs -shmdisplay host input and multitap from pcsx-redux#2471, run by the pcsx-redux gtests"
 )
 for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")

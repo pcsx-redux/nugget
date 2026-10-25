@@ -90,6 +90,7 @@ all:
 	$(MAKE) -C psyqo-reinit all
 	$(MAKE) -C psyqo-spudma all
 	$(MAKE) -C regwrites all
+	$(MAKE) -C multitap all
 	$(MAKE) -C rumble all
 	$(MAKE) -C shell-480i-wait all
 	$(MAKE) -C spu all
@@ -210,6 +211,7 @@ clean:
 	$(MAKE) -C psyqo-reinit clean
 	$(MAKE) -C psyqo-spudma clean
 	$(MAKE) -C regwrites clean
+	$(MAKE) -C multitap clean
 	$(MAKE) -C rumble clean
 	$(MAKE) -C shell-480i-wait clean
 	$(MAKE) -C spu clean
