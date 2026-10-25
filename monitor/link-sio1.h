@@ -30,6 +30,7 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 #include "common/hardware/sio.h"
+#include "monitor/watchdog.h"
 
 /* SIO1 byte link at 115200 8N1 (x16, reload 18: 117600 baud, the setting the
    Unirom-carrying cables are known to run at).
@@ -44,6 +45,14 @@ SOFTWARE.
 
 #define SIO1_CTRL_BASE (SIO_CTRL_TXEN | SIO_CTRL_RXE)
 
+/* The 573 and GV loop RTS back to CTS, so dropping RTS would stop the
+   transmitter. There RTS stays up and nothing throttles the host. */
+#ifdef MONITOR_SIO1_RTS_ALWAYS
+#define SIO1_CTRL_IDLE (SIO1_CTRL_BASE | SIO_CTRL_RTS)
+#else
+#define SIO1_CTRL_IDLE SIO1_CTRL_BASE
+#endif
+
 /* Baud = 2073600 / reload at x16: 18 -> 115200 (117600 actual), 5 -> 414720,
    4 -> 518400. */
 #ifndef MONITOR_SIO1_RELOAD
@@ -54,21 +63,23 @@ static inline void linkInit(void) {
     SIOS[1].ctrl = SIO_CTRL_IR;
     SIOS[1].baudRate = MONITOR_SIO1_RELOAD;
     SIOS[1].mode = 0x4e; /* 1 stop bit, 8 bits, no parity, x16 */
-    SIOS[1].ctrl = SIO1_CTRL_BASE;
+    SIOS[1].ctrl = SIO1_CTRL_IDLE;
 }
 
 static inline void linkRxOpen(void) { SIOS[1].ctrl = SIO1_CTRL_BASE | SIO_CTRL_RTS; }
 
-static inline void linkRxClose(void) { SIOS[1].ctrl = SIO1_CTRL_BASE; }
+static inline void linkRxClose(void) { SIOS[1].ctrl = SIO1_CTRL_IDLE; }
 
 static inline uint8_t linkGetByte(void) {
     while ((SIOS[1].stat & SIO_STAT_RXRDY) == 0) {
+        monitorWatchdogIdle();
     }
     return SIOS[1].fifo;
 }
 
 static inline void linkPutByte(uint8_t b) {
     while ((SIOS[1].stat & SIO_STAT_TXRDY) == 0) {
+        monitorWatchdogIdle();
     }
     SIOS[1].fifo = b;
 }

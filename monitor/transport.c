@@ -27,6 +27,7 @@ SOFTWARE.
 #include "monitor/transport.h"
 
 #include "monitor/link.h"
+#include "monitor/watchdog.h"
 
 /* Frame checksum: Fletcher-32 over the 16-bit word stream (TYPE, LEN, payload),
    two register accumulators with the modulo deferred to the end. A computed
@@ -233,6 +234,9 @@ static int awaitFrame(const uint8_t *f, unsigned n) {
     linkRxOpen();
     for (uint32_t spins = 0; spins < MONITOR_RATE_WINDOW_SPINS; spins++) {
         uint8_t b;
+        /* The window outlasts the 573's watchdog. Kick sparsely so the
+           window keeps its length. */
+        if ((spins & 0xfff) == 0) monitorWatchdogIdle();
         if (!linkTryGetByte(&b)) continue;
         if (b == f[matched]) {
             if (++matched == n) {
