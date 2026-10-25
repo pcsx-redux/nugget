@@ -64,8 +64,9 @@ SOFTWARE.
 
 #ifdef MONITOR_HAS_WATCHDOG
 #define MON_CAPS_WATCHDOG MON_CAP_WATCHDOG
-/* 1 while HALTED; while RUNNING, MON_FEAT_WATCHDOG from RUN (watchdog.h). */
-volatile uint8_t g_monitorKick __attribute__((used)) = 1;
+/* MONITOR_KICK_HALTED while HALTED; while RUNNING, MON_FEAT_WATCHDOG from RUN
+   (watchdog.h). */
+volatile uint8_t g_monitorKick __attribute__((used)) = MONITOR_KICK_HALTED;
 volatile uint32_t g_monitorKickElapsed __attribute__((used)) = 0;
 volatile uint16_t g_monitorKickLast __attribute__((used)) = 0;
 #else
@@ -105,6 +106,14 @@ static struct {
     /* Set from RUN/CONT until the next stop: only then is a byte on the link
        a STOP request. Before the first RUN it is the host's next command. */
     int running;
+#if defined(MONITOR_HAS_WATCHDOG) && MONITOR_WDT_KICK_HZ > 0
+    /* The target's root counter 2, which the HALTED kick timer borrows. On
+       the retail and cart hosts nothing is saved before the first RUN, which
+       gets the zeros the core's bss starts with. */
+    uint16_t t2Mode;
+    uint16_t t2Target;
+    uint16_t t2Count;
+#endif
 #ifdef MONITOR_LZ4
     /* The LZ4 stream in flight: its decoder, how much of clen has arrived, and
        whether one is open at all (see streamWriteMemLz4). */
@@ -124,12 +133,43 @@ static struct {
 
 static struct Registers *currentRegs(void) { return &__globals.processes[0].thread->registers; }
 
+#if defined(MONITOR_HAS_WATCHDOG) && MONITOR_WDT_KICK_HZ > 0
+/* Save the target's counter 2 before the HALTED kick timer takes it over.
+   Reading the mode register clears its reached-target and reached-0xffff
+   flags (bits 11 and 12); there is no way to read it that does not. */
+static void monitorSaveTimer(void) {
+    s_mon.t2Mode = MONITOR_WDT_TIMER_MODE;
+    s_mon.t2Target = MONITOR_WDT_TIMER_TARGET;
+    s_mon.t2Count = MONITOR_WDT_TIMER_COUNT;
+}
+#endif
+
+/* Enter HALTED. Coming from the target (not from a fault inside the HALTED
+   loop itself), counter 2 is still the target's: save it. */
+static void monitorHalt(void) {
+    s_mon.running = 0;
+#ifdef MONITOR_HAS_WATCHDOG
+#if MONITOR_WDT_KICK_HZ > 0
+    if (g_monitorKick != MONITOR_KICK_HALTED) monitorSaveTimer();
+#endif
+    g_monitorKick = MONITOR_KICK_HALTED;
+#endif
+}
+
 /* Resume the target. Anything written may be code the I-cache still holds
    older lines for, so flush first when memory changed. */
 static inline __attribute__((noreturn)) void monitorResume(void) {
     s_mon.running = 1;
 #ifdef MONITOR_HAS_WATCHDOG
     g_monitorKick = (s_mon.features & MON_FEAT_WATCHDOG) != 0;
+#if MONITOR_WDT_KICK_HZ > 0
+    /* Counter 2 as it was at the stop: the mode (which zeroes the count),
+       then the target, then the count. Frozen across the halt, like the rest
+       of a halted target. */
+    MONITOR_WDT_TIMER_MODE = s_mon.t2Mode;
+    MONITOR_WDT_TIMER_TARGET = s_mon.t2Target;
+    MONITOR_WDT_TIMER_COUNT = s_mon.t2Count;
+#endif
 #endif
     if (s_mon.memWritten) {
         s_mon.memWritten = 0;
@@ -489,10 +529,7 @@ static __attribute__((noreturn)) void monitorCommandLoop(void) {
 /* Snapshot a stop, tell the host, and drop into the command loop until the host
    resumes. Never returns. */
 static __attribute__((noreturn)) void monitorStop(struct Registers *r, uint16_t reason, uint32_t a, uint32_t b) {
-    s_mon.running = 0;
-#ifdef MONITOR_HAS_WATCHDOG
-    g_monitorKick = 1;
-#endif
+    monitorHalt();
     s_mon.ctx = r;
     s_mon.badVaddr = (reason == MON_STOP_FAULT) ? b : 0;
     emitStopped(reason, r->returnPC, a, b);
@@ -521,10 +558,7 @@ static __attribute__((noinline)) void monitorTake(struct Registers *r) {
                the break. What it means is the host's business, and so is
                stepping past it. */
             if (insn == ((4u << 16) | (1u << 6) | 0x0d)) {
-                s_mon.running = 0;
-#ifdef MONITOR_HAS_WATCHDOG
-                g_monitorKick = 1;
-#endif
+                monitorHalt();
                 emitIdentity(MON_HELLO);
                 monitorCommandLoop();
             }
@@ -728,6 +762,11 @@ __asm__(
     "    .previous\n");
 
 void monitorMain(void) {
+#if defined(MONITOR_HAS_WATCHDOG) && MONITOR_WDT_KICK_HZ > 0
+    /* g_monitorKick starts HALTED, so the entry break below saves nothing:
+       take counter 2 as the kernel left it, for the first RUN. */
+    monitorSaveTimer();
+#endif
     psxprintf("OpenBIOS Monitor.\n");
     transportInit();
     s_mon.ctx = 0;

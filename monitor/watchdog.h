@@ -37,7 +37,9 @@ SOFTWARE.
    while HALTED and where a long READ_MEM spends its time, and from interrupts
    while RUNNING. g_monitorKick gates the byte loops: the kernel tty writes
    through the same loop, and a target running with MON_FEAT_WATCHDOG clear
-   must not be kicked by its own printf. */
+   must not be kicked by its own printf. It is MONITOR_KICK_HALTED while
+   HALTED, and while RUNNING 1 or 0 from MON_FEAT_WATCHDOG. */
+#define MONITOR_KICK_HALTED 2
 
 #if defined(MONITOR_PLATFORM_SYS573)
 #define MONITOR_WATCHDOG_ADDR 0x1f5c0000
@@ -56,7 +58,10 @@ static inline void monitorWatchdogKick(void) {
    most N times a second, timed by root counter 2 at sysclk/8 (free-running,
    16 bits, no IRQ). The 16-bit deltas accumulate into a 32-bit tick count, so
    calls must come more often than every 15 ms. If the counter's mode is not
-   what we set (a guest reconfigured it), it is set up again. While RUNNING,
+   what we set (a guest reconfigured it), it is set up again. Only while
+   HALTED: the monitor saves the target's counter 2 on the way in and puts it
+   back on resume (monitor.c), and while RUNNING the byte loops leave it
+   alone, so the target's printf does not reprogram it. While RUNNING,
    interrupts kick only on VBlank (I_STAT bit 0). */
 #ifndef MONITOR_WDT_KICK_HZ
 #define MONITOR_WDT_KICK_HZ 0
@@ -70,7 +75,7 @@ static inline void monitorWatchdogKick(void) {
 extern volatile uint32_t g_monitorKickElapsed;
 extern volatile uint16_t g_monitorKickLast;
 static inline void monitorWatchdogIdle(void) {
-    if (!g_monitorKick) return;
+    if (g_monitorKick != MONITOR_KICK_HALTED) return;
     if ((MONITOR_WDT_TIMER_MODE & 0x3ff) != MONITOR_WDT_TIMER_MODE_VAL) {
         MONITOR_WDT_TIMER_MODE = MONITOR_WDT_TIMER_MODE_VAL;
         MONITOR_WDT_TIMER_TARGET = 0xffff;

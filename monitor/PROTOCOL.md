@@ -890,7 +890,11 @@ at the computed next PC; no protocol change is needed for that.
   `0x1F780000` on the GV. The monitor kicks it in the link's byte loops
   while HALTED, inside the BIOS checksum, and on interrupts while RUNNING
   when `MON_FEAT_WATCHDOG` is set. HELLO and PONG carry `MON_CAP_WATCHDOG`.
-- DEV0 is left as the kernel set it.
+- DEV0: on the 573, the loader's crt0 (`common/crt0/crt0.s`, assembled
+  with `MONITOR_PLATFORM_SYS573` by the retail host's Makefile) sets it
+  before `main`, base `0x1F000000` (`SBUS_DEV0_ADDR`) and timing
+  `0x24173F47` (`SBUS_DEV0_CTRL`), then clears the watchdog once. The GV
+  build does not touch DEV0: it runs with what the kernel set.
 - The Konami kernels (700A01, 700B01, 999A01) leave the core's RAM,
   `0x8000C160`..`0x8000DF80`, unused: bss ends at `0x8000B150` and the
   kernel heap starts at `0x8000E000`.

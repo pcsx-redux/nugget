@@ -86,8 +86,9 @@ int main(void) {
     IMASK = 0;
     IREG = 0;
 
-    /* DEV0 is left as the kernel set it: the Konami kernels load its timing
-       from a per-board word in the BIOS ROM, which differs between BIOSes. */
+    /* DEV0: on the 573, crt0 has already set it (base 0x1f000000, timing
+       0x24173f47) and cleared the watchdog once. The GV build leaves it as
+       the kernel set it. */
     monitorWatchdogKick();
 
     /* Outside the cave the RAM is OpenBIOS's own, and the core only runs
