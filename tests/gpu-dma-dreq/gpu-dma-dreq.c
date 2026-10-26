@@ -175,12 +175,16 @@ static int gplines(int n, int nops) {
     return w;
 }
 
+// s_readOk is 0 when GPUSTAT.27 never rose, so the returned word is not pixel data.
+static int s_readOk;
 static uint16_t readPx(int x, int y) {
     for (int i = 0; i < LIMIT && !(GP1 & 0x04000000); i++);
     GP0 = 0xc0000000;
     GP0 = xy(x, y);
     GP0 = xy(2, 1);
-    for (int i = 0; i < LIMIT && !(GP1 & 0x08000000); i++);
+    int i = 0;
+    while (i < LIMIT && !(GP1 & 0x08000000)) i++;
+    s_readOk = i < LIMIT;
     return GP0 & 0xffff;
 }
 
@@ -188,6 +192,7 @@ static uint16_t readPx(int x, int y) {
 // Records GPUSTAT bits 25/26/28 right after each word and the polls spent
 // waiting, then reads back a pixel on the last segment.
 static uint8_t s_bits[512];
+static int s_idleOk;
 static uint16_t s_waits[512];
 static int cpuPline(int n, int paced, uint32_t *maxWait, int *fullAt, uint16_t *lastPx) {
     gpuSetup();
@@ -209,10 +214,13 @@ static int cpuPline(int n, int paced, uint32_t *maxWait, int *fullAt, uint16_t *
         if (polls > *maxWait) *maxWait = polls;
         if (*fullAt < 0 && !(st & 0x02000000)) *fullAt = i;
     }
-    for (int i = 0; i < LIMIT && (GP1 & 0x14000000) != 0x14000000; i++);
+    int idle = 0;
+    while (idle < LIMIT && (GP1 & 0x14000000) != 0x14000000) idle++;
+    s_idleOk = idle < LIMIT;
+    uint32_t stAfter = GP1;
     *lastPx = readPx(((n - 1) & 1) ? 300 : 10, 10 + (n - 1) * 3);
-    ramsyscall_printf("OBS cpu pline n %d paced %d words %d fullAt %d maxWait %d lastpx %04x\nOBS bits", n, paced, words,
-                      *fullAt, (int)*maxWait, *lastPx);
+    ramsyscall_printf("OBS cpu pline n %d paced %d words %d fullAt %d maxWait %d idle %d stat %08x readOk %d lastpx %04x\nOBS bits",
+                      n, paced, words, *fullAt, (int)*maxWait, idle, stAfter, s_readOk, *lastPx);
     for (int i = 0; i < words; i++) ramsyscall_printf(" %d", s_bits[i]);
     ramsyscall_printf("\nOBS waits");
     for (int i = 0; i < words; i++) ramsyscall_printf(" %d", s_waits[i]);
@@ -317,22 +325,28 @@ CESTER_TEST(linked_rects_240, gpu_dma_dreq, linked(rects(80));)
 CESTER_MAYBE_TEST(pline_cpu_paced, gpu_dma_dreq,
     uint32_t maxWait; int fullAt; uint16_t px;
     int words = cpuPline(60, 1, &maxWait, &fullAt, &px);
+    cester_assert_int_eq(1, s_idleOk);
+    cester_assert_int_eq(1, s_readOk);
+    cester_assert_uint_ne(LIMIT, maxWait);
     cester_assert_uint_eq(0x7e08, px);
     cester_assert_int_eq(-1, fullAt);
     uint32_t w10 = s_waits[10], w11 = s_waits[11];
     cester_assert_uint_eq(0, w10);
     cester_assert_uint_ne(0, w11);
     int busy = 0;
-    for (int i = 1; i < words; i++) busy |= s_bits[i] & 6;
+    for (int i = 0; i < words; i++) busy |= s_bits[i] & 6;
     cester_assert_int_eq(0, busy);
 )
-// Unpaced, the FIFO is full from the 11th word and the list loses words: the
-// last vertex is not drawn where the list puts it.
+// Unpaced, GPUSTAT.25 is 0 from the 11th word and the overflow loses the
+// terminator: the GPU never goes idle (bit 26 stays 0 with bit 25 set, still
+// taking vertices), and the GP0(C0h) readback is eaten as vertices, so
+// GPUSTAT.27 never rises and the returned word is not pixel data.
 CESTER_MAYBE_TEST(pline_cpu_unpaced, gpu_dma_dreq,
     uint32_t maxWait; int fullAt; uint16_t px;
     cpuPline(60, 0, &maxWait, &fullAt, &px);
     cester_assert_int_eq(10, fullAt);
-    cester_assert_uint_ne(0x7e08, px);
+    cester_assert_int_eq(0, s_idleOk);
+    cester_assert_int_eq(0, s_readOk);
 )
 // A poly-line is in the DREQ stall class: the block after the one holding its
 // command word never starts, whatever the block size.
