@@ -99,6 +99,9 @@ all:
 	$(MAKE) -C spu-konlatch all
 	$(MAKE) -C spu-offvoice all
 	$(MAKE) -C sr-write all
+	$(MAKE) -C stack-bounds all
+	$(MAKE) -C stack-bounds-churn all
+	$(MAKE) -C stack-bounds-trip all
 	$(MAKE) -C autoinc all
 	$(MAKE) -C bcc-narrow all
 	$(MAKE) -C dma-chopping all
@@ -218,6 +221,9 @@ clean:
 	$(MAKE) -C spu-konlatch clean
 	$(MAKE) -C spu-offvoice clean
 	$(MAKE) -C sr-write clean
+	$(MAKE) -C stack-bounds clean
+	$(MAKE) -C stack-bounds-churn clean
+	$(MAKE) -C stack-bounds-trip clean
 	$(MAKE) -C autoinc clean
 	$(MAKE) -C bcc-narrow clean
 	$(MAKE) -C dma-chopping clean
