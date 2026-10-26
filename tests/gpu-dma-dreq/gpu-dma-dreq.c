@@ -28,10 +28,22 @@ SOFTWARE.
 // GP1(04h)=2 that bit drops after a polygon or line command word and stays low
 // until the command is complete, so a block boundary inside one of those
 // stops the channel for good: CHCR stays busy, MADR and BCR show the blocks
-// already sent. Rectangles, blocks of whole commands, GP1(04h)=1 and linked
-// lists all complete. Passes on an SCPH-5501 and an SCPH-7001.
+// already sent. Poly-lines are in that class too. Rectangles, blocks of whole
+// commands, GP1(04h)=1 and linked lists all complete. A CPU-fed poly-line
+// longer than the FIFO streams if each word waits for GPUSTAT.25 and loses
+// words if it does not. Passes on an SCPH-1000, an SCPH-5501 and an SCPH-7001.
 
 #include <stdint.h>
+
+#ifndef PCSX_TESTS
+#define PCSX_TESTS 0
+#endif
+
+#if PCSX_TESTS
+#define CESTER_MAYBE_TEST CESTER_SKIP_TEST
+#else
+#define CESTER_MAYBE_TEST CESTER_TEST
+#endif
 
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
@@ -141,6 +153,82 @@ static int gtris(int n) {
     return w;
 }
 
+// Poly-lines: zigzag segments 290 pixels wide, three rows apart. nops GP0(00h)
+// words go first. Ends with the 55555555h terminator.
+static int plines(int n, int nops) {
+    int w = 0;
+    for (int i = 0; i < nops; i++) buf[w++] = 0;
+    buf[w++] = 0x48ff8040;
+    for (int i = 0; i < n; i++) buf[w++] = xy((i & 1) ? 300 : 10, 10 + i * 3);
+    buf[w++] = 0x55555555;
+    return w;
+}
+static int gplines(int n, int nops) {
+    int w = 0;
+    for (int i = 0; i < nops; i++) buf[w++] = 0;
+    for (int i = 0; i < n; i++) {
+        if (i) buf[w++] = (i & 1) ? 0x0000ff00 : 0x00ff0000;
+        else buf[w++] = 0x580000ff;
+        buf[w++] = xy((i & 1) ? 300 : 10, 10 + i * 3);
+    }
+    buf[w++] = 0x55555555;
+    return w;
+}
+
+// s_readOk is 0 when GPUSTAT.27 never rose, so the returned word is not pixel data.
+static int s_readOk;
+static uint16_t readPx(int x, int y) {
+    for (int i = 0; i < LIMIT && !(GP1 & 0x04000000); i++);
+    GP0 = 0xc0000000;
+    GP0 = xy(x, y);
+    GP0 = xy(2, 1);
+    int i = 0;
+    while (i < LIMIT && !(GP1 & 0x08000000)) i++;
+    s_readOk = i < LIMIT;
+    return GP0 & 0xffff;
+}
+
+// CPU-fed poly-line, GP1(04h)=1. paced: wait for GPUSTAT.25 before each word.
+// Records GPUSTAT bits 25/26/28 right after each word and the polls spent
+// waiting, then reads back a pixel on the last segment.
+static uint8_t s_bits[512];
+static int s_idleOk;
+static uint16_t s_waits[512];
+static int cpuPline(int n, int paced, uint32_t *maxWait, int *fullAt, uint16_t *lastPx) {
+    gpuSetup();
+    GP1 = 0x04000001;
+    GP0 = 0x02000000;
+    GP0 = 0;
+    GP0 = xy(320, 240);
+    for (int i = 0; i < LIMIT && (GP1 & 0x14000000) != 0x14000000; i++);
+    int words = plines(n, 0);
+    *maxWait = 0;
+    *fullAt = -1;
+    for (int i = 0; i < words; i++) {
+        uint32_t polls = 0;
+        if (paced) while (!(GP1 & 0x02000000) && polls < LIMIT) polls++;
+        GP0 = buf[i];
+        uint32_t st = GP1;
+        s_bits[i] = ((st >> 25) & 1) | (((st >> 26) & 1) << 1) | (((st >> 28) & 1) << 2);
+        s_waits[i] = polls > 0xffff ? 0xffff : polls;
+        if (polls > *maxWait) *maxWait = polls;
+        if (*fullAt < 0 && !(st & 0x02000000)) *fullAt = i;
+    }
+    int idle = 0;
+    while (idle < LIMIT && (GP1 & 0x14000000) != 0x14000000) idle++;
+    s_idleOk = idle < LIMIT;
+    uint32_t stAfter = GP1;
+    *lastPx = readPx(((n - 1) & 1) ? 300 : 10, 10 + (n - 1) * 3);
+    ramsyscall_printf("OBS cpu pline n %d paced %d words %d fullAt %d maxWait %d idle %d stat %08x readOk %d lastpx %04x\nOBS bits",
+                      n, paced, words, *fullAt, (int)*maxWait, idle, stAfter, s_readOk, *lastPx);
+    for (int i = 0; i < words; i++) ramsyscall_printf(" %d", s_bits[i]);
+    ramsyscall_printf("\nOBS waits");
+    for (int i = 0; i < words; i++) ramsyscall_printf(" %d", s_waits[i]);
+    ramsyscall_printf("\n");
+    GP1 = 0;
+    return words;
+}
+
 static int waitDma(void) {
     for (int i = 0; i < LIMIT; i++) {
         if ((DMA_CTRL[DMA_GPU].CHCR & 0x01000000) == 0) return 1;
@@ -230,3 +318,39 @@ CESTER_TEST(linked_lines_240, gpu_dma_dreq, linked(lines(80, 0));)
 CESTER_TEST(linked_lines_12, gpu_dma_dreq, linked(lines(4, 0));)
 CESTER_TEST(linked_gtris_240, gpu_dma_dreq, linked(gtris(40));)
 CESTER_TEST(linked_rects_240, gpu_dma_dreq, linked(rects(80));)
+// GPUSTAT.25 drops after 11 queued words, then each further word waits for
+// one 290-pixel segment: the poly-line streams through the FIFO. Bits 26 and
+// 28 read 0 after every word of the list. Redux has no GP0 FIFO, so these are
+// hardware-only.
+CESTER_MAYBE_TEST(pline_cpu_paced, gpu_dma_dreq,
+    uint32_t maxWait; int fullAt; uint16_t px;
+    int words = cpuPline(60, 1, &maxWait, &fullAt, &px);
+    cester_assert_int_eq(1, s_idleOk);
+    cester_assert_int_eq(1, s_readOk);
+    cester_assert_uint_ne(LIMIT, maxWait);
+    cester_assert_uint_eq(0x7e08, px);
+    cester_assert_int_eq(-1, fullAt);
+    uint32_t w10 = s_waits[10], w11 = s_waits[11];
+    cester_assert_uint_eq(0, w10);
+    cester_assert_uint_ne(0, w11);
+    int busy = 0;
+    for (int i = 0; i < words; i++) busy |= s_bits[i] & 6;
+    cester_assert_int_eq(0, busy);
+)
+// Unpaced, GPUSTAT.25 is 0 from the 11th word and the overflow loses the
+// terminator: the GPU never goes idle (bit 26 stays 0 with bit 25 set, still
+// taking vertices), and the GP0(C0h) readback is eaten as vertices, so
+// GPUSTAT.27 never rises and the returned word is not pixel data.
+CESTER_MAYBE_TEST(pline_cpu_unpaced, gpu_dma_dreq,
+    uint32_t maxWait; int fullAt; uint16_t px;
+    cpuPline(60, 0, &maxWait, &fullAt, &px);
+    cester_assert_int_eq(10, fullAt);
+    cester_assert_int_eq(0, s_idleOk);
+    cester_assert_int_eq(0, s_readOk);
+)
+// A poly-line is in the DREQ stall class: the block after the one holding its
+// command word never starts, whatever the block size.
+CESTER_TEST(pline_bs16_split, gpu_dma_dreq, block(plines(46, 0), 16, 2, 16);)
+CESTER_TEST(pline_bs1, gpu_dma_dreq, block(plines(46, 0), 1, 2, 1);)
+CESTER_TEST(pline_dir1_bs1, gpu_dma_dreq, block(plines(46, 0), 1, 1, DONE);)
+CESTER_TEST(gpline_bs16_split, gpu_dma_dreq, block(gplines(23, 1), 16, 2, 16);)
