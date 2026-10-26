@@ -77,6 +77,8 @@ SOFTWARE.
 #include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
 #include "lines.h"
+#include "prim.h"
+#include "prims.h"
 
 #undef unix
 #define CESTER_NO_SIGNAL
@@ -108,12 +110,6 @@ CESTER_BODY(
 #define UPLOAD_Y 256
 #define COPY_DST_X 256
 #define COPY_DST_Y 256
-
-#define TP4_X 512
-#define TP8_X 640
-#define TP15_X 768
-#define CLUT4_Y 480
-#define CLUT8_Y 481
 
 static uint32_t s_cmd[CMD_MAX];
 static const uint32_t s_zero[CMD_MAX];
@@ -310,61 +306,12 @@ static void setupGpu(void) {
     uploadRect(512, CLUT8_Y, 256, 1, genClut);
 }
 
-static uint32_t tpageX(unsigned tex) { return tex == 4 ? TP4_X / 64 : tex == 8 ? TP8_X / 64 : TP15_X / 64; }
-static uint32_t tdepth(unsigned tex) { return tex == 4 ? 0 : tex == 8 ? 1 : 2; }
-static uint32_t clutWord(unsigned tex) {
-    return tex == 4 ? (512 / 16) | (CLUT4_Y << 6) : tex == 8 ? (512 / 16) | (CLUT8_Y << 6) : 0;
-}
-static uint32_t abr(unsigned semi) { return semi ? semi - 1 : 0; }
-
 static void setE1(unsigned tex, unsigned semi, unsigned dither) {
     uint32_t v = (abr(semi) << 5) | (1u << 10) | (dither << 9);
     if (tex) v |= tpageX(tex) | (tdepth(tex) << 7);
     waitIdle();
     GPU_DATA = 0xe1000000 | v;
     waitIdle();
-}
-
-static uint32_t vtx(unsigned x, unsigned y) { return (y << 16) | x; }
-static uint32_t uvw(unsigned u, unsigned v) {
-    if (u > 255) u = 255;
-    if (v > 255) v = 255;
-    return (v << 8) | u;
-}
-
-static const uint32_t s_colors[4] = {0x2050a0, 0xa05020, 0x50a020, 0x606060};
-
-static unsigned buildPoly(uint32_t *o, unsigned quad, unsigned g, unsigned tex, unsigned semi, unsigned x0,
-                          unsigned w, unsigned h) {
-    unsigned op = 0x20 | (g ? 0x10 : 0) | (quad ? 0x08 : 0) | (tex ? 0x04 : 0) | (semi ? 0x02 : 0);
-    unsigned nv = quad ? 4 : 3;
-    unsigned vx[4] = {x0, x0 + w, x0, x0 + w};
-    unsigned vy[4] = {0, 0, h, h};
-    unsigned n = 0;
-    uint32_t c0 = (tex && !g) ? 0x808080 : s_colors[0];
-    uint32_t tpage = tex ? (tpageX(tex) | (abr(semi) << 5) | (tdepth(tex) << 7)) : 0;
-    o[n++] = (op << 24) | c0;
-    for (unsigned k = 0; k < nv; k++) {
-        if (k && g) o[n++] = s_colors[k];
-        o[n++] = vtx(vx[k], vy[k]);
-        if (tex) {
-            uint32_t hi = k == 0 ? clutWord(tex) : k == 1 ? tpage : 0;
-            o[n++] = uvw(vx[k] - x0, vy[k]) | (hi << 16);
-        }
-    }
-    return n;
-}
-
-static unsigned buildRect(uint32_t *o, unsigned size, unsigned tex, unsigned semi, unsigned raw, unsigned w,
-                          unsigned h) {
-    unsigned code = size == 0 ? 0 : size == 1 ? 1 : size == 8 ? 2 : 3;
-    unsigned op = 0x60 | (code << 3) | (tex ? 0x04 : 0) | (semi ? 0x02 : 0) | (raw ? 0x01 : 0);
-    unsigned n = 0;
-    o[n++] = (op << 24) | (tex ? 0x808080 : 0x50a020);
-    o[n++] = vtx(0, 0);
-    if (tex) o[n++] = clutWord(tex) << 16;
-    if (!size) o[n++] = (h << 16) | w;
-    return n;
 }
 
 static void classDone(char kind, unsigned tag, int drawn, int grow, int isLine) {

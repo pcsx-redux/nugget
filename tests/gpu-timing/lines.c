@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 #include "lines.h"
+#include "prim.h"
 
 // TODO: build the four line commands (40h, 50h, 48h, 58h, plus the
 // semi-transparent bit). Until then no line class is swept and the two line
