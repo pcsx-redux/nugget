@@ -77,7 +77,7 @@ class CubeScene final : public psyqo::Scene {
     // otherwise they'll draw over our beautiful cube.
     psyqo::Fragments::SimpleFragment<psyqo::Prim::FastFill> m_clear[2];
 
-    eastl::array<psyqo::Fragments::SimpleFragment<psyqo::Prim::Quad>, 6> m_quads;
+    eastl::array<psyqo::Fragments::SimpleFragment<psyqo::Prim::Quad>, 6> m_quads[2];
 
     static constexpr psyqo::Color c_bg = {.r = 63, .g = 63, .b = 63};
 
@@ -202,7 +202,7 @@ void CubeScene::frame() {
         psyqo::GTE::read<psyqo::GTE::Register::SXY2>(&projected[3].packed);
 
         // Take a Quad fragment from our array, set its vertices, color and make it opaque
-        auto& quad = m_quads[faceNum];
+        auto& quad = m_quads[parity][faceNum];
         quad.primitive.setPointA(projected[0]);
         quad.primitive.setPointB(projected[1]);
         quad.primitive.setPointC(projected[2]);
