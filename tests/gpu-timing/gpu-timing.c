@@ -742,7 +742,8 @@ static void runAll(void) {
     ramsyscall_printf("# L arm kind dither semi segs len min med max base\n");
     for (unsigned kind = 0; kind < 4; kind++)
         for (unsigned semi = 0; semi < 5; semi++)
-            for (unsigned d = 0; d < 2; d++) lineClass(kind, semi, d);
+            for (unsigned slant = 0; slant < 2; slant++)
+                for (unsigned d = 0; d < 2; d++) lineClass(kind | (slant ? LINE_SLANTED : 0), semi, d);
     fillClass();
     copyClass();
     xferClass('U', 0);
@@ -761,10 +762,10 @@ static void runAll(void) {
                       s_classes, s_badDraw, s_badGrow, s_lineClasses, s_lineBadDraw, s_lineBadGrow, s_lineUnbuilt);
 }
 
-static int lineWordsOk(unsigned kind, unsigned segs) {
+static int lineWordsAtLen(unsigned kind, unsigned segs, unsigned len) {
     uint32_t out[LINE_MAX_WORDS + 4];
     for (unsigned i = 0; i < LINE_MAX_WORDS + 4; i++) out[i] = 0xdeadbeef;
-    unsigned n = buildLineCommand(out, kind, 32, segs);
+    unsigned n = buildLineCommand(out, kind, len, segs);
     unsigned g = kind & LINE_GOURAUD, poly = kind & LINE_POLY;
     unsigned verts = poly ? segs + 1 : 2;
     unsigned want = 1 + verts + (g ? verts - 1 : 0) + (poly ? 1 : 0);
@@ -772,10 +773,20 @@ static int lineWordsOk(unsigned kind, unsigned segs) {
     unsigned op = 0x40 | (g ? 0x10 : 0) | (poly ? 0x08 : 0) | ((kind & LINE_SEMI) ? 0x02 : 0);
     if ((out[0] >> 24) != op) return 0;
     if ((out[0] & 0xffffff) == 0) return 0;
-    if (out[1] != 0) return 0;
+    unsigned ex = len, ey = (kind & LINE_SLANTED) ? len / 2 : 0;
+    for (unsigned v = 0; v < verts; v++) {
+        unsigned at = 1 + v * (g ? 2 : 1);
+        uint32_t vtx = (v & 1) ? ((ey << 16) | ex) : 0;
+        if (out[at] != vtx) return 0;
+        if (g && v > 0 && (out[at - 1] & 0xffffff) == 0) return 0;
+    }
     if (poly && (out[n - 1] & 0xf000f000) != 0x50005000) return 0;
     if (out[n] != 0xdeadbeef) return 0;
     return 1;
+}
+
+static int lineWordsOk(unsigned kind, unsigned segs) {
+    return lineWordsAtLen(kind, segs, 32) && lineWordsAtLen(kind, segs, 1) && lineWordsAtLen(kind, segs, 255);
 }
 )
 
@@ -801,8 +812,8 @@ CESTER_MAYBE_TEST(timeGrowsWithSize, gputiming,
 )
 
 CESTER_TEST(lineCommandsAreWellFormed, gputiming,
-    for (unsigned semi = 0; semi < 2; semi++) {
-        unsigned s = semi ? LINE_SEMI : 0;
+    for (unsigned variant = 0; variant < 4; variant++) {
+        unsigned s = ((variant & 1) ? LINE_SEMI : 0) | ((variant & 2) ? LINE_SLANTED : 0);
         cester_assert_int_eq(1, lineWordsOk(s, 1));
         cester_assert_int_eq(1, lineWordsOk(s | LINE_GOURAUD, 1));
         cester_assert_int_eq(1, lineWordsOk(s | LINE_POLY, 2));
@@ -814,7 +825,7 @@ CESTER_TEST(lineCommandsAreWellFormed, gputiming,
 
 CESTER_MAYBE_TEST(lineTimeGrowsWithLength, gputiming,
     cester_assert_uint_eq(0, s_lineUnbuilt);
-    cester_assert_uint_eq(40, s_lineClasses);
+    cester_assert_uint_eq(80, s_lineClasses);
     cester_assert_uint_eq(0, s_lineBadDraw);
     cester_assert_uint_eq(0, s_lineBadGrow);
 )

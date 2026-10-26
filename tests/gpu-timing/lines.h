@@ -34,6 +34,7 @@ SOFTWARE.
 #define LINE_GOURAUD 1u  // GP0(50h) family instead of GP0(40h)
 #define LINE_POLY 2u     // polyline (48h/58h) instead of a single line
 #define LINE_SEMI 4u     // semi-transparent (bit 25 of the command word)
+#define LINE_SLANTED 8u  // slanted segments instead of horizontal ones
 
 #define LINE_MAX_SEGS 16u
 #define LINE_MAX_WORDS (2u * (LINE_MAX_SEGS + 1u) + 1u)
@@ -46,10 +47,19 @@ SOFTWARE.
 // 1..255. |segs| is the segment count: 1 for a single line, 2..LINE_MAX_SEGS
 // for a polyline.
 //
+// Geometry. A vertex word is (y << 16) | x.
+//  - Without LINE_SLANTED every segment is horizontal: a single line runs from
+//    (0, 0) to (len, 0), and a polyline bounces back and forth between (0, 0)
+//    and (len, 0).
+//  - With LINE_SLANTED every segment is x-major with a 2:1 slope: a single
+//    line runs from (0, 0) to (len, len / 2), and a polyline bounces back and
+//    forth between (0, 0) and (len, len / 2).
+//
 // Contract the harness relies on:
 //  - the first vertex is (0, 0), so pixel (0, 0) is drawn;
 //  - every vertex lies inside 0..255 on both axes;
 //  - a polyline ends with the word 55555555h;
 //  - the colour words are non-black, so a drawn pixel differs from the
-//    cleared background.
+//    cleared background;
+//  - the return value counts the polyline terminator.
 unsigned buildLineCommand(uint32_t *out, unsigned kind, unsigned len, unsigned segs);
