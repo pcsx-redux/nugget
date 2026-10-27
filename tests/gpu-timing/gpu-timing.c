@@ -59,7 +59,7 @@ SOFTWARE.
  * pixel back after a draw over a cleared background, grow says the largest
  * size took longer than the smallest by the class's margin.
  *
- * Lines come from buildLineCommand() in lines.c.
+ * Lines come from buildLineCommand() in prims.c.
  */
 
 #include <stdint.h>
@@ -76,7 +76,6 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
-#include "lines.h"
 #include "prim.h"
 #include "prims.h"
 
@@ -767,8 +766,9 @@ static void runAll(void) {
     ramsyscall_printf("# L arm kind dither semi segs len min med max base\n");
     for (unsigned kind = 0; kind < 4; kind++)
         for (unsigned semi = 0; semi < 5; semi++)
-            for (unsigned slant = 0; slant < 2; slant++)
-                for (unsigned d = 0; d < 2; d++) lineClass(kind | (slant ? LINE_SLANTED : 0), semi, d);
+            for (unsigned o = 0; o < 4; o++)
+                for (unsigned d = 0; d < 2; d++)
+                    lineClass(kind | ((o & 1) ? LINE_SLANTED : 0) | ((o & 2) ? LINE_VERTICAL : 0), semi, d);
     fillClass();
     copyClass();
     xferClass('U', 0);
@@ -798,7 +798,8 @@ static int lineWordsAtLen(unsigned kind, unsigned segs, unsigned len) {
     unsigned op = 0x40 | (g ? 0x10 : 0) | (poly ? 0x08 : 0) | ((kind & LINE_SEMI) ? 0x02 : 0);
     if ((out[0] >> 24) != op) return 0;
     if ((out[0] & 0xffffff) == 0) return 0;
-    unsigned ex = len, ey = (kind & LINE_SLANTED) ? len / 2 : 0;
+    unsigned major = len, minor = (kind & LINE_SLANTED) ? len / 2 : 0;
+    unsigned ex = (kind & LINE_VERTICAL) ? minor : major, ey = (kind & LINE_VERTICAL) ? major : minor;
     for (unsigned v = 0; v < verts; v++) {
         unsigned at = 1 + v * (g ? 2 : 1);
         uint32_t vtx = (v & 1) ? ((ey << 16) | ex) : 0;
@@ -837,8 +838,9 @@ CESTER_MAYBE_TEST(timeGrowsWithSize, gputiming,
 )
 
 CESTER_TEST(lineCommandsAreWellFormed, gputiming,
-    for (unsigned variant = 0; variant < 4; variant++) {
-        unsigned s = ((variant & 1) ? LINE_SEMI : 0) | ((variant & 2) ? LINE_SLANTED : 0);
+    for (unsigned variant = 0; variant < 8; variant++) {
+        unsigned s = ((variant & 1) ? LINE_SEMI : 0) | ((variant & 2) ? LINE_SLANTED : 0) |
+                     ((variant & 4) ? LINE_VERTICAL : 0);
         cester_assert_int_eq(1, lineWordsOk(s, 1));
         cester_assert_int_eq(1, lineWordsOk(s | LINE_GOURAUD, 1));
         cester_assert_int_eq(1, lineWordsOk(s | LINE_POLY, 2));
@@ -850,7 +852,7 @@ CESTER_TEST(lineCommandsAreWellFormed, gputiming,
 
 CESTER_MAYBE_TEST(lineTimeGrowsWithLength, gputiming,
     cester_assert_uint_eq(0, s_lineUnbuilt);
-    cester_assert_uint_eq(80, s_lineClasses);
+    cester_assert_uint_eq(160, s_lineClasses);
     cester_assert_uint_eq(0, s_lineBadDraw);
     cester_assert_uint_eq(0, s_lineBadGrow);
 )
