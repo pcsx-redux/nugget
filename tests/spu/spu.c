@@ -489,6 +489,9 @@ CESTER_AFTER_ALL(spu_tests,
     if (s_interruptsWereEnabled) leaveCriticalSection();
 )
 
+#ifdef SPU_REVERB_WRAP
+#include "spu-reverb-wrap.c"
+#else
 #include "spu-transfer.c"
 #include "spu-adpcm.c"
 #include "spu-adpcm-edge.c"
@@ -511,4 +514,5 @@ CESTER_AFTER_ALL(spu_tests,
 // nothing, so it stays out of the default run. Build with SPU_MODEAXES=true.
 #ifdef SPU_MODEAXES
 #include "spu-modeaxes.c"
+#endif
 #endif
