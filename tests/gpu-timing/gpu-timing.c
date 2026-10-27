@@ -261,13 +261,17 @@ static void gp0Fill(unsigned x, unsigned y, unsigned w, unsigned h, uint32_t col
     waitIdle();
 }
 
+// A readback whose GPUSTAT.27 never rises returns a word that is not VRAM data, and
+// s_readTimeouts counts it so everyClassDraws fails instead of grading on that word.
+static unsigned s_readTimeouts;
 static uint32_t readWord(unsigned x, unsigned y) {
     waitIdle();
     GPU_DATA = 0xc0000000;
     GPU_DATA = (y << 16) | x;
     GPU_DATA = (1 << 16) | 2;
-    while (!(GPU_STATUS & 0x08000000)) {
-    }
+    unsigned polls = 0;
+    while (!(GPU_STATUS & 0x08000000) && polls < 400000) polls++;
+    if (polls == 400000) s_readTimeouts++;
     uint32_t v = GPU_READ;
     waitIdle();
     return v;
@@ -783,8 +787,9 @@ static void runAll(void) {
     rectClass('D', 0, 0, 0);
     rectClass('D', 15, 0, 1);
     GPU_STATUS = 0x03000000;
-    ramsyscall_printf("SUMMARY classes=%d baddraw=%d badgrow=%d lines=%d linebaddraw=%d linebadgrow=%d lineunbuilt=%d\n",
-                      s_classes, s_badDraw, s_badGrow, s_lineClasses, s_lineBadDraw, s_lineBadGrow, s_lineUnbuilt);
+    ramsyscall_printf(
+        "SUMMARY classes=%d baddraw=%d badgrow=%d lines=%d linebaddraw=%d linebadgrow=%d lineunbuilt=%d readtimeouts=%d\n",
+        s_classes, s_badDraw, s_badGrow, s_lineClasses, s_lineBadDraw, s_lineBadGrow, s_lineUnbuilt, s_readTimeouts);
 }
 
 static int lineWordsAtLen(unsigned kind, unsigned segs, unsigned len) {
@@ -830,6 +835,7 @@ CESTER_AFTER_ALL(gputiming,
 
 CESTER_MAYBE_TEST(everyClassDraws, gputiming,
     cester_assert_uint_ne(0, s_classes);
+    cester_assert_uint_eq(0, s_readTimeouts);
     cester_assert_uint_eq(0, s_badDraw);
 )
 
