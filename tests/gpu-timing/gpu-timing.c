@@ -118,7 +118,7 @@ static int s_interruptsWereEnabled;
 
 static uint32_t s_acc, s_prev;
 
-static unsigned s_classes, s_badDraw, s_badGrow;
+static unsigned s_classes, s_badDraw, s_badGrow, s_badZero;
 static unsigned s_lineClasses, s_lineBadDraw, s_lineBadGrow, s_lineUnbuilt;
 static uint32_t s_idx7, s_idx7Primed;
 
@@ -271,7 +271,12 @@ static uint32_t readWord(unsigned x, unsigned y) {
     GPU_DATA = (1 << 16) | 2;
     unsigned polls = 0;
     while (!(GPU_STATUS & 0x08000000) && polls < 400000) polls++;
-    if (polls == 400000) s_readTimeouts++;
+    if (polls == 400000) {
+        // Clear the half-taken C0h so the next waitIdle() cannot wait on it.
+        s_readTimeouts++;
+        GPU_STATUS = 0x01000000;
+        return 0xffffffff;
+    }
     uint32_t v = GPU_READ;
     waitIdle();
     return v;
@@ -487,9 +492,14 @@ static void fillClass(void) {
         if (i == 0) first = s;
         last = s;
     }
+    // Draw check on the measured packet itself (the largest size, colour 50a020h = 2a84h).
     gp0Fill(0, 0, 256, 256, SENTINEL_FILL);
-    gp0Fill(0, 0, 16, 16, 0x00f8f8);
-    classDone('F', 0x300000, readPixel(0, 0) == 0x03ff, net(&last) > net(&first) + 1000, 0);
+    waitIdle();
+    for (unsigned k = 0; k < 3; k++) GPU_DATA = s_cmd[k];
+    waitIdle();
+    unsigned L = s_fillSizes[sizeof(s_fillSizes) / sizeof(s_fillSizes[0]) - 1];
+    classDone('F', 0x300000, readPixel(0, 0) == 0x2a84 && readPixel(L - 1, L - 1) == 0x2a84,
+              net(&last) > net(&first) + 1000, 0);
 }
 
 static void copyClass(void) {
@@ -622,7 +632,9 @@ static void xferClass(char kind, int dma) {
 // Stops at 16 words: a 240x240 upload in 36-word blocks on an SCPH-1000, and
 // in 60-word blocks on an SCPH-1001, stopped the CPU with the transfer still
 // running (32 on the SCPH-1000 stopped it once in five).
+static unsigned s_blockFails;
 static void uploadBlockSizes(void) {
+    unsigned timeoutsBefore = s_dmaTimeouts;
     static const uint8_t sizes[] = {1, 2, 4, 8, 16};
     static const struct Shape shapes[] = {{16, 16}, {64, 64}, {240, 240}, {320, 16}};
     for (unsigned b = 0; b < sizeof(sizes); b++) {
@@ -635,10 +647,12 @@ static void uploadBlockSizes(void) {
             }
             int ok = readPixel(0, UPLOAD_Y) == (s_big[0] & 0xffff) &&
                      readPixel(w - 1, UPLOAD_Y + h - 1) == (s_big[words - 1] >> 16);
+            if (!ok) s_blockFails++;
             sort5(t);
             ramsyscall_printf("B %d %d %d %d %d %d %d\n", sizes[b], w, h, t[0], t[REPS / 2], t[REPS - 1], ok);
         }
     }
+    if (s_dmaTimeouts != timeoutsBefore) s_blockFails++;
     ramsyscall_printf("B timeouts=%d\n", s_dmaTimeouts);
 }
 
@@ -729,6 +743,9 @@ static void zeroArm(void) {
     GPU_DATA = 0xe3000000;
     GPU_DATA = 0xe4000000 | 1023 | (511 << 10);
     uint16_t clipped = readPixel(60, 60);
+    if (quadRow != SENTINEL_PIXEL || triPoint != SENTINEL_PIXEL || rectW0 != SENTINEL_PIXEL ||
+        rectH0 != SENTINEL_PIXEL || clipped != SENTINEL_PIXEL)
+        s_badZero++;
     ramsyscall_printf("Z control quadrow=%04x tripoint=%04x rectw0=%04x recth0=%04x clipped=%04x\n", quadRow, triPoint,
                       rectW0, rectH0, clipped);
 }
@@ -837,6 +854,11 @@ CESTER_MAYBE_TEST(everyClassDraws, gputiming,
     cester_assert_uint_ne(0, s_classes);
     cester_assert_uint_eq(0, s_readTimeouts);
     cester_assert_uint_eq(0, s_badDraw);
+    cester_assert_uint_eq(0, s_badZero);
+)
+
+CESTER_MAYBE_TEST(uploadBlockSizesAreExact, gputiming,
+    cester_assert_uint_eq(0, s_blockFails);
 )
 
 CESTER_MAYBE_TEST(timeGrowsWithSize, gputiming,
