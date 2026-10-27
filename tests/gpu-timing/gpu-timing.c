@@ -146,7 +146,32 @@ static inline void waitIdleTimed(void) {
     tick();
 }
 
+// A command longer than the 16-word GP0 FIFO (gouraud polylines past 7
+// segments) written unpaced never completes on SCPH-1000 or SCPH-1001.
+// timeWordsLong writes the first 16 words unpaced, as every shorter command is
+// written, then waits for GPUSTAT bit 25 (FIFO not full, with GP1(04h)=1)
+// before each later word. Polling while the GPU draws costs the command almost
+// nothing: a 19-word polyline, which also completes unpaced, times the same
+// either way. So the GP0(00h) baseline stays unpaced, as the CPU cost of
+// writing n words. Commands of 16 words or fewer never reach this path.
+#define GP0_FIFO_WORDS 16
+
+static uint32_t timeWordsLong(const uint32_t *w, unsigned n) {
+    waitIdle();
+    startClock();
+    for (unsigned i = 0; i < n; i++) {
+        if (i >= GP0_FIFO_WORDS) {
+            while (!(GPU_STATUS & 0x02000000)) tick();
+        }
+        GPU_DATA = w[i];
+        if ((i & 15) == 15) tick();
+    }
+    waitIdleTimed();
+    return s_acc;
+}
+
 static uint32_t timeWords(const uint32_t *w, unsigned n, int pace) {
+    if (n > GP0_FIFO_WORDS && w != s_zero) return timeWordsLong(w, n);
     waitIdle();
     startClock();
     for (unsigned i = 0; i < n; i++) {
