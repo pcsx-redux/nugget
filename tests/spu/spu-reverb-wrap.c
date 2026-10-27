@@ -91,8 +91,13 @@ static void spu_rw_fill(void) {
     }
 }
 
+static uint8_t s_rw_tail[(SPU_RW_TOP - SPU_RW_LO) / SPU_RW_CHUNK][SPU_RW_GUARD];
+
 // Read 0x1000..0x7ffff into s_rw_ram, each read over-reading by SPU_RW_GUARD.
-static void spu_rw_readback(void) {
+// The over-read bytes are kept and compared afterwards against the next read's
+// head, which covers the same addresses, to measure the bad tail of a read.
+static void spu_rw_readback(const char *tag) {
+    unsigned chunks = 0;
     for (uint32_t a = SPU_RW_LO; a < SPU_RW_TOP; a += SPU_RW_CHUNK) {
         uint32_t len = SPU_RW_CHUNK + SPU_RW_GUARD;
         if (a + len > SPU_RW_TOP) len = SPU_RW_TOP - a;
@@ -100,7 +105,35 @@ static void spu_rw_readback(void) {
         uint32_t keep = SPU_RW_CHUNK;
         if (a + keep > SPU_RW_TOP) keep = SPU_RW_TOP - a;
         for (uint32_t i = 0; i < keep; i++) s_rw_ram[a - SPU_RW_LO + i] = s_rw_chunk[i];
+        if (len > keep) {
+            for (uint32_t i = 0; i < SPU_RW_GUARD; i++) s_rw_tail[chunks][i] = s_rw_chunk[keep + i];
+        }
+        chunks++;
     }
+    // A chunk's guard bytes are the next chunk's first bytes. Report, over every
+    // read that had a guard, the earliest bad byte counted from the read's end.
+    uint32_t reads = 0, badReads = 0, badBytes = 0, worst = 0, best = 0xffffffffu;
+    for (unsigned c = 0; c + 1 < chunks; c++) {
+        uint32_t nextLo = SPU_RW_LO + (c + 1) * SPU_RW_CHUNK - SPU_RW_LO;
+        if (nextLo + SPU_RW_GUARD > sizeof(s_rw_ram)) break;
+        reads++;
+        uint32_t firstBad = 0xffffffffu, n = 0;
+        for (uint32_t i = 0; i < SPU_RW_GUARD; i++) {
+            if (s_rw_tail[c][i] != s_rw_ram[nextLo + i]) {
+                n++;
+                if (firstBad == 0xffffffffu) firstBad = i;
+            }
+        }
+        if (n) {
+            badReads++;
+            badBytes += n;
+            uint32_t fromEnd = SPU_RW_GUARD - firstBad;
+            if (fromEnd > worst) worst = fromEnd;
+            if (fromEnd < best) best = fromEnd;
+        }
+    }
+    ramsyscall_printf("OBS %s readtail reads=%d bad_reads=%d bad_bytes=%d first_bad_from_end_min=%d max=%d\n", tag,
+                      reads, badReads, badBytes, best == 0xffffffffu ? 0 : best, worst);
 }
 
 static int spu_rw_changed(uint32_t addr) {
@@ -209,7 +242,7 @@ static void spu_rw_run(unsigned presetIndex, unsigned arm, int revOn) {
     SPU_KEY_OFF_LOW = 0xffff;
     SPU_KEY_OFF_HIGH = 0xffff;
     for (unsigned i = 0; i < 4; i++) spu_wait_status_bit11_flip();
-    spu_rw_readback();
+    spu_rw_readback(tag);
     SPU_REVERB_EN_LOW = 0;
     SPU_REVERB_EN_HIGH = 0;
 
