@@ -34,7 +34,7 @@ SOFTWARE.
 // freed afterwards.
 //
 // Each XM channel plays on the SPU voice with the same number. Voices from XM_Channels to 23 are
-// left alone, and can be used for sound effects with XM_PlaySoundEffect.
+// left alone while the song plays, and can be used for sound effects with XM_PlaySoundEffect.
 
 // Song file format, version 1. All fields are little endian. Offsets are from the start of the file.
 struct XMSongHeader {
@@ -119,7 +119,9 @@ unsigned XM_Check(const void* song);
 
 // Loads the song and uploads the samples to SPU RAM, then gets ready to play. The song has to stay in
 // memory, 4-bytes aligned, while it plays; the samples can be freed once this returns. If samples is
-// NULL, they are considered already uploaded. Returns the number of channels, or 0 on error.
+// NULL, they are considered already uploaded. Returns the number of channels, or 0 on error. This
+// resets the SPU and all 24 voices, so sound effects have to be started after it. The upload writes
+// SPU RAM from 0x1010 for sampleBytes rounded up to a multiple of 64 bytes.
 unsigned XM_Load(const void* song, const uint8_t* samples);
 
 // Call this at the rate given by XM_hblanks to play.
