@@ -104,6 +104,8 @@ const SKIPS = [
     'cop-branch/cop-branch|no hardware baseline recorded yet',
     'cop0-sr/cop0-sr|probe: prints what each SR bit does, no verdict, ends in the ROM through BEV',
     'dcache/dcache|no hardware baseline recorded yet',
+    'psyqo-irq-cop2/irqcop2|takeover probe: psyqo owns the kernel, so no exit break; prints its verdict over SIO1 and spins',
+    'psyqo-irq-cost/irqcost|takeover probe: prints VBlank interrupt costs over SIO1, no verdict',
     'dma-modes/dma-modes|probe: loops forever, no verdict',
     'dma-priority/dma-priority|probe: loops forever, no verdict',
     'spu-wide-writes/spu-wide-writes|probe: loops forever, no verdict',

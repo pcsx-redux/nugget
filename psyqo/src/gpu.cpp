@@ -160,7 +160,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
         Hardware::CPU::IMask.set(Hardware::CPU::IRQ::VBlank);
     } else {
         uint32_t event = Kernel::openEvent(0xf2000003, 2, EVENT_MODE_CALLBACK, [this]() {
-            m_frameCount++;
+            psyqoFrameCounter++;
             eastl::atomic_signal_fence(eastl::memory_order_release);
         });
         syscall_enableEvent(event);
@@ -289,7 +289,7 @@ void psyqo::GPU::flip() {
     do {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
-    } while ((m_previousFrameCount == m_frameCount) || (m_chainStatus == CHAIN_TRANSFERRING));
+    } while ((m_previousFrameCount == psyqoFrameCounter) || (m_chainStatus == CHAIN_TRANSFERRING));
 
     auto parity = m_parity;
     parity ^= 1;
@@ -311,7 +311,7 @@ void psyqo::GPU::flip() {
         while (1) {
             pumpCallbacks();
             eastl::atomic_signal_fence(eastl::memory_order_acquire);
-            uint32_t sinceLong = m_frameCount - m_lastLongFieldFrame;
+            uint32_t sinceLong = psyqoFrameCounter - m_lastLongFieldFrame;
             bool bit31 = Hardware::GPU::Ctrl & uint32_t(0x80000000);
             if (parity ? (sinceLong == 1) : bit31) break;
         }
@@ -319,7 +319,7 @@ void psyqo::GPU::flip() {
 
     m_chainStatus = CHAIN_IDLE;
     m_parity = parity;
-    m_previousFrameCount = m_frameCount;
+    m_previousFrameCount = psyqoFrameCounter;
     eastl::atomic_signal_fence(eastl::memory_order_release);
 
     enableScissor();
@@ -680,8 +680,8 @@ void psyqo::GPU::pumpCallbacks() {
     m_lastHSyncCounter = hsyncCounter;
     if (m_interlaced) {
         // Frame count first: a GPUSTAT.31 read of 1 is taken before the vblank that ends the
-        // field, so before that vblank's IRQ moves m_frameCount.
-        uint32_t frame = m_frameCount;
+        // field, so before that vblank's IRQ moves psyqoFrameCounter.
+        uint32_t frame = psyqoFrameCounter;
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
         if (Hardware::GPU::Ctrl & uint32_t(0x80000000)) m_lastLongFieldFrame = frame;
     }
@@ -689,20 +689,11 @@ void psyqo::GPU::pumpCallbacks() {
 
 void psyqo::GPU::scheduleOTC(uintptr_t *start, uint32_t count) { m_OTCs[m_parity].emplace_back(start, count); }
 
-extern uint16_t psyqoExceptionHandlerAdjustFrameCount[];
+uint32_t psyqoFrameCounter = 0;
 
 void psyqo::GPU::prepareForTakeover() {
-    uintptr_t frameCountPtr = reinterpret_cast<uintptr_t>(&m_frameCount);
-    uint16_t hi = frameCountPtr >> 16;
-    uint16_t lo = frameCountPtr & 0xffff;
-    if (lo >= 0x8000) hi++;
-    // Highly dependent on the assembly code in vector.s, as we're modifying it on the fly.
-    // See vector.s for more details.
-    psyqoExceptionHandlerAdjustFrameCount[0] = hi;
-    psyqoExceptionHandlerAdjustFrameCount[2] = lo;
-    psyqoExceptionHandlerAdjustFrameCount[8] = lo;
-    Kernel::queueIRQHandler(Kernel::IRQ::VBlank, [this]() {
-        m_frameCount++;
+    Kernel::queueIRQHandler(Kernel::IRQ::VBlank, []() {
+        psyqoFrameCounter++;
         eastl::atomic_signal_fence(eastl::memory_order_release);
     });
 }

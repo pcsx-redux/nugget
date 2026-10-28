@@ -45,6 +45,10 @@ SOFTWARE.
 #include "psyqo/primitives/misc.hh"
 #include "psyqo/shared.hh"
 
+// The vsync counter. The VBlank interrupt increments it: the takeover exception handler
+// (vector.s) directly, the BIOS event through GPU.
+extern "C" uint32_t psyqoFrameCounter;
+
 namespace psyqo {
 
 namespace timer_literals {
@@ -147,7 +151,7 @@ class GPU {
      */
     uint32_t getLiveFrameCount() const {
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
-        return *const_cast<const volatile uint32_t *>(&m_frameCount);
+        return *const_cast<const volatile uint32_t *>(&psyqoFrameCounter);
     }
 
     /**
@@ -586,9 +590,8 @@ class GPU {
     int m_width = 0;
     int m_height = 0;
     uint32_t m_currentTime = 0;
-    uint32_t m_frameCount = 0;
     uint32_t m_previousFrameCount = 0;
-    // Value of m_frameCount during the last 480i field GPUSTAT.31 was seen set in.
+    // Value of psyqoFrameCounter during the last 480i field GPUSTAT.31 was seen set in.
     uint32_t m_lastLongFieldFrame = 0x80000000;
     unsigned m_parity = 0;
     uintptr_t *m_chainHead = nullptr;

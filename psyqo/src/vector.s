@@ -29,66 +29,86 @@ SOFTWARE.
     .set noreorder
     .set noat
     .align 2
-    .global psyqoAssemblyExceptionHandler
+    .global psyqoExceptionVector
     .global psyqoExceptionHandler
     .global psyqoBreakHandler
-    .global psyqoExceptionHandlerAdjustFrameCount
     .global psyqoExceptionHandlerStop
-    .type psyqoAssemblyExceptionHandler, @function
 
 /*
-The way this handler works is a bit complicated. The idea is that VBlank
-is a common exception which has the singular purpose of incrementing a
-frame counter. If we get only VBlank, we increment the frame counter using
-self modifying code to poke at the GPU singleton object directly, and no
-C++ handler is called. If we get anything else, we call the C++ handler,
-which will be responsible for handling the stacked IRQs, including potentially
-calling the VBlank handler, which will increment the frame counter. In short,
-VBlank has a fast path case if it is the only exception, and a slow path case
-in C++ if there are other exceptions alongside it.
+VBlank is the common exception, and its only job is to increment the frame
+counter. When VBlank is the only pending IRQ, the fast path below increments
+it and returns without calling C++. Anything else goes to the C++ handler,
+which handles the stacked IRQs, VBlank included.
+
+The fast path only uses $k0 and $k1, so it saves nothing. It reads EPC twice:
+once for the interrupted instruction, and again for the return address, since
+the frame counter needs $k0 and $k1 in between. The frame counter is
+psyqoFrameCounter, defined in gpu.cpp.
+
+The first 4 instructions are not executed from here: takeOverKernel copies them
+to the exception vector at 0x80, which leaves 0xa0 onwards for the A0/B0/C0
+tables. A conditional branch from 0x80 cannot reach this code when it is linked
+more than 128KB away, so the Cause test happens after the jump.
+
+Interrupts vs GTE commands: if the interrupted instruction is a cop2 command,
+it has already executed, so the return address is advanced past it. That is
+(insn & 0xfe000000) == 0x4a000000, tested as (insn >> 25) == 0x25.
 */
 
-psyqoAssemblyExceptionHandler:
-    sw    $at, 0x100($0)
-    sw    $v1, 0x108($0)
-    sw    $a0, 0x10c($0)
+psyqoExceptionVector:
+    mfc0  $k0, $13         /* $k0 = Cause */
+    lui   $k1, 0x1f80      /* $k1 = hardware registers base */
+    j     .LvectorContinued
+    andi  $k0, 0x3c        /* $k0 = ExcCode * 4, 0 for interrupts */
 
-    /* $k0 = hardware registers base, set globally */
+    .balign 16
+.LvectorContinued:
+    bnez  $k0, .LnotIRQ
+    lhu   $k0, 0x1070($k1) /* $k0 = IREG */
+    nop
+    xori  $k0, 0x7ff       /* $k0 = ACK bitfield */
+    sw    $k0, 0x1070($k1) /* ACK the IRQs we are signalling */
+    sltiu $k1, $k0, 0x7fe  /* 0 if IREG & 0x7fe is 0, I_STAT bits 11-15 reading 0 */
+    bnez  $k1, .LgotIRQs   /* Anything beyond VBlank goes to C++ */
+    mfc0  $k1, $14         /* $k1 = EPC */
+    lui   $k0, %hi(psyqoFrameCounter)
+    lw    $k1, 0($k1)      /* $k1 = interrupted instruction */
+    nop
+    srl   $k1, 25
+    xori  $k1, 0x25        /* $k1 = 0 if it is a cop2 command */
+    beqz  $k1, .Lcop2
+    lw    $k1, %lo(psyqoFrameCounter)($k0)
+    nop
+    addiu $k1, 1
+    sw    $k1, %lo(psyqoFrameCounter)($k0)
+    mfc0  $k0, $14         /* $k0 = EPC, again */
+    nop
+    jr    $k0
+    rfe
 
-    mfc0  $k1, $14         /* $k1 = EPC, will stay there until the end */
-    mfc0  $a0, $13         /* $a0 = Cause */
-    li    $at, 0x24        /* Prepare for break test in (a) */
-    lw    $v1, 0($k1)      /* $v1 = instruction that caused the exception */
-    andi  $a0, 0x3c        /* Test for what kind of exception */
-    beq   $a0, $at, .Lbreak /* (a) */
-    li    $at, 0x4a        /* Prepare for cop2 test in (b) */
-                           /* Beyond break, psyqo will only support IRQs, aka 0 */
-    bnez  $a0, .Lstop      /* Anything else and we just stop - $a0 available again */
-    srl   $v1, 24          /* |    (b)                               */
-    andi  $v1, 0xfe        /* |_ Test if we were in a cop2 operation */
-    lhu   $a0, 0x1070($k0) /* $a0 = IREG, which we will pass to our C++ handler */
-    bne   $v1, $at, .LnoCOP2adjustmentNeeded
-    andi  $v1, $a0, 0x7fe  /* Prepare for the IRQ test in (c) */
-    addiu $k1, 4           /* If we were in cop2, we need to adjust our EPC */
-.LnoCOP2adjustmentNeeded:
-    xori  $at, $a0, 0x7ff  /* $at = IRQ ACK bitfield */
-    bnez  $v1, .LgotIRQs   /* (c) Did we get anything beyond VBlank ? */
-    sw    $at, 0x1070($k0) /* ACK the IRQs we are signalling */
-psyqoExceptionHandlerAdjustFrameCount:
-    /* Basically self modifying code here... */
-    lui   $v1, 0
-    /* ... here... */
-    lw    $a0, 0($v1)      /* $a0 = m_frameCount */
-    lw    $at, 0x100($0)   /* Load the old at in the load delay slot of $a0 above */
-    addiu $a0, 1           /* Increment m_frameCount */
-    /* ... and here. */
-    sw    $a0, 0($v1)      /* Store m_frameCount */
-    lw    $v1, 0x108($0)   /* Load the old v1 */
-    lw    $a0, 0x10c($0)   /* Load the old a0 */
-    jr    $k1              /* Exit the exception handler */
+.Lcop2:
+    nop                    /* load delay: the branch's delay slot loaded $k1 */
+    addiu $k1, 1
+    sw    $k1, %lo(psyqoFrameCounter)($k0)
+    mfc0  $k0, $14
+    nop
+    addiu $k0, 4           /* Skip the cop2 command, it already executed */
+    jr    $k0
     rfe
 
 .LgotIRQs:
+    /* $k0 = ACK bitfield, $k1 = EPC */
+    sw    $at, 0x100($0)
+    sw    $v1, 0x108($0)
+    sw    $a0, 0x10c($0)
+    lw    $v1, 0($k1)      /* $v1 = interrupted instruction */
+    xori  $a0, $k0, 0x7ff  /* $a0 = IREG, passed to the C++ handler */
+    srl   $v1, 25
+    li    $at, 0x25
+    bne   $v1, $at, 1f
+    nop
+    addiu $k1, 4           /* Skip the cop2 command, it already executed */
+1:
     la    $v1, psyqoExceptionHandler
 .LcallCPlusPlus:
     /* We want to call into C++ now, so we need to save the rest of the registers */
@@ -137,9 +157,20 @@ psyqoExceptionHandlerAdjustFrameCount:
     jr    $k1
     rfe
 
-.Lbreak:
-    srl   $a0, $v1, 6
+.LnotIRQ:
+    /* Beyond break, psyqo only supports IRQs. */
+    mfc0  $k0, $13
+    sw    $at, 0x100($0)
+    sw    $v1, 0x108($0)
+    sw    $a0, 0x10c($0)
+    mfc0  $k1, $14
+    andi  $k0, 0x3c        /* $k0 = ExcCode * 4 */
+    li    $at, 0x24
+    bne   $k0, $at, .Lstop
+    move  $a0, $k0
+    lw    $a0, 0($k1)      /* $a0 = the break instruction */
     la    $v1, psyqoBreakHandler
+    srl   $a0, 6
     b     .LsaveMoreRegisters
     addiu $k1, 4
 
