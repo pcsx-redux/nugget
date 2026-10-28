@@ -27,8 +27,8 @@ SOFTWARE.
 /* Memory cards in the slots of a multitap (SCPH-1070), driven through SIO0
    directly. Run by tests/pcsxrunner/tapcard.cc in pcsx-redux, with one of the
    setup-*.lua scripts beside this file, which leaves the arm in the scratchpad:
-     tap:   port 1 has a tap, a card in slot B and none in slot C.
-     notap: no tap, the slot B card still inserted.
+     tap:   port 1 has a tap, cards in slots B and D and none in slot C.
+     notap: no tap, the slot B and D cards still inserted.
    On a real tap, 82h reads the slot B card exactly as 81h reads slot A's, and
    82h to 84h get no ACK on their first byte when that slot is empty. */
 
@@ -161,4 +161,15 @@ CESTER_TEST(tapcardSlotCEmpty, tapcard_tests,
     readSector0(0x83);
     cester_assert_uint_eq(s_reply[0], 0xff);
     cester_assert_uint_eq(s_ack[0], 0);
+)
+
+/* 84h reads the slot D card past the empty slot C; without a tap, no ACK. */
+CESTER_TEST(tapcardSlotD, tapcard_tests,
+    readSector0(0x84);
+    if (s_tap) {
+        cester_assert_uint_eq(checkFrame(), 0);
+    } else {
+        cester_assert_uint_eq(s_reply[0], 0xff);
+        cester_assert_uint_eq(s_ack[0], 0);
+    }
 )
