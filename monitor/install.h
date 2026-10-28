@@ -81,11 +81,9 @@ extern uint32_t exceptionHandlerPatchSlot4[];
 static inline uint32_t *monitorFindSlot(void) { return exceptionHandlerPatchSlot4; }
 #else
 /* B0 0x56, GetC0Table. */
-static inline uint32_t **monitorGetC0Table(void) {
-    register int n asm("t1") = 0x56;
-    __asm__ volatile("" : "=r"(n) : "r"(n));
-    return ((uint32_t * *(*)(void))0xb0)();
-}
+NUGGET_BIOS_THUNK(monitorGetC0Table, 0xb0, 0x56)
+NUGGET_BIOS_EXTERN uint32_t **__nugget_bios_monitorGetC0Table(void);
+static inline uint32_t **monitorGetC0Table(void) { return __nugget_bios_monitorGetC0Table(); }
 
 /* The kernel exception handler as the CPU reaches it: the 0x80 vector is
    `lui k0, hi / addiu k0, k0, lo / jr k0` on the retail kernel and on

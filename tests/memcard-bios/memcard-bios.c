@@ -49,19 +49,24 @@ SOFTWARE.
 #define DEVICE (MEMCARD_PORT << 4)
 #define BU_PATH(name) (MEMCARD_PORT == 0 ? "bu00:" name : "bu10:" name)
 
-#define B0(n, ret, args, ...)                         \
-    register int t1 asm("t1") = n;                    \
-    __asm__ volatile("" : "=r"(t1) : "r"(t1));        \
-    return ((ret(*) args)0xb0)(__VA_ARGS__)
-
-static inline int initCard(int padEnable) { B0(0x4a, int, (int), padEnable); }
-static inline int startCard() { B0(0x4b, int, ()); }
-static inline int buFormat(const char *dev) { B0(0x41, int, (const char *), dev); }
-static inline struct DirEntry *firstFile(const char *pattern, struct DirEntry *entry) {
-    B0(0x42, struct DirEntry *, (const char *, struct DirEntry *), pattern, entry);
-}
-static inline struct DirEntry *nextFile(struct DirEntry *entry) { B0(0x43, struct DirEntry *, (struct DirEntry *), entry); }
-static inline int erase(const char *name) { B0(0x45, int, (const char *), name); }
+NUGGET_BIOS_THUNK(initCard, 0xb0, 0x4a)
+NUGGET_BIOS_THUNK(startCard, 0xb0, 0x4b)
+NUGGET_BIOS_THUNK(buFormat, 0xb0, 0x41)
+NUGGET_BIOS_THUNK(firstFile, 0xb0, 0x42)
+NUGGET_BIOS_THUNK(nextFile, 0xb0, 0x43)
+NUGGET_BIOS_THUNK(erase, 0xb0, 0x45)
+int __nugget_bios_initCard(int padEnable);
+int __nugget_bios_startCard(void);
+int __nugget_bios_buFormat(const char *dev);
+struct DirEntry *__nugget_bios_firstFile(const char *pattern, struct DirEntry *entry);
+struct DirEntry *__nugget_bios_nextFile(struct DirEntry *entry);
+int __nugget_bios_erase(const char *name);
+#define initCard __nugget_bios_initCard
+#define startCard __nugget_bios_startCard
+#define buFormat __nugget_bios_buFormat
+#define firstFile __nugget_bios_firstFile
+#define nextFile __nugget_bios_nextFile
+#define erase __nugget_bios_erase
 
 // Low level completion is signalled on the hardware card event class.
 #define EVENT_HWCARD 0xf0000011

@@ -97,11 +97,9 @@ const struct Device s_ttyDevice = {
 };
 #endif
 
-static inline int removeDevice(const char *name) {
-    register int n asm("t1") = 0x48;
-    __asm__ volatile("" : "=r"(n) : "r"(n));
-    return ((int (*)(const char *))0xb0)(name);
-}
+NUGGET_BIOS_THUNK(removeDevice, 0xb0, 0x48)
+NUGGET_BIOS_EXTERN int __nugget_bios_removeDevice(const char *name);
+static inline int removeDevice(const char *name) { return __nugget_bios_removeDevice(name); }
 
 /* Drop stdin/stdout and the "tty" device. The kernel calls the device's own
    close and deinit for that, so a loader replacing a resident monitor does

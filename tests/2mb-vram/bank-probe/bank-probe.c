@@ -46,6 +46,11 @@ SOFTWARE.
 // address bit was actually honored.
 
 #include "probe-common.h"
+#include "common/syscalls/syscalls.h"
+
+/* C0(1Bh), installStdIo. */
+NUGGET_BIOS_THUNK(installStdIo, 0xc0, 0x1b)
+NUGGET_BIOS_EXTERN void __nugget_bios_installStdIo(int mode);
 
 #define SENT_LOWER_0    0x5a5au
 #define SENT_LOWER_511  0xa5a5u
@@ -152,11 +157,7 @@ int main(void) {
 #ifdef BANK_PROBE_ATCONS
     // Dev boards with an ATCONS console (DTL-H2700): route stdout there,
     // C0(1Bh) installStdIo(1). Same call as tests/load-timings.
-    {
-        register int n asm("t1") = 0x1b;
-        __asm__ volatile("" : "=r"(n) : "r"(n));
-        ((void (*)(int))0xc0)(1);
-    }
+    __nugget_bios_installStdIo(1);
 #endif
     ramsyscall_printf("\n=== 573 bank-probe ===\n");
 
