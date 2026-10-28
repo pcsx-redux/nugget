@@ -213,19 +213,22 @@ static void updateHblanks() {
     uint32_t num = hlinesPerSecond << 16;
     uint32_t whole = num / rate;
     uint32_t rem = num % rate;
-    // Long division for the 16 fractional bits; rem < rate, so rem << 1
-    // cannot overflow for any tick rate below 32768 Hz.
+    // Long division for the 16 fractional bits. rem < rate, so comparing
+    // rem against rate - rem doubles it without overflowing 32 bits.
     uint32_t frac = 0;
     for (unsigned i = 0; i < 16; i++) {
-        rem <<= 1;
         frac <<= 1;
-        if (rem >= rate) {
-            rem -= rate;
+        if (rem >= rate - rem) {
+            rem -= rate - rem;
             frac |= 1;
+        } else {
+            rem <<= 1;
         }
     }
     SPD_hblanks = whole;
-    SPD_hblanksFP = (whole << 16) | frac;
+    // Intervals of 65536 hblanks or more (tick rates under about 0.24 Hz)
+    // do not fit in 16.16; saturate.
+    SPD_hblanksFP = whole > 0xffff ? 0xffffffff : (whole << 16) | frac;
 }
 
 // Read a packet header. Returns the type in the upper 8 bits of the return
