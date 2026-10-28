@@ -87,6 +87,8 @@ SOFTWARE.
 #include "common/hardware/counters.h"
 #include "common/syscalls/syscalls.h"
 
+#include "installstdio.h"
+
 #undef unix
 #define CESTER_NO_SIGNAL
 #define CESTER_NO_TIME
@@ -683,11 +685,7 @@ CESTER_BODY(
 CESTER_BEFORE_ALL(load_tests,
 #ifdef LOAD_TIMINGS_ATCONS
     /* Dev boards with an ATCONS console: route stdout there (C0(1Bh), installStdIo). */
-    {
-        register int n asm("t1") = 0x1b;
-        __asm__ volatile("" : "=r"(n) : "r"(n));
-        ((void (*)(int))0xc0)(1);
-    }
+    __nugget_bios_installStdIo(1);
 #endif
     /* Mask interrupts across the timed regions; set root counter 2 to the
        system-clock source (bits 8-9 = 00), free running. Writing mode resets

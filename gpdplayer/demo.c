@@ -36,11 +36,9 @@ extern const uint8_t _binary_test_gpd_end[];
 
 #if defined(GPD_DEMO_CDROM)
 // A(71h), _96_init
-static __attribute__((always_inline)) void cdromInit() {
-    register int n asm("t1") = 0x71;
-    __asm__ volatile("" : "=r"(n) : "r"(n));
-    ((void (*)())0xa0)();
-}
+NUGGET_BIOS_THUNK(cdromInit, 0xa0, 0x71)
+NUGGET_BIOS_EXTERN void __nugget_bios_cdromInit(void);
+static __attribute__((always_inline)) void cdromInit() { __nugget_bios_cdromInit(); }
 #endif
 
 // The stream is played from the embedded test.gpd by default. Build
