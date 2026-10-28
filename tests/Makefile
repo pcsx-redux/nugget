@@ -88,6 +88,8 @@ all:
 	$(MAKE) -C pcdrv-net-off all
 	$(MAKE) -C psyqo all
 	$(MAKE) -C psyqo-480i-flip all
+	$(MAKE) -C psyqo-irq-cop2 all
+	$(MAKE) -C psyqo-irq-cost all
 	$(MAKE) -C psyqo-dmachain all
 	$(MAKE) -C psyqo-reinit all
 	$(MAKE) -C psyqo-spudma all
@@ -211,6 +213,8 @@ clean:
 	$(MAKE) -C pcdrv-net-off clean
 	$(MAKE) -C psyqo clean
 	$(MAKE) -C psyqo-480i-flip clean
+	$(MAKE) -C psyqo-irq-cop2 clean
+	$(MAKE) -C psyqo-irq-cost clean
 	$(MAKE) -C psyqo-dmachain clean
 	$(MAKE) -C psyqo-reinit clean
 	$(MAKE) -C psyqo-spudma clean
