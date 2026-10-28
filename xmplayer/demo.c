@@ -59,6 +59,10 @@ void main() {
     // timer1 counts hblanks, which paces XM_Poll
     COUNTERS[1].mode = 0x0100;
     unsigned channels = XM_Load(_binary_song_xmp_start, _binary_song_smp_start);
+    if (channels == 0) {
+        printf("XM: invalid song file.\n");
+        return;
+    }
     printf("XM: %d channels, %d orders\n", channels, XM_SongLength);
     unsigned row = 0xffffffff;
     unsigned order = 0xffffffff;
