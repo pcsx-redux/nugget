@@ -79,6 +79,7 @@ unsigned SPD_CurrentOrder = 0;
 unsigned SPD_PatternCount = 0;
 unsigned SPD_SampleCount = 0;
 uint32_t SPD_hblanks = 0;
+uint32_t SPD_hblanksFP = 0;
 int SPD_ChangeOrderNextTick = 0;
 unsigned SPD_NextOrder = 0;
 
@@ -208,11 +209,26 @@ static void updateHblanks() {
     // s_tickRateFP is 16.16 fixed-point Hz.
     // hblanks = hlinesPerSecond / tickRate
     // To avoid losing precision: hblanks = (hlinesPerSecond << 16) / s_tickRateFP
-    if (s_tickRateFP > 0) {
-        SPD_hblanks = (hlinesPerSecond << 16) / s_tickRateFP;
-    } else {
-        SPD_hblanks = hlinesPerSecond / 50;
+    uint32_t rate = s_tickRateFP > 0 ? s_tickRateFP : 50 << 16;
+    uint32_t num = hlinesPerSecond << 16;
+    uint32_t whole = num / rate;
+    uint32_t rem = num % rate;
+    // Long division for the 16 fractional bits. rem < rate, so comparing
+    // rem against rate - rem doubles it without overflowing 32 bits.
+    uint32_t frac = 0;
+    for (unsigned i = 0; i < 16; i++) {
+        frac <<= 1;
+        if (rem >= rate - rem) {
+            rem -= rate - rem;
+            frac |= 1;
+        } else {
+            rem <<= 1;
+        }
     }
+    SPD_hblanks = whole;
+    // Intervals of 65536 hblanks or more (tick rates under about 0.24 Hz)
+    // do not fit in 16.16; saturate.
+    SPD_hblanksFP = whole > 0xffff ? 0xffffffff : (whole << 16) | frac;
 }
 
 // Read a packet header. Returns the type in the upper 8 bits of the return
