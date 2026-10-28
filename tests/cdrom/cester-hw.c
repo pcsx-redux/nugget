@@ -124,10 +124,20 @@ CESTER_BODY(
         return currentTime;
     }
 
+    // The slowest legitimate response in this suite is an errored seek or read
+    // into audio, up to about 13.5s on silicon. A drive that never answers must fail
+    // the current test instead of hanging the rest of the suite.
+    static const uint32_t c_cdromIRQTimeout = 30000000;
+
     static inline uint32_t waitCDRomIRQ() {
+        uint32_t start = updateTime();
         uint32_t time;
         do {
             time = updateTime();
+            if ((time - start) > c_cdromIRQTimeout) {
+                ramsyscall_printf("No CD-Rom interrupt after %ius, giving up\n", time - start);
+                return time;
+            }
         } while ((IREG & IRQ_CDROM) == 0);
         IREG &= ~IRQ_CDROM;
         return time;
