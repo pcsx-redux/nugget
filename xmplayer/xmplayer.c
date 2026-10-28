@@ -81,6 +81,7 @@ static int s_jumpOrder, s_breakRow;
 static unsigned s_loopRow, s_loopCount;
 static const uint8_t* s_loopPointer;
 static uint32_t s_keyOn;
+static uint16_t s_pendingVol[24][2];
 static uint32_t s_masterVolume = 16384;
 static uint16_t s_exp2[768];  // 2^(i/768) in Q15
 static uint16_t s_panLaw[257];  // i/256 in Q15: linear panning, as the reference renders measure
@@ -800,8 +801,17 @@ static void updateVoice(struct XMChannel* ch, unsigned voice) {
     uint32_t right = (vol * s_panLaw[pan]) >> 13;
     if (left > 0x3fff) left = 0x3fff;
     if (right > 0x3fff) right = 0x3fff;
-    SPU_VOICES[voice].volumeLeft = (left * s_masterVolume) >> 16;
-    SPU_VOICES[voice].volumeRight = (right * s_masterVolume) >> 16;
+    left = (left * s_masterVolume) >> 16;
+    right = (right * s_masterVolume) >> 16;
+    if (s_keyOn & (1u << voice)) {
+        // the old sample is still running on this voice (possibly muted); writing the new volume
+        // before the key-on takes effect would let it sound for a sample, so XM_Poll writes it after
+        s_pendingVol[voice][0] = left;
+        s_pendingVol[voice][1] = right;
+    } else {
+        SPU_VOICES[voice].volumeLeft = left;
+        SPU_VOICES[voice].volumeRight = right;
+    }
     if (ch->sample) SPU_VOICES[voice].sampleRate = periodToPitch(period, ch->sample->rateShift);
 }
 
@@ -879,6 +889,11 @@ void XM_Poll(void) {
     if (s_keyOn) {
         SPU_KEY_ON_LOW = s_keyOn;
         SPU_KEY_ON_HIGH = s_keyOn >> 16;
+        for (unsigned c = 0; c < XM_Channels; c++) {
+            if (!(s_keyOn & (1u << c))) continue;
+            SPU_VOICES[c].volumeLeft = s_pendingVol[c][0];
+            SPU_VOICES[c].volumeRight = s_pendingVol[c][1];
+        }
     }
     if (++XM_Tick < XM_Speed) return;
     XM_Tick = 0;
@@ -911,7 +926,6 @@ void XM_PlaySoundEffect(unsigned voice, unsigned instrument, unsigned note, unsi
     int realNote = (int)note - 1 + s->relnote;
     if (realNote < 0 || realNote >= 119 || !s->spuLength) return;
     if (volume > 64) volume = 64;
-    SPU_VOICES[voice].volumeLeft = SPU_VOICES[voice].volumeRight = volume << 8;
     SPU_VOICES[voice].sampleRate = periodToPitch(notePeriod(realNote, s->finetune), s->rateShift);
     SPU_VOICES[voice].sampleStartAddr = (SPU_BASE + s->spuOffset + (s->pad / 28) * 16) >> 3;
     if (voice < 16) {
@@ -919,6 +933,8 @@ void XM_PlaySoundEffect(unsigned voice, unsigned instrument, unsigned note, unsi
     } else {
         SPU_KEY_ON_HIGH = 1u << (voice - 16);
     }
+    // after the key-on, so whatever was playing on this voice does not sound at the new volume
+    SPU_VOICES[voice].volumeLeft = SPU_VOICES[voice].volumeRight = volume << 8;
 }
 
 void XM_Silence(void) {
