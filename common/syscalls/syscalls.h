@@ -45,7 +45,11 @@ struct JmpBuf;
 // in tail position stays a jump.
 // Code spread over more than one 256 MB region (OpenBIOS runs from ROM and
 // RAM) defines NUGGET_BIOS_LONG_CALLS, so the thunks are reached through a
-// register rather than a jal.
+// register rather than a jal. It has to be set for every object in a link or
+// for none: both forms of a thunk share one name and one COMDAT group, so the
+// linker keeps whichever copy it sees first without a diagnostic.
+// Every included thunk is emitted in every object, so a link needs
+// --gc-sections (common.mk passes it) to drop the ones nothing calls.
 #ifdef NUGGET_BIOS_LONG_CALLS
 #define NUGGET_BIOS_CALL_ATTR __attribute__((long_call))
 #else
