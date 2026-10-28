@@ -57,6 +57,7 @@ TESTS=(
     "loadexe;loadexe/loadexe;interpreter dynarec;$CESTER;"
     "memcpy;memcpy/memcpy;interpreter dynarec;$CESTER;"
     "modplayer-state;modplayer-state/modplayer-state;interpreter dynarec;$CESTER;"
+    "lz4;lz4/lz4;interpreter dynarec;$CESTER;"
     "memops-unroll;memops-unroll/memops-unroll;interpreter;$CESTER;"
     "memcard;memcard/memcard;interpreter;^memcard port 0: all [0-9]+ checks passed;;240"
     "memcard-bios;memcard-bios/memcard-bios;interpreter;^memcard-bios port 0: all [0-9]+ checks passed;;120"
