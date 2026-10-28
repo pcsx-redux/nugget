@@ -818,7 +818,7 @@ static void updateVoice(struct XMChannel* ch, unsigned voice) {
 unsigned XM_Check(const void* song) {
     const struct XMSongHeader* h = (const struct XMSongHeader*)song;
     if (h->magic[0] != 'P' || h->magic[1] != 'S' || h->magic[2] != 'X' || h->magic[3] != 'M') return 0;
-    if (h->version != 1 || h->channels == 0 || h->channels > 24 || h->songLength == 0) return 0;
+    if (h->version != 1 || h->channels == 0 || h->channels > 24 || h->songLength == 0 || h->bpm == 0) return 0;
     return h->channels;
 }
 
