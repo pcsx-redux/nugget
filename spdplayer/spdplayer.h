@@ -43,7 +43,8 @@ extern uint32_t SPD_hblanks;
 // Same interval in 16.16 fixed point. SPD_hblanks is its integer part,
 // so a caller adding SPD_hblanks per poll runs fast whenever the tick
 // rate does not divide the hblank rate. Accumulate this one instead and
-// compare its upper 16 bits against timer1.
+// compare its upper 16 bits against timer1. Saturates at 0xffffffff
+// for intervals of 65536 hblanks or more.
 extern uint32_t SPD_hblanksFP;
 
 // Validates an SPUDUMP file. Returns 1 if valid, 0 if not.
