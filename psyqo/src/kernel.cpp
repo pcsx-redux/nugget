@@ -133,7 +133,7 @@ void psyqoBreakHandler(uint32_t code) {
     ramsyscall_printf("Unhandled break: %08x\n", code);
     psyqo::Kernel::abort("Unhandled break");
 }
-void psyqoAssemblyExceptionHandler();
+extern const uint32_t psyqoExceptionVector[4];
 extern uint32_t psyqoExceptionHandlerStop[];
 }
 
@@ -145,8 +145,7 @@ void psyqo::Kernel::takeOverKernel() {
         __builtin_memset(nullptr, 0, 0x1000);
         application.gpu().prepareForTakeover();
         uint32_t* const exceptionHandler = reinterpret_cast<uint32_t*>(0x80);
-        exceptionHandler[0] = Mips::Encoder::j(reinterpret_cast<uint32_t>(psyqoAssemblyExceptionHandler));
-        exceptionHandler[1] = Mips::Encoder::nop();
+        for (unsigned i = 0; i < 4; i++) exceptionHandler[i] = psyqoExceptionVector[i];
         uint32_t* const handlers = reinterpret_cast<uint32_t*>(0xa0);
         // We want to redirect printf, but nothing else.
         uintptr_t printfAddr = reinterpret_cast<uintptr_t>(printfStub);
