@@ -163,6 +163,25 @@ CESTER_TEST(tapcardSlotCEmpty, tapcard_tests,
     cester_assert_uint_eq(s_ack[0], 0);
 )
 
+/* Only the first byte after select is an address: after 83h finds slot C
+   empty, a following 81h does not reach the slot A card. */
+CESTER_TEST(tapcardEmptySlotThenA, tapcard_tests,
+    uint8_t ack83, ack81;
+    SIOS[0].ctrl = SIO_CTRL_DTR;
+    SIOS[0].baudRate = 0x88;
+    SIOS[0].mode = 0xd;
+    while (SIOS[0].stat & SIO_STAT_RXRDY) (void)SIOS[0].fifo;
+    SIOS[0].ctrl |= SIO_CTRL_TXEN | SIO_CTRL_ACKIRQEN;
+    settle(100);
+    (void)transceive(0x83, &ack83);
+    (void)transceive(0x81, &ack81);
+    SIOS[0].ctrl = 0;
+    settle(100);
+    ramsyscall_printf("83 then 81: ack %d %d\n", ack83, ack81);
+    cester_assert_uint_eq(ack83, 0);
+    cester_assert_uint_eq(ack81, 0);
+)
+
 /* 84h reads the slot D card past the empty slot C; without a tap, no ACK. */
 CESTER_TEST(tapcardSlotD, tapcard_tests,
     readSector0(0x84);
