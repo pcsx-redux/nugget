@@ -28,7 +28,7 @@ SOFTWARE.
     .set push
     .set noreorder
     .set noat
-    .align 2
+    .align 4
     .global psyqoAssemblyExceptionHandler
     .global psyqoExceptionHandler
     .global psyqoBreakHandler
