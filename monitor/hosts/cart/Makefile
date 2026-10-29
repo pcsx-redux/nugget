@@ -14,7 +14,7 @@ SRCS = \
 main.c \
 host-tty.c \
 ../splash.c \
-../../../openbios/main/splash.c \
+../openbios-splash.c \
 
 # The loader shows OpenBIOS's colour bars before installing the monitor.
 CPPFLAGS += -DOPENBIOS_SHOW_SPLASH_SCREEN
@@ -22,8 +22,10 @@ CPPFLAGS += -DOPENBIOS_SHOW_SPLASH_SCREEN
 # The resident half is the retail host's core, copied into the cave by main.c.
 CORE = ../retail/core
 OBJS += monitor-core-blob.o
-EXTRA_DEPS += $(CORE)/monitor-core.elf
-LDFLAGS += -Wl,--just-symbols=$(CORE)/monitor-core.elf
+EXTRA_DEPS += monitor-core-syms.elf
+# The core's BIOS call thunks stay out of the loader's link: it emits its own,
+# and the core's copies sit in the cave, out of reach of a j from the loader.
+LDFLAGS += -Wl,--just-symbols=monitor-core-syms.elf
 CPPFLAGS += -DSIO1_TTY_INSTALL_ONLY
 # MONITOR_NO_SLOT=1 leaves the kernel exception handler's patch slot alone:
 # the monitor rides the priority-0 chain only (monitor/install.h).
@@ -46,14 +48,18 @@ $(TARGET).rom: rom.s $(TARGET).ps-exe
 	$(PREFIX)-objcopy -O binary -j .text $(TARGET).rom.elf $@
 
 $(CORE)/monitor-core.bin: $(CORE)/monitor-core.elf
+monitor-core-syms.elf: $(CORE)/monitor-core.elf
+	$(PREFIX)-objcopy --wildcard --strip-symbol="__nugget_bios_*" $(CORE)/monitor-core.elf $@
+$(CORE)/monitor-core.elf: export CPPFLAGS := $(CORE_CPPFLAGS)
+$(CORE)/monitor-core.elf: export LDFLAGS := $(CORE_LDFLAGS)
 $(CORE)/monitor-core.elf: FORCE
-	CPPFLAGS="$(CORE_CPPFLAGS)" LDFLAGS="$(CORE_LDFLAGS)" $(MAKE) -C $(CORE) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
+	$(MAKE) -C $(CORE) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 
 monitor-core-blob.o: $(CORE)/monitor-core.bin
 	cd $(CORE) && $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips monitor-core.bin $(CURDIR)/$@
 
 clean::
-	rm -f rom.o $(TARGET).rom.elf $(TARGET).rom monitor-core-blob.o
+	rm -f rom.o $(TARGET).rom.elf $(TARGET).rom monitor-core-blob.o monitor-core-syms.elf
 	$(MAKE) -C $(CORE) clean
 
 FORCE:

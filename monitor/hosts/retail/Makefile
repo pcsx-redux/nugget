@@ -16,15 +16,17 @@ SRCS = \
 main.c \
 host-tty.c \
 ../splash.c \
-../../../openbios/main/splash.c \
+../openbios-splash.c \
 
 # The loader shows OpenBIOS's colour bars before installing the monitor.
 CPPFLAGS += -DOPENBIOS_SHOW_SPLASH_SCREEN
 
 # The resident half, built in core/ and copied into the cave at start-up.
 OBJS += monitor-core-blob.o
-EXTRA_DEPS += core/monitor-core.elf
-LDFLAGS += -Wl,--just-symbols=core/monitor-core.elf
+EXTRA_DEPS += monitor-core-syms.elf
+# The core's BIOS call thunks stay out of the loader's link: it emits its own,
+# and the core's copies sit in the cave, out of reach of a j from the loader.
+LDFLAGS += -Wl,--just-symbols=monitor-core-syms.elf
 CPPFLAGS += -DSIO1_TTY_INSTALL_ONLY
 # MONITOR_NO_SLOT=1 leaves the kernel exception handler's patch slot alone:
 # the monitor rides the priority-0 chain only (monitor/install.h).
@@ -51,15 +53,19 @@ LDFLAGS += -Xlinker --defsym=TLOAD_ADDR=$(MONITOR_TLOAD)
 LDFLAGS += -Xlinker --defsym=__globals=0x100 -Xlinker --defsym=__globals60=0x60
 
 core/monitor-core.bin: core/monitor-core.elf
+monitor-core-syms.elf: core/monitor-core.elf
+	$(PREFIX)-objcopy --wildcard --strip-symbol="__nugget_bios_*" core/monitor-core.elf $@
+core/monitor-core.elf: export CPPFLAGS := $(CORE_CPPFLAGS)
+core/monitor-core.elf: export LDFLAGS := $(CORE_LDFLAGS)
 core/monitor-core.elf: FORCE
-	CPPFLAGS="$(CORE_CPPFLAGS)" LDFLAGS="$(CORE_LDFLAGS)" $(MAKE) -C core MONITOR_LINK=$(MONITOR_LINK) MONITOR_PLATFORM=$(MONITOR_PLATFORM) MONITOR_FT232H_BOARD=$(MONITOR_FT232H_BOARD) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
+	$(MAKE) -C core MONITOR_LINK=$(MONITOR_LINK) MONITOR_PLATFORM=$(MONITOR_PLATFORM) MONITOR_FT232H_BOARD=$(MONITOR_FT232H_BOARD) MONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 
 monitor-core-blob.o: core/monitor-core.bin
 	cd core && $(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips monitor-core.bin ../$@
 
 clean::
 	$(MAKE) -C core clean
-	rm -f monitor-core-blob.o
+	rm -f monitor-core-blob.o monitor-core-syms.elf
 
 FORCE:
 .PHONY: FORCE
