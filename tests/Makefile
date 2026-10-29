@@ -79,6 +79,7 @@ all:
 	$(MAKE) -C memcard-slot2 all
 	$(MAKE) -C memcpy all
 	$(MAKE) -C modplayer-state all
+	$(MAKE) -C lz4 all
 	$(MAKE) -C memops-unroll all
 	$(MAKE) -C memset all
 	$(MAKE) -C msan all
@@ -205,6 +206,7 @@ clean:
 	$(MAKE) -C memcard-slot2 clean
 	$(MAKE) -C memcpy clean
 	$(MAKE) -C modplayer-state clean
+	$(MAKE) -C lz4 clean
 	$(MAKE) -C memops-unroll clean
 	$(MAKE) -C memset clean
 	$(MAKE) -C msan clean
