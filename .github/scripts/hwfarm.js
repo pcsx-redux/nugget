@@ -122,6 +122,7 @@ const SKIPS = [
     'rumble/rumble|needs a DualShock and someone to feel it',
     'msan/msan|exercises the emulator memory sanitizer',
     'multitap/multitap|needs a setup-*.lua writing the shared display block, so it only runs in the emulator',
+    'tapcard/tapcard|needs a setup-*.lua arm and tap memory cards in pcsx-redux, so it only runs in the emulator',
     'msan-trip/msan-trip|exercises the emulator memory sanitizer',
     'alloc-tracker/alloc-tracker|exercises the emulator allocation tracker, needs -debugger',
     'loadexe/loadexe|covers the emulator -loadexe path on the dynarec (pcsx-redux#2443), nothing to measure on silicon',
