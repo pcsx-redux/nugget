@@ -68,7 +68,8 @@ struct JmpBuf;
 #define NUGGET_BIOS_EXTERN extern NUGGET_BIOS_CALL_ATTR
 #endif
 #define NUGGET_BIOS_THUNK(name, table, number)                                                              \
-    __asm__(".pushsection .text.__nugget_bios_" #name ",\"axG\",@progbits,__nugget_bios_" #name ",comdat\n" \
+    __asm__(".ifndef __nugget_bios_" #name "\n"                                                             \
+            ".pushsection .text.__nugget_bios_" #name ",\"axG\",@progbits,__nugget_bios_" #name ",comdat\n" \
             ".weak __nugget_bios_" #name "\n"                                                               \
             ".type __nugget_bios_" #name ", @function\n"                                                    \
             ".set push\n.set noreorder\n"                                                                   \
@@ -77,7 +78,8 @@ struct JmpBuf;
             "    li $t1, " #number "\n"                                                                     \
             ".set pop\n"                                                                                     \
             ".size __nugget_bios_" #name ", . - __nugget_bios_" #name "\n"                                  \
-            ".popsection\n");
+            ".popsection\n"                                                                                \
+            ".endif\n");
 #endif
 
 #ifndef PS1_PC_PORT
