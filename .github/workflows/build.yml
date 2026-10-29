@@ -30,6 +30,11 @@ jobs:
       - name: OpenBIOS
         run: make -C openbios -j2 all
 
+      - name: Monitor
+        run: |
+          make -C monitor/hosts/retail -j2 all
+          make -C monitor/hosts/cart -j2 all
+
       - name: Libraries and examples
         # cube is left out: it links against the converted Sony libraries,
         # which are not redistributable and have to be built locally. See

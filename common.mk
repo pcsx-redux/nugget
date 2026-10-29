@@ -29,7 +29,8 @@ CPPFLAGS += -fno-builtin -fno-strict-aliasing -Wno-attributes
 
 # gcc 16 folds volatile loads into the following operation and can narrow a
 # 32-bit hardware register read to lhu/lbu. Probed so older compilers still build.
-NOFUSEVOLATILE := $(shell $(CC) -Werror -fno-fuse-ops-with-volatile-access -x c -c /dev/null -o /dev/null 2>/dev/null && echo -fno-fuse-ops-with-volatile-access)
+# Asked of the compiler with no redirection so the probe also works under cmd.exe.
+NOFUSEVOLATILE := $(if $(filter -ffuse-ops-with-volatile-access,$(shell $(CC) -Q --help=target --help=optimizers)),-fno-fuse-ops-with-volatile-access)
 CPPFLAGS += $(NOFUSEVOLATILE)
 LDFLAGS += $(NOFUSEVOLATILE)
 CPPFLAGS += $(ARCHFLAGS)
