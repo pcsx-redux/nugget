@@ -152,21 +152,34 @@ class MemoryCardFileSystem {
      * @brief Counts the free 8KiB blocks (0..15) into *outFreeBlocks.
      *
      * @details On a 64KiB card the count only covers blocks 1..7.
+     *
+     * @param outFreeBlocks Receives the count. Must stay valid until the
+     * callback fires.
      */
     void getFreeBlockCount(Port port, uint32_t *outFreeBlocks, eastl::function<void(Error)> &&callback);
 
     /**
      * @brief Lists the files on the card.
      *
-     * @param out An array to receive up to `maxEntries` entries.
+     * @param out An array to receive up to `maxEntries` entries. Must stay
+     * valid until the callback fires.
      * @param outCount Receives the number of files found (may exceed
-     * `maxEntries`, in which case only `maxEntries` were written).
+     * `maxEntries`, in which case only `maxEntries` were written). Must stay
+     * valid until the callback fires.
      */
     void listFiles(Port port, FileEntry *out, uint32_t maxEntries, uint32_t *outCount,
                    eastl::function<void(Error)> &&callback);
 
     /**
      * @brief Reports whether a named file exists, into *outExists.
+     *
+     * @details A missing file is not an error: the callback gets Error::OK
+     * and *outExists is false. Error::FileNotFound is never returned.
+     *
+     * @param name The Sony filename to look up. Must stay valid until the
+     * callback fires.
+     * @param outExists Receives the answer. Must stay valid until the
+     * callback fires.
      */
     void fileExists(Port port, const char *name, bool *outExists, eastl::function<void(Error)> &&callback);
 
@@ -178,9 +191,12 @@ class MemoryCardFileSystem {
      * frames. The caller is responsible for knowing the logical length of its
      * own payload (typically via a small header it embeds in `data`).
      *
-     * @param buffer Receives up to `maxLen` payload bytes.
+     * @param name The Sony filename to read. Must stay valid until the
+     * callback fires.
+     * @param buffer Receives up to `maxLen` payload bytes. Must stay valid
+     * until the callback fires.
      * @param outLen Receives the number of payload bytes available (capped at
-     * `maxLen`).
+     * `maxLen`). Must stay valid until the callback fires.
      */
     void readFile(Port port, const char *name, void *buffer, uint32_t maxLen, uint32_t *outLen,
                   eastl::function<void(Error)> &&callback);
@@ -206,9 +222,9 @@ class MemoryCardFileSystem {
      *
      * @details The file is sized to hold the title frame, the icon frames and
      * `dataLen` payload bytes, rounded up to whole 8KiB blocks. If a file with
-     * the same name already exists it is replaced. The data is written first
-     * and the directory committed last, so an interrupted write never leaves a
-     * referenced but corrupt file.
+     * the same name already exists it is replaced, and no error is reported
+     * for it. The data is written first and the directory committed last, so
+     * an interrupted write never leaves a referenced but corrupt file.
      *
      * @param name The Sony filename (up to 20 characters). The pointer must
      * stay valid until the callback fires.
@@ -224,6 +240,9 @@ class MemoryCardFileSystem {
 
     /**
      * @brief Deletes a file, freeing all of its blocks.
+     *
+     * @param name The Sony filename to delete. Must stay valid until the
+     * callback fires.
      */
     void deleteFile(Port port, const char *name, eastl::function<void(Error)> &&callback);
 
@@ -231,6 +250,10 @@ class MemoryCardFileSystem {
     // These run the same transaction but pump the GPU until it finishes and
     // return the error directly. They still take a few hundred milliseconds for
     // a non-trivial payload, so they are best used at a deliberate save point.
+    // Calling one from inside a queued callback, such as another operation's
+    // completion callback, pumps the callback queue from within the pump; this
+    // is supported, and the remaining queued callbacks still run once each, in
+    // order.
 
     Error getCardStateBlocking(GPU &gpu, Port port);
     Error formatBlocking(GPU &gpu, Port port);

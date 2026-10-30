@@ -84,7 +84,7 @@ class MemoryCard {
         DirectoryFull,      // No free directory entry for a new file.
         OutOfSpace,         // Not enough free blocks for a file.
         FileNotFound,       // The requested file does not exist.
-        FileExists,         // A file with that name already exists.
+        FileExists,         // Reserved, not currently returned: writeFile replaces an existing file.
         NameTooLong,        // The filename exceeds 20 characters.
         FileTooLarge,       // The payload would not fit in 15 blocks.
         SerializeOverflow,  // The serialized payload exceeded the buffer.
