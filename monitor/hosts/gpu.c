@@ -24,15 +24,35 @@ SOFTWARE.
 
 */
 
+#include "monitor/hosts/gpu.h"
+
+#include <stdint.h>
+
+#include "common/hardware/dma.h"
+#include "common/hardware/gpu.h"
+#include "common/hardware/hwregs.h"
+#include "common/hardware/irq.h"
+#include "openbios/main/splash.h"
+
+void getVRAM(void) {
+    GPU_STATUS = 0x00000000;
+    waitGPU();
+    GPU_STATUS = 0x04000003;
+    DPCR |= 0x00000800;
+    // Loader is linking at 0x801c0000, so we have room for 1MB
+    // of vram between 0x80080000 and 0x80180000.
+    DMA_CTRL[DMA_GPU].MADR = 0x80000;
+    DMA_CTRL[DMA_GPU].BCR = (8192 << 16) | 16;
+    DMA_CTRL[DMA_GPU].CHCR = 0x01000200;
+    while (DMA_CTRL[DMA_GPU].CHCR & 0x01000000);
+    // GPU is going to be reset again soon so we shouldn't really
+    // care about its state from here on out.
+}
+
 /* The loaders' splash: OpenBIOS's colour bars, drawn once per vblank over a
    few frames so both interlaced fields get them. The loaders run with
    interrupts off, so this polls the VBLANK bit in I_STAT, which latches
    whatever I_MASK says. */
-#include <stdint.h>
-
-#include "common/hardware/hwregs.h"
-#include "common/hardware/irq.h"
-#include "openbios/main/splash.h"
 
 void drawLoaderSplash(void) {
     for (int i = 0; i < 4; i++) {
