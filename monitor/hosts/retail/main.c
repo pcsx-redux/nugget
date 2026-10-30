@@ -43,6 +43,7 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
+#include "monitor/hosts/gpu.h"
 #include "monitor/install.h"
 #include "monitor/link.h"
 #include "monitor/watchdog.h"
@@ -55,7 +56,6 @@ extern uint32_t __core_end[];
 
 void installSio1Tty(void);
 void releaseTty(void);
-void drawLoaderSplash(void);
 
 /* The first 64 KiB of RAM, the kernel's, through any segment (the retail
    kernel's own vector jumps to 0x00000C80). */
@@ -122,6 +122,7 @@ int main(void) {
     syscall_enqueueIrqHandler(3);
     syscall_enqueueRCntIrqs(1);
 
+    getVRAM();
     drawLoaderSplash();
 
     /* A resident monitor (a cart's) may own the tty and slot 4 with code in

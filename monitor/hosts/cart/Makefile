@@ -13,7 +13,7 @@ SRCS = \
 ../../../common/crt0/crt0.s \
 main.c \
 host-tty.c \
-../splash.c \
+../gpu.c \
 ../openbios-splash.c \
 
 # The loader shows OpenBIOS's colour bars before installing the monitor.
