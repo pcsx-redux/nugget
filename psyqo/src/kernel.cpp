@@ -420,13 +420,17 @@ void psyqo::Kernel::Internal::pumpCallbacks() {
     if (s_flag == 0) return;
     fastEnterCriticalSection();
     s_flag = 0;
+    // Only drain what was queued on entry. Each callback is moved out and
+    // popped before it runs, so a callback that pumps the queue itself (any
+    // blocking call does) cannot run its own entry again, and may empty the
+    // queue under us.
     auto count = s_callbacks.size();
-    for (size_t i = 0; i < count; i++) {
-        auto& l = s_callbacks.front();
+    while (count-- && !s_callbacks.empty()) {
+        auto l = eastl::move(s_callbacks.front());
+        s_callbacks.pop_front();
         fastLeaveCriticalSection();
         l();
         fastEnterCriticalSection();
-        s_callbacks.pop_front();
     }
     fastLeaveCriticalSection();
 }

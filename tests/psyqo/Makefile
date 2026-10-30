@@ -12,6 +12,7 @@ test-adler32.cpp \
 test-bezier.cpp \
 test-primitives.cpp \
 test-gte-math.cpp \
+test-kernel-callbacks.cpp \
 test-bump-allocator.cpp \
 test-tim.cpp \
 
