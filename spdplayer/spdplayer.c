@@ -497,6 +497,9 @@ void SPD_SelectSubsong(unsigned subsong) {
     if (!loadOrderTable(subsong)) return;
     SPD_ChangeOrderNextTick = 0;
     s_stream = NULL;
+    s_loopPoint = NULL;
+    s_waitRemaining = 0;
+    s_regTailCount = 0;
     SPD_CurrentOrder = 0;
     SPD_Seek(0);
 }
