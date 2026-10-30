@@ -82,6 +82,7 @@ const TESTS = [
     'spu-volsweep;spu-volsweep/spu-volsweep',
     'shell-480i-wait;shell-480i-wait/shell-480i-wait',
     'sio-reset;sio-reset/sio-reset',
+    'sio1-misc;sio1-misc/sio1-misc',
     'sr-write;sr-write/sr-write',
     'timers;timers/timers',
     // Each card test erases the card in one fixed slot, so it only runs on a
