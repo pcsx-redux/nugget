@@ -46,8 +46,10 @@ void getVRAM(void) {
     DPCR |= 0x00000800;
     // Loader is linking at 0x801c0000, so we have room for 1MB
     // of vram between 0x80080000 and 0x80180000.
+    const uint32_t bs = 16;
+    const uint32_t vram_size = 1024 * 512 * 2;
     DMA_CTRL[DMA_GPU].MADR = 0x80000;
-    DMA_CTRL[DMA_GPU].BCR = (8192 << 16) | 16;
+    DMA_CTRL[DMA_GPU].BCR = ((vram_size / (bs * 4)) << 16) | bs;
     DMA_CTRL[DMA_GPU].CHCR = 0x01000200;
     while (DMA_CTRL[DMA_GPU].CHCR & 0x01000000);
     // GPU is going to be reset again soon so we shouldn't really
