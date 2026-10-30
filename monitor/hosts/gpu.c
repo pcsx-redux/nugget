@@ -38,10 +38,10 @@ void getVRAM(void) {
     GPU_STATUS = 0x00000000;
     waitGPU();
     // sending VRAM download command
-    sendGPUData(0xc0000000);
-    sendGPUData(0x00000000);
-    sendGPUData((512 << 16) | 1024);
-    waitGPU();
+    GPU_DATA = 0xc0000000;
+    GPU_DATA = 0x00000000;
+    GPU_DATA = (512 << 16) | 1024;
+    while ((GPU_STATUS & 0x08000000) == 0);
     GPU_STATUS = 0x04000003;
     DPCR |= 0x00000800;
     // Loader is linking at 0x801c0000, so we have room for 1MB
