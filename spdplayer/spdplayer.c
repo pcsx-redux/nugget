@@ -63,7 +63,6 @@ static const uint8_t s_magic[16] = {
 #define MAX_SAMPLES  128
 #define MAX_MACROS   256
 #define MAX_MACRO_WRITES 8
-#define MAX_ORDER_TABLES 16
 
 struct SPDSampleInfo {
     uint16_t spuAddr;   // in 8-byte units
@@ -85,6 +84,7 @@ unsigned SPD_NextOrder = 0;
 
 // Private state
 static const uint8_t* s_fileBase = NULL;
+static uint32_t s_fileSize = 0;
 static const uint32_t* s_stream = NULL;
 static const uint32_t* s_loopPoint = NULL;
 static uint32_t s_waitRemaining = 0;
@@ -98,8 +98,7 @@ static uint16_t s_orderTable[MAX_ORDERS];
 static uint32_t s_orderFlags = 0;
 static uint32_t s_orderLoopTarget = 0;
 
-// Order table packets in file order, and the subsong table mapping subsongs to them
-static const uint32_t* s_orderTables[MAX_ORDER_TABLES];
+// Number of order table packets in the file, and the subsong table mapping subsongs to them
 static unsigned s_orderTableCount = 0;
 static const uint32_t* s_subsongTable = NULL;
 
@@ -297,9 +296,7 @@ static void parsePackets(const uint8_t* base, uint32_t size, int skipSamples) {
 
         switch (type) {
             case PKT_ORDER_TABLE:
-                if (base == s_fileBase && len >= 2 && s_orderTableCount < MAX_ORDER_TABLES) {
-                    s_orderTables[s_orderTableCount++] = ptr;
-                }
+                if (base == s_fileBase && len >= 2) s_orderTableCount++;
                 break;
 
             case PKT_SUBSONG_TBL:
@@ -377,16 +374,31 @@ static void parsePackets(const uint8_t* base, uint32_t size, int skipSamples) {
     }
 }
 
+// Find an order table packet by its ordinal position in the file, counted as parsePackets does.
+static const uint32_t* findOrderTable(unsigned index) {
+    const uint32_t* ptr = (const uint32_t*)(s_fileBase + 16);
+    const uint32_t* end = (const uint32_t*)(s_fileBase + s_fileSize);
+    while (ptr < end) {
+        uint32_t header = readPacketHeader(ptr);
+        uint32_t len = packetLength(header);
+        if (packetType(header) == PKT_ORDER_TABLE && len >= 2 && index-- == 0) return ptr;
+        ptr = ptr + 1 + len;
+    }
+    return NULL;
+}
+
 // Load the order table of a subsong: the subsong table maps subsongs to order tables, and
 // without one, subsongs are the order tables in file order.
 static int loadOrderTable(unsigned subsong) {
     if (subsong >= SPD_SubsongCount) return 0;
     unsigned index = s_subsongTable ? s_subsongTable[1 + subsong] : subsong;
     if (index >= s_orderTableCount) return 0;
-    const uint32_t* payload = s_orderTables[index] + 1;
+    const uint32_t* table = findOrderTable(index);
+    if (!table) return 0;
+    const uint32_t* payload = table + 1;
     s_orderFlags = payload[0];
     s_orderLoopTarget = payload[1];
-    SPD_OrderCount = packetLength(*s_orderTables[index]) - 2;
+    SPD_OrderCount = packetLength(*table) - 2;
     if (SPD_OrderCount > MAX_ORDERS) SPD_OrderCount = MAX_ORDERS;
     for (unsigned i = 0; i < SPD_OrderCount; i++) {
         s_orderTable[i] = payload[2 + i] & 0xffff;
@@ -401,6 +413,7 @@ static unsigned loadInternal(const void* data, uint32_t size,
     SPUInit();
 
     s_fileBase = (const uint8_t*)data;
+    s_fileSize = size;
     s_stream = NULL;
     s_loopPoint = NULL;
     s_waitRemaining = 0;
