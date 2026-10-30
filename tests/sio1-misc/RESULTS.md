@@ -23,7 +23,8 @@ unchanged). 5Eh (baud reload) stores it as is. Changing the character length
 afterwards does not change the stored value. Mode reads back unchanged.
 
 Reads: `lw` at 5Ch returns 5Eh in the upper half and 5Ch in the lower;
-`lhu` and `lbu` at every alignment return the matching part of that word.
+`lhu` at 5Ch and 5Eh and `lbu` at 5Ch-5Fh return the matching part of that
+word.
 
 Raw runs: farm tickets on SCPH-1001 and SCPH-5501 with a probe printing
 every reading, then this test on all three revisions.
