@@ -168,10 +168,11 @@ class ISO9660Parser {
      * @param[in] dir The directory to walk, as returned by getDirentry.
      * @param[in] visitor Called for each entry; returns true to stop the walk.
      */
-    void walkDirectory(const DirEntry& dir, eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor,
+    void walkDirectory(const DirEntry& dir,
+                       eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor,
                        eastl::function<void(bool success)> callback);
-    TaskQueue::Task scheduleWalkDirectory(const DirEntry& dir,
-                                          eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor);
+    TaskQueue::Task scheduleWalkDirectory(
+        const DirEntry& dir, eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor);
     struct WalkDirectoryAwaiter {
         WalkDirectoryAwaiter(ISO9660Parser& parser, const DirEntry& dir,
                              eastl::function<bool(eastl::string_view name, const DirEntry& entry)> visitor)

@@ -22,13 +22,13 @@
  * 1 is the end block and not something silencing every voice.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define ONESHOT_ADDR 0x1080u
@@ -137,8 +137,8 @@ static int run_case(const char *name, uint16_t pitch, int switchAt, uint16_t new
         failures++;
     }
     if (firstZero < lo || firstZero > hi) {
-        ramsyscall_printf("SPUENDMUTE: %s FAIL - voice 1 first read 0 at toggle %d, expected %d..%d\n", name,
-                          firstZero, lo, hi);
+        ramsyscall_printf("SPUENDMUTE: %s FAIL - voice 1 first read 0 at toggle %d, expected %d..%d\n", name, firstZero,
+                          lo, hi);
         failures++;
     }
     ramsyscall_printf("SPUENDMUTE: %s firstZero=%d %s\n", name, firstZero, failures ? "FAIL" : "ok");

@@ -905,7 +905,7 @@ void MOD_PlayNote(unsigned channel, unsigned sampleID, unsigned note, int16_t vo
     SPUSetStartAddress(channel, SPUInstrumentAddress(sampleID, channelData->samplePos));
     SPUWaitIdle();
     SPUKeyOnInstrument(channel, sampleID);
-    channelData->note = note = note +s_spuInstrumentData[sampleID].finetune * 36;
+    channelData->note = note = note + s_spuInstrumentData[sampleID].finetune * 36;
     int32_t newPeriod = channelData->period = MOD_PeriodTable[note];
     SETVOICESAMPLERATE(channel, newPeriod);
 }

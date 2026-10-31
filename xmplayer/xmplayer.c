@@ -83,7 +83,7 @@ static const uint8_t* s_loopPointer;
 static uint32_t s_keyOn;
 static uint16_t s_pendingVol[24][2];
 static uint32_t s_masterVolume = 16384;
-static uint16_t s_exp2[768];  // 2^(i/768) in Q15
+static uint16_t s_exp2[768];    // 2^(i/768) in Q15
 static uint16_t s_panLaw[257];  // i/256 in Q15: linear panning, as the reference renders measure
 
 unsigned XM_Channels;
@@ -309,8 +309,7 @@ static unsigned envelopeValue(const uint16_t (*points)[2], const struct XMEnvelo
     return v0 + (v1 - v0) * ((int32_t)tick - t0) / (t1 - t0);
 }
 
-static uint16_t envelopeAdvance(const uint16_t (*points)[2], const struct XMEnvelope* env, uint16_t tick,
-                                int keyOn) {
+static uint16_t envelopeAdvance(const uint16_t (*points)[2], const struct XMEnvelope* env, uint16_t tick, int keyOn) {
     if ((env->flags & 2) && keyOn && tick == points[env->sustain][0]) return tick;
     tick++;
     if ((env->flags & 4) && tick >= points[env->loopEnd][0]) tick = points[env->loopStart][0];
@@ -492,7 +491,10 @@ static void startRow(struct XMChannel* ch, unsigned voice) {
     if (instrument && note != 97) resetInstrument(ch);
     uint8_t v = ch->cellVolume;
     switch (v >> 4) {
-        case 1: case 2: case 3: case 4:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
             ch->volume = v - 0x10;
             break;
         case 5:

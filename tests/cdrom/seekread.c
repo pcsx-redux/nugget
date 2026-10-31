@@ -35,8 +35,8 @@ CESTER_BODY(
         uint8_t header[4];
     } SeekReadEvent;
 
-    static unsigned seekReadDuringSeekP(uint8_t readCommand, uint8_t fromS, uint8_t fromF, uint8_t toS,
-                                        uint8_t toF, SeekReadEvent events[8], uint32_t* ackTime) {
+    static unsigned seekReadDuringSeekP(uint8_t readCommand, uint8_t fromS, uint8_t fromF, uint8_t toS, uint8_t toF,
+                                        SeekReadEvent events[8], uint32_t* ackTime) {
         if (!resetCDRom()) return 0;
         if (!setMode(0x20)) return 0;
         if (!seekPTo(0, fromS, fromF)) return 0;
@@ -83,8 +83,7 @@ CESTER_BODY(
         return count;
     }
 
-    static void printSeekReadEvents(const char* name, uint32_t ackTime, const SeekReadEvent* events,
-                                    unsigned count) {
+    static void printSeekReadEvents(const char* name, uint32_t ackTime, const SeekReadEvent* events, unsigned count) {
         ramsyscall_printf("%s, seekP ack in %ius, %u events:", name, ackTime, count);
         for (unsigned i = 0; i < count; i++) {
             const SeekReadEvent* e = &events[i];
@@ -105,21 +104,14 @@ CESTER_BODY(
             return (events[i].header[0] == 0) && (events[i].header[1] == s) && (events[i].header[2] == f);
         }
         return 0;
-    }
-)
+    })
 
-CESTER_TEST(readNDuringSeekPFar, test_instances,
-    SeekReadEvent events[8];
-    uint32_t ackTime = 0;
-    unsigned count = seekReadDuringSeekP(CDL_READN, 0x02, 0x00, 0x04, 0x00, events, &ackTime);
-    printSeekReadEvents("ReadN during seekP 00:02:00 to 00:04:00", ackTime, events, count);
-    cester_assert_true(firstDataHeaderIs(events, count, 0x04, 0x00));
-)
+CESTER_TEST(readNDuringSeekPFar, test_instances, SeekReadEvent events[8]; uint32_t ackTime = 0;
+            unsigned count = seekReadDuringSeekP(CDL_READN, 0x02, 0x00, 0x04, 0x00, events, &ackTime);
+            printSeekReadEvents("ReadN during seekP 00:02:00 to 00:04:00", ackTime, events, count);
+            cester_assert_true(firstDataHeaderIs(events, count, 0x04, 0x00));)
 
-CESTER_TEST(readSDuringSeekPSamePlace, test_instances,
-    SeekReadEvent events[8];
-    uint32_t ackTime = 0;
-    unsigned count = seekReadDuringSeekP(CDL_READS, 0x02, 0x16, 0x02, 0x16, events, &ackTime);
-    printSeekReadEvents("ReadS during seekP 00:02:16 to 00:02:16", ackTime, events, count);
-    cester_assert_true(firstDataHeaderIs(events, count, 0x02, 0x16));
-)
+CESTER_TEST(readSDuringSeekPSamePlace, test_instances, SeekReadEvent events[8]; uint32_t ackTime = 0;
+            unsigned count = seekReadDuringSeekP(CDL_READS, 0x02, 0x16, 0x02, 0x16, events, &ackTime);
+            printSeekReadEvents("ReadS during seekP 00:02:16 to 00:02:16", ackTime, events, count);
+            cester_assert_true(firstDataHeaderIs(events, count, 0x02, 0x16));)

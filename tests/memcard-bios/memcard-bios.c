@@ -265,9 +265,12 @@ static void testDevice() {
     for (struct DirEntry *p = firstFile(BU_PATH("*"), &entry); p; p = nextFile(&entry)) {
         found++;
         ramsyscall_printf("firstfile/nextfile: %s, %d bytes\n", entry.name, (int)entry.size);
-        if (streq(entry.name, "BIMEMTEST-BIOS")) sizes = sizes && entry.size == 8192;
-        else if (streq(entry.name, "BIMEMTEST-BIOS2")) sizes = sizes && entry.size == 16384;
-        else sizes = 0;
+        if (streq(entry.name, "BIMEMTEST-BIOS"))
+            sizes = sizes && entry.size == 8192;
+        else if (streq(entry.name, "BIMEMTEST-BIOS2"))
+            sizes = sizes && entry.size == 16384;
+        else
+            sizes = 0;
         if (found > 15) break;
     }
     check(found == 2 && sizes, "firstfile/nextfile list both files and their sizes");

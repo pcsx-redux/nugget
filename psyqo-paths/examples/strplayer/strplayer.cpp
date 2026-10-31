@@ -35,7 +35,6 @@ SOFTWARE.
 #include "psyqo/iso9660-parser.hh"
 #include "psyqo/scene.hh"
 
-
 namespace {
 
 class StrPlayerExample final : public psyqo::Application {
@@ -75,8 +74,8 @@ psyqo::paths::StrPlayer::Options options() {
 }
 
 void report(const psyqo::paths::StrPlayer::Stats &s, unsigned pass, int status) {
-    ramsyscall_printf("STRP: pass %d status %d shown %d dropped %d rejected %d last %d\n", pass, status,
-                      s.framesShown, s.framesDropped, s.framesRejected, s.lastFrameNumber);
+    ramsyscall_printf("STRP: pass %d status %d shown %d dropped %d rejected %d last %d\n", pass, status, s.framesShown,
+                      s.framesDropped, s.framesRejected, s.lastFrameNumber);
     ramsyscall_printf("STRP: sectors video %d other %d errors %d incomplete %d ringfull %d\n", s.videoSectors,
                       s.otherSectors, s.readErrors, s.dropIncomplete, s.dropRingFull);
     ramsyscall_printf("STRP: vsyncs/frame 1:%d 2:%d 3:%d 4+:%d\n", s.vsyncHistogram[0], s.vsyncHistogram[1],

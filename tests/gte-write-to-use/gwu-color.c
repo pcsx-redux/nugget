@@ -27,7 +27,6 @@ SOFTWARE.
 
 #include "gwu.h"
 
-
 // clang-format off
 
 #ifndef GTE_LATENCY_COLOR_HELPERS_DEFINED

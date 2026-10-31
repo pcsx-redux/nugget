@@ -29,7 +29,6 @@ SOFTWARE.
 #include "psyqo/bump-allocator.hh"
 #include "psyqo/ordering-table.hh"
 #include "psyqo/primitives/triangles.hh"
-
 #include "snitch_all.hpp"
 
 using namespace psyqo;

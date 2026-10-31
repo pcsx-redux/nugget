@@ -24,20 +24,22 @@ SOFTWARE.
 
 */
 
+#include "common/hardware/spu.h"
+
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
-#include "common/hardware/spu.h"
 #include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
-#include <stdint.h>
 
 #ifndef SPU_TEST_STORAGE_DEFINED
 #define SPU_TEST_STORAGE_DEFINED
 // All buffers in main RAM - the DMAC cannot target the CPU scratchpad.
-static uint8_t  s_upload[64 + 64]       __attribute__((aligned(4)));
-static uint16_t s_capture[512]          __attribute__((aligned(4)));
-static uint8_t  s_readback[4096]        __attribute__((aligned(4)));
-static uint8_t  s_reverb_work[0x3000]   __attribute__((aligned(4)));
+static uint8_t s_upload[64 + 64] __attribute__((aligned(4)));
+static uint16_t s_capture[512] __attribute__((aligned(4)));
+static uint8_t s_readback[4096] __attribute__((aligned(4)));
+static uint8_t s_reverb_work[0x3000] __attribute__((aligned(4)));
 #endif
 
 #undef unix
@@ -64,14 +66,15 @@ static uint8_t  s_reverb_work[0x3000]   __attribute__((aligned(4)));
 #ifndef SPU_TEST_HELPERS_DEFINED
 #define SPU_TEST_HELPERS_DEFINED
 
-#define INCLUDE_PCM(NAME) \
-    asm( \
-        ".pushsection .rodata\n" \
-        ".global " #NAME "\n" \
-        ".align 2\n" \
-        #NAME ":\n" \
-        ".incbin \"" #NAME ".test.pcm\"\n"\
-        ".popsection"); \
+#define INCLUDE_PCM(NAME)        \
+    asm(".pushsection .rodata\n" \
+        ".global " #NAME         \
+        "\n"                     \
+        ".align 2\n" #NAME       \
+        ":\n"                    \
+        ".incbin \"" #NAME       \
+        ".test.pcm\"\n"          \
+        ".popsection");          \
     extern const uint8_t NAME[]
 
 INCLUDE_PCM(silent);
@@ -135,13 +138,15 @@ static const uint8_t kAdpcmSquare[64] __attribute__((aligned(4))) = {
     0x00, 0x00, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
     0x00, 0x03, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
 };
-static const uint8_t kAdpcmSine394Hz[64] __attribute__((aligned(4))) = { // low-pitch sine wave
+static const uint8_t kAdpcmSine394Hz[64] __attribute__((aligned(4))) = {
+    // low-pitch sine wave
     0x00, 0x06, 0x00, 0x10, 0x21, 0x32, 0x33, 0x44, 0x54, 0x55, 0x66, 0x76, 0x77, 0x77, 0x77, 0x77,
     0x00, 0x00, 0x77, 0x77, 0x77, 0x77, 0x77, 0x66, 0x56, 0x55, 0x44, 0x34, 0x33, 0x22, 0x11, 0x00,
     0x00, 0x00, 0xf0, 0xef, 0xde, 0xcd, 0xcc, 0xbb, 0xab, 0xaa, 0x99, 0x89, 0x88, 0x88, 0x88, 0x88,
     0x00, 0x03, 0x88, 0x88, 0x88, 0x88, 0x88, 0x99, 0xa9, 0xaa, 0xbb, 0xcb, 0xcc, 0xdd, 0xee, 0xff,
 };
-static const uint8_t kAdpcmSine5512Hz[64] __attribute__((aligned(4))) = { // high-pitch sine wave
+static const uint8_t kAdpcmSine5512Hz[64] __attribute__((aligned(4))) = {
+    // high-pitch sine wave
     0x00, 0x06, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57,
     0x00, 0x00, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8,
     0x00, 0x00, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57, 0xa0, 0xa8, 0x50, 0x57,
@@ -170,8 +175,7 @@ static void spu_dump(const char *name, const void *buf, int len) {
     PCclose(fd);
 }
 
-static void spu_pcm_analyze(const uint8_t *data, uint32_t L,
-                            uint32_t *out_warmup, uint32_t *out_period) {
+static void spu_pcm_analyze(const uint8_t *data, uint32_t L, uint32_t *out_warmup, uint32_t *out_period) {
     uint32_t best_kept = L, best_w = 0, best_p = L;
     for (uint32_t period = 2; period <= L / 2; period += 2) {
         uint32_t i = L - period;
@@ -180,14 +184,21 @@ static void spu_pcm_analyze(const uint8_t *data, uint32_t L,
             // Compare data[i-period .. i) against data[L-period .. L).
             int eq = 1;
             for (uint32_t k = 0; k < period; k++) {
-                if (data[i - period + k] != data[L - period + k]) { eq = 0; break; }
+                if (data[i - period + k] != data[L - period + k]) {
+                    eq = 0;
+                    break;
+                }
             }
             if (!eq) break;
             i -= period;
         }
         uint32_t warmup = i;
         uint32_t kept = warmup + period;
-        if (kept < best_kept) { best_kept = kept; best_w = warmup; best_p = period; }
+        if (kept < best_kept) {
+            best_kept = kept;
+            best_w = warmup;
+            best_p = period;
+        }
     }
     *out_warmup = best_w;
     *out_period = best_p;
@@ -203,8 +214,8 @@ static void spu_dump_pcm(const char *name, const void *capture, uint32_t len) {
     // absorb a phase difference by rotation. The test silently starts demanding that
     // the emulator reproduce hardware's absolute key-on phase. Refuse to mint one.
     if (hdr.period >= len || hdr.warmup + hdr.period >= len) {
-        ramsyscall_printf("%s: NO PERIOD found in the capture (warmup=%d period=%d len=%d).\n",
-                          name, (int)hdr.warmup, (int)hdr.period, (int)len);
+        ramsyscall_printf("%s: NO PERIOD found in the capture (warmup=%d period=%d len=%d).\n", name, (int)hdr.warmup,
+                          (int)hdr.period, (int)len);
         ramsyscall_printf("%s: REFUSING to write a golden - pick a rate whose period fits the ring.\n", name);
         return;
     }
@@ -229,18 +240,17 @@ static void spu_dump_pcm(const char *name, const void *capture, uint32_t len) {
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_UPLOAD_ADDR 0x1080
 
-static void spu_dma_sync(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes,
-                         int isRead) {
+static void spu_dma_sync(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes, int isRead) {
     const uint16_t tsa = (uint16_t)(spuByteAddr >> 3);
     const uint16_t modeBits = isRead ? 0x0030 : 0x0020;
     const uint32_t delay = isRead ? 0x22000000 : 0x20000000;
     const uint32_t chcr = isRead ? 0x01000200 : 0x01000201;
 
     SPU_RAM_DTA = tsa;
-    for (int i = 0; i < 0xF01 && (SPU_RAM_DTA & 0xffff) != tsa; i++) ;
+    for (int i = 0; i < 0xF01 && (SPU_RAM_DTA & 0xffff) != tsa; i++);
     SPU_CTRL = (SPU_CTRL & ~0x0030) | modeBits;
-    for (volatile int i = 0; i < 60; i++) ;
-    for (int i = 0; i < 0xF01 && (SPU_STATUS & 0x30) != modeBits; i++) ;
+    for (volatile int i = 0; i < 60; i++);
+    for (int i = 0; i < 0xF01 && (SPU_STATUS & 0x30) != modeBits; i++);
     SPU_DELAY = (SPU_DELAY & 0xf0ffffff) | delay;
 
     uint32_t blocks = (bytes >> 6) + ((bytes & 0x3f) ? 1 : 0);
@@ -253,11 +263,10 @@ static void spu_dma_sync(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes,
     // now loses the last ~50-60 bytes of a write on hardware. SPUSTAT bit 7 sets once the
     // data has landed. The bound covers emulators that never set it.
     if (!isRead) {
-        for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) == 0; i++)
-            ;
+        for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) == 0; i++);
     }
     SPU_CTRL = (SPU_CTRL & ~0x0030);
-    for (volatile int i = 0; i < 60; i++) ;
+    for (volatile int i = 0; i < 60; i++);
 }
 
 static inline void spu_write_sync(uint32_t spuAddr, const void *src, uint32_t bytes) {
@@ -267,17 +276,17 @@ static inline void spu_read_sync(uint32_t spuAddr, void *dst, uint32_t bytes) {
     spu_dma_sync(spuAddr, (uint32_t)dst, bytes, 1);
 }
 
-__attribute__((noinline))
-static void spu_busy_wait(unsigned cycles) {
+__attribute__((noinline)) static void spu_busy_wait(unsigned cycles) {
     // waste time on CPU, 3 cycles per loop
     unsigned n = cycles / 3;
     if (n == 0) return;
-    __asm__ volatile (
+    __asm__ volatile(
         "1: addiu %0, %0, -1 \n"
         "   bnez  %0, 1b     \n"
         "   nop              \n"
-        : "+r"(n) : : "memory"
-    );
+        : "+r"(n)
+        :
+        : "memory");
 }
 
 static inline void spu_wait_status_bit11_flip(void) {
@@ -288,12 +297,18 @@ static inline void spu_wait_status_bit11_flip(void) {
 static void spu_reset_quiet(void) {
     DPCR |= 0x000b0000;
     SPU_CTRL = 0;
-    SPU_VOL_MAIN_LEFT = 0; SPU_VOL_MAIN_RIGHT = 0;
-    SPU_REVERB_LEFT = 0; SPU_REVERB_RIGHT = 0;
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
-    SPU_PITCH_MOD_LOW = 0; SPU_PITCH_MOD_HIGH = 0;
-    SPU_NOISE_EN_LOW = 0; SPU_NOISE_EN_HIGH = 0;
-    SPU_REVERB_EN_LOW = 0; SPU_REVERB_EN_HIGH = 0;
+    SPU_VOL_MAIN_LEFT = 0;
+    SPU_VOL_MAIN_RIGHT = 0;
+    SPU_REVERB_LEFT = 0;
+    SPU_REVERB_RIGHT = 0;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_PITCH_MOD_LOW = 0;
+    SPU_PITCH_MOD_HIGH = 0;
+    SPU_NOISE_EN_LOW = 0;
+    SPU_NOISE_EN_HIGH = 0;
+    SPU_REVERB_EN_LOW = 0;
+    SPU_REVERB_EN_HIGH = 0;
     // Push reverb work area to the very top of SPU RAM so its writes don't
     // overlap any test address.
     SPU_REVERB_ADDR = 0xffff;
@@ -307,9 +322,10 @@ static void spu_voice1_keyon(uint32_t spuAddr, uint16_t pitch) {
     SPU_VOICES[1].sampleRate = pitch;
     SPU_VOICES[1].sampleStartAddr = spuAddr >> 3;
     SPU_VOICES[1].sampleRepeatAddr = spuAddr >> 3;
-    SPU_VOICES[1].adsrLo = 0x000f;   // instant attack, sustain level=0xF
-    SPU_VOICES[1].adsrHi = 0x1fc0;   // sustain rate=0x7F, increase, linear
-    SPU_KEY_OFF_LOW = 0; SPU_KEY_OFF_HIGH = 0;
+    SPU_VOICES[1].adsrLo = 0x000f;  // instant attack, sustain level=0xF
+    SPU_VOICES[1].adsrHi = 0x1fc0;  // sustain rate=0x7F, increase, linear
+    SPU_KEY_OFF_LOW = 0;
+    SPU_KEY_OFF_HIGH = 0;
     SPU_KEY_ON_LOW = 1u << 1;
 }
 
@@ -356,8 +372,8 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
         return 1;
     }
     if (keptS <= 0 || keptS > 512) {
-        ramsyscall_printf("%s: golden covers %d samples (warmup=%d period=%d); refusing it\n",
-                          name, keptS, (int)h->warmup, (int)h->period);
+        ramsyscall_printf("%s: golden covers %d samples (warmup=%d period=%d); refusing it\n", name, keptS,
+                          (int)h->warmup, (int)h->period);
         return 1;
     }
     if (keptS <= startS) {
@@ -368,9 +384,10 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
         // SPU_ONSET_SKIP grows past it. The periodicity check still does real work,
         // so this warns rather than fails, but it must not read as a test that
         // verified its samples against hardware, because it did not.
-        ramsyscall_printf("%s: golden is %d samples but SPU_ONSET_SKIP is %d, so NO sample is "
-                          "compared against hardware - periodicity check only\n",
-                          name, keptS, SPU_ONSET_SKIP);
+        ramsyscall_printf(
+            "%s: golden is %d samples but SPU_ONSET_SKIP is %d, so NO sample is "
+            "compared against hardware - periodicity check only\n",
+            name, keptS, SPU_ONSET_SKIP);
     }
 
     // A periodic golden matches at every rotation that differs by a whole period,
@@ -387,15 +404,18 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
         for (int i = startS; i < keptS; i++) {
             if (a[(s + i) & 511] != golden[i]) bad++;
         }
-        if (bad < bestBad) { bestBad = bad; bestS = s; }
+        if (bad < bestBad) {
+            bestBad = bad;
+            bestS = s;
+        }
     }
     ramsyscall_printf("OBS spu_capture %s ring_offset=%d\n", name, bestS);
 
     for (int i = startS; i < keptS; i++) {
         int j = (bestS + i) & 511;
         if (a[j] != golden[i]) {
-            ramsyscall_printf("%s mismatch at sample %d (ring offset %d): got 0x%04x, want 0x%04x\n",
-                              name, i, bestS, (uint16_t)a[j], (uint16_t)golden[i]);
+            ramsyscall_printf("%s mismatch at sample %d (ring offset %d): got 0x%04x, want 0x%04x\n", name, i, bestS,
+                              (uint16_t)a[j], (uint16_t)golden[i]);
             return i + 1;
         }
     }
@@ -403,8 +423,8 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
     for (int i = keptS; i < 512; i++) {
         int ri = (bestS + i) & 511, rp = (bestS + i - periodS) & 511;
         if (a[ri] != a[rp]) {
-            ramsyscall_printf("%s periodicity broken at sample %d: got 0x%04x, want 0x%04x\n",
-                              name, i, (uint16_t)a[ri], (uint16_t)a[rp]);
+            ramsyscall_printf("%s periodicity broken at sample %d: got 0x%04x, want 0x%04x\n", name, i, (uint16_t)a[ri],
+                              (uint16_t)a[rp]);
             return i + 1;
         }
     }
@@ -414,8 +434,7 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
 #ifdef SPU_DUMP
 #define SPU_ASSERT_GOLDEN(name) spu_dump_pcm(#name ".test.pcm", s_capture, 1024)
 #else
-#define SPU_ASSERT_GOLDEN(name) \
-    cester_assert_int_eq(0, spu_compare_golden(#name, s_capture, name))
+#define SPU_ASSERT_GOLDEN(name) cester_assert_int_eq(0, spu_compare_golden(#name, s_capture, name))
 #endif
 
 #endif

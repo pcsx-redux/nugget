@@ -34,32 +34,27 @@
 // ends/repeats back to that silence. This gives the reverb a clean transient
 // without continuously re-triggering the impulse.
 static const uint8_t kAdpcmImpulseThenSilence[64] __attribute__((aligned(4))) = {
-    0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
 struct SPUReverbCaptureHeader {
-    uint32_t magic;       // 'REVR'
-    uint32_t length;      // sizeof(struct SPUReverbCaptureHeader)
-    uint32_t preset;      // SPU_REVERB_PRESET_*
-    uint32_t input;       // SPU_REVERB_INPUT_*
-    uint32_t workBase;    // byte address in SPU RAM
-    uint32_t workBytes;   // bytes captured after this header
-    uint32_t syncWindows; // count of bit11 high->low waits after key-on
+    uint32_t magic;        // 'REVR'
+    uint32_t length;       // sizeof(struct SPUReverbCaptureHeader)
+    uint32_t preset;       // SPU_REVERB_PRESET_*
+    uint32_t input;        // SPU_REVERB_INPUT_*
+    uint32_t workBase;     // byte address in SPU RAM
+    uint32_t workBytes;    // bytes captured after this header
+    uint32_t syncWindows;  // count of bit11 high->low waits after key-on
     uint32_t reserved;
 };
 
 static const uint16_t kReverbRoomPreset[32] = {
-    0x007d, 0x005b, 0x6d80, 0x54b8, 0xbed0, 0x0000, 0x0000, 0xba80,
-    0x5800, 0x5300, 0x04d6, 0x0333, 0x03f0, 0x0227, 0x0374, 0x01ef,
-    0x0334, 0x01b5, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
-    0x0000, 0x0000, 0x01b4, 0x0136, 0x00b8, 0x005c, 0x8000, 0x8000,
+    0x007d, 0x005b, 0x6d80, 0x54b8, 0xbed0, 0x0000, 0x0000, 0xba80, 0x5800, 0x5300, 0x04d6,
+    0x0333, 0x03f0, 0x0227, 0x0374, 0x01ef, 0x0334, 0x01b5, 0x0000, 0x0000, 0x0000, 0x0000,
+    0x0000, 0x0000, 0x0000, 0x0000, 0x01b4, 0x0136, 0x00b8, 0x005c, 0x8000, 0x8000,
 };
 
 static void spu_reverb_apply_room_preset(void) {
@@ -154,17 +149,15 @@ static int spu_compare_reverb_golden(const char *name, const void *capture, cons
     const struct SPUReverbCaptureHeader *hdr = (const struct SPUReverbCaptureHeader *)goldenFile;
     const uint8_t *expected = goldenFile + hdr->length;
     if (hdr->magic != 0x52564552u || hdr->length != sizeof(struct SPUReverbCaptureHeader) ||
-        hdr->preset != SPU_REVERB_PRESET_ROOM || hdr->input != inputKind ||
-        hdr->workBase != SPU_REVERB_ROOM_BASE || hdr->workBytes != SPU_REVERB_ROOM_SIZE ||
-        hdr->syncWindows != syncWindows) {
+        hdr->preset != SPU_REVERB_PRESET_ROOM || hdr->input != inputKind || hdr->workBase != SPU_REVERB_ROOM_BASE ||
+        hdr->workBytes != SPU_REVERB_ROOM_SIZE || hdr->syncWindows != syncWindows) {
         ramsyscall_printf("%s reverb golden header mismatch\n", name);
         return 1;
     }
     const uint8_t *got = (const uint8_t *)capture;
     for (unsigned i = 0; i < SPU_REVERB_ROOM_SIZE; i++) {
         if (got[i] != expected[i]) {
-            ramsyscall_printf("%s reverb mismatch at +0x%04x: got 0x%02x, want 0x%02x\n",
-                              name, i, got[i], expected[i]);
+            ramsyscall_printf("%s reverb mismatch at +0x%04x: got 0x%02x, want 0x%02x\n", name, i, got[i], expected[i]);
             return i + 1;
         }
     }
@@ -174,13 +167,14 @@ static int spu_compare_reverb_golden(const char *name, const void *capture, cons
 
 #ifdef SPU_REVERB_GOLDENS_AVAILABLE
 #define INCLUDE_REVERB_GOLDEN(NAME) \
-    asm( \
-        ".pushsection .rodata\n" \
-        ".global " #NAME "\n" \
-        ".align 2\n" \
-        #NAME ":\n" \
-        ".incbin \"" #NAME ".test.rev\"\n" \
-        ".popsection"); \
+    asm(".pushsection .rodata\n"    \
+        ".global " #NAME            \
+        "\n"                        \
+        ".align 2\n" #NAME          \
+        ":\n"                       \
+        ".incbin \"" #NAME          \
+        ".test.rev\"\n"             \
+        ".popsection");             \
     extern const uint8_t NAME[]
 
 INCLUDE_REVERB_GOLDEN(room_impulse);
@@ -198,11 +192,9 @@ INCLUDE_REVERB_GOLDEN(room_steady_sine);
 #endif
 
 SPU_REVERB_TEST(reverb_room_impulse_work_area, spu_tests,
-    run_reverb_room_work_area(kAdpcmImpulseThenSilence, SPU_REVERB_INPUT_IMPULSE, 8);
-    SPU_ASSERT_REVERB_GOLDEN(room_impulse, SPU_REVERB_INPUT_IMPULSE, 8);
-)
+                run_reverb_room_work_area(kAdpcmImpulseThenSilence, SPU_REVERB_INPUT_IMPULSE, 8);
+                SPU_ASSERT_REVERB_GOLDEN(room_impulse, SPU_REVERB_INPUT_IMPULSE, 8);)
 
 SPU_REVERB_TEST(reverb_room_steady_sine_work_area, spu_tests,
-    run_reverb_room_work_area(kAdpcmSine, SPU_REVERB_INPUT_STEADY_SINE, 32);
-    SPU_ASSERT_REVERB_GOLDEN(room_steady_sine, SPU_REVERB_INPUT_STEADY_SINE, 32);
-)
+                run_reverb_room_work_area(kAdpcmSine, SPU_REVERB_INPUT_STEADY_SINE, 32);
+                SPU_ASSERT_REVERB_GOLDEN(room_steady_sine, SPU_REVERB_INPUT_STEADY_SINE, 32);)

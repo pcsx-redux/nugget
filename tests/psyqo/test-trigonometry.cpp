@@ -24,11 +24,10 @@ SOFTWARE.
 
 */
 
-#include "psyqo/trigonometry.hh"
-
 #include <EASTL/array.h>
 #include <stdint.h>
 
+#include "psyqo/trigonometry.hh"
 #include "snitch_all.hpp"
 
 using namespace psyqo;

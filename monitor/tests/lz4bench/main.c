@@ -94,8 +94,9 @@ int main(void) {
         int ok = !err && got == sum;
         bad |= !ok;
         uint32_t net = dec.cycles - ctl.cycles;
-        ramsyscall_printf("lz4bench: stream %d %s raw %d in %d cycles %d control %d net %d max-byte %d control-max %d\n", k,
-                          ok ? "OK" : "BAD", raw, dec.in, dec.cycles, ctl.cycles, net, dec.max, ctl.max);
+        ramsyscall_printf(
+            "lz4bench: stream %d %s raw %d in %d cycles %d control %d net %d max-byte %d control-max %d\n", k,
+            ok ? "OK" : "BAD", raw, dec.in, dec.cycles, ctl.cycles, net, dec.max, ctl.max);
         p = next;
         while ((uintptr_t)p & 3) p++;
     }

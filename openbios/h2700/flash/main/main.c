@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-
 /* H2700 flash programmer, run as a target under the resident monitor from
    main RAM. Mirrors pflash: JEDEC/AMD byte commands through the 0x5555/0x2AAA
    aperture of the BIOS ROM window, window widened to 1 MB by writing the
@@ -32,6 +31,7 @@ SOFTWARE.
    Built twice: DRY (identify, mirror test, diff against the payload, no writes)
    and GO (DRY checks, then erase, program, verify). Exit code 0 = clean. */
 #include <stdint.h>
+
 #include "common/kernel/pcdrv.h"
 #include "common/syscalls/syscalls.h"
 
@@ -48,17 +48,41 @@ static char *puthex(char *p, uint32_t v, int d) {
     return p;
 }
 static char *putdec(char *p, uint32_t v) {
-    char t[12]; int i = 0;
-    do { t[i++] = '0' + v % 10; v /= 10; } while (v);
+    char t[12];
+    int i = 0;
+    do {
+        t[i++] = '0' + v % 10;
+        v /= 10;
+    } while (v);
     while (i) *p++ = t[--i];
     return p;
 }
-static char *putstr(char *p, const char *s) { while (*s) *p++ = *s++; return p; }
+static char *putstr(char *p, const char *s) {
+    while (*s) *p++ = *s++;
+    return p;
+}
 static void say(const char *s) { syscall_puts(s); }
-static void sayhex(const char *k, uint32_t v) { char b[64], *p = b; p = putstr(p, k); p = puthex(p, v, 8); *p++ = '\n'; *p = 0; say(b); }
-static void saydec(const char *k, uint32_t v) { char b[64], *p = b; p = putstr(p, k); p = putdec(p, v); *p++ = '\n'; *p = 0; say(b); }
+static void sayhex(const char *k, uint32_t v) {
+    char b[64], *p = b;
+    p = putstr(p, k);
+    p = puthex(p, v, 8);
+    *p++ = '\n';
+    *p = 0;
+    say(b);
+}
+static void saydec(const char *k, uint32_t v) {
+    char b[64], *p = b;
+    p = putstr(p, k);
+    p = putdec(p, v);
+    *p++ = '\n';
+    *p = 0;
+    say(b);
+}
 
-static void unlock(void) { FLASH[0x5555] = 0xAA; FLASH[0x2AAA] = 0x55; }
+static void unlock(void) {
+    FLASH[0x5555] = 0xAA;
+    FLASH[0x2AAA] = 0x55;
+}
 static void reset_read(void) { FLASH[0x5555] = 0xF0; }
 
 int main(void) {
@@ -68,7 +92,10 @@ int main(void) {
 
     say("=== H2700 FLASH " MODE " ===\n");
     saydec("payload bytes: ", (uint32_t)(g_payload_end - g_payload));
-    if ((uint32_t)(g_payload_end - g_payload) != IMAGE_SIZE) { say("bad payload size\n"); PCexit(2); }
+    if ((uint32_t)(g_payload_end - g_payload) != IMAGE_SIZE) {
+        say("bad payload size\n");
+        PCexit(2);
+    }
 
     uint32_t oldbus = BIOS_ROM_CTRL;
     sayhex("BIOS_ROM ctrl as found: ", oldbus);
@@ -76,12 +103,16 @@ int main(void) {
 
     /* Mirror test, as pflash's detectFlashBase_: does +0x20000 alias +0? */
     int alias20 = 1, alias80 = 1;
-    for (int i = 0; i < 32; i++) { if (FLASH[i] != FLASH[0x20000 + i]) alias20 = 0; if (FLASH[i] != FLASH[0x80000 + i]) alias80 = 0; }
+    for (int i = 0; i < 32; i++) {
+        if (FLASH[i] != FLASH[0x20000 + i]) alias20 = 0;
+        if (FLASH[i] != FLASH[0x80000 + i]) alias80 = 0;
+    }
     saydec("mirror +0x20000: ", alias20);
     saydec("mirror +0x80000: ", alias80);
 
     /* JEDEC autoselect: manufacturer at 0, device at 1. */
-    unlock(); FLASH[0x5555] = 0x90;
+    unlock();
+    FLASH[0x5555] = 0x90;
     uint32_t id0 = FLASH[0], id1 = FLASH[1], id2 = FLASH[2];
     reset_read();
     sayhex("id[0] (mfr): ", id0);
@@ -105,25 +136,50 @@ int main(void) {
         PCexit(0);
     }
     say("chip erase...\n");
-    unlock(); FLASH[0x5555] = 0x80; unlock(); FLASH[0x5555] = 0x10;
+    unlock();
+    FLASH[0x5555] = 0x80;
+    unlock();
+    FLASH[0x5555] = 0x10;
     uint32_t spins = 0;
-    while (FLASH[0] != 0xFF) { if (++spins > 200000000u) { say("erase timeout\n"); BIOS_ROM_CTRL = oldbus; PCexit(3); } }
+    while (FLASH[0] != 0xFF) {
+        if (++spins > 200000000u) {
+            say("erase timeout\n");
+            BIOS_ROM_CTRL = oldbus;
+            PCexit(3);
+        }
+    }
     uint32_t left = 0;
-    for (uint32_t i = 0; i < IMAGE_SIZE; i++) if (FLASH[i] != 0xFF) left++;
+    for (uint32_t i = 0; i < IMAGE_SIZE; i++)
+        if (FLASH[i] != 0xFF) left++;
     saydec("erase done, non-FF bytes left: ", left);
-    if (left) { BIOS_ROM_CTRL = oldbus; PCexit(4); }
+    if (left) {
+        BIOS_ROM_CTRL = oldbus;
+        PCexit(4);
+    }
 
     say("programming...\n");
     for (uint32_t i = 0; i < IMAGE_SIZE; i++) {
         uint8_t d = g_payload[i];
         if (d == 0xFF) continue;
-        unlock(); FLASH[0x5555] = 0xA0; FLASH[i] = d;
+        unlock();
+        FLASH[0x5555] = 0xA0;
+        FLASH[i] = d;
         spins = 0;
-        while (FLASH[i] != d) { if (++spins > 2000000u) { sayhex("program timeout at ", i); BIOS_ROM_CTRL = oldbus; PCexit(5); } }
+        while (FLASH[i] != d) {
+            if (++spins > 2000000u) {
+                sayhex("program timeout at ", i);
+                BIOS_ROM_CTRL = oldbus;
+                PCexit(5);
+            }
+        }
         if ((i & 0xFFFF) == 0) sayhex("  at ", i);
     }
     uint32_t bad = 0, firstbad = 0xFFFFFFFFu;
-    for (uint32_t i = 0; i < IMAGE_SIZE; i++) if (FLASH[i] != g_payload[i]) { if (!bad) firstbad = i; bad++; }
+    for (uint32_t i = 0; i < IMAGE_SIZE; i++)
+        if (FLASH[i] != g_payload[i]) {
+            if (!bad) firstbad = i;
+            bad++;
+        }
     saydec("verify mismatches: ", bad);
     if (bad) sayhex("first mismatch at ", firstbad);
     BIOS_ROM_CTRL = oldbus;

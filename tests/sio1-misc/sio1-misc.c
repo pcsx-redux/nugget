@@ -108,9 +108,12 @@ static void expect(const struct Arm *a, uint32_t src, int cl, uint16_t *e5c, uin
 
 static void store(const struct Arm *a, uint32_t v) {
     uint32_t addr = B + 12 + a->off;
-    if (a->width == 1) sb(addr, v);
-    else if (a->width == 2) sh(addr, v);
-    else sw(addr, v);
+    if (a->width == 1)
+        sb(addr, v);
+    else if (a->width == 2)
+        sh(addr, v);
+    else
+        sw(addr, v);
 }
 
 static uint16_t modeFor(uint16_t mode, int cl) { return (mode & ~0xc) | (cl << 2); }
@@ -183,7 +186,9 @@ int main(void) {
         fail++;
     }
     int ok = fail == 0 && pass == NCL * NARMS * NSRC;
-    if (ok) ramsyscall_printf("SIO1MISC-PASS %d cases\n", pass);
-    else ramsyscall_printf("SIO1MISC-FAIL %d passed, %d failed\n", pass, fail);
+    if (ok)
+        ramsyscall_printf("SIO1MISC-PASS %d cases\n", pass);
+    else
+        ramsyscall_printf("SIO1MISC-FAIL %d passed, %d failed\n", pass, fail);
     return ok ? 0 : 1;
 }

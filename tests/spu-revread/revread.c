@@ -30,13 +30,13 @@
  * whose transition is meant to land inside the capture window.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/counters.h"
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 
@@ -59,13 +59,41 @@
    long enough to see in one capture. */
 static const uint16_t kReadoutPreset[32] = {
     // dAPF1  dAPF2  vIIR   vCOMB1 vCOMB2 vCOMB3 vCOMB4 vWALL
-    0x0080, 0x0300, 0x7fff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+    0x0080,
+    0x0300,
+    0x7fff,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
+    0x0000,
     // vAPF1  vAPF2  mLSAME mRSAME mLCOMB1 mRCOMB1 mLCOMB2 mRCOMB2
-    0x0000, 0x0000, 0x0040, 0x0038, 0x0080, 0x0078, 0x0070, 0x0068,
+    0x0000,
+    0x0000,
+    0x0040,
+    0x0038,
+    0x0080,
+    0x0078,
+    0x0070,
+    0x0068,
     // dLSAME dRSAME mLDIFF mRDIFF mLCOMB3 mRCOMB3 mLCOMB4 mRCOMB4
-    0x0030, 0x0028, 0x0020, 0x0018, 0x0060, 0x0058, 0x0050, 0x0048,
+    0x0030,
+    0x0028,
+    0x0020,
+    0x0018,
+    0x0060,
+    0x0058,
+    0x0050,
+    0x0048,
     // dLDIFF dRDIFF mLAPF1 mRAPF1 mLAPF2 mRAPF2 vLIN   vRIN
-    0x0010, 0x0008, 0x00a0, 0x0098, 0x03f0, 0x03e8, 0x0000, 0x0000,
+    0x0010,
+    0x0008,
+    0x00a0,
+    0x0098,
+    0x03f0,
+    0x03e8,
+    0x0000,
+    0x0000,
 };
 
 static uint16_t s_pattern[WORK_SIZE / 2] __attribute__((aligned(4)));

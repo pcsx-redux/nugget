@@ -24,7 +24,8 @@ SOFTWARE.
 
 */
 
-// Originally written for uC-sdk (libc/src/qsort.c) by Nicolas Noble, who relicensed it here under the MIT license above.
+// Originally written for uC-sdk (libc/src/qsort.c) by Nicolas Noble, who relicensed it here under the MIT license
+// above.
 
 #include <stddef.h>
 

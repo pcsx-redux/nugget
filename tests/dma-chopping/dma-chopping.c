@@ -72,9 +72,7 @@ static inline uint32_t irqDisable(void) {
     return sr;
 }
 
-static void delay(unsigned n) {
-    for (volatile unsigned i = 0; i < n; i++);
-}
+static void delay(unsigned n) { for (volatile unsigned i = 0; i < n; i++); }
 
 struct IRes {
     uint32_t t0, tend, n, last;
@@ -231,14 +229,10 @@ static void runArm(const struct Arm *a) {
 #define CHOP(dw, cw) (0x01000101u | ((dw) << 16) | ((cw) << 20))
 
 static const struct Arm s_arms[] = {
-    {"burst", 0x01000001u, NWORDS},
-    {"slice16", 0x01000201u, ((NWORDS / 16) << 16) | 16},
-    {"chop2/2", CHOP(2, 2), NWORDS},
-    {"chop2/4", CHOP(2, 4), NWORDS},
-    {"chop2/6", CHOP(2, 6), NWORDS},
-    {"chop4/2", CHOP(4, 2), NWORDS},
-    {"chop4/4", CHOP(4, 4), NWORDS},
-    {"chop4/6", CHOP(4, 6), NWORDS},
+    {"burst", 0x01000001u, NWORDS},     {"slice16", 0x01000201u, ((NWORDS / 16) << 16) | 16},
+    {"chop2/2", CHOP(2, 2), NWORDS},    {"chop2/4", CHOP(2, 4), NWORDS},
+    {"chop2/6", CHOP(2, 6), NWORDS},    {"chop4/2", CHOP(4, 2), NWORDS},
+    {"chop4/4", CHOP(4, 4), NWORDS},    {"chop4/6", CHOP(4, 6), NWORDS},
     {"burst-end", 0x01000001u, NWORDS},
 };
 

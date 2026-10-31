@@ -86,7 +86,7 @@ static uint32_t le32(const uint8_t *p) {
 #define BIOS_ROM_LEN 0x80000
 
 typedef struct {
-    char magic[4];   // "MDRC"
+    char magic[4];  // "MDRC"
     uint16_t version;
     uint16_t payloadBytes;
     char arm[ARM_FIELD];
@@ -208,8 +208,8 @@ static int waitIdle(int ch, const char *site) {
     }
     // One slot per outcome: without the site tag, four different stalls render as
     // the same line and the status word has to carry the whole diagnosis alone.
-    ramsyscall_printf("MDRT: DMA%d stuck at %s, CHCR=%08x BCR=%08x MDEC1=%08x\n", ch, site,
-                      DMA_CTRL[ch].CHCR, DMA_CTRL[ch].BCR, MDEC1);
+    ramsyscall_printf("MDRT: DMA%d stuck at %s, CHCR=%08x BCR=%08x MDEC1=%08x\n", ch, site, DMA_CTRL[ch].CHCR,
+                      DMA_CTRL[ch].BCR, MDEC1);
     return -1;
 }
 
@@ -319,8 +319,8 @@ int main() {
     cap.emuId = *((volatile uint32_t *const)0x1f802080);
     cap.mdecStatus = MDEC1;
     cap.biosSum = biosSum32();
-    cap.jobSum = sum32(s_quant, sizeof(s_quant)) ^ sum32(s_scale, sizeof(s_scale)) ^
-                 sum32(s_rl, s_rlWords * 2) ^ s_flags ^ s_resetMode;
+    cap.jobSum = sum32(s_quant, sizeof(s_quant)) ^ sum32(s_scale, sizeof(s_scale)) ^ sum32(s_rl, s_rlWords * 2) ^
+                 s_flags ^ s_resetMode;
     for (unsigned i = 0; i < BIOS_ID_LEN; i++) cap.biosId[i] = (char)BIOS_ROM[BIOS_ID_OFF + i];
 
     // Console first, so a result survives even if the artifact path fails - and the

@@ -299,121 +299,45 @@ struct BsdecResult bsdecFrame(const void *in, uint32_t inBytes, uint16_t *out, u
         PROF_COUNT(blocks);
 
         {
-        const uint16_t tAc = PROF2();
-        /*
-         * THE BIT WINDOW LIVES IN LOCALS FOR THE LENGTH OF THIS LOOP. The tree
-         * builds with -fno-strict-aliasing, so every `out[count++]` is a store
-         * the compiler must assume can land anywhere, including on `b` - and it
-         * reloads window, valid, pos and feed after each one. Automatic
-         * variables whose address is never taken cannot be aliased by anything,
-         * so these stay in registers across the stores and are written back once
-         * on the way out. Nothing between here and the write-back may touch `b`.
-         */
-        /*
-         * ONE COUNTER, NOT TWO. `pos` and `valid` are the same quantity read
-         * from opposite ends - `valid == 8 * feed - pos` holds at every point,
-         * because the only things that move either are a refill (feed += 2,
-         * valid += 16) and a consume (pos += k, valid -= k), and both start at
-         * zero. So maintaining both costs an add and a subtract per symbol to
-         * compute something the other one already knows, and it holds one more
-         * value live across the leading-zero call, where a spill and its reload
-         * cost 6 to 10 cycles each.
-         *
-         * What is kept is `16 - valid` rather than `valid`, which makes the
-         * refill's shift free: the amount a top-up has to shift by IS the
-         * counter, so `half << (16 - valid)` becomes `half << d` and the
-         * subtract goes with it. Refill while d >= 0 is exactly the old
-         * `valid <= 16`.
-         *
-         * Measured on an SCPH-1001, same whole-symbol arm: 64.68 -> 51.46
-         * cycles a symbol with the count inlined, 147.91 -> 92.22 as the
-         * decoder is built today, where dropping the live value matters more
-         * than dropping the arithmetic.
-         */
-        uint32_t win = b.window, feed = b.feed;
-        int32_t d = 16 - b.valid;
-        const uint8_t *const base = b.base;
-        const uint32_t bytes = b.bytes;
-        for (;;) {
-            uint32_t n, e;
-            PROF_COUNT(acSymbols);
-            unsigned w, kind;
-            while (d >= 0) {
-                uint32_t half = 0;
-                PROF_COUNT(refillBytes);
-                if (feed < bytes) half = BSDEC_HALF(base, feed);
-                feed += 2;
-                win |= half << d;
-                d -= 16;
-            }
-            PROF_COUNT(refillCalls);
-            /* n is 0..31 and both dispatch tables are 32 long, the rows past the
-             * book pointing at an EOB sentinel, so an impossible prefix ends the
-             * block through the ordinary path instead of through a range test.
-             * The VALID test that used to follow could not fire either - the
-             * book saturates its slots. What is NOT dead, and is the one test
-             * left here, is the bound on `out`: a block writes one halfword per
-             * code and nothing in the loop limits how many codes a malformed
-             * stream can spell, so this is the only thing standing between it
-             * and the caller's buffer. The end-of-stream test is gone from here
-             * because running past the payload discards the whole block anyway,
-             * which the check after the loop does once instead of per symbol.
-             *
-             * The prefix consume is two shifts because n + 1 reaches 32 and a
-             * 32-bit value shifted by 32 is undefined. Each of these is at most
-             * 31, and bsdecClz32 reports 31 rather than 32 for an empty window
-             * so that the first one is in range as well. */
+            const uint16_t tAc = PROF2();
             /*
-             * TWO DIRECT LOOKUPS BEFORE ANY LEADING-ZERO COUNT. The top nine bits
-             * of the window decide every code of nine bits or fewer, which is
-             * groups 0..5 and about nine symbols in ten; bits 6..14 decide groups
-             * 6..9 once the top six are known to be zero. Each entry carries the
-             * whole code length, so a hit is one load and one shift. Only a window
-             * with ten or more leading zeros reaches the count, which is groups
-             * 10 and 11 and the past-the-end sentinel.
-             *
-             * Measured whole-symbol in bsdecbench on an SCPH-5501, one binary:
-             * 16.08 cycles a symbol, against 148.99 for the count-and-dispatch
-             * loop with the count called. A halfword slot table in the
-             * scratchpad, whose hit needs a second load to reach the entry, is
-             * 22.88: one RAM load of a finished entry beats two faster ones.
+             * THE BIT WINDOW LIVES IN LOCALS FOR THE LENGTH OF THIS LOOP. The tree
+             * builds with -fno-strict-aliasing, so every `out[count++]` is a store
+             * the compiler must assume can land anywhere, including on `b` - and it
+             * reloads window, valid, pos and feed after each one. Automatic
+             * variables whose address is never taken cannot be aliased by anything,
+             * so these stay in registers across the stores and are written back once
+             * on the way out. Nothing between here and the write-back may touch `b`.
              */
-            e = c_bsdecPrim9[win >> 23];
-            if (!e) e = c_bsdecSec9[(win << 6) >> 23];
-            if (e) {
-                const unsigned len = BSDEC_VLC_LENGTH(e);
-                win <<= len;
-                d += (int32_t)len;
-            } else {
-                n = bsdecClz32(win);
-                win = (win << n) << 1;
-                d += (int32_t)n + 1;
-                w = c_bsdecVlcSuffixBits[n];
-                e = c_bsdecVlc[c_bsdecVlcOffset[n] + (w ? (win >> (32 - w)) : 0u)];
-                {
-                    const unsigned sb = BSDEC_VLC_SUFFIXBITS(e);
-                    win <<= sb;
-                    d += (int32_t)sb;
-                }
-            }
-            if (count >= target) {
-                count = blockStart;
-                r.error = BSDEC_OVERLONG;
-                break;
-            }
-            kind = BSDEC_VLC_KIND(e);
-            if (kind == BSDEC_VLC_ESCAPE) {
-                /* 16 bits total after the marker: a 6-bit run then a 10-bit
-                 * signed level, which is the run-level halfword verbatim. The
-                 * doc's Table 1-9 lists 16-bit patterns for the LEVEL alone;
-                 * reading it that way costs 28 bits and desyncs at the first
-                 * escape. An escape running off the end is left for the next
-                 * code fetch to catch, which discards the block. */
-                /* Sixteen at a time here too, and not for speed: `feed` is even
-                 * between pulls and the pair read is what keeps it that way. A
-                 * byte pull here would leave it odd and every later pair would
-                 * straddle two halfwords, which desyncs the stream from the
-                 * first escape on and decodes as a plausible 1861 blocks. */
+            /*
+             * ONE COUNTER, NOT TWO. `pos` and `valid` are the same quantity read
+             * from opposite ends - `valid == 8 * feed - pos` holds at every point,
+             * because the only things that move either are a refill (feed += 2,
+             * valid += 16) and a consume (pos += k, valid -= k), and both start at
+             * zero. So maintaining both costs an add and a subtract per symbol to
+             * compute something the other one already knows, and it holds one more
+             * value live across the leading-zero call, where a spill and its reload
+             * cost 6 to 10 cycles each.
+             *
+             * What is kept is `16 - valid` rather than `valid`, which makes the
+             * refill's shift free: the amount a top-up has to shift by IS the
+             * counter, so `half << (16 - valid)` becomes `half << d` and the
+             * subtract goes with it. Refill while d >= 0 is exactly the old
+             * `valid <= 16`.
+             *
+             * Measured on an SCPH-1001, same whole-symbol arm: 64.68 -> 51.46
+             * cycles a symbol with the count inlined, 147.91 -> 92.22 as the
+             * decoder is built today, where dropping the live value matters more
+             * than dropping the arithmetic.
+             */
+            uint32_t win = b.window, feed = b.feed;
+            int32_t d = 16 - b.valid;
+            const uint8_t *const base = b.base;
+            const uint32_t bytes = b.bytes;
+            for (;;) {
+                uint32_t n, e;
+                PROF_COUNT(acSymbols);
+                unsigned w, kind;
                 while (d >= 0) {
                     uint32_t half = 0;
                     PROF_COUNT(refillBytes);
@@ -423,23 +347,99 @@ struct BsdecResult bsdecFrame(const void *in, uint32_t inBytes, uint16_t *out, u
                     d -= 16;
                 }
                 PROF_COUNT(refillCalls);
-                out[count++] = (uint16_t)(win >> 16);
-                win <<= 16;
-                d += 16;
-            } else {
-                out[count++] = BSDEC_VLC_HALFWORD(e);
-                if (kind == BSDEC_VLC_EOB) break;
+                /* n is 0..31 and both dispatch tables are 32 long, the rows past the
+                 * book pointing at an EOB sentinel, so an impossible prefix ends the
+                 * block through the ordinary path instead of through a range test.
+                 * The VALID test that used to follow could not fire either - the
+                 * book saturates its slots. What is NOT dead, and is the one test
+                 * left here, is the bound on `out`: a block writes one halfword per
+                 * code and nothing in the loop limits how many codes a malformed
+                 * stream can spell, so this is the only thing standing between it
+                 * and the caller's buffer. The end-of-stream test is gone from here
+                 * because running past the payload discards the whole block anyway,
+                 * which the check after the loop does once instead of per symbol.
+                 *
+                 * The prefix consume is two shifts because n + 1 reaches 32 and a
+                 * 32-bit value shifted by 32 is undefined. Each of these is at most
+                 * 31, and bsdecClz32 reports 31 rather than 32 for an empty window
+                 * so that the first one is in range as well. */
+                /*
+                 * TWO DIRECT LOOKUPS BEFORE ANY LEADING-ZERO COUNT. The top nine bits
+                 * of the window decide every code of nine bits or fewer, which is
+                 * groups 0..5 and about nine symbols in ten; bits 6..14 decide groups
+                 * 6..9 once the top six are known to be zero. Each entry carries the
+                 * whole code length, so a hit is one load and one shift. Only a window
+                 * with ten or more leading zeros reaches the count, which is groups
+                 * 10 and 11 and the past-the-end sentinel.
+                 *
+                 * Measured whole-symbol in bsdecbench on an SCPH-5501, one binary:
+                 * 16.08 cycles a symbol, against 148.99 for the count-and-dispatch
+                 * loop with the count called. A halfword slot table in the
+                 * scratchpad, whose hit needs a second load to reach the entry, is
+                 * 22.88: one RAM load of a finished entry beats two faster ones.
+                 */
+                e = c_bsdecPrim9[win >> 23];
+                if (!e) e = c_bsdecSec9[(win << 6) >> 23];
+                if (e) {
+                    const unsigned len = BSDEC_VLC_LENGTH(e);
+                    win <<= len;
+                    d += (int32_t)len;
+                } else {
+                    n = bsdecClz32(win);
+                    win = (win << n) << 1;
+                    d += (int32_t)n + 1;
+                    w = c_bsdecVlcSuffixBits[n];
+                    e = c_bsdecVlc[c_bsdecVlcOffset[n] + (w ? (win >> (32 - w)) : 0u)];
+                    {
+                        const unsigned sb = BSDEC_VLC_SUFFIXBITS(e);
+                        win <<= sb;
+                        d += (int32_t)sb;
+                    }
+                }
+                if (count >= target) {
+                    count = blockStart;
+                    r.error = BSDEC_OVERLONG;
+                    break;
+                }
+                kind = BSDEC_VLC_KIND(e);
+                if (kind == BSDEC_VLC_ESCAPE) {
+                    /* 16 bits total after the marker: a 6-bit run then a 10-bit
+                     * signed level, which is the run-level halfword verbatim. The
+                     * doc's Table 1-9 lists 16-bit patterns for the LEVEL alone;
+                     * reading it that way costs 28 bits and desyncs at the first
+                     * escape. An escape running off the end is left for the next
+                     * code fetch to catch, which discards the block. */
+                    /* Sixteen at a time here too, and not for speed: `feed` is even
+                     * between pulls and the pair read is what keeps it that way. A
+                     * byte pull here would leave it odd and every later pair would
+                     * straddle two halfwords, which desyncs the stream from the
+                     * first escape on and decodes as a plausible 1861 blocks. */
+                    while (d >= 0) {
+                        uint32_t half = 0;
+                        PROF_COUNT(refillBytes);
+                        if (feed < bytes) half = BSDEC_HALF(base, feed);
+                        feed += 2;
+                        win |= half << d;
+                        d -= 16;
+                    }
+                    PROF_COUNT(refillCalls);
+                    out[count++] = (uint16_t)(win >> 16);
+                    win <<= 16;
+                    d += 16;
+                } else {
+                    out[count++] = BSDEC_VLC_HALFWORD(e);
+                    if (kind == BSDEC_VLC_EOB) break;
+                }
             }
-        }
-        /* `pos` is reconstructed from the invariant the loop maintained rather
-         * than carried through it. Everything downstream reads `pos` - the
-         * past-end test is `pos > availBits` - so it has to be exact here, and
-         * it is: nothing between the read above and this write touches `b`. */
-        b.window = win;
-        b.feed = feed;
-        b.valid = 16 - d;
-        b.pos = feed * 8u - (uint32_t)(16 - d);
-        PROF2_ACC(tAc, g_bsdecProf.tAc);
+            /* `pos` is reconstructed from the invariant the loop maintained rather
+             * than carried through it. Everything downstream reads `pos` - the
+             * past-end test is `pos > availBits` - so it has to be exact here, and
+             * it is: nothing between the read above and this write touches `b`. */
+            b.window = win;
+            b.feed = feed;
+            b.valid = 16 - d;
+            b.pos = feed * 8u - (uint32_t)(16 - d);
+            PROF2_ACC(tAc, g_bsdecProf.tAc);
         }
         /* A block is only sound if every bit in it came from the payload, and a
          * block that ran off the end is discarded whole. Asking once here is what

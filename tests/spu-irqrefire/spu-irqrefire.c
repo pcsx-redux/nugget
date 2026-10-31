@@ -14,13 +14,13 @@
  * it to 1 again, IRQA untouched, fires on the next pass.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 
@@ -122,8 +122,8 @@ static void check(int ok, const char *what) {
 }
 
 static void check_window(const char *name, const Window *w, int flagExpected) {
-    ramsyscall_printf("SPUIRQREFIRE: %s edges=%lu flips=%lu stat=%04x ctrl=%04x\n", name, w->cpuEdges,
-                      w->bit11Flips, w->statEnd, w->ctrlEnd);
+    ramsyscall_printf("SPUIRQREFIRE: %s edges=%lu flips=%lu stat=%04x ctrl=%04x\n", name, w->cpuEdges, w->bit11Flips,
+                      w->statEnd, w->ctrlEnd);
     check(w->cpuEdges == 0, "IRQ9 raised again inside the window");
     check(w->bit11Flips >= MIN_FLIPS, "SPUSTAT bit 11 barely moved: the window held too few laps");
     check(((w->statEnd & SPU_STATUS_IRQ_FLAG) != 0) == flagExpected, "SPUSTAT.6 at the end of the window");

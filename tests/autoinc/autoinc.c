@@ -57,9 +57,7 @@ static inline uint32_t irqDisable(void) {
 }
 static inline void irqRestore(uint32_t sr) { __asm__ volatile("mtc0 %0, $12; nop; nop" : : "r"(sr)); }
 
-static void delay(void) {
-    for (volatile int i = 0; i < 300; i++);
-}
+static void delay(void) { for (volatile int i = 0; i < 300; i++); }
 
 static void romArm(const char *name, uint32_t dev2) {
     uint32_t w[4];
@@ -115,9 +113,10 @@ static void spuArm(const char *name, uint32_t dev4) {
     DEV4 = old;
     irqRestore(sr);
 
-    ramsyscall_printf("SPU %-6s dev4=%08x sw(aaaa5555 over 2222:1111)=%04x:%04x sh(beef over 4444:3333)=%04x:%04x "
-                      "lw(9abc:5678)=%08x lh+2=%04x\n",
-                      name, dev4, swHi, swLo, shHi, shLo, lwv, lhv);
+    ramsyscall_printf(
+        "SPU %-6s dev4=%08x sw(aaaa5555 over 2222:1111)=%04x:%04x sh(beef over 4444:3333)=%04x:%04x "
+        "lw(9abc:5678)=%08x lh+2=%04x\n",
+        name, dev4, swHi, swLo, shHi, shLo, lwv, lhv);
 }
 
 int main(void) {

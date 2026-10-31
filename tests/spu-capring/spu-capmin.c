@@ -27,13 +27,13 @@
  * number here is real.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_UPLOAD_ADDR 0x1080u
@@ -72,13 +72,16 @@ static void spu_dma(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes, int 
 
 static int half_lap(void) {
     int n = 0;
-    while (!(SPU_STATUS & 0x0800)) { if (++n > 2000000) return 0; }
-    while ((SPU_STATUS & 0x0800)) { if (++n > 2000000) return 0; }
+    while (!(SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return 0;
+    }
+    while ((SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return 0;
+    }
     return 1;
 }
 
-__attribute__((noinline))
-static void busy_wait(unsigned cycles) {
+__attribute__((noinline)) static void busy_wait(unsigned cycles) {
     unsigned n = cycles / 3;
     if (n == 0) return;
     __asm__ volatile("1: addiu %0, %0, -1 \n bnez %0, 1b \n nop \n" : "+r"(n) : : "memory");
@@ -87,12 +90,18 @@ static void busy_wait(unsigned cycles) {
 static void init_spu(void) {
     DPCR |= 0x000b0000;
     SPU_CTRL = 0;
-    SPU_VOL_MAIN_LEFT = 0; SPU_VOL_MAIN_RIGHT = 0;
-    SPU_REVERB_LEFT = 0; SPU_REVERB_RIGHT = 0;
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
-    SPU_PITCH_MOD_LOW = 0; SPU_PITCH_MOD_HIGH = 0;
-    SPU_NOISE_EN_LOW = 0; SPU_NOISE_EN_HIGH = 0;
-    SPU_REVERB_EN_LOW = 0; SPU_REVERB_EN_HIGH = 0;
+    SPU_VOL_MAIN_LEFT = 0;
+    SPU_VOL_MAIN_RIGHT = 0;
+    SPU_REVERB_LEFT = 0;
+    SPU_REVERB_RIGHT = 0;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_PITCH_MOD_LOW = 0;
+    SPU_PITCH_MOD_HIGH = 0;
+    SPU_NOISE_EN_LOW = 0;
+    SPU_NOISE_EN_HIGH = 0;
+    SPU_REVERB_EN_LOW = 0;
+    SPU_REVERB_EN_HIGH = 0;
     SPU_REVERB_ADDR = 0xffff;
     SPU_RAM_DTC = 4;
     SPU_CTRL = 0x8000;
@@ -101,12 +110,14 @@ static void init_spu(void) {
 /* One sweep point. Returns nothing; prints everything, including the drained
    control, because a phase number taken over a dirty ring is meaningless. */
 static void point(unsigned delayCycles, int eighths) {
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
     busy_wait(300000);
 
     spu_dma(CAPTURE_VOICE1, (uint32_t)s_cap, 1024, 1);
     int dirty = 0;
-    for (int i = 0; i < 512; i++) if (s_cap[i]) dirty++;
+    for (int i = 0; i < 512; i++)
+        if (s_cap[i]) dirty++;
 
     half_lap();
     SPU_VOICES[1].sampleRate = 0x1000;
@@ -116,7 +127,8 @@ static void point(unsigned delayCycles, int eighths) {
     SPU_VOICES[1].adsrHi = 0x1fc0;
     SPU_VOICES[1].volumeLeft = 0x3fff;
     SPU_VOICES[1].volumeRight = 0x3fff;
-    SPU_KEY_OFF_LOW = 0; SPU_KEY_OFF_HIGH = 0;
+    SPU_KEY_OFF_LOW = 0;
+    SPU_KEY_OFF_HIGH = 0;
     SPU_KEY_ON_LOW = 1u << 1;
 
     busy_wait(delayCycles);
@@ -125,13 +137,18 @@ static void point(unsigned delayCycles, int eighths) {
     int nz = 0, first = -1, last = -1, runs = 0, prev = 0;
     for (int i = 0; i < 512; i++) {
         int v = s_cap[i] != 0;
-        if (v) { nz++; if (first < 0) first = i; last = i; }
+        if (v) {
+            nz++;
+            if (first < 0) first = i;
+            last = i;
+        }
         if (v && !prev) runs++;
         prev = v;
     }
     ramsyscall_printf("OBS capphase eighths=%d delay=%6u dirtyBeforeKeyon=%3d nz=%3d first=%3d last=%3d runs=%d\n",
                       eighths, delayCycles, dirty, nz, first, last, runs);
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
 }
 
 int main() {
@@ -141,12 +158,10 @@ int main() {
     for (int i = 64; i < 128; i++) s_upload[i] = 0xaa;
     spu_dma(SPU_UPLOAD_ADDR, (uint32_t)s_upload, 128, 0);
     SPU_CTRL = 0x8000 | 0x4000;
-    SPU_VOL_MAIN_LEFT = 0x3fff; SPU_VOL_MAIN_RIGHT = 0x3fff;
+    SPU_VOL_MAIN_LEFT = 0x3fff;
+    SPU_VOL_MAIN_RIGHT = 0x3fff;
 
     for (int e = 0; e < 3; e++) point(EIGHTH_LAP, 1);
-
-
-
 
     ramsyscall_printf("OBS capphase done\n");
     pcsx_exit(0);

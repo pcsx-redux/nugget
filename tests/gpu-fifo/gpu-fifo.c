@@ -118,7 +118,8 @@ static void copyProof(void) {
     waitIdle();
     uint32_t after = readPixelPair(300, 400);
     ramsyscall_printf("COPY stat0=%08x busyPolls=%d dst %08x -> %08x src=%08x %s\n", s0, polls, before, after,
-                      readPixelPair(300, 144), (after != before && after == readPixelPair(300, 144)) ? "COPIED" : "NOT-COPIED");
+                      readPixelPair(300, 144),
+                      (after != before && after == readPixelPair(300, 144)) ? "COPIED" : "NOT-COPIED");
 }
 
 struct Result {

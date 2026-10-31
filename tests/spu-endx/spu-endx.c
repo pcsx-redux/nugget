@@ -14,13 +14,13 @@
  * zero), and it makes voice 0 a control rather than a constant.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_ENDX_LOW (*(volatile uint16_t *)0x1f801d9c)
@@ -108,8 +108,7 @@ int main() {
     SPU_VOICES[0].volumeLeft = 0x3fff;
     SPU_VOICES[0].volumeRight = 0x3fff;
 
-    ramsyscall_printf("SPUENDX: before keyon ENDX=%04x%04x\n", SPU_ENDX_HIGH & 0xffff,
-                      SPU_ENDX_LOW & 0xffff);
+    ramsyscall_printf("SPUENDX: before keyon ENDX=%04x%04x\n", SPU_ENDX_HIGH & 0xffff, SPU_ENDX_LOW & 0xffff);
 
     SPU_CTRL = 0x8000 | 0x4000;
     for (volatile int i = 0; i < 60; i++);
@@ -148,9 +147,8 @@ int main() {
         for (volatile int j = 0; j < 20; j++);
     }
     for (int i = 0; i < 16; i++) {
-        ramsyscall_printf("SPUENDX: keyon2+%02d ENDX_LOW=%04x voice1=%s voice0=%s\n", i,
-                          endxWindow[i], (endxWindow[i] & 2) ? "SET" : "clear",
-                          (endxWindow[i] & 1) ? "SET" : "clear");
+        ramsyscall_printf("SPUENDX: keyon2+%02d ENDX_LOW=%04x voice1=%s voice0=%s\n", i, endxWindow[i],
+                          (endxWindow[i] & 2) ? "SET" : "clear", (endxWindow[i] & 1) ? "SET" : "clear");
     }
 
     /* Then let it run again: the voice reaches the end block and must re-latch.
@@ -161,9 +159,8 @@ int main() {
         relatchSpins++;
     }
     const int relatched = (SPU_ENDX_LOW & 2) != 0;
-    ramsyscall_printf("SPUENDX: re-latch ENDX=%04x%04x voice1=%s envx=%04x spins=%d\n",
-                      SPU_ENDX_HIGH & 0xffff, SPU_ENDX_LOW & 0xffff,
-                      relatched ? "SET" : "clear", SPU_VOICES[1].currentVolume & 0xffff,
+    ramsyscall_printf("SPUENDX: re-latch ENDX=%04x%04x voice1=%s envx=%04x spins=%d\n", SPU_ENDX_HIGH & 0xffff,
+                      SPU_ENDX_LOW & 0xffff, relatched ? "SET" : "clear", SPU_VOICES[1].currentVolume & 0xffff,
                       relatchSpins);
 
     /* Verdict. Each check names what it would mean if it failed, because a bare
@@ -189,8 +186,10 @@ int main() {
 
     for (int i = 0; i < 16; i++) {
         if (!(endxWindow[i] & 1)) {
-            ramsyscall_printf("SPUENDX: FAIL - voice 0 lost its bit at sample %d; key-on wiped more "
-                              "than the keyed voice\n", i);
+            ramsyscall_printf(
+                "SPUENDX: FAIL - voice 0 lost its bit at sample %d; key-on wiped more "
+                "than the keyed voice\n",
+                i);
             failures++;
             break;
         }
@@ -201,8 +200,8 @@ int main() {
         failures++;
     }
 
-    ramsyscall_printf("SPUENDX: %s (latched=%d clearedAt=%d relatched=%d)\n",
-                      failures ? "FAILURE" : "PASS", latched, clearedAt, relatched);
+    ramsyscall_printf("SPUENDX: %s (latched=%d clearedAt=%d relatched=%d)\n", failures ? "FAILURE" : "PASS", latched,
+                      clearedAt, relatched);
     pcsx_exit(failures ? 1 : 0);
     return failures ? 1 : 0;
 }

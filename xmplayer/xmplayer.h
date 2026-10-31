@@ -54,7 +54,7 @@ struct XMSongHeader {
     // -8 to 7, of 36 uint16_t periods times 4, C-1 to B-3 in ProTracker octaves, at this offset; notes
     // outside that range halve or double the nearest octave, and every period is held to 113..856.
     uint16_t periodTableOffset;
-    uint32_t sampleBytes;  // size of the sample file
+    uint32_t sampleBytes;        // size of the sample file
     uint32_t ordersOffset;       // songLength bytes, pattern numbers
     uint32_t patternsOffset;     // numPatterns of struct XMPatternEntry
     uint32_t instrumentsOffset;  // numInstruments of struct XMInstrument

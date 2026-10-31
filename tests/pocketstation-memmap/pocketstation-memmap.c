@@ -363,7 +363,8 @@ int main(void) {
     // Pass 2b: writes, each restored afterwards.
     static const uint32_t lcdRegs[] = {0x0d000000, 0x0d000004, 0x0d000100, 0x0d00017c};
     static const uint32_t battRegs[] = {0x0d800000, 0x0d800004, 0x0d80000c, 0x0d800010, 0x0d800014, 0x0d800020};
-    static const uint32_t fRegs[] = {0x06000000, 0x06000004, 0x06000008, 0x0600000c, 0x06000010, 0x06000100, 0x0600013c};
+    static const uint32_t fRegs[] = {0x06000000, 0x06000004, 0x06000008, 0x0600000c,
+                                     0x06000010, 0x06000100, 0x0600013c};
     // Positive control: kernel RAM 0F4h sits in the kernel's documented
     // unused bytes 0F2h..0F7h and must keep what is written (restored after).
     // VRAM is no control: the GUI repaints it.

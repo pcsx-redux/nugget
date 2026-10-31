@@ -28,12 +28,12 @@ SOFTWARE.
 
 #include <stddef.h>
 
+#include "common/kernel/threads.h"
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
 #include "monitor/cop0dbg.h"
 #include "monitor/install.h"
 #include "monitor/kernel.h"
-#include "common/kernel/threads.h"
 #include "monitor/link.h"
 #include "monitor/transport.h"
 
@@ -337,7 +337,7 @@ static int streamWriteMemLz4(uint16_t frameWords) {
    Registers and lives in s_mon. */
 static uint32_t *regSlot(struct Registers *r, unsigned idx) {
     static const uint8_t special[] = {
-        offsetof(struct Registers, SR),    offsetof(struct Registers, lo),    offsetof(struct Registers, hi), 0,
+        offsetof(struct Registers, SR),    offsetof(struct Registers, lo),       offsetof(struct Registers, hi), 0,
         offsetof(struct Registers, Cause), offsetof(struct Registers, returnPC),
     };
     if (idx < 32) return &r->GPR.r[idx];
@@ -454,21 +454,30 @@ static int dispatchCommand(uint16_t type, const uint16_t *payload) {
         case MON_PING:
             emitIdentity(MON_PONG);
             return MON_REPLIED;
-        case MON_READ_MEM: return cmdReadMem(payload);
-        case MON_GET_REGS: return cmdGetRegs();
-        case MON_SET_REG: return cmdSetReg(payload);
-        case MON_SET_BP: return cmdSetBp(payload);
-        case MON_CLR_BP: return cmdClrBp(payload);
-        case MON_RUN: cmdRun(payload); /* does not return */
-        case MON_CONT: return cmdCont();
-        case MON_SET_BAUD: return cmdSetBaud(payload);
+        case MON_READ_MEM:
+            return cmdReadMem(payload);
+        case MON_GET_REGS:
+            return cmdGetRegs();
+        case MON_SET_REG:
+            return cmdSetReg(payload);
+        case MON_SET_BP:
+            return cmdSetBp(payload);
+        case MON_CLR_BP:
+            return cmdClrBp(payload);
+        case MON_RUN:
+            cmdRun(payload); /* does not return */
+        case MON_CONT:
+            return cmdCont();
+        case MON_SET_BAUD:
+            return cmdSetBaud(payload);
         case MON_STOP:
             /* Only meaningful while RUNNING, where the exception entry reads
                it (monitorTake). In HALTED it is a no-op with no reply: a host
                whose STOP crossed a stop on the wire must not get an ACK it
                cannot match to a command. */
             return MON_REPLIED;
-        default: return MON_EBADCMD;
+        default:
+            return MON_EBADCMD;
     }
 }
 
@@ -645,7 +654,7 @@ void __attribute__((used, noinline)) monitorSlotDispatch(void) { monitorTake(cur
 #ifndef LINK_RX_STAT_BRANCH
 #define LINK_RX_STAT_BRANCH "bnez"
 #endif
-#define MON_SLOT_RX_TEST                                                                    \
+#define MON_SLOT_RX_TEST \
     "    li    $v1, " MON_STR(LINK_RX_STAT_ADDR) "\n"                                        \
     "    " LINK_RX_STAT_LOAD " $v1, 0($v1)\n"                                                \
     "    nop\n"                                                                              \

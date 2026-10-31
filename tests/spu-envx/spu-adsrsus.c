@@ -24,22 +24,21 @@
  * test source. Everything is bounded.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
 
-#include <stdint.h>
-
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_UPLOAD_ADDR 0x1080u
 
 #define ATTACK(step, shift, exp) ((((step) & 3) << 8) | (((shift) & 31) << 10) | (!!(exp) << 15))
 #define DECAY(shift) (((shift) & 15) << 4)
-#define SUSTAIN(step, shift, level, direction, exp)                                  \
-    ((((step) & 3) << 22) | (((shift) & 31) << 24) | (((level) & 15) << 0) |         \
-     (!!(direction) << 30) | (!!(exp) << 31))
+#define SUSTAIN(step, shift, level, direction, exp) \
+    ((((step) & 3) << 22) | (((shift) & 31) << 24) | (((level) & 15) << 0) | (!!(direction) << 30) | (!!(exp) << 31))
 #define RELEASE(shift, exp) ((((shift) & 31) << 16) | (!!(exp) << 21))
 
 #define DRAIN_MAX_TICKS 16
@@ -75,27 +74,36 @@ static void spu_dma_write(uint32_t spuByteAddr, const void *src, uint32_t bytes)
 
 static void flip(void) {
     int n = 0;
-    while (!(SPU_STATUS & 0x0800)) { if (++n > 2000000) return; }
-    while ((SPU_STATUS & 0x0800)) { if (++n > 2000000) return; }
+    while (!(SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return;
+    }
+    while ((SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return;
+    }
 }
 
 static void reset_quiet(void) {
     DPCR |= 0x000b0000;
     SPU_CTRL = 0;
-    SPU_VOL_MAIN_LEFT = 0; SPU_VOL_MAIN_RIGHT = 0;
-    SPU_REVERB_LEFT = 0; SPU_REVERB_RIGHT = 0;
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
-    SPU_PITCH_MOD_LOW = 0; SPU_PITCH_MOD_HIGH = 0;
-    SPU_NOISE_EN_LOW = 0; SPU_NOISE_EN_HIGH = 0;
-    SPU_REVERB_EN_LOW = 0; SPU_REVERB_EN_HIGH = 0;
+    SPU_VOL_MAIN_LEFT = 0;
+    SPU_VOL_MAIN_RIGHT = 0;
+    SPU_REVERB_LEFT = 0;
+    SPU_REVERB_RIGHT = 0;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_PITCH_MOD_LOW = 0;
+    SPU_PITCH_MOD_HIGH = 0;
+    SPU_NOISE_EN_LOW = 0;
+    SPU_NOISE_EN_HIGH = 0;
+    SPU_REVERB_EN_LOW = 0;
+    SPU_REVERB_EN_HIGH = 0;
     SPU_REVERB_ADDR = 0xffff;
     SPU_RAM_DTC = 4;
     SPU_CTRL = 0x8000;
 }
 
 /* spu_adsr_capture, replicated including the bounded drain and onset. */
-__attribute__((noinline))
-static void busy(unsigned cycles) {
+__attribute__((noinline)) static void busy(unsigned cycles) {
     unsigned n = cycles / 3;
     if (n == 0) return;
     __asm__ volatile("1: addiu %0, %0, -1 \n bnez %0, 1b \n nop \n" : "+r"(n) : : "memory");
@@ -109,9 +117,11 @@ static void busy(unsigned cycles) {
 static void capture(uint32_t adsr, unsigned delayCycles) {
     reset_quiet();
     SPU_CTRL = 0x8000 | 0x4000;
-    SPU_VOL_MAIN_LEFT = 0; SPU_VOL_MAIN_RIGHT = 0;
+    SPU_VOL_MAIN_LEFT = 0;
+    SPU_VOL_MAIN_RIGHT = 0;
     SPU_VOICES[1].adsrHi = (uint16_t)(RELEASE(0, 0) >> 16);
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
     flip();
     unsigned drain = 0;
     while ((SPU_VOICES[1].currentVolume & 0xffff) != 0) {
@@ -128,7 +138,8 @@ static void capture(uint32_t adsr, unsigned delayCycles) {
     busy(delayCycles);
     SPU_VOICES[1].adsrLo = (uint16_t)(adsr & 0xffff);
     SPU_VOICES[1].adsrHi = (uint16_t)(adsr >> 16);
-    SPU_KEY_OFF_LOW = 0; SPU_KEY_OFF_HIGH = 0;
+    SPU_KEY_OFF_LOW = 0;
+    SPU_KEY_OFF_HIGH = 0;
     SPU_KEY_ON_LOW = 1u << 1;
 
     unsigned onset = 0;
@@ -141,7 +152,8 @@ static void capture(uint32_t adsr, unsigned delayCycles) {
         flip();
         s_envx[i] = SPU_VOICES[1].currentVolume & 0xffff;
     }
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
 }
 
 static void dump(const char *tag, uint32_t adsr, unsigned d) {
@@ -176,45 +188,43 @@ int main() {
 
     /* CONTROL: shift 14 up. Passes in the suite; must reproduce here. */
     {
-        static const int idx[] = { 0, 1, 2, 4, 8, 12, 16, 20, 24, 28, 31 };
-        static const uint16_t exp[] = { 0x1c00, 0x41b8, 0x4378, 0x46f8, 0x4df8, 0x54f8,
-                                        0x5bf8, 0x62f8, 0x69f8, 0x70f8, 0x7638 };
+        static const int idx[] = {0, 1, 2, 4, 8, 12, 16, 20, 24, 28, 31};
+        static const uint16_t exp[] = {0x1c00, 0x41b8, 0x4378, 0x46f8, 0x4df8, 0x54f8,
+                                       0x5bf8, 0x62f8, 0x69f8, 0x70f8, 0x7638};
         dump("ctrl_up_sh14  ", base | SUSTAIN(0, 14, 15, 0, 0), 0);
         cmp("ctrl_up_sh14  ", idx, exp, 11, 2);
     }
 
     /* CONTROL: shift 14 down. */
     {
-        static const int idx[] = { 0, 1, 2, 4, 8, 12, 16, 20, 24, 28, 31 };
-        static const uint16_t exp[] = { 0x1c00, 0x3e05, 0x3c05, 0x3805, 0x3005, 0x2805,
-                                        0x2005, 0x1805, 0x1005, 0x0805, 0x0205 };
+        static const int idx[] = {0, 1, 2, 4, 8, 12, 16, 20, 24, 28, 31};
+        static const uint16_t exp[] = {0x1c00, 0x3e05, 0x3c05, 0x3805, 0x3005, 0x2805,
+                                       0x2005, 0x1805, 0x1005, 0x0805, 0x0205};
         dump("ctrl_down_sh14", base | SUSTAIN(0, 14, 15, 1, 0), 0);
         cmp("ctrl_down_sh14", idx, exp, 11, 2);
     }
 
     /* FAILING: shift 16 up. */
     {
-        static const int idx[] = { 0, 1, 5, 10, 15, 20, 25, 31 };
-        static const uint16_t exp[] = { 0x1c00, 0x4068, 0x4228, 0x4458, 0x4688, 0x48b8,
-                                        0x4ae8, 0x4d88 };
+        static const int idx[] = {0, 1, 5, 10, 15, 20, 25, 31};
+        static const uint16_t exp[] = {0x1c00, 0x4068, 0x4228, 0x4458, 0x4688, 0x48b8, 0x4ae8, 0x4d88};
         dump("fail_up_sh16  ", base | SUSTAIN(0, 16, 15, 0, 0), 0);
         cmp("fail_up_sh16  ", idx, exp, 8, 2);
     }
 
     /* FAILING: shift 16 down. */
     {
-        static const int idx[] = { 0, 1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30 };
-        static const uint16_t exp[] = { 0x1c00, 0x3f85, 0x3e85, 0x3d05, 0x3b85, 0x3a05,
-                                        0x3885, 0x3705, 0x3585, 0x3405, 0x3285, 0x3105 };
+        static const int idx[] = {0, 1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30};
+        static const uint16_t exp[] = {0x1c00, 0x3f85, 0x3e85, 0x3d05, 0x3b85, 0x3a05,
+                                       0x3885, 0x3705, 0x3585, 0x3405, 0x3285, 0x3105};
         dump("fail_down_sh16", base | SUSTAIN(0, 16, 15, 1, 0), 0);
         cmp("fail_down_sh16", idx, exp, 12, 2);
     }
 
     /* Repeat one failing case to separate a wrong expectation from jitter. */
     {
-        static const int idx[] = { 0, 1, 5, 10, 15, 20, 25, 31 };
-        static const uint16_t exp[] = { 0x1c00, 0x4068, 0x4228, 0x4458, 0x4688, 0x48b8,
-                                        0x4ae8, 0x4d88 };
+        static const int idx[] = {0, 1, 5, 10, 15, 20, 25, 31};
+        static const uint16_t exp[] = {0x1c00, 0x4068, 0x4228, 0x4458, 0x4688, 0x48b8, 0x4ae8, 0x4d88};
         dump("repeat_up_sh16", base | SUSTAIN(0, 16, 15, 0, 0), 0);
         cmp("repeat_up_sh16", idx, exp, 8, 2);
     }
@@ -224,12 +234,11 @@ int main() {
        0x41b8; the probe reads 0x41b1 at zero delay, 7 low. Find the delay that
        accounts for 7. */
     {
-        static const unsigned kD[8] = { 0, 100, 200, 400, 800, 1600, 3200, 6400 };
+        static const unsigned kD[8] = {0, 100, 200, 400, 800, 1600, 3200, 6400};
         for (int i = 0; i < 8; i++) {
             capture(base | SUSTAIN(0, 14, 15, 0, 0), kD[i]);
-            ramsyscall_printf("OBS adsrsus sweep d=%5u envx1=%04x envx2=%04x envx8=%04x envx31=%04x  d1=%d\n",
-                              kD[i], s_envx[1], s_envx[2], s_envx[8], s_envx[31],
-                              (int)s_envx[1] - 0x41b8);
+            ramsyscall_printf("OBS adsrsus sweep d=%5u envx1=%04x envx2=%04x envx8=%04x envx31=%04x  d1=%d\n", kD[i],
+                              s_envx[1], s_envx[2], s_envx[8], s_envx[31], (int)s_envx[1] - 0x41b8);
         }
     }
 

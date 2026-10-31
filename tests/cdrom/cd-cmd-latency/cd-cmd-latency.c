@@ -103,7 +103,8 @@ static uint8_t waitCause(uint32_t timeout) {
 }
 
 static const char *causeName(unsigned c) {
-    static const char *const names[] = {"none", "dataready", "complete", "acknowledge", "end", "error", "cause6", "cause7"};
+    static const char *const names[] = {"none", "dataready", "complete", "acknowledge",
+                                        "end",  "error",     "cause6",   "cause7"};
     return names[c & 7];
 }
 
@@ -220,7 +221,8 @@ static int driveTo(const char *name, uint8_t cmd) {
     uint8_t s1 = s_respLen ? s_resp[0] : 0xff;
     uint8_t c2 = waitCause(4233600u * 3u);  // up to 3 s for the second response
     uint8_t s2 = s_respLen ? s_resp[0] : 0xff;
-    ramsyscall_printf("DRIVE %s: first %s stat=%02x, second %s stat=%02x\n", name, causeName(c1), s1, causeName(c2), s2);
+    ramsyscall_printf("DRIVE %s: first %s stat=%02x, second %s stat=%02x\n", name, causeName(c1), s1, causeName(c2),
+                      s2);
     waitTicks(423360u);  // 100 ms
     return c1 == 3 && c2 == 2;
 }

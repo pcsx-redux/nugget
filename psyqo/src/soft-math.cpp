@@ -307,11 +307,25 @@ namespace {
 // lets SoftMath stay off the GTE.
 constexpr unsigned floorLog2(uint32_t v) {
     unsigned e = 0;
-    if (v >= (1u << 16)) { v >>= 16; e += 16; }
-    if (v >= (1u << 8)) { v >>= 8; e += 8; }
-    if (v >= (1u << 4)) { v >>= 4; e += 4; }
-    if (v >= (1u << 2)) { v >>= 2; e += 2; }
-    if (v >= (1u << 1)) { e += 1; }
+    if (v >= (1u << 16)) {
+        v >>= 16;
+        e += 16;
+    }
+    if (v >= (1u << 8)) {
+        v >>= 8;
+        e += 8;
+    }
+    if (v >= (1u << 4)) {
+        v >>= 4;
+        e += 4;
+    }
+    if (v >= (1u << 2)) {
+        v >>= 2;
+        e += 2;
+    }
+    if (v >= (1u << 1)) {
+        e += 1;
+    }
     return e;
 }
 

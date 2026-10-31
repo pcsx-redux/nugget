@@ -76,7 +76,7 @@ SOFTWARE.
 #include "bsdec.h"
 
 #define CANARY 0xa5a5
-#define SLACK 256   /* halfwords of canary either side of the output window */
+#define SLACK 256 /* halfwords of canary either side of the output window */
 #define MAX_IN (1 << 20)
 #define MAX_HW 65536
 
@@ -125,8 +125,9 @@ static uint32_t sweep(const uint8_t *in, uint32_t bytes, uint32_t target, const 
     for (len = 8; len <= bytes; len++) {
         const struct Outcome o = run(in, len, target);
         if (o.outOfBounds) {
-            if (bad == 0) printf("  OUT OF BOUNDS at %s length %u: halfwords %u against target %u\n", what, len,
-                                 o.halfwords, target);
+            if (bad == 0)
+                printf("  OUT OF BOUNDS at %s length %u: halfwords %u against target %u\n", what, len, o.halfwords,
+                       target);
             bad++;
         }
         if (o.error == BSDEC_TRUNCATED) truncated++;

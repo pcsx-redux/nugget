@@ -33,7 +33,6 @@ SOFTWARE.
 #include <stdint.h>
 
 #include "common/util/psxm.hh"
-
 #include "psyqo/fixed-point.hh"
 #include "psyqo/fragments.hh"
 #include "psyqo/gpu.hh"
@@ -257,8 +256,7 @@ class Renderer {
         }
     }
 
-    static bool withinRasterizerLimits(const psyqo::Vertex& a, const psyqo::Vertex& b,
-                                       const psyqo::Vertex& c) {
+    static bool withinRasterizerLimits(const psyqo::Vertex& a, const psyqo::Vertex& b, const psyqo::Vertex& c) {
         int32_t minX = a.x, maxX = a.x, minY = a.y, maxY = a.y;
         if (b.x < minX) minX = b.x;
         if (b.x > maxX) maxX = b.x;

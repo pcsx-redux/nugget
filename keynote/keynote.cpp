@@ -98,10 +98,13 @@ struct Palette {
 
 constexpr psyqo::Color rgb(uint8_t r, uint8_t g, uint8_t b) { return {{.r = r, .g = g, .b = b}}; }
 
-constexpr Palette c_cold = {rgb(6, 10, 26), {rgb(60, 110, 210), rgb(90, 200, 230), rgb(150, 170, 240), rgb(230, 240, 255)}};
-constexpr Palette c_hook = {rgb(18, 8, 32), {rgb(120, 70, 220), rgb(220, 90, 180), rgb(200, 150, 240), rgb(255, 230, 250)}};
+constexpr Palette c_cold = {rgb(6, 10, 26),
+                            {rgb(60, 110, 210), rgb(90, 200, 230), rgb(150, 170, 240), rgb(230, 240, 255)}};
+constexpr Palette c_hook = {rgb(18, 8, 32),
+                            {rgb(120, 70, 220), rgb(220, 90, 180), rgb(200, 150, 240), rgb(255, 230, 250)}};
 constexpr Palette c_dark = {rgb(0, 0, 0), {rgb(80, 90, 140), rgb(80, 90, 140), rgb(230, 240, 255), rgb(255, 255, 255)}};
-constexpr Palette c_warm = {rgb(40, 16, 6), {rgb(255, 120, 50), rgb(255, 200, 70), rgb(255, 170, 60), rgb(255, 245, 210)}};
+constexpr Palette c_warm = {rgb(40, 16, 6),
+                            {rgb(255, 120, 50), rgb(255, 200, 70), rgb(255, 170, 60), rgb(255, 245, 210)}};
 constexpr Palette c_black = {};
 
 // Where one dot should be, as a formation places it.

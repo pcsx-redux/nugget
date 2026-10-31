@@ -27,7 +27,6 @@ SOFTWARE.
 
 #include "gwu.h"
 
-
 // clang-format off
 
 #ifndef GTE_LATENCY_MVMVA_HELPERS_DEFINED

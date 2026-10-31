@@ -39,10 +39,11 @@
  *     0x0c u32  emuId, so a capture says which machine produced it
  */
 
+#include "bsdec/bsdec.h"
+
 #include <stdint.h>
 #include <string.h>
 
-#include "bsdec/bsdec.h"
 #include "common/hardware/cop2.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/kernel/pcdrv.h"
@@ -142,8 +143,9 @@ static uint32_t clzSelfTest(void) {
      * fail this, so a clean emulator run is not evidence the nops are right.
      */
     if (*((volatile uint32_t *const)0x1f802080) == 0x58534350) {
-        ramsyscall_printf("BSDR-CLZ: emulated, and the GTE store delay is not modelled here - "
-                          "this sweep cannot fail on this host. Hardware is the arm that counts.\n");
+        ramsyscall_printf(
+            "BSDR-CLZ: emulated, and the GTE store delay is not modelled here - "
+            "this sweep cannot fail on this host. Hardware is the arm that counts.\n");
     }
     /* A sweep that examined nothing must not read as a pass. */
     if (checked < 20000) {

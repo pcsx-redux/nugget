@@ -81,9 +81,7 @@ static inline uint32_t irqDisable(void) {
 }
 static inline void irqRestore(uint32_t sr) { __asm__ volatile("mtc0 %0, $12; nop; nop" : : "r"(sr)); }
 
-static void delay(unsigned n) {
-    for (volatile unsigned i = 0; i < n; i++);
-}
+static void delay(unsigned n) { for (volatile unsigned i = 0; i < n; i++); }
 
 struct Res {
     int done;

@@ -34,8 +34,8 @@ SOFTWARE.
 #define R32(a) (*(volatile uint32_t *)(a))
 
 static void show(const char *tag, uint32_t b) {
-    ramsyscall_printf("%s stat=%03x mode=%04x ctrl=%04x baud=%04x\n", tag, R32(b + 4) & 0x7ff, R16(b + 8),
-                      R16(b + 10), R16(b + 14));
+    ramsyscall_printf("%s stat=%03x mode=%04x ctrl=%04x baud=%04x\n", tag, R32(b + 4) & 0x7ff, R16(b + 8), R16(b + 10),
+                      R16(b + 14));
 }
 
 static int port(int p, uint16_t mode, uint16_t ctrl, uint16_t baud) {

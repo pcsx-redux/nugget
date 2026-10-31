@@ -563,10 +563,10 @@ extern "C" InitFunc __init_array_start[] __attribute__((weak));
 extern "C" InitFunc __init_array_end[] __attribute__((weak));
 
 extern "C" int shelloStart() {
-    for (InitFunc* f = __preinit_array_start; f < __preinit_array_end; f++) {
+    for (InitFunc *f = __preinit_array_start; f < __preinit_array_end; f++) {
         if (*f) (*f)();
     }
-    for (InitFunc* f = __init_array_start; f < __init_array_end; f++) {
+    for (InitFunc *f = __init_array_start; f < __init_array_end; f++) {
         if (*f) (*f)();
     }
     return main();

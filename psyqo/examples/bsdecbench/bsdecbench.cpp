@@ -126,36 +126,38 @@ uint32_t s_arms = 0;
 // is the wrong zero for them.
 uint32_t s_noxBase = 0;
 
-#define ARM(label, body)                                          \
-    do {                                                          \
-        uint16_t best = 0xffff;                                   \
-        uint16_t worst = 0;                                       \
-        for (uint32_t r = 0; r < REPEATS; r++) {                  \
-            uint32_t w = 0x12345678u + r;                         \
-            uint32_t acc = 0;                                     \
-            const uint16_t t0 = COUNTERS[2].value;                \
-            for (uint32_t i = 0; i < ITERS; i++) {                \
-                /* xorshift, not an LCG: the multiply was 18 cycles of  \
+#define ARM(label, body)                                                   \
+    do {                                                                   \
+        uint16_t best = 0xffff;                                            \
+        uint16_t worst = 0;                                                \
+        for (uint32_t r = 0; r < REPEATS; r++) {                           \
+            uint32_t w = 0x12345678u + r;                                  \
+            uint32_t acc = 0;                                              \
+            const uint16_t t0 = COUNTERS[2].value;                         \
+            for (uint32_t i = 0; i < ITERS; i++) {                         \
+                /* xorshift, not an LCG: the multiply was 18 cycles of     \
                  * baseline and swamped the arms it was meant to carry. */ \
-                w ^= w << 13; w ^= w >> 17; w ^= w << 5;          \
-                /* Opaque to the optimiser, so no body can be folded \
-                 * against a known input. The msb arm was constant-folded \
-                 * to nothing and reported zero ticks. */          \
-                __asm__ volatile("" : "+r"(w));                   \
-                body;                                             \
-            }                                                     \
-            const uint16_t t1 = COUNTERS[2].value;                \
-            g_sink = acc;                                         \
-            const uint16_t d = (uint16_t)(t1 - t0);               \
-            if (d < best) best = d;                               \
-            if (d > worst) worst = d;                             \
-        }                                                         \
-        s_name[s_arms] = label;                                   \
-        s_best[s_arms] = best;                                    \
-        s_worst[s_arms] = worst;                                  \
-        s_check[s_arms] = 0;                                      \
-        s_baseIdx[s_arms] = 0;                                    \
-        s_arms++;                                                 \
+                w ^= w << 13;                                              \
+                w ^= w >> 17;                                              \
+                w ^= w << 5;                                               \
+                /* Opaque to the optimiser, so no body can be folded       \
+                 * against a known input. The msb arm was constant-folded  \
+                 * to nothing and reported zero ticks. */                  \
+                __asm__ volatile("" : "+r"(w));                            \
+                body;                                                      \
+            }                                                              \
+            const uint16_t t1 = COUNTERS[2].value;                         \
+            g_sink = acc;                                                  \
+            const uint16_t d = (uint16_t)(t1 - t0);                        \
+            if (d < best) best = d;                                        \
+            if (d > worst) worst = d;                                      \
+        }                                                                  \
+        s_name[s_arms] = label;                                            \
+        s_best[s_arms] = best;                                             \
+        s_worst[s_arms] = worst;                                           \
+        s_check[s_arms] = 0;                                               \
+        s_baseIdx[s_arms] = 0;                                             \
+        s_arms++;                                                          \
     } while (0)
 
 /*
@@ -169,31 +171,31 @@ uint32_t s_noxBase = 0;
  * the same sum. An arm that is fast because it decodes something else prints a
  * different number instead of a better one.
  */
-#define ARMB(label, init, body)                                   \
-    do {                                                          \
-        uint16_t best = 0xffff;                                   \
-        uint16_t worst = 0;                                       \
-        uint32_t check = 0;                                       \
-        for (uint32_t r = 0; r < REPEATS; r++) {                  \
-            uint32_t acc = 0;                                     \
-            init;                                                 \
-            const uint16_t t0 = COUNTERS[2].value;                \
-            for (uint32_t i = 0; i < ITERS; i++) {                \
-                body;                                             \
-            }                                                     \
-            const uint16_t t1 = COUNTERS[2].value;                \
-            g_sink = acc;                                         \
-            check = acc;                                          \
-            const uint16_t d = (uint16_t)(t1 - t0);               \
-            if (d < best) best = d;                               \
-            if (d > worst) worst = d;                             \
-        }                                                         \
-        s_name[s_arms] = label;                                   \
-        s_best[s_arms] = best;                                    \
-        s_worst[s_arms] = worst;                                  \
-        s_check[s_arms] = check;                                  \
-        s_baseIdx[s_arms] = (uint8_t)s_noxBase;                   \
-        s_arms++;                                                 \
+#define ARMB(label, init, body)                     \
+    do {                                            \
+        uint16_t best = 0xffff;                     \
+        uint16_t worst = 0;                         \
+        uint32_t check = 0;                         \
+        for (uint32_t r = 0; r < REPEATS; r++) {    \
+            uint32_t acc = 0;                       \
+            init;                                   \
+            const uint16_t t0 = COUNTERS[2].value;  \
+            for (uint32_t i = 0; i < ITERS; i++) {  \
+                body;                               \
+            }                                       \
+            const uint16_t t1 = COUNTERS[2].value;  \
+            g_sink = acc;                           \
+            check = acc;                            \
+            const uint16_t d = (uint16_t)(t1 - t0); \
+            if (d < best) best = d;                 \
+            if (d > worst) worst = d;               \
+        }                                           \
+        s_name[s_arms] = label;                     \
+        s_best[s_arms] = best;                      \
+        s_worst[s_arms] = worst;                    \
+        s_check[s_arms] = check;                    \
+        s_baseIdx[s_arms] = (uint8_t)s_noxBase;     \
+        s_arms++;                                   \
     } while (0)
 
 /* A leading-zero count with no call and no memory: five compare-and-shift
@@ -202,11 +204,25 @@ uint32_t s_noxBase = 0;
 __attribute__((always_inline)) static inline uint32_t clzBsearch(uint32_t v) {
     uint32_t n = 0;
     if (v == 0) return 31;
-    if (!(v & 0xffff0000u)) { n += 16; v <<= 16; }
-    if (!(v & 0xff000000u)) { n += 8; v <<= 8; }
-    if (!(v & 0xf0000000u)) { n += 4; v <<= 4; }
-    if (!(v & 0xc0000000u)) { n += 2; v <<= 2; }
-    if (!(v & 0x80000000u)) { n += 1; }
+    if (!(v & 0xffff0000u)) {
+        n += 16;
+        v <<= 16;
+    }
+    if (!(v & 0xff000000u)) {
+        n += 8;
+        v <<= 8;
+    }
+    if (!(v & 0xf0000000u)) {
+        n += 4;
+        v <<= 4;
+    }
+    if (!(v & 0xc0000000u)) {
+        n += 2;
+        v <<= 2;
+    }
+    if (!(v & 0x80000000u)) {
+        n += 1;
+    }
     return n;
 }
 
@@ -235,19 +251,22 @@ void runBench() {
     for (uint32_t i = 0; i < 256; i++) s_ram[i] = (i * 7u + 1u) & 0xffu;
     for (uint32_t i = 0; i < 256; i++) {
         uint32_t n = 0, v = i;
-        while (n < 8 && !(v & 0x80u)) { n++; v <<= 1; }
+        while (n < 8 && !(v & 0x80u)) {
+            n++;
+            v <<= 1;
+        }
         s_clz8[i] = (uint8_t)n;
     }
-    for (uint32_t i = 0; i < 32; i++)
-        s_disp[i] = ((uint32_t)c_bsdecVlcOffset[i] << 8) | c_bsdecVlcSuffixBits[i];
+    for (uint32_t i = 0; i < 32; i++) s_disp[i] = ((uint32_t)c_bsdecVlcOffset[i] << 8) | c_bsdecVlcSuffixBits[i];
     // Unsigned wrap is load-bearing: row 0 has a 2-bit suffix, so its folded
     // offset is 0 - 4, and the index the extraction produces adds the 4 back.
-    for (uint32_t i = 0; i < 32; i++)
-        s_off2[i] = (uint32_t)c_bsdecVlcOffset[i] - (1u << c_bsdecVlcSuffixBits[i]);
+    for (uint32_t i = 0; i < 32; i++) s_off2[i] = (uint32_t)c_bsdecVlcOffset[i] - (1u << c_bsdecVlcSuffixBits[i]);
     {
         uint32_t x = 0x1badd00du;
         for (uint32_t i = 0; i < BITS_BYTES / 2; i++) {
-            x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+            x ^= x << 13;
+            x ^= x >> 17;
+            x ^= x << 5;
             s_bits[i] = (uint16_t)x;
         }
     }
@@ -358,7 +377,7 @@ void runBench() {
     // otherwise closes the sum into a formula and deletes the loop, which
     // reports zero and silently leaves the loop's own cost inside every arm
     // below it.
-    ARMB("empty nox        ", { }, {
+    ARMB("empty nox        ", {}, {
         uint32_t j = i;
         __asm__ volatile("" : "+r"(j));
         acc += j;
@@ -366,51 +385,67 @@ void runBench() {
 
     // Exactly what bsdec.c spells today: two byte loads a refill, `valid` and
     // `pos` both maintained, and the width-zero arm on the extraction.
-    ARMB("sym base         ", { win = 0; valid = 0; pos = 0; feed = 0; }, {
-        while (valid <= 16) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = (uint32_t)bitsB[feed] | ((uint32_t)bitsB[feed + 1] << 8);
-            feed += 2;
-            win |= half << (16 - valid);
-            valid += 16;
-        }
-        const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
-        pos += n + 1;
-        win = (win << n) << 1;
-        valid -= (int32_t)n + 1;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        pos += sb;
-        win <<= sb;
-        valid -= (int32_t)sb;
-        acc += e;
-    });
+    ARMB(
+        "sym base         ",
+        {
+            win = 0;
+            valid = 0;
+            pos = 0;
+            feed = 0;
+        },
+        {
+            while (valid <= 16) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = (uint32_t)bitsB[feed] | ((uint32_t)bitsB[feed + 1] << 8);
+                feed += 2;
+                win |= half << (16 - valid);
+                valid += 16;
+            }
+            const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
+            pos += n + 1;
+            win = (win << n) << 1;
+            valid -= (int32_t)n + 1;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            pos += sb;
+            win <<= sb;
+            valid -= (int32_t)sb;
+            acc += e;
+        });
     g_sink = win + (uint32_t)valid + pos + feed;
 
     // One halfword load a refill instead of two bytes and a shift-or. `base` is
     // halfword aligned - bsdecFrame already requires that of `in`, and its
     // payload starts eight bytes in - and `feed` is even between pulls.
-    ARMB("sym lhu          ", { win = 0; valid = 0; pos = 0; feed = 0; }, {
-        while (valid <= 16) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << (16 - valid);
-            valid += 16;
-        }
-        const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
-        pos += n + 1;
-        win = (win << n) << 1;
-        valid -= (int32_t)n + 1;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        pos += sb;
-        win <<= sb;
-        valid -= (int32_t)sb;
-        acc += e;
-    });
+    ARMB(
+        "sym lhu          ",
+        {
+            win = 0;
+            valid = 0;
+            pos = 0;
+            feed = 0;
+        },
+        {
+            while (valid <= 16) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << (16 - valid);
+                valid += 16;
+            }
+            const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
+            pos += n + 1;
+            win = (win << n) << 1;
+            valid -= (int32_t)n + 1;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            pos += sb;
+            win <<= sb;
+            valid -= (int32_t)sb;
+            acc += e;
+        });
     g_sink = win + (uint32_t)valid + pos + feed;
 
     // ONE COUNTER INSTEAD OF TWO. `pos` and `valid` are the same quantity read
@@ -418,24 +453,31 @@ void runBench() {
     // one of them is bookkeeping the other already did. Keeping 16 - valid
     // rather than valid is what makes the refill shift free: the amount it
     // needs IS the counter, so the subtract goes too.
-    ARMB("sym d-ctr        ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
-        win = (win << n) << 1;
-        dctr += (int32_t)n + 1;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        win <<= sb;
-        dctr += (int32_t)sb;
-        acc += e;
-    });
+    ARMB(
+        "sym d-ctr        ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
+            win = (win << n) << 1;
+            dctr += (int32_t)n + 1;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win <<= sb;
+            dctr += (int32_t)sb;
+            acc += e;
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // THE MARKER STAYS IN THE INDEX. Shifting the leading 1 off and then
@@ -443,64 +485,85 @@ void runBench() {
     // and folding its weight into the offset is one shift and no branch, and
     // the marker-and-suffix shift the window needs afterwards is the same
     // count either way.
-    ARMB("sym d+mark       ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t t = win << n;
-        const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        win = t << (sb + 1);
-        dctr += (int32_t)(n + 1 + sb);
-        acc += e;
-    });
+    ARMB(
+        "sym d+mark       ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += e;
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // The same without the end-of-payload test, to price splitting the AC loop
     // into a fast body that runs while the payload is known to have four bytes
     // left and a careful one for the tail. Safe here only because the buffer is
     // sized so `feed` never reaches it.
-    ARMB("sym d+mk nobnd   ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            const uint32_t half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t t = win << n;
-        const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        win = t << (sb + 1);
-        dctr += (int32_t)(n + 1 + sb);
-        acc += e;
-    });
+    ARMB(
+        "sym d+mk nobnd   ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                const uint32_t half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t n = win ? (uint32_t)__builtin_clz(win) : 31u;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += e;
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
-    ARMB("sym d+mk bsrch   ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t n = clzBsearch(win);
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t t = win << n;
-        const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        win = t << (sb + 1);
-        dctr += (int32_t)(n + 1 + sb);
-        acc += e;
-    });
+    ARMB(
+        "sym d+mk bsrch   ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t n = clzBsearch(win);
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += e;
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     /*
@@ -511,178 +574,228 @@ void runBench() {
      * four arms price register pressure and not the change that was made. With
      * no call there is nothing to spill around and each step is itself.
      */
-    ARMB("sym base tab8    ", { win = 0; valid = 0; pos = 0; feed = 0; }, {
-        while (valid <= 16) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = (uint32_t)bitsB[feed] | ((uint32_t)bitsB[feed + 1] << 8);
-            feed += 2;
-            win |= half << (16 - valid);
-            valid += 16;
-        }
-        const uint32_t n = clzTable8Sat(clz8, win);
-        pos += n + 1;
-        win = (win << n) << 1;
-        valid -= (int32_t)n + 1;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        pos += sb;
-        win <<= sb;
-        valid -= (int32_t)sb;
-        acc += e;
-    });
+    ARMB(
+        "sym base tab8    ",
+        {
+            win = 0;
+            valid = 0;
+            pos = 0;
+            feed = 0;
+        },
+        {
+            while (valid <= 16) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = (uint32_t)bitsB[feed] | ((uint32_t)bitsB[feed + 1] << 8);
+                feed += 2;
+                win |= half << (16 - valid);
+                valid += 16;
+            }
+            const uint32_t n = clzTable8Sat(clz8, win);
+            pos += n + 1;
+            win = (win << n) << 1;
+            valid -= (int32_t)n + 1;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            pos += sb;
+            win <<= sb;
+            valid -= (int32_t)sb;
+            acc += e;
+        });
     g_sink = win + (uint32_t)valid + pos + feed;
 
-    ARMB("sym lhu tab8     ", { win = 0; valid = 0; pos = 0; feed = 0; }, {
-        while (valid <= 16) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << (16 - valid);
-            valid += 16;
-        }
-        const uint32_t n = clzTable8Sat(clz8, win);
-        pos += n + 1;
-        win = (win << n) << 1;
-        valid -= (int32_t)n + 1;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        pos += sb;
-        win <<= sb;
-        valid -= (int32_t)sb;
-        acc += e;
-    });
+    ARMB(
+        "sym lhu tab8     ",
+        {
+            win = 0;
+            valid = 0;
+            pos = 0;
+            feed = 0;
+        },
+        {
+            while (valid <= 16) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << (16 - valid);
+                valid += 16;
+            }
+            const uint32_t n = clzTable8Sat(clz8, win);
+            pos += n + 1;
+            win = (win << n) << 1;
+            valid -= (int32_t)n + 1;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            pos += sb;
+            win <<= sb;
+            valid -= (int32_t)sb;
+            acc += e;
+        });
     g_sink = win + (uint32_t)valid + pos + feed;
 
-    ARMB("sym d-ctr tab8   ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t n = clzTable8Sat(clz8, win);
-        win = (win << n) << 1;
-        dctr += (int32_t)n + 1;
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        win <<= sb;
-        dctr += (int32_t)sb;
-        acc += e;
-    });
+    ARMB(
+        "sym d-ctr tab8   ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t n = clzTable8Sat(clz8, win);
+            win = (win << n) << 1;
+            dctr += (int32_t)n + 1;
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t e = c_bsdecVlc[c_bsdecVlcOffset[n] + (sw ? (win >> (32 - sw)) : 0u)];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win <<= sb;
+            dctr += (int32_t)sb;
+            acc += e;
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
-    ARMB("sym d+mk tab8    ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t n = clzTable8Sat(clz8, win);
-        const uint32_t sw = c_bsdecVlcSuffixBits[n];
-        const uint32_t t = win << n;
-        const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-        const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-        win = t << (sb + 1);
-        dctr += (int32_t)(n + 1 + sb);
-        acc += e;
-    });
+    ARMB(
+        "sym d+mk tab8    ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t n = clzTable8Sat(clz8, win);
+            const uint32_t sw = c_bsdecVlcSuffixBits[n];
+            const uint32_t t = win << n;
+            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+            win = t << (sb + 1);
+            dctr += (int32_t)(n + 1 + sb);
+            acc += e;
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // No leading-zero count at all on the common path: the top nine bits of the
     // window index straight to a slot and a length. Groups 0..5 are every code
     // nine bits or shorter and 92.4% of real symbols; the rest fall through to
     // the arm above.
-    ARMB("sym prim9        ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t p = prim[win >> 23];
-        if (p) {
-            const uint32_t len = p >> 9;
-            acc += c_bsdecVlc[p & 0x1ffu];
-            win <<= len;
-            dctr += (int32_t)len;
-        } else {
-            const uint32_t n = clzTable8Sat(clz8, win);
-            const uint32_t sw = c_bsdecVlcSuffixBits[n];
-            const uint32_t t = win << n;
-            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-            win = t << (sb + 1);
-            dctr += (int32_t)(n + 1 + sb);
-            acc += e;
-        }
-    });
+    ARMB(
+        "sym prim9        ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t p = prim[win >> 23];
+            if (p) {
+                const uint32_t len = p >> 9;
+                acc += c_bsdecVlc[p & 0x1ffu];
+                win <<= len;
+                dctr += (int32_t)len;
+            } else {
+                const uint32_t n = clzTable8Sat(clz8, win);
+                const uint32_t sw = c_bsdecVlcSuffixBits[n];
+                const uint32_t t = win << n;
+                const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+                const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+                win = t << (sb + 1);
+                dctr += (int32_t)(n + 1 + sb);
+                acc += e;
+            }
+        });
     g_sink = win + (uint32_t)dctr + feed;
     // Eight bits from RAM, so the pair below separates the coverage loss from
     // the scratchpad gain instead of moving both at once.
     const uint16_t *const prim8 = s_prim8;
-    ARMB("sym prim8 ram    ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t p = prim8[win >> 24];
-        if (p) {
-            const uint32_t len = p >> 9;
-            acc += c_bsdecVlc[p & 0x1ffu];
-            win <<= len;
-            dctr += (int32_t)len;
-        } else {
-            const uint32_t n = clzTable8Sat(clz8, win);
-            const uint32_t sw = c_bsdecVlcSuffixBits[n];
-            const uint32_t t = win << n;
-            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-            win = t << (sb + 1);
-            dctr += (int32_t)(n + 1 + sb);
-            acc += e;
-        }
-    });
+    ARMB(
+        "sym prim8 ram    ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t p = prim8[win >> 24];
+            if (p) {
+                const uint32_t len = p >> 9;
+                acc += c_bsdecVlc[p & 0x1ffu];
+                win <<= len;
+                dctr += (int32_t)len;
+            } else {
+                const uint32_t n = clzTable8Sat(clz8, win);
+                const uint32_t sw = c_bsdecVlcSuffixBits[n];
+                const uint32_t t = win << n;
+                const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+                const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+                win = t << (sb + 1);
+                dctr += (int32_t)(n + 1 + sb);
+                acc += e;
+            }
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // The identical table in the half of the scratchpad psyqo is not using.
-    for (uint32_t i = 0; i < SPM_WORDS; i++)
-        SPM[i] = (uint32_t)s_prim8[i * 2] | ((uint32_t)s_prim8[i * 2 + 1] << 16);
+    for (uint32_t i = 0; i < SPM_WORDS; i++) SPM[i] = (uint32_t)s_prim8[i * 2] | ((uint32_t)s_prim8[i * 2 + 1] << 16);
     const uint16_t *const prim8Spm = (const uint16_t *)0x1f800200;
-    ARMB("sym prim8 spm    ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t p = prim8Spm[win >> 24];
-        if (p) {
-            const uint32_t len = p >> 9;
-            acc += c_bsdecVlc[p & 0x1ffu];
-            win <<= len;
-            dctr += (int32_t)len;
-        } else {
-            const uint32_t n = clzTable8Sat(clz8, win);
-            const uint32_t sw = c_bsdecVlcSuffixBits[n];
-            const uint32_t t = win << n;
-            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-            win = t << (sb + 1);
-            dctr += (int32_t)(n + 1 + sb);
-            acc += e;
-        }
-    });
+    ARMB(
+        "sym prim8 spm    ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t p = prim8Spm[win >> 24];
+            if (p) {
+                const uint32_t len = p >> 9;
+                acc += c_bsdecVlc[p & 0x1ffu];
+                win <<= len;
+                dctr += (int32_t)len;
+            } else {
+                const uint32_t n = clzTable8Sat(clz8, win);
+                const uint32_t sw = c_bsdecVlcSuffixBits[n];
+                const uint32_t t = win << n;
+                const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+                const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+                win = t << (sb + 1);
+                dctr += (int32_t)(n + 1 + sb);
+                acc += e;
+            }
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // From here on every arm sums the entry with bits 16..20 masked off, so the
@@ -691,61 +804,75 @@ void runBench() {
     // The first arm is the 09-20 prim9 arm with only that mask added: it is the
     // reference the two below are checked against.
     s_hwBase = s_arms;
-    ARMB("sym prim9 hwck   ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t p = prim[win >> 23];
-        if (p) {
-            const uint32_t len = p >> 9;
-            acc += c_bsdecVlc[p & 0x1ffu] & 0xffe0ffffu;
-            win <<= len;
-            dctr += (int32_t)len;
-        } else {
-            const uint32_t n = clzTable8Sat(clz8, win);
-            const uint32_t sw = c_bsdecVlcSuffixBits[n];
-            const uint32_t t = win << n;
-            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-            win = t << (sb + 1);
-            dctr += (int32_t)(n + 1 + sb);
-            acc += e & 0xffe0ffffu;
-        }
-    });
+    ARMB(
+        "sym prim9 hwck   ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t p = prim[win >> 23];
+            if (p) {
+                const uint32_t len = p >> 9;
+                acc += c_bsdecVlc[p & 0x1ffu] & 0xffe0ffffu;
+                win <<= len;
+                dctr += (int32_t)len;
+            } else {
+                const uint32_t n = clzTable8Sat(clz8, win);
+                const uint32_t sw = c_bsdecVlcSuffixBits[n];
+                const uint32_t t = win << n;
+                const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+                const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+                win = t << (sb + 1);
+                dctr += (int32_t)(n + 1 + sb);
+                acc += e & 0xffe0ffffu;
+            }
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // What bsdec.c spells now: the top nine bits, then bits 6..14, each to a
     // finished 32-bit entry carrying the whole length, one load per hit.
-    ARMB("sym prim9+sec9   ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        uint32_t e = c_bsdecPrim9[win >> 23];
-        if (!e) e = c_bsdecSec9[(win << 6) >> 23];
-        if (e) {
-            const uint32_t len = BSDEC_VLC_LENGTH(e);
-            win <<= len;
-            dctr += (int32_t)len;
-            acc += e & 0xffe0ffffu;
-        } else {
-            const uint32_t n = clzTable8Sat(clz8, win);
-            const uint32_t sw = c_bsdecVlcSuffixBits[n];
-            const uint32_t t = win << n;
-            const uint32_t f = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(f);
-            win = t << (sb + 1);
-            dctr += (int32_t)(n + 1 + sb);
-            acc += f & 0xffe0ffffu;
-        }
-    });
+    ARMB(
+        "sym prim9+sec9   ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            uint32_t e = c_bsdecPrim9[win >> 23];
+            if (!e) e = c_bsdecSec9[(win << 6) >> 23];
+            if (e) {
+                const uint32_t len = BSDEC_VLC_LENGTH(e);
+                win <<= len;
+                dctr += (int32_t)len;
+                acc += e & 0xffe0ffffu;
+            } else {
+                const uint32_t n = clzTable8Sat(clz8, win);
+                const uint32_t sw = c_bsdecVlcSuffixBits[n];
+                const uint32_t t = win << n;
+                const uint32_t f = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+                const uint32_t sb = BSDEC_VLC_SUFFIXBITS(f);
+                win = t << (sb + 1);
+                dctr += (int32_t)(n + 1 + sb);
+                acc += f & 0xffe0ffffu;
+            }
+        });
     g_sink = win + (uint32_t)dctr + feed;
 
     // The 09-20 halfword prim9 table in the whole scratchpad, second load from
@@ -755,31 +882,38 @@ void runBench() {
     for (uint32_t i = 0; i < SPM_FULL_WORDS; i++)
         SPM_FULL[i] = (uint32_t)s_prim[i * 2] | ((uint32_t)s_prim[i * 2 + 1] << 16);
     const uint16_t *const prim9Spm = (const uint16_t *)0x1f800000;
-    ARMB("sym prim9 spm    ", { win = 0; dctr = 16; feed = 0; }, {
-        while (dctr >= 0) {
-            uint32_t half = 0;
-            if (feed < BITS_BYTES) half = bitsH[feed >> 1];
-            feed += 2;
-            win |= half << dctr;
-            dctr -= 16;
-        }
-        const uint32_t p = prim9Spm[win >> 23];
-        if (p) {
-            const uint32_t len = p >> 9;
-            acc += c_bsdecVlc[p & 0x1ffu] & 0xffe0ffffu;
-            win <<= len;
-            dctr += (int32_t)len;
-        } else {
-            const uint32_t n = clzTable8Sat(clz8, win);
-            const uint32_t sw = c_bsdecVlcSuffixBits[n];
-            const uint32_t t = win << n;
-            const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
-            const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
-            win = t << (sb + 1);
-            dctr += (int32_t)(n + 1 + sb);
-            acc += e & 0xffe0ffffu;
-        }
-    });
+    ARMB(
+        "sym prim9 spm    ",
+        {
+            win = 0;
+            dctr = 16;
+            feed = 0;
+        },
+        {
+            while (dctr >= 0) {
+                uint32_t half = 0;
+                if (feed < BITS_BYTES) half = bitsH[feed >> 1];
+                feed += 2;
+                win |= half << dctr;
+                dctr -= 16;
+            }
+            const uint32_t p = prim9Spm[win >> 23];
+            if (p) {
+                const uint32_t len = p >> 9;
+                acc += c_bsdecVlc[p & 0x1ffu] & 0xffe0ffffu;
+                win <<= len;
+                dctr += (int32_t)len;
+            } else {
+                const uint32_t n = clzTable8Sat(clz8, win);
+                const uint32_t sw = c_bsdecVlcSuffixBits[n];
+                const uint32_t t = win << n;
+                const uint32_t e = c_bsdecVlc[off2[n] + (t >> (31 - sw))];
+                const uint32_t sb = BSDEC_VLC_SUFFIXBITS(e);
+                win = t << (sb + 1);
+                dctr += (int32_t)(n + 1 + sb);
+                acc += e & 0xffe0ffffu;
+            }
+        });
     g_sink = win + (uint32_t)dctr + feed;
     for (uint32_t i = 0; i < SPM_FULL_WORDS; i++) SPM_FULL[i] = s_spmFullSave[i];
 
@@ -803,8 +937,8 @@ void runBench() {
         // decoded a different stream, so its timing is about something else.
         const uint32_t ref = (s_hwBase && i >= s_hwBase) ? s_hwBase : firstSym;
         const int mismatch = s_baseIdx[i] != 0 && i > s_noxBase && s_check[i] != s_check[ref];
-        ramsyscall_printf("BSB: %s lo %5d hi %5d  net %5d  %3d.%02d cyc/iter%s%s\n", s_name[i], s_best[i],
-                          s_worst[i], net, cyc100 / 100, (cyc100 < 0 ? -cyc100 : cyc100) % 100,
+        ramsyscall_printf("BSB: %s lo %5d hi %5d  net %5d  %3d.%02d cyc/iter%s%s\n", s_name[i], s_best[i], s_worst[i],
+                          net, cyc100 / 100, (cyc100 < 0 ? -cyc100 : cyc100) % 100,
                           (s_worst[i] > WRAP_WARN || net < 0) ? "  ** SUSPECT **" : "",
                           mismatch ? "  ** CHECK MISMATCH **" : "");
     }

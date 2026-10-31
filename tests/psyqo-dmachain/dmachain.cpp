@@ -55,8 +55,7 @@ constexpr uint32_t kNop = 0x00000000;
 template <size_t N>
 struct RawFragment : public psyqo::Fragments::ChainEntry {
     RawFragment() {
-        static_assert(sizeof(*this) == sizeof(uintptr_t) + sizeof(uint32_t) * N,
-                      "Spurious padding in raw fragment");
+        static_assert(sizeof(*this) == sizeof(uintptr_t) + sizeof(uint32_t) * N, "Spurious padding in raw fragment");
     }
     constexpr size_t getActualFragmentSize() const { return N; }
     void fillNops() {
@@ -80,9 +79,9 @@ class TestScene final : public psyqo::Scene {
     bool m_done = false;
     unsigned m_failures = 0;
 
-    RawFragment<4> m_small;    // <= 14 words, stays in the linked list
-    RawFragment<64> m_big;     // 15..255, excised by the bit 23 marker
-    RawFragment<512> m_over;   // > 255, oversized packet, header holds 512/16
+    RawFragment<4> m_small;   // <= 14 words, stays in the linked list
+    RawFragment<64> m_big;    // 15..255, excised by the bit 23 marker
+    RawFragment<512> m_over;  // > 255, oversized packet, header holds 512/16
 
     static uint32_t status() { return psyqo::Hardware::GPU::Ctrl & uint32_t(0x7ff); }
 
