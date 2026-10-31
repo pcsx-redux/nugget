@@ -64,6 +64,14 @@ class ReadSectorsAction : public psyqo::CDRomDevice::Action<ReadSectorsActionSta
         psyqo::Hardware::CDRom::Command.send(psyqo::Hardware::CDRom::CDL::SETLOC, bcd[0], bcd[1], bcd[2]);
     }
     bool dataReady(const psyqo::CDRomDevice::Response &) override {
+        // One more sector can land behind the Pause, before the drive answers it, when the
+        // interrupt for the last one was served late. There is no room for it, and no harm.
+        if (getState() == ReadSectorsActionState::PAUSE || getState() == ReadSectorsActionState::PAUSE_ACK) {
+            psyqo::Hardware::CDRom::Ctrl.throwAway();
+            psyqo::Hardware::CDRom::DataRequest = 0;
+            psyqo::Hardware::CDRom::InterruptControl.throwAway();
+            return false;
+        }
         psyqo::Kernel::assert(getState() == ReadSectorsActionState::READ_ACK,
                               "ReadSectorsAction got CDROM dataReady in wrong state");
         psyqo::Hardware::CDRom::Ctrl.throwAway();
