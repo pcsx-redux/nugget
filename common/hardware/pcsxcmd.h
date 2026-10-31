@@ -69,6 +69,17 @@ where building the struct would cost more than the operation.
 
 #include <stdint.h>
 
+/* The emulator includes these headers too, for the struct layouts, and has to
+   build with MSVC's cl.exe. GCC accepts __inline__ in every C dialect. */
+#if defined(_MSC_VER) && !defined(__clang__)
+#include <intrin.h>
+#define PCSX_INLINE static __inline
+#define PCSX_COMPILER_BARRIER() _ReadWriteBarrier()
+#else
+#define PCSX_INLINE static __inline__
+#define PCSX_COMPILER_BARRIER() __asm__ volatile("" ::: "memory")
+#endif
+
 #define PCSX_CMD_MAGIC 0x444d4358 /* 'XCMD' */
 #define PCSX_CMD_PROTOCOL_VERSION 1
 #define PCSX_CMD_PORT 0x1f8020a4
@@ -140,7 +151,7 @@ struct pcsx_QueryResult {
 };
 
 /* Fill in a header and poison the result. Call before pcsx_command. */
-static __inline__ void pcsx_commandInit(struct pcsx_CommandHeader* header, uint32_t op, uint32_t size) {
+PCSX_INLINE void pcsx_commandInit(struct pcsx_CommandHeader* header, uint32_t op, uint32_t size) {
     header->magic = PCSX_CMD_MAGIC;
     header->op = op;
     header->size = size;
@@ -151,14 +162,14 @@ static __inline__ void pcsx_commandInit(struct pcsx_CommandHeader* header, uint3
    volatile fields; nothing is returned here. The memory clobber keeps the
    input-field stores from sinking past the port write, since the volatile
    store alone only orders itself against other volatile accesses. */
-static __inline__ void pcsx_command(void* cmd) {
-    __asm__ volatile("" ::: "memory");
+PCSX_INLINE void pcsx_command(void* cmd) {
+    PCSX_COMPILER_BARRIER();
     *((void* volatile* const)PCSX_CMD_PORT) = cmd;
-    __asm__ volatile("" ::: "memory");
+    PCSX_COMPILER_BARRIER();
 }
 
 /* Non-zero when this emulator implements the given operation. */
-static __inline__ int pcsx_commandSupported(uint32_t op) {
+PCSX_INLINE int pcsx_commandSupported(uint32_t op) {
     struct pcsx_QueryResult query;
     if (op >= 128) return 0;
     pcsx_commandInit(&query.header, PCSX_CMD_QUERY, sizeof(query));
