@@ -66,8 +66,9 @@ CESTER_TEST(dpct_reads_fifo, gte_tests, gte_set_far_color(0, 0, 0);
             cester_assert_uint_eq(0xff708090, rgb2);)
 
 // DCPL: depth cue with pre-computed light
-CESTER_TEST(dcpl_basic, gte_tests, gte_set_far_color(0x1000, 0x1000, 0x1000); cop2_put(6, 0x00808080);  // RGBC
-            // Pre-computed light in IR1-3
+CESTER_TEST(dcpl_basic, gte_tests, gte_set_far_color(0x1000, 0x1000, 0x1000);
+            cop2_put(6, 0x00808080);  // RGBC
+                                      // Pre-computed light in IR1-3
             cop2_put(9, 0x1000);   // IR1 = 1.0
             cop2_put(10, 0x0800);  // IR2 = 0.5
             cop2_put(11, 0x0400);  // IR3 = 0.25
