@@ -27,6 +27,7 @@ all:
 	$(MAKE) -C gpustat10 all
 	$(MAKE) -C gpu-dma-dreq all
 	$(MAKE) -C gpu-dma-loop all
+	$(MAKE) -C gpu-dma-node all
 	$(MAKE) -C gpu-dma-ring all
 	$(MAKE) -C gpu-timing all
 	$(MAKE) -C gpu-irq all
@@ -154,6 +155,7 @@ clean:
 	$(MAKE) -C gpustat10 clean
 	$(MAKE) -C gpu-dma-dreq clean
 	$(MAKE) -C gpu-dma-loop clean
+	$(MAKE) -C gpu-dma-node clean
 	$(MAKE) -C gpu-dma-ring clean
 	$(MAKE) -C gpu-timing clean
 	$(MAKE) -C gpu-irq clean
