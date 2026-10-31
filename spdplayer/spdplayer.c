@@ -458,6 +458,7 @@ static unsigned loadInternal(const void* data, uint32_t size,
     SPD_SubsongCount = s_subsongTable ? packetLength(*s_subsongTable) : s_orderTableCount;
     // A subsong table pointing subsong 0 at an order table the file lacks makes the file invalid.
     if (SPD_SubsongCount > 0 && !loadOrderTable(0)) return 0;
+    if (SPD_SubsongCount > 0 && SPD_OrderCount > 0 && s_orderTable[0] >= SPD_PatternCount) return 0;
 
     // Position stream at the first pattern if we have an order table
     if (SPD_OrderCount > 0 && SPD_PatternCount > 0) {
