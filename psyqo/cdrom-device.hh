@@ -451,6 +451,15 @@ class CDRomDevice final : public CDRom {
      */
     [[nodiscard]] bool isIdle() const { return m_state == 0; }
 
+    /**
+     * @brief Sets the speed sector reads run at. Double unless told otherwise.
+     *
+     * @details A CD-R that a console's laser holds badly at double speed can read
+     * perfectly at single, at half the rate.
+     */
+    void setDoubleSpeed(bool doubleSpeed) { m_doubleSpeed = doubleSpeed; }
+    [[nodiscard]] bool isDoubleSpeed() const { return m_doubleSpeed; }
+
   private:
     void switchAction(ActionBase *action);
     void irq();
@@ -465,6 +474,7 @@ class CDRomDevice final : public CDRom {
     uint32_t m_event = 0;
     ActionBase *m_action = nullptr;
     uint8_t m_state = 0;
+    bool m_doubleSpeed = true;
     bool m_success = false;
     bool m_blocking = false;
     bool m_pendingGetLocation = false;

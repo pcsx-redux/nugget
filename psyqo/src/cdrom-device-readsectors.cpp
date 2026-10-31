@@ -57,6 +57,7 @@ class ReadSectorsAction : public psyqo::CDRomDevice::Action<ReadSectorsActionSta
         setState(ReadSectorsActionState::SETLOC);
         m_count = count;
         m_ptr = reinterpret_cast<uint8_t *>(buffer);
+        m_mode = device->isDoubleSpeed() ? 0x80 : 0;
         eastl::atomic_signal_fence(eastl::memory_order_release);
         psyqo::MSF msf(sector + 150);
         uint8_t bcd[3];
@@ -102,7 +103,7 @@ class ReadSectorsAction : public psyqo::CDRomDevice::Action<ReadSectorsActionSta
         switch (getState()) {
             case ReadSectorsActionState::SETLOC:
                 setState(ReadSectorsActionState::SETMODE);
-                psyqo::Hardware::CDRom::Command.send(psyqo::Hardware::CDRom::CDL::SETMODE, 0x80);
+                psyqo::Hardware::CDRom::Command.send(psyqo::Hardware::CDRom::CDL::SETMODE, m_mode);
                 break;
             case ReadSectorsActionState::SETMODE:
                 setState(ReadSectorsActionState::READ);
@@ -124,6 +125,7 @@ class ReadSectorsAction : public psyqo::CDRomDevice::Action<ReadSectorsActionSta
   private:
     uint32_t m_count = 0;
     uint8_t *m_ptr = nullptr;
+    uint8_t m_mode = 0x80;
 };
 
 ReadSectorsAction s_readSectorsAction;
