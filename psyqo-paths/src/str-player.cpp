@@ -437,6 +437,12 @@ bool psyqo::paths::StrPlayer::vlcNext() {
 // is out. It must not run while a VRAM upload shares the bus.
 void psyqo::paths::StrPlayer::mdecReset() {
     MDEC1 = 0x80000000;
+    // The enable is lost if it follows the reset with nothing between: then no DMA is ever
+    // asked for, the tables never arrive and every frame hangs to the timeout. Whether it
+    // happens depends on where the code falls in the cache. One read of the status is gap
+    // enough: on hardware a wait of 0 failed and a wait of 1 never has.
+    for (unsigned i = 0; i < 1000 && (MDEC1 & 0x20000000); i++) {
+    }
     MDEC1 = 0x60000000;
     MDEC0 = 0x40000001;
     DMA_CTRL[DMA_MDECIN].MADR = reinterpret_cast<uintptr_t>(s_quantWords);
