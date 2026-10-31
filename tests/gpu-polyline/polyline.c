@@ -29,6 +29,8 @@ SOFTWARE.
 // word is the candidate under test and asserts whether an extra segment drew,
 // so the failing case names the terminator rule that diverged.
 
+// clang-format off
+
 CESTER_BODY(
 
 // Background region seeded with the sentinel. Covers every vertex below.
@@ -42,7 +44,7 @@ CESTER_BODY(
 #define PL_V0Y 10
 #define PL_V1X 40
 #define PL_V1Y 10
-#define PL_SPINE_X 25  // a pixel on the spine; lit in every attempt
+#define PL_SPINE_X 25   // a pixel on the spine; lit in every attempt
 #define PL_SPINE_Y 10
 
 // The probe vertex. Reached (and drawn) only if the candidate did NOT
@@ -52,55 +54,57 @@ CESTER_BODY(
 #define PL_PROBE_X 70
 #define PL_PROBE_Y 40
 
-    // Issue one flat poly-line: white spine v0->v1, the |candidate| word, the
-    // on-screen probe vertex, then a guaranteed real terminator. Hang-safe in
-    // both outcomes (see gpu-polyline.c). Deliberately hand-rolled so the exact
-    // word sequence sits next to the behavior under test.
-    static void plAttempt(uint32_t candidate) {
-        waitGPU();
-        GPU_DATA = 0x48000000u | (RASTER_CMD_WHITE);
-        GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
-        GPU_DATA = ((uint32_t)(uint16_t)PL_V1Y << 16) | (uint32_t)(uint16_t)PL_V1X;
-        GPU_DATA = candidate;
-        GPU_DATA = ((uint32_t)(uint16_t)PL_PROBE_Y << 16) | (uint32_t)(uint16_t)PL_PROBE_X;
-        GPU_DATA = 0x50005000u;  // guaranteed terminator for the non-terminating case
-    }
+// Issue one flat poly-line: white spine v0->v1, the |candidate| word, the
+// on-screen probe vertex, then a guaranteed real terminator. Hang-safe in
+// both outcomes (see gpu-polyline.c). Deliberately hand-rolled so the exact
+// word sequence sits next to the behavior under test.
+static void plAttempt(uint32_t candidate) {
+    waitGPU();
+    GPU_DATA = 0x48000000u | (RASTER_CMD_WHITE);
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V1Y << 16) | (uint32_t)(uint16_t)PL_V1X;
+    GPU_DATA = candidate;
+    GPU_DATA = ((uint32_t)(uint16_t)PL_PROBE_Y << 16) |
+               (uint32_t)(uint16_t)PL_PROBE_X;
+    GPU_DATA = 0x50005000u;  // guaranteed terminator for the non-terminating case
+}
 
-    // Let the drawn segments raster to VRAM. A short horizontal line plus one
-    // diagonal completes in microseconds; this loop is a wide safety margin.
-    // Not a GPU-status poll: in the terminating case a dangling read-as-command
-    // tail can hold the "ready for command" bit low, so polling could wedge -
-    // GP1(0x00) below flushes that tail instead.
-    static void plSettle(void) {
-        for (volatile int i = 0; i < 30000; i++) {
-        }
+// Let the drawn segments raster to VRAM. A short horizontal line plus one
+// diagonal completes in microseconds; this loop is a wide safety margin.
+// Not a GPU-status poll: in the terminating case a dangling read-as-command
+// tail can hold the "ready for command" bit low, so polling could wedge -
+// GP1(0x00) below flushes that tail instead.
+static void plSettle(void) {
+    for (volatile int i = 0; i < 30000; i++) {
     }
+}
 
-    // Reset to a known GPU state and seed the working region with the sentinel
-    // so post-draw readback tells drawn (white) from untouched (sentinel).
-    static void plSetup(void) {
-        rasterReset();
-        rasterClearTestRegion(PL_BG_X, PL_BG_Y, PL_BG_W, PL_BG_H);
-    }
+// Reset to a known GPU state and seed the working region with the sentinel
+// so post-draw readback tells drawn (white) from untouched (sentinel).
+static void plSetup(void) {
+    rasterReset();
+    rasterClearTestRegion(PL_BG_X, PL_BG_Y, PL_BG_W, PL_BG_H);
+}
 
-    // Run one candidate: setup, issue, settle, then GP1(0x00) reset to flush any
-    // dangling read-as-command tail before VRAM readback.
-    static void plRun(uint32_t candidate) {
-        plSetup();
-        plAttempt(candidate);
-        plSettle();
-        rasterReset();
-    }
+// Run one candidate: setup, issue, settle, then GP1(0x00) reset to flush any
+// dangling read-as-command tail before VRAM readback.
+static void plRun(uint32_t candidate) {
+    plSetup();
+    plAttempt(candidate);
+    plSettle();
+    rasterReset();
+}
 
-    )  // CESTER_BODY
+)  // CESTER_BODY
 
 // --------------------------------------------------------------------------
 // 1. 0x50005000 terminates a two-vertex poly-line. Both nibbles equal 0x5, so
 //    the list ends after v0->v1: the probe vertex is never drawn.
 // --------------------------------------------------------------------------
-CESTER_TEST(polyline_50005000_terminates, gpu_polyline, plRun(0x50005000u);
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);  // spine drew
-            ASSERT_PIXEL_UNTOUCHED(PL_PROBE_X, PL_PROBE_Y);              // no extra segment
+CESTER_TEST(polyline_50005000_terminates, gpu_polyline,
+    plRun(0x50005000u);
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);  // spine drew
+    ASSERT_PIXEL_UNTOUCHED(PL_PROBE_X, PL_PROBE_Y);              // no extra segment
 )
 
 // --------------------------------------------------------------------------
@@ -108,8 +112,11 @@ CESTER_TEST(polyline_50005000_terminates, gpu_polyline, plRun(0x50005000u);
 //    works precisely because 0x55555555 & 0xF000F000 == 0x50005000 - both the
 //    bits-12-15 and bits-28-31 nibbles land on 0x5.
 // --------------------------------------------------------------------------
-CESTER_TEST(polyline_55555555_terminates, gpu_polyline, plRun(0x55555555u);
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y); ASSERT_PIXEL_UNTOUCHED(PL_PROBE_X, PL_PROBE_Y);)
+CESTER_TEST(polyline_55555555_terminates, gpu_polyline,
+    plRun(0x55555555u);
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
+    ASSERT_PIXEL_UNTOUCHED(PL_PROBE_X, PL_PROBE_Y);
+)
 
 // --------------------------------------------------------------------------
 // 3. 0x00500050 does NOT terminate. Neither nibble-3 nor nibble-7 is 0x5
@@ -117,10 +124,11 @@ CESTER_TEST(polyline_55555555_terminates, gpu_polyline, plRun(0x55555555u);
 //    vertex v2 = (80, 80): the extra v1->v2 and v2->probe segments draw, and
 //    both the candidate's own vertex and the probe pixel come out lit.
 // --------------------------------------------------------------------------
-CESTER_TEST(polyline_00500050_is_a_vertex, gpu_polyline, plRun(0x00500050u);
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, 80, 80);                  // candidate used as v2
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_PROBE_X, PL_PROBE_Y);  // probe drew -> not terminated
+CESTER_TEST(polyline_00500050_is_a_vertex, gpu_polyline,
+    plRun(0x00500050u);
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, 80, 80);                 // candidate used as v2
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_PROBE_X, PL_PROBE_Y); // probe drew -> not terminated
 )
 
 // --------------------------------------------------------------------------
@@ -129,9 +137,10 @@ CESTER_TEST(polyline_00500050_is_a_vertex, gpu_polyline, plRun(0x00500050u);
 //    matching nibble is insufficient, so the word is consumed as a vertex and
 //    the probe pixel lights.
 // --------------------------------------------------------------------------
-CESTER_TEST(polyline_50000000_single_nibble_no_terminate, gpu_polyline, plRun(0x50000000u);
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
-            ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_PROBE_X, PL_PROBE_Y);  // probe drew -> not terminated
+CESTER_TEST(polyline_50000000_single_nibble_no_terminate, gpu_polyline,
+    plRun(0x50000000u);
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_PROBE_X, PL_PROBE_Y); // probe drew -> not terminated
 )
 
 // --------------------------------------------------------------------------
@@ -140,19 +149,33 @@ CESTER_TEST(polyline_50000000_single_nibble_no_terminate, gpu_polyline, plRun(0x
 //    match the pattern (0x58F858F8 & 0xF000F000 == 0x50005000); it still
 //    starts a list, and the v0->v1 spine draws in that color.
 // --------------------------------------------------------------------------
-CESTER_TEST(polyline_command_word_is_not_a_terminator, gpu_polyline, uint32_t color = rasterCmdColor(0x1f, 0x0b, 0x1f);
-            plSetup(); waitGPU(); GPU_DATA = 0x58000000u | color;
-            GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X; GPU_DATA = color;
-            GPU_DATA = ((uint32_t)(uint16_t)PL_V1Y << 16) | (uint32_t)(uint16_t)PL_V1X; GPU_DATA = 0x55555555u;
-            plSettle(); rasterReset(); ASSERT_PIXEL_EQ(rasterVram555(0x1f, 0x0b, 0x1f), PL_SPINE_X, PL_SPINE_Y);)
+CESTER_TEST(polyline_command_word_is_not_a_terminator, gpu_polyline,
+    uint32_t color = rasterCmdColor(0x1f, 0x0b, 0x1f);
+    plSetup();
+    waitGPU();
+    GPU_DATA = 0x58000000u | color;
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
+    GPU_DATA = color;
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V1Y << 16) | (uint32_t)(uint16_t)PL_V1X;
+    GPU_DATA = 0x55555555u;
+    plSettle();
+    rasterReset();
+    ASSERT_PIXEL_EQ(rasterVram555(0x1f, 0x0b, 0x1f), PL_SPINE_X, PL_SPINE_Y);
+)
 
 // --------------------------------------------------------------------------
 // 6. Nor on the second vertex. A flat poly-line needs two vertices before it
 //    can end, so a v1 word matching the pattern is still a vertex: its x and y
 //    keep only their low 11 bits, (0x5000 | 40, 0x5000 | 10) lands on (40, 10).
 // --------------------------------------------------------------------------
-CESTER_TEST(polyline_second_vertex_is_not_a_terminator, gpu_polyline, plSetup(); waitGPU();
-            GPU_DATA = 0x48000000u | (RASTER_CMD_WHITE);
-            GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
-            GPU_DATA = ((uint32_t)(0x5000u | PL_V1Y) << 16) | (uint32_t)(0x5000u | PL_V1X); GPU_DATA = 0x55555555u;
-            plSettle(); rasterReset(); ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);)
+CESTER_TEST(polyline_second_vertex_is_not_a_terminator, gpu_polyline,
+    plSetup();
+    waitGPU();
+    GPU_DATA = 0x48000000u | (RASTER_CMD_WHITE);
+    GPU_DATA = ((uint32_t)(uint16_t)PL_V0Y << 16) | (uint32_t)(uint16_t)PL_V0X;
+    GPU_DATA = ((uint32_t)(0x5000u | PL_V1Y) << 16) | (uint32_t)(0x5000u | PL_V1X);
+    GPU_DATA = 0x55555555u;
+    plSettle();
+    rasterReset();
+    ASSERT_PIXEL_EQ(RASTER_VRAM_WHITE, PL_SPINE_X, PL_SPINE_Y);
+)

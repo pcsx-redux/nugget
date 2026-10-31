@@ -870,10 +870,10 @@ static void correctness() {
 
 #define REP4(x) x x x x
 #define REP16(x) REP4(x) REP4(x) REP4(x) REP4(x)
-#define REP256(x)                                                                                               \
-    REP16(x)                                                                                                    \
-    REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) \
-        REP16(x) REP16(x) REP16(x)
+// clang-format off
+#define REP256(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) \
+                  REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x)
+// clang-format on
 
 static bool instrumentCheck() {
     // 256 nops = 1 KiB, comfortably inside the 4 KiB icache. 1024 nops is
