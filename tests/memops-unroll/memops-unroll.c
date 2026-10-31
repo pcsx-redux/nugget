@@ -44,9 +44,9 @@ SOFTWARE.
  * and exit and returns the delta, so the call and return are not in the
  * bracket. The shipped routines cannot carry a bracket of their own, so they
  * are timed through time_* thunks in kernels.s that call them directly, and
- * the bare kernels they are compared against go through identical thunks. Every kernel is CONTENT-CHECKED before any of its timings are
- * reported - a kernel that copies the wrong number of bytes would otherwise
- * post a beautifully fast number.
+ * the bare kernels they are compared against go through identical thunks. Every kernel is CONTENT-CHECKED before any of
+ * its timings are reported - a kernel that copies the wrong number of bytes would otherwise post a beautifully fast
+ * number.
  *
  * WHAT THIS RIG CAN AND CANNOT RESOLVE. The kernels are separate functions in a
  * 4 KiB direct-mapped icache with one word per line, so a kernel's ADDRESS is a

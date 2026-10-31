@@ -26,8 +26,9 @@ SOFTWARE.
 
 #pragma once
 
-#include <concepts>
 #include <stdint.h>
+
+#include <concepts>
 
 #include "psyqo/fixed-point.hh"
 #include "psyqo/primitives/common.hh"

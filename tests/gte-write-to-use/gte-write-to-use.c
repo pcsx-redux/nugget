@@ -27,7 +27,9 @@ SOFTWARE.
 
 #define FAMILIES(X) X(lighting) X(singles) X(perspective) X(math) X(dpc) X(color) X(mvmva) X(misc)
 
-#define DECL(f) extern const GwuCell gwu_cells_##f[]; extern const int gwu_count_##f;
+#define DECL(f)                           \
+    extern const GwuCell gwu_cells_##f[]; \
+    extern const int gwu_count_##f;
 FAMILIES(DECL)
 #define FAM(f) {gwu_cells_##f, &gwu_count_##f},
 static const struct {
@@ -38,24 +40,60 @@ static const struct {
 static void mask(probe_result_t* r, const GwuCell* c) {
     if (c->ctrl) return;
     switch (c->reg) {
-        case 8: r->ir0 = 0; break;
-        case 9: r->ir1 = 0; break;
-        case 10: r->ir2 = 0; break;
-        case 11: r->ir3 = 0; break;
-        case 12: r->sxy0 = 0; break;
-        case 13: r->sxy1 = 0; break;
-        case 14: r->sxy2 = 0; break;
-        case 16: r->sz0 = 0; break;
-        case 17: r->sz1 = 0; break;
-        case 18: r->sz2 = 0; break;
-        case 19: r->sz3 = 0; break;
-        case 20: r->rgb0 = 0; break;
-        case 21: r->rgb1 = 0; break;
-        case 22: r->rgb2 = 0; break;
-        case 24: r->mac0 = 0; break;
-        case 25: r->mac1 = 0; break;
-        case 26: r->mac2 = 0; break;
-        case 27: r->mac3 = 0; break;
+        case 8:
+            r->ir0 = 0;
+            break;
+        case 9:
+            r->ir1 = 0;
+            break;
+        case 10:
+            r->ir2 = 0;
+            break;
+        case 11:
+            r->ir3 = 0;
+            break;
+        case 12:
+            r->sxy0 = 0;
+            break;
+        case 13:
+            r->sxy1 = 0;
+            break;
+        case 14:
+            r->sxy2 = 0;
+            break;
+        case 16:
+            r->sz0 = 0;
+            break;
+        case 17:
+            r->sz1 = 0;
+            break;
+        case 18:
+            r->sz2 = 0;
+            break;
+        case 19:
+            r->sz3 = 0;
+            break;
+        case 20:
+            r->rgb0 = 0;
+            break;
+        case 21:
+            r->rgb1 = 0;
+            break;
+        case 22:
+            r->rgb2 = 0;
+            break;
+        case 24:
+            r->mac0 = 0;
+            break;
+        case 25:
+            r->mac1 = 0;
+            break;
+        case 26:
+            r->mac2 = 0;
+            break;
+        case 27:
+            r->mac3 = 0;
+            break;
     }
 }
 

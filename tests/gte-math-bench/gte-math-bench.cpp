@@ -162,12 +162,24 @@ static void initData() {
     // A well-conditioned rotation-ish matrix, entries inside +-1.0 so the
     // 16-bit GTE matrix registers hold them without truncation loss beyond
     // the format's own.
-    s_mat.vs[0].x = 0.866_fp;  s_mat.vs[0].y = -0.5_fp;   s_mat.vs[0].z = 0.0_fp;
-    s_mat.vs[1].x = 0.5_fp;    s_mat.vs[1].y = 0.866_fp;  s_mat.vs[1].z = 0.0_fp;
-    s_mat.vs[2].x = 0.0_fp;    s_mat.vs[2].y = 0.0_fp;    s_mat.vs[2].z = 1.0_fp;
-    s_matB.vs[0].x = 0.707_fp; s_matB.vs[0].y = 0.0_fp;   s_matB.vs[0].z = -0.707_fp;
-    s_matB.vs[1].x = 0.0_fp;   s_matB.vs[1].y = 1.0_fp;   s_matB.vs[1].z = 0.0_fp;
-    s_matB.vs[2].x = 0.707_fp; s_matB.vs[2].y = 0.0_fp;   s_matB.vs[2].z = 0.707_fp;
+    s_mat.vs[0].x = 0.866_fp;
+    s_mat.vs[0].y = -0.5_fp;
+    s_mat.vs[0].z = 0.0_fp;
+    s_mat.vs[1].x = 0.5_fp;
+    s_mat.vs[1].y = 0.866_fp;
+    s_mat.vs[1].z = 0.0_fp;
+    s_mat.vs[2].x = 0.0_fp;
+    s_mat.vs[2].y = 0.0_fp;
+    s_mat.vs[2].z = 1.0_fp;
+    s_matB.vs[0].x = 0.707_fp;
+    s_matB.vs[0].y = 0.0_fp;
+    s_matB.vs[0].z = -0.707_fp;
+    s_matB.vs[1].x = 0.0_fp;
+    s_matB.vs[1].y = 1.0_fp;
+    s_matB.vs[1].z = 0.0_fp;
+    s_matB.vs[2].x = 0.707_fp;
+    s_matB.vs[2].y = 0.0_fp;
+    s_matB.vs[2].z = 0.707_fp;
 }
 
 static void resetNormScratch(unsigned n) {
@@ -622,10 +634,10 @@ static void analyseCrossover(uint32_t cpu_h, uint32_t cold_h, uint32_t hot_h) {
         return;
     }
     if (cold_h < cpu_h) {
-        ramsyscall_printf("    CROSSOVER: NONE NEEDED - cold GTE (%u.%02u) already beats the CPU\n",
-                          cold_h / 100u, cold_h % 100u);
-        ramsyscall_printf("               (%u.%02u) at N=1. A stateless free function wins outright.\n",
-                          cpu_h / 100u, cpu_h % 100u);
+        ramsyscall_printf("    CROSSOVER: NONE NEEDED - cold GTE (%u.%02u) already beats the CPU\n", cold_h / 100u,
+                          cold_h % 100u);
+        ramsyscall_printf("               (%u.%02u) at N=1. A stateless free function wins outright.\n", cpu_h / 100u,
+                          cpu_h % 100u);
         return;
     }
     uint32_t denom = cpu_h - hot_h;
@@ -858,8 +870,10 @@ static void correctness() {
 
 #define REP4(x) x x x x
 #define REP16(x) REP4(x) REP4(x) REP4(x) REP4(x)
-#define REP256(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) \
-                  REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x)
+#define REP256(x)                                                                                               \
+    REP16(x)                                                                                                    \
+    REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) REP16(x) \
+        REP16(x) REP16(x) REP16(x)
 
 static bool instrumentCheck() {
     // 256 nops = 1 KiB, comfortably inside the 4 KiB icache. 1024 nops is
@@ -896,19 +910,27 @@ static const Arm ARMS_MV[] = {
     {"ctl", mv_ctl}, {"cpu", mv_cpu}, {"cold", mv_cold}, {"hot", mv_hot}, {"hotU", mv_hotU},
 };
 static const Arm ARMS_MVXY[] = {
-    {"cpu", mvxy_cpu}, {"cold", mvxy_cold}, {"hot", mvxy_hot},
+    {"cpu", mvxy_cpu},
+    {"cold", mvxy_cold},
+    {"hot", mvxy_hot},
 };
 static const Arm ARMS_CP[] = {
-    {"cpu", cp_cpu}, {"cold", cp_cold}, {"hot", cp_hot},
+    {"cpu", cp_cpu},
+    {"cold", cp_cold},
+    {"hot", cp_hot},
 };
 static const Arm ARMS_PROJ[] = {
     {"ctl", proj_ctl}, {"cpu", proj_cpu}, {"cold", proj_cold}, {"hot", proj_hot}, {"hotU", proj_hotU},
 };
 static const Arm ARMS_NORM[] = {
-    {"exact", norm_cpu}, {"fast", fastnorm_cpu}, {"gte", norm_gte},
+    {"exact", norm_cpu},
+    {"fast", fastnorm_cpu},
+    {"gte", norm_gte},
 };
 static const Arm ARMS_MM[] = {
-    {"cpu", mm_cpu}, {"cold", mm_cold}, {"hot", mm_hot},
+    {"cpu", mm_cpu},
+    {"cold", mm_cold},
+    {"hot", mm_hot},
 };
 
 int main() {

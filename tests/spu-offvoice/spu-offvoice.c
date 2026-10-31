@@ -29,13 +29,13 @@
  * is indistinguishable from a voice running normally.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_ENDX_LOW (*(volatile uint16_t *)0x1f801d9c)
@@ -62,8 +62,8 @@ static void make_sample(void) {
         uint8_t *p = &s_sample[block * 16];
         p[0] = 0x00;
         p[1] = 0x00;
-        if (block == 0) p[1] = 0x06;  /* loop start */
-        if (block == 7) p[1] = 0x03;  /* loop end + repeat: this never stops */
+        if (block == 0) p[1] = 0x06; /* loop start */
+        if (block == 7) p[1] = 0x03; /* loop end + repeat: this never stops */
         uint8_t nybble = (uint8_t)((block + 1) & 7);
         uint8_t packed = (uint8_t)(nybble | (nybble << 4));
         for (int i = 2; i < 16; i++) p[i] = packed;
@@ -115,10 +115,10 @@ static uint32_t irq_poll(uint32_t limit) {
 int main() {
     ramsyscall_printf("SPUOFFVOICE: start\n");
 
-    DPCR |= 0x000b0000;  /* DMA4 (SPU) on, or the upload below is a silent no-op */
+    DPCR |= 0x000b0000; /* DMA4 (SPU) on, or the upload below is a silent no-op */
     SPU_CTRL = 0;
     for (volatile int i = 0; i < 60; i++);
-    SPU_RAM_DTC = 4;  /* required on real hardware for SPU RAM transfers */
+    SPU_RAM_DTC = 4; /* required on real hardware for SPU RAM transfers */
     for (volatile int i = 0; i < 60; i++);
     SPU_VOL_MAIN_LEFT = 0;
     SPU_VOL_MAIN_RIGHT = 0;
@@ -137,8 +137,9 @@ int main() {
     ramsyscall_printf("SPUOFFVOICE: uploaded chcr=%08x stat=%04x\n", (unsigned)DMA_CTRL[DMA_SPU].CHCR,
                       (unsigned)SPU_STATUS);
     if (DMA_CTRL[DMA_SPU].CHCR & 0x01000000) {
-        ramsyscall_printf("SPUOFFVOICE: FAIL - the sample upload never finished; nothing below would "
-                          "be testing the uploaded sample\n");
+        ramsyscall_printf(
+            "SPUOFFVOICE: FAIL - the sample upload never finished; nothing below would "
+            "be testing the uploaded sample\n");
         pcsx_exit(1);
         return 1;
     }
@@ -170,10 +171,10 @@ int main() {
     const uint32_t ackCleared = irq_ack();
     const uint16_t statusAfterAck = SPU_STATUS & 0xffff;
 
-    ramsyscall_printf("SPUOFFVOICE: on-voice fired=%d polls=%lu stat=%04x ctrl=%04x envx=%04x "
-                      "ack=%lu statAck=%04x\n",
-                      firedOn, pollsOn, statusAtFire, ctrlAtFire, envxAtFire, ackCleared,
-                      statusAfterAck);
+    ramsyscall_printf(
+        "SPUOFFVOICE: on-voice fired=%d polls=%lu stat=%04x ctrl=%04x envx=%04x "
+        "ack=%lu statAck=%04x\n",
+        firedOn, pollsOn, statusAtFire, ctrlAtFire, envxAtFire, ackCleared, statusAfterAck);
 
     /* ---------------- Phase 2: the silent voice keeps reading ---------------- */
     SPU_KEY_OFF_LOW = 1u << 1;
@@ -197,10 +198,10 @@ int main() {
     const uint16_t envxAtFireOff = SPU_VOICES[1].currentVolume & 0xffff;
     (void)irq_ack();
 
-    ramsyscall_printf("SPUOFFVOICE: off-voice fired=%d polls=%lu stat=%04x envxIdle=%04x "
-                      "envxAtFire=%04x endx=%04x envxPolls=%lu\n",
-                      firedOff, pollsOff, statusOff, envxAfterOff, envxAtFireOff,
-                      endxWhilePlaying, envxPolls);
+    ramsyscall_printf(
+        "SPUOFFVOICE: off-voice fired=%d polls=%lu stat=%04x envxIdle=%04x "
+        "envxAtFire=%04x endx=%04x envxPolls=%lu\n",
+        firedOff, pollsOff, statusOff, envxAfterOff, envxAtFireOff, endxWhilePlaying, envxPolls);
 
     SPU_KEY_OFF_LOW = 0xffff;
     SPU_KEY_OFF_HIGH = 0xffff;
@@ -215,43 +216,52 @@ int main() {
     int failures = 0;
 
     if (!(endxWhilePlaying & 2)) {
-        ramsyscall_printf("SPUOFFVOICE: FAIL - ENDX never latched for voice 1 while it played; the "
-                          "sample never reached its end block, so the upload or the decode cursor "
-                          "is broken and nothing below is meaningful\n");
+        ramsyscall_printf(
+            "SPUOFFVOICE: FAIL - ENDX never latched for voice 1 while it played; the "
+            "sample never reached its end block, so the upload or the decode cursor "
+            "is broken and nothing below is meaningful\n");
         failures++;
     }
 
     if (!firedOn) {
-        ramsyscall_printf("SPUOFFVOICE: FAIL - SPUSTAT.6 never set for a PLAYING voice crossing "
-                          "IRQA; the IRQ flag is not implemented, and phase 2 proves nothing\n");
+        ramsyscall_printf(
+            "SPUOFFVOICE: FAIL - SPUSTAT.6 never set for a PLAYING voice crossing "
+            "IRQA; the IRQ flag is not implemented, and phase 2 proves nothing\n");
         failures++;
     } else {
         if (!(ctrlAtFire & SPU_CTRL_IRQ_ENABLE)) {
-            ramsyscall_printf("SPUOFFVOICE: FAIL - SPUCNT.6 cleared after the match; on silicon the "
-                              "enable reads back set until software writes it to 0\n");
+            ramsyscall_printf(
+                "SPUOFFVOICE: FAIL - SPUCNT.6 cleared after the match; on silicon the "
+                "enable reads back set until software writes it to 0\n");
             failures++;
         }
         if (!ackCleared) {
-            ramsyscall_printf("SPUOFFVOICE: FAIL - writing SPUCNT.6=0 did not acknowledge; "
-                              "SPUSTAT.6 stayed set at %04x\n", statusAfterAck);
+            ramsyscall_printf(
+                "SPUOFFVOICE: FAIL - writing SPUCNT.6=0 did not acknowledge; "
+                "SPUSTAT.6 stayed set at %04x\n",
+                statusAfterAck);
             failures++;
         }
     }
 
     if (envxAfterOff != 0) {
-        ramsyscall_printf("SPUOFFVOICE: FAIL - the voice never went silent after key-off "
-                          "(ENVX=%04x); phase 2 is not testing a silent voice\n", envxAfterOff);
+        ramsyscall_printf(
+            "SPUOFFVOICE: FAIL - the voice never went silent after key-off "
+            "(ENVX=%04x); phase 2 is not testing a silent voice\n",
+            envxAfterOff);
         failures++;
     } else if (!firedOff) {
-        ramsyscall_printf("SPUOFFVOICE: FAIL - a keyed-off voice stopped reading SPU RAM; no IRQA "
-                          "match in %lu polls, while the same voice playing matched in %lu\n",
-                          (unsigned long)IRQ_POLL_LIMIT, pollsOn);
+        ramsyscall_printf(
+            "SPUOFFVOICE: FAIL - a keyed-off voice stopped reading SPU RAM; no IRQA "
+            "match in %lu polls, while the same voice playing matched in %lu\n",
+            (unsigned long)IRQ_POLL_LIMIT, pollsOn);
         failures++;
     }
 
-    ramsyscall_printf("SPUOFFVOICE: %s (endx=%04x firedOn=%d ctrl=%04x ack=%lu envxIdle=%04x "
-                      "firedOff=%d)\n", failures ? "FAILURE" : "PASS", endxWhilePlaying, firedOn,
-                      ctrlAtFire, ackCleared, envxAfterOff, firedOff);
+    ramsyscall_printf(
+        "SPUOFFVOICE: %s (endx=%04x firedOn=%d ctrl=%04x ack=%lu envxIdle=%04x "
+        "firedOff=%d)\n",
+        failures ? "FAILURE" : "PASS", endxWhilePlaying, firedOn, ctrlAtFire, ackCleared, envxAfterOff, firedOff);
     pcsx_exit(failures ? 1 : 0);
     return failures ? 1 : 0;
 }

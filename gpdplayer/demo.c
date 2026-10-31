@@ -67,8 +67,7 @@ static void waitVSync() {
 
     IMASK = imask | IRQ_VBLANK;
 
-    while ((IREG & IRQ_VBLANK) == 0)
-        ;
+    while ((IREG & IRQ_VBLANK) == 0);
     IREG &= ~IRQ_VBLANK;
     IMASK = imask;
     if (!wasLocked) leaveCriticalSection();

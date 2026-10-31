@@ -27,13 +27,13 @@
  * than voices going quiet on their own.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_ENDX_LOW (*(volatile uint16_t *)0x1f801d9c)
@@ -42,16 +42,15 @@
 /* Packed 32-bit envelope, same field layout as the ADSR register pair. */
 #define ATTACK(step, shift, exp) ((((step) & 3) << 8) | (((shift) & 31) << 10) | (!!(exp) << 15))
 #define DECAY(shift) (((shift) & 15) << 4)
-#define SUSTAIN(step, shift, level, direction, exp)                                       \
-    ((((step) & 3) << 22) | (((shift) & 31) << 24) | (((level) & 15) << 0) |              \
-     (!!(direction) << 30) | (!!(exp) << 31))
+#define SUSTAIN(step, shift, level, direction, exp) \
+    ((((step) & 3) << 22) | (((shift) & 31) << 24) | (((level) & 15) << 0) | (!!(direction) << 30) | (!!(exp) << 31))
 #define RELEASE(shift, exp) ((((shift) & 31) << 16) | (!!(exp) << 21))
 
 /* Instant attack to full, no decay, sustain pinned at the top. Every case below
    starts from a known 0x7fff so the only variable is what happens after. */
 #define HOLD_AT_PEAK (ATTACK(0, 0, 0) | DECAY(0) | SUSTAIN(3, 0, 15, 0, 0))
 
-#define MAX_TICKS 512   /* 512 * 5.805ms = 2.97s per bounded wait */
+#define MAX_TICKS 512 /* 512 * 5.805ms = 2.97s per bounded wait */
 #define TRACE_LEN 16
 
 static const uint8_t kAdpcmSine[64] __attribute__((aligned(4))) = {
@@ -136,8 +135,7 @@ static void print_trace(const char *tag) {
  *   overrideRel if non-zero, this adsrHi is written one tick INTO the release,
  *               to test whether a slow release can be cut short mid-flight
  */
-static void run_case(const char *tag, uint32_t adsr, int oneShot, int keyOff,
-                     int overrideRel, uint16_t overrideHi) {
+static void run_case(const char *tag, uint32_t adsr, int oneShot, int keyOff, int overrideRel, uint16_t overrideHi) {
     SPU_CTRL = 0x8000;
     for (volatile int i = 0; i < 60; i++);
     SPU_KEY_OFF_LOW = 0xffff;
@@ -210,8 +208,8 @@ static void run_case(const char *tag, uint32_t adsr, int oneShot, int keyOff,
     ramsyscall_printf(
         "OBS %s adsr=%08x oneshot=%d keyoff=%d drain=%d onset=%d envxAtOnset=%04x peak=%04x "
         "zeroAt=%d final=%04x endx=%d preKeyOn=%04x\n",
-        tag, adsr, oneShot, keyOff, drain, onset, atOnset, atPeak, zeroAt, finalV,
-        (SPU_ENDX_LOW & 2) ? 1 : 0, preKeyOn);
+        tag, adsr, oneShot, keyOff, drain, onset, atOnset, atPeak, zeroAt, finalV, (SPU_ENDX_LOW & 2) ? 1 : 0,
+        preKeyOn);
     ramsyscall_printf("OBS %s fine", tag);
     for (int i = 0; i < FINE_LEN; i++) ramsyscall_printf(" %04x", s_fine[i]);
     ramsyscall_printf("\n");
@@ -227,7 +225,7 @@ int main() {
 
     SPU_CTRL = 0;
     for (volatile int i = 0; i < 60; i++);
-    SPU_RAM_DTC = 4;  /* required on real hardware for SPU RAM transfers */
+    SPU_RAM_DTC = 4; /* required on real hardware for SPU RAM transfers */
     for (volatile int i = 0; i < 60; i++);
     DPCR |= 0x000b0000;
     SPU_VOL_MAIN_LEFT = 0;
@@ -271,8 +269,7 @@ int main() {
 
     /* 7. Can a slow release be cut short by rewriting the release field while
           it is already in progress. This is the drain the harness needs. */
-    run_case("rel_override", HOLD_AT_PEAK | RELEASE(31, 1), 0, 1, 1,
-             (uint16_t)(RELEASE(0, 0) >> 16));
+    run_case("rel_override", HOLD_AT_PEAK | RELEASE(31, 1), 0, 1, 1, (uint16_t)(RELEASE(0, 0) >> 16));
 
     ramsyscall_printf("OBS envx-probe done\n");
     pcsx_exit(0);

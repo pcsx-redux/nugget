@@ -45,18 +45,18 @@ SOFTWARE.
 // must use distinct sentinels at distinct addresses and check whether the
 // address bit was actually honored.
 
-#include "probe-common.h"
 #include "common/syscalls/syscalls.h"
+#include "probe-common.h"
 
 /* C0(1Bh), installStdIo. */
 NUGGET_BIOS_THUNK(installStdIo, 0xc0, 0x1b)
 NUGGET_BIOS_EXTERN void __nugget_bios_installStdIo(int mode);
 
-#define SENT_LOWER_0    0x5a5au
-#define SENT_LOWER_511  0xa5a5u
-#define SENT_UPPER_512  0x1234u
+#define SENT_LOWER_0 0x5a5au
+#define SENT_LOWER_511 0xa5a5u
+#define SENT_UPPER_512 0x1234u
 #define SENT_UPPER_1023 0xfedcu
-#define PROBE_X         8
+#define PROBE_X 8
 
 typedef enum {
     DECODE_REAL,     // address bit honored, distinct upper bank
@@ -97,13 +97,12 @@ static BankDecode probeBody(const char* tag, uint32_t value, int* lowerOk) {
     uint16_t r512 = readPixel(PROBE_X, 512);
     uint16_t r1023 = readPixel(PROBE_X, 1023);
 
-    PROBE_RESULT("bank-probe %s=%02x r0=%04x r511=%04x r512=%04x r1023=%04x", tag, value, r0, r511,
-                 r512, r1023);
+    PROBE_RESULT("bank-probe %s=%02x r0=%04x r511=%04x r512=%04x r1023=%04x", tag, value, r0, r511, r512, r1023);
 
     int lowerCleanRoundTrip = (r0 == SENT_LOWER_0) && (r511 == SENT_LOWER_511);
     int upperCleanRoundTrip = (r512 == SENT_UPPER_512) && (r1023 == SENT_UPPER_1023);
-    int mirrorPattern = (r0 == SENT_UPPER_512) && (r511 == SENT_UPPER_1023) &&
-                        (r512 == SENT_UPPER_512) && (r1023 == SENT_UPPER_1023);
+    int mirrorPattern =
+        (r0 == SENT_UPPER_512) && (r511 == SENT_UPPER_1023) && (r512 == SENT_UPPER_512) && (r1023 == SENT_UPPER_1023);
 
     if (lowerCleanRoundTrip && upperCleanRoundTrip) {
         *lowerOk = 1;
@@ -179,16 +178,15 @@ int main(void) {
     // retail-compatible state.
     gp1_09(0);
 
-    PROBE_RESULT("bank-probe summary lower_ok=%d gate0=%s gate1=%s",
-                 lowerOk0 && lowerOk1, decodeName(gate0), decodeName(gate1));
-    PROBE_RESULT("bank-probe gp1_20 summary lower_ok_504=%d lower_ok_501=%d gp1_20_504=%s gp1_20_501=%s",
-                 lowerOk504, lowerOk501, decodeName(g20_504), decodeName(g20_501));
+    PROBE_RESULT("bank-probe summary lower_ok=%d gate0=%s gate1=%s", lowerOk0 && lowerOk1, decodeName(gate0),
+                 decodeName(gate1));
+    PROBE_RESULT("bank-probe gp1_20 summary lower_ok_504=%d lower_ok_501=%d gp1_20_504=%s gp1_20_501=%s", lowerOk504,
+                 lowerOk501, decodeName(g20_504), decodeName(g20_501));
 
     if (lowerOk0 && lowerOk1) {
         PROBE_PASS(&stats, "lower-bank round-trips under both gate polarities");
     } else {
-        PROBE_FAIL(&stats, "lower-bank round-trip failed (lowerOk0=%d lowerOk1=%d)",
-                   lowerOk0, lowerOk1);
+        PROBE_FAIL(&stats, "lower-bank round-trip failed (lowerOk0=%d lowerOk1=%d)", lowerOk0, lowerOk1);
     }
 
     int gate0Real = (gate0 == DECODE_REAL);
@@ -203,11 +201,9 @@ int main(void) {
             PROBE_PASS(&stats, "verdict=both-polarities-open-upper");
         }
     } else if (gate0 != DECODE_BROKEN && gate1 != DECODE_BROKEN) {
-        PROBE_INFO(&stats, "verdict=retail-or-no-upper-bank gate0=%s gate1=%s",
-                   decodeName(gate0), decodeName(gate1));
+        PROBE_INFO(&stats, "verdict=retail-or-no-upper-bank gate0=%s gate1=%s", decodeName(gate0), decodeName(gate1));
     } else {
-        PROBE_FAIL(&stats, "verdict=broken gate0=%s gate1=%s", decodeName(gate0),
-                   decodeName(gate1));
+        PROBE_FAIL(&stats, "verdict=broken gate0=%s gate1=%s", decodeName(gate0), decodeName(gate1));
     }
 
     probeStatsSummary(&stats, "bank-probe");

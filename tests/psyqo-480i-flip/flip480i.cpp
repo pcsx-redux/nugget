@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-
 // GPU::flip() in 640x480 interlaced NTSC, with GP0(E1h).10 clear as psyqo
 // leaves it. The GPU then skips every row whose parity equals GPUSTAT.31 at
 // draw time (see tests/gpu-dfe-480i), so each frame clears 640x480 right after
@@ -95,9 +94,7 @@ uint32_t s_col[kRows];
 
 uint32_t gpustat() { return psyqo::Hardware::GPU::Ctrl; }
 
-void waitIdle() {
-    for (unsigned i = 0; i < 2000000 && (gpustat() & 0x14000000) != 0x14000000; i++);
-}
+void waitIdle() { for (unsigned i = 0; i < 2000000 && (gpustat() & 0x14000000) != 0x14000000; i++); }
 
 void fill(uint32_t color) {
     psyqo::Hardware::GPU::Data = 0x02000000 | color;

@@ -27,7 +27,6 @@ SOFTWARE.
 
 #include "gwu.h"
 
-
 // clang-format off
 
 // Cester re-includes this file via __BASE_FILE__ to register tests.

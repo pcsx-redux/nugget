@@ -12,13 +12,13 @@
  * MARKER is a separate end+repeat block with no loop-start, so following it cannot
  * re-latch anything. Every check reads timer 2 at CPU/8, 96 ticks per output sample.
  */
+#include <stdint.h>
+
 #include "common/hardware/counters.h"
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_RAM_CTRL (*(volatile uint16_t *)0xbf801dac)

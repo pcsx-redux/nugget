@@ -19,13 +19,13 @@
  * cannot reach. Unmeasured either way; this measures it.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_UPLOAD_ADDR 0x1080u
@@ -64,13 +64,16 @@ static void spu_dma(uint32_t spuByteAddr, uint32_t cpuAddr, uint32_t bytes, int 
 
 static int half_lap(void) {
     int n = 0;
-    while (!(SPU_STATUS & 0x0800)) { if (++n > 2000000) return 0; }
-    while ((SPU_STATUS & 0x0800)) { if (++n > 2000000) return 0; }
+    while (!(SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return 0;
+    }
+    while ((SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return 0;
+    }
     return 1;
 }
 
-__attribute__((noinline))
-static void busy_wait(unsigned cycles) {
+__attribute__((noinline)) static void busy_wait(unsigned cycles) {
     unsigned n = cycles / 3;
     if (n == 0) return;
     __asm__ volatile("1: addiu %0, %0, -1 \n bnez %0, 1b \n nop \n" : "+r"(n) : : "memory");
@@ -99,12 +102,18 @@ int main() {
 
     DPCR |= 0x000b0000;
     SPU_CTRL = 0;
-    SPU_VOL_MAIN_LEFT = 0; SPU_VOL_MAIN_RIGHT = 0;
-    SPU_REVERB_LEFT = 0; SPU_REVERB_RIGHT = 0;
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
-    SPU_PITCH_MOD_LOW = 0; SPU_PITCH_MOD_HIGH = 0;
-    SPU_NOISE_EN_LOW = 0; SPU_NOISE_EN_HIGH = 0;
-    SPU_REVERB_EN_LOW = 0; SPU_REVERB_EN_HIGH = 0;
+    SPU_VOL_MAIN_LEFT = 0;
+    SPU_VOL_MAIN_RIGHT = 0;
+    SPU_REVERB_LEFT = 0;
+    SPU_REVERB_RIGHT = 0;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_PITCH_MOD_LOW = 0;
+    SPU_PITCH_MOD_HIGH = 0;
+    SPU_NOISE_EN_LOW = 0;
+    SPU_NOISE_EN_HIGH = 0;
+    SPU_REVERB_EN_LOW = 0;
+    SPU_REVERB_EN_HIGH = 0;
     SPU_REVERB_ADDR = 0xffff;
     SPU_RAM_DTC = 4;
     SPU_CTRL = 0x8000;
@@ -114,8 +123,10 @@ int main() {
     spu_dma(SPU_UPLOAD_ADDR, (uint32_t)s_upload, 128, 0);
 
     SPU_CTRL = 0x8000 | 0x4000;
-    SPU_VOL_MAIN_LEFT = 0x3fff; SPU_VOL_MAIN_RIGHT = 0x3fff;
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_VOL_MAIN_LEFT = 0x3fff;
+    SPU_VOL_MAIN_RIGHT = 0x3fff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
     busy_wait(800000);
 
     /* The check variant A never made: is the ring actually clear before key-on?
@@ -131,7 +142,8 @@ int main() {
     SPU_VOICES[1].adsrHi = 0x1fc0;
     SPU_VOICES[1].volumeLeft = 0x3fff;
     SPU_VOICES[1].volumeRight = 0x3fff;
-    SPU_KEY_OFF_LOW = 0; SPU_KEY_OFF_HIGH = 0;
+    SPU_KEY_OFF_LOW = 0;
+    SPU_KEY_OFF_HIGH = 0;
     SPU_KEY_ON_LOW = 1u << 1;
 
     half_lap();
@@ -142,15 +154,20 @@ int main() {
     spu_dma(CAPTURE_VOICE1, (uint32_t)s_cap, 1024, 1);
     octants("fulllap    ");
 
-    half_lap(); half_lap();
+    half_lap();
+    half_lap();
     spu_dma(CAPTURE_VOICE1, (uint32_t)s_cap, 1024, 1);
     octants("twolaps    ");
 
-    half_lap(); half_lap(); half_lap(); half_lap();
+    half_lap();
+    half_lap();
+    half_lap();
+    half_lap();
     spu_dma(CAPTURE_VOICE1, (uint32_t)s_cap, 1024, 1);
     octants("fourlaps   ");
 
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
     ramsyscall_printf("OBS capamp RUN %d done\n", s_run);
     pcsx_exit(0);
     return 0;

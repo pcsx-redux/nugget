@@ -24,13 +24,13 @@
  * Bounded everywhere: every IRQ wait carries a poll cap and reports it.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_UPLOAD_ADDR 0x1080u
@@ -83,14 +83,19 @@ static uint32_t irq_wait(void) {
 }
 static uint32_t irq_ack(void) {
     SPU_CTRL = SPU_CTRL & ~0x0040;
-    for (uint32_t i = 0; i < 100000; i++) if ((SPU_STATUS & 0x0040) == 0) return 1;
+    for (uint32_t i = 0; i < 100000; i++)
+        if ((SPU_STATUS & 0x0040) == 0) return 1;
     return 0;
 }
 
 static void flip(void) {
     int n = 0;
-    while (!(SPU_STATUS & 0x0800)) { if (++n > 2000000) return; }
-    while ((SPU_STATUS & 0x0800)) { if (++n > 2000000) return; }
+    while (!(SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return;
+    }
+    while ((SPU_STATUS & 0x0800)) {
+        if (++n > 2000000) return;
+    }
 }
 
 static void keyon(void) {
@@ -101,7 +106,8 @@ static void keyon(void) {
     SPU_VOICES[1].adsrHi = 0x1fc0;
     SPU_VOICES[1].volumeLeft = 0x3fff;
     SPU_VOICES[1].volumeRight = 0x3fff;
-    SPU_KEY_OFF_LOW = 0; SPU_KEY_OFF_HIGH = 0;
+    SPU_KEY_OFF_LOW = 0;
+    SPU_KEY_OFF_HIGH = 0;
     SPU_KEY_ON_LOW = 1u << 1;
 }
 
@@ -115,7 +121,8 @@ static void keyon(void) {
    hardware address event should be immune to it; one pinned to a CPU poll of a
    free-running flag should not. */
 static void quiet(unsigned skew) {
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
     for (volatile int i = 0; i < 200000; i++);
     for (volatile unsigned i = 0; i < skew; i++);
 }
@@ -131,12 +138,16 @@ static void report(const char *tag, int rep, uint32_t extra1, uint32_t extra2) {
     int16_t lo = 32767, hi = -32768;
     for (int i = 0; i < 512; i++) {
         int16_t v = s_cap[i];
-        if (v) { nz++; if (first < 0) first = i; last = i; }
+        if (v) {
+            nz++;
+            if (first < 0) first = i;
+            last = i;
+        }
         if (v < lo) lo = v;
         if (v > hi) hi = v;
     }
-    ramsyscall_printf("OBS dbuf %s rep=%d hash=%08lx nz=%3d first=%3d last=%3d lo=%6d hi=%6d p1=%lu p2=%lu\n",
-                      tag, rep, hash_ring(), nz, first, last, lo, hi, extra1, extra2);
+    ramsyscall_printf("OBS dbuf %s rep=%d hash=%08lx nz=%3d first=%3d last=%3d lo=%6d hi=%6d p1=%lu p2=%lu\n", tag, rep,
+                      hash_ring(), nz, first, last, lo, hi, extra1, extra2);
 }
 
 /* The proposed method. */
@@ -157,8 +168,7 @@ static void capture_irq(int rep, unsigned skew) {
     irq_ack();
     spu_dma(CAP_HI, (uint32_t)&s_cap[256], 512, 1);
 
-    if (!p0 || !p1 || !p2)
-        ramsyscall_printf("OBS dbuf WARN irq never fired p0=%lu p1=%lu p2=%lu\n", p0, p1, p2);
+    if (!p0 || !p1 || !p2) ramsyscall_printf("OBS dbuf WARN irq never fired p0=%lu p1=%lu p2=%lu\n", p0, p1, p2);
     report("irq   ", rep, p1, p2);
     quiet(0);
 }
@@ -180,12 +190,18 @@ int main() {
 
     DPCR |= 0x000b0000;
     SPU_CTRL = 0;
-    SPU_VOL_MAIN_LEFT = 0; SPU_VOL_MAIN_RIGHT = 0;
-    SPU_REVERB_LEFT = 0; SPU_REVERB_RIGHT = 0;
-    SPU_KEY_OFF_LOW = 0xffff; SPU_KEY_OFF_HIGH = 0xffff;
-    SPU_PITCH_MOD_LOW = 0; SPU_PITCH_MOD_HIGH = 0;
-    SPU_NOISE_EN_LOW = 0; SPU_NOISE_EN_HIGH = 0;
-    SPU_REVERB_EN_LOW = 0; SPU_REVERB_EN_HIGH = 0;
+    SPU_VOL_MAIN_LEFT = 0;
+    SPU_VOL_MAIN_RIGHT = 0;
+    SPU_REVERB_LEFT = 0;
+    SPU_REVERB_RIGHT = 0;
+    SPU_KEY_OFF_LOW = 0xffff;
+    SPU_KEY_OFF_HIGH = 0xffff;
+    SPU_PITCH_MOD_LOW = 0;
+    SPU_PITCH_MOD_HIGH = 0;
+    SPU_NOISE_EN_LOW = 0;
+    SPU_NOISE_EN_HIGH = 0;
+    SPU_REVERB_EN_LOW = 0;
+    SPU_REVERB_EN_HIGH = 0;
     SPU_REVERB_ADDR = 0xffff;
     SPU_RAM_DTC = 4;
     SPU_CTRL = 0x8000;
@@ -195,10 +211,11 @@ int main() {
     spu_dma(SPU_UPLOAD_ADDR, (uint32_t)s_upload, 128, 0);
 
     SPU_CTRL = 0x8000 | 0x4000;
-    SPU_VOL_MAIN_LEFT = 0x3fff; SPU_VOL_MAIN_RIGHT = 0x3fff;
+    SPU_VOL_MAIN_LEFT = 0x3fff;
+    SPU_VOL_MAIN_RIGHT = 0x3fff;
 
     /* Same skew ladder for both methods so the comparison is like-for-like. */
-    static const unsigned kSkew[6] = { 0, 9000, 18000, 27000, 36000, 45000 };
+    static const unsigned kSkew[6] = {0, 9000, 18000, 27000, 36000, 45000};
     for (int r = 0; r < 6; r++) capture_bit11(r, kSkew[r]);
     for (int r = 0; r < 6; r++) capture_irq(r, kSkew[r]);
 

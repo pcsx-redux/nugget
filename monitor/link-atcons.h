@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-
 #pragma once
 
 #include <stdint.h>

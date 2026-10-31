@@ -25,7 +25,6 @@ SOFTWARE.
 */
 
 #include "psyqo/tim.hh"
-
 #include "snitch_all.hpp"
 
 using namespace psyqo;
@@ -35,8 +34,7 @@ namespace {
 // Builds a TIM in place: the 8 byte file header, an optional CLUT section, then
 // the pixel section. Returns the file size. Sections are filled with zeroes;
 // these tests only look at the headers.
-uint32_t buildTIM(uint8_t* out, uint32_t flags, unsigned clutW, unsigned clutH, unsigned pixW,
-                  unsigned pixH) {
+uint32_t buildTIM(uint8_t* out, uint32_t flags, unsigned clutW, unsigned clutH, unsigned pixW, unsigned pixH) {
     uint32_t cursor = 0;
     auto put32 = [&](uint32_t v) {
         for (unsigned i = 0; i < 4; i++) out[cursor++] = uint8_t(v >> (i * 8));

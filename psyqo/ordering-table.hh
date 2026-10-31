@@ -106,6 +106,7 @@ class OrderingTable : public OrderingTableBase {
 
     // NOTE: can't use from other classes (PCGPU) otherwise
     psyqo::Fragments::ChainEntry m_table[N + 1];
+
   private:
     friend class GPU;
 };
@@ -122,7 +123,8 @@ class DynamicOrderingTable : public OrderingTableBase {
   public:
     DynamicOrderingTable(psyqo::Fragments::ChainEntry* storage, size_t buckets) : m_table(storage), m_size(buckets) {
         if constexpr (safety == Safe::Yes) {
-            psyqo::Kernel::assert(storage && buckets > 0, "DynamicOrderingTable: needs storage and at least one bucket");
+            psyqo::Kernel::assert(storage && buckets > 0,
+                                  "DynamicOrderingTable: needs storage and at least one bucket");
         }
         clear();
     }
@@ -151,6 +153,7 @@ class DynamicOrderingTable : public OrderingTableBase {
 
     // NOTE: can't use from other classes (PCGPU) otherwise
     psyqo::Fragments::ChainEntry* m_table;
+
   private:
     size_t m_size;
     friend class GPU;

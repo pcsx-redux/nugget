@@ -39,16 +39,14 @@ SOFTWARE.
 
 #include "probe-common.h"
 
-#define DEST_X   16    // destination (lower bank, away from the texture pages)
-#define DEST_Y   16
-#define TILE     8     // square tile, even
+#define DEST_X 16  // destination (lower bank, away from the texture pages)
+#define DEST_Y 16
+#define TILE 8  // square tile, even
 
 // A 16-bit texel pattern unique per (u,v). Bit 15 (semi-transparent flag) kept
 // clear and the value kept non-zero so the texel is opaque and actually drawn
 // (a 0x0000 texel is transparent and skipped).
-static uint16_t texel(int u, int v) {
-    return (uint16_t)((((u * 7 + v * 23) & 0x7f) << 1) | 0x4001) & 0x7fff;
-}
+static uint16_t texel(int u, int v) { return (uint16_t)((((u * 7 + v * 23) & 0x7f) << 1) | 0x4001) & 0x7fff; }
 
 // Upload the TILE x TILE texel pattern to VRAM page base (pageX, pageY).
 static void uploadTexture(int16_t pageX, int16_t pageY) {
@@ -73,17 +71,17 @@ static void onePass(ProbeStats* stats, const char* label, int tyLow, int pageBit
 
     gpuFullResetWithGate(1);
     // Drawing area covers the destination; offset zero.
-    sendGPUData(0xe3000000u);                       // top-left (0,0)
+    sendGPUData(0xe3000000u);                                 // top-left (0,0)
     sendGPUData(0xe4000000u | ((uint32_t)511 << 10) | 1023);  // bottom-right
-    sendGPUData(0xe5000000u);                       // offset (0,0)
+    sendGPUData(0xe5000000u);                                 // offset (0,0)
 
-    fillColumn(DEST_X, TILE, 0x7fffu);              // clear dest
+    fillColumn(DEST_X, TILE, 0x7fffu);  // clear dest
     uploadTexture(pageX, pageY);
 
     // GP0(0xE1) texpage: tx=0, ty=bit4, 16-bit depth (bits7..8 = 2), blend off,
     // and bit 11 = the upper-bank page selector under 2MB.
-    uint32_t tpage = 0xe1000000u | ((uint32_t)(tyLow & 1) << 4) | ((uint32_t)2 << 7) |
-                     ((uint32_t)(pageBit11 & 1) << 11);
+    uint32_t tpage =
+        0xe1000000u | ((uint32_t)(tyLow & 1) << 4) | ((uint32_t)2 << 7) | ((uint32_t)(pageBit11 & 1) << 11);
     sendGPUData(tpage);
 
     // GP0(0x64) textured rectangle, neutral color (0x808080 = no modulation).
@@ -91,7 +89,7 @@ static void onePass(ProbeStats* stats, const char* label, int tyLow, int pageBit
     waitGPU();
     GPU_DATA = 0x64808080u;
     GPU_DATA = ((uint32_t)(uint16_t)DEST_Y << 16) | (uint32_t)(uint16_t)DEST_X;
-    GPU_DATA = (uint32_t)0 << 16;                   // CLUT=0, U=0, V=0
+    GPU_DATA = (uint32_t)0 << 16;  // CLUT=0, U=0, V=0
     GPU_DATA = ((uint32_t)TILE << 16) | (uint32_t)TILE;
 
     // Read the destination tile back and compare against the source texels.
@@ -105,8 +103,8 @@ static void onePass(ProbeStats* stats, const char* label, int tyLow, int pageBit
             if (buf[u] != 0x7fffu) opaque++;  // changed from the cleared bg
         }
     }
-    PROBE_RESULT("texpage-upper %s pageY=%d matches=%d/%d drawn=%d/%d verdict=%s", label, pageY,
-                 matches, TILE * TILE, opaque, TILE * TILE, matches == TILE * TILE ? "OK" : "MISMATCH");
+    PROBE_RESULT("texpage-upper %s pageY=%d matches=%d/%d drawn=%d/%d verdict=%s", label, pageY, matches, TILE * TILE,
+                 opaque, TILE * TILE, matches == TILE * TILE ? "OK" : "MISMATCH");
     if (matches == TILE * TILE) {
         PROBE_PASS(stats, "%s pageY=%d sampled correctly", label, pageY);
     } else {

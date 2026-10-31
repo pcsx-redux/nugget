@@ -43,7 +43,6 @@ extern "C" {
 #include "common/syscalls/syscalls.h"
 }
 #include "psyqo/font.hh"
-#include "psyqo/tim.hh"
 #include "psyqo/fragments.hh"
 #include "psyqo/gpu.hh"
 #include "psyqo/ordering-table.hh"
@@ -51,6 +50,7 @@ extern "C" {
 #include "psyqo/scene.hh"
 #include "psyqo/simplepad.hh"
 #include "psyqo/soft-math.hh"
+#include "psyqo/tim.hh"
 #include "psyqo/trigonometry.hh"
 
 using namespace psyqo::fixed_point_literals;
@@ -267,38 +267,34 @@ void BackgroundScene::frame() {
 
     // No model rotation: these scenes are built to be viewed from one side, so
     // the only orientation that moves is the camera's own.
-    auto view = psyqo::SoftMath::generateRotationMatrix33(m_pitch, psyqo::SoftMath::Axis::X,
-                                                          g_backgrounds.m_trig);
-    auto yaw =
-        psyqo::SoftMath::generateRotationMatrix33(m_yaw, psyqo::SoftMath::Axis::Y, g_backgrounds.m_trig);
+    auto view = psyqo::SoftMath::generateRotationMatrix33(m_pitch, psyqo::SoftMath::Axis::X, g_backgrounds.m_trig);
+    auto yaw = psyqo::SoftMath::generateRotationMatrix33(m_yaw, psyqo::SoftMath::Axis::Y, g_backgrounds.m_trig);
     psyqo::SoftMath::multiplyMatrix33(view, yaw, &view);
 
     m_renderer.setCamera(view, m_cameraX, m_cameraY, m_cameraZ);
 
     // A directional light swinging around the vertical axis, tilted downwards
     // so it reads as a sun rather than a headlamp.
-    psyqo::Vec3 light = {g_backgrounds.m_trig.cos(m_lightAngle), -0.55_fp,
-                         g_backgrounds.m_trig.sin(m_lightAngle)};
+    psyqo::Vec3 light = {g_backgrounds.m_trig.cos(m_lightAngle), -0.55_fp, g_backgrounds.m_trig.sin(m_lightAngle)};
     m_renderer.computeShading(m_model, light, c_ambient, c_diffuse);
 
-    m_lastDrawn = m_renderer.render(m_model, ot, parity, m_texture.tpage(c_texturePosition),
-                                    m_texture.clutIndex(c_clutPosition));
+    m_lastDrawn =
+        m_renderer.render(m_model, ot, parity, m_texture.tpage(c_texturePosition), m_texture.clutIndex(c_clutPosition));
 
     gpu().chain(ot);
 
     auto stats = m_renderer.stats();
     constexpr psyqo::Color white = {{.r = 0xff, .g = 0xff, .b = 0xff}};
-    g_backgrounds.m_font.chainprintf(gpu(), {{.x = 4, .y = 4}}, white, "%s %u/%u",
-                                     c_scenes[m_sceneIndex].name, m_lastDrawn, m_model.triangleCount());
+    g_backgrounds.m_font.chainprintf(gpu(), {{.x = 4, .y = 4}}, white, "%s %u/%u", c_scenes[m_sceneIndex].name,
+                                     m_lastDrawn, m_model.triangleCount());
     g_backgrounds.m_font.chainprintf(gpu(), {{.x = 4, .y = 20}}, white, "near%u back%u rast%u depth%u",
-                                     stats.rejectedNear, stats.rejectedBackface,
-                                     stats.rejectedRasterizer, stats.rejectedDepth);
-    g_backgrounds.m_font.chainprintf(gpu(), {{.x = 4, .y = 36}}, white, "cam %d %d %d cull%d", m_cameraX,
-                                     m_cameraY, m_cameraZ, int(m_renderer.culling()));
+                                     stats.rejectedNear, stats.rejectedBackface, stats.rejectedRasterizer,
+                                     stats.rejectedDepth);
+    g_backgrounds.m_font.chainprintf(gpu(), {{.x = 4, .y = 36}}, white, "cam %d %d %d cull%d", m_cameraX, m_cameraY,
+                                     m_cameraZ, int(m_renderer.culling()));
 
     // Left and right on the d-pad now pan the yaw, since that is the axis the
     // scene actually reads along.
-    
 }
 
 int main() { return g_backgrounds.run(); }

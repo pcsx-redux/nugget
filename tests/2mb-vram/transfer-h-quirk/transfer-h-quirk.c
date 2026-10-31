@@ -40,9 +40,9 @@ SOFTWARE.
 
 #include "probe-common.h"
 
-#define UP_X     0
+#define UP_X 0
 #define BLIT_DST_X 256
-#define COL_W    32
+#define COL_W 32
 #define BG_COLOR 0x7fffu
 
 static uint16_t encodeRow(int y) { return (uint16_t)((y * 0x97) ^ 0xa55a) | 1; }
@@ -82,9 +82,10 @@ static void uploadPass(int16_t h) {
             bot = row;
         }
     }
-    PROBE_RESULT("transfer-h-quirk cmd=upload h=%d eff_h=%d wrote_y_min=%d wrote_y_max=%d "
-                 "exact=%d",
-                 h, eff_h, top, bot, exact);
+    PROBE_RESULT(
+        "transfer-h-quirk cmd=upload h=%d eff_h=%d wrote_y_min=%d wrote_y_max=%d "
+        "exact=%d",
+        h, eff_h, top, bot, exact);
     // Silicon (573, 2026-05-09 batch4): upload writes exactly eff_h rows,
     // eff_h = ((h-1) & 0x1ff)+1. All cases land within Y<512 (no wrap).
     if (exact == eff_h) {
@@ -143,9 +144,10 @@ static void blitPass(int16_t h) {
             bot = row;
         }
     }
-    PROBE_RESULT("transfer-h-quirk cmd=blit h=%d eff_h=%d found_y_min=%d found_y_max=%d "
-                 "exact=%d",
-                 h, eff_h, top, bot, exact);
+    PROBE_RESULT(
+        "transfer-h-quirk cmd=blit h=%d eff_h=%d found_y_min=%d found_y_max=%d "
+        "exact=%d",
+        h, eff_h, top, bot, exact);
     // Silicon (573, 2026-05-09 batch4): blit moves exactly eff_h rows.
     if (exact == eff_h) {
         PROBE_PASS(s_stats, "blit h=%d exact=%d/%d", h, exact, eff_h);

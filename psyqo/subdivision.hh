@@ -135,9 +135,8 @@ enum Edge : unsigned {
  * something that does nothing to see what the cracks look like without it.
  */
 template <typename Decide, typename EmitQuad, typename EmitFill>
-void divideQuad(const TexturedVertex& a, const TexturedVertex& b, const TexturedVertex& c,
-                const TexturedVertex& d, unsigned depth, unsigned edges, Decide&& decide, EmitQuad&& emitQuad,
-                EmitFill&& emitFill) {
+void divideQuad(const TexturedVertex& a, const TexturedVertex& b, const TexturedVertex& c, const TexturedVertex& d,
+                unsigned depth, unsigned edges, Decide&& decide, EmitQuad&& emitQuad, EmitFill&& emitFill) {
     if ((depth == 0) || !decide(a, b, c, d, depth)) {
         emitQuad(a, b, c, d);
         return;

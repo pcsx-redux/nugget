@@ -87,12 +87,12 @@ struct TIM {
      */
     enum class Error : uint8_t {
         None = 0,
-        TooSmall,      ///< The buffer cannot hold even a file header.
-        BadMagic,      ///< The file does not start with 0x10, 0x00.
-        Compressed,    ///< The reserved field is set, which marks a compressed TIM.
-        BadType,       ///< The type field is outside the range the format defines.
-        Truncated,     ///< A section claims to extend past the end of the buffer.
-        BadSectionSize ///< A section's declared size disagrees with its dimensions.
+        TooSmall,       ///< The buffer cannot hold even a file header.
+        BadMagic,       ///< The file does not start with 0x10, 0x00.
+        Compressed,     ///< The reserved field is set, which marks a compressed TIM.
+        BadType,        ///< The type field is outside the range the format defines.
+        Truncated,      ///< A section claims to extend past the end of the buffer.
+        BadSectionSize  ///< A section's declared size disagrees with its dimensions.
     };
 
     /**
@@ -105,7 +105,7 @@ struct TIM {
     struct Section {
         const uint16_t* data = nullptr;
         Rect rect;
-        bool aligned = false; ///< Whether `data` sits on a four byte boundary, as DMA requires.
+        bool aligned = false;  ///< Whether `data` sits on a four byte boundary, as DMA requires.
     };
 
     /**
@@ -190,4 +190,4 @@ struct TIM {
     bool m_hasCLUT = false;
 };
 
-} // namespace psyqo
+}  // namespace psyqo

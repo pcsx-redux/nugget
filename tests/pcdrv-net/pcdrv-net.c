@@ -30,7 +30,6 @@ SOFTWARE.
 // tests/pcsxrunner/pcdrv-net.cc provides that peer.
 
 #include "common/kernel/pcdrv.h"
-
 #include "common/syscalls/syscalls.h"
 
 #undef unix

@@ -56,9 +56,10 @@ void user_run(uint32_t data, uint32_t sr, uint32_t code);
 void user_resume(void);
 extern uint32_t ue_loads[], ue_sb[], ue_sh[], ue_mfc0[];
 
-#define COPSTUBS(X)                                                                                \
-    X(mfc0, 0) X(mfc1, 1) X(cfc1, 1) X(lwc1, 1) X(swc1, 1) X(cop1, 1) X(mfc2, 2) X(mfc3, 3) X(cfc3, 3) \
-    X(lwc3, 3) X(swc3, 3) X(cop3, 3)
+#define COPSTUBS(X)                                                                                               \
+    X(mfc0, 0)                                                                                                    \
+    X(mfc1, 1) X(cfc1, 1) X(lwc1, 1) X(swc1, 1) X(cop1, 1) X(mfc2, 2) X(mfc3, 3) X(cfc3, 3) X(lwc3, 3) X(swc3, 3) \
+        X(cop3, 3)
 #define DECL(n, c) uint32_t cs_##n(volatile uint32_t *scratch);
 COPSTUBS(DECL)
 
@@ -152,8 +153,8 @@ static void sweep(void) {
 
 static void cmArm(void) {
     uint32_t out[6];
-    void (*probe)(uint32_t, uint32_t, uint32_t, uint32_t *, uint32_t) =
-        (void (*)(uint32_t, uint32_t, uint32_t, uint32_t *, uint32_t))(((uint32_t)cm_probe & 0x1fffffffu) | 0xa0000000u);
+    void (*probe)(uint32_t, uint32_t, uint32_t, uint32_t *, uint32_t) = (void (*)(
+        uint32_t, uint32_t, uint32_t, uint32_t *, uint32_t))(((uint32_t)cm_probe & 0x1fffffffu) | 0xa0000000u);
     uint32_t hit = (uint32_t)cm_target;
     uint32_t miss = hit ^ 0x1000u;
     static const struct {
@@ -239,8 +240,7 @@ static void copArms(void) {
         unsigned n;
     } stubs[] = {
 #define ENT(n, c) {#n, cs_##n, c},
-        COPSTUBS(ENT)
-    };
+        COPSTUBS(ENT)};
     for (unsigned i = 0; i < sizeof(stubs) / sizeof(stubs[0]); i++) {
         for (unsigned cu = 0; cu < 2; cu++) {
             unsigned n = stubs[i].n;
@@ -250,16 +250,13 @@ static void copArms(void) {
             setSR(sr);
             uint32_t r = stubs[i].fn(&s_scratch);
             setSR(s_base);
-            ramsyscall_printf("COP %-5s cu%d=%d t0=%08x exc=%d cause=%08x(exc %d ce %d) scratch=%08x\n",
-                              stubs[i].name, n, cu, r, s_count, s_cause, (s_cause >> 2) & 31,
-                              (s_cause >> 28) & 3, s_scratch);
+            ramsyscall_printf("COP %-5s cu%d=%d t0=%08x exc=%d cause=%08x(exc %d ce %d) scratch=%08x\n", stubs[i].name,
+                              n, cu, r, s_count, s_cause, (s_cause >> 2) & 31, (s_cause >> 28) & 3, s_scratch);
         }
     }
 }
 
-static void delay(unsigned n) {
-    for (volatile unsigned i = 0; i < n; i++);
-}
+static void delay(unsigned n) { for (volatile unsigned i = 0; i < n; i++); }
 
 static void swIrqArms(void) {
     for (unsigned sw = 0; sw < 2; sw++) {
@@ -283,7 +280,8 @@ static void swIrqArms(void) {
             uint32_t causeEnd = getCause();
             setCause(0);
             ramsyscall_printf(
-                "SWI ip%d case=%d sr=%08x countBeforeIEc=%d count=%d excCause=%08x(exc %d) causeMid=%08x causeEnd=%08x\n",
+                "SWI ip%d case=%d sr=%08x countBeforeIEc=%d count=%d excCause=%08x(exc %d) causeMid=%08x "
+                "causeEnd=%08x\n",
                 8 + sw, v, sr, before, s_count, s_cause, (s_cause >> 2) & 31, causeMid, causeEnd);
         }
     }

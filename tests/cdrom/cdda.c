@@ -186,43 +186,23 @@ CESTER_BODY(
         if (cddaSimpleCmd(CDL_SETLOC) && cddaSimpleCmd(CDL_SEEKL)) cddaWaitPauseComplete();
 
         return peak;
-    }
-)
+    })
 
-CESTER_TEST(cddaLevelUnity, test_instances,
-    static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00};
-    unsigned changes = 0;
-    int peak = cddaPeak(atv, 1, &changes);
-    ramsyscall_printf("CD-DA level at unity ATV: peak %i, %u sign changes\n", peak, changes);
-    cester_assert_int_ge(peak, 22800);
-    cester_assert_int_le(peak, 23400);
-    cester_assert_uint_ge(changes, 4);
-)
+CESTER_TEST(cddaLevelUnity, test_instances, static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00};
+            unsigned changes = 0; int peak = cddaPeak(atv, 1, &changes);
+            ramsyscall_printf("CD-DA level at unity ATV: peak %i, %u sign changes\n", peak, changes);
+            cester_assert_int_ge(peak, 22800); cester_assert_int_le(peak, 23400); cester_assert_uint_ge(changes, 4);)
 
-CESTER_TEST(cddaLevelHalf, test_instances,
-    static const uint8_t atv[4] = {0x40, 0x00, 0x40, 0x00};
-    unsigned changes = 0;
-    int peak = cddaPeak(atv, 1, &changes);
-    ramsyscall_printf("CD-DA level at half ATV: peak %i, %u sign changes\n", peak, changes);
-    cester_assert_int_ge(peak, 11300);
-    cester_assert_int_le(peak, 11800);
-    cester_assert_uint_ge(changes, 4);
-)
+CESTER_TEST(cddaLevelHalf, test_instances, static const uint8_t atv[4] = {0x40, 0x00, 0x40, 0x00}; unsigned changes = 0;
+            int peak = cddaPeak(atv, 1, &changes);
+            ramsyscall_printf("CD-DA level at half ATV: peak %i, %u sign changes\n", peak, changes);
+            cester_assert_int_ge(peak, 11300); cester_assert_int_le(peak, 11800); cester_assert_uint_ge(changes, 4);)
 
-CESTER_TEST(cddaLevelClipped, test_instances,
-    static const uint8_t atv[4] = {0x80, 0x80, 0x80, 0x80};
-    unsigned changes = 0;
-    int peak = cddaPeak(atv, 1, &changes);
-    ramsyscall_printf("CD-DA level at double ATV: peak %i, %u sign changes\n", peak, changes);
-    cester_assert_int_ge(peak, 31700);
-    cester_assert_int_le(peak, 32050);
-    cester_assert_uint_ge(changes, 4);
-)
+CESTER_TEST(cddaLevelClipped, test_instances, static const uint8_t atv[4] = {0x80, 0x80, 0x80, 0x80};
+            unsigned changes = 0; int peak = cddaPeak(atv, 1, &changes);
+            ramsyscall_printf("CD-DA level at double ATV: peak %i, %u sign changes\n", peak, changes);
+            cester_assert_int_ge(peak, 31700); cester_assert_int_le(peak, 32050); cester_assert_uint_ge(changes, 4);)
 
-CESTER_TEST(cddaMuted, test_instances,
-    static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00};
-    unsigned changes = 0;
-    int peak = cddaPeak(atv, 0, &changes);
-    ramsyscall_printf("CD-DA level when muted: peak %i\n", peak);
-    cester_assert_int_eq(0, peak);
-)
+CESTER_TEST(cddaMuted, test_instances, static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00}; unsigned changes = 0;
+            int peak = cddaPeak(atv, 0, &changes); ramsyscall_printf("CD-DA level when muted: peak %i\n", peak);
+            cester_assert_int_eq(0, peak);)

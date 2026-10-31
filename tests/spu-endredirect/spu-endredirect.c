@@ -20,13 +20,13 @@
  * pitch 0, so no idle voice can walk into IRQA on its own.
  */
 
+#include <stdint.h>
+
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/hardware/spu.h"
 #include "common/syscalls/syscalls.h"
-
-#include <stdint.h>
 
 #define SPU_DELAY (*(volatile uint32_t *)0xbf801014)
 #define SPU_ENDX_LOW (*(volatile uint16_t *)0x1f801d9c)
@@ -153,24 +153,28 @@ static int run_case(const char *name, uint8_t endFlags, int expectMute) {
     const uint16_t repeat = SPU_VOICES[1].sampleRepeatAddr;
     irq_disable();
 
-    ramsyscall_printf("SPUENDREDIRECT: %s end=%02x fired=%d polls=%lu envxPlaying=%04x envxAfter=%04x "
-                      "endx=%04x repeat=%04x\n",
-                      name, endFlags, polls != 0, (unsigned long)polls, envxPlaying, envxAfter, endx, repeat);
+    ramsyscall_printf(
+        "SPUENDREDIRECT: %s end=%02x fired=%d polls=%lu envxPlaying=%04x envxAfter=%04x "
+        "endx=%04x repeat=%04x\n",
+        name, endFlags, polls != 0, (unsigned long)polls, envxPlaying, envxAfter, endx, repeat);
 
     int failures = 0;
     if (envxPlaying == 0) {
-        ramsyscall_printf("SPUENDREDIRECT: %s FAIL - voice 1 never started, nothing below means anything\n",
-                          name);
+        ramsyscall_printf("SPUENDREDIRECT: %s FAIL - voice 1 never started, nothing below means anything\n", name);
         return 1;
     }
     if (!(endx & 2)) {
-        ramsyscall_printf("SPUENDREDIRECT: %s FAIL - ENDX never latched, the voice did not reach its end "
-                          "block\n", name);
+        ramsyscall_printf(
+            "SPUENDREDIRECT: %s FAIL - ENDX never latched, the voice did not reach its end "
+            "block\n",
+            name);
         failures++;
     }
     if (expectMute && envxAfter != 0) {
-        ramsyscall_printf("SPUENDREDIRECT: %s FAIL - ENVX=%04x after an end block without repeat, expected "
-                          "0\n", name, envxAfter);
+        ramsyscall_printf(
+            "SPUENDREDIRECT: %s FAIL - ENVX=%04x after an end block without repeat, expected "
+            "0\n",
+            name, envxAfter);
         failures++;
     }
     if (!expectMute && envxAfter == 0) {
@@ -178,9 +182,10 @@ static int run_case(const char *name, uint8_t endFlags, int expectMute) {
         failures++;
     }
     if (polls == 0) {
-        ramsyscall_printf("SPUENDREDIRECT: %s FAIL - no IRQ at %04x, inside the loop the repeat address "
-                          "points to, in %lu polls\n",
-                          name, (unsigned)IRQ_BYTE_ADDR, (unsigned long)IRQ_POLL_LIMIT);
+        ramsyscall_printf(
+            "SPUENDREDIRECT: %s FAIL - no IRQ at %04x, inside the loop the repeat address "
+            "points to, in %lu polls\n",
+            name, (unsigned)IRQ_BYTE_ADDR, (unsigned long)IRQ_POLL_LIMIT);
         failures++;
     }
     return failures;
@@ -224,8 +229,8 @@ int main() {
     if (controlFailures) {
         ramsyscall_printf("SPUENDREDIRECT: FAILURE - the end+repeat control failed, case B proves nothing\n");
     }
-    ramsyscall_printf("SPUENDREDIRECT: %s (control=%d subject=%d)\n",
-                      controlFailures + failures ? "FAILURE" : "PASS", controlFailures, failures);
+    ramsyscall_printf("SPUENDREDIRECT: %s (control=%d subject=%d)\n", controlFailures + failures ? "FAILURE" : "PASS",
+                      controlFailures, failures);
     pcsx_exit(controlFailures + failures ? 1 : 0);
     return controlFailures + failures ? 1 : 0;
 }

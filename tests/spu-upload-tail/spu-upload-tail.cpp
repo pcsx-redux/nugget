@@ -351,8 +351,8 @@ void TestScene::start(StartReason) {
                 ramsyscall_printf(
                     "RES pass=%d arm=%s size=%04x wait=%d ticks lines=%d polls=%d busy=%d intact=%d bad=%d "
                     "firstbad=%d fromend=%d lastbad=%d headguard=%d tailguard=%d",
-                    pass, arm.name, (int)size, r.ticks, r.lines, r.polls, r.sawBusy, intact, body.bad, body.first, fromEnd,
-                    body.last, head.bad, tail.bad);
+                    pass, arm.name, (int)size, r.ticks, r.lines, r.polls, r.sawBusy, intact, body.bad, body.first,
+                    fromEnd, body.last, head.bad, tail.bad);
                 if (body.first >= 0) {
                     ramsyscall_printf(" got=%02x want=%02x", s_readback[kGuard + body.first],
                                       pattern(seed, body.first, size));

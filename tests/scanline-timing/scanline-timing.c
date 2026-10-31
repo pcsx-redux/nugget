@@ -98,7 +98,10 @@ static struct Window window(void) {
             uint16_t c = COUNTERS[2].value;
             t += (uint16_t)(c - c0);
             c0 = c;
-            if (t > 100000000) { w.fields = 0xdead; return w; }
+            if (t > 100000000) {
+                w.fields = 0xdead;
+                return w;
+            }
         }
     }
     IREG = ~1u;
@@ -134,9 +137,10 @@ static void runMode(const char *tag, uint32_t gp1_08) {
     struct Window a = window();
     struct Window b = window();
     irqRestore(sr);
-    ramsyscall_printf("MODE %-9s gp1_08=%02x fields=%d,%d | cycles=%d lines=%d dots=%d gap=%d | cycles=%d lines=%d dots=%d gap=%d\n",
-                      tag, (int)gp1_08, (int)a.fields, (int)b.fields, (int)a.cycles, (int)a.lines, (int)a.dots, (int)a.maxGap,
-                      (int)b.cycles, (int)b.lines, (int)b.dots, (int)b.maxGap);
+    ramsyscall_printf(
+        "MODE %-9s gp1_08=%02x fields=%d,%d | cycles=%d lines=%d dots=%d gap=%d | cycles=%d lines=%d dots=%d gap=%d\n",
+        tag, (int)gp1_08, (int)a.fields, (int)b.fields, (int)a.cycles, (int)a.lines, (int)a.dots, (int)a.maxGap,
+        (int)b.cycles, (int)b.lines, (int)b.dots, (int)b.maxGap);
 }
 
 int main(void) {

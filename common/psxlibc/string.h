@@ -24,7 +24,8 @@ SOFTWARE.
 
 */
 
-// Most of these were originally written for uC-sdk (libc/include/string.h) by Nicolas Noble, who relicensed them here under the MIT license above.
+// Most of these were originally written for uC-sdk (libc/include/string.h) by Nicolas Noble, who relicensed them here
+// under the MIT license above.
 
 #pragma once
 
@@ -141,10 +142,10 @@ static __inline__ char *strstr(const char *s1, const char *s2) {
     return NULL;
 }
 
-static __attribute__((always_inline)) void* safeMemZero(void* ptr_, int size) {
-    uint8_t* ptr = (uint8_t*)ptr_;
+static __attribute__((always_inline)) void *safeMemZero(void *ptr_, int size) {
+    uint8_t *ptr = (uint8_t *)ptr_;
     if (!ptr || size <= 0) return NULL;
-    uint8_t* orig = ptr;
+    uint8_t *orig = ptr;
     for (; size > 0; ptr++) {
         size--;
         *ptr = 0;

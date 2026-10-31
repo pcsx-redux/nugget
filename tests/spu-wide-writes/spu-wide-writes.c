@@ -68,9 +68,7 @@ static inline uint32_t irqDisable(void) {
 }
 static inline void irqRestore(uint32_t sr) { __asm__ volatile("mtc0 %0, $12; nop; nop" : : "r"(sr)); }
 
-static void delay(void) {
-    for (volatile int i = 0; i < 300; i++);
-}
+static void delay(void) { for (volatile int i = 0; i < 300; i++); }
 
 struct Stats {
     uint32_t n, missLo, missHi, lateLo, lateHi, badBitsLo, badBitsHi;
@@ -89,14 +87,16 @@ static void check(struct Stats *s, volatile uint16_t *r, uint32_t v) {
         delay();
         uint16_t lo2 = r[0], hi2 = r[1];
         if (lo != wl) {
-            if (lo2 == wl) s->lateLo++;
+            if (lo2 == wl)
+                s->lateLo++;
             else {
                 s->missLo++;
                 s->badBitsLo |= lo2 ^ wl;
             }
         }
         if (hi != wh) {
-            if (hi2 == wh) s->lateHi++;
+            if (hi2 == wh)
+                s->lateHi++;
             else {
                 s->missHi++;
                 s->badBitsHi |= hi2 ^ wh;

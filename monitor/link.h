@@ -24,13 +24,11 @@ SOFTWARE.
 
 */
 
-
 #pragma once
 
 /* The physical link under the frame layer: either a blocking 16-bit word get
-   and put, or a byte get and put for a stream link, plus a one-time init. Each backend is a header of static inline functions so
-   the per-word calls inline into the framing loops; the build picks exactly
-   one. */
+   and put, or a byte get and put for a stream link, plus a one-time init. Each backend is a header of static inline
+   functions so the per-word calls inline into the framing loops; the build picks exactly one. */
 
 #if defined(MONITOR_LINK_ATCONS)
 #include "monitor/link-atcons.h"

@@ -29,7 +29,6 @@ SOFTWARE.
 // files under the PCDRV base either. Needs no peer, unlike tests/pcdrv-net.
 
 #include "common/kernel/pcdrv.h"
-
 #include "common/syscalls/syscalls.h"
 
 #undef unix

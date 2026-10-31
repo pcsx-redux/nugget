@@ -69,8 +69,7 @@ static uint16_t s_scan[SCAN_W];
 /* GP0(E5h) with both fields masked to their real 11-bit width. The nugget
  * helper ORs the raw int16 in, so a negative X corrupts the Y field. */
 static inline void setDrawingOffsetMasked(int16_t x, int16_t y) {
-    sendGPUData(0xe5000000u | ((uint32_t)x & 0x7ffu) |
-                (((uint32_t)y & 0x7ffu) << 11));
+    sendGPUData(0xe5000000u | ((uint32_t)x & 0x7ffu) | (((uint32_t)y & 0x7ffu) << 11));
 }
 
 static void clearBand(void) {
@@ -87,19 +86,17 @@ static void clearBand(void) {
 static int s_failures = 0;
 static int s_checks = 0;
 
-static void grade(const char* arm, int count, int minx, int maxx, int ecount,
-                  int eminx, int emaxx) {
+static void grade(const char* arm, int count, int minx, int maxx, int ecount, int eminx, int emaxx) {
     int ok = (count == ecount) && (minx == eminx) && (maxx == emaxx);
     s_checks++;
     if (!ok) {
         s_failures++;
-        ramsyscall_printf("FAIL %-22s got count=%d minx=%d maxx=%d, want count=%d minx=%d maxx=%d\n",
-                          arm, count, minx, maxx, ecount, eminx, emaxx);
+        ramsyscall_printf("FAIL %-22s got count=%d minx=%d maxx=%d, want count=%d minx=%d maxx=%d\n", arm, count, minx,
+                          maxx, ecount, eminx, emaxx);
     }
 }
 
-static void report(const char* arm, const char* predicted, int ecount, int eminx,
-                   int emaxx) {
+static void report(const char* arm, const char* predicted, int ecount, int eminx, int emaxx) {
     int count = 0;
     int minx = -1;
     int maxx = -1;
@@ -113,15 +110,13 @@ static void report(const char* arm, const char* predicted, int ecount, int eminx
             }
         }
     }
-    ramsyscall_printf("OBS %-22s count=%4d minx=%5d maxx=%5d  (predicted %s)\n",
-                      arm, count, minx, maxx, predicted);
+    ramsyscall_printf("OBS %-22s count=%4d minx=%5d maxx=%5d  (predicted %s)\n", arm, count, minx, maxx, predicted);
     grade(arm, count, minx, maxx, ecount, eminx, emaxx);
 }
 
 /* Same coverage report over every row of the band, for arms whose shape is
  * too thin for a single row to be evidence either way. */
-static void reportBand(const char* arm, const char* predicted, int ecount,
-                       int eminx, int emaxx) {
+static void reportBand(const char* arm, const char* predicted, int ecount, int eminx, int emaxx) {
     int count = 0;
     int minx = -1;
     int maxx = -1;
@@ -142,19 +137,16 @@ static void reportBand(const char* arm, const char* predicted, int ecount,
             }
         }
     }
-    ramsyscall_printf(
-        "OBS %-22s count=%4d minx=%5d maxx=%5d miny=%4d maxy=%4d  (predicted %s)\n",
-        arm, count, minx, maxx, miny, maxy, predicted);
+    ramsyscall_printf("OBS %-22s count=%4d minx=%5d maxx=%5d miny=%4d maxy=%4d  (predicted %s)\n", arm, count, minx,
+                      maxx, miny, maxy, predicted);
     grade(arm, count, minx, maxx, ecount, eminx, emaxx);
 }
 
 int main(void) {
     rasterFullReset();
 
-    ramsyscall_printf(
-        "\n=== gpu-raster-phase23: oversized cull disambiguation ===\n");
-    ramsyscall_printf("sentinel=0x%04x row y=%d scan x=0..%d\n", RASTER_SENTINEL,
-                      PROBE_Y, SCAN_W - 1);
+    ramsyscall_printf("\n=== gpu-raster-phase23: oversized cull disambiguation ===\n");
+    ramsyscall_printf("sentinel=0x%04x row y=%d scan x=0..%d\n", RASTER_SENTINEL, PROBE_Y, SCAN_W - 1);
     ramsyscall_printf(
         "count=0 means CULLED. count>0 means the primitive was DRAWN and\n"
         "minx/maxx say where. Arm A1 is the positive control for the whole\n"
@@ -430,9 +422,8 @@ int main(void) {
     rasterFlushPrimitive();
     report("R9_h0", "doc says 1024 (covered), mask says 0 (empty)", 0, -1, -1);
 
-    ramsyscall_printf("\n=== phase23 complete === Checks: %d | Passing: %d | Failing: %d\n",
-                      s_checks, s_checks - s_failures, s_failures);
-    ramsyscall_printf(s_failures == 0 ? "phase23 Synthesis: SUCCESS\n"
-                                      : "phase23 Synthesis: FAILURE\n");
+    ramsyscall_printf("\n=== phase23 complete === Checks: %d | Passing: %d | Failing: %d\n", s_checks,
+                      s_checks - s_failures, s_failures);
+    ramsyscall_printf(s_failures == 0 ? "phase23 Synthesis: SUCCESS\n" : "phase23 Synthesis: FAILURE\n");
     return s_failures;
 }

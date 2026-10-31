@@ -318,11 +318,11 @@ void testFileSystem(unsigned capacity) {
 
     static FS::FileInfo info;
     e = fs.readFileInfoBlocking(gpu, kPort, "BIMEMTEST-RW", &info);
-    check(e == Error::OK && same(info.title, kTitleSjis, sizeof(kTitleSjis)) && info.icon.frameCount == 2 &&
-              same(reinterpret_cast<const uint8_t *>(info.icon.clut), reinterpret_cast<const uint8_t *>(icon.clut),
-                   32) &&
-              same(info.icon.pixels[0], icon.pixels[0], 128) && same(info.icon.pixels[1], icon.pixels[1], 128),
-          "fs: title and icon read back");
+    check(
+        e == Error::OK && same(info.title, kTitleSjis, sizeof(kTitleSjis)) && info.icon.frameCount == 2 &&
+            same(reinterpret_cast<const uint8_t *>(info.icon.clut), reinterpret_cast<const uint8_t *>(icon.clut), 32) &&
+            same(info.icon.pixels[0], icon.pixels[0], 128) && same(info.icon.pixels[1], icon.pixels[1], 128),
+        "fs: title and icon read back");
 
     static FS::FileEntry entries[15];
     e = fs.listFilesBlocking(gpu, kPort, entries, 15, &count);
@@ -433,8 +433,7 @@ void testFill(unsigned capacity) {
         uint32_t count = 0;
         e = fs.listFilesBlocking(gpu, kPort, entries, 16, &count);
         if (e != Error::OK || count != written) {
-            ramsyscall_printf("fill: after file %d the listing reads %s, %d files\n", n, MC::errorMessage(e),
-                              count);
+            ramsyscall_printf("fill: after file %d the listing reads %s, %d files\n", n, MC::errorMessage(e), count);
             intact = false;
             break;
         }
@@ -449,8 +448,8 @@ void testFill(unsigned capacity) {
     if (intact) {
         bool expected = written == 15 && refused == Error::OutOfSpace;
         if (capacity == 8) expected = written == 7 && refused == Error::OutOfSpace;
-        check(expected, capacity == 8 ? "fill: half-size card, 7 files, then out of space"
-                                      : "fill: 15 files, then out of space");
+        check(expected,
+              capacity == 8 ? "fill: half-size card, 7 files, then out of space" : "fill: 15 files, then out of space");
     }
 }
 

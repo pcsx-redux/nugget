@@ -68,9 +68,7 @@ static struct pcsx_AllocReport s_report;
 /* Returning from main under the psyq crt0 lands in A0:A1, which is abort().
    psyqo's cxxglue calls pcsx_exit(main()) for you; this crt0 does not, so say
    it explicitly. */
-static void finish(int code) {
-    pcsx_exit(code);
-}
+static void finish(int code) { pcsx_exit(code); }
 
 static int fetch(void) {
     pcsx_allocReportInit(&s_report, 0);
@@ -169,5 +167,5 @@ int main(void) {
 
     print("psyq malloc3 tracker example: ok\n");
     finish(0);
-        return 0;
+    return 0;
 }
