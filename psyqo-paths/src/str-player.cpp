@@ -535,10 +535,11 @@ bool psyqo::paths::StrPlayer::finishDecode() {
         abortDecode();
         return false;
     }
-    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) {
-        DMA_CTRL[DMA_MDECIN].CHCR = 0;
-        m_needReset = true;
-    }
+    // The picture being out does not mean the MDEC has finished, and DMA0 being done does not either: a frame whose
+    // decode starts before the last one has wound down hangs the MDEC until the timeout. On an SCPH-7502 with FF7's
+    // BIKEGET.MOV, 19 of 751 frames did, 227 more dropped behind them, and resetting before every frame took both to 0.
+    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) DMA_CTRL[DMA_MDECIN].CHCR = 0;
+    m_needReset = true;
     return true;
 }
 
