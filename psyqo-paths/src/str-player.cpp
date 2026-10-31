@@ -83,6 +83,7 @@ bool waitDma(int ch) {
 }
 
 uint8_t fromBCD(uint8_t v) { return (v >> 4) * 10 + (v & 15); }
+bool isBCD(uint8_t v) { return (v >> 4) < 10 && (v & 15) < 10; }
 
 uint16_t le16(const uint8_t *p) { return p[0] | (p[1] << 8); }
 uint32_t le32(const uint8_t *p) { return p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24); }
@@ -112,6 +113,7 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     void start(CDRomDevice *device, StrPlayer *player, uint32_t lba) {
         Kernel::assert(device->isIdle(), "StrPlayer: the CD-ROM device is busy");
         m_player = player;
+        m_rawLba = 0xfffffff0;
         registerMe(device);
         setCallback([player](bool success) { player->cdDone(success); });
         setState(StrStreamState::SETLOC);
@@ -169,6 +171,19 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         for (unsigned i = 0; i < 1000 && !(*status & 0x40); i++);
         for (unsigned i = 0; i < c_sectorHeader; i++) header[i] = *fifo;
         uint32_t lba = (fromBCD(header[0]) * 60 + fromBCD(header[1])) * 75 + fromBCD(header[2]) - 150;
+        // On a CD-R at double speed the drive now and then hands over a sector with a broken
+        // address and its chunk intact: an SCPH-7502 gave 00 D2 66 for 00 27 66, which reads as
+        // far past the end of the file and stopped the movie there. An address that does not
+        // follow is taken for the next sector's, unless the sector after it agrees with it:
+        // then the drive really did jump.
+        const uint32_t last = m_player->m_lastLba;
+        const bool follows = isBCD(header[0]) && isBCD(header[1]) && isBCD(header[2]) && lba >= last && lba - last <= c_lbaReach;
+        const bool agrees = lba - m_rawLba - 1 <= 1;
+        m_rawLba = lba;
+        if (!follows && !agrees) {
+            m_player->m_stats.badAddresses++;
+            lba = last + 1;
+        }
 
         uint8_t *dest = m_player->sectorDest(header, lba);
         if (dest) {
@@ -227,7 +242,9 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     }
 
   private:
+    static constexpr uint32_t c_lbaReach = 64;  // the drive skips about 30 when it loses a CD-R
     StrPlayer *m_player = nullptr;
+    uint32_t m_rawLba = 0;
     bool m_pending = false;
 };
 
