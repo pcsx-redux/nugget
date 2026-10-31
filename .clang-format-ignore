@@ -49,3 +49,4 @@ tests/gte-write-to-use/gwu.h
 tests/load-timings/load-timings.c
 tests/mult-timing/mult-timing.c
 tests/psyqo/test-gte-math.cpp
+tests/spu/spu-reverb.c

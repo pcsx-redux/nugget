@@ -38,6 +38,8 @@ SOFTWARE.
 #define CESTER_NO_TIME
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
+// clang-format off
+
 #include "exotic/cester.h"
 
 // Tests that hold on silicon and do not hold under emulation yet. Same convention as the spu,

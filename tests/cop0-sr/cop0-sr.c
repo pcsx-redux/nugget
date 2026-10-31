@@ -56,10 +56,11 @@ void user_run(uint32_t data, uint32_t sr, uint32_t code);
 void user_resume(void);
 extern uint32_t ue_loads[], ue_sb[], ue_sh[], ue_mfc0[];
 
-#define COPSTUBS(X)                                                                                               \
-    X(mfc0, 0)                                                                                                    \
-    X(mfc1, 1) X(cfc1, 1) X(lwc1, 1) X(swc1, 1) X(cop1, 1) X(mfc2, 2) X(mfc3, 3) X(cfc3, 3) X(lwc3, 3) X(swc3, 3) \
-        X(cop3, 3)
+// clang-format off
+#define COPSTUBS(X)                                                                                \
+    X(mfc0, 0) X(mfc1, 1) X(cfc1, 1) X(lwc1, 1) X(swc1, 1) X(cop1, 1) X(mfc2, 2) X(mfc3, 3) X(cfc3, 3) \
+    X(lwc3, 3) X(swc3, 3) X(cop3, 3)
+// clang-format on
 #define DECL(n, c) uint32_t cs_##n(volatile uint32_t *scratch);
 COPSTUBS(DECL)
 
