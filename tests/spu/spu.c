@@ -28,6 +28,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
+#include "common/hardware/counters.h"
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/kernel/pcdrv.h"
@@ -523,6 +524,7 @@ CESTER_AFTER_ALL(spu_tests,
 // captured golden. Assertion builds are untouched and still run everything.
 #ifndef SPU_DUMP
 #include "spu-adsr-edge.c"
+#include "spu-adsr-grid.c"
 #include "spu-irq.c"
 #endif
 #include "spu-reverb.c"
