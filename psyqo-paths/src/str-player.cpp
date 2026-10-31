@@ -205,9 +205,10 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         const StrPlayer::Options &o = m_player->m_options;
         switch (getState()) {
             case StrStreamState::SETLOC: {
-                // Double speed, whole sectors minus sync so the MSF and the
+                // The movie's speed, whole sectors minus sync so the MSF and the
                 // subheader are visible, and XA-ADPCM to the SPU when wanted.
-                uint8_t mode = 0x80 | 0x20;
+                uint8_t mode = 0x20;
+                if (o.doubleSpeed) mode |= 0x80;
                 if (o.audio) mode |= 0x40;
                 if (o.audio && o.xaFilter) mode |= 0x08;
                 setState(StrStreamState::SETMODE);

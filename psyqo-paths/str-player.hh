@@ -45,7 +45,8 @@ class ArchiveManager;
  * count. Where they come from is the business of the helpers at the bottom of this
  * file, which resolve an ISO9660 path or an archive entry into that pair.
  *
- * The sectors are read in one continuous ReadS at double speed. Video sectors
+ * The sectors are read in one continuous ReadS, at double speed unless a movie made
+ * for single speed asks otherwise (Options::doubleSpeed). Video sectors
  * (the 0x0160 chunk magic at the start of their user data) are reassembled into
  * frame slots straight from the CD-ROM interrupt, and XA-ADPCM audio sectors go to
  * the SPU through the drive, without ever touching RAM. Frames are VLC-decoded
@@ -83,6 +84,9 @@ class StrPlayer {
     struct Options {
         bool rgb24 = true;
         bool audio = true;
+        // Off for a movie encoded for single speed (psxavenc -x 1): half the data
+        // to decode, and what a drive that struggles with a CD-R can still read.
+        bool doubleSpeed = true;
         // Setfilter: only play the XA channel matching file/channel. When false,
         // the drive plays every audio sector it meets.
         bool xaFilter = false;
