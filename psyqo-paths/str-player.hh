@@ -104,6 +104,11 @@ class StrPlayer {
         // Size of the display the frame is centered in, in pixels.
         uint16_t displayWidth = 320;
         uint16_t displayHeight = 240;
+        // A rectangle of VRAM to decode into, for a program that draws the movie
+        // itself: a texture behind a scene. 15-bit only. Left at -1, the frame goes
+        // to the back buffer.
+        int16_t vramX = -1;
+        int16_t vramY = 0;
     };
 
     enum class Status : uint8_t { IDLE, PLAYING, ENDED, FAILED };
