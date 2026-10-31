@@ -48,7 +48,6 @@ static const uint8_t s_magic[16] = {
 #define PKT_PATTERN_HDR  0x11
 #define PKT_SUBSONG_TBL  0x12
 #define PKT_MACRO_DEF    0x13
-#define PKT_MACRO_INVOKE 0x14
 #define PKT_SAMPLE_DIR   0x20
 #define PKT_SAMPLE_DATA  0x21
 #define PKT_TICK_RATE    0x30
@@ -78,21 +77,30 @@ unsigned SPD_OrderCount = 0;
 unsigned SPD_CurrentOrder = 0;
 unsigned SPD_PatternCount = 0;
 unsigned SPD_SampleCount = 0;
+unsigned SPD_SubsongCount = 0;
 uint32_t SPD_hblanks = 0;
 int SPD_ChangeOrderNextTick = 0;
 unsigned SPD_NextOrder = 0;
 
 // Private state
 static const uint8_t* s_fileBase = NULL;
+static uint32_t s_fileSize = 0;
 static const uint32_t* s_stream = NULL;
 static const uint32_t* s_loopPoint = NULL;
 static uint32_t s_waitRemaining = 0;
+// Words of a register write packet left after an inline wait, applied once the wait is over
+static const uint32_t* s_regTail = NULL;
+static uint32_t s_regTailCount = 0;
 static uint32_t s_masterVolume = 0x3800;  // SPU main volume, reapplied on every SPUInit
 
 // Order table: each entry is a pattern index
 static uint16_t s_orderTable[MAX_ORDERS];
 static uint32_t s_orderFlags = 0;
 static uint32_t s_orderLoopTarget = 0;
+
+// Number of order table packets in the file, and the subsong table mapping subsongs to them
+static unsigned s_orderTableCount = 0;
+static const uint32_t* s_subsongTable = NULL;
 
 // Pattern table: each entry is a byte offset from file start
 static uint32_t s_patternOffsets[MAX_PATTERNS];
@@ -239,18 +247,23 @@ static void applyMacro(uint16_t macroIdx, uint16_t voice) {
 // Virtual register addresses:
 //   0xEFFF = inline wait (value = tick count)
 //   0xF000+ = macro invocation (offset & 0x0FFF = macroIndex, value = voice)
-// Returns the number of words consumed. Sets *waitOut if an inline wait is hit.
-// Returns accumulated inline wait ticks (0 if no inline wait encountered).
+// Stops at the first inline wait of a nonzero tick count, which pauses before the next word:
+// the words after it are kept in s_regTail for when the wait is over. Returns the wait's tick
+// count, or 0 if the whole payload was applied.
 static uint32_t applyRegWrites(const uint32_t* payload, uint32_t count) {
     volatile uint16_t* spuBase = (volatile uint16_t*)0x1f801c00;
-    uint32_t waitAccum = 0;
+    s_regTailCount = 0;
     for (uint32_t i = 0; i < count; i++) {
         uint32_t word = payload[i];
         uint16_t offset = (word >> 16) & 0xffff;
         uint16_t value = word & 0xffff;
         if (offset == 0xEFFF) {
-            // Inline wait - accumulate (may span multiple words for large values)
-            waitAccum += value;
+            // Inline wait - consecutive ones add up, as each pauses in turn
+            if (value > 0) {
+                s_regTail = payload + i + 1;
+                s_regTailCount = count - i - 1;
+                return value;
+            }
         } else if (offset >= 0xF000) {
             // Macro invocation
             applyMacro(offset & 0x0FFF, value);
@@ -258,7 +271,7 @@ static uint32_t applyRegWrites(const uint32_t* payload, uint32_t count) {
             spuBase[offset / 2] = value;
         }
     }
-    return waitAccum;
+    return 0;
 }
 
 unsigned SPD_Check(const void* data, uint32_t size) {
@@ -283,14 +296,12 @@ static void parsePackets(const uint8_t* base, uint32_t size, int skipSamples) {
 
         switch (type) {
             case PKT_ORDER_TABLE:
-                if (len >= 2) {
-                    s_orderFlags = payload[0];
-                    s_orderLoopTarget = payload[1];
-                    SPD_OrderCount = len - 2;
-                    if (SPD_OrderCount > MAX_ORDERS) SPD_OrderCount = MAX_ORDERS;
-                    for (unsigned i = 0; i < SPD_OrderCount; i++) {
-                        s_orderTable[i] = payload[2 + i] & 0xffff;
-                    }
+                if (base == s_fileBase && len >= 2) s_orderTableCount++;
+                break;
+
+            case PKT_SUBSONG_TBL:
+                if (base == s_fileBase && s_subsongTable == NULL) {
+                    s_subsongTable = ptr;
                 }
                 break;
 
@@ -363,6 +374,38 @@ static void parsePackets(const uint8_t* base, uint32_t size, int skipSamples) {
     }
 }
 
+// Find an order table packet by its ordinal position in the file, counted as parsePackets does.
+static const uint32_t* findOrderTable(unsigned index) {
+    const uint32_t* ptr = (const uint32_t*)(s_fileBase + 16);
+    const uint32_t* end = (const uint32_t*)(s_fileBase + s_fileSize);
+    while (ptr < end) {
+        uint32_t header = readPacketHeader(ptr);
+        uint32_t len = packetLength(header);
+        if (packetType(header) == PKT_ORDER_TABLE && len >= 2 && index-- == 0) return ptr;
+        ptr = ptr + 1 + len;
+    }
+    return NULL;
+}
+
+// Load the order table of a subsong: the subsong table maps subsongs to order tables, and
+// without one, subsongs are the order tables in file order.
+static int loadOrderTable(unsigned subsong) {
+    if (subsong >= SPD_SubsongCount) return 0;
+    unsigned index = s_subsongTable ? s_subsongTable[1 + subsong] : subsong;
+    if (index >= s_orderTableCount) return 0;
+    const uint32_t* table = findOrderTable(index);
+    if (!table) return 0;
+    const uint32_t* payload = table + 1;
+    s_orderFlags = payload[0];
+    s_orderLoopTarget = payload[1];
+    SPD_OrderCount = packetLength(*table) - 2;
+    if (SPD_OrderCount > MAX_ORDERS) SPD_OrderCount = MAX_ORDERS;
+    for (unsigned i = 0; i < SPD_OrderCount; i++) {
+        s_orderTable[i] = payload[2 + i] & 0xffff;
+    }
+    return 1;
+}
+
 static unsigned loadInternal(const void* data, uint32_t size,
                              const void* sampleData, uint32_t sampleSize) {
     if (!SPD_Check(data, size)) return 0;
@@ -370,9 +413,11 @@ static unsigned loadInternal(const void* data, uint32_t size,
     SPUInit();
 
     s_fileBase = (const uint8_t*)data;
+    s_fileSize = size;
     s_stream = NULL;
     s_loopPoint = NULL;
     s_waitRemaining = 0;
+    s_regTailCount = 0;
     SPD_VoiceCount = 24;
     SPD_OrderCount = 0;
     SPD_CurrentOrder = 0;
@@ -382,6 +427,9 @@ static unsigned loadInternal(const void* data, uint32_t size,
     SPD_NextOrder = 0;
     s_orderFlags = 0;
     s_orderLoopTarget = 0;
+    s_orderTableCount = 0;
+    s_subsongTable = NULL;
+    SPD_SubsongCount = 0;
     s_tickRateFP = 50 << 16;
     s_macroCount = 0;
 
@@ -406,6 +454,11 @@ static unsigned loadInternal(const void* data, uint32_t size,
 
     // Calculate hblank timing
     updateHblanks();
+
+    SPD_SubsongCount = s_subsongTable ? packetLength(*s_subsongTable) : s_orderTableCount;
+    // A subsong table pointing subsong 0 at an order table the file lacks makes the file invalid.
+    if (SPD_SubsongCount > 0 && !loadOrderTable(0)) return 0;
+    if (SPD_SubsongCount > 0 && SPD_OrderCount > 0 && s_orderTable[0] >= SPD_PatternCount) return 0;
 
     // Position stream at the first pattern if we have an order table
     if (SPD_OrderCount > 0 && SPD_PatternCount > 0) {
@@ -438,6 +491,18 @@ void SPD_Seek(unsigned order) {
     s_stream = (const uint32_t*)(s_fileBase + s_patternOffsets[patIdx]);
     s_loopPoint = NULL;
     s_waitRemaining = 0;
+    s_regTailCount = 0;
+}
+
+void SPD_SelectSubsong(unsigned subsong) {
+    if (!loadOrderTable(subsong)) return;
+    SPD_ChangeOrderNextTick = 0;
+    s_stream = NULL;
+    s_loopPoint = NULL;
+    s_waitRemaining = 0;
+    s_regTailCount = 0;
+    SPD_CurrentOrder = 0;
+    SPD_Seek(0);
 }
 
 static void advanceOrder() {
@@ -472,6 +537,15 @@ void SPD_Poll() {
     if (s_waitRemaining > 0) {
         s_waitRemaining--;
         return;
+    }
+
+    // Finish a register write packet that an inline wait paused.
+    if (s_regTailCount > 0) {
+        uint32_t waitTicks = applyRegWrites(s_regTail, s_regTailCount);
+        if (waitTicks > 0) {
+            s_waitRemaining = waitTicks - 1;
+            return;
+        }
     }
 
     if (s_stream == NULL) return;
@@ -509,6 +583,12 @@ void SPD_Poll() {
                 if (++ordersWalked > SPD_OrderCount) {
                     s_stream = NULL;
                     return;
+                }
+                // The order table loops back into this same pattern: resume at its loop point.
+                if (s_loopPoint != NULL && (s_orderFlags & 1) && SPD_CurrentOrder + 1 >= SPD_OrderCount &&
+                    s_orderLoopTarget == SPD_CurrentOrder) {
+                    s_stream = s_loopPoint;
+                    continue;
                 }
                 s_stream = payload + len;
                 advanceOrder();
@@ -556,8 +636,8 @@ void SPD_PlaySoundEffect(unsigned voice, unsigned sampleID, uint16_t pitch, int1
     SPU_VOICES[voice].volumeRight = volume;
     SPU_VOICES[voice].sampleStartAddr = sample->spuAddr;
     SPU_VOICES[voice].sampleRate = pitch;
-    SPU_VOICES[voice].adsrLo = 0x00ff;  // fast release, moderate sustain rate
-    SPU_VOICES[voice].adsrHi = 0x001f;  // fast attack, fast decay, max sustain
+    SPU_VOICES[voice].adsrLo = 0x00ff;  // fastest attack, slowest decay, max sustain level
+    SPU_VOICES[voice].adsrHi = 0x000a;  // fastest sustain increase, linear release in ~46 ms
     // No repeat address write needed - loop points are in the ADPCM block flags
 
     // Key on
@@ -572,4 +652,5 @@ void SPD_Silence() {
     }
     s_stream = NULL;
     s_waitRemaining = 0;
+    s_regTailCount = 0;
 }

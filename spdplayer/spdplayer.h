@@ -34,6 +34,7 @@ extern unsigned SPD_OrderCount;
 extern unsigned SPD_CurrentOrder;
 extern unsigned SPD_PatternCount;
 extern unsigned SPD_SampleCount;
+extern unsigned SPD_SubsongCount;
 
 // Indicates the number of hblank ticks to wait before
 // calling SPD_Poll. This value may change after a call
@@ -72,6 +73,13 @@ void SPD_Poll();
 // next call to SPD_Poll.
 void SPD_Seek(unsigned order);
 
+// Switch to another subsong: the subsong table (0x12) maps
+// subsongs to order tables, and without one each order table
+// is a subsong, in file order. Subsong 0 plays after loading.
+// Playback continues from the subsong's first order on the
+// next call to SPD_Poll.
+void SPD_SelectSubsong(unsigned subsong);
+
 // These are fine to change outside of SPD_Poll.
 // SPD_ChangeOrderNextTick is a boolean; SPD_NextOrder is
 // the target order index. Setting the boolean causes the
@@ -79,7 +87,7 @@ void SPD_Seek(unsigned order);
 extern int SPD_ChangeOrderNextTick;
 extern unsigned SPD_NextOrder;
 
-// Set master volume (0-65535). Defaults to 16384.
+// Set master volume (0-65535). Defaults to 0x3800 (14336).
 // Not reset by subsequent SPD_Load calls.
 void SPD_SetMasterVolume(uint32_t volume);
 
