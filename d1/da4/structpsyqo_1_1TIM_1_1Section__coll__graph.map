@@ -1,0 +1,9 @@
+<map id="psyqo::TIM::Section" name="psyqo::TIM::Section">
+<area shape="rect" id="Node000001" title="One CLUT or pixel section." alt="" coords="5,313,155,339"/>
+<area shape="rect" id="Node000002" href="$d0/d6d/structpsyqo_1_1Rect.html" title="The Rect struct." alt="" coords="31,225,129,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,265,83,313,77,313,77,265"/>
+<area shape="rect" id="Node000003" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="25,93,135,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,132,83,225,77,225,77,132"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="51,5,109,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="83,45,83,93,77,93,77,45"/>
+</map>

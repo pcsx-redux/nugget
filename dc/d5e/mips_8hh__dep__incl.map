@@ -1,0 +1,11 @@
+<map id="common/util/mips.hh" name="common/util/mips.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="116,5,276,31"/>
+<area shape="rect" id="Node000002" href="$da/d99/decoder_8hh.html" title=" " alt="" coords="5,79,184,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,41,113,81,110,76,167,36"/>
+<area shape="rect" id="Node000003" href="$d0/da8/encoder_8hh.html" title=" " alt="" coords="208,79,387,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,36,282,76,279,81,222,41"/>
+<area shape="rect" id="Node000004" href="$dd/d24/kernel_8cpp.html" title=" " alt="" coords="121,152,276,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="272,114,216,154,213,150,269,110"/>
+<area shape="rect" id="Node000005" href="$dd/d12/exceptions_8cpp.html" title=" " alt="" coords="301,152,491,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="326,110,381,150,378,154,322,114"/>
+</map>

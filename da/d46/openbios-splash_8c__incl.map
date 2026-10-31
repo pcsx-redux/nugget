@@ -1,0 +1,19 @@
+<map id="monitor/hosts/openbios&#45;splash.c" name="monitor/hosts/openbios&#45;splash.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="195,5,370,45"/>
+<area shape="rect" id="Node000002" href="$df/d98/splash_8c.html" title=" " alt="" coords="195,93,370,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,46,285,79,280,79,280,46"/>
+<area shape="rect" id="Node000003" href="$d3/da1/splash_8h.html" title=" " alt="" coords="5,167,181,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="253,121,138,164,136,159,251,116"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="279,387,350,412"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="274,121,259,142,247,167,245,179,247,192,258,243,274,293,306,373,301,375,269,295,253,245,241,192,239,179,241,166,254,139,270,117"/>
+<area shape="rect" id="Node000005" href="$d2/d4b/common_2hardware_2gpu_8h.html" title=" " alt="" coords="256,167,440,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="295,117,330,155,326,158,291,121"/>
+<area shape="rect" id="Node000006" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="354,240,561,265"/>
+<area shape="poly" id="edge10_Node000002_Node000006" title=" " alt="" coords="371,115,416,133,437,147,454,165,462,179,466,195,465,226,460,226,460,196,457,181,450,168,434,151,414,138,369,120"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="349,193,321,373,316,373,344,192"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="367,190,429,230,426,235,364,194"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="435,268,401,288,367,315,344,345,328,375,323,373,340,342,363,311,398,283,432,263"/>
+<area shape="rect" id="Node000007" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="377,313,593,339"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="464,265,478,300,473,302,459,267"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="459,341,356,384,354,379,457,336"/>
+</map>
