@@ -100,6 +100,9 @@ class StrPlayer {
         // Size of the display the frame is centered in, in pixels.
         uint16_t displayWidth = 320;
         uint16_t displayHeight = 240;
+        // Where in VRAM to decode, for a frame drawn as a texture. 15-bit only. -1 for the back buffer.
+        int16_t vramX = -1;
+        int16_t vramY = 0;
     };
 
     enum class Status : uint8_t { IDLE, PLAYING, ENDED, FAILED };

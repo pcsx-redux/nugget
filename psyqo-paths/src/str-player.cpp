@@ -445,9 +445,15 @@ void psyqo::paths::StrPlayer::startDecode() {
     m_colHeight = rl.height;
     m_x0 = int16_t(((m_options.displayWidth - rl.width) / 2) * (rgb24 ? 3 : 2) / 2);
     m_y0 = int16_t((m_gpu.getParity() ? 256 : 0) + (m_options.displayHeight - rl.height) / 2);
+    if (m_options.vramX >= 0) {
+        m_x0 = m_options.vramX;
+        m_y0 = m_options.vramY;
+    }
     const uint32_t inWords = (rl.halfwords + 1) / 2;
     uint32_t command = rl.command;
     if (rgb24) command = (command & ~(3u << 27)) | (2u << 27);
+    // A frame drawn as a texture: black without bit 15 would be see-through.
+    if (m_options.vramX >= 0) command |= 1u << 25;
 
     if (m_needReset) {
         mdecReset();
