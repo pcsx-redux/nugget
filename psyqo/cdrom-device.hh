@@ -454,8 +454,6 @@ class CDRomDevice final : public CDRom {
     /**
      * @brief Sets the speed sector reads run at. Double unless told otherwise.
      *
-     * @details A CD-R that a console's laser holds badly at double speed can read
-     * perfectly at single, at half the rate.
      */
     void setDoubleSpeed(bool doubleSpeed) { m_doubleSpeed = doubleSpeed; }
     [[nodiscard]] bool isDoubleSpeed() const { return m_doubleSpeed; }

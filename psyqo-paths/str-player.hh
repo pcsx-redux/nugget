@@ -84,8 +84,7 @@ class StrPlayer {
     struct Options {
         bool rgb24 = true;
         bool audio = true;
-        // Off for a movie encoded for single speed (psxavenc -x 1): half the data
-        // to decode, and what a drive that struggles with a CD-R can still read.
+        // Off for a movie encoded for single speed (psxavenc -x 1).
         bool doubleSpeed = true;
         // Setfilter: only play the XA channel matching file/channel. When false,
         // the drive plays every audio sector it meets.
@@ -117,7 +116,7 @@ class StrPlayer {
         uint32_t videoSectors = 0;
         uint32_t otherSectors = 0;
         uint32_t readErrors = 0;
-        uint32_t badAddresses = 0;    // sectors whose header gave an address that cannot be theirs
+        uint32_t badAddresses = 0;
         uint32_t lastFrameNumber = 0;
         // Vsyncs between two consecutive presented frames, 1, 2, 3, and 4 or more.
         uint32_t vsyncHistogram[4] = {};

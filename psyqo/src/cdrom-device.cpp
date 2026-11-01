@@ -67,9 +67,7 @@ void psyqo::CDRomDevice::irq() {
         uint8_t cause = Hardware::CDRom::Cause;
         if (ranOnce && ((cause & 15) == 0)) break;
         ranOnce = true;
-        // A reply nobody asked for: one left from whatever had the drive before this program,
-        // or a sector behind a read that has finished. The interrupt will not go quiet until
-        // it is acknowledged, and there is nobody to give it to.
+        // A reply nobody asked for: the interrupt does not go quiet until it is acknowledged.
         if (m_action == nullptr) {
             if (cause & 7) Hardware::CDRom::Cause = 7;
             if (cause & 0x18) Hardware::CDRom::Cause = 0x18;

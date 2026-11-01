@@ -171,11 +171,7 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         for (unsigned i = 0; i < 1000 && !(*status & 0x40); i++);
         for (unsigned i = 0; i < c_sectorHeader; i++) header[i] = *fifo;
         uint32_t lba = (fromBCD(header[0]) * 60 + fromBCD(header[1])) * 75 + fromBCD(header[2]) - 150;
-        // On a CD-R at double speed the drive now and then hands over a sector with a broken
-        // address and its chunk intact: an SCPH-7502 gave 00 D2 66 for 00 27 66, which reads as
-        // far past the end of the file and stopped the movie there. An address that does not
-        // follow is taken for the next sector's, unless the sector after it agrees with it:
-        // then the drive really did jump.
+        // A broken address can come with its data intact: unless the next sector agrees with it, it is the next one.
         const uint32_t last = m_player->m_lastLba;
         const bool follows = isBCD(header[0]) && isBCD(header[1]) && isBCD(header[2]) && lba >= last && lba - last <= c_lbaReach;
         const bool agrees = lba - m_rawLba - 1 <= 1;
@@ -243,7 +239,7 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     }
 
   private:
-    static constexpr uint32_t c_lbaReach = 64;  // the drive skips about 30 when it loses a CD-R
+    static constexpr uint32_t c_lbaReach = 64;
     StrPlayer *m_player = nullptr;
     uint32_t m_rawLba = 0;
     bool m_pending = false;
@@ -293,7 +289,7 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     }
     m_lba = lba;
     m_end = lba + sectors;
-    m_lastLba = lba;
+    m_lastLba = lba - 1;
     m_writeSlot = m_readSlot = 0;
     m_filling = -1;
     m_skipFrame = 0xffffffff;
@@ -438,10 +434,7 @@ bool psyqo::paths::StrPlayer::vlcNext() {
 // is out. It must not run while a VRAM upload shares the bus.
 void psyqo::paths::StrPlayer::mdecReset() {
     MDEC1 = 0x80000000;
-    // The enable is lost if it follows the reset with nothing between: then no DMA is ever
-    // asked for, the tables never arrive and every frame hangs to the timeout. Whether it
-    // happens depends on where the code falls in the cache. One read of the status is gap
-    // enough: on hardware a wait of 0 failed and a wait of 1 never has.
+    // The enable is lost if it follows the reset too closely.
     for (unsigned i = 0; i < 1000 && (MDEC1 & 0x20000000); i++) {
     }
     MDEC1 = 0x60000000;
@@ -559,13 +552,11 @@ bool psyqo::paths::StrPlayer::finishDecode() {
         abortDecode();
         return false;
     }
-    // Every frame gets a reset, not only one whose DMA0 is still running. bsdec can hand over the end-of-frame code, 1FFh, as
-    // one more block's DC. The words then run out part way through a macroblock, the MDEC stays busy for the rest of it,
-    // and the next frame's command is lost: status A405FFFFh, one such block, or A400FFFFh, two. MEASURED on an SCPH-7502,
-    // FF7 (Europe) BIKEGET.MOV: 19 of 751 frames hung, 227 more dropped behind them, and resetting before every frame took
-    // both to 0. A picture with one block too many hangs the next 8 times in 8 on the same console, and with none, never.
-    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) DMA_CTRL[DMA_MDECIN].CHCR = 0;
-    m_needReset = true;
+    // A frame can stop part way through a macroblock: the MDEC is left busy, or on a block other than the next one's first.
+    const uint32_t status = MDEC1;
+    const bool feeding = DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000;
+    if (feeding) DMA_CTRL[DMA_MDECIN].CHCR = 0;
+    if (feeding || (status & 0x20000000) || (status & 0x70000) != 0x40000) m_needReset = true;
     return true;
 }
 
