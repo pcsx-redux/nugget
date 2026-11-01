@@ -173,8 +173,9 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         uint32_t lba = (fromBCD(header[0]) * 60 + fromBCD(header[1])) * 75 + fromBCD(header[2]) - 150;
         // A broken address can come with its data intact: unless the next sector agrees with it, it is the next one.
         const uint32_t last = m_player->m_lastLba;
-        const bool follows = isBCD(header[0]) && isBCD(header[1]) && isBCD(header[2]) && lba >= last && lba - last <= c_lbaReach;
-        const bool agrees = lba - m_rawLba - 1 <= 1;
+        const bool valid = isBCD(header[0]) && isBCD(header[1]) && isBCD(header[2]);
+        const bool follows = valid && lba - last <= c_lbaReach;
+        const bool agrees = valid && lba - m_rawLba - 1 <= 1;
         m_rawLba = lba;
         if (!follows && !agrees) {
             m_player->m_stats.badAddresses++;
