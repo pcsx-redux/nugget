@@ -67,7 +67,13 @@ void psyqo::CDRomDevice::irq() {
         uint8_t cause = Hardware::CDRom::Cause;
         if (ranOnce && ((cause & 15) == 0)) break;
         ranOnce = true;
-        Kernel::assert(m_action != nullptr, "CDRomDevice::irq() called with no action - spurious interrupt?");
+        // A reply nobody asked for: the interrupt does not go quiet until it is acknowledged.
+        if (m_action == nullptr) {
+            if (cause & 7) Hardware::CDRom::Cause = 7;
+            if (cause & 0x18) Hardware::CDRom::Cause = 0x18;
+            for (unsigned i = 0; i < 16 && (Hardware::CDRom::Ctrl.access() & 0x20); i++) Hardware::CDRom::Response.throwAway();
+            continue;
+        }
 
         if (cause & 7) {
             Hardware::CDRom::Cause = 7;

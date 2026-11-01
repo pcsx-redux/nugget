@@ -81,6 +81,7 @@ bool waitDma(int ch) {
 }
 
 uint8_t fromBCD(uint8_t v) { return (v >> 4) * 10 + (v & 15); }
+bool isBCD(uint8_t v) { return (v >> 4) < 10 && (v & 15) < 10; }
 
 uint16_t le16(const uint8_t *p) { return p[0] | (p[1] << 8); }
 uint32_t le32(const uint8_t *p) { return p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24); }
@@ -110,6 +111,7 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     void start(CDRomDevice *device, StrPlayer *player, uint32_t lba) {
         Kernel::assert(device->isIdle(), "StrPlayer: the CD-ROM device is busy");
         m_player = player;
+        m_rawLba = 0xfffffff0;
         registerMe(device);
         setCallback([player](bool success) { player->cdDone(success); });
         setState(StrStreamState::SETLOC);
@@ -167,6 +169,16 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         for (unsigned i = 0; i < 1000 && !(*status & 0x40); i++);
         for (unsigned i = 0; i < c_sectorHeader; i++) header[i] = *fifo;
         uint32_t lba = (fromBCD(header[0]) * 60 + fromBCD(header[1])) * 75 + fromBCD(header[2]) - 150;
+        // A broken address can come with its data intact: unless the next sector agrees with it, it is the next one.
+        const uint32_t last = m_player->m_lastLba;
+        const bool valid = isBCD(header[0]) && isBCD(header[1]) && isBCD(header[2]);
+        const bool follows = valid && lba - last <= c_lbaReach;
+        const bool agrees = valid && lba - m_rawLba - 1 <= 1;
+        m_rawLba = lba;
+        if (!follows && !agrees) {
+            m_player->m_stats.badAddresses++;
+            lba = last + 1;
+        }
 
         uint8_t *dest = m_player->sectorDest(header, lba);
         if (dest) {
@@ -188,9 +200,10 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         const StrPlayer::Options &o = m_player->m_options;
         switch (getState()) {
             case StrStreamState::SETLOC: {
-                // Double speed, whole sectors minus sync so the MSF and the
+                // The movie's speed, whole sectors minus sync so the MSF and the
                 // subheader are visible, and XA-ADPCM to the SPU when wanted.
-                uint8_t mode = 0x80 | 0x20;
+                uint8_t mode = 0x20;
+                if (o.doubleSpeed) mode |= 0x80;
                 if (o.audio) mode |= 0x40;
                 if (o.audio && o.xaFilter) mode |= 0x08;
                 setState(StrStreamState::SETMODE);
@@ -225,7 +238,9 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     }
 
   private:
+    static constexpr uint32_t c_lbaReach = 64;
     StrPlayer *m_player = nullptr;
+    uint32_t m_rawLba = 0;
     bool m_pending = false;
 };
 
@@ -273,7 +288,7 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     }
     m_lba = lba;
     m_end = lba + sectors;
-    m_lastLba = lba;
+    m_lastLba = lba - 1;
     m_writeSlot = m_readSlot = 0;
     m_filling = -1;
     m_skipFrame = 0xffffffff;
@@ -418,6 +433,9 @@ bool psyqo::paths::StrPlayer::vlcNext() {
 // is out. It must not run while a VRAM upload shares the bus.
 void psyqo::paths::StrPlayer::mdecReset() {
     MDEC1 = 0x80000000;
+    // The enable is lost if it follows the reset too closely.
+    for (unsigned i = 0; i < 1000 && (MDEC1 & 0x20000000); i++) {
+    }
     MDEC1 = 0x60000000;
     MDEC0 = 0x40000001;
     DMA_CTRL[DMA_MDECIN].MADR = reinterpret_cast<uintptr_t>(s_quantWords);
@@ -533,10 +551,11 @@ bool psyqo::paths::StrPlayer::finishDecode() {
         abortDecode();
         return false;
     }
-    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) {
-        DMA_CTRL[DMA_MDECIN].CHCR = 0;
-        m_needReset = true;
-    }
+    // A frame can stop part way through a macroblock: the MDEC is left busy, or on a block other than the next one's first.
+    const uint32_t status = MDEC1;
+    const bool feeding = DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000;
+    if (feeding) DMA_CTRL[DMA_MDECIN].CHCR = 0;
+    if (feeding || (status & 0x20000000) || (status & 0x70000) != 0x40000) m_needReset = true;
     return true;
 }
 
