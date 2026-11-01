@@ -228,3 +228,105 @@ CESTER_TEST(cddaMuted, test_instances,
     ramsyscall_printf("CD-DA level when muted: peak %i\n", peak);
     cester_assert_int_eq(0, peak);
 )
+
+// CD audio into the reverb unit. SPUCNT bit 2 sends CD audio to the reverb input, and the
+// reverb unit writes its input into the work area, so the work area shows whether CD audio
+// reached it without any capture of the analog output. Bit 0 gates the send as well.
+#define CDDA_REVERB_BASE 0xcff8
+#define CDDA_REVERB_SIZE 0x18040u
+#define CDDA_REVERB_CHUNK 0x2000u
+#define CDDA_REVERB_SLACK 0x100u
+
+CESTER_BODY(
+    static uint8_t s_cddaReverbBuf[CDDA_REVERB_CHUNK + CDDA_REVERB_SLACK] __attribute__((aligned(4)));
+
+    // Delay from psx-spx's reverb presets: the input is written to mLSAME/mRSAME every tick.
+    static const uint16_t c_cddaDelay[32] = {
+        0x0001, 0x0001, 0x7fff, 0x7fff, 0x0000, 0x0000, 0x0000, 0x0000,
+        0x0000, 0x0000, 0x1fff, 0x0fff, 0x1005, 0x0005, 0x0000, 0x0000,
+        0x1005, 0x0005, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+        0x0000, 0x0000, 0x1004, 0x1002, 0x0004, 0x0002, 0x8000, 0x8000,
+    };
+
+    // Zeroes the work area, or counts the halfwords of it that are not zero. Reads ask for
+    // CDDA_REVERB_SLACK more bytes than they keep: the end of a DMA read can come back wrong.
+    static int cddaReverbArea(int count) {
+        int nonZero = 0;
+        uint32_t addr = CDDA_REVERB_BASE * 8;
+        uint32_t left = CDDA_REVERB_SIZE;
+        if (!count) __builtin_memset(s_cddaReverbBuf, 0, sizeof(s_cddaReverbBuf));
+        while (left) {
+            uint32_t n = left > CDDA_REVERB_CHUNK ? CDDA_REVERB_CHUNK : left;
+            if (count) {
+                if (!cddaSpuDma(addr, s_cddaReverbBuf, CDDA_REVERB_CHUNK + CDDA_REVERB_SLACK, 1)) return -1;
+                const uint16_t *h = (const uint16_t *)s_cddaReverbBuf;
+                for (uint32_t i = 0; i < n / 2; i++) nonZero += h[i] != 0;
+            } else {
+                if (!cddaSpuDma(addr, s_cddaReverbBuf, n, 0)) return -1;
+            }
+            addr += n;
+            left -= n;
+        }
+        return nonZero;
+    }
+
+    // Plays track 2 for a second with reverb on and the given SPUCNT CD bits, and returns how
+    // many halfwords of the work area the reverb unit wrote. -1 on a failed step.
+    static int cddaReverbWrites(uint16_t cdBits) {
+        static const uint8_t atv[4] = {0x80, 0x00, 0x80, 0x00};
+        if (!cddaAudioSetup(atv, 1)) return -1;
+        if (cddaReverbArea(0) < 0) return -1;
+        volatile uint16_t *regs = (volatile uint16_t *)SPU_REVERB;
+        for (int i = 0; i < 32; i++) regs[i] = c_cddaDelay[i];
+        SPU_REVERB_ADDR = CDDA_REVERB_BASE;
+        if (!setMode(0)) return -1;
+
+        CDROM_REG0 = 0;
+        CDROM_REG2 = 0x02;
+        if (!cddaSimpleCmd(CDL_PLAY)) return -1;
+
+        initializeTime();
+        while (updateTime() < 1500000u);
+        SPU_CTRL = 0x8000 | 0x0080 | cdBits;
+        initializeTime();
+        while (updateTime() < 1000000u);
+        SPU_CTRL = 0x8001;
+        for (volatile int i = 0; i < 20000; i++);
+
+        int written = cddaReverbArea(1);
+        SPU_REVERB_ADDR = 0xffff;
+
+        CDROM_REG0 = 0;
+        CDROM_REG1 = CDL_PAUSE;
+        cddaWaitPauseComplete();
+
+        // Same head parking as cddaPeak.
+        CDROM_REG0 = 0;
+        CDROM_REG2 = 0x00;
+        CDROM_REG2 = 0x02;
+        CDROM_REG2 = 0x16;
+        if (cddaSimpleCmd(CDL_SETLOC) && cddaSimpleCmd(CDL_SEEKL)) cddaWaitPauseComplete();
+
+        return written;
+    }
+)
+
+CESTER_TEST(cddaReverbOff, test_instances,
+    int written = cddaReverbWrites(0x0001);
+    ramsyscall_printf("CD-DA into reverb, SPUCNT bit 2 clear: %i halfwords written\n", written);
+    cester_assert_int_eq(0, written);
+)
+
+CESTER_TEST(cddaReverbOn, test_instances,
+    int written = cddaReverbWrites(0x0005);
+    ramsyscall_printf("CD-DA into reverb, SPUCNT bits 0 and 2 set: %i halfwords written\n", written);
+    // Both sides fill the whole area (49184 halfwords on a SCPH-9002); one side alone writes
+    // about a third of it, so a lost channel fails here.
+    cester_assert_int_ge(written, 40000);
+)
+
+CESTER_TEST(cddaReverbNeedsCdEnable, test_instances,
+    int written = cddaReverbWrites(0x0004);
+    ramsyscall_printf("CD-DA into reverb, SPUCNT bit 2 set, bit 0 clear: %i halfwords written\n", written);
+    cester_assert_int_eq(0, written);
+)
