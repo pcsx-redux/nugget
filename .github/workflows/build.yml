@@ -60,6 +60,36 @@ jobs:
       - name: Run tests
         run: tests/run-emulator.sh "$GITHUB_WORKSPACE/squashfs-root/AppRun" openbios/openbios.bin
 
+  xmake:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 45
+    container: ghcr.io/grumpycoders/pcsx-redux-build:latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          set-safe-directory: true
+          persist-credentials: false
+
+      - name: xmake
+        shell: bash
+        run: |
+          curl -fsSL https://xmake.io/shget.text | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: xmake targets
+        # Each directory is built on its own, the way its README says to.
+        run: |
+          export PATH="$HOME/.local/bin:$PATH" XMAKE_ROOT=y
+          for d in helloworld modplayer xmplayer psyqo/examples/hello psyqo/examples/backgrounds psyqo-lua/examples/hello; do
+            echo "::group::$d"
+            (cd $d && xmake f -c -P . -y && xmake -P . -y)
+            echo "::endgroup::"
+          done
+
   psxdemo:
     # A downstream build: nugget's own suite can stay green while breaking a
     # project that consumes it.
