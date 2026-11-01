@@ -318,7 +318,9 @@ CESTER_TEST(cddaReverbOff, test_instances,
 CESTER_TEST(cddaReverbOn, test_instances,
     int written = cddaReverbWrites(0x0005);
     ramsyscall_printf("CD-DA into reverb, SPUCNT bits 0 and 2 set: %i halfwords written\n", written);
-    cester_assert_int_ge(written, 10000);
+    // Both sides fill the whole area (49184 halfwords on a SCPH-9002); one side alone writes
+    // about a third of it, so a lost channel fails here.
+    cester_assert_int_ge(written, 40000);
 )
 
 CESTER_TEST(cddaReverbNeedsCdEnable, test_instances,
