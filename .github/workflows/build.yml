@@ -62,6 +62,8 @@ jobs:
 
   xmake:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     timeout-minutes: 45
     container: ghcr.io/grumpycoders/pcsx-redux-build:latest
 
@@ -70,8 +72,10 @@ jobs:
         with:
           submodules: recursive
           set-safe-directory: true
+          persist-credentials: false
 
       - name: xmake
+        shell: bash
         run: |
           curl -fsSL https://xmake.io/shget.text | bash
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
