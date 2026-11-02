@@ -1,0 +1,33 @@
+<map id="tests/gpustat26/gpustat26.c" name="tests/gpustat26/gpustat26.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,5,406,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="342,299,412,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,33,179,67,128,90,80,117,41,147,15,180,9,197,9,214,14,231,26,249,45,264,76,276,157,293,248,303,328,307,327,312,248,308,157,299,74,281,43,268,22,252,9,233,3,214,4,195,11,177,37,144,77,113,126,85,177,62,267,28"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="52,152,259,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="295,33,179,144,175,141,291,29"/>
+<area shape="rect" id="Node000005" href="$d2/d6e/syscalls_8h.html" title=" " alt="" coords="324,79,526,104"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="326,28,395,69,392,74,323,33"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="551,79,667,104"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="354,28,547,73,546,78,353,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="114,180,80,193,49,209,38,218,32,228,32,238,38,249,57,263,86,275,164,292,252,302,328,306,328,312,251,307,163,298,84,280,54,268,34,252,27,239,27,227,34,215,46,205,77,188,113,175"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="48,225,264,251"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="158,178,158,212,153,212,153,178"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="192,248,330,292,328,297,190,253"/>
+<area shape="poly" id="edge9_Node000005_Node000002" title=" " alt="" coords="390,107,356,125,340,138,329,153,318,178,315,200,319,223,329,250,340,270,355,288,351,291,336,273,324,252,314,224,310,200,312,177,324,151,337,134,353,120,387,102"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="338,152,413,177"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="419,106,394,142,389,139,415,103"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="437,152,512,177"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="435,103,461,139,456,142,431,106"/>
+<area shape="rect" id="Node000008" href="$d0/d77/circularbuffer_8h.html" title=" " alt="" coords="339,225,570,251"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="463,102,497,120,513,134,526,151,530,171,522,190,507,206,489,220,486,216,503,202,517,187,525,170,521,153,509,138,494,125,460,107"/>
+<area shape="rect" id="Node000009" href="$db/de9/device_8h.html" title=" " alt="" coords="614,152,802,177"/>
+<area shape="poly" id="edge12_Node000005_Node000009" title=" " alt="" coords="471,101,650,146,648,151,470,107"/>
+<area shape="rect" id="Node000011" href="$dc/dea/common_2psxlibc_2handlers_8h.html" title=" " alt="" coords="847,225,1048,251"/>
+<area shape="poly" id="edge17_Node000005_Node000011" title=" " alt="" coords="527,101,687,122,761,135,814,150,875,181,925,215,922,219,873,185,812,154,760,141,687,127,526,106"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="444,253,402,291,398,287,440,249"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="695,180,647,215,582,253,501,283,427,303,425,298,500,278,580,248,644,211,692,175"/>
+<area shape="rect" id="Node000010" href="$d3/d43/common_2psxlibc_2stdio_8h.html" title=" " alt="" coords="646,225,823,251"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="708,177,720,213,714,214,703,179"/>
+<area shape="poly" id="edge15_Node000010_Node000002" title=" " alt="" coords="677,253,426,303,425,298,676,248"/>
+<area shape="poly" id="edge16_Node000010_Node000009" title=" " alt="" coords="734,226,723,190,728,189,739,224"/>
+<area shape="poly" id="edge18_Node000011_Node000002" title=" " alt="" coords="856,253,426,307,426,301,856,248"/>
+</map>

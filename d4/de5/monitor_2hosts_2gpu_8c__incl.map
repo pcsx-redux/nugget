@@ -1,0 +1,25 @@
+<map id="monitor/hosts/gpu.c" name="monitor/hosts/gpu.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="390,5,541,31"/>
+<area shape="rect" id="Node000002" href="$d8/de1/monitor_2hosts_2gpu_8h.html" title=" " alt="" coords="5,79,157,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="404,33,157,79,157,73,403,28"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="449,299,519,324"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="408,33,335,53,298,67,264,84,237,103,219,125,213,149,222,176,242,202,266,225,323,260,382,284,436,299,434,304,381,289,320,265,263,229,238,206,218,179,208,149,214,122,233,99,261,79,296,62,334,48,407,28"/>
+<area shape="rect" id="Node000004" href="$d9/d95/dma_8h.html" title=" " alt="" coords="232,152,421,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="435,33,398,52,363,80,345,109,335,140,330,138,341,107,359,77,395,48,433,28"/>
+<area shape="rect" id="Node000005" href="$d2/d4b/common_2hardware_2gpu_8h.html" title=" " alt="" coords="373,79,557,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="468,31,468,65,463,65,463,31"/>
+<area shape="rect" id="Node000006" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="497,152,703,177"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="499,28,536,48,571,77,589,107,598,137,593,139,584,109,567,80,533,52,496,33"/>
+<area shape="rect" id="Node000008" href="$d2/de7/irq_8h.html" title=" " alt="" coords="787,225,965,251"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="493,28,597,76,737,152,847,216,844,220,735,157,595,81,491,33"/>
+<area shape="rect" id="Node000009" href="$d3/da1/splash_8h.html" title=" " alt="" coords="779,79,955,104"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="530,28,789,74,788,79,529,33"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="341,176,463,287,459,291,338,180"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="469,104,484,284,479,285,464,105"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="488,102,567,143,565,148,486,106"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="587,180,562,201,537,227,515,258,498,288,493,285,511,255,533,224,558,197,583,176"/>
+<area shape="rect" id="Node000007" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="547,225,763,251"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="611,176,640,213,635,216,607,179"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="628,253,525,296,523,291,626,248"/>
+<area shape="poly" id="edge13_Node000008_Node000003" title=" " alt="" coords="813,253,534,304,533,299,813,248"/>
+</map>

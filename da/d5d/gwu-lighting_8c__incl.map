@@ -1,0 +1,32 @@
+<map id="tests/gte&#45;write&#45;to&#45;use/gwu&#45;lighting.c" name="tests/gte&#45;write&#45;to&#45;use/gwu&#45;lighting.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,152,45"/>
+<area shape="rect" id="Node000002" href="$db/d2e/gwu_8h.html" title=" " alt="" coords="48,93,109,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,46,81,79,76,79,76,46"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="397,460,467,485"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="71,120,55,143,36,175,21,212,15,252,15,327,16,374,23,392,39,410,64,425,100,437,194,454,296,464,383,468,383,473,296,469,193,459,99,442,62,429,36,414,19,395,11,375,9,327,9,251,16,211,31,173,50,140,67,117"/>
+<area shape="rect" id="Node000004" href="$de/df0/gte-latency-common_8h.html" title=" " alt="" coords="60,167,231,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="92,117,127,155,123,158,88,121"/>
+<area shape="rect" id="Node000005" href="$d9/d92/cop2_8h.html" title=" " alt="" coords="50,387,241,412"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="148,192,148,372,143,372,143,192"/>
+<area shape="rect" id="Node000006" href="$d2/d6e/syscalls_8h.html" title=" " alt="" coords="351,240,553,265"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="195,189,390,234,388,239,194,195"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="192,409,384,457,383,462,191,415"/>
+<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="380,268,338,285,321,298,306,315,293,340,289,362,293,385,306,411,322,428,341,442,384,460,382,465,338,447,318,432,302,413,288,387,283,362,288,338,302,312,317,294,336,281,378,263"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="316,313,391,339"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="438,268,382,307,379,303,435,263"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="415,313,489,339"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="455,266,455,300,449,300,449,266"/>
+<area shape="rect" id="Node000009" href="$d0/d77/circularbuffer_8h.html" title=" " alt="" coords="317,387,547,412"/>
+<area shape="poly" id="edge10_Node000006_Node000009" title=" " alt="" coords="469,264,484,278,498,297,507,318,504,340,487,363,467,381,463,377,483,360,499,338,501,318,494,299,480,282,465,268"/>
+<area shape="rect" id="Node000010" href="$db/de9/device_8h.html" title=" " alt="" coords="591,313,779,339"/>
+<area shape="poly" id="edge12_Node000006_Node000010" title=" " alt="" coords="490,263,635,307,634,312,489,268"/>
+<area shape="rect" id="Node000012" href="$dc/dea/common_2psxlibc_2handlers_8h.html" title=" " alt="" coords="825,387,1026,412"/>
+<area shape="poly" id="edge17_Node000006_Node000012" title=" " alt="" coords="554,259,670,277,732,291,792,311,853,342,902,376,899,381,850,347,790,316,730,296,669,282,553,264"/>
+<area shape="poly" id="edge11_Node000009_Node000003" title=" " alt="" coords="435,412,435,446,429,446,429,412"/>
+<area shape="poly" id="edge13_Node000010_Node000003" title=" " alt="" coords="671,341,623,375,560,414,473,457,471,452,557,410,620,371,668,337"/>
+<area shape="rect" id="Node000011" href="$d3/d43/common_2psxlibc_2stdio_8h.html" title=" " alt="" coords="623,387,801,412"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="685,338,697,374,692,376,680,340"/>
+<area shape="poly" id="edge15_Node000011_Node000003" title=" " alt="" coords="668,415,481,462,480,457,666,409"/>
+<area shape="poly" id="edge16_Node000011_Node000010" title=" " alt="" coords="712,387,700,352,705,350,717,386"/>
+<area shape="poly" id="edge18_Node000012_Node000003" title=" " alt="" coords="846,415,481,467,481,462,846,409"/>
+</map>
