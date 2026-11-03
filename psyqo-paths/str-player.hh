@@ -62,6 +62,10 @@ class ArchiveManager;
  * outputs: 24 bits per pixel by default, 15 bits with `Options::rgb24 = false`.
  * In 24 bits, a 320 pixels wide frame occupies 480 halfwords of VRAM per buffer.
  *
+ * With `Options::vramX` set, frames go to that one VRAM rectangle instead, always
+ * in 15 bits, for a program that draws the movie as a texture: `frame()` then
+ * returns once the rectangle holds the next frame, and the display is left alone.
+ *
  * The CD-ROM device is owned by the player for the duration of the playback.
  */
 class StrPlayer {
@@ -100,6 +104,11 @@ class StrPlayer {
         // Size of the display the frame is centered in, in pixels.
         uint16_t displayWidth = 320;
         uint16_t displayHeight = 240;
+        // Where in VRAM to decode, for a frame drawn as a texture: always 15-bit (rgb24 is ignored). -1 for the back buffer.
+        // One rectangle, not double buffered: each frame lands in it during frame(), so a caller that draws from
+        // it waits for its own chain to finish before calling frame().
+        int16_t vramX = -1;
+        int16_t vramY = 0;
     };
 
     enum class Status : uint8_t { IDLE, PLAYING, ENDED, FAILED };

@@ -247,6 +247,9 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     Kernel::assert(options.frameSlots >= 2, "StrPlayer: needs at least two frame slots");
     Kernel::assert(options.maxSectorsPerFrame >= 1 && options.maxSectorsPerFrame <= 32,
                    "StrPlayer: maxSectorsPerFrame must be 1..32");
+    Kernel::assert(options.vramX < 0 || (options.vramY >= 0 && options.vramX + options.displayWidth <= 1024 &&
+                                         options.vramY + options.displayHeight <= 512),
+                   "StrPlayer: the vramX/vramY rectangle must fit in VRAM");
     finish();
     m_options = options;
     m_stats = {};
@@ -255,7 +258,7 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     m_savedCdLeft = SPU_VOL_CD_LEFT;
     m_savedCdRight = SPU_VOL_CD_RIGHT;
     const uint32_t slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
-    const uint32_t sliceHalfwords = (options.rgb24 ? 24 : 16) * options.displayHeight;
+    const uint32_t sliceHalfwords = (options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight;
     m_slots = new Slot[options.frameSlots];
     m_slotMemory = new uint8_t[slotBytes * options.frameSlots + 4];
     m_rlBufs[0] = new uint16_t[options.rlHalfwords];
@@ -438,16 +441,22 @@ void psyqo::paths::StrPlayer::mdecReset() {
 // from interrupts, so the CPU is free to VLC-decode the next frame meanwhile.
 void psyqo::paths::StrPlayer::startDecode() {
     const Rl &rl = m_rlMeta[m_rlIdx];
-    const bool rgb24 = m_options.rgb24;
+    const bool rgb24 = m_options.rgb24 && m_options.vramX < 0;   // a rectangle is always 15-bit
     m_colCount = rl.width / 16;
     m_colWords = (rgb24 ? 192 : 128) * (rl.height / 16);
     m_colHw = rgb24 ? 24 : 16;
     m_colHeight = rl.height;
     m_x0 = int16_t(((m_options.displayWidth - rl.width) / 2) * (rgb24 ? 3 : 2) / 2);
     m_y0 = int16_t((m_gpu.getParity() ? 256 : 0) + (m_options.displayHeight - rl.height) / 2);
+    if (m_options.vramX >= 0) {
+        m_x0 = m_options.vramX;
+        m_y0 = m_options.vramY;
+    }
     const uint32_t inWords = (rl.halfwords + 1) / 2;
     uint32_t command = rl.command;
     if (rgb24) command = (command & ~(3u << 27)) | (2u << 27);
+    // A frame drawn as a texture: black without bit 15 would be see-through.
+    if (m_options.vramX >= 0) command |= 1u << 25;
 
     if (m_needReset) {
         mdecReset();
@@ -582,7 +591,7 @@ psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
                 m_haveDecoded = true;
                 const uint32_t lines = hsyncs() - m_decodeStartLine;
                 m_stats.decodeLineHistogram[lines / 64 > 11 ? 11 : lines / 64]++;
-                if (m_options.present == Present::ASAP) {
+                if (m_options.present == Present::ASAP && m_options.vramX < 0) {
                     Hardware::GPU::Ctrl = 0x05000000 | ((m_gpu.getParity() ? 256 : 0) << 10);
                     const uint32_t line = (hsyncs() - m_vblankRef) % linesPerFrame;
                     m_stats.switchLineHistogram[line / 32 > 9 ? 9 : line / 32]++;
