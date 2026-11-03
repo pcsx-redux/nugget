@@ -119,6 +119,13 @@ void TestScene::frame() {
           psyqo::paths::StrPlayer::heapNeeded(rl), 0);
     failsCleanly("rlHalfwords too large: play() fails", rl);
 
+    // So large the layout wraps 32 bits: heapNeeded() says it cannot fit, play() fails.
+    Options wrap;
+    wrap.rlHalfwords = 0x40000000;
+    check("heapNeeded(wrap) cannot fit", psyqo::paths::StrPlayer::heapNeeded(wrap) == 0xffffffffu,
+          psyqo::paths::StrPlayer::heapNeeded(wrap), 0xffffffffu);
+    failsCleanly("rlHalfwords wrapping 32 bits: play() fails", wrap);
+
     // The slot ring itself too large.
     Options slots;
     slots.frameSlots = 200;

@@ -244,21 +244,35 @@ psyqo::paths::StrPlayer::~StrPlayer() {
 // Where play() puts each buffer in its one block. Every offset is a multiple of 8,
 // the allocator's own alignment.
 psyqo::paths::StrPlayer::Layout psyqo::paths::StrPlayer::Layout::of(const Options &options) {
-    constexpr auto align8 = [](uint32_t n) { return (n + 7) & ~7u; };
-    Layout l;
-    l.slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
-    l.rlBytes = align8(options.rlHalfwords * sizeof(uint16_t));
-    l.sliceBytes = align8((options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight * sizeof(uint16_t));
-    l.slotData = align8(options.frameSlots * sizeof(Slot));
-    l.rl = l.slotData + align8(options.frameSlots * l.slotBytes);
-    l.slices = l.rl + 2 * l.rlBytes;
-    l.total = l.slices + 2 * l.sliceBytes;
+    // Summed in 64 bits: an absurd rlHalfwords or frameSlots would otherwise wrap and
+    // hand two buffers the same address. A layout past 4 GiB is marked as not fitting.
+    constexpr auto align8 = [](uint64_t n) { return (n + 7) & ~uint64_t(7); };
+    const uint64_t slotBytes = uint64_t(options.maxSectorsPerFrame) * c_chunkPayload;
+    const uint64_t rlBytes = align8(uint64_t(options.rlHalfwords) * sizeof(uint16_t));
+    const uint64_t sliceBytes =
+        align8(uint64_t(options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight * sizeof(uint16_t));
+    const uint64_t slotData = align8(uint64_t(options.frameSlots) * sizeof(Slot));
+    const uint64_t rl = slotData + align8(uint64_t(options.frameSlots) * slotBytes);
+    const uint64_t slices = rl + 2 * rlBytes;
+    const uint64_t total = slices + 2 * sliceBytes;
+    Layout l{};
+    l.fits = total + 16 <= 0xffffffffu;
+    if (!l.fits) return l;
+    l.slotBytes = uint32_t(slotBytes);
+    l.rlBytes = uint32_t(rlBytes);
+    l.sliceBytes = uint32_t(sliceBytes);
+    l.slotData = uint32_t(slotData);
+    l.rl = uint32_t(rl);
+    l.slices = uint32_t(slices);
+    l.total = uint32_t(total);
     return l;
 }
 
 uint32_t psyqo::paths::StrPlayer::heapNeeded(const Options &options) {
+    const Layout l = Layout::of(options);
+    if (!l.fits) return 0xffffffffu;
     // libc_malloc adds an 8-byte header and rounds the block to 8 bytes.
-    return ((Layout::of(options).total + 8) + 7) & ~7u;
+    return ((l.total + 8) + 7) & ~7u;
 }
 
 bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors) { return play(lba, sectors, Options{}); }
@@ -281,6 +295,7 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     const Layout layout = Layout::of(options);
     // One block from psyqo's allocator, which returns null when the heap is out. A
     // throwing new[] is assumed never to return null, so its check would be compiled out.
+    if (!layout.fits) return false;
     m_heap = reinterpret_cast<uint8_t *>(psyqo_malloc(layout.total));
     if (!m_heap) return false;
     m_slots = reinterpret_cast<Slot *>(m_heap);
