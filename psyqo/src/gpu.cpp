@@ -362,7 +362,8 @@ void psyqo::GPU::getNextScissor(Prim::Scissor &scissor) {
     auto parity = m_parity;
     int16_t width = m_width;
     int16_t height = m_height;
-    bool firstBuffer = !parity || m_interlaced;
+    // Interlaced modes draw into a single buffer at y=0.
+    bool firstBuffer = !parity && !m_interlaced;
 
     scissor.start = Prim::DrawingAreaStart(Vertex{{.x = 0, .y = firstBuffer ? int16_t(256) : int16_t(0)}});
     scissor.end = Prim::DrawingAreaEnd(Vertex{{.x = width, .y = firstBuffer ? int16_t(256 + height) : height}});
@@ -386,7 +387,9 @@ void psyqo::GPU::getClear(Prim::FastFill &ff, Color bg) const {
 void psyqo::GPU::getNextClear(Prim::FastFill &ff, Color bg) const {
     int16_t width = m_width;
     int16_t height = m_height;
-    bool firstBuffer = !m_parity || m_interlaced;
+    // Interlaced modes draw into a single buffer at y=0. The fill must not start
+    // at y=256: GP0(02h) wraps past row 511, so a 480-line fill there misses rows 224-255.
+    bool firstBuffer = !m_parity && !m_interlaced;
     ff.setColor(bg);
     ff.rect = Rect{0, firstBuffer ? int16_t(256) : int16_t(0), width, height};
 }
