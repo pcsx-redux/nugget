@@ -38,7 +38,7 @@ using namespace psyqo::Hardware;
 void psyqo::AdvancedPad::initialize(PollingMode mode) {
     // Init Pads
     __builtin_memset(m_padData, 0xff, sizeof(m_padData));
-    m_portsToProbeByVSync = mode == PollingMode::Normal ? 1 : 2;
+    setPollingMode(mode);
 
     SIO::Ctrl = SIO::Control::CTRL_IR;
     SIO::Baud = 0x88;  // 250kHz
