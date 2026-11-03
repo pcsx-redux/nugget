@@ -247,6 +247,9 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     Kernel::assert(options.frameSlots >= 2, "StrPlayer: needs at least two frame slots");
     Kernel::assert(options.maxSectorsPerFrame >= 1 && options.maxSectorsPerFrame <= 32,
                    "StrPlayer: maxSectorsPerFrame must be 1..32");
+    Kernel::assert(options.vramX < 0 || (options.vramY >= 0 && options.vramX + options.displayWidth <= 1024 &&
+                                         options.vramY + options.displayHeight <= 512),
+                   "StrPlayer: the vramX/vramY rectangle must fit in VRAM");
     finish();
     m_options = options;
     m_stats = {};
@@ -588,7 +591,7 @@ psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
                 m_haveDecoded = true;
                 const uint32_t lines = hsyncs() - m_decodeStartLine;
                 m_stats.decodeLineHistogram[lines / 64 > 11 ? 11 : lines / 64]++;
-                if (m_options.present == Present::ASAP) {
+                if (m_options.present == Present::ASAP && m_options.vramX < 0) {
                     Hardware::GPU::Ctrl = 0x05000000 | ((m_gpu.getParity() ? 256 : 0) << 10);
                     const uint32_t line = (hsyncs() - m_vblankRef) % linesPerFrame;
                     m_stats.switchLineHistogram[line / 32 > 9 ? 9 : line / 32]++;
