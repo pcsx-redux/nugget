@@ -244,27 +244,19 @@ psyqo::paths::StrPlayer::~StrPlayer() {
 // Where play() puts each buffer in its one block. Every offset is a multiple of 8,
 // the allocator's own alignment.
 psyqo::paths::StrPlayer::Layout psyqo::paths::StrPlayer::Layout::of(const Options &options) {
-    // Summed in 64 bits: an absurd rlHalfwords or frameSlots would otherwise wrap and
-    // hand two buffers the same address. A layout past 4 GiB is marked as not fitting.
-    constexpr auto align8 = [](uint64_t n) { return (n + 7) & ~uint64_t(7); };
-    const uint64_t slotBytes = uint64_t(options.maxSectorsPerFrame) * c_chunkPayload;
-    const uint64_t rlBytes = align8(uint64_t(options.rlHalfwords) * sizeof(uint16_t));
-    const uint64_t sliceBytes =
-        align8(uint64_t(options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight * sizeof(uint16_t));
-    const uint64_t slotData = align8(uint64_t(options.frameSlots) * sizeof(Slot));
-    const uint64_t rl = slotData + align8(uint64_t(options.frameSlots) * slotBytes);
-    const uint64_t slices = rl + 2 * rlBytes;
-    const uint64_t total = slices + 2 * sliceBytes;
+    constexpr auto align8 = [](uint32_t n) { return (n + 7) & ~7u; };
     Layout l{};
-    l.fits = total + 16 <= 0xffffffffu;
+    // rlHalfwords is the one option that can wrap these sums: past 8 MiB of run-level
+    // buffer it cannot fit in any PS1's RAM, so it is refused before anything adds up.
+    l.fits = options.rlHalfwords <= (1u << 22);
     if (!l.fits) return l;
-    l.slotBytes = uint32_t(slotBytes);
-    l.rlBytes = uint32_t(rlBytes);
-    l.sliceBytes = uint32_t(sliceBytes);
-    l.slotData = uint32_t(slotData);
-    l.rl = uint32_t(rl);
-    l.slices = uint32_t(slices);
-    l.total = uint32_t(total);
+    l.slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
+    l.rlBytes = align8(options.rlHalfwords * sizeof(uint16_t));
+    l.sliceBytes = align8((options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight * sizeof(uint16_t));
+    l.slotData = align8(options.frameSlots * sizeof(Slot));
+    l.rl = l.slotData + align8(options.frameSlots * l.slotBytes);
+    l.slices = l.rl + 2 * l.rlBytes;
+    l.total = l.slices + 2 * l.sliceBytes;
     return l;
 }
 

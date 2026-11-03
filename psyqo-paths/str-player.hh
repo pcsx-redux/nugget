@@ -149,8 +149,8 @@ class StrPlayer {
      * @brief The heap `play()` takes with these options, in bytes.
      *
      * @details It is one contiguous block, the allocator's header included, held
-     * until the movie ends, fails, or is stopped. 0xffffffff when the options
-     * describe more than 4 GiB, which play() refuses.
+     * until the movie ends, fails, or is stopped. 0xffffffff when rlHalfwords
+     * is over 4M (8 MiB of run-level buffer), which play() refuses.
      */
     static uint32_t heapNeeded(const Options &options);
 
@@ -208,7 +208,7 @@ class StrPlayer {
     struct Layout {
         uint32_t slotBytes, rlBytes, sliceBytes;
         uint32_t slotData, rl, slices, total;
-        bool fits;  // false when the layout would not fit in 32 bits
+        bool fits;  // false when rlHalfwords is past any PS1 RAM
         static Layout of(const Options &options);
     };
     uint8_t *m_heap = nullptr;
