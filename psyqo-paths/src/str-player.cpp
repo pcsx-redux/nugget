@@ -406,6 +406,17 @@ void psyqo::paths::StrPlayer::cdDone(bool success) {
     m_cdRunning = false;
 }
 
+// Turns everything after the given number of run-level blocks into end-of-block padding.
+static void cutAfter(uint16_t *rl, uint32_t halfwords, uint32_t blocks) {
+    uint32_t i = 0;
+    for (uint32_t b = 0; b < blocks && i < halfwords; b++) {
+        i++;
+        while (i < halfwords && rl[i++] != 0xfe00) {
+        }
+    }
+    while (i < halfwords) rl[i++] = 0xfe00;
+}
+
 bool psyqo::paths::StrPlayer::vlcNext() {
     Slot &s = m_slots[m_readSlot];
     if (s.state != SLOT_READY) return false;
@@ -414,7 +425,11 @@ bool psyqo::paths::StrPlayer::vlcNext() {
     if (need && need <= m_options.rlHalfwords && s.width && s.height && !(s.width & 15) && !(s.height & 15) &&
         s.width <= m_options.displayWidth && s.height <= m_options.displayHeight) {
         const BsdecResult r = bsdecFrame(s.data, s.size, m_rlBufs[m_vlcIdx], m_options.rlHalfwords);
-        if (bsdecUsable(r.error)) {
+        const uint32_t blocks = uint32_t(s.width / 16) * (s.height / 16) * 6;
+        // A partial macroblock must not reach the MDEC: fewer blocks than the picture
+        // rejects the frame, more are cut after its last block.
+        if (bsdecUsable(r.error) && r.blocks >= blocks) {
+            if (r.blocks > blocks) cutAfter(m_rlBufs[m_vlcIdx], r.halfwords, blocks);
             ok = true;
             m_rlMeta[m_vlcIdx] = {r.mdecCommand, r.halfwords, s.width, s.height};
             m_rlIdx = m_vlcIdx;
@@ -436,9 +451,10 @@ bool psyqo::paths::StrPlayer::vlcNext() {
 // is out. It must not run while a VRAM upload shares the bus.
 void psyqo::paths::StrPlayer::mdecReset() {
     MDEC1 = 0x80000000;
-    // The enable is lost if it follows the reset too closely.
-    for (unsigned i = 0; i < 1000 && (MDEC1 & 0x20000000); i++) {
-    }
+    // A store 6 cycles or fewer behind the reset is lost. Busy reads clear at once,
+    // so this is one read, there for the time it takes.
+    const uint32_t gap = MDEC1;
+    (void)gap;
     MDEC1 = 0x60000000;
     MDEC0 = 0x40000001;
     DMA_CTRL[DMA_MDECIN].MADR = reinterpret_cast<uintptr_t>(s_quantWords);
