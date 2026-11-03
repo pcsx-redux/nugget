@@ -71,6 +71,7 @@ const TESTS = [
     'memops-unroll;memops-unroll/memops-unroll',
     'memset;memset/memset',
     'modplayer-state;modplayer-state/modplayer-state',
+    'psyqo-480i-clear;psyqo-480i-clear/clear480i',
     'psyqo-480i-flip;psyqo-480i-flip/flip480i',
     'psyqo-reinit;psyqo-reinit/reinit',
     'psyqo-spudma;psyqo-spudma/spudma',
