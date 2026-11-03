@@ -36,6 +36,7 @@ extern "C" {
 #include "common/hardware/hwregs.h"
 #include "common/hardware/spu.h"
 #include "psyqo-paths/archive-manager.hh"
+#include "psyqo/alloc.h"
 #include "psyqo/hardware/cdrom.hh"
 #include "psyqo/hardware/gpu.hh"
 #include "psyqo/hardware/sbus.hh"
@@ -240,6 +241,26 @@ psyqo::paths::StrPlayer::~StrPlayer() {
     finish();
 }
 
+// Where play() puts each buffer in its one block. Every offset is a multiple of 8,
+// the allocator's own alignment.
+psyqo::paths::StrPlayer::Layout psyqo::paths::StrPlayer::Layout::of(const Options &options) {
+    constexpr auto align8 = [](uint32_t n) { return (n + 7) & ~7u; };
+    Layout l;
+    l.slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
+    l.rlBytes = align8(options.rlHalfwords * sizeof(uint16_t));
+    l.sliceBytes = align8((options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight * sizeof(uint16_t));
+    l.slotData = align8(options.frameSlots * sizeof(Slot));
+    l.rl = l.slotData + align8(options.frameSlots * l.slotBytes);
+    l.slices = l.rl + 2 * l.rlBytes;
+    l.total = l.slices + 2 * l.sliceBytes;
+    return l;
+}
+
+uint32_t psyqo::paths::StrPlayer::heapNeeded(const Options &options) {
+    // libc_malloc adds an 8-byte header and rounds the block to 8 bytes.
+    return ((Layout::of(options).total + 8) + 7) & ~7u;
+}
+
 bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors) { return play(lba, sectors, Options{}); }
 
 bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options &options) {
@@ -257,21 +278,19 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     m_savedSpuCtrl = SPU_CTRL;
     m_savedCdLeft = SPU_VOL_CD_LEFT;
     m_savedCdRight = SPU_VOL_CD_RIGHT;
-    const uint32_t slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
-    const uint32_t sliceHalfwords = (options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight;
-    m_slots = new Slot[options.frameSlots];
-    m_slotMemory = new uint8_t[slotBytes * options.frameSlots + 4];
-    m_rlBufs[0] = new uint16_t[options.rlHalfwords];
-    m_rlBufs[1] = new uint16_t[options.rlHalfwords];
-    m_slices[0] = new uint16_t[sliceHalfwords];
-    m_slices[1] = new uint16_t[sliceHalfwords];
-    if (!m_slots || !m_slotMemory || !m_rlBufs[0] || !m_rlBufs[1] || !m_slices[0] || !m_slices[1]) {
-        finish();
-        return false;
-    }
-    uint8_t *mem = reinterpret_cast<uint8_t *>((reinterpret_cast<uintptr_t>(m_slotMemory) + 3) & ~3);
+    const Layout layout = Layout::of(options);
+    // One block from psyqo's allocator, which returns null when the heap is out. A
+    // throwing new[] is assumed never to return null, so its check would be compiled out.
+    m_heap = reinterpret_cast<uint8_t *>(psyqo_malloc(layout.total));
+    if (!m_heap) return false;
+    m_slots = reinterpret_cast<Slot *>(m_heap);
+    m_rlBufs[0] = reinterpret_cast<uint16_t *>(m_heap + layout.rl);
+    m_rlBufs[1] = reinterpret_cast<uint16_t *>(m_heap + layout.rl + layout.rlBytes);
+    m_slices[0] = reinterpret_cast<uint16_t *>(m_heap + layout.slices);
+    m_slices[1] = reinterpret_cast<uint16_t *>(m_heap + layout.slices + layout.sliceBytes);
     for (unsigned i = 0; i < options.frameSlots; i++) {
-        m_slots[i].data = mem + i * slotBytes;
+        m_slots[i] = {};
+        m_slots[i].data = m_heap + layout.slotData + i * layout.slotBytes;
         m_slots[i].state = SLOT_FREE;
     }
     m_lba = lba;
@@ -678,14 +697,9 @@ void psyqo::paths::StrPlayer::finish() {
             SPU_VOL_CD_RIGHT = m_savedCdRight;
         }
     }
-    delete[] m_slots;
-    delete[] m_slotMemory;
-    delete[] m_rlBufs[0];
-    delete[] m_rlBufs[1];
-    delete[] m_slices[0];
-    delete[] m_slices[1];
+    psyqo_free(m_heap);
+    m_heap = nullptr;
     m_slots = nullptr;
-    m_slotMemory = nullptr;
     m_rlBufs[0] = m_rlBufs[1] = nullptr;
     if (m_dmaSlot != ~0u) {
         Kernel::unregisterDmaEvent(m_dmaSlot);
