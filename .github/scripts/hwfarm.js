@@ -145,6 +145,11 @@ const SKIPS = [
     'spu-envx/spu-envx|probe: prints ENVX readings beside the expected values, always exits 0',
     'spu-revread/revread|graded on the digital audio tap, loops forever, no verdict',
     'spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict',
+    'stack-bounds/stack-bounds|emulator stack-bounds command (pcsx-redux#2510), no hardware verdict',
+    'stack-bounds-churn/stack-bounds-churn|emulator stack-bounds command (pcsx-redux#2510), no hardware verdict',
+    'stack-bounds-trip/stack-bounds-trip|emulator stack-bounds command (pcsx-redux#2510), expects Redux to exit 251, no hardware verdict',
+    'stack-bounds-heap/stack-bounds-heap|emulator heap vs stack-bounds check (pcsx-redux#2551), expects Redux to exit 251, no hardware verdict',
+    'stack-bounds-heap-quiet/stack-bounds-heap-quiet|emulator heap vs stack-bounds check (pcsx-redux#2551), no hardware verdict',
 ];
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
