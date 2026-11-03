@@ -255,7 +255,7 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     m_savedCdLeft = SPU_VOL_CD_LEFT;
     m_savedCdRight = SPU_VOL_CD_RIGHT;
     const uint32_t slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
-    const uint32_t sliceHalfwords = (options.rgb24 ? 24 : 16) * options.displayHeight;
+    const uint32_t sliceHalfwords = (options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight;
     m_slots = new Slot[options.frameSlots];
     m_slotMemory = new uint8_t[slotBytes * options.frameSlots + 4];
     m_rlBufs[0] = new uint16_t[options.rlHalfwords];
@@ -438,7 +438,7 @@ void psyqo::paths::StrPlayer::mdecReset() {
 // from interrupts, so the CPU is free to VLC-decode the next frame meanwhile.
 void psyqo::paths::StrPlayer::startDecode() {
     const Rl &rl = m_rlMeta[m_rlIdx];
-    const bool rgb24 = m_options.rgb24;
+    const bool rgb24 = m_options.rgb24 && m_options.vramX < 0;   // a rectangle is always 15-bit
     m_colCount = rl.width / 16;
     m_colWords = (rgb24 ? 192 : 128) * (rl.height / 16);
     m_colHw = rgb24 ? 24 : 16;
