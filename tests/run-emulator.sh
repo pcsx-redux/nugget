@@ -67,6 +67,7 @@ TESTS=(
     "psyqo-dmachain;psyqo-dmachain/dmachain;interpreter dynarec;^All 3 arms passed;"
     "psyqo-480i-clear;psyqo-480i-clear/clear480i;interpreter;^All 480i clear checks passed;"
     "psyqo-reinit;psyqo-reinit/reinit;interpreter dynarec;^All reinitialize checks passed;"
+    "str-player-alloc;str-player-alloc/str-player-alloc;interpreter dynarec;^str-player-alloc: all checks passed;"
     "psyqo-spudma;psyqo-spudma/spudma;interpreter dynarec;^All SPU DMA checks passed;"
     "rumble;rumble/rumble;interpreter dynarec;$CESTER;-exec dofile('tests/rumble/setup.lua')"
     "spu-volsweep;spu-volsweep/spu-volsweep;interpreter;^SPUVOLSWEEP: PASS \(0 failures\);"

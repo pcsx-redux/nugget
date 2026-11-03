@@ -150,6 +150,15 @@ class StrPlayer {
     bool play(uint32_t lba, uint32_t sectors);
 
     /**
+     * @brief The heap `play()` takes with these options, in bytes.
+     *
+     * @details It is one contiguous block, the allocator's header included, held
+     * until the movie ends, fails, or is stopped. 0xffffffff when rlHalfwords
+     * is over 4M (8 MiB of run-level buffer), which play() refuses.
+     */
+    static uint32_t heapNeeded(const Options &options);
+
+    /**
      * @brief Drives the playback, to be called from the scene's `frame()`.
      *
      * @details Blocks until the back buffer holds the next frame to present, then
@@ -200,8 +209,14 @@ class StrPlayer {
     GPU &m_gpu;
     Options m_options;
     Stats m_stats;
+    struct Layout {
+        uint32_t slotBytes, rlBytes, sliceBytes;
+        uint32_t slotData, rl, slices, total;
+        bool fits;  // false when rlHalfwords is past any PS1 RAM
+        static Layout of(const Options &options);
+    };
+    uint8_t *m_heap = nullptr;
     Slot *m_slots = nullptr;
-    uint8_t *m_slotMemory = nullptr;
     struct Rl {
         uint32_t command;
         uint32_t halfwords;

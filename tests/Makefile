@@ -95,6 +95,7 @@ all:
 	$(MAKE) -C psyqo-irq-cost all
 	$(MAKE) -C psyqo-dmachain all
 	$(MAKE) -C psyqo-reinit all
+	$(MAKE) -C str-player-alloc all
 	$(MAKE) -C psyqo-spudma all
 	$(MAKE) -C regwrites all
 	$(MAKE) -C multitap all
@@ -230,6 +231,7 @@ clean:
 	$(MAKE) -C psyqo-irq-cost clean
 	$(MAKE) -C psyqo-dmachain clean
 	$(MAKE) -C psyqo-reinit clean
+	$(MAKE) -C str-player-alloc clean
 	$(MAKE) -C psyqo-spudma clean
 	$(MAKE) -C regwrites clean
 	$(MAKE) -C multitap clean

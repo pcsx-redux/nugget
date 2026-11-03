@@ -87,6 +87,7 @@ const TESTS = [
     'sio-reset;sio-reset/sio-reset',
     'sio1-misc;sio1-misc/sio1-misc',
     'sr-write;sr-write/sr-write',
+    'str-player-alloc;str-player-alloc/str-player-alloc',
     'timers;timers/timers',
     // Each card test erases the card in one fixed slot, so it only runs on a
     // console whose card in that slot is a test card. Another console's slot 1
