@@ -73,8 +73,11 @@ void psyqo::CDRomDevice::irq() {
         uint8_t cause = Hardware::CDRom::Cause;
         if (ranOnce && ((cause & 15) == 0)) break;
         ranOnce = true;
-        // No event to service: an SCPH-5501 raises one at start, Cause E0h and no reply, after prepare()'s drain.
-        if ((cause & 0x1f) == 0) break;
+        // No response to receive (an SCPH-5501 raises one at start, Cause E0h and no reply, after prepare()'s drain).
+        if ((cause & 7) == 0) {
+            if (cause & 0x18) Hardware::CDRom::Cause = 0x18;
+            break;
+        }
         Kernel::assert(m_action != nullptr, "CDRomDevice::irq() called with no action - spurious interrupt?");
 
         if (cause & 7) {
