@@ -77,13 +77,13 @@ noStack:
     lw    $sp, 0x28($s0) /* header->savedSP */
     lw    $s8, 0x2c($s0) /* header->savedS8 */
     lw    $gp, 0x30($s0) /* header->savedGP */
+    .cfi_restore $ra
+    .cfi_restore $sp
+    .cfi_def_cfa $sp, 0  /* the stack frame pointer is sp again */
     lw    $s0, 0x38($s0) /* header->savedS0 */
     jr    $ra
     li    $v0, 1
 
-    .cfi_restore $ra
-    .cfi_restore $sp
-    .cfi_def_cfa $sp, 0  /* the stack frame pointer is sp again */
     .cfi_endproc
     .end exec
     .size exec, .-exec
