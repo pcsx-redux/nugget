@@ -28,21 +28,27 @@ SOFTWARE.
     .set noreorder
     .align 2
     .global exec
-    .type exec, @function
-
+    .cfi_sections .debug_frame, .eh_frame
+    .cfi_startproc
+    .ent    exec
+    .type   exec, @function
     /* is there a way to access a C-struct in assembly? */
 exec:
+    .cfi_def_cfa $a0, 0    /* This function's frame pointer is in a0 */
     sw    $s0, 0x38($a0) /* header->savedS0 */
     sw    $ra, 0x34($a0) /* header->savedRA */
     sw    $sp, 0x28($a0) /* header->savedSP */
     sw    $s8, 0x2c($a0) /* header->savedS8 */
     sw    $gp, 0x30($a0) /* header->savedGP */
+    .cfi_offset $ra, 0x34
+    .cfi_offset $sp, 0x28
 
     lw    $t0, 0x1c($a0) /* t0 = header->bss_size */
     lw    $t3, 0x20($a0) /* t3 = stack_start */
 
     beqz  $t0, skipBSS   /* t0 = bss_size */
     move  $s0, $a0       /* s0 = header */
+    .cfi_def_cfa_register $s0
 
     lw    $t1, 0x18($a0) /* t1 = bss_start */
 
@@ -74,3 +80,10 @@ noStack:
     lw    $s0, 0x38($s0) /* header->savedS0 */
     jr    $ra
     li    $v0, 1
+
+    .cfi_restore $ra
+    .cfi_restore $sp
+    .cfi_def_cfa $sp, 0  /* the stack frame pointer is sp again */
+    .cfi_endproc
+    .end exec
+    .size exec, .-exec
