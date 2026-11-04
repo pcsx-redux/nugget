@@ -64,7 +64,16 @@ static char *putstr(char *p, const char *s) {
     while (*s) *p++ = *s++;
     return p;
 }
+/* SILENT: no output at all. A cart running its code from this flash (an
+   OpenBIOS cart image) takes every syscall and exception in that code, so a
+   tty write between the erase and the end of programming would jump into
+   erased flash. Silent builds only report through the exit code, and only
+   once the new image is in. */
+#ifdef FLASH_SILENT
+static void say(const char *s) { (void)s; }
+#else
 static void say(const char *s) { syscall_puts(s); }
+#endif
 static void sayhex(const char *k, uint32_t v) {
     char b[64], *p = b;
     p = putstr(p, k);
