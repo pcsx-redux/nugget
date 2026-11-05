@@ -50,6 +50,9 @@ jobs:
       - name: Tests
         run: make -C tests -j2 all PCSX_TESTS=true
 
+      - name: Hardware farm manifest
+        run: node .github/scripts/hwfarm.js check
+
       - name: Emulator
         # The dev channel AppImage, extracted because a runner has no FUSE.
         run: |
