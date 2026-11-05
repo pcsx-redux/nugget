@@ -313,6 +313,21 @@ CESTER_TEST(links, cpu_tests,
     cester_assert_uint_ne(0, r);
 )
 
+CESTER_TEST(delayslot_load_first_entry, cpu_tests,
+    // A load in the delay slot of a jal into code that has never run: the
+    // target's first instruction still sees the old value. The same code is
+    // then entered again plainly and with another load pending.
+    uint32_t buff[2] = {0x12345678, 0x9abcdef0};
+    uint32_t out[6] = {0, 0, 0, 0, 0, 0};
+    delayslot_load_first_entry(buff, out);
+    cester_assert_uint_eq(0x1111, out[0]);
+    cester_assert_uint_eq(0x12345678, out[1]);
+    cester_assert_uint_eq(0x12345678, out[2]);
+    cester_assert_uint_eq(0x2222, out[3]);
+    cester_assert_uint_eq(0x9abcdef0, out[4]);
+    cester_assert_uint_eq(3, out[5]);
+)
+
 CESTER_TEST(nolink, cpu_tests,
     uint32_t r = nolink();
     cester_assert_uint_ne(0, r);
