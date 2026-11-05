@@ -50,6 +50,10 @@ jobs:
       - name: Tests
         run: make -C tests -j2 all PCSX_TESTS=true
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Hardware farm manifest
         run: node .github/scripts/hwfarm.js check
 
