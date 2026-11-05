@@ -135,11 +135,12 @@ void psyqo::MemoryCard::stampDeselect() {
 // kicking each sector from the vblank handler (~16ms apart); we chain
 // transactions back to back, and a slow third-party card reselected too soon
 // serves stale (valid-checksum but wrong) sector data. So a fresh select waits
-// until the bus has been deselected for c_recoveryHblanks. Two vblanks since
-// the stamp is always enough, which also covers the hblank counter wrapping.
+// until the bus has been deselected for c_recoveryHblanks. Three vblanks since
+// the stamp always span two whole fields, which is enough and also covers the
+// hblank counter wrapping; under three, the 16-bit hblank delta is exact.
 bool psyqo::MemoryCard::recovered() const {
     if (!m_deselectStamped) return false;
-    if (readFrameCounter() - m_deselectFrame >= 2) return true;
+    if (readFrameCounter() - m_deselectFrame >= 3) return true;
     return static_cast<uint16_t>(readHblankCounter() - m_deselectHblank) >= c_recoveryHblanks;
 }
 
