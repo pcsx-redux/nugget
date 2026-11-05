@@ -22,7 +22,7 @@ PlayStation 1.
  - [psyqo-lua](../psyqo-lua) Lua scripting for PSYQo applications.
  - [psyqo-paths](../psyqo-paths) Convenience routines that sit on top of PSYQo, such as loading a file off the CD-Rom, which are too generic to belong in PSYQo itself.
  - [psyq](../psyq) Some additional code for the converted psyq libraries.
- - [lz4](../lz4) A single-function LZ4 block decompressor.
+ - [lz4](../lz4) A single-function LZ4 block decompressor, in C (smallest) or MIPS assembly (fastest).
  - [crc32](../crc32) A CRC32 implementation that is optimized for the PlayStation 1, using the scratchpad as a speedup.
 
 ### Audio
