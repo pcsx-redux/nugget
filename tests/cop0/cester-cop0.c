@@ -89,6 +89,7 @@ CESTER_BODY(
     uint32_t linkandload();
     uint32_t lwandlink();
     uint32_t nolink();
+    void delayslot_load_first_entry(const uint32_t buff[2], uint32_t out[6]);
 
     static int s_interruptsWereEnabled;
 )
