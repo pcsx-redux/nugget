@@ -389,8 +389,17 @@ module.exports = { classify, summarize, listed, refusal, TESTS, SKIPS, REVISION 
 
 if (require.main === module) {
     const [cmd, ...rest] = process.argv.slice(2);
+    if (cmd === 'check') {
+        // The manifest gate alone, against the built tree, with nothing
+        // submitted. Run on every PR so an unlisted test fails there.
+        const problems = listed('tests');
+        problems.forEach((p) => console.log(p));
+        if (problems.length) process.exit(2);
+        console.log(`hwfarm manifest OK: ${TESTS.length} run, ${SKIPS.length} skipped`);
+        process.exit(0);
+    }
     if (cmd !== 'run') {
-        console.error('usage: hwfarm.js run [--out results.json] [name...]');
+        console.error('usage: hwfarm.js run [--out results.json] [name...] | hwfarm.js check');
         process.exit(2);
     }
     run(rest).catch((e) => {
