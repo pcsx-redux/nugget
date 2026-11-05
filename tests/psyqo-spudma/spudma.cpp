@@ -43,8 +43,23 @@ SOFTWARE.
 // than the compared window, so whatever happens at the tail of an SPU RAM
 // read lands in slack nobody looks at.
 //
+// After that, synchronous transfers of 64 B, 512 B, 2 KiB and 8 KiB, each
+// to its own slot that the drained writer first fills with the complement of
+// the pattern, so every byte not written reads back wrong:
+//
+//   ctrl     the drained writer, which keeps every byte: the readback control
+//   b2b16    psyqo dmaWrite(..., 16), then at once another psyqo dmaWrite
+//   b2bdef   the same with the default block size
+//   stop     psyqo dmaWrite, then the mode put back to stop at once
+//   rawstop  the drained writer without its drain, the known loss
+//
+// stop and rawstop are positive controls, printed but not judged: rawstop
+// loses its tail on silicon and shows the readback can see a loss, stop is
+// the caller-side variant. Each case runs three times and prints its loss.
+//
 // Exit codes: 0 pass, 1 timeout, 2 out of order or wrong context, 3 data
-// mismatch, 4 the readback control failed, so the data check means nothing.
+// mismatch, 4 the readback control failed, so the data check means nothing,
+// 5 back to back data loss, 6 the back to back readback control failed.
 
 #include <stdint.h>
 
@@ -75,6 +90,23 @@ constexpr unsigned kTimeoutFrames = 180;
 
 constexpr uint8_t pattern(unsigned seed, unsigned i) { return uint8_t((seed * 0x35) ^ (i * 7) ^ (i >> 3)); }
 constexpr unsigned kControlSeed = kStages + 1;
+
+constexpr uint32_t kB2BMax = 8192;
+// Guard bytes compared past the end of each slot, inside a read that runs
+// 256 bytes past it.
+constexpr uint32_t kB2BGuard = 64;
+constexpr uint32_t kB2BSlack = 256;
+constexpr uint32_t kB2BBase = 0x10000;
+constexpr uint32_t kB2BStride = 0x2400;
+constexpr uint32_t kB2BDummy = 0x70000;
+constexpr unsigned kB2BReps = 3;
+constexpr uint8_t b2bPattern(unsigned seed, unsigned i) { return uint8_t(pattern(seed, i) ^ (i >> 8)); }
+
+alignas(4) uint8_t s_b2bSource[kB2BMax];
+alignas(4) uint8_t s_b2bFill[kB2BMax + kB2BSlack];
+alignas(4) uint8_t s_b2bReadback[kB2BMax + kB2BSlack];
+alignas(4) uint8_t s_b2bDummy[64];
+unsigned s_b2bResult = 0;
 
 alignas(4) uint8_t s_chunks[kStages][kChunk];
 alignas(4) uint8_t s_control[kChunk];
@@ -123,7 +155,7 @@ void drainWrite() {
     for (i = 0; i < 20000; i = i + 1);
 }
 
-void syncTransfer(uint32_t spuAddress, void *buffer, uint32_t size, bool read) {
+void syncTransfer(uint32_t spuAddress, void *buffer, uint32_t size, bool read, bool drain = true) {
     uint16_t mode = read ? 0x0030 : 0x0020;
     stopTransfer();
     SPU_RAM_DTA = spuAddress >> 3;
@@ -135,7 +167,7 @@ void syncTransfer(uint32_t spuAddress, void *buffer, uint32_t size, bool read) {
     DMA_CTRL[DMA_SPU].BCR = ((size / 64) << 16) | 16;
     DMA_CTRL[DMA_SPU].CHCR = read ? 0x01000200 : 0x01000201;
     for (unsigned i = 0; i < 0x100000 && (DMA_CTRL[DMA_SPU].CHCR & 0x01000000); i++);
-    if (!read) drainWrite();
+    if (!read && drain) drainWrite();
     stopTransfer();
 }
 
@@ -188,6 +220,7 @@ class TestScene final : public psyqo::Scene {
     static void startStage(unsigned stage);
     static bool checkOrder(unsigned count);
     static unsigned compare(const char *name, uint32_t offset, uint32_t size, unsigned seed);
+    static unsigned backToBack();
 };
 
 SpuDmaTest app;
@@ -225,6 +258,12 @@ void TestScene::start(StartReason) {
     }
     for (unsigned i = 0; i < kChunk; i++) s_control[i] = pattern(kControlSeed, i);
     for (unsigned i = 0; i < kRead; i++) s_filler[i] = kFiller;
+
+    // The back to back cases run before the completion interrupt is armed:
+    // once it is, every synchronous transfer's completion runs psyqo's DMA
+    // handler between CHCR going idle and the next access, which is long
+    // enough for the tail to land and hides any loss.
+    s_b2bResult = backToBack();
 
     // Background and control first, synchronously, before the completion
     // interrupt is armed.
@@ -271,6 +310,87 @@ unsigned TestScene::compare(const char *name, uint32_t offset, uint32_t size, un
     return bad;
 }
 
+enum B2BKind { CTRL, B2B16, B2BDEF, STOP, RAWSTOP, KINDS };
+
+// One case: fill the slot with the complement, write the pattern the case's
+// way, read the slot and 256 bytes past it with the drained routine, count.
+// Returns the bytes lost inside the slot; guard bytes changed past it are
+// reported through spill.
+static unsigned b2bCase(B2BKind kind, uint32_t size, uint32_t addr, unsigned seed, unsigned &spill, int &first) {
+    for (uint32_t i = 0; i < size; i++) s_b2bSource[i] = b2bPattern(seed, i);
+    for (uint32_t i = 0; i < size + kB2BSlack; i++) s_b2bFill[i] = uint8_t(~b2bPattern(seed, i));
+    syncTransfer(addr, s_b2bFill, size + kB2BSlack, false);
+
+    switch (kind) {
+        case CTRL:
+            syncTransfer(addr, s_b2bSource, size, false);
+            break;
+        case B2B16:
+            psyqo::SPU::dmaWrite(addr, s_b2bSource, size, 16);
+            psyqo::SPU::dmaWrite(kB2BDummy, s_b2bDummy, sizeof(s_b2bDummy), 16);
+            break;
+        case B2BDEF:
+            psyqo::SPU::dmaWrite(addr, s_b2bSource, size);
+            psyqo::SPU::dmaWrite(kB2BDummy, s_b2bDummy, sizeof(s_b2bDummy));
+            break;
+        case STOP:
+            psyqo::SPU::dmaWrite(addr, s_b2bSource, size, 16);
+            SPU_CTRL = SPU_CTRL & ~0x0030;
+            break;
+        case RAWSTOP:
+            syncTransfer(addr, s_b2bSource, size, false, false);
+            break;
+        default:
+            break;
+    }
+
+    for (uint32_t i = 0; i < size + kB2BSlack; i++) s_b2bReadback[i] = 0;
+    syncTransfer(addr, s_b2bReadback, size + kB2BSlack, true);
+
+    unsigned lost = 0;
+    first = -1;
+    for (uint32_t i = 0; i < size; i++) {
+        if (s_b2bReadback[i] != b2bPattern(seed, i)) {
+            if (first < 0) first = i;
+            lost++;
+        }
+    }
+    spill = 0;
+    for (uint32_t i = size; i < size + kB2BGuard; i++) {
+        if (s_b2bReadback[i] != uint8_t(~b2bPattern(seed, i))) spill++;
+    }
+    return lost;
+}
+
+// Prints one SPUB2B line per case and repetition. Returns 0 when every judged
+// case kept every byte, 6 when the readback control lost any, 5 when a back
+// to back case did.
+unsigned TestScene::backToBack() {
+    static const uint32_t sizes[] = {64, 512, 2048, 8192};
+    static const char *const kinds[KINDS] = {"ctrl", "b2b16", "b2bdef", "stop", "rawstop"};
+    static const char *const verdicts[KINDS] = {"judged", "judged", "judged", "info", "info"};
+    for (unsigned i = 0; i < sizeof(s_b2bDummy); i++) s_b2bDummy[i] = 0x5a;
+    bool controlBad = false, b2bBad = false;
+    unsigned slot = 0;
+    for (uint32_t size : sizes) {
+        for (unsigned k = 0; k < KINDS; k++, slot++) {
+            uint32_t addr = kB2BBase + slot * kB2BStride;
+            for (unsigned rep = 0; rep < kB2BReps; rep++) {
+                unsigned spill;
+                int first;
+                unsigned lost = b2bCase(B2BKind(k), size, addr, 0x20 + slot * 4 + rep, spill, first);
+                ramsyscall_printf("SPUB2B size=%d kind=%s rep=%d lost=%d first=%d spill=%d %s\n", (int)size,
+                                  kinds[k], rep, lost, first, spill, verdicts[k]);
+                if (k == CTRL && (lost || spill)) controlBad = true;
+                if ((k == B2B16 || k == B2BDEF) && (lost || spill)) b2bBad = true;
+            }
+        }
+    }
+    if (controlBad) return 6;
+    if (b2bBad) return 5;
+    return 0;
+}
+
 void TestScene::frame() {
     unsigned count = s_count;
     if (count < kStages) {
@@ -306,6 +426,15 @@ void TestScene::frame() {
     if (bad != 0) {
         ramsyscall_printf("DATA MISMATCH\n");
         finish(3);
+    }
+
+    if (s_b2bResult == 6) {
+        ramsyscall_printf("BACK TO BACK READBACK CONTROL FAILED\n");
+        finish(6);
+    }
+    if (s_b2bResult == 5) {
+        ramsyscall_printf("BACK TO BACK DATA LOSS\n");
+        finish(5);
     }
 
     ramsyscall_printf("All SPU DMA checks passed\n");

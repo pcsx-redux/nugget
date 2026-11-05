@@ -87,6 +87,14 @@ void psyqo::SPU::dmaWrite(const uint32_t spuAddress, const void* ramAddress, con
     DMA_CTRL[DMA_SPU].CHCR = 1 | 1 << 9 | 1 << 24;
 
     Kernel::waitForStatus<uint32_t>(1 << 24, 0 << 24, &DMA_CTRL[DMA_SPU].CHCR);
+    // CHCR clears before the SPU has written the tail of the transfer into
+    // sound RAM, and leaving write mode before then drops the tail. SPUSTAT
+    // bit 7 rises once the tail has landed, but a short transfer can finish
+    // before the bit from the previous one has dropped, so wait for it to go
+    // low, then high. Both waits are bounded: emulators may never set it.
+    for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) != 0; i++);
+    for (unsigned i = 0; i < 65536 && (SPU_STATUS & 0x0080) == 0; i++);
+    SPU_CTRL &= ~(0b11 << 4);
 }
 
 void psyqo::SPU::dmaWrite(const uint32_t spuAddress, const void* ramAddress, const size_t dataSize,
