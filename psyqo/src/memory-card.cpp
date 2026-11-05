@@ -28,8 +28,10 @@ SOFTWARE.
 
 #include <EASTL/atomic.h>
 
+#include "common/hardware/counters.h"
 #include "common/kernel/events.h"
 #include "common/syscalls/syscalls.h"
+#include "psyqo/gpu.hh"
 #include "psyqo/hardware/cpu.hh"
 #include "psyqo/hardware/sio.hh"
 #include "psyqo/kernel.hh"
@@ -110,15 +112,62 @@ void psyqo::MemoryCard::prepare() {
 
 uint16_t psyqo::MemoryCard::portMask(Port port) { return port == Port::Port1 ? SIO::Control::CTRL_PORTSEL : 0; }
 
-// Hold the bus deselected (/CS high) for the inter-transaction recovery window
-// before a fresh select. The retail BIOS gets this for free by kicking each
-// sector from the vblank handler (~16ms apart); we chain transactions back to
-// back, and a slow third-party card reselected too soon serves stale (valid-
-// checksum but wrong) sector data. Spending the time here, with the bus
-// deselected, gives the card the recovery it expects between transactions.
+namespace {
+uint16_t readHblankCounter() {
+    // A single read of a root counter can return a wrong value on hardware, so
+    // read until two consecutive reads agree, as psyqo::GPU does.
+    uint16_t value;
+    do {
+        value = COUNTERS[1].value;
+    } while (value != COUNTERS[1].value);
+    return value;
+}
+uint32_t readFrameCounter() { return *const_cast<const volatile uint32_t *>(&psyqoFrameCounter); }
+}  // namespace
+
+void psyqo::MemoryCard::stampDeselect() {
+    m_deselectHblank = readHblankCounter();
+    m_deselectFrame = readFrameCounter();
+    m_deselectStamped = true;
+}
+
+// The retail BIOS gives a card its inter-transaction recovery for free by
+// kicking each sector from the vblank handler (~16ms apart); we chain
+// transactions back to back, and a slow third-party card reselected too soon
+// serves stale (valid-checksum but wrong) sector data. So a fresh select waits
+// until the bus has been deselected for c_recoveryHblanks. Two vblanks since
+// the stamp is always enough, which also covers the hblank counter wrapping.
+bool psyqo::MemoryCard::recovered() const {
+    if (!m_deselectStamped) return false;
+    if (readFrameCounter() - m_deselectFrame >= 2) return true;
+    return static_cast<uint16_t>(readHblankCounter() - m_deselectHblank) >= c_recoveryHblanks;
+}
+
 void psyqo::MemoryCard::recoverBeforeSelect() {
     SIO::Ctrl = 0;  // ensure deselected
-    busyLoop(c_interTransactionDelay);
+    // First transfer since prepare(): nothing recorded, so count the window
+    // from now, as the unconditional wait always did.
+    if (!m_deselectStamped) stampDeselect();
+    while (!recovered());
+}
+
+// Async counterpart of recoverBeforeSelect(): rather than spinning out the
+// recovery window, re-check it from a queued callback on each callback pump,
+// so a multi-sector filesystem operation advances about one sector per frame
+// without stalling the main loop.
+void psyqo::MemoryCard::startAsyncWhenRecovered(Action action, Port port, uint16_t sector, void *readBuf,
+                                                const void *writeBuf) {
+    if (!m_deselectStamped) {
+        SIO::Ctrl = 0;
+        stampDeselect();
+    }
+    if (recovered()) {
+        startTransfer(action, port, sector, readBuf, writeBuf);
+        return;
+    }
+    Kernel::queueCallback([this, action, port, sector, readBuf, writeBuf]() {
+        startAsyncWhenRecovered(action, port, sector, readBuf, writeBuf);
+    });
 }
 
 void psyqo::MemoryCard::installIrqHandler() {
@@ -207,6 +256,7 @@ void psyqo::MemoryCard::startTransfer(Action action, Port port, uint16_t sector,
 
 void psyqo::MemoryCard::finishTransfer(Error result) {
     SIO::Ctrl = 0;  // deselect
+    stampDeselect();
     CPU::IMask.clear(CPU::IRQ::Controller);
     CPU::flushWriteQueue();
     m_action = Action::None;
@@ -442,7 +492,10 @@ void psyqo::MemoryCard::selectPort(Port port) {
     busyLoop(c_selectDelay);  // bus stabilization delay before the first clock pulse
 }
 
-void psyqo::MemoryCard::deselect() { SIO::Ctrl = 0; }
+void psyqo::MemoryCard::deselect() {
+    SIO::Ctrl = 0;
+    stampDeselect();
+}
 
 void psyqo::MemoryCard::flushRxBuffer() {
     while (SIO::Stat & SIO::Status::STAT_RXRDY) {
@@ -728,7 +781,9 @@ void psyqo::MemoryCard::readSector(Port port, uint16_t sector, void *buffer, eas
     // callback fires (from a queued main-thread callback) once the interrupt
     // state machine completes. The caller is responsible for not letting an
     // AdvancedPad poll run while this single-sector op is in flight (it shares
-    // SIO0); a sector completes well within a frame. A transient failure is
+    // SIO0). The transfer starts once the recovery window since the previous
+    // one has elapsed, so a chain of sectors advances about one per frame,
+    // each completing well within a frame. A transient failure is
     // retried internally (a safeguard behind the corrected timing) before the
     // callback fires.
     m_blocking = false;
@@ -762,13 +817,14 @@ void psyqo::MemoryCard::startAsyncAttempt(Action action, Port port, uint16_t sec
                                           const void *writeBuf) {
     m_retryAction = action;
     m_callback = [this](Error result) { onAsyncAttemptDone(result); };
-    startTransfer(action, port, sector, readBuf, writeBuf);
+    startAsyncWhenRecovered(action, port, sector, readBuf, writeBuf);
 }
 
 void psyqo::MemoryCard::onAsyncAttemptDone(Error result) {
     // Runs from a queued main-thread callback, so re-issuing here is safe.
     if (result != Error::OK && isTransient(result) && ++m_attempt < c_maxAttempts) {
-        busyLoop(2000);  // brief recovery before retrying, matching the blocking path
+        // The retry waits out the full recovery window, which covers the
+        // blocking path's brief busyLoop(2000) before its retry.
         startAsyncAttempt(m_retryAction, m_port, m_sector, m_readBuffer, m_writeBuffer);
         return;
     }

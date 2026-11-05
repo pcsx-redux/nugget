@@ -254,10 +254,17 @@ class MemoryCard {
     uint8_t transceive(uint8_t dataOut);
     bool waitAck(uint32_t timeout);
 
-    // Hold the bus deselected (/CS high) for the inter-transaction recovery
-    // window before selecting the port for a fresh transfer. Shared by both
-    // transports (startTransfer and selectPort).
+    // The inter-transaction recovery window is measured from the last time
+    // this driver deselected the bus. stampDeselect() records that moment,
+    // recovered() reports whether the window has elapsed since, and
+    // recoverBeforeSelect() waits out the remainder with the bus deselected.
+    // The blocking and polled paths spin in recoverBeforeSelect(); the async
+    // path defers the transfer through queued callbacks instead
+    // (startAsyncWhenRecovered), so the CPU stays free for the game.
+    void stampDeselect();
+    bool recovered() const;
     void recoverBeforeSelect();
+    void startAsyncWhenRecovered(Action action, Port port, uint16_t sector, void *readBuf, const void *writeBuf);
 
     static void busyLoop(unsigned delay) {
         unsigned cycles = 0;
@@ -283,6 +290,12 @@ class MemoryCard {
     eastl::function<void(Error)> m_userCallback;
     Action m_retryAction = Action::None;
     unsigned m_attempt = 0;
+    // When the bus was last deselected by this driver: the hblank root counter
+    // (16 bits, wraps every ~4s) and the vblank frame counter, which settles
+    // any wrap ambiguity. Unstamped means no transfer has run since prepare().
+    uint32_t m_deselectFrame = 0;
+    uint16_t m_deselectHblank = 0;
+    volatile bool m_deselectStamped = false;
 
     // The first (addressing) byte uses this timeout to detect a missing card.
     // It is the one value that is deliberately generous: a present-but-slow
@@ -303,9 +316,10 @@ class MemoryCard {
     // a vblank boundary (~16ms apart); we issue transactions back-to-back, so a
     // slow third-party card can be reselected before it has finished recovering
     // from the previous read and then serve stale (wrong-but-valid) sector data.
-    // busyLoop(100) is ~23us, so ~70000 approximates the BIOS's ~16ms. Tune down
-    // toward the smallest reliable value once a working floor is found on hardware.
-    static constexpr unsigned c_interTransactionDelay = 70000;
+    // Counted in hblanks of root counter 1, which psyqo::GPU runs from hblank:
+    // 263 hblanks is one NTSC frame, ~16.8ms. Tune down toward the smallest
+    // reliable value once a working floor is found on hardware.
+    static constexpr uint16_t c_recoveryHblanks = 263;
     // How many times a whole-sector transient failure is retried.
     static constexpr unsigned c_maxAttempts = 3;
     // Spin-loop bound for the blocking IRQ path: large enough never to trip
