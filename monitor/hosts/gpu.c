@@ -34,7 +34,26 @@ SOFTWARE.
 #include "common/hardware/irq.h"
 #include "openbios/main/splash.h"
 
+static uint32_t gpuInfo(uint32_t index) {
+    GPU_STATUS = 0x10000000 | index;
+    return GPU_DATA;
+}
+
+static void saveGpuState(void) {
+    struct GpuState *state = (struct GpuState *)GPU_STATE_ADDR;
+    state->gpustat = GPU_STATUS;
+    state->texWindow = gpuInfo(2);
+    state->drawAreaTopLeft = gpuInfo(3);
+    state->drawAreaBottomRight = gpuInfo(4);
+    state->drawOffset = gpuInfo(5);
+    state->gpuVersion = gpuInfo(7);
+    state->version = GPU_STATE_VERSION;
+    state->magic = GPU_STATE_MAGIC;
+}
+
 void getVRAM(void) {
+    // Before the reset below wipes it.
+    saveGpuState();
     GPU_STATUS = 0x00000000;
     waitGPU();
     // sending VRAM download command
@@ -45,7 +64,8 @@ void getVRAM(void) {
     GPU_STATUS = 0x04000003;
     DPCR |= 0x00000800;
     // Loader is linking at 0x801c0000, so we have room for 1MB
-    // of vram between 0x80080000 and 0x80180000.
+    // of vram between 0x80080000 and 0x80180000, and the GPU state
+    // block right after it.
     const uint32_t bs = 16;
     const uint32_t vram_size = 1024 * 512 * 2;
     DMA_CTRL[DMA_GPU].MADR = 0x80000;
