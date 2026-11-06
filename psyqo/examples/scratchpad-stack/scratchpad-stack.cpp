@@ -95,7 +95,21 @@ static_assert(SEGMENTS % SEGMENTS_PER_LINE == 0);
 // How much of the scratchpad the stack takes, from the top. The example
 // measures how much of it the routine uses, and shows that on screen, which is
 // how to size it for your own routine. The rest, at the bottom, stays free.
+// BUILD=FastDebug calls the shadow stack hooks from every function, which
+// makes each frame of the recursion bigger, so it gets a bigger stack.
+#ifdef PSYQO_SHADOW_STACK
+constexpr unsigned STACK_SIZE = 768;
+#else
 constexpr unsigned STACK_SIZE = 512;
+#endif
+
+// The guard is the bytes just below the stack, painted with the same pattern.
+// A routine that needs more than STACK_SIZE writes into it, and the example
+// reports an overflow, where a full stack and an overflowing one would both
+// read as STACK_SIZE bytes used without it.
+constexpr unsigned GUARD_SIZE = 64;
+static_assert(GUARD_SIZE <= psyqo::ScratchpadStackful<STACK_SIZE>::c_freeBytes);
+constexpr uint32_t PAINT = 0x5ca7c4ed;
 
 // Frames per average, and how many averages before switching on our own.
 constexpr unsigned FRAMES_PER_AVERAGE = 32;
@@ -126,6 +140,7 @@ class SnowflakeScene final : public psyqo::Scene {
     void koch(Point a, Point b, unsigned depth);
     void paintStack();
     unsigned measureStack();
+    bool guardIntact();
     void switchMode();
 
     psyqo::ScratchpadStackful<STACK_SIZE> m_coroutine;
@@ -139,6 +154,7 @@ class SnowflakeScene final : public psyqo::Scene {
     uint32_t m_ticks = 0;
     uint32_t m_cycles[2] = {0, 0};
     unsigned m_stackUsed = 0;
+    bool m_overflow = false;
 
     psyqo::Vertex m_points[SEGMENTS + 1];
     psyqo::Fragments::SimpleFragment<psyqo::Prim::FastFill> m_clear[2];
@@ -221,18 +237,29 @@ void SnowflakeScene::generate() {
     *m_out = m_points[0];
 }
 
-// To see how much of the stack the routine needs, fill it with a pattern
-// before the run and look for the deepest word that changed after it.
+// To see how much of the stack the routine needs, fill it and the guard below
+// it with a pattern before the run and look for the deepest word that changed
+// after it. A result over STACK_SIZE means the routine overflowed.
 void SnowflakeScene::paintStack() {
-    uint32_t* stack = reinterpret_cast<uint32_t*>(m_coroutine.c_stackBase);
-    for (unsigned i = 0; i < STACK_SIZE / 4; i++) stack[i] = 0x5ca7c4ed;
+    uint32_t* bottom = reinterpret_cast<uint32_t*>(m_coroutine.c_stackBase - GUARD_SIZE);
+    for (unsigned i = 0; i < (GUARD_SIZE + STACK_SIZE) / 4; i++) bottom[i] = PAINT;
 }
 
 unsigned SnowflakeScene::measureStack() {
-    const uint32_t* stack = reinterpret_cast<const uint32_t*>(m_coroutine.c_stackBase);
+    const uint32_t* bottom = reinterpret_cast<const uint32_t*>(m_coroutine.c_stackBase - GUARD_SIZE);
     unsigned i = 0;
-    while (i < STACK_SIZE / 4 && stack[i] == 0x5ca7c4ed) i++;
-    return STACK_SIZE - i * 4;
+    while (i < (GUARD_SIZE + STACK_SIZE) / 4 && bottom[i] == PAINT) i++;
+    return GUARD_SIZE + STACK_SIZE - i * 4;
+}
+
+// Nothing else in this example uses the bottom of the scratchpad, so the guard
+// keeps its paint from the measuring run on, and every run after it is checked.
+bool SnowflakeScene::guardIntact() {
+    const uint32_t* guard = reinterpret_cast<const uint32_t*>(m_coroutine.c_stackBase - GUARD_SIZE);
+    for (unsigned i = 0; i < GUARD_SIZE / 4; i++) {
+        if (guard[i] != PAINT) return false;
+    }
+    return true;
 }
 
 void SnowflakeScene::switchMode() {
@@ -263,6 +290,10 @@ void SnowflakeScene::frame() {
     if (measureThisFrame) {
         m_stackUsed = measureStack();
         ramsyscall_printf("scratchpad-stack: %u bytes of stack used\n", m_stackUsed);
+    }
+    if (m_onScratchpad && !m_overflow && !guardIntact()) {
+        m_overflow = true;
+        ramsyscall_printf("scratchpad-stack: STACK OVERFLOW, %u byte stack is too small\n", STACK_SIZE);
     }
 
     if (++m_frames == FRAMES_PER_AVERAGE) {
@@ -297,7 +328,10 @@ void SnowflakeScene::frame() {
     } else if (m_cycles[0] && m_cycles[1]) {
         font.chainprintf(gpu, {{.x = 4, .y = 52}}, white, "no gain: is this an emulator?");
     }
-    if (m_stackUsed) {
+    if (m_overflow) {
+        psyqo::Color red{{.r = 255, .g = 64, .b = 64}};
+        font.chainprintf(gpu, {{.x = 4, .y = 212}}, red, "STACK OVERFLOW: %u bytes is too small", STACK_SIZE);
+    } else if (m_stackUsed) {
         font.chainprintf(gpu, {{.x = 4, .y = 212}}, grey, "stack used: %u of %u bytes", m_stackUsed, STACK_SIZE);
     }
     font.chainprintf(gpu, {{.x = 4, .y = 228}}, grey, "Cross: switch stacks");
