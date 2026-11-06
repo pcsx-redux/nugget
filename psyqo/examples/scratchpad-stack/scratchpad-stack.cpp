@@ -66,6 +66,7 @@ SOFTWARE.
 #include "common/syscalls/syscalls.h"
 #include "psyqo/application.hh"
 #include "psyqo/coroutine.hh"
+#include "psyqo/fixed-point.hh"
 #include "psyqo/font.hh"
 #include "psyqo/fragments.hh"
 #include "psyqo/gpu.hh"
@@ -74,6 +75,7 @@ SOFTWARE.
 #include "psyqo/simplepad.hh"
 #include "psyqo/trigonometry.hh"
 
+using namespace psyqo::fixed_point_literals;
 using namespace psyqo::trig_literals;
 
 namespace {
@@ -193,9 +195,9 @@ void SnowflakeScene::koch(Point a, Point b, unsigned depth) {
     int32_t dy = (b.y - a.y) / 3;
     Point p1 = {a.x + dx, a.y + dy};
     Point p3 = {b.x - dx, b.y - dy};
-    // The middle third, turned 60 degrees: cos is 0.5 and sin is 0.866, which
-    // is 3547 in 4.12 fixed point.
-    Point p2 = {p1.x + dx / 2 + ((dy * 3547) >> 12), p1.y + dy / 2 - ((dx * 3547) >> 12)};
+    // The middle third, turned 60 degrees: cos is 0.5 and sin is 0.866.
+    constexpr psyqo::FixedPoint<> sin60 = 0.866_fp;
+    Point p2 = {p1.x + dx / 2 + (sin60 * dy).integer(), p1.y + dy / 2 - (sin60 * dx).integer()};
     depth--;
     koch(a, p1, depth);
     koch(p1, p2, depth);
