@@ -379,6 +379,9 @@ class Stackful : public StackfulBase {
     Stack m_stack;
 };
 
+// End of the linked .scratchpad section, from the link script.
+extern "C" char __scratchpad_end[];
+
 /**
  * @brief Stackful coroutine whose stack is the scratchpad.
  *
@@ -397,9 +400,12 @@ class Stackful : public StackfulBase {
  *   built on its stack and then chained to the GPU.
  * - The bottom `c_freeBytes` bytes are left for data, such as variables
  *   placed with `__attribute__((section(".scratchpad")))`, which the
- *   linker allocates from 0x1f800000 upward. Nothing checks that they
- *   stay clear of the stack, and an overflowing stack writes over them
- *   silently.
+ *   linker allocates from 0x1f800000 upward. `initialize` aborts if the
+ *   linked `.scratchpad` section, which ends at `__scratchpad_end`,
+ *   reaches into the stack. A stack that overflows at run time still
+ *   writes over that data silently.
+ * - Only the main link's `.scratchpad` section is checked: data an
+ *   overlay module places in the scratchpad is not accounted for.
  * - Interrupts do not run on this stack: psyqo's exception handler saves
  *   the registers it needs to fixed addresses and switches to its own
  *   stack before calling into C++.
@@ -427,6 +433,8 @@ class ScratchpadStackful : public StackfulBase {
      * @param func Function to be executed by the coroutine.
      */
     void initialize(eastl::function<void()> &&func) {
+        Kernel::assert(reinterpret_cast<uintptr_t>(__scratchpad_end) <= c_stackBase,
+                       "ScratchpadStackful: the .scratchpad section overlaps the stack");
         initializeInternal(eastl::move(func), reinterpret_cast<void *>(c_stackBase), c_stackSize);
     }
 
