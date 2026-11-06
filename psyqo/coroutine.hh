@@ -33,6 +33,7 @@ SOFTWARE.
 #include <type_traits>
 
 #include "common/psxlibc/ucontext.h"
+#include "psyqo/shadow-stack.hh"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/kernel.hh"
 
@@ -302,6 +303,10 @@ class StackfulBase {
     ucontext_t m_return;
     eastl::function<void()> m_func;
     bool m_isAlive = false;
+#ifdef PSYQO_SHADOW_STACK
+    ShadowStack::Context m_shadowStack;
+    ShadowStack::Context *m_shadowReturn = nullptr;
+#endif
 };
 
 /**
