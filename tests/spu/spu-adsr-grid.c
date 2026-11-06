@@ -63,7 +63,9 @@ CESTER_BODY(
                 bOn = 1;
             }
             if (t >= next) {
-                uint16_t a = SPU_VOICES[0].currentVolume, b = SPU_VOICES[23].currentVolume;
+                // Voice 23 first: a sample boundary between the two reads then only delays voice 23 by a poll.
+                uint16_t b = SPU_VOICES[23].currentVolume;
+                uint16_t a = SPU_VOICES[0].currentVolume;
                 if (a != la && na < ADSR_GRID_STEPS_A) {
                     ta[na++] = t;
                     la = a;
