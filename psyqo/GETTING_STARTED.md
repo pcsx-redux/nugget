@@ -119,6 +119,9 @@ This will enable an optimized build where every function call records its call s
 - `make BUILD=LTO`  
 This will enable a release build of the library and your binary with [LTO](https://gcc.gnu.org/wiki/LinkTimeOptimization) enabled. It will be really fast and really small, but debugging will be impossible.
 
+# Profiling
+[profiler.hh](profiler.hh) times scopes into a ring buffer: install a `psyqo::Profiler::Buffer` once, then put `PSYQO_PROFILE_SCOPE("name")` at the top of any block to time. PCSX-Redux reads the buffer live and draws it as a timeline; on a console, `psyqo::Profiler::dumpPCDRV` writes it to a host file. See the [profiler](examples/profiler) example.
+
 # Further reading
 Moving on to the [Concepts](CONCEPTS.md) page is the next step in understanding how the library functions. The library itself is also thoroughly documented, and the [nugget website](https://pcsx-redux.github.io/nugget/) has a render of the doxygen documentation.
 
