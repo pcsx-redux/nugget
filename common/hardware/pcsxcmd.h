@@ -102,6 +102,11 @@ enum pcsx_Command {
        the same as the first time, so it is fine to issue on every context
        switch. */
     PCSX_CMD_SET_STACK_BOUNDS = 3,
+    /* Points the emulator at a scoped-profiler ring buffer, whose layout is in
+       pcsxprof.h, so it can read the completed scopes live. Payload is
+       struct pcsx_RegisterProfiler. Issuing it again replaces the buffer; a
+       zero header pointer unregisters it. */
+    PCSX_CMD_REGISTER_PROFILER = 4,
 
     PCSX_CMD_COUNT
 };
@@ -173,6 +178,11 @@ struct pcsx_StackBounds {
     struct pcsx_CommandHeader header;
     uint32_t low;
     uint32_t high;
+};
+
+struct pcsx_RegisterProfiler {
+    struct pcsx_CommandHeader header;
+    uint32_t profHeader; /* struct pcsx_ProfHeader* */
 };
 
 /* Fill in a header and poison the result. Call before pcsx_command. */
