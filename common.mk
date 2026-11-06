@@ -76,6 +76,13 @@ CXXFLAGS += -fno-exceptions -fno-rtti
 
 OBJS += $(addsuffix .o, $(basename $(SRCS)))
 
+# Two sources with the same basename would build the same object.
+SRCS_STEMS := $(abspath $(basename $(SRCS)))
+SRCS_DUPES := $(foreach s,$(sort $(SRCS_STEMS)),$(if $(word 2,$(filter $(s),$(SRCS_STEMS))),$(s)))
+ifneq ($(strip $(SRCS_DUPES)),)
+$(error These sources would all build the same object: $(foreach f,$(SRCS),$(if $(filter $(abspath $(basename $(f))),$(SRCS_DUPES)),$(f))))
+endif
+
 ifeq ($(TYPE), library)
 all: dep $(BINDIR)lib$(TARGET).a
 else
@@ -99,6 +106,44 @@ $(BINDIR)lib$(TARGET).a: $(OBJS) $(EXTRA_DEPS)
 
 %.o: %.s
 	$(CC) $(ARCHFLAGS) $(ASFLAGS) -I$(ROOTDIR) -g -c -o $@ $<
+
+# The source named in SRCS is the one an object is built from, even when
+# another file with the same basename sits next to it. The recipes are
+# make's built-in ones.
+SRCS_C   := $(filter %.c,$(SRCS))
+SRCS_CPP := $(filter %.cpp,$(SRCS))
+SRCS_CC  := $(filter %.cc,$(SRCS))
+SRCS_S   := $(filter %.s,$(SRCS))
+SRCS_SPP := $(filter %.S,$(SRCS))
+
+ifneq ($(SRCS_C),)
+$(SRCS_C:.c=.o): %.o: %.c
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
+$(SRCS_C:.c=.dep): %.dep: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+endif
+ifneq ($(SRCS_CPP),)
+$(SRCS_CPP:.cpp=.o): %.o: %.cpp
+	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
+$(SRCS_CPP:.cpp=.dep): %.dep: %.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+endif
+ifneq ($(SRCS_CC),)
+$(SRCS_CC:.cc=.o): %.o: %.cc
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+$(SRCS_CC:.cc=.dep): %.dep: %.cc
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+endif
+ifneq ($(SRCS_S),)
+$(SRCS_S:.s=.o): %.o: %.s
+	$(CC) $(ARCHFLAGS) $(ASFLAGS) -I$(ROOTDIR) -g -c -o $@ $<
+$(SRCS_S:.s=.dep): %.dep: %.s
+	touch $@
+endif
+ifneq ($(SRCS_SPP),)
+$(SRCS_SPP:.S=.o): %.o: %.S
+	$(COMPILE.S) $(OUTPUT_OPTION) $<
+endif
 
 %.dep: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<

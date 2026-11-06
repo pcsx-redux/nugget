@@ -1,0 +1,7 @@
+# Two sources compiling to the same object have to be refused.
+TARGET = samebasename-both
+TYPE = library
+
+SRCS = pick.c pick.s
+
+include ../../../common.mk

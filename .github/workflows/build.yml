@@ -27,6 +27,9 @@ jobs:
           submodules: recursive
           set-safe-directory: true
 
+      - name: Same-basename sources
+        run: tools/build-checks/same-basename/check.sh
+
       - name: OpenBIOS
         run: make -C openbios -j2 all
 
