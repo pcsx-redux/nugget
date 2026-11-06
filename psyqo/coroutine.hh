@@ -374,4 +374,71 @@ class Stackful : public StackfulBase {
     Stack m_stack;
 };
 
+/**
+ * @brief Stackful coroutine whose stack is the scratchpad.
+ *
+ * @details Same as `Stackful`, except that the stack is not part of the
+ * object: it is the top `StackSize` bytes of the 1KB scratchpad, growing
+ * down from 0x1f800400. The scratchpad answers a load in one cycle where
+ * main RAM takes several, so a hot routine that spends its time saving
+ * and restoring registers and reloading spilled locals gets faster by
+ * running here. The scratchpad-stack example measures it.
+ *
+ * The constraints all come from the scratchpad itself:
+ * - Only one can be alive at a time, since every instance uses the same
+ *   bytes. Let one return before initializing the next.
+ * - DMA cannot reach the scratchpad, so a local of the coroutine cannot
+ *   be a DMA source or target. That includes a primitive or fragment
+ *   built on its stack and then chained to the GPU.
+ * - The bottom `c_freeBytes` bytes are left for data, such as variables
+ *   placed with `__attribute__((section(".scratchpad")))`, which the
+ *   linker allocates from 0x1f800000 upward. Nothing checks that they
+ *   stay clear of the stack, and an overflowing stack writes over them
+ *   silently.
+ * - Interrupts do not run on this stack: psyqo's exception handler saves
+ *   the registers it needs to fixed addresses and switches to its own
+ *   stack before calling into C++.
+ *
+ * @tparam StackSize The number of bytes taken from the top of the
+ * scratchpad. A multiple of 8, at most 1024.
+ */
+template <unsigned StackSize = 1024>
+class ScratchpadStackful : public StackfulBase {
+    static_assert(StackSize <= 1024, "The scratchpad is 1024 bytes");
+    static_assert(StackSize > 16, "makecontext reserves 16 bytes at the top of the stack");
+    static_assert((StackSize & 7) == 0, "The stack size needs to be a multiple of 8");
+
+  public:
+    static constexpr uintptr_t c_stackBase = 0x1f800400 - StackSize;
+    static constexpr unsigned c_stackSize = StackSize;
+    static constexpr unsigned c_freeBytes = 1024 - StackSize;
+    ScratchpadStackful() = default;
+    ScratchpadStackful(const ScratchpadStackful &) = delete;
+    ScratchpadStackful &operator=(const ScratchpadStackful &) = delete;
+
+    /**
+     * @brief Initialize the coroutine with a function.
+     *
+     * @param func Function to be executed by the coroutine.
+     */
+    void initialize(eastl::function<void()> &&func) {
+        initializeInternal(eastl::move(func), reinterpret_cast<void *>(c_stackBase), c_stackSize);
+    }
+
+    /**
+     * @brief Resume the coroutine. See `Stackful::resume`.
+     */
+    void resume() { StackfulBase::resume(); }
+
+    /**
+     * @brief Yield the coroutine. See `Stackful::yield`.
+     */
+    void yield() { StackfulBase::yield(); }
+
+    /**
+     * @brief Check if the coroutine is currently alive. See `Stackful::isAlive`.
+     */
+    [[nodiscard]] bool isAlive() const { return StackfulBase::isAlive(); }
+};
+
 }  // namespace psyqo
