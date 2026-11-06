@@ -37,14 +37,17 @@ pcsx_ProfHeader* psyqo::Profiler::s_header = nullptr;
 uint32_t psyqo::Profiler::s_cyclesPer16Lines = 0;
 uint32_t psyqo::Profiler::s_nowCost = 0;
 uint8_t psyqo::Profiler::s_depth = 0;
-uint8_t psyqo::Profiler::s_generation = 0;
+uint32_t psyqo::Profiler::s_generation = 0;
 bool psyqo::Profiler::s_full = false;
 
 namespace {
 
-// Counts system clock cycles over 16 hblanks, starting on a line edge, with
-// interrupts masked so no handler delays either edge. A misread line
-// period scales into the wrap choice of every long scope.
+// Counts system clock cycles over 64 hblanks, starting on a line edge, with
+// interrupts masked so no handler delays either edge, and returns a quarter
+// of it. Each edge is only seen within one poll of the counters, so the
+// window has to be long: a misread line period scales into the wrap choice
+// of every long scope, and the 4 s limit needs it within a few parts in
+// 10000. The window spans about two counter 2 wraps, counted as it polls.
 [[gnu::no_instrument_function]] uint32_t measure16Lines() {
     volatile uint16_t* const counter1 = &COUNTERS[1].value;
     volatile uint16_t* const counter2 = &COUNTERS[2].value;
@@ -52,11 +55,18 @@ namespace {
     uint16_t line = *counter1;
     while (*counter1 == line);
     uint16_t start = *counter2;
+    uint16_t last = start;
+    uint32_t wraps = 0;
     line = *counter1;
-    while ((uint16_t)(*counter1 - line) < 16);
-    uint32_t cycles = (uint16_t)(*counter2 - start);
+    while ((uint16_t)(*counter1 - line) < 64) {
+        uint16_t now = *counter2;
+        if (now < last) wraps++;
+        last = now;
+    }
+    uint16_t end = *counter2;
+    if (end < last) wraps++;
     psyqo::Kernel::fastLeaveCriticalSection();
-    return cycles;
+    return ((wraps << 16) + end - start + 2) / 4;
 }
 
 // Buffers text for PCDRV, so a dump costs one host write per 512 bytes

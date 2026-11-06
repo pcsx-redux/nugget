@@ -99,7 +99,7 @@ class Profiler {
      * @brief Claims root counter 2 and starts recording into the buffer.
      *
      * @details Call it after the GPU is initialized, since the elapsed times
-     * depend on the hblank counter it sets up. It spends about 50 lines
+     * depend on the hblank counter it sets up. It spends about 200 lines (12 ms)
      * measuring how many cycles a line takes. Under PCSX-Redux, the buffer
      * is also registered so the emulator can read it. Installing another
      * buffer replaces the first one.
@@ -159,7 +159,7 @@ class Profiler {
         uint16_t m_vsync;
         uint8_t m_depth;
         uint8_t m_stackDepth;
-        uint8_t m_generation;
+        uint32_t m_generation;
     };
 
     struct BenchResult {
@@ -183,7 +183,7 @@ class Profiler {
     static BenchResult bench(const Zone& zone, unsigned count, F&& function) {
         BenchResult result;
         if (!s_header || !count) return result;
-        uint8_t generation = s_generation;
+        uint32_t generation = s_generation;
         uint8_t depth = s_depth;
         unsigned stackDepth = ShadowStack::depth();
         if (stackDepth > 255) stackDepth = 255;
@@ -249,7 +249,7 @@ class Profiler {
     static uint8_t s_depth;
     // Bumped by every install and uninstall, so scopes and benchmark runs
     // straddling one are dropped rather than timed across a counter reset.
-    static uint8_t s_generation;
+    static uint32_t s_generation;
     // The buffer has wrapped at least once since install.
     static bool s_full;
     friend class Scope;
