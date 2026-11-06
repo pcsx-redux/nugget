@@ -502,7 +502,7 @@ void psyqo::paths::StrPlayer::mdecReset() {
 // from interrupts, so the CPU is free to VLC-decode the next frame meanwhile.
 void psyqo::paths::StrPlayer::startDecode() {
     const Rl &rl = m_rlMeta[m_rlIdx];
-    const bool rgb24 = m_options.rgb24 && m_options.vramX < 0;   // a rectangle is always 15-bit
+    const bool rgb24 = m_options.rgb24 && m_options.vramX < 0;  // a rectangle is always 15-bit
     m_colCount = rl.width / 16;
     m_colWords = (rgb24 ? 192 : 128) * (rl.height / 16);
     m_colHw = rgb24 ? 24 : 16;
@@ -603,7 +603,8 @@ bool psyqo::paths::StrPlayer::finishDecode() {
         abortDecode();
         return false;
     }
-    // A frame can stop part way through a macroblock: the MDEC is left busy, or on a block other than the next one's first.
+    // A frame can stop part way through a macroblock: the MDEC is left busy, or on a block other than the next one's
+    // first.
     const uint32_t status = MDEC1;
     const bool feeding = DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000;
     if (feeding) DMA_CTRL[DMA_MDECIN].CHCR = 0;

@@ -107,9 +107,9 @@ class StrPlayer {
         // Size of the display the frame is centered in, in pixels.
         uint16_t displayWidth = 320;
         uint16_t displayHeight = 240;
-        // Where in VRAM to decode, for a frame drawn as a texture: always 15-bit (rgb24 is ignored). -1 for the back buffer.
-        // One rectangle, not double buffered: each frame lands in it during frame(), so a caller that draws from
-        // it waits for its own chain to finish before calling frame().
+        // Where in VRAM to decode, for a frame drawn as a texture: always 15-bit (rgb24 is ignored). -1 for the back
+        // buffer. One rectangle, not double buffered: each frame lands in it during frame(), so a caller that draws
+        // from it waits for its own chain to finish before calling frame().
         int16_t vramX = -1;
         int16_t vramY = 0;
     };

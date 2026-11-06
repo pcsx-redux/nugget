@@ -32,6 +32,6 @@ SOFTWARE.
 #include "exotic/cester.h"
 #include "heap.c"
 #include "longjmp.c"
+#include "printf.c"
 #include "qsort.c"
 #include "string.c"
-#include "printf.c"
