@@ -156,6 +156,7 @@ class Profiler {
         uint16_t m_vsync;
         uint8_t m_depth;
         uint8_t m_stackDepth;
+        uint8_t m_generation;
     };
 
     struct BenchResult {
@@ -178,14 +179,22 @@ class Profiler {
     template <typename F>
     static BenchResult bench(const Zone& zone, unsigned count, F&& function) {
         BenchResult result;
-        if (!s_header) return result;
+        if (!s_header || !count) return result;
+        uint8_t generation = s_generation;
+        uint8_t depth = s_depth;
+        unsigned stackDepth = ShadowStack::depth();
+        if (stackDepth > 255) stackDepth = 255;
         result.min = 0xffffffff;
         for (unsigned i = 0; i < count; i++) {
             uint16_t vsync = *const_cast<const volatile uint32_t*>(&psyqoFrameCounter);
+            s_depth = depth + 1;
             uint32_t start = now();
             function();
             uint32_t end = now();
-            record(&zone, start, end, vsync, s_depth, 0);
+            s_depth = depth;
+            // Reinstalled from inside the run: the counters were reset under it.
+            if (s_generation != generation) break;
+            record(&zone, start, end, vsync, depth, stackDepth);
             uint32_t cycles = elapsed(start, end);
             cycles = cycles > s_nowCost ? cycles - s_nowCost : 0;
             if (cycles < result.min) result.min = cycles;
@@ -193,6 +202,7 @@ class Profiler {
             result.total += cycles;
             result.count++;
         }
+        if (!result.count) result.min = 0;
         return result;
     }
 
@@ -209,9 +219,9 @@ class Profiler {
         if (!header) return;
         uint32_t written = header->written;
         uint32_t mask = header->capacity - 1;
-        uint32_t first = written > header->capacity ? written - header->capacity : 0;
+        uint32_t count = s_full ? header->capacity : written;
         auto entries = reinterpret_cast<const pcsx_ProfEntry*>(header->entries);
-        for (uint32_t i = first; i < written; i++) {
+        for (uint32_t i = written - count; i != written; i++) {
             const pcsx_ProfEntry& entry = entries[i & mask];
             function(*reinterpret_cast<const Zone*>(entry.zone), entry.start, elapsed(entry.start, entry.end),
                      entry.vsync, entry.depth, entry.stackDepth);
@@ -222,7 +232,7 @@ class Profiler {
      * @brief Writes every entry still in the buffer to a host file through
      * PCDRV, one line each, oldest first: vsync, depth, stack depth, start
      * timestamp in hex, cycles, zone name, file:line. Returns false if the
-     * file could not be created.
+     * file could not be created or a write fell short.
      */
     static bool dumpPCDRV(const char* path);
 
@@ -234,6 +244,11 @@ class Profiler {
     static uint32_t s_cyclesPer16Lines;
     static uint32_t s_nowCost;
     static uint8_t s_depth;
+    // Bumped by every install and uninstall, so scopes and benchmark runs
+    // straddling one are dropped rather than timed across a counter reset.
+    static uint8_t s_generation;
+    // The buffer has wrapped at least once since install.
+    static bool s_full;
     friend class Scope;
 };
 

@@ -108,6 +108,24 @@ void checkLinearity() {
     inner();
 }
 
+void checkBench() {
+    static constexpr psyqo::Profiler::Zone zone = {"bench", __FILE__, __LINE__};
+    auto none = psyqo::Profiler::bench(zone, 0, []() {});
+    check((none.count == 0) && (none.min == 0) && (none.max == 0), "zero runs give an empty result");
+    // A scope inside a benchmark run nests one level below the run.
+    psyqo::Profiler::bench(zone, 1, []() { inner(); });
+    uint8_t depths[2] = {0xff, 0xff};
+    const psyqo::Profiler::Zone* zones[2] = {nullptr, nullptr};
+    psyqo::Profiler::forEach([&](const psyqo::Profiler::Zone& z, uint32_t, uint32_t, uint16_t, uint8_t depth, uint8_t) {
+        zones[0] = zones[1];
+        depths[0] = depths[1];
+        zones[1] = &z;
+        depths[1] = depth;
+    });
+    check((zones[1] == &zone) && (depths[1] == 0), "benchmark run recorded at the caller's depth");
+    check(zones[0] && (zones[0]->name[0] == 'i') && (depths[0] == 1), "scope inside a run one level deeper");
+}
+
 void checkNesting() {
     static constexpr psyqo::Profiler::Zone marker = {"marker", __FILE__, __LINE__};
     psyqo::Profiler::bench(marker, 1, []() {});
@@ -156,6 +174,7 @@ void ProfilerExample::createScene() {
           "cycles per line in range");
     checkLinearity();
     checkNesting();
+    checkBench();
     ramsyscall_printf("profiler: %s\n", s_failures ? "FAIL" : "PASS");
     pushScene(&profilerScene);
 }
