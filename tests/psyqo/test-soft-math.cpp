@@ -335,3 +335,17 @@ TEST_CASE("inverseSquareRoot of a near-unit squared length") {
     REQUIRE(SoftMath::inverseSquareRoot(4.0_fp).raw() == 2048);
     REQUIRE(SoftMath::inverseSquareRoot(100.0_fp).raw() == 410);
 }
+
+TEST_CASE("squareRoot is rounded to the nearest") {
+    // Within 9/16 of a raw unit of sqrt(x): (16r - 9)² <= 2^20 x <= (16r + 9)²,
+    // raw 20.12 throughout, from the smallest input it does not return 0 for.
+    unsigned failures = 0;
+    for (int64_t x = 2; x <= 0x7fffffff; x += x / 64 + 1) {
+        int64_t r = SoftMath::squareRoot(FixedPoint<>(int32_t(x), FixedPoint<>::RAW)).raw();
+        uint64_t lo = r > 0 ? uint64_t(16 * r - 9) * uint64_t(16 * r - 9) : 0;
+        uint64_t hi = uint64_t(16 * r + 9) * uint64_t(16 * r + 9);
+        uint64_t v = uint64_t(x) << 20;
+        if (r <= 0 || lo > v || v > hi) failures++;
+    }
+    REQUIRE(failures == 0u);
+}

@@ -229,8 +229,8 @@ PSYQO_GTE_MATH_INLINE FixedPoint<> inverseSquareRootSeed(FixedPoint<> x) {
 /**
  * @brief Normalises a vector in place.
  *
- * @details Drop-in for SoftMath::normalizeVec3, which reaches 1/sqrt through
- * squareRoot's shift-subtract loop at about 3588 cycles a vector. This keeps
+ * @details Drop-in for SoftMath::normalizeVec3, which takes squareRoot and
+ * then divides by it. This keeps
  * the squared length on the CPU - three multiplies - and takes only the seed
  * from the GTE, then uses the existing Newton refinement. Measured against the
  * exact version over 800 vectors, worst component deviation is 10 raw out of

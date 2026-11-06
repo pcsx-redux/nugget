@@ -289,17 +289,6 @@ psyqo::FixedPoint<> psyqo::SoftMath::matrixDeterminant3(const Matrix33 &m) {
     return nx - ny + nz;
 }
 
-psyqo::FixedPoint<> psyqo::SoftMath::squareRoot(psyqo::FixedPoint<> x, psyqo::FixedPoint<> y) {
-    if (x.raw() <= 1) return 0;
-    auto x0 = y;
-    auto x1 = x / x0;
-    while ((x1 - x0).abs().raw() > 1) {
-        x0 = (x0 + x1) / 2;
-        x1 = x / x0;
-    }
-    return x0;
-}
-
 namespace {
 
 // floor(log2(v)) for v >= 1. The R3000A has no count-leading-zeros instruction, so
@@ -329,7 +318,36 @@ constexpr unsigned floorLog2(uint32_t v) {
     return e;
 }
 
+// A seed for 1/sqrt of a reduced x in [0.25, 1), as 0.32, in 2.30: 1.6 for the
+// lower half and 1.2 for the upper, both inside what four steps close.
+constexpr uint32_t reducedSeed(uint32_t xr) { return xr < (1u << 31) ? 1717986918u : 1288490189u; }
+
+// Four Newton steps on y = 1/sqrt(xr), xr in 0.32, y in 2.30.
+uint32_t reducedInverseRoot(uint32_t xr, uint32_t yr) {
+    for (unsigned i = 0; i < 4; i++) {
+        uint32_t y2 = (static_cast<uint64_t>(yr) * yr) >> 32;  // 4.28
+        uint32_t t = (static_cast<uint64_t>(xr) * y2) >> 32;   // 4.28
+        uint32_t f = (3u << 27) - (t >> 1);                    // 4.28
+        yr = (static_cast<uint64_t>(yr) * f) >> 28;            // 2.30
+    }
+    return yr;
+}
+
 }  // namespace
+
+psyqo::FixedPoint<> psyqo::SoftMath::squareRoot(psyqo::FixedPoint<> x, psyqo::FixedPoint<> y) {
+    // sqrt(x) = x * 1/sqrt(x), on the same reduced range as inverseSquareRoot
+    // but in both directions: x * 4^-k is in [0.25, 1) for some k in [-5, 10],
+    // exactly, and sqrt(x) = 2^k * sqrt(x * 4^-k). That leaves no divide and no
+    // loop, so the hint is not needed.
+    (void)y;
+    if (x.raw() <= 1) return 0;
+    int k = (static_cast<int>(floorLog2(static_cast<uint32_t>(x.value))) - 10) >> 1;
+    uint32_t xr = static_cast<uint32_t>(x.value) << (20 - 2 * k);
+    uint32_t s = (static_cast<uint64_t>(xr) * reducedInverseRoot(xr, reducedSeed(xr))) >> 32;  // 2.30
+    unsigned shift = 18 - k;
+    return FixedPoint<>(static_cast<int32_t>((s + (1u << (shift - 1))) >> shift), FixedPoint<>::RAW);
+}
 
 psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x) {
     // x is about 2^(e-12) with e = floor(log2(raw)), so 1/sqrt(x) is about 2^((12-e)/2).
@@ -365,18 +383,13 @@ psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x, ps
         // a hint more than sqrt(1.5) above the root or sqrt(8/3) below it, or
         // one that would not survive the shift, is replaced by 1.6 or 1.2,
         // which are within those bounds for the two halves of [0.25, 1).
-        uint32_t yr = xr < (1u << 31) ? 1717986918u : 1288490189u;
+        uint32_t yr = reducedSeed(xr);
         if (y.value > 0 && y.value < (16384 >> k)) {
             uint32_t s = static_cast<uint32_t>(y.value) << (18 + k);
             uint32_t t = (static_cast<uint64_t>(xr) * ((static_cast<uint64_t>(s) * s) >> 32)) >> 32;
             if (t >= (3u << 25) && t <= (3u << 27)) yr = s;
         }
-        for (unsigned i = 0; i < 4; i++) {
-            uint32_t y2 = (static_cast<uint64_t>(yr) * yr) >> 32;  // 4.28
-            uint32_t t = (static_cast<uint64_t>(xr) * y2) >> 32;   // 4.28
-            uint32_t f = (3u << 27) - (t >> 1);                    // 4.28
-            yr = (static_cast<uint64_t>(yr) * f) >> 28;            // 2.30
-        }
+        yr = reducedInverseRoot(xr, yr);
         unsigned shift = 18 + k;
         return FixedPoint<>(static_cast<int32_t>((yr + (1u << (shift - 1))) >> shift), FixedPoint<>::RAW);
     }
