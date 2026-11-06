@@ -287,3 +287,51 @@ TEST_CASE("SoftMath fastNormalizeVec3 survives short vectors") {
     SoftMath::fastNormalizeVec3(&v);
     REQUIRE(v.x.raw() == 0);
 }
+
+// --- Inverse square root ---
+
+// Within 9/16 of a raw unit of 1/sqrt(x): (16r - 9)² x <= 2^44 <= (16r + 9)² x,
+// with every value in raw 20.12. r² x stays near 2^36 for any x, so this cannot
+// overflow.
+static bool nearestInverseRoot(int32_t x, int32_t r) {
+    if (r <= 0) return false;
+    uint64_t lo = uint64_t(16 * r - 9) * uint64_t(16 * r - 9) * uint64_t(x);
+    uint64_t hi = uint64_t(16 * r + 9) * uint64_t(16 * r + 9) * uint64_t(x);
+    return lo <= (uint64_t(1) << 44) && (uint64_t(1) << 44) <= hi;
+}
+
+TEST_CASE("inverseSquareRoot is rounded to the nearest for x >= 1") {
+    // Geometric steps from 1.0 to the largest 20.12 value, so every octave is
+    // covered, including the near-unit squared lengths normalizeVec3 feeds it.
+    unsigned failures = 0;
+    for (int64_t x = 4096; x <= 0x7fffffff; x += x / 64 + 1) {
+        FixedPoint<> fx(int32_t(x), FixedPoint<>::RAW);
+        if (!nearestInverseRoot(x, SoftMath::inverseSquareRoot(fx).raw())) failures++;
+    }
+    REQUIRE(failures == 0u);
+}
+
+TEST_CASE("inverseSquareRoot for x >= 1 does not depend on a good hint") {
+    // The hint is only a starting point; one outside the Newton basin, or not
+    // positive at all, must not change the answer.
+    const FixedPoint<> hints[] = {
+        FixedPoint<>(1, FixedPoint<>::RAW), 1.0_fp, 64.0_fp, 0.0_fp, -1.0_fp,
+    };
+    unsigned failures = 0;
+    for (int64_t x = 4096; x <= 0x7fffffff; x += x / 16 + 1) {
+        FixedPoint<> fx(int32_t(x), FixedPoint<>::RAW);
+        for (auto h : hints) {
+            if (!nearestInverseRoot(x, SoftMath::inverseSquareRoot(fx, h).raw())) failures++;
+        }
+    }
+    REQUIRE(failures == 0u);
+}
+
+TEST_CASE("inverseSquareRoot of a near-unit squared length") {
+    // 0x147b = 1.28, a squared length seen from a nearly-normalised vector.
+    auto r = SoftMath::inverseSquareRoot(FixedPoint<>(0x147b, FixedPoint<>::RAW));
+    REQUIRE(r.raw() == 3620);
+    REQUIRE(SoftMath::inverseSquareRoot(1.0_fp).raw() == 4096);
+    REQUIRE(SoftMath::inverseSquareRoot(4.0_fp).raw() == 2048);
+    REQUIRE(SoftMath::inverseSquareRoot(100.0_fp).raw() == 410);
+}

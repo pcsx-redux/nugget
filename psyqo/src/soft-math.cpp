@@ -352,8 +352,34 @@ psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x, ps
     // Meaning we want to calculate y - f(y)/f'(y)
     // which expands into (y * (3 - xy²)) / 2, and simplifies to y * (3/2 - x/2 * y²)
 
-    // It will converge only for x < 1 however.
-    if (x > 1) return 1 / squareRoot(x, 1 / y);
+    // In 20.12, y = 1/sqrt(x) runs out of fractional bits once x is past 1,
+    // so that range is reduced instead: x / 4^k lands in [0.25, 1), where
+    // 1/sqrt is in (1, 2], and 1/sqrt(x) = 2^-k / sqrt(x / 4^k). The reduced
+    // x fits in 0.32 with no bits lost, so the iteration runs there in
+    // unsigned fixed point with y in 2.30, each product one multu.
+    if (x.value >= 4096) {
+        unsigned k = (floorLog2(static_cast<uint32_t>(x.value)) - 10) >> 1;
+        uint32_t xr = static_cast<uint32_t>(x.value) << (20 - 2 * k);
+        // The hint scales the other way. Four steps only close a seed inside
+        // the basin, x * y² < 3, and close it slowly from either side of it:
+        // a hint more than sqrt(1.5) above the root or sqrt(8/3) below it, or
+        // one that would not survive the shift, is replaced by 1.6 or 1.2,
+        // which are within those bounds for the two halves of [0.25, 1).
+        uint32_t yr = xr < (1u << 31) ? 1717986918u : 1288490189u;
+        if (y.value > 0 && y.value < (16384 >> k)) {
+            uint32_t s = static_cast<uint32_t>(y.value) << (18 + k);
+            uint32_t t = (static_cast<uint64_t>(xr) * ((static_cast<uint64_t>(s) * s) >> 32)) >> 32;
+            if (t >= (3u << 25) && t <= (3u << 27)) yr = s;
+        }
+        for (unsigned i = 0; i < 4; i++) {
+            uint32_t y2 = (static_cast<uint64_t>(yr) * yr) >> 32;  // 4.28
+            uint32_t t = (static_cast<uint64_t>(xr) * y2) >> 32;   // 4.28
+            uint32_t f = (3u << 27) - (t >> 1);                    // 4.28
+            yr = (static_cast<uint64_t>(yr) * f) >> 28;            // 2.30
+        }
+        unsigned shift = 18 + k;
+        return FixedPoint<>(static_cast<int32_t>((yr + (1u << (shift - 1))) >> shift), FixedPoint<>::RAW);
+    }
 
     y *= (1.5_fp - (x * y * y) / 2);
     y *= (1.5_fp - (x * y * y) / 2);
