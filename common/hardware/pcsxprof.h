@@ -92,6 +92,15 @@ struct pcsx_ProfHeader {
     volatile uint32_t written;
 };
 
+/* What a reader checks before trusting a header: the layout version it
+   knows, whole aligned entries, and a capacity that fits in 2 MB of RAM. */
+static inline int pcsx_profHeaderValid(uint32_t magic, uint32_t version, uint32_t entrySize, uint32_t capacity,
+                                       uint32_t entries) {
+    return (magic == PCSX_PROF_MAGIC) && (version == PCSX_PROF_VERSION) &&
+           (entrySize >= sizeof(struct pcsx_ProfEntry)) && !(entrySize & 3) && capacity &&
+           !(capacity & (capacity - 1)) && (capacity <= 0x20000) && !(entries & 3);
+}
+
 /* Elapsed system clock cycles from stamp a to stamp b, b no more than about
    4 seconds after a. */
 static inline uint32_t pcsx_profElapsed(uint32_t a, uint32_t b, uint32_t cyclesPer16Lines) {
