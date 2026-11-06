@@ -67,8 +67,11 @@ namespace psyqo {
  * Scopes are meant for the main loop. The nesting depth is one global, so a
  * scope inside an interrupt handler, or one held across a coroutine
  * suspension while another scope runs, records the wrong depth. The times
- * stay right. A scope costs a few dozen cycles at each end, inside the
- * measured span of any scope around it.
+ * stay right. A scope costs about 160 cycles in PCSX-Redux's interpreter
+ * (about 60 to begin, 100 to end), almost all outside its own measured
+ * span but inside the span of any scope around it. So a short function
+ * reads about that much lower than a per-function profile of the same
+ * build, which also counts the scope itself.
  */
 class Profiler {
   public:
