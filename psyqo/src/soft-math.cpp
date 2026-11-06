@@ -289,17 +289,6 @@ psyqo::FixedPoint<> psyqo::SoftMath::matrixDeterminant3(const Matrix33 &m) {
     return nx - ny + nz;
 }
 
-psyqo::FixedPoint<> psyqo::SoftMath::squareRoot(psyqo::FixedPoint<> x, psyqo::FixedPoint<> y) {
-    if (x.raw() <= 1) return 0;
-    auto x0 = y;
-    auto x1 = x / x0;
-    while ((x1 - x0).abs().raw() > 1) {
-        x0 = (x0 + x1) / 2;
-        x1 = x / x0;
-    }
-    return x0;
-}
-
 namespace {
 
 // floor(log2(v)) for v >= 1. The R3000A has no count-leading-zeros instruction, so
@@ -329,7 +318,36 @@ constexpr unsigned floorLog2(uint32_t v) {
     return e;
 }
 
+// A seed for 1/sqrt of a reduced x in [0.25, 1), as 0.32, in 2.30: 1.6 for the
+// lower half and 1.2 for the upper, both inside what four steps close.
+constexpr uint32_t reducedSeed(uint32_t xr) { return xr < (1u << 31) ? 1717986918u : 1288490189u; }
+
+// Four Newton steps on y = 1/sqrt(xr), xr in 0.32, y in 2.30.
+uint32_t reducedInverseRoot(uint32_t xr, uint32_t yr) {
+    for (unsigned i = 0; i < 4; i++) {
+        uint32_t y2 = (static_cast<uint64_t>(yr) * yr) >> 32;  // 4.28
+        uint32_t t = (static_cast<uint64_t>(xr) * y2) >> 32;   // 4.28
+        uint32_t f = (3u << 27) - (t >> 1);                    // 4.28
+        yr = (static_cast<uint64_t>(yr) * f) >> 28;            // 2.30
+    }
+    return yr;
+}
+
 }  // namespace
+
+psyqo::FixedPoint<> psyqo::SoftMath::squareRoot(psyqo::FixedPoint<> x, psyqo::FixedPoint<> y) {
+    // sqrt(x) = x * 1/sqrt(x), on the same reduced range as inverseSquareRoot
+    // but in both directions: x * 4^-k is in [0.25, 1) for some k in [-5, 10],
+    // exactly, and sqrt(x) = 2^k * sqrt(x * 4^-k). That leaves no divide and no
+    // loop, so the hint is not needed.
+    (void)y;
+    if (x.raw() <= 1) return 0;
+    int k = (static_cast<int>(floorLog2(static_cast<uint32_t>(x.value))) - 10) >> 1;
+    uint32_t xr = static_cast<uint32_t>(x.value) << (20 - 2 * k);
+    uint32_t s = (static_cast<uint64_t>(xr) * reducedInverseRoot(xr, reducedSeed(xr))) >> 32;  // 2.30
+    unsigned shift = 18 - k;
+    return FixedPoint<>(static_cast<int32_t>((s + (1u << (shift - 1))) >> shift), FixedPoint<>::RAW);
+}
 
 psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x) {
     // x is about 2^(e-12) with e = floor(log2(raw)), so 1/sqrt(x) is about 2^((12-e)/2).
@@ -352,8 +370,29 @@ psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x, ps
     // Meaning we want to calculate y - f(y)/f'(y)
     // which expands into (y * (3 - xy²)) / 2, and simplifies to y * (3/2 - x/2 * y²)
 
-    // It will converge only for x < 1 however.
-    if (x > 1) return 1 / squareRoot(x, 1 / y);
+    // In 20.12, y = 1/sqrt(x) runs out of fractional bits once x is past 1,
+    // so that range is reduced instead: x / 4^k lands in [0.25, 1), where
+    // 1/sqrt is in (1, 2], and 1/sqrt(x) = 2^-k / sqrt(x / 4^k). The reduced
+    // x fits in 0.32 with no bits lost, so the iteration runs there in
+    // unsigned fixed point with y in 2.30, each product one multu.
+    if (x.value >= 4096) {
+        unsigned k = (floorLog2(static_cast<uint32_t>(x.value)) - 10) >> 1;
+        uint32_t xr = static_cast<uint32_t>(x.value) << (20 - 2 * k);
+        // The hint scales the other way. Four steps only close a seed inside
+        // the basin, x * y² < 3, and close it slowly from either side of it:
+        // a hint with x * y² outside [0.625, 1.25], or one that would not
+        // survive the shift, is replaced by 1.6 or 1.2 for the two halves of
+        // [0.25, 1), which four steps close everywhere in their half.
+        uint32_t yr = reducedSeed(xr);
+        if (y.value > 0 && y.value < (16384 >> k)) {
+            uint32_t s = static_cast<uint32_t>(y.value) << (18 + k);
+            uint32_t t = (static_cast<uint64_t>(xr) * ((static_cast<uint64_t>(s) * s) >> 32)) >> 32;
+            if (t >= (5u << 25) && t <= (5u << 26)) yr = s;
+        }
+        yr = reducedInverseRoot(xr, yr);
+        unsigned shift = 18 + k;
+        return FixedPoint<>(static_cast<int32_t>((yr + (1u << (shift - 1))) >> shift), FixedPoint<>::RAW);
+    }
 
     y *= (1.5_fp - (x * y * y) / 2);
     y *= (1.5_fp - (x * y * y) / 2);
