@@ -99,7 +99,7 @@ class Profiler {
      * @brief Claims root counter 2 and starts recording into the buffer.
      *
      * @details Call it after the GPU is initialized, since the elapsed times
-     * depend on the hblank counter it sets up. It spends about 200 lines (12 ms)
+     * depend on the hblank counter it sets up. It spends about 260 lines (one frame)
      * measuring how many cycles a line takes. Under PCSX-Redux, the buffer
      * is also registered so the emulator can read it. Installing another
      * buffer replaces the first one.

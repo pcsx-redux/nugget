@@ -42,12 +42,13 @@ bool psyqo::Profiler::s_full = false;
 
 namespace {
 
-// Counts system clock cycles over 64 hblanks, starting on a line edge, with
-// interrupts masked so no handler delays either edge, and returns a quarter
-// of it. Each edge is only seen within one poll of the counters, so the
-// window has to be long: a misread line period scales into the wrap choice
-// of every long scope, and the 4 s limit needs it within a few parts in
-// 10000. The window spans about two counter 2 wraps, counted as it polls.
+// Counts system clock cycles over 256 hblanks, starting on a line edge,
+// with interrupts masked so no handler delays either edge, and returns a
+// sixteenth of it. Each edge is seen within one poll of the counters, a loop
+// of a few uncached reads, so the window is long: an error of P cycles at the
+// edges becomes P/16 per 16 lines, about P/4 cycles of drift per second of
+// scope, against the 32768 the wrap choice tolerates. The window spans about
+// eight counter 2 wraps, counted as it polls.
 [[gnu::no_instrument_function]] uint32_t measure16Lines() {
     volatile uint16_t* const counter1 = &COUNTERS[1].value;
     volatile uint16_t* const counter2 = &COUNTERS[2].value;
@@ -58,7 +59,7 @@ namespace {
     uint16_t last = start;
     uint32_t wraps = 0;
     line = *counter1;
-    while ((uint16_t)(*counter1 - line) < 64) {
+    while ((uint16_t)(*counter1 - line) < 256) {
         uint16_t now = *counter2;
         if (now < last) wraps++;
         last = now;
@@ -66,7 +67,7 @@ namespace {
     uint16_t end = *counter2;
     if (end < last) wraps++;
     psyqo::Kernel::fastLeaveCriticalSection();
-    return ((wraps << 16) + end - start + 2) / 4;
+    return ((wraps << 16) + end - start + 8) / 16;
 }
 
 // Buffers text for PCDRV, so a dump costs one host write per 512 bytes
@@ -112,11 +113,7 @@ void psyqo::Profiler::install(pcsx_ProfHeader* header, pcsx_ProfEntry* entries, 
     // also resets the counter.
     COUNTERS[2].mode = 0;
 
-    uint32_t m[3];
-    for (auto& v : m) v = measure16Lines();
-    uint32_t lo = m[0] < m[1] ? m[0] : m[1];
-    uint32_t hi = m[0] < m[1] ? m[1] : m[0];
-    uint32_t cyclesPer16Lines = m[2] < lo ? lo : (m[2] > hi ? hi : m[2]);
+    uint32_t cyclesPer16Lines = measure16Lines();
     // NTSC is about 34450, PAL about 34690. Anything far off means counter 1
     // is not counting hblanks, and the times can only be approximate.
     if ((cyclesPer16Lines < 32000) || (cyclesPer16Lines > 37000)) cyclesPer16Lines = 34450;
