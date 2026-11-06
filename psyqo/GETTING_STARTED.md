@@ -114,6 +114,8 @@ This is the default build, and will enable a release build of the library and yo
 This will enable a full debug build of the library and your binary. It will be slow and bloated, but debugging will be very easy.
 - `make BUILD=SmallDebug`  
 This will enable a debug build of the library and your binary with still some optimizations. Debugging is possible, but will be hindered at times. It is the best compromise if debugging is needed while retaining some speed and small code footprint.
+- `make BUILD=FastDebug`  
+This will enable an optimized build where every function call records its call site on a shadow call stack, which `psyqo::ShadowStack` reads back on the console, to get callstacks for profiling or crash reports. See [shadow-stack.hh](shadow-stack.hh) for the rules, and the [shadow-stack](examples/shadow-stack) example. The bookkeeping costs two calls per function call.
 - `make BUILD=LTO`  
 This will enable a release build of the library and your binary with [LTO](https://gcc.gnu.org/wiki/LinkTimeOptimization) enabled. It will be really fast and really small, but debugging will be impossible.
 

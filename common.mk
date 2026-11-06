@@ -54,6 +54,16 @@ LDFLAGS_LTOFast += -O3 -flto -ffat-lto-objects
 
 CPPFLAGS_Debug += -O0
 CPPFLAGS_SmallDebug += -Og
+# Optimized, with every function entry and exit calling the psyqo shadow
+# call stack hooks (psyqo/shadow-stack.hh). Only links against psyqo.
+# Inlined functions get the hooks too, so two headers are left out: the
+# syscall wrappers, some of which never return and would leave their entry
+# on the shadow stack, and the fixed-point operators, which made four of
+# the five hook pairs per call of the scratchpad-stack example's recursion.
+CPPFLAGS_FastDebug += -O2 -finstrument-functions
+CPPFLAGS_FastDebug += -finstrument-functions-exclude-file-list=common/syscalls/,psyqo/fixed-point.hh
+CPPFLAGS_FastDebug += -DPSYQO_SHADOW_STACK
+LDFLAGS_FastDebug += -O2
 CPPFLAGS_Coverage += -Og
 
 LDFLAGS += -g

@@ -41,7 +41,7 @@ jobs:
         # psyq/README.md.
         run: |
           for d in crc32 cxxhello helloworld modplayer psmplayer psyqo \
-                   psyqo-lua psyqo-paths psyqo/examples/scratchpad-stack scratchstack shell shello spdplayer gpdplayer ucl-demo xmplayer; do
+                   psyqo-lua psyqo-paths psyqo/examples/scratchpad-stack psyqo/examples/shadow-stack scratchstack shell shello spdplayer gpdplayer ucl-demo xmplayer; do
             echo "::group::$d"
             make -C $d -j2 all
             echo "::endgroup::"
@@ -66,6 +66,19 @@ jobs:
 
       - name: Run tests
         run: tests/run-emulator.sh "$GITHUB_WORKSPACE/squashfs-root/AppRun" openbios/openbios.bin
+
+      - name: FastDebug shadow stack
+        # Rebuilds psyqo instrumented, so it has to come after everything
+        # that links the Release one.
+        run: |
+          make -C psyqo clean
+          make -C psyqo/examples/shadow-stack clean
+          make -C psyqo/examples/shadow-stack -j2 BUILD=FastDebug TEST=true all
+          xvfb-run -a timeout -k 10 60 squashfs-root/AppRun -no-ui -run -stdout -testmode -interpreter \
+            -bios openbios/openbios.bin -loadexe psyqo/examples/shadow-stack/shadow-stack.ps-exe > shadow-stack.log 2>&1 \
+            || { cat shadow-stack.log; exit 1; }
+          cat shadow-stack.log
+          grep -aqE '^shadow-stack: all [0-9]+ checks passed' shadow-stack.log
 
   xmake:
     runs-on: ubuntu-latest
