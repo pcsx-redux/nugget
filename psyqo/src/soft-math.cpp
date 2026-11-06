@@ -380,14 +380,14 @@ psyqo::FixedPoint<> psyqo::SoftMath::inverseSquareRoot(psyqo::FixedPoint<> x, ps
         uint32_t xr = static_cast<uint32_t>(x.value) << (20 - 2 * k);
         // The hint scales the other way. Four steps only close a seed inside
         // the basin, x * y² < 3, and close it slowly from either side of it:
-        // a hint more than sqrt(1.5) above the root or sqrt(8/3) below it, or
-        // one that would not survive the shift, is replaced by 1.6 or 1.2,
-        // which are within those bounds for the two halves of [0.25, 1).
+        // a hint with x * y² outside [0.625, 1.25], or one that would not
+        // survive the shift, is replaced by 1.6 or 1.2 for the two halves of
+        // [0.25, 1), which four steps close everywhere in their half.
         uint32_t yr = reducedSeed(xr);
         if (y.value > 0 && y.value < (16384 >> k)) {
             uint32_t s = static_cast<uint32_t>(y.value) << (18 + k);
             uint32_t t = (static_cast<uint64_t>(xr) * ((static_cast<uint64_t>(s) * s) >> 32)) >> 32;
-            if (t >= (3u << 25) && t <= (3u << 27)) yr = s;
+            if (t >= (5u << 25) && t <= (5u << 26)) yr = s;
         }
         yr = reducedInverseRoot(xr, yr);
         unsigned shift = 18 + k;

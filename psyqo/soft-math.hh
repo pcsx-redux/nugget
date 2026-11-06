@@ -179,7 +179,7 @@ void crossProductVec3(const Vec3 &v1, const Vec3 &v2, Vec3 *out);
  *
  * @param x The number to compute the square root of.
  * @param y The approximative hint of the result. Unused: the root is computed
- * without one, rounded to the nearest raw unit.
+ * without one, rounded to the nearest raw unit. A raw x of 1 or less returns 0.
  * @return psyqo::FixedPoint<> The square root.
  */
 [[nodiscard]] FixedPoint<> squareRoot(FixedPoint<> x, FixedPoint<> y);
