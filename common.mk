@@ -76,8 +76,10 @@ CXXFLAGS += -fno-exceptions -fno-rtti
 
 OBJS += $(addsuffix .o, $(basename $(SRCS)))
 
-# Two sources with the same basename would build the same object.
-SRCS_STEMS := $(abspath $(basename $(SRCS)))
+# Two different sources with the same basename would build the same object.
+# The same source listed twice is fine: openbios adds its whole source list
+# again for clean.
+SRCS_STEMS := $(basename $(sort $(abspath $(SRCS))))
 SRCS_DUPES := $(foreach s,$(sort $(SRCS_STEMS)),$(if $(word 2,$(filter $(s),$(SRCS_STEMS))),$(s)))
 ifneq ($(strip $(SRCS_DUPES)),)
 $(error These sources would all build the same object: $(foreach f,$(SRCS),$(if $(filter $(abspath $(basename $(f))),$(SRCS_DUPES)),$(f))))

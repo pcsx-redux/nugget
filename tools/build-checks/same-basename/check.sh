@@ -27,7 +27,13 @@ elif ! grep -q 'same object' both.log; then
     status=1
 fi
 
+if ! make -f Makefile.twice clean > twice.log 2>&1; then
+    echo "FAIL: a source listed twice was rejected:"
+    cat twice.log
+    status=1
+fi
+
 make clean > /dev/null 2>&1
-rm -f both.log
+rm -f both.log twice.log
 [ $status -eq 0 ] && echo "same-basename: OK"
 exit $status
