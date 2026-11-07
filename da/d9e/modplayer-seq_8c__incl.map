@@ -1,0 +1,19 @@
+<map id="tests/modplayer&#45;upload&#45;tail/modplayer&#45;seq.c" name="tests/modplayer&#45;upload&#45;tail/modplayer&#45;seq.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="161,5,338,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,80,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,48,87,91,85,86,199,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="273,313,343,339"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,48,191,75,159,110,148,130,141,150,139,170,145,191,170,228,203,260,239,286,272,305,269,309,236,290,200,264,166,232,140,193,134,171,135,149,143,128,155,107,187,71,220,44"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="273,240,489,265"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="269,44,313,96,337,130,358,165,371,196,379,226,374,227,366,198,354,168,333,133,309,99,265,47"/>
+<area shape="rect" id="Node000005" href="$d9/d95/dma_8h.html" title=" " alt="" coords="155,167,344,192"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="252,46,252,153,247,153,247,46"/>
+<area shape="rect" id="Node000006" href="$d0/dea/common_2hardware_2spu_8h.html" title=" " alt="" coords="419,93,602,119"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="313,43,460,87,459,92,311,48"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="371,268,332,306,328,302,367,264"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="252,192,254,225,264,264,275,284,289,302,285,305,271,287,259,266,249,226,246,192"/>
+<area shape="rect" id="Node000007" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="470,167,551,192"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="513,119,513,153,508,153,508,119"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="516,192,517,228,513,248,503,267,472,294,434,312,394,322,358,327,357,321,393,317,432,307,469,290,499,264,508,247,512,227,510,192"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="491,194,416,235,414,231,489,190"/>
+</map>

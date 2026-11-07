@@ -1,0 +1,10 @@
+<map id="tests/support/include/stdlib.h" name="tests/support/include/stdlib.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="11,5,170,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,167,80,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,47,63,94,49,154,44,152,57,93,78,44"/>
+<area shape="rect" id="Node000003" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="71,93,225,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,44,133,80,129,84,102,47"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="133,121,72,161,70,157,130,116"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="113,167,183,192"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="151,119,151,153,145,153,145,119"/>
+</map>

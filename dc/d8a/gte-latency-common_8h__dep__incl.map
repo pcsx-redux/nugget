@@ -1,0 +1,39 @@
+<map id="tests/gte&#45;latency/gte&#45;latency&#45;common.h" name="tests/gte&#45;latency/gte&#45;latency&#45;common.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="785,5,942,45"/>
+<area shape="rect" id="Node000002" href="$d3/d5d/gte-latency-color_8c.html" title=" " alt="" coords="5,93,175,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="771,36,508,58,348,75,188,96,175,98,174,93,187,91,348,70,508,53,771,30"/>
+<area shape="rect" id="Node000003" href="$da/d61/gte-latency-dpc_8c.html" title=" " alt="" coords="199,93,359,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="771,40,586,64,372,96,360,98,359,93,371,91,585,58,770,35"/>
+<area shape="rect" id="Node000004" href="$d1/d7b/gte-latency-math_8c.html" title=" " alt="" coords="383,93,554,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="772,49,555,96,554,91,771,44"/>
+<area shape="rect" id="Node000005" href="$d6/d1a/gte-latency-misc_8c.html" title=" " alt="" coords="578,93,746,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="807,53,707,96,705,91,805,48"/>
+<area shape="rect" id="Node000006" href="$db/ddd/gte-latency-mvmva_8c.html" title=" " alt="" coords="770,93,957,133"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="866,59,866,93,861,93,861,59"/>
+<area shape="rect" id="Node000007" href="$d3/d39/gte-latency-perspective_8c.html" title=" " alt="" coords="981,93,1194,133"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="926,48,1039,91,1037,96,924,53"/>
+<area shape="rect" id="Node000008" href="$d8/dfd/gte-latency-singles_8c.html" title=" " alt="" coords="1219,93,1401,133"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="956,42,1219,92,1218,97,955,47"/>
+<area shape="rect" id="Node000009" href="$df/d12/gte-latency_8c.html" title=" " alt="" coords="1426,93,1583,133"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="956,33,1165,56,1413,91,1426,93,1425,98,1412,96,1165,62,955,38"/>
+<area shape="rect" id="Node000010" href="$db/d2e/gwu_8h.html" title=" " alt="" coords="1608,93,1743,133"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="956,28,1242,48,1419,66,1596,91,1608,93,1607,98,1595,96,1418,72,1242,54,956,34"/>
+<area shape="rect" id="Node000011" href="$dc/d2c/gte-write-to-use_8c.html" title=" " alt="" coords="923,181,1094,221"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1595,136,1457,154,1349,162,1242,168,1106,184,1094,186,1094,181,1106,179,1241,163,1348,156,1456,149,1594,131"/>
+<area shape="rect" id="Node000012" href="$df/d96/gwu-color_8c.html" title=" " alt="" coords="1119,181,1253,221"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="1595,136,1501,151,1428,160,1356,169,1265,184,1254,186,1253,181,1264,179,1355,164,1427,155,1500,146,1594,131"/>
+<area shape="rect" id="Node000013" href="$d2/d2c/gwu-dpc_8c.html" title=" " alt="" coords="1277,181,1412,221"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="1595,138,1413,185,1412,180,1594,133"/>
+<area shape="rect" id="Node000014" href="$d2/d16/gwu-lighting_8c.html" title=" " alt="" coords="1437,181,1583,221"/>
+<area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="1628,142,1547,184,1545,179,1626,137"/>
+<area shape="rect" id="Node000015" href="$dc/d75/gwu-math_8c.html" title=" " alt="" coords="1608,181,1743,221"/>
+<area shape="poly" id="edge14_Node000010_Node000015" title=" " alt="" coords="1678,147,1678,181,1673,181,1673,147"/>
+<area shape="rect" id="Node000016" href="$d0/dd0/gwu-misc_8c.html" title=" " alt="" coords="1767,181,1901,221"/>
+<area shape="poly" id="edge15_Node000010_Node000016" title=" " alt="" coords="1723,138,1801,179,1798,184,1721,142"/>
+<area shape="rect" id="Node000017" href="$df/d0e/gwu-mvmva_8c.html" title=" " alt="" coords="1926,181,2073,221"/>
+<area shape="poly" id="edge16_Node000010_Node000017" title=" " alt="" coords="1757,133,1929,179,1927,184,1755,138"/>
+<area shape="rect" id="Node000018" href="$d0/dcc/gwu-perspective_8c.html" title=" " alt="" coords="2097,181,2270,221"/>
+<area shape="poly" id="edge17_Node000010_Node000018" title=" " alt="" coords="1757,125,2085,179,2097,181,2096,186,2084,184,1756,130"/>
+<area shape="rect" id="Node000019" href="$d5/d4d/gwu-singles_8c.html" title=" " alt="" coords="2295,181,2437,221"/>
+<area shape="poly" id="edge18_Node000010_Node000019" title=" " alt="" coords="1757,118,1993,140,2138,157,2282,179,2295,181,2294,186,2282,184,2137,163,1993,146,1756,123"/>
+</map>

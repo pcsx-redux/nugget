@@ -1,0 +1,11 @@
+<map id="openbios/main/splash.h" name="openbios/main/splash.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="175,5,351,31"/>
+<area shape="rect" id="Node000002" href="$dc/dba/monitor_2hosts_2gpu_8c.html" title=" " alt="" coords="5,79,156,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,38,112,81,110,76,220,33"/>
+<area shape="rect" id="Node000003" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="180,79,347,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,44,266,79,261,79,261,44"/>
+<area shape="rect" id="Node000004" href="$df/d98/splash_8c.html" title=" " alt="" coords="371,79,545,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="308,33,427,76,425,81,306,38"/>
+<area shape="rect" id="Node000005" href="$d2/d3b/openbios-splash_8c.html" title=" " alt="" coords="371,152,545,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="461,118,461,152,455,152,455,118"/>
+</map>

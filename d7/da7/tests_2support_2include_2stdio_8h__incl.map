@@ -1,0 +1,11 @@
+<map id="tests/support/include/stdio.h" name="tests/support/include/stdio.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="25,5,183,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="12,167,87,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,48,33,68,12,95,8,110,11,125,30,155,25,158,6,127,3,110,7,92,30,64,59,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="121,167,196,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,43,178,64,201,92,205,110,201,127,183,158,178,155,197,125,200,110,196,95,174,68,146,48"/>
+<area shape="rect" id="Node000004" href="$d7/dbd/common_2libc_2xprintf_8h.html" title=" " alt="" coords="22,93,186,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="107,46,107,79,101,79,101,46"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="97,121,68,157,64,154,93,117"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="115,117,143,154,139,157,111,121"/>
+</map>

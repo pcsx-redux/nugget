@@ -1,0 +1,11 @@
+<map id="psyqo/profiler.hh" name="psyqo/profiler.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="65,5,196,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="95,152,166,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,33,43,51,26,64,13,80,9,91,9,101,24,120,51,136,83,148,81,153,49,141,21,124,4,103,3,91,8,77,22,60,40,47,79,28"/>
+<area shape="rect" id="Node000003" href="$dc/dbe/pcsxprof_8h.html" title=" " alt="" coords="23,79,238,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,31,133,65,128,65,128,31"/>
+<area shape="rect" id="Node000004" href="$de/dc6/shadow-stack_8hh.html" title=" " alt="" coords="262,79,437,104"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="167,28,302,72,300,77,165,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="133,104,133,138,128,138,128,104"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="315,107,180,150,178,145,313,101"/>
+</map>
