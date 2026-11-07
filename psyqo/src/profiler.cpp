@@ -52,6 +52,9 @@ namespace {
 [[gnu::no_instrument_function]] uint32_t measure16Lines() {
     volatile uint16_t* const counter1 = &COUNTERS[1].value;
     volatile uint16_t* const counter2 = &COUNTERS[2].value;
+    // Restore the caller's interrupt state afterwards: install() may run inside a
+    // critical section.
+    uint32_t status = psyqo::Kernel::Internal::getCop0Status();
     psyqo::Kernel::fastEnterCriticalSection();
     uint16_t line = *counter1;
     while (*counter1 == line);
@@ -66,7 +69,7 @@ namespace {
     }
     uint16_t end = *counter2;
     if (end < last) wraps++;
-    psyqo::Kernel::fastLeaveCriticalSection();
+    psyqo::Kernel::Internal::setCop0Status(status);
     return ((wraps << 16) + end - start + 8) / 16;
 }
 

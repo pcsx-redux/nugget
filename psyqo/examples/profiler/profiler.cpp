@@ -40,6 +40,7 @@ SOFTWARE.
 #include "psyqo/application.hh"
 #include "psyqo/font.hh"
 #include "psyqo/gpu.hh"
+#include "psyqo/kernel.hh"
 #include "psyqo/scene.hh"
 
 namespace {
@@ -167,6 +168,13 @@ void ProfilerExample::prepare() {
 
 void ProfilerExample::createScene() {
     m_font.uploadSystemFont(gpu());
+    // Installed once inside a critical section first: it has to leave
+    // interrupts masked for its caller.
+    psyqo::Kernel::fastEnterCriticalSection();
+    psyqo::Profiler::install(s_profile);
+    bool masked = (psyqo::Kernel::Internal::getCop0Status() & 1) == 0;
+    psyqo::Kernel::fastLeaveCriticalSection();
+    check(masked, "install keeps a critical section masked");
     psyqo::Profiler::install(s_profile);
     ramsyscall_printf("profiler: %u cycles per 16 lines, %s\n", s_profile.header.cyclesPer16Lines,
                       (s_profile.header.flags & PCSX_PROF_FLAG_PAL) ? "PAL" : "NTSC");
