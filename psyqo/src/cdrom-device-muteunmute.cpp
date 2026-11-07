@@ -48,7 +48,7 @@ class MuteAction : public psyqo::CDRomDevice::Action<MuteActionState> {
         eastl::atomic_signal_fence(eastl::memory_order_release);
         psyqo::Hardware::CDRom::Command.send(psyqo::Hardware::CDRom::CDL::MUTE);
     }
-    bool complete(const psyqo::CDRomDevice::Response &) override {
+    bool acknowledge(const psyqo::CDRomDevice::Response &) override {
         setSuccess(true);
         return true;
     }
@@ -85,7 +85,7 @@ class UnmuteAction : public psyqo::CDRomDevice::Action<UnmuteActionState> {
         eastl::atomic_signal_fence(eastl::memory_order_release);
         psyqo::Hardware::CDRom::Command.send(psyqo::Hardware::CDRom::CDL::UNMUTE);
     }
-    bool complete(const psyqo::CDRomDevice::Response &) override {
+    bool acknowledge(const psyqo::CDRomDevice::Response &) override {
         setSuccess(true);
         return true;
     }
