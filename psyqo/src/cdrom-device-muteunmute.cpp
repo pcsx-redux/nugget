@@ -67,6 +67,12 @@ psyqo::TaskQueue::Task psyqo::CDRomDevice::scheduleMute() {
     return TaskQueue::Task([this](auto task) { mute([task](bool success) { task->complete(success); }); });
 }
 
+void psyqo::CDRomDevice::muteBlocking(GPU &gpu) {
+    Kernel::assert(m_callback == nullptr, "CDRomDevice::muteBlocking called with pending action");
+    BlockingAction blocking(this, gpu);
+    s_muteAction.start(this, [](bool) {});
+}
+
 namespace {
 
 enum class UnmuteActionState : uint8_t {
@@ -102,4 +108,10 @@ void psyqo::CDRomDevice::unmute(eastl::function<void(bool)> &&callback) {
 
 psyqo::TaskQueue::Task psyqo::CDRomDevice::scheduleUnmute() {
     return TaskQueue::Task([this](auto task) { unmute([task](bool success) { task->complete(success); }); });
+}
+
+void psyqo::CDRomDevice::unmuteBlocking(GPU &gpu) {
+    Kernel::assert(m_callback == nullptr, "CDRomDevice::unmuteBlocking called with pending action");
+    BlockingAction blocking(this, gpu);
+    s_unmuteAction.start(this, [](bool) {});
 }
