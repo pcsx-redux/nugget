@@ -101,3 +101,40 @@ CESTER_TEST(strncatSmaller, test_instance,
     cester_assert_int_eq(0, b[6]);
     cester_assert_int_eq('x', b[7]);
 )
+
+CESTER_TEST(strchrTerminator, test_instance,
+    char b[8] = { 'a', 'b', 'a', 0, 'a', 'x', 'x', 0 };
+    char e[1] = { 0 };
+
+    cester_assert_ptr_equal(b + 3, syscall_strchr(b, 0));
+    cester_assert_ptr_equal(b + 3, syscall_strrchr(b, 0));
+    cester_assert_ptr_equal(b + 3, syscall_index(b, 0));
+    cester_assert_ptr_equal(b + 3, syscall_rindex(b, 0));
+    cester_assert_ptr_equal(e, syscall_strchr(e, 0));
+    cester_assert_ptr_equal(e, syscall_strrchr(e, 0));
+)
+
+CESTER_TEST(strchrCharacter, test_instance,
+    char b[8] = { 'a', 'b', 'a', 0, 'a', 'x', 'x', 0 };
+    char e[1] = { 0 };
+
+    cester_assert_ptr_equal(b, syscall_strchr(b, 'a'));
+    cester_assert_ptr_equal(b + 2, syscall_strrchr(b, 'a'));
+    cester_assert_ptr_equal(b + 1, syscall_strchr(b, 'b'));
+    cester_assert_ptr_equal(b + 1, syscall_strrchr(b, 'b'));
+    cester_assert_null(syscall_strchr(b, 'x'));
+    cester_assert_null(syscall_strrchr(b, 'x'));
+    cester_assert_null(syscall_strchr(e, 'a'));
+    cester_assert_null(syscall_strrchr(e, 'a'));
+)
+
+CESTER_TEST(strchrLowByte, test_instance,
+    char b[4] = { 'a', (char)0xe9, 'a', 0 };
+
+    cester_assert_ptr_equal(b + 1, syscall_strchr(b, 0xe9));
+    cester_assert_ptr_equal(b + 1, syscall_strrchr(b, 0xe9));
+    cester_assert_ptr_equal(b + 1, syscall_strchr(b, (char)0xe9));
+    cester_assert_ptr_equal(b, syscall_strchr(b, 0x161));
+    cester_assert_ptr_equal(b + 2, syscall_strrchr(b, 0x161));
+    cester_assert_ptr_equal(b + 3, syscall_strchr(b, 0x100));
+)
