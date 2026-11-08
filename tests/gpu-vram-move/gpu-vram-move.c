@@ -81,7 +81,7 @@ CESTER_BEFORE_ALL(gpu_vram_move,
     IMASK = 0;
     IREG = 0;
     rasterFullReset();
-    ramsyscall_printf("\n=== gpu-vram-move: GP0(0x80) VRAM-to-VRAM copy ===\n");
+    ramsyscall_printf("\n=== gpu-vram-move: GP0(0x80) copy and GP0(0xA0) upload ===\n");
     ramsyscall_printf("OBS lines carry per-pixel hardware-truth values.\n\n");
 )
 
