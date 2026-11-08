@@ -53,10 +53,7 @@ SOFTWARE.
 // Real hardware is ground truth; PCSX-Redux is the device-under-test. Every
 // assertion also logs an OBS line for hardware-truth capture.
 //
-// Verified on hardware: all four tests pass on real
-// silicon. The soft GPU currently diverges on the mask cases
-// (vram_move_honors_set_mask, vram_move_honors_check_mask): its GP0(0x80)
-// copy ignores the E6 mask setting and moves pixels raw.
+// upload.c applies the same mask checks to the GP0(0xA0) CPU-to-VRAM upload.
 
 #include "common/hardware/dma.h"
 #include "common/hardware/gpu.h"
@@ -84,7 +81,7 @@ CESTER_BEFORE_ALL(gpu_vram_move,
     IMASK = 0;
     IREG = 0;
     rasterFullReset();
-    ramsyscall_printf("\n=== gpu-vram-move: GP0(0x80) VRAM-to-VRAM copy ===\n");
+    ramsyscall_printf("\n=== gpu-vram-move: GP0(0x80) copy and GP0(0xA0) upload ===\n");
     ramsyscall_printf("OBS lines carry per-pixel hardware-truth values.\n\n");
 )
 
@@ -93,3 +90,4 @@ CESTER_AFTER_ALL(gpu_vram_move,
 )
 
 #include "copy.c"
+#include "upload.c"
