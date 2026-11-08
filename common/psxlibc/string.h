@@ -83,22 +83,26 @@ static __inline__ char *strncpy(char *s1, const char *s2, size_t n) {
     return r;
 }
 
+// The terminator is part of the string: searching for '\0' returns its
+// address, as in ISO C and the retail BIOS.
 static __inline__ char *strchr(const char *s, int c) {
+    const char ch = c;
     char b;
-    while ((b = *s)) {
-        if (b == c) return (char *)s;
+    while ((b = *s) != ch) {
+        if (!b) return NULL;
         s++;
     }
-    return NULL;
+    return (char *)s;
 }
 
 static __inline__ char *strrchr(const char *s, int c) {
+    const char ch = c;
     const char *r = NULL;
     char b;
-    while ((b = *s)) {
-        if (b == c) r = s;
+    do {
+        if ((b = *s) == ch) r = s;
         s++;
-    }
+    } while (b);
     return (char *)r;
 }
 
