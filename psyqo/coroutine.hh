@@ -33,9 +33,9 @@ SOFTWARE.
 #include <type_traits>
 
 #include "common/psxlibc/ucontext.h"
-#include "psyqo/shadow-stack.hh"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/kernel.hh"
+#include "psyqo/shadow-stack.hh"
 
 namespace psyqo {
 
