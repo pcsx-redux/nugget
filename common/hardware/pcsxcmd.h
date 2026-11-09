@@ -217,7 +217,7 @@ PCSX_INLINE int pcsx_commandSupported(uint32_t op) {
 
 /* Set the stack bounds; see struct pcsx_StackBounds. Returns the command
    status, PCSX_CMDSTATUS_NO_ANSWER on an emulator without this operation. */
-static __inline__ uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
+PCSX_INLINE uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
     struct pcsx_StackBounds bounds;
     pcsx_commandInit(&bounds.header, PCSX_CMD_SET_STACK_BOUNDS, sizeof(bounds));
     bounds.low = low;
@@ -227,4 +227,4 @@ static __inline__ uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
 }
 
 /* Stop checking $sp. */
-static __inline__ uint32_t pcsx_clearStackBounds() { return pcsx_setStackBounds(0, 0); }
+PCSX_INLINE uint32_t pcsx_clearStackBounds() { return pcsx_setStackBounds(0, 0); }
