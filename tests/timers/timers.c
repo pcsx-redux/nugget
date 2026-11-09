@@ -637,3 +637,56 @@ CESTER_TEST(reset_period_accumulated, timer_tests,
     cester_assert_true(periodIs(f, 65536, 100));
     cester_assert_true(periodIs(f8, 524288, 20));
 )
+
+/* =================================================================
+ * NTSC frame and scanline length in CPU cycles, over 60 fields.
+ * A line is 3412.5 video cycles at 53.693175 MHz: 2152.55 CPU cycles,
+ * 566120.8 per 263-line field. Silicon reads 2152.51-2152.55 per line
+ * on SCPH-1000, 1001 and 5501, and 566121.6 per field on a DTL-H2700.
+ * Timer 2 runs on the system clock and is unwrapped by polling; vblank
+ * is the I_STAT bit 0 edge. Timer 1 counts hblanks across the window.
+ * ================================================================= */
+CESTER_BODY(
+static uint16_t readHblankStable(void) {
+    uint16_t a = COUNTERS[1].value, b;
+    while ((b = COUNTERS[1].value) != a) a = b;
+    return a;
+}
+)
+
+CESTER_TEST(timerNTSCFrameLength, timer_tests,
+    GPU_STATUS = 0x08000001; /* NTSC, 320 wide, 240 lines */
+    GPU_STATUS = 0x03000000; /* display on */
+    COUNTERS[1].target = 0xFFFF;
+    COUNTERS[1].mode = TM_CLK_EXTERNAL;
+    COUNTERS[2].target = 0xFFFF;
+    COUNTERS[2].mode = 0;
+    BUSY_WAIT(200000);
+
+    IREG = ~1u;
+    while (!(IREG & 1)) {}
+    IREG = ~1u;
+    uint16_t lastC = COUNTERS[2].value;
+    uint16_t l0 = readHblankStable();
+    uint32_t cycles = 0, fields = 0;
+    while (fields < 60) {
+        uint16_t c = COUNTERS[2].value;
+        cycles += (uint16_t)(c - lastC);
+        lastC = c;
+        if (IREG & 1) {
+            IREG = ~1u;
+            fields++;
+        }
+    }
+    uint32_t lines = (uint16_t)(readHblankStable() - l0);
+    uint32_t perField = cycles / fields;
+    uint32_t perLineX100 = (cycles / lines) * 100 + ((cycles % lines) * 100) / lines;
+    ramsyscall_printf("OBS timerNTSCFrameLength cycles=%d fields=%d lines=%d perField=%d perLine=%d.%02d\n",
+                      (int)cycles, (int)fields, (int)lines, (int)perField, (int)(perLineX100 / 100),
+                      (int)(perLineX100 % 100));
+    /* 100 ppm either side of 566121 cycles, 60 * 263 hblanks. */
+    cester_assert_cmp(perField, >=, 566064);
+    cester_assert_cmp(perField, <=, 566178);
+    cester_assert_cmp(lines, >=, 15779);
+    cester_assert_cmp(lines, <=, 15781);
+)
