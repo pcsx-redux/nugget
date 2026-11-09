@@ -379,8 +379,8 @@ unsigned TestScene::backToBack() {
                 unsigned spill;
                 int first;
                 unsigned lost = b2bCase(B2BKind(k), size, addr, 0x20 + slot * 4 + rep, spill, first);
-                ramsyscall_printf("SPUB2B size=%d kind=%s rep=%d lost=%d first=%d spill=%d %s\n", (int)size,
-                                  kinds[k], rep, lost, first, spill, verdicts[k]);
+                ramsyscall_printf("SPUB2B size=%d kind=%s rep=%d lost=%d first=%d spill=%d %s\n", (int)size, kinds[k],
+                                  rep, lost, first, spill, verdicts[k]);
                 if (k == CTRL && (lost || spill)) controlBad = true;
                 if ((k == B2B16 || k == B2BDEF) && (lost || spill)) b2bBad = true;
             }
