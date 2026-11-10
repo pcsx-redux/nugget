@@ -148,11 +148,16 @@ static void record(struct Field *fields, int n) {
     }
 }
 
-static void recordMode(struct Field *fields, uint32_t h, uint32_t v, uint32_t mode) {
+// Returns 0 when no vblank came in this mode at all. The IRQ flag is cleared
+// after the mode is set, so a vblank left pending by the previous mode does
+// not count.
+static int recordMode(struct Field *fields, uint32_t h, uint32_t v, uint32_t mode) {
     for (int f = 0; f < FIELDS; f++) fields[f].lines = NONE;
     setup(h, v, mode);
-    if (!waitVBlank() || !waitVBlank()) return;
-    record(fields, FIELDS);
+    IREG = ~1u;
+    if (!waitVBlank()) return 0;
+    if (waitVBlank()) record(fields, FIELDS);
+    return 1;
 }
 
 // In 480i, waits for a field whose bit 31 is (long) or is not (short) up by
@@ -187,9 +192,10 @@ static int isV2(void) {
     }
     return 0;
 }
-// PAL counts as run once its first field completed; a recording that stops
+// PAL counts as run once a vblank came in PAL mode; a recording that stops
 // after that fails checkInterlaced().
-static int palRan(void) { return s_pal[0].lines != NONE; }
+static int s_palRan;
+static int palRan(void) { return s_palRan; }
 
 // Interlaced fields alternate: in each pair, one has bit 31 rising at line
 // b31 (within one line) with bit 13 falling at line b13Long, the other has no
@@ -224,7 +230,7 @@ CESTER_BEFORE_ALL(gpustatTimeline,
     IMASK = 0;
     COUNTERS[1].mode = 0x0100;
     recordMode(s_base, DISP_H, DISP_V(0x10, 0x100), MODE_I);
-    recordMode(s_pal, DISP_H_PAL, DISP_V(0x27, 0x125), MODE_PAL_I);
+    s_palRan = recordMode(s_pal, DISP_H_PAL, DISP_V(0x27, 0x125), MODE_PAL_I);
     recordMode(s_y2f0, DISP_H, DISP_V(0x10, 0xf0), MODE_I);
     recordMode(s_y1x20, DISP_H, DISP_V(0x20, 0x100), MODE_I);
     recordMode(s_i2, DISP_H, DISP_V(0x10, 0x100), MODE_I2);
