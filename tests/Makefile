@@ -114,6 +114,7 @@ all:
 	$(MAKE) -C stack-bounds all
 	$(MAKE) -C stack-bounds-churn all
 	$(MAKE) -C stack-bounds-trip all
+	$(MAKE) -C profiler all
 	$(MAKE) -C stack-bounds-heap all
 	$(MAKE) -C stack-bounds-heap-quiet all
 	$(MAKE) -C autoinc all
@@ -251,6 +252,7 @@ clean:
 	$(MAKE) -C stack-bounds clean
 	$(MAKE) -C stack-bounds-churn clean
 	$(MAKE) -C stack-bounds-trip clean
+	$(MAKE) -C profiler clean
 	$(MAKE) -C stack-bounds-heap clean
 	$(MAKE) -C stack-bounds-heap-quiet clean
 	$(MAKE) -C autoinc clean
