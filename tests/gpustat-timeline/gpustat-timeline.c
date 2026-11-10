@@ -187,7 +187,9 @@ static int isV2(void) {
     }
     return 0;
 }
-static int palRan(void) { return s_pal[FIELDS - 1].lines != NONE; }
+// PAL counts as run once its first field completed; a recording that stops
+// after that fails checkInterlaced().
+static int palRan(void) { return s_pal[0].lines != NONE; }
 
 // Interlaced fields alternate: in each pair, one has bit 31 rising at line
 // b31 (within one line) with bit 13 falling at line b13Long, the other has no
