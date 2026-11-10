@@ -49,6 +49,7 @@ const TESTS = [
     'gpu-irq;gpu-irq/gpu-irq',
     'gpu-polyline;gpu-polyline/gpu-polyline',
     'gpustat-480i;gpustat-480i/gpustat-480i',
+    'gpustat-timeline;gpustat-timeline/gpustat-timeline',
     'gpustat10;gpustat10/gpustat10',
     'gpustat26;gpustat26/gpustat26',
     'gpu-vram-move;gpu-vram-move/gpu-vram-move',
