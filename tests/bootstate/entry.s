@@ -57,5 +57,15 @@ _start:
     mfc0  $t0, $7
     nop
     sw    $t0, 148($k0)
+    la    $t0, __bss_start
+    la    $t1, __bss_end
+    beq   $t0, $t1, 2f
+    nop
+1:
+    sw    $zero, 0($t0)
+    addiu $t0, $t0, 4
+    bne   $t0, $t1, 1b
+    nop
+2:
     j     main
     nop
