@@ -37,6 +37,8 @@ SOFTWARE.
 
 #include <stdint.h>
 
+#include "common/hardware/dma.h"
+#include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/psxlibc/setjmp.h"
 #include "common/syscalls/syscalls.h"
@@ -250,6 +252,12 @@ void Shell::createScene() {
 }
 
 void Shell::requestBoot() {
+    // The frame loop leaves the last chain in flight. Let it drain before
+    // leaving, or the game starts with GPU DMA still running and resets it
+    // mid-transfer.
+    gpu().waitChainIdle();
+    while (DMA_CTRL[DMA_GPU].CHCR & 0x01000000);
+    while (!(GPU_STATUS & 0x04000000));
     m_sound.uninit(gpu());
     // psyqo turns on the emulator's kernel checker; the game must not inherit it.
     pcsx_checkKernel(0);
