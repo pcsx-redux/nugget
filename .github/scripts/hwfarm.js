@@ -152,6 +152,7 @@ const SKIPS = [
     'stack-bounds-trip/stack-bounds-trip|emulator stack-bounds command (pcsx-redux#2510), expects Redux to exit 251, no hardware verdict',
     'stack-bounds-heap/stack-bounds-heap|emulator heap vs stack-bounds check (pcsx-redux#2551), expects Redux to exit 251, no hardware verdict',
     'stack-bounds-heap-quiet/stack-bounds-heap-quiet|emulator heap vs stack-bounds check (pcsx-redux#2551), no hardware verdict',
+    'profiler/profiler|fixture for the emulator call-path profiler, checks nothing itself, no hardware verdict',
 ];
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {

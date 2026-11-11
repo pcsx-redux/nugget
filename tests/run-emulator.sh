@@ -145,6 +145,7 @@ SKIPS=(
     "stack-bounds-trip/stack-bounds-trip|expects exit 251, run by the pcsx-redux gtests"
     "stack-bounds-heap/stack-bounds-heap|expects exit 251, run by the pcsx-redux gtests"
     "stack-bounds-heap-quiet/stack-bounds-heap-quiet|needs the stack bounds command in the dev AppImage; run by the pcsx-redux gtests"
+    "profiler/profiler|fixture for the call-path profiler, checks nothing itself; run by the pcsx-redux gtests"
     "memcard-slot2/memcard-slot2|the memcard test built for slot 2, for the farm console whose test card is there"
     "memcard-bios-slot2/memcard-bios-slot2|the memcard-bios test built for slot 2, for the farm console whose test card is there"
     "pcdrv-net/pcdrv-net|needs a TCP echo peer on 127.0.0.1:37373, run by the pcsx-redux gtests"
