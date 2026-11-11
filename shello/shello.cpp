@@ -256,9 +256,16 @@ void Shell::requestBoot() {
     // leaving, or the game starts with GPU DMA still running and resets it
     // mid-transfer.
     gpu().waitChainIdle();
-    while (DMA_CTRL[DMA_GPU].CHCR & 0x01000000);
+    for (unsigned c = 0; c < 7; c++) {
+        while (DMA_CTRL[c].CHCR & 0x01000000);
+    }
     while (!(GPU_STATUS & 0x04000000));
     m_sound.uninit(gpu());
+    // Hand the game what the retail shell leaves: no OTC DMA interrupt (psyqo
+    // enables it, the retail shell does not) and GPU DMA direction off (psyqo
+    // leaves it on FIFO).
+    DICR = DICR & 0x00bf0000;
+    GPU_STATUS = 0x04000000;
     // psyqo turns on the emulator's kernel checker; the game must not inherit it.
     pcsx_checkKernel(0);
     syscall_longjmp(&m_exitJmpBuf, 1);
