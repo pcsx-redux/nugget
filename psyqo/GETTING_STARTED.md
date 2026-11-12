@@ -5,7 +5,7 @@ The easiest to get started with PSYQo, and with development on the PlayStation 1
 In order to develop for the PlayStation1 using the PSYQo library, a modern C++ toolchain is required. There are several different toolchains available for the PS1, but the PSYQo library is designed to work with at least gcc 10 targeting mips I. Here are some installation methods available:
 
 ## Linux
-There's no working distribution package for the toolchain, so build it from source with [this script](https://github.com/pcsx-redux/pcsx-redux/blob/main/tools/linux-mips/spawn-compiler.sh). Install the build dependencies first.
+There's no working distribution package for the toolchain, so build it from source with [this script](../tools/linux-mips/spawn-compiler.sh). Install the build dependencies first.
 
 Debian derivatives:
 
@@ -22,7 +22,7 @@ sudo pacman -S --needed base-devel wget texinfo gmp mpfr libmpc
 Then build and install it into `/usr/local`. The script downloads and builds the sources in the current directory, so run it from a new, empty one:
 
 ```bash
-wget -O spawn-compiler.sh https://raw.githubusercontent.com/pcsx-redux/pcsx-redux/main/tools/linux-mips/spawn-compiler.sh
+wget -O spawn-compiler.sh https://raw.githubusercontent.com/pcsx-redux/nugget/main/tools/linux-mips/spawn-compiler.sh
 sudo bash spawn-compiler.sh
 ```
 
