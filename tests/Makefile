@@ -5,7 +5,11 @@ all:
 	$(MAKE) -C cpu/bcc-bits all
 	$(MAKE) -C cdrom/cd-cmd-latency all
 	$(MAKE) -C mdec/bsdec all
-	$(MAKE) -C cdrom/cdrom all
+	$(MAKE) -C cdrom/commands all
+	$(MAKE) -C cdrom/reading all
+	$(MAKE) -C cdrom/playback all
+	$(MAKE) -C cdrom/race all
+	$(MAKE) -C cdrom/errors all
 	$(MAKE) -C cpu/cpu all
 	$(MAKE) -C cpu/cop-branch all
 	$(MAKE) -C cpu/cop0 all
@@ -145,7 +149,11 @@ clean:
 	$(MAKE) -C cpu/bcc-bits clean
 	$(MAKE) -C cdrom/cd-cmd-latency clean
 	$(MAKE) -C mdec/bsdec clean
-	$(MAKE) -C cdrom/cdrom clean
+	$(MAKE) -C cdrom/commands clean
+	$(MAKE) -C cdrom/reading clean
+	$(MAKE) -C cdrom/playback clean
+	$(MAKE) -C cdrom/race clean
+	$(MAKE) -C cdrom/errors clean
 	$(MAKE) -C cpu/cpu clean
 	$(MAKE) -C cpu/cop-branch clean
 	$(MAKE) -C cpu/cop0 clean

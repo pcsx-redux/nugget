@@ -4,7 +4,7 @@ TYPE = ps-exe
 
 # PAYLOAD=<files to compress into the benchmark>; mkpayload.py needs the
 # python lz4 module.
-PAYLOAD ?= $(wildcard ../../../tests/cdrom/cdrom/cdrom.ps-exe ../../../tests/gte/gte/gte.ps-exe ../../../tests/psyqo/psyqo/psyqo-tests.ps-exe)
+PAYLOAD ?= $(wildcard ../../../tests/cdrom/commands/cdrom-commands.ps-exe ../../../tests/gte/gte/gte.ps-exe ../../../tests/psyqo/psyqo/psyqo-tests.ps-exe)
 
 SRCS = \
 ../../../common/crt0/crt0.s \
