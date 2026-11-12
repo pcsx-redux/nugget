@@ -20,8 +20,8 @@ tests/gpu/2mb-vram/transfer-wrap-y/transfer-wrap-y.c
 tests/gpu/2mb-vram/vram-blit-y/vram-blit-y.c
 tests/gpu/2mb-vram/vram-transfers-y/vram-transfers-y.c
 tests/cpu/bcc-bits/bcc-bits.c
-tests/dma/dma-priority/dma-priority.c
-tests/gpu/gpu-nop/gpu-nop.c
+tests/dma/priority/dma-priority.c
+tests/gpu/nop/gpu-nop.c
 tests/gpu/raster/lines/raster-expected-phase10.h
 tests/gpu/raster/dither/dither-characterization.c
 tests/gpu/raster/dither/raster-expected-phase11.h
@@ -43,9 +43,9 @@ tests/gpu/raster/edge-walker-stress/raster-expected-phase3.h
 tests/gpu/raster/gouraud-color/raster-expected-phase7.h
 tests/gpu/raster/quad-flat/raster-expected-phase8.h
 tests/gpu/raster/texture-window-8-15/raster-expected-phase9.h
-tests/gte/gte-store-delay/gte-store-delay.c
-tests/gte/gte-timing/gte-timing.c
-tests/gte/gte-write-to-use/gwu.h
+tests/gte/store-delay/gte-store-delay.c
+tests/gte/timing/gte-timing.c
+tests/gte/write-to-use/gwu.h
 tests/bus/load-timings/load-timings.c
 tests/cpu/mult-timing/mult-timing.c
 tests/psyqo/psyqo/test-gte-math.cpp

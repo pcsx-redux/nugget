@@ -14,27 +14,27 @@ all:
 	$(MAKE) -C dma/dma all
 	$(MAKE) -C cpu/icache all
 	$(MAKE) -C cpu/irq-branch-slot all
-	$(MAKE) -C dma/dma-modes all
-	$(MAKE) -C dma/dma-priority all
+	$(MAKE) -C dma/modes all
+	$(MAKE) -C dma/priority all
 	$(MAKE) -C gpu/dma-chain-polygons all
-	$(MAKE) -C gpu/gpu-nop all
-	$(MAKE) -C gpu/gpu-fifo all
-	$(MAKE) -C gpu/gpu-fbrect all
-	$(MAKE) -C gpu/gpu-vram-move all
-	$(MAKE) -C gpu/gpu-async-stress all
-	$(MAKE) -C gpu/gpu-command all
-	$(MAKE) -C gpu/gpu-dfe-480i all
+	$(MAKE) -C gpu/nop all
+	$(MAKE) -C gpu/fifo all
+	$(MAKE) -C gpu/fbrect all
+	$(MAKE) -C gpu/vram-move all
+	$(MAKE) -C gpu/async-stress all
+	$(MAKE) -C gpu/command all
+	$(MAKE) -C gpu/dfe-480i all
 	$(MAKE) -C gpu/gpustat-texpage-bits all
 	$(MAKE) -C gpu/gpustat-cmd-ready all
-	$(MAKE) -C gpu/gpu-dma-dreq all
-	$(MAKE) -C gpu/gpu-dma-loop all
-	$(MAKE) -C gpu/gpu-dma-node all
-	$(MAKE) -C gpu/gpu-dma-ring all
-	$(MAKE) -C gpu/gpu-timing all
-	$(MAKE) -C gpu/gpu-irq all
+	$(MAKE) -C gpu/dma-dreq all
+	$(MAKE) -C gpu/dma-loop all
+	$(MAKE) -C gpu/dma-node all
+	$(MAKE) -C gpu/dma-ring all
+	$(MAKE) -C gpu/timing all
+	$(MAKE) -C gpu/irq all
 	$(MAKE) -C gpu/gpustat-480i all
 	$(MAKE) -C gpu/gpustat-timeline all
-	$(MAKE) -C gpu/gpu-polyline all
+	$(MAKE) -C gpu/polyline all
 	$(MAKE) -C gpu/raster/edges-clipping all
 	$(MAKE) -C gpu/raster/line-endpoints-mask-bit all
 	$(MAKE) -C gpu/raster/edge-walker-stress all
@@ -59,20 +59,20 @@ all:
 	$(MAKE) -C gpu/raster/slanted-gouraud all
 	$(MAKE) -C gpu/raster/cull-disambiguation all
 	$(MAKE) -C gte/gte all
-	$(MAKE) -C gte/gte-math-bench all
+	$(MAKE) -C gte/math-bench all
 	$(MAKE) -C cpu/mult-timing all
-	$(MAKE) -C gte/gte-timing all
+	$(MAKE) -C gte/timing all
 	$(MAKE) -C sio/pocketstation-memmap all
-	$(MAKE) -C gte/gte-latency all
-	$(MAKE) -C gte/gte-latency-color all
-	$(MAKE) -C gte/gte-latency-dpc all
-	$(MAKE) -C gte/gte-latency-lzcs all
-	$(MAKE) -C gte/gte-latency-math all
-	$(MAKE) -C gte/gte-latency-misc all
-	$(MAKE) -C gte/gte-latency-mvmva all
-	$(MAKE) -C gte/gte-latency-perspective all
-	$(MAKE) -C gte/gte-latency-singles all
-	$(MAKE) -C gte/gte-write-to-use all
+	$(MAKE) -C gte/latency all
+	$(MAKE) -C gte/latency-color all
+	$(MAKE) -C gte/latency-dpc all
+	$(MAKE) -C gte/latency-lzcs all
+	$(MAKE) -C gte/latency-math all
+	$(MAKE) -C gte/latency-misc all
+	$(MAKE) -C gte/latency-mvmva all
+	$(MAKE) -C gte/latency-perspective all
+	$(MAKE) -C gte/latency-singles all
+	$(MAKE) -C gte/write-to-use all
 	$(MAKE) -C libc/libc all
 	$(MAKE) -C bus/load-timings all
 	$(MAKE) -C bios/loadexe all
@@ -90,26 +90,26 @@ all:
 	$(MAKE) -C tooling/pcdrv-net all
 	$(MAKE) -C tooling/pcdrv-net-off all
 	$(MAKE) -C psyqo/psyqo all
-	$(MAKE) -C psyqo/psyqo-480i-flip all
-	$(MAKE) -C psyqo/psyqo-480i-clear all
-	$(MAKE) -C psyqo/psyqo-irq-cop2 all
-	$(MAKE) -C psyqo/psyqo-irq-cost all
-	$(MAKE) -C psyqo/psyqo-dmachain all
-	$(MAKE) -C psyqo/psyqo-reinit all
+	$(MAKE) -C psyqo/480i-flip all
+	$(MAKE) -C psyqo/480i-clear all
+	$(MAKE) -C psyqo/irq-cop2 all
+	$(MAKE) -C psyqo/irq-cost all
+	$(MAKE) -C psyqo/dmachain all
+	$(MAKE) -C psyqo/reinit all
 	$(MAKE) -C cdrom/str-player-alloc all
-	$(MAKE) -C psyqo/psyqo-spudma all
+	$(MAKE) -C psyqo/spudma all
 	$(MAKE) -C bus/mmio-partial-writes all
 	$(MAKE) -C sio/multitap all
 	$(MAKE) -C sio/tapcard all
 	$(MAKE) -C sio/rumble all
 	$(MAKE) -C bios/shell-480i-wait all
 	$(MAKE) -C spu/spu all
-	$(MAKE) -C spu/spu-wide-writes all
-	$(MAKE) -C spu/spu-endx all
-	$(MAKE) -C spu/spu-endmute all
-	$(MAKE) -C spu/spu-endredirect all
-	$(MAKE) -C spu/spu-konlatch all
-	$(MAKE) -C spu/spu-offvoice all
+	$(MAKE) -C spu/wide-writes all
+	$(MAKE) -C spu/endx all
+	$(MAKE) -C spu/endmute all
+	$(MAKE) -C spu/endredirect all
+	$(MAKE) -C spu/konlatch all
+	$(MAKE) -C spu/offvoice all
 	$(MAKE) -C cpu/cop0-write-keeps-registers all
 	$(MAKE) -C tooling/stack-bounds all
 	$(MAKE) -C tooling/stack-bounds-churn all
@@ -119,21 +119,21 @@ all:
 	$(MAKE) -C tooling/stack-bounds-heap-quiet all
 	$(MAKE) -C bus/delay-size-autoinc all
 	$(MAKE) -C cpu/bcc-narrow all
-	$(MAKE) -C dma/dma-chopping all
+	$(MAKE) -C dma/chopping all
 	$(MAKE) -C bus/exp2-width all
-	$(MAKE) -C sio/sio-reset all
+	$(MAKE) -C sio/reset all
 	$(MAKE) -C sio/sio1-misc all
-	$(MAKE) -C gpu/gpu-info8 all
-	$(MAKE) -C mdec/mdec-roundtrip all
+	$(MAKE) -C gpu/info8 all
+	$(MAKE) -C mdec/roundtrip all
 	$(MAKE) -C gpu/scanline-timing all
-	$(MAKE) -C spu/spu-capring all
-	$(MAKE) -C spu/spu-upload-tail all
+	$(MAKE) -C spu/capring all
+	$(MAKE) -C spu/upload-tail all
 	$(MAKE) -C spu/modplayer-upload-tail all
-	$(MAKE) -C spu/spu-envx all
-	$(MAKE) -C spu/spu-volsweep all
-	$(MAKE) -C spu/spu-irqrefire all
-	$(MAKE) -C spu/spu-revread all
-	$(MAKE) -C spu/spu-revstream all
+	$(MAKE) -C spu/envx all
+	$(MAKE) -C spu/volsweep all
+	$(MAKE) -C spu/irqrefire all
+	$(MAKE) -C spu/revread all
+	$(MAKE) -C spu/revstream all
 	$(MAKE) -C timers/timers all
 
 clean:
@@ -152,27 +152,27 @@ clean:
 	$(MAKE) -C dma/dma clean
 	$(MAKE) -C cpu/icache clean
 	$(MAKE) -C cpu/irq-branch-slot clean
-	$(MAKE) -C dma/dma-modes clean
-	$(MAKE) -C dma/dma-priority clean
+	$(MAKE) -C dma/modes clean
+	$(MAKE) -C dma/priority clean
 	$(MAKE) -C gpu/dma-chain-polygons clean
-	$(MAKE) -C gpu/gpu-nop clean
-	$(MAKE) -C gpu/gpu-fifo clean
-	$(MAKE) -C gpu/gpu-fbrect clean
-	$(MAKE) -C gpu/gpu-vram-move clean
-	$(MAKE) -C gpu/gpu-async-stress clean
-	$(MAKE) -C gpu/gpu-command clean
-	$(MAKE) -C gpu/gpu-dfe-480i clean
+	$(MAKE) -C gpu/nop clean
+	$(MAKE) -C gpu/fifo clean
+	$(MAKE) -C gpu/fbrect clean
+	$(MAKE) -C gpu/vram-move clean
+	$(MAKE) -C gpu/async-stress clean
+	$(MAKE) -C gpu/command clean
+	$(MAKE) -C gpu/dfe-480i clean
 	$(MAKE) -C gpu/gpustat-texpage-bits clean
 	$(MAKE) -C gpu/gpustat-cmd-ready clean
-	$(MAKE) -C gpu/gpu-dma-dreq clean
-	$(MAKE) -C gpu/gpu-dma-loop clean
-	$(MAKE) -C gpu/gpu-dma-node clean
-	$(MAKE) -C gpu/gpu-dma-ring clean
-	$(MAKE) -C gpu/gpu-timing clean
-	$(MAKE) -C gpu/gpu-irq clean
+	$(MAKE) -C gpu/dma-dreq clean
+	$(MAKE) -C gpu/dma-loop clean
+	$(MAKE) -C gpu/dma-node clean
+	$(MAKE) -C gpu/dma-ring clean
+	$(MAKE) -C gpu/timing clean
+	$(MAKE) -C gpu/irq clean
 	$(MAKE) -C gpu/gpustat-480i clean
 	$(MAKE) -C gpu/gpustat-timeline clean
-	$(MAKE) -C gpu/gpu-polyline clean
+	$(MAKE) -C gpu/polyline clean
 	$(MAKE) -C gpu/raster/edges-clipping clean
 	$(MAKE) -C gpu/raster/line-endpoints-mask-bit clean
 	$(MAKE) -C gpu/raster/edge-walker-stress clean
@@ -197,20 +197,20 @@ clean:
 	$(MAKE) -C gpu/raster/slanted-gouraud clean
 	$(MAKE) -C gpu/raster/cull-disambiguation clean
 	$(MAKE) -C gte/gte clean
-	$(MAKE) -C gte/gte-math-bench clean
+	$(MAKE) -C gte/math-bench clean
 	$(MAKE) -C cpu/mult-timing clean
-	$(MAKE) -C gte/gte-timing clean
+	$(MAKE) -C gte/timing clean
 	$(MAKE) -C sio/pocketstation-memmap clean
-	$(MAKE) -C gte/gte-latency clean
-	$(MAKE) -C gte/gte-latency-color clean
-	$(MAKE) -C gte/gte-latency-dpc clean
-	$(MAKE) -C gte/gte-latency-lzcs clean
-	$(MAKE) -C gte/gte-latency-math clean
-	$(MAKE) -C gte/gte-latency-misc clean
-	$(MAKE) -C gte/gte-latency-mvmva clean
-	$(MAKE) -C gte/gte-latency-perspective clean
-	$(MAKE) -C gte/gte-latency-singles clean
-	$(MAKE) -C gte/gte-write-to-use clean
+	$(MAKE) -C gte/latency clean
+	$(MAKE) -C gte/latency-color clean
+	$(MAKE) -C gte/latency-dpc clean
+	$(MAKE) -C gte/latency-lzcs clean
+	$(MAKE) -C gte/latency-math clean
+	$(MAKE) -C gte/latency-misc clean
+	$(MAKE) -C gte/latency-mvmva clean
+	$(MAKE) -C gte/latency-perspective clean
+	$(MAKE) -C gte/latency-singles clean
+	$(MAKE) -C gte/write-to-use clean
 	$(MAKE) -C libc/libc clean
 	$(MAKE) -C bus/load-timings clean
 	$(MAKE) -C bios/loadexe clean
@@ -228,26 +228,26 @@ clean:
 	$(MAKE) -C tooling/pcdrv-net clean
 	$(MAKE) -C tooling/pcdrv-net-off clean
 	$(MAKE) -C psyqo/psyqo clean
-	$(MAKE) -C psyqo/psyqo-480i-flip clean
-	$(MAKE) -C psyqo/psyqo-480i-clear clean
-	$(MAKE) -C psyqo/psyqo-irq-cop2 clean
-	$(MAKE) -C psyqo/psyqo-irq-cost clean
-	$(MAKE) -C psyqo/psyqo-dmachain clean
-	$(MAKE) -C psyqo/psyqo-reinit clean
+	$(MAKE) -C psyqo/480i-flip clean
+	$(MAKE) -C psyqo/480i-clear clean
+	$(MAKE) -C psyqo/irq-cop2 clean
+	$(MAKE) -C psyqo/irq-cost clean
+	$(MAKE) -C psyqo/dmachain clean
+	$(MAKE) -C psyqo/reinit clean
 	$(MAKE) -C cdrom/str-player-alloc clean
-	$(MAKE) -C psyqo/psyqo-spudma clean
+	$(MAKE) -C psyqo/spudma clean
 	$(MAKE) -C bus/mmio-partial-writes clean
 	$(MAKE) -C sio/multitap clean
 	$(MAKE) -C sio/tapcard clean
 	$(MAKE) -C sio/rumble clean
 	$(MAKE) -C bios/shell-480i-wait clean
 	$(MAKE) -C spu/spu clean
-	$(MAKE) -C spu/spu-wide-writes clean
-	$(MAKE) -C spu/spu-endx clean
-	$(MAKE) -C spu/spu-endmute clean
-	$(MAKE) -C spu/spu-endredirect clean
-	$(MAKE) -C spu/spu-konlatch clean
-	$(MAKE) -C spu/spu-offvoice clean
+	$(MAKE) -C spu/wide-writes clean
+	$(MAKE) -C spu/endx clean
+	$(MAKE) -C spu/endmute clean
+	$(MAKE) -C spu/endredirect clean
+	$(MAKE) -C spu/konlatch clean
+	$(MAKE) -C spu/offvoice clean
 	$(MAKE) -C cpu/cop0-write-keeps-registers clean
 	$(MAKE) -C tooling/stack-bounds clean
 	$(MAKE) -C tooling/stack-bounds-churn clean
@@ -257,19 +257,19 @@ clean:
 	$(MAKE) -C tooling/stack-bounds-heap-quiet clean
 	$(MAKE) -C bus/delay-size-autoinc clean
 	$(MAKE) -C cpu/bcc-narrow clean
-	$(MAKE) -C dma/dma-chopping clean
+	$(MAKE) -C dma/chopping clean
 	$(MAKE) -C bus/exp2-width clean
-	$(MAKE) -C sio/sio-reset clean
+	$(MAKE) -C sio/reset clean
 	$(MAKE) -C sio/sio1-misc clean
-	$(MAKE) -C gpu/gpu-info8 clean
-	$(MAKE) -C mdec/mdec-roundtrip clean
+	$(MAKE) -C gpu/info8 clean
+	$(MAKE) -C mdec/roundtrip clean
 	$(MAKE) -C gpu/scanline-timing clean
-	$(MAKE) -C spu/spu-capring clean
-	$(MAKE) -C spu/spu-upload-tail clean
+	$(MAKE) -C spu/capring clean
+	$(MAKE) -C spu/upload-tail clean
 	$(MAKE) -C spu/modplayer-upload-tail clean
-	$(MAKE) -C spu/spu-envx clean
-	$(MAKE) -C spu/spu-volsweep clean
-	$(MAKE) -C spu/spu-irqrefire clean
-	$(MAKE) -C spu/spu-revread clean
-	$(MAKE) -C spu/spu-revstream clean
+	$(MAKE) -C spu/envx clean
+	$(MAKE) -C spu/volsweep clean
+	$(MAKE) -C spu/irqrefire clean
+	$(MAKE) -C spu/revread clean
+	$(MAKE) -C spu/revstream clean
 	$(MAKE) -C timers/timers clean

@@ -28,7 +28,7 @@ SOFTWARE.
  * The shell's 640x480 interlaced frame loop: waitVSync(1), then a single-buffer
  * clear with GP0(E1h).10 clear, as main.c does it. With the bit clear the GPU
  * skips every row whose parity equals GPUSTAT.31 at draw time (see
- * tests/gpu/gpu-dfe-480i), so two consecutive frames must land on opposite
+ * tests/gpu/dfe-480i), so two consecutive frames must land on opposite
  * GPUSTAT.31 values for the clears to cover all 480 rows. VRAM is cleared before
  * the last two frames, so the coverage check sees only those two.
  */

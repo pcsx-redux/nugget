@@ -1,6 +1,6 @@
 # tests
 
-Every test lives in `tests/<group>/<test>/`, builds a `<test>.ps-exe` from its own `Makefile`, and is listed in `run-emulator.sh` (run or skipped, with the reason) and in `.github/scripts/hwfarm.js`. `make -C tests all PCSX_TESTS=true` builds them all; `common.mk` holds what every test shares and `runtime/` is the code linked into each one.
+Every test lives in `tests/<group>/<test>/`, builds a ps-exe from its own `Makefile`, and is listed in `run-emulator.sh` (run or skipped, with the reason) and in `.github/scripts/hwfarm.js`. `make -C tests all PCSX_TESTS=true` builds them all; `common.mk` holds what every test shares and `runtime/` is the code linked into each one.
 
 | Group | What goes in it |
 |---|---|
@@ -20,7 +20,7 @@ Every test lives in `tests/<group>/<test>/`, builds a `<test>.ps-exe` from its o
 | `timers/` | the root counters |
 | `tooling/` | the debugging tools: allocation tracking, msan, pcdrv, the profiler, stack bounds |
 
-A test named after its group (`cpu/cpu`, `gte/gte`, `spu/spu`, ...) is that unit's general suite.
+A test named after its group (`cpu/cpu`, `gte/gte`, `spu/spu`, ...) is that unit's general suite. Directories do not repeat the group (`gpu/fifo`), but the ps-exe keeps a name unique across the tree (`gpu/fifo/gpu-fifo.ps-exe`, `gpu/raster/lines/gpu-raster-lines.ps-exe`), since the run lists and the hardware farm key on it.
 
 ## Old paths
 
@@ -45,36 +45,36 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `mult-timing` | `cpu/mult-timing` |
 | `sr-write` | `cpu/cop0-write-keeps-registers` |
 | `gte` | `gte/gte` |
-| `gte-latency` | `gte/gte-latency` |
-| `gte-latency-color` | `gte/gte-latency-color` |
-| `gte-latency-dpc` | `gte/gte-latency-dpc` |
-| `gte-latency-lzcs` | `gte/gte-latency-lzcs` |
-| `gte-latency-math` | `gte/gte-latency-math` |
-| `gte-latency-misc` | `gte/gte-latency-misc` |
-| `gte-latency-mvmva` | `gte/gte-latency-mvmva` |
-| `gte-latency-perspective` | `gte/gte-latency-perspective` |
-| `gte-latency-singles` | `gte/gte-latency-singles` |
-| `gte-math-bench` | `gte/gte-math-bench` |
-| `gte-store-delay` | `gte/gte-store-delay` |
-| `gte-timing` | `gte/gte-timing` |
-| `gte-write-to-use` | `gte/gte-write-to-use` |
+| `gte-latency` | `gte/latency` |
+| `gte-latency-color` | `gte/latency-color` |
+| `gte-latency-dpc` | `gte/latency-dpc` |
+| `gte-latency-lzcs` | `gte/latency-lzcs` |
+| `gte-latency-math` | `gte/latency-math` |
+| `gte-latency-misc` | `gte/latency-misc` |
+| `gte-latency-mvmva` | `gte/latency-mvmva` |
+| `gte-latency-perspective` | `gte/latency-perspective` |
+| `gte-latency-singles` | `gte/latency-singles` |
+| `gte-math-bench` | `gte/math-bench` |
+| `gte-store-delay` | `gte/store-delay` |
+| `gte-timing` | `gte/timing` |
+| `gte-write-to-use` | `gte/write-to-use` |
 | `2mb-vram` | `gpu/2mb-vram` |
 | `gpu` | `gpu/dma-chain-polygons` |
-| `gpu-async-stress` | `gpu/gpu-async-stress` |
-| `gpu-command` | `gpu/gpu-command` |
-| `gpu-dfe-480i` | `gpu/gpu-dfe-480i` |
-| `gpu-dma-dreq` | `gpu/gpu-dma-dreq` |
-| `gpu-dma-loop` | `gpu/gpu-dma-loop` |
-| `gpu-dma-node` | `gpu/gpu-dma-node` |
-| `gpu-dma-ring` | `gpu/gpu-dma-ring` |
-| `gpu-fbrect` | `gpu/gpu-fbrect` |
-| `gpu-fifo` | `gpu/gpu-fifo` |
-| `gpu-info8` | `gpu/gpu-info8` |
-| `gpu-irq` | `gpu/gpu-irq` |
-| `gpu-nop` | `gpu/gpu-nop` |
-| `gpu-polyline` | `gpu/gpu-polyline` |
-| `gpu-timing` | `gpu/gpu-timing` |
-| `gpu-vram-move` | `gpu/gpu-vram-move` |
+| `gpu-async-stress` | `gpu/async-stress` |
+| `gpu-command` | `gpu/command` |
+| `gpu-dfe-480i` | `gpu/dfe-480i` |
+| `gpu-dma-dreq` | `gpu/dma-dreq` |
+| `gpu-dma-loop` | `gpu/dma-loop` |
+| `gpu-dma-node` | `gpu/dma-node` |
+| `gpu-dma-ring` | `gpu/dma-ring` |
+| `gpu-fbrect` | `gpu/fbrect` |
+| `gpu-fifo` | `gpu/fifo` |
+| `gpu-info8` | `gpu/info8` |
+| `gpu-irq` | `gpu/irq` |
+| `gpu-nop` | `gpu/nop` |
+| `gpu-polyline` | `gpu/polyline` |
+| `gpu-timing` | `gpu/timing` |
+| `gpu-vram-move` | `gpu/vram-move` |
 | `gpustat-480i` | `gpu/gpustat-480i` |
 | `gpustat-timeline` | `gpu/gpustat-timeline` |
 | `gpustat10` | `gpu/gpustat-texpage-bits` |
@@ -104,29 +104,29 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `gpu-raster-phase22` | `gpu/raster/slanted-gouraud` |
 | `gpu-raster-phase23` | `gpu/raster/cull-disambiguation` |
 | `spu` | `spu/spu` |
-| `spu-capring` | `spu/spu-capring` |
-| `spu-endmute` | `spu/spu-endmute` |
-| `spu-endredirect` | `spu/spu-endredirect` |
-| `spu-endx` | `spu/spu-endx` |
-| `spu-envx` | `spu/spu-envx` |
-| `spu-irqrefire` | `spu/spu-irqrefire` |
-| `spu-konlatch` | `spu/spu-konlatch` |
-| `spu-offvoice` | `spu/spu-offvoice` |
-| `spu-revread` | `spu/spu-revread` |
-| `spu-revstream` | `spu/spu-revstream` |
-| `spu-upload-tail` | `spu/spu-upload-tail` |
-| `spu-volsweep` | `spu/spu-volsweep` |
-| `spu-wide-writes` | `spu/spu-wide-writes` |
+| `spu-capring` | `spu/capring` |
+| `spu-endmute` | `spu/endmute` |
+| `spu-endredirect` | `spu/endredirect` |
+| `spu-endx` | `spu/endx` |
+| `spu-envx` | `spu/envx` |
+| `spu-irqrefire` | `spu/irqrefire` |
+| `spu-konlatch` | `spu/konlatch` |
+| `spu-offvoice` | `spu/offvoice` |
+| `spu-revread` | `spu/revread` |
+| `spu-revstream` | `spu/revstream` |
+| `spu-upload-tail` | `spu/upload-tail` |
+| `spu-volsweep` | `spu/volsweep` |
+| `spu-wide-writes` | `spu/wide-writes` |
 | `modplayer-state` | `spu/modplayer-state` |
 | `modplayer-upload-tail` | `spu/modplayer-upload-tail` |
 | `cdrom` | `cdrom/cdrom` |
 | `cdrom/cd-cmd-latency` | `cdrom/cd-cmd-latency` |
 | `str-player-alloc` | `cdrom/str-player-alloc` |
 | `dma` | `dma/dma` |
-| `dma-chopping` | `dma/dma-chopping` |
-| `dma-modes` | `dma/dma-modes` |
-| `dma-priority` | `dma/dma-priority` |
-| `mdec-roundtrip` | `mdec/mdec-roundtrip` |
+| `dma-chopping` | `dma/chopping` |
+| `dma-modes` | `dma/modes` |
+| `dma-priority` | `dma/priority` |
+| `mdec-roundtrip` | `mdec/roundtrip` |
 | `bsdec` | `mdec/bsdec` |
 | `memcard` | `sio/memcard` |
 | `memcard-slot2` | `sio/memcard-slot2` |
@@ -134,7 +134,7 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `rumble` | `sio/rumble` |
 | `tapcard` | `sio/tapcard` |
 | `pocketstation-memmap` | `sio/pocketstation-memmap` |
-| `sio-reset` | `sio/sio-reset` |
+| `sio-reset` | `sio/reset` |
 | `sio1-misc` | `sio/sio1-misc` |
 | `timers` | `timers/timers` |
 | `basic` | `bios/kernel-printf-strcmp` |
@@ -144,13 +144,13 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `memcard-bios-slot2` | `bios/memcard-bios-slot2` |
 | `shell-480i-wait` | `bios/shell-480i-wait` |
 | `psyqo` | `psyqo/psyqo` |
-| `psyqo-480i-clear` | `psyqo/psyqo-480i-clear` |
-| `psyqo-480i-flip` | `psyqo/psyqo-480i-flip` |
-| `psyqo-dmachain` | `psyqo/psyqo-dmachain` |
-| `psyqo-irq-cop2` | `psyqo/psyqo-irq-cop2` |
-| `psyqo-irq-cost` | `psyqo/psyqo-irq-cost` |
-| `psyqo-reinit` | `psyqo/psyqo-reinit` |
-| `psyqo-spudma` | `psyqo/psyqo-spudma` |
+| `psyqo-480i-clear` | `psyqo/480i-clear` |
+| `psyqo-480i-flip` | `psyqo/480i-flip` |
+| `psyqo-dmachain` | `psyqo/dmachain` |
+| `psyqo-irq-cop2` | `psyqo/irq-cop2` |
+| `psyqo-irq-cost` | `psyqo/irq-cost` |
+| `psyqo-reinit` | `psyqo/reinit` |
+| `psyqo-spudma` | `psyqo/spudma` |
 | `libc` | `libc/libc` |
 | `memcpy` | `libc/memcpy` |
 | `memset` | `libc/memset` |

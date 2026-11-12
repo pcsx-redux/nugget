@@ -35,7 +35,7 @@ SOFTWARE.
 // that exact sequence (modplayer-seq.c, compiled as C with the same flags as
 // modplayer.c) and reads the block back.
 //
-// The sentinel layout and readback are tests/spu/spu-upload-tail's: the block is
+// The sentinel layout and readback are tests/spu/upload-tail's: the block is
 // written into a window pre-filled with a filler byte by a write known to
 // land, read back with 256 bytes of over-read, the filler on both sides is
 // the readback control, the last 64 bytes of the block carry a distinct
@@ -130,7 +130,7 @@ void waitLines(unsigned n) {
     }
 }
 
-// tests/spu/spu-upload-tail's transfer, with the reference wait built in.
+// tests/spu/upload-tail's transfer, with the reference wait built in.
 void transfer(uint32_t spuAddress, void *buffer, uint32_t size, bool read) {
     uint16_t mode = read ? 0x0030 : 0x0020;
     stopTransfer();

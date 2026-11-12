@@ -13,7 +13,7 @@
 CESTER_BODY(
 // How long each bounded wait below is allowed to take before it gives up and
 // says so. Both numbers come from measuring ENVX on silicon rather than from
-// taste (src/mips/tests/spu/spu-envx): a drain with the release rate forced to the
+// taste (src/mips/tests/spu/envx): a drain with the release rate forced to the
 // fastest setting completes in one bit-11 tick, and the envelope leaves zero
 // after key-on inside a single sub-tick sample. The caps are an order of
 // magnitude clear of both.
