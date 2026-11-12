@@ -30,7 +30,7 @@ const TOTAL_SECONDS = 3600;
 const POLL_MS = 10000;
 
 // name;ps-exe under tests/[;feature]. Each one ends on the exit break from
-// tests/support/runtime.c, which the farm reads back as the verdict. A feature
+// tests/runtime/runtime.c, which the farm reads back as the verdict. A feature
 // restricts the test to the consoles advertising it, through its own job file.
 const TESTS = [
     'kernel-printf-strcmp;bios/kernel-printf-strcmp/kernel-printf-strcmp',
