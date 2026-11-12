@@ -116,7 +116,7 @@ CESTER_TEST(cpu_delayed_load_cancelled, cpu_tests,
     cester_assert_uint_eq(0, out);
 )
 
-CESTER_MAYBE_TEST(cpu_delayed_load_load, cpu_tests,
+CESTER_TEST(cpu_delayed_load_load, cpu_tests,
     uint32_t buff[2] = {1, 2};
     // The above becomes complicated once you have two
     // lw instructions in a row loading the same register
@@ -125,7 +125,7 @@ CESTER_MAYBE_TEST(cpu_delayed_load_load, cpu_tests,
     cester_assert_uint_eq(0x00020004, out);
 )
 
-CESTER_MAYBE_TEST(cpu_BRANCH_BRANCH_slot, cpu_tests,
+CESTER_TEST(cpu_BRANCH_BRANCH_slot, cpu_tests,
     // running a branch in a branch delay slot is technically
     // not allowed, but some games still do this, and the
     // behavior is deterministic; read the assembly code
@@ -136,7 +136,7 @@ CESTER_MAYBE_TEST(cpu_BRANCH_BRANCH_slot, cpu_tests,
     cester_assert_uint_eq(9, out);
 )
 
-CESTER_MAYBE_TEST(cpu_JUMP_JUMP_slot, cpu_tests,
+CESTER_TEST(cpu_JUMP_JUMP_slot, cpu_tests,
     // while branches are relative PC adjustments, jumps
     // are absolute; this is technically the same test as
     // above, but without the relative quirkness
