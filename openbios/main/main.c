@@ -303,6 +303,17 @@ void gameMainThunk(struct psxExeHeader *binaryInfo, int argc, char **argv) {
     // Fixing SaGa Frontier (USA) when in fastboot mode, as it relies
     // on the side effect of the shell running to enable the display.
     GPU_STATUS = 0x03000000;
+    // The retail shell leaves its logo's GTE projection in place: screen
+    // offset 320.0 x 240.0, H = 1024, ZSF3 = 0x155, ZSF4 = 0x100. Hand
+    // the game the same control registers.
+    __asm__ volatile(
+        "ctc2 %0, $24\n"
+        "ctc2 %1, $25\n"
+        "ctc2 %2, $26\n"
+        "ctc2 %3, $29\n"
+        "ctc2 %4, $30\n"
+        :
+        : "r"(0x01400000), "r"(0x00f00000), "r"(0x400), "r"(0x155), "r"(0x100));
     exec(binaryInfo, argc, argv);
 }
 
