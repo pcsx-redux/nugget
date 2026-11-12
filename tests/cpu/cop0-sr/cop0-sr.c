@@ -54,12 +54,13 @@ void bev_probe(uint32_t sr);
 void pz_probe(uint32_t sr, volatile uint32_t *word, uint32_t out[2]);
 void user_run(uint32_t data, uint32_t sr, uint32_t code);
 void user_resume(void);
-extern uint32_t ue_loads[], ue_sb[], ue_sh[], ue_mfc0[];
+extern uint32_t ue_loads[], ue_sb[], ue_sh[], ue_mfc0[], ue_cfc0[], ue_mtc0[], ue_ctc0[], ue_rfe[];
 
 // clang-format off
 #define COPSTUBS(X)                                                                                \
     X(mfc0, 0) X(mfc1, 1) X(cfc1, 1) X(lwc1, 1) X(swc1, 1) X(cop1, 1) X(mfc2, 2) X(mfc3, 3) X(cfc3, 3) \
-    X(lwc3, 3) X(swc3, 3) X(cop3, 3)
+    X(lwc3, 3) X(swc3, 3) X(cop3, 3) X(cfc0, 0) X(ctc0, 0) X(lwc0, 0) X(swc0, 0) X(mtc2, 2) X(cfc2, 2)  \
+    X(ctc2, 2) X(lwc2, 2) X(swc2, 2) X(cop2, 2)
 // clang-format on
 #define DECL(n, c) uint32_t cs_##n(volatile uint32_t *scratch);
 COPSTUBS(DECL)
@@ -227,6 +228,15 @@ static void userArms(void) {
     userArm("mfc0", ue_mfc0, (b & ~CU0) | KUP, 0, 0, 0);
     userArm("mfc0", ue_mfc0, b | CU0 | KUP, 0, 0, 0);
     userArm("mfc0", ue_mfc0, b & ~CU0, 0, 0, 0);
+    // The other COP0 opcodes in user mode, CU0 clear then set.
+    userArm("cfc0", ue_cfc0, (b & ~CU0) | KUP, 0, 0, 0);
+    userArm("cfc0", ue_cfc0, b | CU0 | KUP, 0, 0, 0);
+    userArm("mtc0", ue_mtc0, (b & ~CU0) | KUP, 0, 0, 0);
+    userArm("mtc0", ue_mtc0, b | CU0 | KUP, 0, 0, 0);
+    userArm("ctc0", ue_ctc0, (b & ~CU0) | KUP, 0, 0, 0);
+    userArm("ctc0", ue_ctc0, b | CU0 | KUP, 0, 0, 0);
+    userArm("rfe", ue_rfe, (b & ~CU0) | KUP, 0, 0, 0);
+    userArm("rfe", ue_rfe, b | CU0 | KUP, 0, 0, 0);
     // User mode against KSEG0 data and KSEG0 code.
     userArm("kdata", ue_loads, b | KUP, 0, 1, 0x11223344);
     userArm("kcode", ue_loads, b | KUP, 1, 0, 0x11223344);
