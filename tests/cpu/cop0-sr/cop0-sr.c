@@ -194,11 +194,16 @@ static void pzArm(void) {
 
 static volatile uint32_t s_userWord __attribute__((aligned(16)));
 
+// Segments for userArm: 0 KUSEG, 1 KSEG0, 2 KSEG1, 3 KSEG2 (data only: the cache control register).
+static uint32_t inSegment(uint32_t addr, int seg) {
+    static const uint32_t bases[] = {0, 0x80000000u, 0xa0000000u};
+    if (seg == 3) return 0xfffe0130u;
+    return (addr & 0x1fffffffu) | bases[seg];
+}
+
 static void userArm(const char *name, uint32_t *block, uint32_t sr, int ksegCode, int ksegData, uint32_t init) {
-    uint32_t code = (uint32_t)block;
-    if (!ksegCode) code &= 0x1fffffffu;
-    uint32_t data = (uint32_t)&s_userWord;
-    if (!ksegData) data &= 0x1fffffffu;
+    uint32_t code = inSegment((uint32_t)block, ksegCode);
+    uint32_t data = inSegment((uint32_t)&s_userWord, ksegData);
     s_userWord = init;
     resetExc(MODE_RESUME);
     user_run(data, sr, code);
@@ -240,6 +245,13 @@ static void userArms(void) {
     // User mode against KSEG0 data and KSEG0 code.
     userArm("kdata", ue_loads, b | KUP, 0, 1, 0x11223344);
     userArm("kcode", ue_loads, b | KUP, 1, 0, 0x11223344);
+    // The other kernel segments, and stores.
+    userArm("k1data", ue_loads, b | KUP, 0, 2, 0x11223344);
+    userArm("k2data", ue_loads, b | KUP, 0, 3, 0x11223344);
+    userArm("k1code", ue_loads, b | KUP, 2, 0, 0x11223344);
+    userArm("ksb", ue_sb, b | KUP, 0, 1, 0x11223344);
+    userArm("k1sb", ue_sb, b | KUP, 0, 2, 0x11223344);
+    userArm("ksh", ue_sh, b | KUP, 0, 1, 0x11223344);
 }
 
 static volatile uint32_t s_scratch;

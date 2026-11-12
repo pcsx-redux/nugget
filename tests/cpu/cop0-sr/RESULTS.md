@@ -2,12 +2,13 @@
 
 SCPH-1000 (BIOS 2.0), SCPH-1001 (2.1), SCPH-5501 (3.0), SCPH-7001 (4.1) and
 SCPH-9002 (4.1) agree on every row.
-The cop0 user-mode arms other than mfc0, cfc0/ctc0, lwc0/swc0 and the cop2
-arms past mfc2 were run on SCPH-1001 and SCPH-7001 only, which agree.
+The cop0 user-mode arms other than mfc0, cfc0/ctc0, lwc0/swc0, the cop2
+arms past mfc2 and the KSEG1/KSEG2 and store arms were run on SCPH-1001 and
+SCPH-7001 only, which agree.
 
 | Bit | Name | Write 1, read | Observed |
 |---|---|---|---|
-| 0-5 | IEc..KUo | 1 | KUc=1 is user mode: mfc0 traps with CU0 clear, KSEG0 loads and fetches raise AdEL |
+| 0-5 | IEc..KUo | 1 | KUc=1 is user mode: loads from and fetches in KSEG0/1/2 raise AdEL, stores raise AdES, BadA = the address |
 | 6-7 | | 0 | |
 | 8-9 | IM | 1 | Cause bits 8-9 are writable and interrupt when IM and IEc are set |
 | 10 | IM | 1 | Cause bit 10 follows I_STAT & I_MASK as soon as either changes |
