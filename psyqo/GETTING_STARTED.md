@@ -19,14 +19,14 @@ Arch derivatives:
 sudo pacman -S --needed base-devel wget texinfo gmp mpfr libmpc
 ```
 
-Then build and install it into `/usr/local`:
+Then build and install it into `/usr/local`. The script downloads and builds the sources in the current directory, so run it from a new, empty one:
 
 ```bash
 wget -O spawn-compiler.sh https://raw.githubusercontent.com/pcsx-redux/pcsx-redux/main/tools/linux-mips/spawn-compiler.sh
 sudo bash spawn-compiler.sh
 ```
 
-To install it elsewhere as a regular user, set `PREFIX` for the script only and put its `bin` directory on `PATH`. Do not leave `PREFIX` exported: the Makefiles read it as the compiler name prefix.
+To install it elsewhere as a regular user instead, from its own empty directory, set `PREFIX` for the script only and put its `bin` directory on `PATH`. Do not leave `PREFIX` exported: the Makefiles read it as the compiler name prefix.
 
 ```bash
 PREFIX=$HOME/mips-toolchain bash spawn-compiler.sh
