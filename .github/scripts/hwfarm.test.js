@@ -127,13 +127,13 @@ test('description fits a commit status', () => {
 
 test('refusal: names the unlisted and the unbuilt tests', () => {
     const r = refusal([
-        'UNLISTED: tests/loadexe/loadexe.ps-exe is neither run nor skipped',
-        'UNLISTED: tests/sio-reset/sio-reset.ps-exe is neither run nor skipped',
-        'MISSING: tests/basic/basic.ps-exe was not built',
+        'UNLISTED: tests/bios/loadexe/loadexe.ps-exe is neither run nor skipped',
+        'UNLISTED: tests/sio/sio-reset/sio-reset.ps-exe is neither run nor skipped',
+        'MISSING: tests/bios/kernel-printf-strcmp/kernel-printf-strcmp.ps-exe was not built',
     ]);
     assert.deepStrictEqual(r.refused, {
-        unlisted: ['tests/loadexe/loadexe.ps-exe', 'tests/sio-reset/sio-reset.ps-exe'],
-        missing: ['tests/basic/basic.ps-exe'],
+        unlisted: ['tests/bios/loadexe/loadexe.ps-exe', 'tests/sio/sio-reset/sio-reset.ps-exe'],
+        missing: ['tests/bios/kernel-printf-strcmp/kernel-printf-strcmp.ps-exe'],
     });
     assert.strictEqual(r.summary.state, 'error');
     assert.ok(r.summary.description.startsWith('MANIFEST REFUSED: 2 unlisted, 1 not built'));

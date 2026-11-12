@@ -84,7 +84,7 @@ class OrderingTable : public OrderingTableBase {
      * the GPU, so a fragment over 17 words that starts while the GPU is still drawing
      * gets corrupted on hardware, which PCSX-Redux does not reproduce. Insert one
      * primitive per fragment rather than packing several into one. See
-     * tests/gpu-dma-node.
+     * tests/gpu/gpu-dma-node.
      *
      * @param frag The fragment to insert.
      * @param z The Z value of the fragment.
