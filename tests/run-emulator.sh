@@ -34,6 +34,8 @@ TESTS=(
     "dma;dma/dma;interpreter dynarec;$CESTER;-debugger"
     "gpu-command;gpu-command/gpu-command;interpreter;$CESTER;"
     "gpu-dma-dreq;gpu-dma-dreq/gpu-dma-dreq;interpreter dynarec;$CESTER;"
+    "gpu-dma-forced;gpu-dma-forced/gpu-dma-forced;interpreter dynarec;$CESTER;"
+    "dev-wide;dev-wide/dev-wide;interpreter dynarec;$CESTER;"
     "gpu-dma-loop;gpu-dma-loop/gpu-dma-loop;interpreter dynarec;$CESTER;"
     "gpu-dma-node;gpu-dma-node/gpu-dma-node;interpreter;$CESTER;"
     "gpu-fbrect;gpu-fbrect/gpu-fbrect;interpreter;$CESTER;"
