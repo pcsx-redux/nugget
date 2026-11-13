@@ -62,7 +62,7 @@ all:
 	$(MAKE) -C gte/math-bench all
 	$(MAKE) -C cpu/mult-timing all
 	$(MAKE) -C gte/timing all
-	$(MAKE) -C sio/pocketstation-memmap all
+	$(MAKE) -C pocketstation/memmap all
 	$(MAKE) -C gte/latency all
 	$(MAKE) -C gte/latency-color all
 	$(MAKE) -C gte/latency-dpc all
@@ -200,7 +200,7 @@ clean:
 	$(MAKE) -C gte/math-bench clean
 	$(MAKE) -C cpu/mult-timing clean
 	$(MAKE) -C gte/timing clean
-	$(MAKE) -C sio/pocketstation-memmap clean
+	$(MAKE) -C pocketstation/memmap clean
 	$(MAKE) -C gte/latency clean
 	$(MAKE) -C gte/latency-color clean
 	$(MAKE) -C gte/latency-dpc clean

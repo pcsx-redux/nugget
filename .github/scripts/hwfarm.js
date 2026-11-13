@@ -127,7 +127,7 @@ const SKIPS = [
     'gte/math-bench/gte-math-bench|benchmark: prints timings, no verdict',
     'cpu/mult-timing/mult-timing|probe: prints timings, no verdict',
     'gte/timing/gte-timing|probe: prints timings, no verdict',
-    'sio/pocketstation-memmap/pocketstation-memmap|needs the PocketStation console, which the pin excludes',
+    'pocketstation/memmap/pocketstation-memmap|needs the PocketStation console, which the pin excludes',
     'bus/mmio-partial-writes/mmio-partial-writes|probe: loops forever, no verdict',
     'sio/rumble/rumble|needs a DualShock and someone to feel it',
     'tooling/msan/msan|exercises the emulator memory sanitizer',

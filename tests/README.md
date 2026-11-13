@@ -15,7 +15,8 @@ Every test lives in `tests/<group>/<test>/`, builds a ps-exe from its own `Makef
 | `libc/` | the C library: heap, string functions, memcpy/memset and their unroll sweep |
 | `mdec/` | the MDEC and the BS decoder |
 | `psyqo/` | tests that build against psyqo and check psyqo's own behaviour |
-| `sio/` | serial ports: memory cards, multitap, rumble, tap cards, PocketStation, SIO1 |
+| `pocketstation/` | the PocketStation itself: its ARM CPU, memory map, IR and LCD, reached from the PS1 through the memory card port |
+| `sio/` | serial ports: memory cards, multitap, rumble, tap cards, SIO1 |
 | `spu/` | the SPU, and the players that drive it |
 | `timers/` | the root counters |
 | `tooling/` | the debugging tools: allocation tracking, msan, pcdrv, the profiler, stack bounds |
@@ -133,7 +134,7 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `multitap` | `sio/multitap` |
 | `rumble` | `sio/rumble` |
 | `tapcard` | `sio/tapcard` |
-| `pocketstation-memmap` | `sio/pocketstation-memmap` |
+| `pocketstation-memmap` | `pocketstation/memmap` |
 | `sio-reset` | `sio/reset` |
 | `sio1-misc` | `sio/sio1-misc` |
 | `timers` | `timers/timers` |

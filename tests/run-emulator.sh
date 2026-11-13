@@ -121,7 +121,7 @@ SKIPS=(
     "bios/shell-480i-wait/shell-480i-wait|emulator gap: GP0(E1h).10 row skipping in 480i not in the dev AppImage; run by the pcsx-redux gtests"
     "cpu/mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
     "gte/timing/gte-timing|hardware probe: prints GTE command timings, no verdict"
-    "sio/pocketstation-memmap/pocketstation-memmap|hardware probe: needs a PocketStation in a card slot, prints readings, no verdict"
+    "pocketstation/memmap/pocketstation-memmap|hardware probe: needs a PocketStation in a card slot, prints readings, no verdict"
     "spu/spu/spu|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu/endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu/endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
