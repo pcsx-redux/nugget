@@ -32,6 +32,7 @@ TESTS=(
     "cop-branch;cpu/cop-branch/cop-branch;interpreter dynarec;$CESTER;-debugger"
     "cpu;cpu/cpu/cpu;interpreter dynarec;$CESTER;"
     "dma;dma/dma/dma;interpreter dynarec;$CESTER;-debugger"
+    "dma-rewrite2;dma/rewrite2/dma-rewrite2;interpreter dynarec;$CESTER;"
     "gpu-command;gpu/command/gpu-command;interpreter;$CESTER;"
     "gpu-dma-dreq;gpu/dma-dreq/gpu-dma-dreq;interpreter dynarec;$CESTER;"
     "gpu-dma-loop;gpu/dma-loop/gpu-dma-loop;interpreter dynarec;$CESTER;"

@@ -37,6 +37,7 @@ const TESTS = [
     'cop0;cpu/cop0/cop0',
     'cpu;cpu/cpu/cpu',
     'dma;dma/dma/dma',
+    'dma-rewrite2;dma/rewrite2/dma-rewrite2',
     'gpu-command;gpu/command/gpu-command',
     'gpu-async-stress;gpu/async-stress/gpu-async-stress',
     'gpu-dfe-480i;gpu/dfe-480i/gpu-dfe-480i',
