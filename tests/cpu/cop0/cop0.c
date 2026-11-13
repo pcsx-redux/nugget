@@ -24,16 +24,6 @@ SOFTWARE.
 
 */
 
-#ifndef PCSX_TESTS
-#define PCSX_TESTS 0
-#endif
-
-#if PCSX_TESTS
-#define CESTER_MAYBE_TEST CESTER_SKIP_TEST
-#else
-#define CESTER_MAYBE_TEST CESTER_TEST
-#endif
-
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
@@ -217,7 +207,7 @@ CESTER_TEST(cpu_unaligned_write_fault, cpu_tests,
 // SR keeps IEc..KUo, IM, IsC, SwC, PZ, CM, BEV and CU0..CU3; bits 6-7,
 // 20-21 (PE, TS) and 23-27 (RE among them) read 0 after writing 1. KUc
 // (bit 1) is left out here: setting it drops this code into user mode.
-CESTER_MAYBE_TEST(cpu_cop0_sr_writable_bits, cpu_tests,
+CESTER_TEST(cpu_cop0_sr_writable_bits, cpu_tests,
     uint32_t old, got, mask = 0;
     __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(old));
     for (unsigned b = 0; b < 32; b++) {
@@ -233,7 +223,7 @@ CESTER_MAYBE_TEST(cpu_cop0_sr_writable_bits, cpu_tests,
 
 // With CU1 or CU3 clear, cop1 and cop3 opcodes raise Coprocessor Unusable
 // even in kernel mode, with CE naming the coprocessor.
-CESTER_MAYBE_TEST(cpu_cop0_cu1_unusable, cpu_tests,
+CESTER_TEST(cpu_cop0_cu1_unusable, cpu_tests,
     uint32_t old, sr;
     __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(old));
     sr = old & ~0x20000000;
@@ -245,7 +235,7 @@ CESTER_MAYBE_TEST(cpu_cop0_cu1_unusable, cpu_tests,
     cester_assert_uint_eq(0x1000002c, ce);
 )
 
-CESTER_MAYBE_TEST(cpu_cop0_cu3_unusable, cpu_tests,
+CESTER_TEST(cpu_cop0_cu3_unusable, cpu_tests,
     uint32_t old, sr;
     __asm__ volatile("mfc0 %0, $12\nnop" : "=r"(old));
     sr = old & ~0x80000000;
