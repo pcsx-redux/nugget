@@ -161,7 +161,7 @@ int main(void) {
        back. The tracker DOES record it - it never touches guest memory, so a
        wrecked heap does not impair it - but the guest does not survive to say
        so. PSYQo's allocator happens to tolerate the same abuse, so the
-       findings-panel demonstration lives in src/mips/tests/alloc-tracker
+       findings-panel demonstration lives in src/mips/tests/tooling/alloc-tracker
        instead. Against a real allocator, read the findings in the widget rather
        than expecting the program to keep running. */
 
