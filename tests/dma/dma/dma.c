@@ -1012,7 +1012,7 @@ CESTER_TEST(otc_start_disabled, dma_tests,
 )
 
 // Enabling the channel in DPCR starts a transfer already latched in CHCR.
-CESTER_MAYBE_TEST(otc_start_disabled_then_enabled, dma_tests,
+CESTER_TEST(otc_start_disabled_then_enabled, dma_tests,
     struct OtcResult r;
     otcRun(0x00000000, 0x11000002, 0x08000000, &r);
     cester_assert_uint_eq(0, r.timeout);
