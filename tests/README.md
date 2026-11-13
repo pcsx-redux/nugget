@@ -30,6 +30,7 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | Old | New |
 |---|---|
 | `autoinc` | `bus/delay-size-autoinc` |
+| `dev-wide` | `bus/dev-wide` |
 | `dev8-readback` | `bus/dev8-readback` |
 | `exp2-width` | `bus/exp2-width` |
 | `load-timings` | `bus/load-timings` |
@@ -64,6 +65,7 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `gpu-async-stress` | `gpu/async-stress` |
 | `gpu-command` | `gpu/command` |
 | `gpu-dfe-480i` | `gpu/dfe-480i` |
+| `gpu-dma-forced` | `gpu/dma-forced` |
 | `gpu-dma-dreq` | `gpu/dma-dreq` |
 | `gpu-dma-loop` | `gpu/dma-loop` |
 | `gpu-dma-node` | `gpu/dma-node` |

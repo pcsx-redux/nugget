@@ -36,6 +36,8 @@ TESTS=(
     "gpu-dma-dreq;gpu/dma-dreq/gpu-dma-dreq;interpreter dynarec;$CESTER;"
     "gpu-dma-loop;gpu/dma-loop/gpu-dma-loop;interpreter dynarec;$CESTER;"
     "gpu-dma-node;gpu/dma-node/gpu-dma-node;interpreter;$CESTER;"
+    "gpu-dma-forced;gpu/dma-forced/gpu-dma-forced;interpreter dynarec;$CESTER;"
+    "dev-wide;bus/dev-wide/dev-wide;interpreter dynarec;$CESTER;"
     "gpu-fbrect;gpu/fbrect/gpu-fbrect;interpreter;$CESTER;"
     "gpu-irq;gpu/irq/gpu-irq;interpreter;$CESTER;"
     "gpu-polyline;gpu/polyline/gpu-polyline;interpreter;$CESTER;"

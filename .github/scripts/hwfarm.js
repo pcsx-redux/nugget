@@ -44,6 +44,8 @@ const TESTS = [
     'gpu-dma-loop;gpu/dma-loop/gpu-dma-loop',
     'gpu-dma-ring;gpu/dma-ring/gpu-dma-ring',
     'gpu-dma-node;gpu/dma-node/gpu-dma-node',
+    'gpu-dma-forced;gpu/dma-forced/gpu-dma-forced',
+    'dev-wide;bus/dev-wide/dev-wide',
     'gpu-timing;gpu/timing/gpu-timing',
     'gpu-fbrect;gpu/fbrect/gpu-fbrect',
     'gpu-irq;gpu/irq/gpu-irq',

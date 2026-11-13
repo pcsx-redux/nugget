@@ -66,7 +66,13 @@ int main() {
     take(R16(0x1f80104e));
     uint32_t gte[6] = {0};
     int haveGte = (g_entryRegs[34] >> 30) & 1;
-    if (haveGte) {
+    {
+        uint32_t sr;
+        __asm__ volatile("mfc0 %0, $12\n nop" : "=r"(sr));
+        sr |= 0x40000000;
+        __asm__ volatile("mtc0 %0, $12\n nop\n nop" : : "r"(sr));
+    }
+    if (1) {
         __asm__ volatile("cfc2 %0, $24" : "=r"(gte[0]));
         __asm__ volatile("cfc2 %0, $25" : "=r"(gte[1]));
         __asm__ volatile("cfc2 %0, $26" : "=r"(gte[2]));
@@ -83,7 +89,7 @@ int main() {
         "D5_BCR",    "D5_CHCR",   "D6_MADR",    "D6_BCR",    "D6_CHCR",    "DPCR",       "DICR",
         "T0_COUNT",  "T0_MODE",   "T0_TARGET",  "T1_COUNT",  "T1_MODE",    "T1_TARGET",  "T2_COUNT",
         "T2_MODE",   "T2_TARGET", "GPUSTAT",    "SPU_MVOLL", "SPU_MVOLR",  "SPU_RVOLL",  "SPU_RVOLR",
-        "SPU_KOFF?", "SPU_ENDX",  "SPU_RVBADDR", "SPUCNT",   "SPU_XFERCTL", "SPUSTAT",   "SPU_CDVOLL",
+        "SPU_EON",   "SPU_ENDX",  "SPU_RVBADDR", "SPUCNT",   "SPU_XFERCTL", "SPUSTAT",   "SPU_CDVOLL",
         "SPU_CDVOLR", "CD_STATUS", "CD_IE",     "CD_IF",     "JOY_STAT",   "JOY_MODE",   "JOY_CTRL",
         "JOY_BAUD",
     };
@@ -99,10 +105,19 @@ int main() {
     ramsyscall_printf("BOOTSTATE cop0 EPC %08x\n", g_entryRegs[36]);
     ramsyscall_printf("BOOTSTATE cop0 DCIC %08x\n", g_entryRegs[37]);
     for (unsigned i = 0; i < s_n; i++) ramsyscall_printf("BOOTSTATE hw %s %08x\n", s_hwNames[i], s_hw[i]);
-    if (haveGte) {
+    ramsyscall_printf("BOOTSTATE farm cu2_at_entry %d\n", haveGte);
+    if (1) {
         ramsyscall_printf("BOOTSTATE gte OFX %08x OFY %08x H %08x ZSF3 %08x ZSF4 %08x FLAG %08x\n", gte[0], gte[1],
                           gte[2], gte[3], gte[4], gte[5]);
     }
+    for (unsigned r = 0; r < 32; r++) ramsyscall_printf("BOOTSTATE rvb %02x %04x\n", r, R16(0x1f801dc0 + r * 2));
+    for (unsigned v = 0; v < 24; v++)
+        ramsyscall_printf("BOOTSTATE voice %02u vol %04x %04x pitch %04x start %04x adsr %04x %04x env %04x\n", v,
+                          R16(0x1f801c00 + v * 16), R16(0x1f801c02 + v * 16), R16(0x1f801c04 + v * 16),
+                          R16(0x1f801c06 + v * 16), R16(0x1f801c08 + v * 16), R16(0x1f801c0a + v * 16),
+                          R16(0x1f801c0c + v * 16));
+    ramsyscall_printf("BOOTSTATE spu pmon %04x%04x non %04x%04x eon %04x%04x\n", R16(0x1f801d92),
+                      R16(0x1f801d90), R16(0x1f801d96), R16(0x1f801d94), R16(0x1f801d9a), R16(0x1f801d98));
     ramsyscall_printf("BOOTSTATE count %u end\n", s_n);
     *((volatile int16_t *)0x1f802082) = 0;
     while (1);

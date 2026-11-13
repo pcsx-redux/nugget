@@ -29,6 +29,7 @@ all:
 	$(MAKE) -C gpu/dma-dreq all
 	$(MAKE) -C gpu/dma-loop all
 	$(MAKE) -C gpu/dma-node all
+	$(MAKE) -C gpu/dma-forced all
 	$(MAKE) -C gpu/dma-ring all
 	$(MAKE) -C gpu/timing all
 	$(MAKE) -C gpu/irq all
@@ -121,6 +122,7 @@ all:
 	$(MAKE) -C cpu/bcc-narrow all
 	$(MAKE) -C dma/chopping all
 	$(MAKE) -C bus/exp2-width all
+	$(MAKE) -C bus/dev-wide all
 	$(MAKE) -C sio/reset all
 	$(MAKE) -C sio/sio1-misc all
 	$(MAKE) -C gpu/info8 all
@@ -167,6 +169,7 @@ clean:
 	$(MAKE) -C gpu/dma-dreq clean
 	$(MAKE) -C gpu/dma-loop clean
 	$(MAKE) -C gpu/dma-node clean
+	$(MAKE) -C gpu/dma-forced clean
 	$(MAKE) -C gpu/dma-ring clean
 	$(MAKE) -C gpu/timing clean
 	$(MAKE) -C gpu/irq clean
@@ -259,6 +262,7 @@ clean:
 	$(MAKE) -C cpu/bcc-narrow clean
 	$(MAKE) -C dma/chopping clean
 	$(MAKE) -C bus/exp2-width clean
+	$(MAKE) -C bus/dev-wide clean
 	$(MAKE) -C sio/reset clean
 	$(MAKE) -C sio/sio1-misc clean
 	$(MAKE) -C gpu/info8 clean
