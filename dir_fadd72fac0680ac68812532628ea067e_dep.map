@@ -1,0 +1,10 @@
+<map id="tests/gpu/vram&#45;move" name="tests/gpu/vram&#45;move">
+<area shape="rect" id="node1" href="dir_6b49b91f8d64295ff9bd4c13c629bddc.html" title="raster" alt="" coords="46,125,106,151"/>
+<area shape="rect" id="node2" href="dir_fadd72fac0680ac68812532628ea067e.html" title="vram&#45;move" alt="" coords="27,52,125,77"/>
+<area shape="poly" id="edge1" href="dir_000262_000193.html" alt="" coords="79,78,79,112,73,112,73,78"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000262_000193.html" title="1" alt="" coords="80,100,89,114"/>
+<area shape="rect" id="node3" href="dir_bdd9a5d540de89e9fe90efdfc6973a4f.html" title="common" alt="" coords="147,125,226,151"/>
+<area shape="poly" id="edge2" href="dir_000262_000031.html" alt="" coords="95,75,158,115,155,120,92,80"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000262_000031.html" title="5" alt="" coords="153,101,163,116"/>
+<area shape="rect" id="clust1" href="dir_c318924d804585027bccd4288d15d7df.html" title="gpu" alt="" coords="16,16,136,161"/>
+</map>

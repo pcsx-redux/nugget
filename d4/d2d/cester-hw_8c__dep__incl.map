@@ -1,0 +1,15 @@
+<map id="tests/cdrom/common/cester&#45;hw.c" name="tests/cdrom/common/cester&#45;hw.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="371,5,531,45"/>
+<area shape="rect" id="Node000002" href="$df/dda/cdrom-prelude_8h.html" title=" " alt="" coords="371,93,531,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="454,59,454,93,449,93,449,59"/>
+<area shape="rect" id="Node000003" href="$d7/d9a/cdrom-commands_8c.html" title=" " alt="" coords="5,181,180,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="360,139,172,184,171,179,359,134"/>
+<area shape="rect" id="Node000004" href="$d1/d22/cdrom-errors_8c.html" title=" " alt="" coords="205,181,346,221"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="402,142,315,184,313,179,399,137"/>
+<area shape="rect" id="Node000005" href="$d1/d31/cdrom-playback_8c.html" title=" " alt="" coords="370,181,533,221"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="454,147,454,181,449,181,449,147"/>
+<area shape="rect" id="Node000006" href="$da/d92/cdrom-race_8c.html" title=" " alt="" coords="557,181,733,221"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="507,137,603,179,601,184,505,141"/>
+<area shape="rect" id="Node000007" href="$d4/d71/cdrom-reading_8c.html" title=" " alt="" coords="757,181,909,221"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="545,133,757,180,756,186,544,138"/>
+</map>

@@ -1,0 +1,46 @@
+<map id="common/libc/alloc.h" name="common/libc/alloc.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="507,5,661,31"/>
+<area shape="rect" id="Node000002" href="$d1/d20/common_2libc_2alloc_8c.html" title=" " alt="" coords="112,86,264,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="514,36,246,89,245,83,513,31"/>
+<area shape="rect" id="Node000004" href="$d6/d69/common_2libc_2xprintf_8c.html" title=" " alt="" coords="393,86,556,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="558,41,492,88,489,84,555,37"/>
+<area shape="rect" id="Node000007" href="$d6/daf/psyqo_2alloc_8h.html" title=" " alt="" coords="730,86,838,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="627,33,756,83,754,88,625,38"/>
+<area shape="rect" id="Node000017" href="$dc/d9c/stdlib_8h.html" title=" " alt="" coords="1615,79,1775,119"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="674,23,1615,89,1614,94,674,28"/>
+<area shape="rect" id="Node000003" href="$dd/dc0/tests_2runtime_2alloc_8c.html" title=" " alt="" coords="5,181,160,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="167,122,97,183,94,179,163,118"/>
+<area shape="rect" id="Node000005" href="$d2/d90/openbios_2kernel_2xprintf_8c.html" title=" " alt="" coords="185,181,367,207"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="439,119,302,184,299,179,437,115"/>
+<area shape="rect" id="Node000006" href="$d2/da8/tests_2runtime_2xprintf_8c.html" title=" " alt="" coords="391,181,558,207"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="477,125,477,181,472,181,472,125"/>
+<area shape="rect" id="Node000008" href="$d8/d16/str-player_8cpp.html" title=" " alt="" coords="492,357,639,397"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="718,115,667,135,644,150,623,168,607,191,594,215,578,269,570,319,568,357,562,357,564,318,572,267,589,213,603,188,619,165,640,146,665,130,716,110"/>
+<area shape="rect" id="Node000009" href="$dd/dbd/psyqo_2buffer_8hh.html" title=" " alt="" coords="633,181,756,207"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="765,123,708,183,704,179,762,119"/>
+<area shape="rect" id="Node000014" href="$df/d7b/application_8cpp.html" title=" " alt="" coords="780,181,967,207"/>
+<area shape="poly" id="edge14_Node000007_Node000014" title=" " alt="" coords="806,119,864,179,860,183,803,123"/>
+<area shape="rect" id="Node000015" href="$de/dc5/str-player-alloc_8cpp.html" title=" " alt="" coords="991,174,1179,214"/>
+<area shape="poly" id="edge15_Node000007_Node000015" title=" " alt="" coords="835,113,1025,171,1024,177,833,118"/>
+<area shape="rect" id="Node000016" href="$da/dec/alloc-tracker_8cpp.html" title=" " alt="" coords="1203,174,1386,214"/>
+<area shape="poly" id="edge16_Node000007_Node000016" title=" " alt="" coords="852,107,1008,131,1191,164,1224,171,1223,177,1190,169,1007,136,851,112"/>
+<area shape="rect" id="Node000010" href="$db/d86/archive-manager_8hh.html" title=" " alt="" coords="633,269,788,309"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="702,219,710,269,705,270,696,220"/>
+<area shape="rect" id="Node000012" href="$d1/dcc/cdrom-loader_8hh.html" title=" " alt="" coords="829,277,1041,302"/>
+<area shape="poly" id="edge12_Node000009_Node000012" title=" " alt="" coords="738,209,906,274,904,279,736,214"/>
+<area shape="poly" id="edge11_Node000010_Node000008" title=" " alt="" coords="668,319,599,360,596,355,665,314"/>
+<area shape="rect" id="Node000011" href="$d0/d9e/archive-manager_8cpp.html" title=" " alt="" coords="663,357,841,397"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="728,321,745,356,740,358,723,323"/>
+<area shape="rect" id="Node000013" href="$d8/d24/cdrom-loader_8cpp.html" title=" " alt="" coords="865,357,1036,397"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="942,315,950,356,944,357,937,316"/>
+<area shape="rect" id="Node000018" href="$d9/d1b/hostfuzz_8c.html" title=" " alt="" coords="1411,181,1541,207"/>
+<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="1639,126,1504,184,1502,179,1637,122"/>
+<area shape="rect" id="Node000019" href="$db/de8/cube_8c.html" title=" " alt="" coords="1565,181,1664,207"/>
+<area shape="poly" id="edge19_Node000017_Node000019" title=" " alt="" coords="1672,131,1627,183,1623,179,1668,127"/>
+<area shape="rect" id="Node000020" href="$de/d2b/runtime_8c.html" title=" " alt="" coords="1689,181,1863,207"/>
+<area shape="poly" id="edge20_Node000017_Node000020" title=" " alt="" coords="1722,127,1768,179,1764,183,1718,131"/>
+<area shape="rect" id="Node000021" href="$d1/d8a/stack-bounds-heap-quiet_8c.html" title=" " alt="" coords="1887,167,2075,221"/>
+<area shape="poly" id="edge21_Node000017_Node000021" title=" " alt="" coords="1766,120,1901,164,1900,169,1765,125"/>
+<area shape="rect" id="Node000022" href="$d6/d2f/stack-bounds-heap_8c.html" title=" " alt="" coords="2100,167,2303,221"/>
+<area shape="poly" id="edge22_Node000017_Node000022" title=" " alt="" coords="1789,112,2088,164,2100,166,2099,172,2088,169,1788,117"/>
+</map>

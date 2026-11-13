@@ -1,0 +1,19 @@
+<map id="openbios/kernel/xprintf.c" name="openbios/kernel/xprintf.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="135,5,318,31"/>
+<area shape="rect" id="Node000002" href="$d6/d69/common_2libc_2xprintf_8c.html" title=" " alt="" coords="145,79,308,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,31,229,65,224,65,224,31"/>
+<area shape="rect" id="Node000003" href="$d7/dbd/common_2libc_2xprintf_8h.html" title=" " alt="" coords="24,152,188,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="208,106,139,147,137,142,206,102"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="9,225,84,251"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="149,107,67,126,34,139,14,154,8,168,11,183,29,214,24,216,6,185,3,167,10,150,31,134,65,121,148,101"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="189,225,264,251"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="229,104,229,212,224,212,224,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="363,225,434,251"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="297,101,377,121,410,134,431,150,438,167,436,184,420,216,415,213,431,183,432,167,427,154,407,139,375,126,296,107"/>
+<area shape="rect" id="Node000007" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="264,152,418,177"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="246,102,312,142,309,147,243,106"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="98,179,67,217,63,213,94,176"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="127,175,196,216,193,220,124,180"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="324,180,258,220,255,216,321,175"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="353,176,382,213,378,216,348,179"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="common/hardware/gpu.h" name="common/hardware/gpu.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,189,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="42,225,113,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,33,69,53,55,80,49,115,51,151,59,184,69,212,64,214,54,186,46,151,43,114,49,78,64,50,83,29"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="65,79,271,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,29,149,67,145,71,107,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="152,106,128,127,105,153,91,183,84,212,79,211,86,181,100,151,124,123,149,102"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="115,152,331,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="179,103,208,140,203,143,175,106"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="200,180,114,222,112,217,198,175"/>
+</map>

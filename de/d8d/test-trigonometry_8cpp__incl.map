@@ -1,0 +1,24 @@
+<map id="tests/psyqo/psyqo/test&#45;trigonometry.cpp" name="tests/psyqo/psyqo/test&#45;trigonometry.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,5,193,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="21,167,132,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,47,86,69,77,94,73,124,75,153,70,153,68,124,71,93,81,67,93,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="47,240,117,265"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="91,47,48,99,27,132,11,168,8,180,11,191,27,213,49,231,45,235,23,217,6,193,3,180,6,166,22,129,43,96,87,44"/>
+<area shape="rect" id="Node000004" href="$d6/d36/trigonometry_8hh.html" title=" " alt="" coords="86,93,254,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="126,44,155,81,150,84,121,47"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="278,93,390,119"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="163,43,289,86,287,91,162,48"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="157,121,104,160,101,156,153,117"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="171,120,163,154,146,193,129,215,110,233,106,229,125,211,141,191,158,152,166,118"/>
+<area shape="rect" id="Node000005" href="$da/dbc/fixed-point_8hh.html" title=" " alt="" coords="207,167,362,192"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="190,116,256,157,253,162,187,121"/>
+<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="253,195,128,238,127,233,251,190"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="465,240,608,265"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="326,189,483,234,482,239,324,195"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="141,240,220,265"/>
+<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="269,194,211,234,208,230,266,190"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="245,240,325,265"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="287,192,287,226,282,226,282,192"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="349,240,441,265"/>
+<area shape="poly" id="edge11_Node000005_Node000009" title=" " alt="" coords="304,190,367,230,364,235,301,194"/>
+</map>

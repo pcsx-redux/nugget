@@ -1,0 +1,26 @@
+<map id="psyqo/gte&#45;registers.hh" name="psyqo/gte&#45;registers.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="675,5,843,31"/>
+<area shape="rect" id="Node000002" href="$d5/d80/gte-math_8hh.html" title=" " alt="" coords="216,86,361,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="678,36,358,89,357,83,677,30"/>
+<area shape="rect" id="Node000005" href="$d1/d6b/quads_8hh.html" title=" " alt="" coords="434,86,629,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="714,38,565,89,564,83,712,33"/>
+<area shape="rect" id="Node000008" href="$da/dd8/triangles_8hh.html" title=" " alt="" coords="653,86,865,111"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="762,44,762,86,757,86,757,44"/>
+<area shape="rect" id="Node000011" href="$df/d7b/application_8cpp.html" title=" " alt="" coords="890,86,1077,111"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="806,33,952,83,950,88,804,38"/>
+<area shape="rect" id="Node000012" href="$d3/dc1/gte-math-bench_8cpp.html" title=" " alt="" coords="1101,79,1263,119"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="838,30,1089,76,1102,78,1101,84,1088,81,837,36"/>
+<area shape="rect" id="Node000003" href="$dc/deb/gte-math_8cpp.html" title=" " alt="" coords="5,174,180,199"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="251,119,120,176,118,171,249,114"/>
+<area shape="rect" id="Node000004" href="$df/ded/test-gte-math_8cpp.html" title=" " alt="" coords="204,167,373,207"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="291,125,291,166,286,166,286,125"/>
+<area shape="rect" id="Node000006" href="$db/d99/primitives_8hh.html" title="This file is a convenience header that includes all the primitive headers." alt="" coords="553,174,704,199"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="556,118,617,171,613,175,553,122"/>
+<area shape="rect" id="Node000007" href="$df/d4a/shello_8cpp.html" title=" " alt="" coords="398,174,529,199"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="516,124,475,175,471,172,511,121"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="732,121,648,176,645,172,729,117"/>
+<area shape="rect" id="Node000009" href="$d4/d39/keynote_8cpp.html" title=" " alt="" coords="729,174,886,199"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="775,122,803,172,798,175,770,125"/>
+<area shape="rect" id="Node000010" href="$d2/d3f/test-bump-allocator_8cpp.html" title=" " alt="" coords="911,167,1080,207"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="805,114,944,164,942,169,803,119"/>
+</map>

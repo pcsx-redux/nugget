@@ -1,0 +1,8 @@
+<map id="common/hardware/allocdesc.h" name="common/hardware/allocdesc.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,227,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="81,152,151,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,31,105,64,103,104,110,138,105,139,97,104,100,63,109,30"/>
+<area shape="rect" id="Node000003" href="$d8/d07/pcsxcmd_8h.html" title=" " alt="" coords="113,79,205,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,30,147,66,143,68,121,32"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="154,106,132,142,128,139,149,103"/>
+</map>

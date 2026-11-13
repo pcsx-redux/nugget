@@ -1,0 +1,33 @@
+<map id="tests/gpu/gpustat&#45;cmd&#45;ready/gpustat26.c" name="tests/gpu/gpustat&#45;cmd&#45;ready/gpustat26.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="221,5,389,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="342,313,413,339"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,48,160,85,113,109,69,136,35,166,13,197,9,213,9,230,15,246,26,264,46,278,76,291,158,308,249,317,328,321,328,327,248,323,157,313,74,296,43,283,22,267,10,249,4,231,3,213,8,195,31,162,66,132,110,104,158,80,248,43"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="53,167,259,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="288,48,179,158,175,155,284,44"/>
+<area shape="rect" id="Node000005" href="$d2/d6e/syscalls_8h.html" title=" " alt="" coords="324,93,527,119"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="336,43,398,84,395,88,333,48"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="551,93,667,119"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="379,43,552,87,551,92,377,48"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="115,195,80,207,49,224,39,233,33,243,32,253,38,264,57,278,86,290,164,307,252,317,328,321,328,326,251,322,163,312,84,295,54,283,34,267,27,254,28,241,35,230,46,219,78,202,113,190"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="48,240,264,265"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="159,192,159,226,153,226,153,192"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="192,263,330,307,328,312,191,268"/>
+<area shape="poly" id="edge9_Node000005_Node000002" title=" " alt="" coords="390,121,356,140,341,152,329,168,318,193,315,215,320,237,329,264,340,285,355,302,351,306,336,288,324,266,315,239,310,215,313,192,324,165,337,149,353,135,388,116"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="339,167,413,192"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="419,121,394,157,389,154,415,117"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="437,167,512,192"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="436,117,461,154,457,157,431,121"/>
+<area shape="rect" id="Node000008" href="$d0/d77/circularbuffer_8h.html" title=" " alt="" coords="339,240,570,265"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="463,116,498,135,514,149,526,166,530,185,522,204,507,221,489,235,486,231,503,217,518,201,525,185,521,168,510,152,495,140,460,121"/>
+<area shape="rect" id="Node000009" href="$db/de9/device_8h.html" title=" " alt="" coords="614,167,802,192"/>
+<area shape="poly" id="edge12_Node000005_Node000009" title=" " alt="" coords="471,116,650,161,649,166,470,121"/>
+<area shape="rect" id="Node000011" href="$dc/dea/common_2psxlibc_2handlers_8h.html" title=" " alt="" coords="847,240,1049,265"/>
+<area shape="poly" id="edge17_Node000005_Node000011" title=" " alt="" coords="527,115,688,137,761,150,814,164,876,195,925,229,922,234,873,200,812,169,760,155,687,142,527,121"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="444,267,402,306,398,302,440,263"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="696,194,647,230,582,268,501,298,427,317,426,312,500,293,580,263,644,226,692,190"/>
+<area shape="rect" id="Node000010" href="$d3/d43/common_2psxlibc_2stdio_8h.html" title=" " alt="" coords="646,240,823,265"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="708,191,720,227,715,229,703,193"/>
+<area shape="poly" id="edge15_Node000010_Node000002" title=" " alt="" coords="678,268,426,318,425,312,677,263"/>
+<area shape="poly" id="edge16_Node000010_Node000009" title=" " alt="" coords="735,241,723,205,728,203,740,239"/>
+<area shape="poly" id="edge18_Node000011_Node000002" title=" " alt="" coords="857,268,427,321,426,316,856,263"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="tests/cdrom/race" name="tests/cdrom/race">
+<area shape="rect" id="node1" href="dir_aa8caa5637a597f5a0255b36fa493c16.html" title="common" alt="" coords="27,125,106,151"/>
+<area shape="rect" id="node2" href="dir_f539428d3fd1c9bb2d9036f66d73b3a8.html" title="race" alt="" coords="41,52,92,77"/>
+<area shape="poly" id="edge1" href="dir_000192_000032.html" alt="" coords="69,78,69,112,64,112,64,78"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000192_000032.html" title="1" alt="" coords="70,100,80,114"/>
+<area shape="rect" id="clust1" href="dir_df20f0e63de8b83305c014b172a75f83.html" title="cdrom" alt="" coords="16,16,117,161"/>
+</map>

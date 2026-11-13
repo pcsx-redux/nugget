@@ -1,0 +1,11 @@
+<map id="tests/cpu/cop0/cester&#45;cop0.c" name="tests/cpu/cop0/cester&#45;cop0.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="277,5,437,45"/>
+<area shape="rect" id="Node000002" href="$d1/da3/cop-branch_8c.html" title=" " alt="" coords="5,93,163,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,52,145,96,143,91,283,47"/>
+<area shape="rect" id="Node000003" href="$d6/d71/cop0_8c.html" title=" " alt="" coords="187,101,349,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="329,57,282,102,279,98,326,53"/>
+<area shape="rect" id="Node000004" href="$d6/d5d/cpu_8c.html" title=" " alt="" coords="373,101,520,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="389,53,436,98,432,102,385,57"/>
+<area shape="rect" id="Node000005" href="$d8/d51/dma_8c.html" title=" " alt="" coords="545,101,709,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="430,47,592,98,590,103,429,52"/>
+</map>

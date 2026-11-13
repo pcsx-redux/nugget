@@ -1,0 +1,17 @@
+<map id="shell/math.h" name="shell/math.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="88,5,191,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="45,299,116,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,33,66,51,50,64,37,81,30,86,21,87,14,87,10,91,8,104,13,132,46,250,65,287,61,289,41,252,7,133,3,104,5,88,12,82,20,82,28,81,34,77,46,60,63,47,99,28"/>
+<area shape="rect" id="Node000003" href="$d2/d4b/common_2hardware_2gpu_8h.html" title=" " alt="" coords="47,79,231,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,31,142,65,137,65,137,31"/>
+<area shape="rect" id="Node000006" href="$d1/dcc/dcos_8h.html" title=" " alt="" coords="310,152,409,177"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="162,28,245,76,335,141,332,146,242,81,160,33"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="113,106,82,125,68,138,58,153,48,187,51,223,59,257,71,285,66,287,54,259,45,224,43,187,53,151,64,135,79,121,110,102"/>
+<area shape="rect" id="Node000004" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="68,152,275,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="147,103,163,139,158,141,142,105"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="156,180,131,200,108,227,95,256,87,286,82,284,90,254,104,224,127,196,152,176"/>
+<area shape="rect" id="Node000005" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="118,225,334,251"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="183,176,211,213,207,216,178,179"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="204,253,118,295,115,290,202,248"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="364,178,364,214,359,234,348,252,333,264,311,274,253,290,130,308,129,303,252,284,309,269,330,259,344,249,354,232,359,213,359,178"/>
+</map>
