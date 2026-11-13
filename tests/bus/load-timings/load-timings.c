@@ -762,7 +762,7 @@ CESTER_MAYBE_TEST(loadCostByTarget, load_tests,
    Print-only: a pass threshold authored before the first hardware run is an
    assumption wearing a measurement's clothes. The single assertion below is an
    instrument check, not a claim about the phenomenon. */
-CESTER_MAYBE_TEST(loadCostByStride, load_tests,
+CESTER_TEST(loadCostByStride, load_tests,
     volatile char *base = (volatile char *)ADDR_RAM_U;
     BENCH(ref, timed_read, (volatile void *)ADDR_RAM_U);
 
@@ -804,7 +804,7 @@ CESTER_MAYBE_TEST(loadCostByStride, load_tests,
    instead, with the address fixed. A step in the load arm marks the timeout;
    a flat profile means page state is not observable in CPU-side load cost at
    all, whatever the bus is doing. Print-only, for the same reason as above. */
-CESTER_MAYBE_TEST(loadCostByGap, load_tests,
+CESTER_TEST(loadCostByGap, load_tests,
     volatile void *A = (volatile void *)ADDR_RAM_U;
 
     ramsyscall_printf("=== load cost by inter-access gap (32 reps, one uncached RAM address) ===\n");
@@ -826,7 +826,7 @@ CESTER_MAYBE_TEST(loadCostByGap, load_tests,
 /* Loads cost the same through both mirrors because there is no data cache.
    Stores should not: the write queue buffers them through KSEG0 and is bypassed
    through KSEG1. */
-CESTER_MAYBE_TEST(storeCostByMirror, load_tests,
+CESTER_TEST(storeCostByMirror, load_tests,
     /* Sequential, not repeated: 256 stores to one address can be coalesced and
        tell you nothing about queue depth. This walks 1 KB. */
     BENCH(base, timed_walk, (volatile void *)ADDR_RAM_C);
@@ -849,7 +849,7 @@ CESTER_MAYBE_TEST(storeCostByMirror, load_tests,
 /* Queue-depth sweep: N KSEG0 primers then one KSEG1 store. Under the
    synchronize model the KSEG1 store's cost rises with N and flattens once N
    reaches the queue depth. Print-only; the knee is the measurement. */
-CESTER_MAYBE_TEST(kseg1StoreSync, load_tests,
+CESTER_TEST(kseg1StoreSync, load_tests,
     volatile void *C = (volatile void *)ADDR_RAM_C;
     volatile void *U = (volatile void *)ADDR_RAM_U;
 
@@ -869,7 +869,7 @@ CESTER_MAYBE_TEST(kseg1StoreSync, load_tests,
    queue? If so, read-after-write is cheaper than reading a never-written
    address, and on whichever mirror bypasses the queue it is not. This decides
    whether a moving-inversions RAM test would be testing the array or the queue. */
-CESTER_MAYBE_TEST(readAfterWrite, load_tests,
+CESTER_TEST(readAfterWrite, load_tests,
     volatile void *c0 = (volatile void *)ADDR_RAM_C;
     volatile void *c1 = (volatile void *)(ADDR_RAM_C + 4096u);
     volatile void *u0 = (volatile void *)ADDR_RAM_U;
@@ -891,7 +891,7 @@ CESTER_MAYBE_TEST(readAfterWrite, load_tests,
 )
 
 /* One on-die decoder, one latency: every on-die MMIO register reads the same. */
-CESTER_MAYBE_TEST(onDieUniformity, load_tests,
+CESTER_TEST(onDieUniformity, load_tests,
     BENCH(istat, timed_read, (volatile void *)ADDR_ISTAT);
     BENCH(dma, timed_read, (volatile void *)ADDR_DMA);
     BENCH(rcnt0, timed_read, (volatile void *)&COUNTERS[0].value);

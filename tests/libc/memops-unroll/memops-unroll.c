@@ -262,7 +262,7 @@ CESTER_TEST(kernelsCorrect, memops,
    as the break in the marginal cost of the Nth store in a burst:
    1.1/2.0/2.0/2.0/2.6/4.2), so four stores per iteration is where the loop tail
    disappears under the drain and the curve goes flat. */
-CESTER_MAYBE_TEST(setUnrollRam, memops,
+CESTER_TEST(setUnrollRam, memops,
     uint32_t t1 = timeSet(set_u1, s_dst, 0);
     uint32_t t2 = timeSet(set_u2, s_dst, 0);
     uint32_t t4 = timeSet(set_u4, s_dst, 0);
@@ -282,7 +282,7 @@ CESTER_MAYBE_TEST(setUnrollRam, memops,
    only thing unrolling can amortize is the loop tail itself. This is the
    control that says how much of the RAM curve is loop overhead and how much is
    the DRAM controller. */
-CESTER_MAYBE_TEST(setUnrollScratch, memops,
+CESTER_TEST(setUnrollScratch, memops,
     uint32_t t1 = timeSet(set_u1, SCRATCH, 0);
     uint32_t t2 = timeSet(set_u2, SCRATCH, 0);
     uint32_t t4 = timeSet(set_u4, SCRATCH, 0);
@@ -298,7 +298,7 @@ CESTER_MAYBE_TEST(setUnrollScratch, memops,
 
 /* Does the write queue serve the uncached mirror too? If KSEG1 stores bypass
    the queue, the whole unroll argument for memset only holds for KSEG0. */
-CESTER_MAYBE_TEST(setUncached, memops,
+CESTER_TEST(setUncached, memops,
     uint32_t c4 = timeSet(set_u4, s_dst, 0);
     uint32_t u4 = timeSet(set_u4, UNCACHED(s_dst), 0);
     uint32_t c64 = timeSet(set_u64, s_dst, 0);
@@ -309,7 +309,7 @@ CESTER_MAYBE_TEST(setUncached, memops,
 )
 
 /* Copy, unroll depth at fixed batch depth 8 (the shape __wrap_memcpy uses). */
-CESTER_MAYBE_TEST(copyUnroll, memops,
+CESTER_TEST(copyUnroll, memops,
     uint32_t u8 = timeCopy(copy_b8_u8, s_dst, s_src);
     uint32_t u16 = timeCopy(copy_b8_u16, s_dst, s_src);
     uint32_t u32 = timeCopy(copy_b8_u32, s_dst, s_src);
@@ -323,7 +323,7 @@ CESTER_MAYBE_TEST(copyUnroll, memops,
    only thing moving is how far a load sits from the store that consumes it.
    The load shadow saturates at ~4 independent instructions, so B=4 should
    already be at the floor and B=8/B=16 should buy nothing. */
-CESTER_MAYBE_TEST(copyBatch, memops,
+CESTER_TEST(copyBatch, memops,
     uint32_t b2 = timeCopy(copy_b2_u32, s_dst, s_src);
     uint32_t b4 = timeCopy(copy_b4_u32, s_dst, s_src);
     uint32_t b8 = timeCopy(copy_b8_u32, s_dst, s_src);
@@ -336,7 +336,7 @@ CESTER_MAYBE_TEST(copyBatch, memops,
 /* The small end: is a tight 2- or 4-word loop actually much worse than the
    shipped 8/8? This is the case that decides whether the unrolling is worth
    its icache footprint for short copies. */
-CESTER_MAYBE_TEST(copySmallUnroll, memops,
+CESTER_TEST(copySmallUnroll, memops,
     uint32_t s2 = timeCopy(copy_b2_u2, s_dst, s_src);
     uint32_t s4 = timeCopy(copy_b4_u4, s_dst, s_src);
     uint32_t s8 = timeCopy(copy_b8_u8, s_dst, s_src);
@@ -351,7 +351,7 @@ CESTER_MAYBE_TEST(copySmallUnroll, memops,
    chosen off the numbers above, so both should sit on the floor and not merely
    near it. Everything here is 4-aligned and a whole number of blocks, which is
    the case those block loops exist for. */
-CESTER_MAYBE_TEST(shippedRoutines, memops,
+CESTER_TEST(shippedRoutines, memops,
     uint32_t best_set = timeSet(time_set_u4_bare, s_dst, 0);
     uint32_t best_copy = timeCopy(time_copy_b8_u8_bare, s_dst, s_src);
     uint32_t wset = timeSetN(time_wrap_memset, s_dst, 0, WORDS * 4, 0);
@@ -377,7 +377,7 @@ CESTER_MAYBE_TEST(shippedRoutines, memops,
    into one 1 KiB figure. Both sides go through identical time_* thunks. n=8 is
    the smallest length that is a whole number of blocks for both bare kernels
    (8 words for copy, 4 for set), so both sides move the same bytes. */
-CESTER_MAYBE_TEST(shippedSettling, memops,
+CESTER_TEST(shippedSettling, memops,
     static const uint32_t lens[] = { 8, BIGWORDS };
     ramsyscall_printf("=== shipped vs bare thunk, n=8 and n=%d (raw ticks, min8) ===\n", BIGWORDS);
     for (unsigned i = 0; i < sizeof(lens) / sizeof(lens[0]); i++) {
@@ -404,7 +404,7 @@ CESTER_MAYBE_TEST(shippedSettling, memops,
    per-call fill cost and code PLACEMENT can move a number between builds. min-over-8 warms it. Printing the
    cold first run beside the min is what turns that into a number instead of an
    assumption. */
-CESTER_MAYBE_TEST(bufferSizeAndIcache, memops,
+CESTER_TEST(bufferSizeAndIcache, memops,
     uint32_t f;
     ramsyscall_printf("=== buffer size and cold-vs-warm ===\n");
 
@@ -439,7 +439,7 @@ CESTER_MAYBE_TEST(bufferSizeAndIcache, memops,
    The B4U4-vs-B8U8 comparison in the last two columns is NOT placement-immune -
    two different kernels at two different addresses - so read it for its shape
    and not for a crossover length. See the calibration note at the top. */
-CESTER_MAYBE_TEST(coldCrossover, memops,
+CESTER_TEST(coldCrossover, memops,
     static const uint32_t lens[] = { 8, 16, 32, 64, 128, 256, 512 };
     ramsyscall_printf("=== cold cost per call, B4U4 vs B8U8 (icache evicted between) ===\n");
     for (unsigned i = 0; i < sizeof(lens) / sizeof(lens[0]); i++) {
