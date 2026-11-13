@@ -24,8 +24,6 @@ SOFTWARE.
 
 */
 
-
 #include "cdrom-prelude.h"
-
 #include "invalid.c"
 #include "misc.c"

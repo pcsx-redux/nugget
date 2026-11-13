@@ -24,9 +24,7 @@ SOFTWARE.
 
 */
 
-
 #include "cdrom-prelude.h"
-
 #include "reading.c"
 #include "readnosetloc.c"
 #include "seekread.c"
