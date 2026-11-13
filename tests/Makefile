@@ -16,6 +16,7 @@ all:
 	$(MAKE) -C cpu/irq-branch-slot all
 	$(MAKE) -C dma/modes all
 	$(MAKE) -C dma/priority all
+	$(MAKE) -C dma/rewrite2 all
 	$(MAKE) -C gpu/dma-chain-polygons all
 	$(MAKE) -C gpu/nop all
 	$(MAKE) -C gpu/fifo all
@@ -156,6 +157,7 @@ clean:
 	$(MAKE) -C cpu/irq-branch-slot clean
 	$(MAKE) -C dma/modes clean
 	$(MAKE) -C dma/priority clean
+	$(MAKE) -C dma/rewrite2 clean
 	$(MAKE) -C gpu/dma-chain-polygons clean
 	$(MAKE) -C gpu/nop clean
 	$(MAKE) -C gpu/fifo clean
