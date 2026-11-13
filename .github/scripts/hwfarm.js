@@ -41,6 +41,8 @@ const TESTS = [
     'gpu-async-stress;gpu-async-stress/gpu-async-stress',
     'gpu-dfe-480i;gpu-dfe-480i/gpu-dfe-480i',
     'gpu-dma-dreq;gpu-dma-dreq/gpu-dma-dreq',
+    'gpu-dma-forced;gpu-dma-forced/gpu-dma-forced',
+    'dev-wide;dev-wide/dev-wide',
     'gpu-dma-loop;gpu-dma-loop/gpu-dma-loop',
     'gpu-dma-ring;gpu-dma-ring/gpu-dma-ring',
     'gpu-dma-node;gpu-dma-node/gpu-dma-node',

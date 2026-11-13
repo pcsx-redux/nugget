@@ -11,6 +11,7 @@ all:
 	$(MAKE) -C cop0 all
 	$(MAKE) -C cop0-sr all
 	$(MAKE) -C dcache all
+	$(MAKE) -C dev-wide all
 	$(MAKE) -C dma all
 	$(MAKE) -C icache all
 	$(MAKE) -C irq-branch-slot all
@@ -27,6 +28,7 @@ all:
 	$(MAKE) -C gpustat10 all
 	$(MAKE) -C gpustat26 all
 	$(MAKE) -C gpu-dma-dreq all
+	$(MAKE) -C gpu-dma-forced all
 	$(MAKE) -C gpu-dma-loop all
 	$(MAKE) -C gpu-dma-node all
 	$(MAKE) -C gpu-dma-ring all
@@ -149,6 +151,7 @@ clean:
 	$(MAKE) -C cop0 clean
 	$(MAKE) -C cop0-sr clean
 	$(MAKE) -C dcache clean
+	$(MAKE) -C dev-wide clean
 	$(MAKE) -C dma clean
 	$(MAKE) -C icache clean
 	$(MAKE) -C irq-branch-slot clean
@@ -165,6 +168,7 @@ clean:
 	$(MAKE) -C gpustat10 clean
 	$(MAKE) -C gpustat26 clean
 	$(MAKE) -C gpu-dma-dreq clean
+	$(MAKE) -C gpu-dma-forced clean
 	$(MAKE) -C gpu-dma-loop clean
 	$(MAKE) -C gpu-dma-node clean
 	$(MAKE) -C gpu-dma-ring clean
