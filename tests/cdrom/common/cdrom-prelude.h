@@ -24,11 +24,9 @@ SOFTWARE.
 
 */
 
-
 // Included first by every CD-ROM test exe, then its own area files.
 
 #include "common/hardware/cdrom.h"
-
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"

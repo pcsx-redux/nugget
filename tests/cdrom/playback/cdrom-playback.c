@@ -24,9 +24,7 @@ SOFTWARE.
 
 */
 
-
-#include "cdrom-prelude.h"
-
 #include "cdda.c"
+#include "cdrom-prelude.h"
 #include "playing.c"
 #include "xa.c"
