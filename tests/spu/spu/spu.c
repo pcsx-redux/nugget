@@ -421,8 +421,12 @@ static int spu_compare_golden(const char *name, const void *cap, const uint8_t *
         }
     }
 
+    // The capture is read right after the bit 11 1->0 edge, with the SPU writing at the
+    // start of the ring: there the newest samples meet the ones a lap older. A pair that
+    // straddles index 0 compares two laps, so it is skipped.
     for (int i = keptS; i < 512; i++) {
         int ri = (bestS + i) & 511, rp = (bestS + i - periodS) & 511;
+        if (ri < periodS) continue;
         if (a[ri] != a[rp]) {
             ramsyscall_printf("%s periodicity broken at sample %d: got 0x%04x, want 0x%04x\n", name, i, (uint16_t)a[ri],
                               (uint16_t)a[rp]);
