@@ -29,6 +29,8 @@ SOFTWARE.
 #include <stdint.h>
 
 #include "common/hardware/cop0.h"
+#include "common/hardware/dma.h"
+#include "common/hardware/hwregs.h"
 #include "common/hardware/spu.h"
 #include "common/kernel/openbios.h"
 #include "common/psxlibc/ctype.h"
@@ -283,6 +285,50 @@ static void zeroUserMemoryUntilStack() {
     fastMemset((void *)0xa0010000, 0, end - 0x10000);
 }
 
+// The retail shell exits with its reverb preset running and every voice
+// routed into it, unmuted, CD input enabled at zero volume. Hand the game
+// the same register file. The shell's sound never played here, so the
+// reverb work area is cleared first, by DMA from user memory that
+// zeroUserMemoryUntilStack() has just cleared.
+static void handOffSpu() {
+    static const uint16_t s_reverb[32] = {
+        0x033d, 0x0231, 0x7e00, 0x5000, 0xb400, 0xb000, 0x4c00, 0xb000, 0x6000, 0x5400, 0x1ed6,
+        0x1a31, 0x1d14, 0x183b, 0x1bc2, 0x16b2, 0x1a32, 0x15ef, 0x15ee, 0x1055, 0x1334, 0x0f2d,
+        0x11f6, 0x0c5d, 0x1056, 0x0ae1, 0x0ae0, 0x07a2, 0x0464, 0x0232, 0x8000, 0x8000,
+    };
+    const uint32_t base = 0xe128 << 3;
+
+    SPU_CTRL = 0x8000;
+    SPU_RAM_DTC = 4;
+    SPU_RAM_DTA = 0xe128;
+    SPU_CTRL = 0x8020;
+    while ((SPU_STATUS & 0x30) != 0x20);
+    uint32_t dpcr = DPCR;
+    DPCR = dpcr | 0x00080000;
+    DMA_CTRL[DMA_SPU].MADR = 0x00010000;
+    DMA_CTRL[DMA_SPU].BCR = (((0x80000 - base) / 64) << 16) | 0x10;
+    DMA_CTRL[DMA_SPU].CHCR = 0x01000201;
+    while (DMA_CTRL[DMA_SPU].CHCR & 0x01000000);
+    // The SPU drains its FIFO after the DMA reports done; give it at least
+    // 128 samples before stopping the transfer.
+    for (volatile unsigned i = 0; i < 0x10000; i++);
+    DPCR = dpcr;
+    SPU_CTRL = 0x8000;
+
+    volatile uint16_t *reverb = (volatile uint16_t *)SPU_REVERB;
+    for (unsigned i = 0; i < 32; i++) reverb[i] = s_reverb[i];
+    SPU_REVERB_ADDR = 0xe128;
+    SPU_REVERB_EN_LOW = 0xffff;
+    SPU_REVERB_EN_HIGH = 0x00ff;
+    SPU_VOL_CD_LEFT = 0;
+    SPU_VOL_CD_RIGHT = 0;
+    SPU_REVERB_LEFT = 0x5ebc;
+    SPU_REVERB_RIGHT = 0x5ebc;
+    SPU_VOL_MAIN_LEFT = 0x3fff;
+    SPU_VOL_MAIN_RIGHT = 0x37ef;
+    SPU_CTRL = 0xc085;
+}
+
 static struct psxExeHeader s_binaryInfo;
 
 // This is another horror. The location of this variable is technically
@@ -458,6 +504,7 @@ static void boot(char *systemCnfPath, char *binaryPath) {
     psxprintf("boot file     : %s\n", s_binaryPath);
     SETJMPFATAL(0x389);
     zeroUserMemoryUntilStack();
+    handOffSpu();
     if (!loadExe(s_binaryPath, &s_binaryInfo)) fatal(0x38a);
     psxprintf("EXEC:PC0(%08x)  T_ADDR(%08x)  T_SIZE(%08x)\n", s_binaryInfo.pc, s_binaryInfo.text_addr,
               s_binaryInfo.text_size);
