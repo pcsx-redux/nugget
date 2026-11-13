@@ -63,7 +63,7 @@ CESTER_TEST(cpu_LWR_LWL_half, cpu_tests,
     cester_assert_uint_eq(0x88bbccdd, out);
 )
 
-CESTER_MAYBE_TEST(cpu_LWR_LWL_nodelay, cpu_tests,
+CESTER_TEST(cpu_LWR_LWL_nodelay, cpu_tests,
     uint32_t buff[2] = {0x11223344, 0x55667788};
     // lwl and lwr are interlocked, so if you run both
     // right after another, on the same register, they
