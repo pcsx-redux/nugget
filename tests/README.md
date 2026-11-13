@@ -122,7 +122,7 @@ Before the move every test sat directly in `tests/`. Old name -> new path:
 | `spu-wide-writes` | `spu/wide-writes` |
 | `modplayer-state` | `spu/modplayer-state` |
 | `modplayer-upload-tail` | `spu/modplayer-upload-tail` |
-| `cdrom` | `cdrom/cdrom` |
+| `cdrom` | split by area: `cdrom/commands`, `cdrom/reading`, `cdrom/playback`, `cdrom/race`, `cdrom/errors`; shared code in `cdrom/common` |
 | `cdrom/cd-cmd-latency` | `cdrom/cd-cmd-latency` |
 | `str-player-alloc` | `cdrom/str-player-alloc` |
 | `dma` | `dma/dma` |

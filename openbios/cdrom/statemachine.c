@@ -763,7 +763,7 @@ int __attribute__((section(".ramtext"))) cdromInnerInit() {
     leaveCriticalSection();
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_INIT;
-    // Init completes 50 to 150ms after its acknowledge (tests/cdrom/cdrom/cdlinit.c). A pass of
+    // Init completes 50 to 150ms after its acknowledge (tests/cdrom/commands/cdlinit.c). A pass of
     // this loop costs about 20 cycles in PCSX-Redux, so this waits about 280ms there.
     int wait = 500000;
     while (wait-- && s_initializationComplete != 2) {

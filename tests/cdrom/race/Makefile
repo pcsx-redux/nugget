@@ -1,8 +1,10 @@
-TARGET = cdrom
+TARGET = cdrom-race
 
 include ../../common.mk
 
+CPPFLAGS += -I../common
+
 SRCS += \
-cdrom.c \
+cdrom-race.c \
 
 include ../../../common.mk

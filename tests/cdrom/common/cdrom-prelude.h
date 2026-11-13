@@ -24,6 +24,9 @@ SOFTWARE.
 
 */
 
+
+// Included first by every CD-ROM test exe, then its own area files.
+
 #include "common/hardware/cdrom.h"
 
 #include "common/hardware/dma.h"
@@ -56,38 +59,3 @@ SOFTWARE.
 #endif
 
 #include "cester-hw.c"
-
-#if 1
-#include "cdda.c"
-#include "cdlforward.c"
-#include "cdlgetlocl.c"
-#include "cdlgetlocp.c"
-#include "cdlgettd.c"
-#include "cdlgettn.c"
-#include "cdlid.c"
-#include "cdlinit.c"
-#include "cdlmask.c"
-#include "cdlnop.c"
-#include "cdlreadn.c"
-#include "cdlreads.c"
-#include "cdlreadtoc.c"
-#include "cdlreset.c"
-#include "cdlseekl.c"
-#include "cdlseekp.c"
-#include "cdlsetloc.c"
-#include "cdlsetmode.c"
-#include "cdlsetsession.c"
-#include "cdlstop.c"
-#include "cdltest.c"
-#include "invalid.c"
-#include "misc.c"
-#include "playing.c"
-#include "race.c"
-#include "reading.c"
-#include "readnosetloc.c"
-#include "seekread.c"
-#include "timing.c"
-#include "xa.c"
-#else
-#include "misc.c"
-#endif
