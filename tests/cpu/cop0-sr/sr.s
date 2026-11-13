@@ -209,6 +209,39 @@ ue_mfc0:
     syscall
     nop
 
+/* mtc0 and ctc0 target BPC ($3), which does nothing with DCIC clear. */
+    .global ue_cfc0
+ue_cfc0:
+    li    $t0, 0x5ead
+    cfc0  $t0, $12
+    nop
+    syscall
+    nop
+
+    .global ue_mtc0
+ue_mtc0:
+    li    $t0, 0x5ead
+    mtc0  $0, $3
+    nop
+    syscall
+    nop
+
+    .global ue_ctc0
+ue_ctc0:
+    li    $t0, 0x5ead
+    ctc0  $0, $3
+    nop
+    syscall
+    nop
+
+    .global ue_rfe
+ue_rfe:
+    li    $t0, 0x5ead
+    rfe
+    nop
+    syscall
+    nop
+
 /* Coprocessor opcode stubs: uint32_t cop_stub_N(uint32_t *scratch)
    t0 preset to a sentinel, the opcode, then t0 returned. a0 = scratch word
    for the load/store forms (encoded with base a0). */
@@ -237,3 +270,13 @@ ue_mfc0:
     COPSTUB cs_lwc3,  0xcc800000  /* lwc3 $0, 0(a0) */
     COPSTUB cs_swc3,  0xec800000  /* swc3 $0, 0(a0) */
     COPSTUB cs_cop3,  0x4e000001  /* cop3 0x1 */
+    COPSTUB cs_cfc0,  0x40486000  /* cfc0 t0, $12 */
+    COPSTUB cs_ctc0,  0x40c01800  /* ctc0 $0, $3 */
+    COPSTUB cs_lwc0,  0xc0800000  /* lwc0 $0, 0(a0) */
+    COPSTUB cs_swc0,  0xe0800000  /* swc0 $0, 0(a0) */
+    COPSTUB cs_mtc2,  0x48880000  /* mtc2 t0, $0 */
+    COPSTUB cs_cfc2,  0x48480000  /* cfc2 t0, $0 */
+    COPSTUB cs_ctc2,  0x48c80000  /* ctc2 t0, $0 */
+    COPSTUB cs_lwc2,  0xc8800000  /* lwc2 $0, 0(a0) */
+    COPSTUB cs_swc2,  0xe8800000  /* swc2 $0, 0(a0) */
+    COPSTUB cs_cop2,  0x4a000001  /* cop2 0x1 (RTPS) */
