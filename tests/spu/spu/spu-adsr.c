@@ -619,7 +619,7 @@ CESTER_TEST(adsr_sustain_down_exponential, spu_tests,
 )
 
 // release linear, capture samples as soon as key goes off
-CESTER_MAYBE_TEST(adsr_release_linear, spu_tests,
+CESTER_TEST(adsr_release_linear, spu_tests,
     uint16_t envx[0x20];
 
     spu_adsr_capture_with_keyoff(
@@ -678,7 +678,7 @@ CESTER_MAYBE_TEST(adsr_release_linear, spu_tests,
 )
 
 // release exponential, capture samples as soon as key goes off
-CESTER_MAYBE_TEST(adsr_release_exponential, spu_tests,
+CESTER_TEST(adsr_release_exponential, spu_tests,
     uint16_t envx[0x20];
 
     spu_adsr_capture_with_keyoff(

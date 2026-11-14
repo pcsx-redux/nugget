@@ -209,7 +209,7 @@ static void spu_irq_expect_u32(const char *name, uint32_t expected, uint32_t got
 }
 )
 
-CESTER_MAYBE_TEST(irq_voice_read_pointer_block_aligned, spu_tests,
+CESTER_TEST(irq_voice_read_pointer_block_aligned, spu_tests,
     SpuIrqMeasurement m;
     spu_irq_measure_once(SPU_IRQ_TEST_ADDR + 16, &m);
     spu_irq_print_measurement("aligned_block1", &m);
@@ -225,7 +225,7 @@ CESTER_MAYBE_TEST(irq_voice_read_pointer_block_aligned, spu_tests,
     spu_irq_expect_u32("aligned.sum", SPU_IRQ_EXPECTED_ALIGNED_SUM, m.captureSum);
 )
 
-CESTER_MAYBE_TEST(irq_voice_read_pointer_ack_rearms, spu_tests,
+CESTER_TEST(irq_voice_read_pointer_ack_rearms, spu_tests,
     SpuIrqMeasurement first;
     spu_irq_prepare();
     spu_wait_status_bit11_flip();
