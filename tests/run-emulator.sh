@@ -78,6 +78,7 @@ TESTS=(
     "spu-irqrefire;spu/irqrefire/spu-irqrefire;interpreter;^SPUIRQREFIRE: PASS \(0 failures\);"
     "cop0-write-keeps-registers;cpu/cop0-write-keeps-registers/cop0-write-keeps-registers;interpreter;$CESTER;"
     "timers;timers/timers/timers;interpreter dynarec;$CESTER;"
+    "spu;spu/spu/spu;interpreter dynarec;$CESTER;;400"
     "gpu-raster-cull-disambiguation;gpu/raster/cull-disambiguation/gpu-raster-cull-disambiguation;interpreter;^=== phase23 complete === Checks: [0-9]+ \| Passing: [1-9][0-9]* \| Failing: 0;"
 )
 for s in edges-clipping line-endpoints-mask-bit edge-walker-stress texture-basic cross-primitive-mask \
@@ -129,7 +130,6 @@ SKIPS=(
     "cpu/mult-timing/mult-timing|hardware probe: the emulator does not model multiply latency, prints timings, no verdict"
     "gte/timing/gte-timing|hardware probe: prints GTE command timings, no verdict"
     "pocketstation/memmap/pocketstation-memmap|hardware probe: needs a PocketStation in a card slot, prints readings, no verdict"
-    "spu/spu/spu|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu/endx/spu-endx|needs the SPU from pcsx-redux#2077 in the dev AppImage"
     "spu/endmute/spu-endmute|needs the ENVX end-block fix in pcsx-redux"
     "spu/endredirect/spu-endredirect|needs the end-block redirect from pcsx-redux#2355 in the dev AppImage"
