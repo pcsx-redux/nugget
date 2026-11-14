@@ -1,20 +1,20 @@
-TARGET = xmplay-demo
+TARGET = psmplayer-demo
 TYPE = ps-exe
 
 SRCS = \
-../common/crt0/crt0.s \
-../common/crt0/memory-c.c \
-../common/crt0/memory-s.s \
-../common/syscalls/printf.s \
+../../common/crt0/crt0.s \
+../../common/crt0/memory-c.c \
+../../common/crt0/memory-s.s \
+../../common/syscalls/printf.s \
 demo.c \
-xmplayer.c \
-song.o \
-samples.o \
+psmplayer.c \
+test-vab.o \
+test-psm.o \
 
-include ../common.mk
+include ../../common.mk
 
-song.o: song.xmp
+test-vab.o: test.vab
 	$(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips $< $@
 
-samples.o: song.smp
+test-psm.o: test.psm
 	$(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.rodata,alloc,load,readonly,data,contents -O $(FORMAT) -B mips $< $@

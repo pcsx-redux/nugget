@@ -1,5 +1,5 @@
-local root = path.join(os.scriptdir(), "..")
-local mips = path.join(os.scriptdir(), "..")
+local root = path.join(os.scriptdir(), "../..")
+local mips = path.join(os.scriptdir(), "../..")
 
 set_allowedmodes("debug", "dev", "release")
 includes(mips)

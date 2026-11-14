@@ -58,7 +58,7 @@ SOFTWARE.
 #include "psyqo/trigonometry.hh"
 
 extern "C" {
-#include "psmplayer/psmplayer.h"
+#include "players/psmplayer/psmplayer.h"
 extern const uint8_t _binary_keynote_psm_start[];
 extern const uint8_t _binary_keynote_psm_end[];
 extern const uint8_t _binary_keynote_vab_start[];

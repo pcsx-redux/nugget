@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-#include "psmplayer/psmplayer.h"
+#include "players/psmplayer/psmplayer.h"
 
 #include <stddef.h>
 #include <stdint.h>

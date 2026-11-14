@@ -2,12 +2,12 @@
 bsdec/bsdec.h
 common/hardware/cop2.h
 common/hardware/counters.h
-gpdplayer/gpdplayer.c
+players/gpdplayer/gpdplayer.c
 monitor/monitor.h
 openbios/main/splash.c
 psyq/alloc-tracker/psyq-alloc-tracker.h
 psyqo/examples/teapot/teapot-data.hh
-spdplayer/spdplayer.c
+players/spdplayer/spdplayer.c
 tests/gpu/2mb-vram/display-area-y/display-area-y.c
 tests/gpu/2mb-vram/drawing-area-y/drawing-area-y.c
 tests/gpu/2mb-vram/drawing-offset-y/drawing-offset-y.c

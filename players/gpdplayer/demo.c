@@ -27,7 +27,7 @@ SOFTWARE.
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
 #include "common/syscalls/syscalls.h"
-#include "gpdplayer/gpdplayer.h"
+#include "players/gpdplayer/gpdplayer.h"
 
 extern const uint8_t _binary_test_gpd_start[];
 extern const uint8_t _binary_test_gpd_end[];

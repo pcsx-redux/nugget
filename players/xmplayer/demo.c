@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2025 PCSX-Redux authors
+Copyright (c) 2021 PCSX-Redux authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,10 @@ SOFTWARE.
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
 #include "common/syscalls/syscalls.h"
-#include "psmplayer/psmplayer.h"
+#include "players/xmplayer/xmplayer.h"
 
-extern const uint8_t _binary_test_vab_start[];
-extern const uint8_t _binary_test_vab_end[];
-extern const uint8_t _binary_test_psm_start[];
-extern const uint8_t _binary_test_psm_end[];
+extern const uint8_t _binary_song_xmp_start[];
+extern const uint8_t _binary_song_smp_start[];
 
 #define printf ramsyscall_printf
 
@@ -40,8 +38,8 @@ static uint16_t s_nextCounter = 0;
 
 static void checkMusic() {
     if (((int16_t)(s_nextCounter - COUNTERS[1].value)) <= 0) {
-        PSM_Poll();
-        s_nextCounter += PSM_hblanks;
+        XM_Poll();
+        s_nextCounter += XM_hblanks;
     }
 }
 
@@ -51,52 +49,29 @@ static void waitVSync() {
 
     IMASK = imask | IRQ_VBLANK;
 
-    while ((IREG & IRQ_VBLANK) == 0) {
-        checkMusic();
-    }
+    while ((IREG & IRQ_VBLANK) == 0) checkMusic();
     IREG &= ~IRQ_VBLANK;
     IMASK = imask;
     if (!wasLocked) leaveCriticalSection();
 }
 
 void main() {
-    uint32_t vabSize = _binary_test_vab_end - _binary_test_vab_start;
-    uint32_t psmSize = _binary_test_psm_end - _binary_test_psm_start;
-    printf("PSM Player Demo\n");
-    printf("VAB: %lu bytes, PSM: %lu bytes\n", vabSize, psmSize);
-
-    // Timer1 in hblank counting mode
+    // timer1 counts hblanks, which paces XM_Poll
     COUNTERS[1].mode = 0x0100;
-
-    // Load instrument bank (DMA samples to SPU RAM)
-    unsigned programs = PSM_LoadBank(_binary_test_vab_start, vabSize);
-    if (programs == 0) {
-        printf("Invalid VAB file.\n");
+    unsigned channels = XM_Load(_binary_song_xmp_start, _binary_song_smp_start);
+    if (channels == 0) {
+        printf("XM: invalid song file.\n");
         return;
     }
-    printf("Loaded VAB: %u programs\n", programs);
-
-    // Load song
-    uint32_t events = PSM_LoadSong(_binary_test_psm_start, psmSize);
-    if (events == 0) {
-        printf("Invalid PSM file.\n");
-        return;
-    }
-    printf("Loaded PSM: %lu events, hblanks=%lu\n", events, PSM_hblanks);
-
-    // Start playback
-    uint32_t lastEvent = 0xffffffff;
-    s_nextCounter = COUNTERS[1].value + PSM_hblanks;
+    printf("XM: %d channels, %d orders\n", channels, XM_SongLength);
+    unsigned row = 0xffffffff;
+    unsigned order = 0xffffffff;
+    s_nextCounter = COUNTERS[1].value + XM_hblanks;
     while (1) {
-        if (PSM_currentEvent != lastEvent) {
-            lastEvent = PSM_currentEvent;
-            if ((lastEvent & 0xFF) == 0) {
-                printf("Event: %lu / %lu\n", lastEvent, PSM_eventCount);
-            }
-        }
-        if (!PSM_playing) {
-            printf("Playback finished.\n");
-            break;
+        if (row != XM_CurrentRow || order != XM_CurrentOrder) {
+            row = XM_CurrentRow;
+            order = XM_CurrentOrder;
+            printf("XMROW %d %d %d\n", order, XM_CurrentPattern, row);
         }
         waitVSync();
     }

@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-#include "xmplayer/xmplayer.h"
+#include "players/xmplayer/xmplayer.h"
 
 #include <stddef.h>
 #include <stdint.h>
