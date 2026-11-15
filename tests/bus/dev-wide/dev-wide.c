@@ -31,7 +31,7 @@ SOFTWARE.
 // bus) toggled the same way must read back changed.
 //
 // SCPH-1000, 1001, 5501, 7001 and 9002: bit 30 reads back as 0 in all six
-// registers. Redux keeps it, so that check only runs on hardware.
+// registers.
 
 #include <stdint.h>
 
@@ -98,7 +98,8 @@ CESTER_TEST(bit30, dev_wide,
     cester_assert_uint_eq(s_orig[6] ^ 0x1000, s_set[6]);
     for (int i = 0; i < 7; i++) cester_assert_uint_eq(s_orig[i], s_after[i]);
 )
-// Bit 30 is not stored (runs after bit30, which filled s_set).
-CESTER_MAYBE_TEST(bit30_ignored, dev_wide,
+// Bit 30 is not stored.
+CESTER_TEST(bit30_ignored, dev_wide,
+    for (int i = 0; i < 6; i++) probe(i, 0x40000000);
     for (int i = 0; i < 6; i++) cester_assert_uint_eq(s_orig[i], s_set[i]);
 )
