@@ -40,9 +40,11 @@ SOFTWARE.
 //      4x4 quad. The same words split into nodes of 8 or fewer land.
 //   P  a 23-word face node queued behind an opaque 256x200 quad: the
 //      holes are corrupted (A118h instead of 8010h). Split 7+9+7, correct.
-// Passes on an SCPH-1000, an SCPH-5501 and an SCPH-7001. Redux sends a
-// has no GP0 FIFO and draws every arm correctly, so the corrupted arms are
-// hardware-only. The 160x160 arms print only: their value check assumes
+// Passes on an SCPH-1000, 1001, 5501, 7001, 7501, 7502 and 101, with the
+// same dot results on all of them. In G and S long the quad's pixel count is
+// not repeatable between runs on one console, so those arms run twice and
+// their pass does not depend on it. Redux has no GP0 FIFO and draws every
+// arm correctly, so the corrupted arms are hardware-only. The 160x160 arms print only: their value check assumes
 // 1:1 texel scale, and the single and split nodes read the same.
 
 #ifndef PCSX_TESTS
@@ -388,36 +390,44 @@ CESTER_BEFORE_ALL(gpu_dma_node,
     IREG = 0;
     rasterFullReset();
     ramsyscall_printf("\n=== gpu_dma_node: E6 ordering vs queued polygons ===\n");
-    ramsyscall_printf("Grep '^RES|^PIX|^DMA|^CPU|^FILL|^ROWS|^STAT'\n");
+    ramsyscall_printf("Grep '^RUN|^RES|^PIX|^DMA|^CPU|^FILL|^ROWS|^STAT'\n");
 )
 
 CESTER_AFTER_ALL(gpu_dma_node,
     if (s_ie) leaveCriticalSection();
 )
 
-CESTER_TEST(armA_chain_256x200, gpu_dma_node, cester_assert_int_eq(1, maskArm("A_chain_256x200", 256, 200, 0)); )
-CESTER_TEST(armB_chain_4x4, gpu_dma_node, cester_assert_int_eq(1, maskArm("B_chain_4x4", 4, 4, 0)); )
-CESTER_TEST(armC_cpu_256x200, gpu_dma_node, cester_assert_int_eq(1, maskArm("C_cpu_256x200", 256, 200, 1)); )
-CESTER_TEST(armD_chain_flush_copy, gpu_dma_node, cester_assert_int_eq(1, maskArm("D_chain_flush_copy", 256, 200, 2)); )
+// cester_assert_int_eq expands its arguments twice, so an arm called inside it
+// would run twice. Run each arm once and assert on the stored result.
+#define ASSERT_ARM(want, arm) \
+    do { \
+        int armResult_ = (arm); \
+        cester_assert_int_eq(want, armResult_); \
+    } while (0)
+
+CESTER_TEST(armA_chain_256x200, gpu_dma_node, ASSERT_ARM(1, maskArm("A_chain_256x200", 256, 200, 0)); )
+CESTER_TEST(armB_chain_4x4, gpu_dma_node, ASSERT_ARM(1, maskArm("B_chain_4x4", 4, 4, 0)); )
+CESTER_TEST(armC_cpu_256x200, gpu_dma_node, ASSERT_ARM(1, maskArm("C_cpu_256x200", 256, 200, 1)); )
+CESTER_TEST(armD_chain_flush_copy, gpu_dma_node, ASSERT_ARM(1, maskArm("D_chain_flush_copy", 256, 200, 2)); )
 
 CESTER_TEST(armE_chain_full, gpu_dma_node,
     eSetup("E_chain_full");
     chainBegin(); putStage1(); putStage2();
     chainRun("E_chain_full");
-    cester_assert_int_eq(1, measureE("E_chain_full", BG_MASKED, TEXEL_FOG));
+    ASSERT_ARM(1, measureE("E_chain_full", BG_MASKED, TEXEL_FOG));
 )
 CESTER_TEST(armE_cpu_full, gpu_dma_node,
     eSetup("E_cpu_full");
     chainBegin(); putStage1(); putStage2();
     static const unsigned lens[] = {1, 5, 1, 9, 1, 5, 1};
     cpuRun("E_cpu_full", lens, 7);
-    cester_assert_int_eq(1, measureE("E_cpu_full", BG_MASKED, TEXEL_FOG));
+    ASSERT_ARM(1, measureE("E_cpu_full", BG_MASKED, TEXEL_FOG));
 )
 CESTER_TEST(armE_s1_chain, gpu_dma_node,
     eSetup("E_s1_chain");
     chainBegin(); putStage1();
     chainRun("E_s1_chain");
-    cester_assert_int_eq(1, measureE("E_s1_chain", BG_MASKED, 0x001fu));
+    ASSERT_ARM(1, measureE("E_s1_chain", BG_MASKED, 0x001fu));
 )
 CESTER_TEST(armE_s2_chain, gpu_dma_node,
     eSetup("E_s2_chain");
@@ -425,7 +435,7 @@ CESTER_TEST(armE_s2_chain, gpu_dma_node,
     measureE("E_s2_pre", BG_MASKED, 0x001fu);
     chainBegin(); putStage2();
     chainRun("E_s2_chain");
-    cester_assert_int_eq(1, measureE("E_s2_chain", BG_MASKED, TEXEL_FOG));
+    ASSERT_ARM(1, measureE("E_s2_chain", BG_MASKED, TEXEL_FOG));
 )
 CESTER_TEST(armE_split_chain, gpu_dma_node,
     eSetup("E_split_chain");
@@ -433,7 +443,7 @@ CESTER_TEST(armE_split_chain, gpu_dma_node,
     chainRun("E_split_s1");
     chainBegin(); putStage2();
     chainRun("E_split_s2");
-    cester_assert_int_eq(1, measureE("E_split_chain", BG_MASKED, TEXEL_FOG));
+    ASSERT_ARM(1, measureE("E_split_chain", BG_MASKED, TEXEL_FOG));
 )
 
 #define E_VARIANT(name, setup, want)                                       \
@@ -493,9 +503,15 @@ static int dotArm(const char *tag, int16_t w, int16_t h, int split) {
 }
 )
 
-CESTER_MAYBE_TEST(armG_dots_after_4x4, gpu_dma_node, cester_assert_int_eq(0, dotArm("G_dots_after_4x4", 4, 4, 0)); )
-CESTER_MAYBE_TEST(armG_dots_after_256x200, gpu_dma_node, cester_assert_int_eq(0, dotArm("G_dots_after_256x200", 256, 200, 0)); )
-CESTER_TEST(armG_dots_after_256x200_split, gpu_dma_node, cester_assert_int_eq(1, dotArm("G_dots_after_256x200_split", 256, 200, 1)); )
+CESTER_MAYBE_TEST(armG_dots_after_4x4, gpu_dma_node, ASSERT_ARM(0, dotArm("G_dots_after_4x4", 4, 4, 0)); )
+/* Run twice: on hardware the quad's pixel count differs between runs, the dots do not. */
+CESTER_MAYBE_TEST(armG_dots_after_256x200, gpu_dma_node,
+    for (int run = 1; run <= 2; run++) {
+        ramsyscall_printf("RUN G_dots_after_256x200 %d\n", run);
+        ASSERT_ARM(0, dotArm("G_dots_after_256x200", 256, 200, 0));
+    }
+)
+CESTER_TEST(armG_dots_after_256x200_split, gpu_dma_node, ASSERT_ARM(1, dotArm("G_dots_after_256x200_split", 256, 200, 1)); )
 
 /* Arm H: the 26-word gouraud-fog face split into nodes [7][9][10], and the
    23-word face at 160x160 split [7][9][7]. */
@@ -589,17 +605,21 @@ static int busyFace(const char *tag, int split) {
 
 /* up to 17 words: correct everywhere */
 CESTER_TEST(armS_sweep_short, gpu_dma_node,
-    for (int k = 2; k <= 5; k++) cester_assert_int_eq(1, dotSweep(k));
+    for (int k = 2; k <= 5; k++) ASSERT_ARM(1, dotSweep(k));
 )
 /* 19 and 21 words: the quad is cut short on hardware, the dots land */
 CESTER_TEST(armS_sweep_edge, gpu_dma_node,
     dotSweep(6);
     dotSweep(7);
 )
-/* 23 words and up: corrupted on hardware */
+/* 23 words and up: corrupted on hardware. Run twice: the quad's pixel
+   count differs between runs, the dots do not. */
 CESTER_MAYBE_TEST(armS_sweep_long, gpu_dma_node,
     static const int ks[] = {8, 9, 10, 12};
-    for (unsigned i = 0; i < sizeof(ks) / sizeof(ks[0]); i++) cester_assert_int_eq(0, dotSweep(ks[i]));
+    for (int run = 1; run <= 2; run++) {
+        ramsyscall_printf("RUN S_sweep_long %d\n", run);
+        for (unsigned i = 0; i < sizeof(ks) / sizeof(ks[0]); i++) ASSERT_ARM(0, dotSweep(ks[i]));
+    }
 )
-CESTER_MAYBE_TEST(armP_busy_face_single, gpu_dma_node, cester_assert_int_eq(0, busyFace("P_busy_face_single", 0)); )
-CESTER_TEST(armP_busy_face_split, gpu_dma_node, cester_assert_int_eq(1, busyFace("P_busy_face_split", 1)); )
+CESTER_MAYBE_TEST(armP_busy_face_single, gpu_dma_node, ASSERT_ARM(0, busyFace("P_busy_face_single", 0)); )
+CESTER_TEST(armP_busy_face_split, gpu_dma_node, ASSERT_ARM(1, busyFace("P_busy_face_split", 1)); )
