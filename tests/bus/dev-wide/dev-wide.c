@@ -99,6 +99,6 @@ CESTER_TEST(bit30, dev_wide,
     for (int i = 0; i < 7; i++) cester_assert_uint_eq(s_orig[i], s_after[i]);
 )
 // Bit 30 is not stored (runs after bit30, which filled s_set).
-CESTER_MAYBE_TEST(bit30_ignored, dev_wide,
+CESTER_TEST(bit30_ignored, dev_wide,
     for (int i = 0; i < 6; i++) cester_assert_uint_eq(s_orig[i], s_set[i]);
 )

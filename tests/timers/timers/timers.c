@@ -288,13 +288,11 @@ CESTER_TEST(timerRc2SyncMode3Stop, timer_tests,
 
 /* =================================================================
  * Counter 0 gate modes (Hblank-synced).
- * Modes 1 and 3 are implemented. Modes 0 and 2 (pause logic) are
- * not yet implemented - use CESTER_MAYBE_TEST to skip on emulator.
  * ================================================================= */
 
 /* Gate mode 0: pause during Hblank.
  * Counter should advance slower than free run. */
-CESTER_MAYBE_TEST(timerC0GateMode0PauseDuringHblank, timer_tests,
+CESTER_TEST(timerC0GateMode0PauseDuringHblank, timer_tests,
     COUNTERS[0].target = 0xFFFF;
 
     /* Measure gated first, then free run, to avoid ordering bias */
@@ -458,7 +456,7 @@ static int measureDotsPerLine(int scanlines) {
 )
 
 /* 256px NTSC: 3413/10 = 341.3 -> 341 */
-CESTER_MAYBE_TEST(timerDotclock256NTSC, timer_tests,
+CESTER_TEST(timerDotclock256NTSC, timer_tests,
     struct DisplayModeConfig cfg = { HR_256, VR_240, VM_NTSC, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -469,7 +467,7 @@ CESTER_MAYBE_TEST(timerDotclock256NTSC, timer_tests,
 )
 
 /* 256px PAL: 3406/10 = 340.6 -> 340 */
-CESTER_MAYBE_TEST(timerDotclock256PAL, timer_tests,
+CESTER_TEST(timerDotclock256PAL, timer_tests,
     struct DisplayModeConfig cfg = { HR_256, VR_240, VM_PAL, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -480,7 +478,7 @@ CESTER_MAYBE_TEST(timerDotclock256PAL, timer_tests,
 )
 
 /* 320px NTSC: 3413/8 = 426.625 -> 426 */
-CESTER_MAYBE_TEST(timerDotclock320NTSC, timer_tests,
+CESTER_TEST(timerDotclock320NTSC, timer_tests,
     struct DisplayModeConfig cfg = { HR_320, VR_240, VM_NTSC, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -491,7 +489,7 @@ CESTER_MAYBE_TEST(timerDotclock320NTSC, timer_tests,
 )
 
 /* 320px PAL: 3406/8 = 425.75 -> 426 (only mode that rounds up) */
-CESTER_MAYBE_TEST(timerDotclock320PAL, timer_tests,
+CESTER_TEST(timerDotclock320PAL, timer_tests,
     struct DisplayModeConfig cfg = { HR_320, VR_240, VM_PAL, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -502,7 +500,7 @@ CESTER_MAYBE_TEST(timerDotclock320PAL, timer_tests,
 )
 
 /* 512px NTSC: 3413/5 = 682.6 -> 682 */
-CESTER_MAYBE_TEST(timerDotclock512NTSC, timer_tests,
+CESTER_TEST(timerDotclock512NTSC, timer_tests,
     struct DisplayModeConfig cfg = { HR_512, VR_240, VM_NTSC, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -513,7 +511,7 @@ CESTER_MAYBE_TEST(timerDotclock512NTSC, timer_tests,
 )
 
 /* 512px PAL: 3406/5 = 681.2 -> 681 */
-CESTER_MAYBE_TEST(timerDotclock512PAL, timer_tests,
+CESTER_TEST(timerDotclock512PAL, timer_tests,
     struct DisplayModeConfig cfg = { HR_512, VR_240, VM_PAL, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -524,7 +522,7 @@ CESTER_MAYBE_TEST(timerDotclock512PAL, timer_tests,
 )
 
 /* 640px NTSC: 3413/4 = 853.25 -> 853 */
-CESTER_MAYBE_TEST(timerDotclock640NTSC, timer_tests,
+CESTER_TEST(timerDotclock640NTSC, timer_tests,
     struct DisplayModeConfig cfg = { HR_640, VR_240, VM_NTSC, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -535,7 +533,7 @@ CESTER_MAYBE_TEST(timerDotclock640NTSC, timer_tests,
 )
 
 /* 640px PAL: 3406/4 = 851.5 -> 851 */
-CESTER_MAYBE_TEST(timerDotclock640PAL, timer_tests,
+CESTER_TEST(timerDotclock640PAL, timer_tests,
     struct DisplayModeConfig cfg = { HR_640, VR_240, VM_PAL, CD_15BITS, VI_OFF, HRE_NORMAL };
     setDisplayMode(&cfg);
     waitVSync();
@@ -546,7 +544,7 @@ CESTER_MAYBE_TEST(timerDotclock640PAL, timer_tests,
 )
 
 /* 368px NTSC: 3413/7 = 487.57 -> 487 */
-CESTER_MAYBE_TEST(timerDotclock368NTSC, timer_tests,
+CESTER_TEST(timerDotclock368NTSC, timer_tests,
     struct DisplayModeConfig cfg = { HR_256, VR_240, VM_NTSC, CD_15BITS, VI_OFF, HRE_368 };
     setDisplayMode(&cfg);
     waitVSync();
@@ -557,7 +555,7 @@ CESTER_MAYBE_TEST(timerDotclock368NTSC, timer_tests,
 )
 
 /* 368px PAL: 3406/7 = 486.57 -> 486 */
-CESTER_MAYBE_TEST(timerDotclock368PAL, timer_tests,
+CESTER_TEST(timerDotclock368PAL, timer_tests,
     struct DisplayModeConfig cfg = { HR_256, VR_240, VM_PAL, CD_15BITS, VI_OFF, HRE_368 };
     setDisplayMode(&cfg);
     waitVSync();
