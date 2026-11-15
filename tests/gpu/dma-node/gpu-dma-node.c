@@ -545,7 +545,9 @@ CESTER_TEST(armH_big160_split, gpu_dma_node,
 )
 
 CESTER_BODY(
-/* Arm S: single node = E6=1, 256x200 semi quad, k dots, E6=0 (7+2k words). */
+/* Arm S: single node = E6=1, 256x200 semi quad, k dots, E6=0 (7+2k words).
+   Returns quad && dots; s_sweepDots holds the dots result alone. */
+static int s_sweepDots;
 static int dotSweep(int k) {
     char tag[24];
     tag[0] = 'S'; tag[1] = '_'; tag[2] = 'k'; tag[3] = '0' + k / 10; tag[4] = '0' + k % 10; tag[5] = 0;
@@ -573,7 +575,8 @@ static int dotSweep(int k) {
     map[16] = 0;
     ramsyscall_printf("DOTS %s words=%d ok=%u/%d map=%s\n", tag, 7 + 2 * k, ok, k, map);
     int quad = measureQuad(tag, QX0, QY0, QX0 + 256, QY0 + 200);
-    return quad && ok == (unsigned)k;
+    s_sweepDots = ok == (unsigned)k;
+    return quad && s_sweepDots;
 }
 
 /* Arm P: GPU busy when the face node starts. Node 1 = opaque 256x200 quad
@@ -618,7 +621,10 @@ CESTER_MAYBE_TEST(armS_sweep_long, gpu_dma_node,
     static const int ks[] = {8, 9, 10, 12};
     for (int run = 1; run <= 2; run++) {
         ramsyscall_printf("RUN S_sweep_long %d\n", run);
-        for (unsigned i = 0; i < sizeof(ks) / sizeof(ks[0]); i++) ASSERT_ARM(0, dotSweep(ks[i]));
+        for (unsigned i = 0; i < sizeof(ks) / sizeof(ks[0]); i++) {
+            dotSweep(ks[i]);
+            ASSERT_ARM(0, s_sweepDots);
+        }
     }
 )
 CESTER_MAYBE_TEST(armP_busy_face_single, gpu_dma_node, ASSERT_ARM(0, busyFace("P_busy_face_single", 0)); )
