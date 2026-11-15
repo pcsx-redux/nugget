@@ -619,9 +619,9 @@ CESTER_TEST(armS_sweep_edge, gpu_dma_node,
    count differs between runs, the dots do not. */
 CESTER_MAYBE_TEST(armS_sweep_long, gpu_dma_node,
     static const int ks[] = {8, 9, 10, 12};
-    for (int run = 1; run <= 2; run++) {
-        ramsyscall_printf("RUN S_sweep_long %d\n", run);
-        for (unsigned i = 0; i < sizeof(ks) / sizeof(ks[0]); i++) {
+    for (unsigned i = 0; i < sizeof(ks) / sizeof(ks[0]); i++) {
+        for (int run = 1; run <= 2; run++) {
+            ramsyscall_printf("RUN S_k%d %d\n", ks[i], run);
             dotSweep(ks[i]);
             ASSERT_ARM(0, s_sweepDots);
         }
