@@ -850,14 +850,14 @@ CESTER_AFTER_ALL(gputiming,
     if (s_interruptsWereEnabled) leaveCriticalSection();
 )
 
-CESTER_MAYBE_TEST(everyClassDraws, gputiming,
+CESTER_TEST(everyClassDraws, gputiming,
     cester_assert_uint_ne(0, s_classes);
     cester_assert_uint_eq(0, s_readTimeouts);
     cester_assert_uint_eq(0, s_badDraw);
     cester_assert_uint_eq(0, s_badZero);
 )
 
-CESTER_MAYBE_TEST(uploadBlockSizesAreExact, gputiming,
+CESTER_TEST(uploadBlockSizesAreExact, gputiming,
     cester_assert_uint_eq(0, s_blockFails);
 )
 
