@@ -481,11 +481,11 @@ CESTER_AFTER_ALL(dma_rewrite2,
 CESTER_TEST(p8, dma_rewrite2, oneBlock(8, 1, "p8"); cester_assert_int_eq(8, s_dmaN);)
 CESTER_TEST(s_plain, dma_rewrite2, spuArm(0, "s_plain"); cester_assert_int_eq(1, s_spuOk);)
 // GPU: CHCR rewritten between blocks.
-CESTER_TEST(c_none, dma_rewrite2, chcrArm(0, "c_none"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_TEST(c_same, dma_rewrite2, chcrArm(0x01000201, "c_same"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_TEST(c_step, dma_rewrite2, chcrArm(0x01000203, "c_step"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_TEST(c_dir, dma_rewrite2, chcrArm(0x01000200, "c_dir"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_TEST(c_dirstep, dma_rewrite2, chcrArm(0x01000202, "c_dirstep"); cester_assert_int_eq(1, s_stepOk);)
+CESTER_TEST(c_none, dma_rewrite2, chcrArm(0, "c_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(c_same, dma_rewrite2, chcrArm(0x01000201, "c_same"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(c_step, dma_rewrite2, chcrArm(0x01000203, "c_step"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(c_dir, dma_rewrite2, chcrArm(0x01000200, "c_dir"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(c_dirstep, dma_rewrite2, chcrArm(0x01000202, "c_dirstep"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
 // SPU: MADR/BCR rewritten between blocks.
 CESTER_MAYBE_TEST(s_pause, dma_rewrite2, spuArm(1, "s_pause"); cester_assert_int_eq(1, s_spuOk);)
 CESTER_MAYBE_TEST(s_madr, dma_rewrite2, spuArm(2, "s_madr"); cester_assert_int_eq(1, s_spuOk);)
