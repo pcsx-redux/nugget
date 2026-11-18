@@ -48,9 +48,10 @@ SOFTWARE.
 // only, packed, at every size, and MADR still advances by the whole block. On
 // the v2 GPUs (1001, 5501, 7001) CPU-to-VRAM data is written one complete
 // rectangle row at a time and GP1(00h) discards a partial last row; the
-// SCPH-1000 writes every word. Redux writes nothing for a forced block with
-// GP1(04h)=0 and loses a short rectangle entirely, so those arms only run on
-// hardware.
+// SCPH-1000 writes every word. The t_* and h_* arms assert that the forced
+// block clears CHCR bit 28 and the transfer completes. The f*, u_none and s*
+// arms assert only completion and keep what they measure in their IDX and
+// RESULT lines, so they run on hardware only.
 
 #include <stdint.h>
 
@@ -363,17 +364,17 @@ CESTER_MAYBE_TEST(f2, gpu_dma_forced, oneBlock(2, 0, "f2"); cester_assert_int_eq
 CESTER_MAYBE_TEST(f4, gpu_dma_forced, oneBlock(4, 0, "f4"); cester_assert_int_eq(1, s_stepOk);)
 CESTER_MAYBE_TEST(f8, gpu_dma_forced, oneBlock(8, 0, "f8"); cester_assert_int_eq(1, s_stepOk);)
 CESTER_MAYBE_TEST(f16, gpu_dma_forced, oneBlock(16, 0, "f16"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(t_none, gpu_dma_forced, tail(1, 0, "t_none"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(t_flush4, gpu_dma_forced, tail(1, 1, "t_flush4"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(t_flush8, gpu_dma_forced, tail(1, 2, "t_flush8"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(t_wait, gpu_dma_forced, tail(1, 3, "t_wait"); cester_assert_int_eq(1, s_stepOk);)
+CESTER_TEST(t_none, gpu_dma_forced, tail(1, 0, "t_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(t_flush4, gpu_dma_forced, tail(1, 1, "t_flush4"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(t_flush8, gpu_dma_forced, tail(1, 2, "t_flush8"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(t_wait, gpu_dma_forced, tail(1, 3, "t_wait"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
 CESTER_MAYBE_TEST(u_none, gpu_dma_forced, tail(0, 0, "u_none"); cester_assert_int_eq(1, s_done);)
 CESTER_TEST(u_flush8, gpu_dma_forced, tail(0, 2, "u_flush8"); cester_assert_int_eq(1, s_done);)
 // Held tail against the forced block size: blocks of 4 and 16 words.
-CESTER_MAYBE_TEST(h4_none, gpu_dma_forced, tailN(1, 4, 0, "h4_none"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(h4_flush16, gpu_dma_forced, tailN(1, 4, 4, "h4_flush16"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(h16_none, gpu_dma_forced, tailN(1, 16, 0, "h16_none"); cester_assert_int_eq(1, s_stepOk);)
-CESTER_MAYBE_TEST(h16_flush16, gpu_dma_forced, tailN(1, 16, 4, "h16_flush16"); cester_assert_int_eq(1, s_stepOk);)
+CESTER_TEST(h4_none, gpu_dma_forced, tailN(1, 4, 0, "h4_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(h4_flush16, gpu_dma_forced, tailN(1, 4, 4, "h4_flush16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(h16_none, gpu_dma_forced, tailN(1, 16, 0, "h16_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(h16_flush16, gpu_dma_forced, tailN(1, 16, 4, "h16_flush16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
 // Partial last unit: row of the rect, or 8 words (16 pixels)?
 CESTER_MAYBE_TEST(s16_k12, gpu_dma_forced, shortRect(16, 4, 12, "s16_k12"); cester_assert_int_eq(1, s_done);)
 CESTER_MAYBE_TEST(s32_k12, gpu_dma_forced, shortRect(32, 2, 12, "s32_k12"); cester_assert_int_eq(1, s_done);)
