@@ -205,7 +205,7 @@ static void walk(const char *name) {
         uint32_t lo = w & 0xffff, hi = w >> 16;
         if (w == SENTW) {
             s_sentN++;
-        } else if ((lo & 0xf000) == 0xa000 && hi == lo + 1) {
+        } else if ((lo & 0xf000) == 0xa000 && !(lo & 1) && hi == lo + 1) {
             int idx = (lo - 0xa000) / 2;
             ramsyscall_printf(" %d", idx);
             if (s_fillN == 0 && s_sentN == 0) {
@@ -364,15 +364,20 @@ CESTER_TEST(p8, gpu_dma_forced, oneBlock(8, 1, "p8"); cester_assert_int_eq(8, s_
 CESTER_TEST(p16, gpu_dma_forced, oneBlock(16, 1, "p16"); cester_assert_int_eq(16, s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(0, s_junk); cester_assert_int_eq(0, s_guardBad);)
 // Forced block of N words: words 0, 2, 4... land, (N+1)/2 of them, then the filler.
 CESTER_TEST(f1, gpu_dma_forced, oneBlock(1, 0, "f1"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_dmaN);
-    cester_assert_int_eq(1, s_even); cester_assert_int_eq(1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+    cester_assert_int_eq(1, s_even); cester_assert_int_eq(1, s_fillAt); cester_assert_int_eq(0, s_junk);
+    cester_assert_int_eq(1, s_done);)
 CESTER_TEST(f2, gpu_dma_forced, oneBlock(2, 0, "f2"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_dmaN);
-    cester_assert_int_eq(1, s_even); cester_assert_int_eq(1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+    cester_assert_int_eq(1, s_even); cester_assert_int_eq(1, s_fillAt); cester_assert_int_eq(0, s_junk);
+    cester_assert_int_eq(1, s_done);)
 CESTER_TEST(f4, gpu_dma_forced, oneBlock(4, 0, "f4"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(2, s_dmaN);
-    cester_assert_int_eq(1, s_even); cester_assert_int_eq(2, s_fillAt); cester_assert_int_eq(0, s_junk);)
+    cester_assert_int_eq(1, s_even); cester_assert_int_eq(2, s_fillAt); cester_assert_int_eq(0, s_junk);
+    cester_assert_int_eq(1, s_done);)
 CESTER_TEST(f8, gpu_dma_forced, oneBlock(8, 0, "f8"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(4, s_dmaN);
-    cester_assert_int_eq(1, s_even); cester_assert_int_eq(4, s_fillAt); cester_assert_int_eq(0, s_junk);)
+    cester_assert_int_eq(1, s_even); cester_assert_int_eq(4, s_fillAt); cester_assert_int_eq(0, s_junk);
+    cester_assert_int_eq(1, s_done);)
 CESTER_TEST(f16, gpu_dma_forced, oneBlock(16, 0, "f16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(8, s_dmaN);
-    cester_assert_int_eq(1, s_even); cester_assert_int_eq(8, s_fillAt); cester_assert_int_eq(0, s_junk);)
+    cester_assert_int_eq(1, s_even); cester_assert_int_eq(8, s_fillAt); cester_assert_int_eq(0, s_junk);
+    cester_assert_int_eq(1, s_done);)
 CESTER_TEST(t_none, gpu_dma_forced, tail(1, 0, "t_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
 CESTER_TEST(t_flush4, gpu_dma_forced, tail(1, 1, "t_flush4"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
 CESTER_TEST(t_flush8, gpu_dma_forced, tail(1, 2, "t_flush8"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
