@@ -48,23 +48,12 @@ SOFTWARE.
 // only, packed, at every size, and MADR still advances by the whole block. On
 // the v2 GPUs (1001, 5501, 7001) CPU-to-VRAM data is written one complete
 // rectangle row at a time and GP1(00h) discards a partial last row; the
-// SCPH-1000 writes every word. The t_* and h_* arms assert that the forced
-// block clears CHCR bit 28 and the transfer completes. The f* arms assert the
-// even-word pattern above. The u_none and s* arms assert only completion and
-// keep what they measure in their IDX and RESULT lines, so they run on
-// hardware only.
+// SCPH-1000 writes every word. GP1(10h) index 7 tells them apart: 2 on a v2
+// GPU, the previous GPUREAD value on a v0 one. The f* arms assert the even-word
+// pattern above; the t_*, u_*, h_* and s* arms assert how many words reached
+// VRAM, with the v2 or the v0 count picked from that query.
 
 #include <stdint.h>
-
-#ifndef PCSX_TESTS
-#define PCSX_TESTS 0
-#endif
-
-#if PCSX_TESTS
-#define CESTER_MAYBE_TEST CESTER_SKIP_TEST
-#else
-#define CESTER_MAYBE_TEST CESTER_TEST
-#endif
 
 #include "common/hardware/dma.h"
 #include "common/hardware/hwregs.h"
@@ -345,11 +334,28 @@ static void tail(int forced, int mode, const char *name) { tailN(forced, 8, mode
 
 static int s_interruptsWereEnabled;
 
+// GP1(10h) index 4 first, so a v0 GPU's stale answer to index 7 is the
+// draw area end and never 2.
+static int s_v2;
+static void probeVersion(void) {
+    gpuSetup();
+    GP1 = 0x10000004;
+    (void)GP0;
+    GP1 = 0x10000007;
+    uint32_t v = GP0;
+    s_v2 = v == 2;
+    ramsyscall_printf("GPU-VERSION idx7=%08x v2=%d\n", v, s_v2);
+}
+
+// Words of the stream that reached VRAM: v2 writes whole rows, v0 every word.
+static int expectN(int v2, int v0) { return s_v2 ? v2 : v0; }
+
 )
 
 CESTER_BEFORE_ALL(gpu_dma_forced,
     s_interruptsWereEnabled = enterCriticalSection();
     DPCR |= 0x00000800;
+    probeVersion();
 )
 
 CESTER_AFTER_ALL(gpu_dma_forced,
@@ -378,21 +384,36 @@ CESTER_TEST(f8, gpu_dma_forced, oneBlock(8, 0, "f8"); cester_assert_int_eq(1, s_
 CESTER_TEST(f16, gpu_dma_forced, oneBlock(16, 0, "f16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(8, s_dmaN);
     cester_assert_int_eq(1, s_even); cester_assert_int_eq(8, s_fillAt); cester_assert_int_eq(0, s_junk);
     cester_assert_int_eq(1, s_done);)
-CESTER_TEST(t_none, gpu_dma_forced, tail(1, 0, "t_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(t_flush4, gpu_dma_forced, tail(1, 1, "t_flush4"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(t_flush8, gpu_dma_forced, tail(1, 2, "t_flush8"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(t_wait, gpu_dma_forced, tail(1, 3, "t_wait"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_MAYBE_TEST(u_none, gpu_dma_forced, tail(0, 0, "u_none"); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(u_flush8, gpu_dma_forced, tail(0, 2, "u_flush8"); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(t_none, gpu_dma_forced, tail(1, 0, "t_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(24, 28), s_dmaN); cester_assert_int_eq(-1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(t_flush4, gpu_dma_forced, tail(1, 1, "t_flush4"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(28, s_dmaN); cester_assert_int_eq(28, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(t_flush8, gpu_dma_forced, tail(1, 2, "t_flush8"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(28, s_dmaN); cester_assert_int_eq(28, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(t_wait, gpu_dma_forced, tail(1, 3, "t_wait"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(24, 28), s_dmaN); cester_assert_int_eq(-1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(u_none, gpu_dma_forced, tail(0, 0, "u_none"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(24, s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(-1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(u_flush8, gpu_dma_forced, tail(0, 2, "u_flush8"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(24, s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(24, s_fillAt); cester_assert_int_eq(0, s_junk);)
 // Held tail against the forced block size: blocks of 4 and 16 words.
-CESTER_TEST(h4_none, gpu_dma_forced, tailN(1, 4, 0, "h4_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(h4_flush16, gpu_dma_forced, tailN(1, 4, 4, "h4_flush16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(h16_none, gpu_dma_forced, tailN(1, 16, 0, "h16_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
-CESTER_TEST(h16_flush16, gpu_dma_forced, tailN(1, 16, 4, "h16_flush16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(h4_none, gpu_dma_forced, tailN(1, 4, 0, "h4_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(24, 30), s_dmaN); cester_assert_int_eq(-1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(h4_flush16, gpu_dma_forced, tailN(1, 4, 4, "h4_flush16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(30, s_dmaN); cester_assert_int_eq(30, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(h16_none, gpu_dma_forced, tailN(1, 16, 0, "h16_none"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(24, s_dmaN); cester_assert_int_eq(-1, s_fillAt); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(h16_flush16, gpu_dma_forced, tailN(1, 16, 4, "h16_flush16"); cester_assert_int_eq(1, s_stepOk); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(24, s_dmaN); cester_assert_int_eq(24, s_fillAt); cester_assert_int_eq(0, s_junk);)
 // Partial last unit: row of the rect, or 8 words (16 pixels)?
-CESTER_MAYBE_TEST(s16_k12, gpu_dma_forced, shortRect(16, 4, 12, "s16_k12"); cester_assert_int_eq(1, s_done);)
-CESTER_MAYBE_TEST(s32_k12, gpu_dma_forced, shortRect(32, 2, 12, "s32_k12"); cester_assert_int_eq(1, s_done);)
-CESTER_MAYBE_TEST(s32_k28, gpu_dma_forced, shortRect(32, 2, 28, "s32_k28"); cester_assert_int_eq(1, s_done);)
-CESTER_MAYBE_TEST(s8_k6, gpu_dma_forced, shortRect(8, 8, 6, "s8_k6"); cester_assert_int_eq(1, s_done);)
-CESTER_MAYBE_TEST(s8_k10, gpu_dma_forced, shortRect(8, 8, 10, "s8_k10"); cester_assert_int_eq(1, s_done);)
+CESTER_TEST(s16_k12, gpu_dma_forced, shortRect(16, 4, 12, "s16_k12"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(8, 12), s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(s32_k12, gpu_dma_forced, shortRect(32, 2, 12, "s32_k12"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(0, 12), s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(s32_k28, gpu_dma_forced, shortRect(32, 2, 28, "s32_k28"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(16, 28), s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(s8_k6, gpu_dma_forced, shortRect(8, 8, 6, "s8_k6"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(4, 6), s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(0, s_junk);)
+CESTER_TEST(s8_k10, gpu_dma_forced, shortRect(8, 8, 10, "s8_k10"); cester_assert_int_eq(1, s_done);
+    cester_assert_int_eq(expectN(8, 10), s_dmaN); cester_assert_int_eq(1, s_ordered); cester_assert_int_eq(0, s_junk);)
 CESTER_TEST(s32_k32, gpu_dma_forced, shortRect(32, 2, 32, "s32_k32"); cester_assert_int_eq(1, s_done); cester_assert_int_eq(32, s_dmaN); cester_assert_int_eq(0, s_guardBad);)
