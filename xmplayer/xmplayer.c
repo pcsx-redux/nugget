@@ -34,7 +34,8 @@ SOFTWARE.
 
 // Written from the XM format document and checked against reference renders of the same songs.
 
-_Static_assert(sizeof(struct XMSongHeader) == 64, "song header");
+_Static_assert(sizeof(struct XMSongHeader) == 72, "song header");
+_Static_assert(sizeof(struct XMReverb) == 72, "reverb record");
 _Static_assert(sizeof(struct XMInstrument) == 208, "instrument record");
 _Static_assert(sizeof(struct XMSample) == 32, "sample record");
 
@@ -62,7 +63,10 @@ struct XMChannel {
     uint8_t portaUp, portaDown, portaSpeed, volSlide, finePortaUp, finePortaDown, fineVolUp, fineVolDown;
     uint8_t globalSlide, panSlide, retrig, tremor, offset, xfinePortaUp, xfinePortaDown;
     // this row's cell
-    uint8_t cellNote, cellInstrument, cellVolume, cellEffect, cellParam;
+    uint8_t cellNote, cellInstrument, cellVolume, cellEffect, cellParam, cellExt;
+    uint16_t cellExtParam;
+    // version 2: left and right levels instead of panning, while levelMode is set
+    uint8_t levelMode, levelLeft, levelRight;
     uint32_t startAddress;  // SPU address of the next key on
 };
 
@@ -80,7 +84,10 @@ static unsigned s_patternDelay, s_inDelay;
 static int s_jumpOrder, s_breakRow;
 static unsigned s_loopRow, s_loopCount;
 static const uint8_t* s_loopPointer;
-static uint32_t s_keyOn;
+static uint32_t s_keyOn, s_keyOff;
+static uint32_t s_reverbMask, s_noiseMask, s_pmodMask, s_writtenMasks[3];
+static uint16_t s_spuCtrl, s_writtenCtrl;
+static uint32_t s_tickRate;
 static uint16_t s_pendingVol[24][2];
 static uint32_t s_masterVolume = 16384;
 static uint16_t s_exp2[768];    // 2^(i/768) in Q15
@@ -195,7 +202,26 @@ static void setBPM(unsigned bpm) {
     }
     // Q16, so the fraction is carried from tick to tick instead of truncated: a whole number of
     // hblanks per tick runs up to 0.3% fast.
-    s_hblankStep = (base << 16) / bpm;
+    if (s_tickRate) {
+        // base is the hblank rate times 5 / 2, and the tick rate scales with bpm / initial bpm, so
+        // the step is base * 2 * 2^32 / (5 * rate), a 64 by 32 bit division done by hand
+        unsigned b0 = s_header->bpm;
+        uint32_t rate = (s_tickRate / b0) * bpm + (s_tickRate % b0) * bpm / b0;
+        uint32_t hi = base << 1, lo = 0, d = 5 * rate, q = 0;
+        for (unsigned i = 0; i < 32; i++) {
+            uint32_t carry = hi >> 31;
+            hi = (hi << 1) | (lo >> 31);
+            lo <<= 1;
+            q <<= 1;
+            if (carry || hi >= d) {
+                hi -= d;
+                q |= 1;
+            }
+        }
+        s_hblankStep = q;
+    } else {
+        s_hblankStep = (base << 16) / bpm;
+    }
     s_hblankFraction = 0;
     advanceHblanks();
 }
@@ -318,7 +344,46 @@ static uint16_t envelopeAdvance(const uint16_t (*points)[2], const struct XMEnve
 
 static void keyOff(struct XMChannel* ch) {
     ch->keyOn = 0;
+    if (ch->sample && (ch->sample->flags & 4)) {
+        s_keyOff |= 1u << (ch - s_channels);
+        return;
+    }
     if (!ch->instrument || !(ch->instrument->vol.flags & 1)) ch->volume = 0;
+}
+
+// Version 2 per-sample voice setup: the ADSR registers and the reverb, noise and pitch modulation
+// bits, for a key on of this sample on this voice.
+static void voiceSetup(const struct XMSample* s, unsigned voice) {
+    uint32_t bit = 1u << voice;
+    int hw = s->flags & 4;
+    SPU_VOICES[voice].adsrLo = hw ? s->adsr & 0xffff : 0x000f;
+    SPU_VOICES[voice].adsrHi = hw ? s->adsr >> 16 : 0x0000;
+    s_reverbMask = (s->flags & 8) ? s_reverbMask | bit : s_reverbMask & ~bit;
+    s_noiseMask = (s->flags & 16) ? s_noiseMask | bit : s_noiseMask & ~bit;
+    s_pmodMask = (s->flags & 32) && voice ? s_pmodMask | bit : s_pmodMask & ~bit;
+    s_keyOff &= ~bit;
+}
+
+static void writeMasks(void) {
+    if (s_writtenMasks[0] != s_reverbMask) {
+        SPU_REVERB_EN_LOW = s_reverbMask;
+        SPU_REVERB_EN_HIGH = s_reverbMask >> 16;
+        s_writtenMasks[0] = s_reverbMask;
+    }
+    if (s_writtenMasks[1] != s_noiseMask) {
+        SPU_NOISE_EN_LOW = s_noiseMask;
+        SPU_NOISE_EN_HIGH = s_noiseMask >> 16;
+        s_writtenMasks[1] = s_noiseMask;
+    }
+    if (s_writtenMasks[2] != s_pmodMask) {
+        SPU_PITCH_MOD_LOW = s_pmodMask;
+        SPU_PITCH_MOD_HIGH = s_pmodMask >> 16;
+        s_writtenMasks[2] = s_pmodMask;
+    }
+    if (s_writtenCtrl != s_spuCtrl) {
+        SPU_CTRL = s_spuCtrl;
+        s_writtenCtrl = s_spuCtrl;
+    }
 }
 
 // Effects
@@ -393,6 +458,7 @@ static void triggerNote(struct XMChannel* ch, unsigned voice, unsigned offset) {
     }
     ch->startAddress = SPU_BASE + s->spuOffset + (index / 28) * 16;
     SPU_VOICES[voice].sampleStartAddr = ch->startAddress >> 3;
+    voiceSetup(s, voice);
     s_keyOn |= 1u << voice;
 }
 
@@ -410,6 +476,7 @@ static void resetInstrument(struct XMChannel* ch) {
 
 static void readCell(struct XMChannel* ch) {
     ch->cellNote = ch->cellInstrument = ch->cellVolume = ch->cellEffect = ch->cellParam = 0;
+    ch->cellExt = ch->cellExtParam = 0;
     // an order pointing past the pattern table plays as an empty pattern
     if (!s_rowPointer) return;
     const uint8_t* p = s_rowPointer;
@@ -420,6 +487,11 @@ static void readCell(struct XMChannel* ch) {
         if (b & 4) ch->cellVolume = *p++;
         if (b & 8) ch->cellEffect = *p++;
         if (b & 16) ch->cellParam = *p++;
+        if (b & 32) {
+            ch->cellExt = p[0];
+            ch->cellExtParam = p[1] | (p[2] << 8);
+            p += 3;
+        }
     } else {
         ch->cellNote = b;
         ch->cellInstrument = *p++;
@@ -436,7 +508,7 @@ static const uint8_t* rowAt(unsigned pattern, unsigned row) {
         for (unsigned c = 0; c < XM_Channels; c++) {
             uint8_t b = *p++;
             if (b & 0x80) {
-                p += (b & 1) + ((b >> 1) & 1) + ((b >> 2) & 1) + ((b >> 3) & 1) + ((b >> 4) & 1);
+                p += (b & 1) + ((b >> 1) & 1) + ((b >> 2) & 1) + ((b >> 3) & 1) + ((b >> 4) & 1) + ((b & 32) ? 3 : 0);
             } else {
                 p += 4;
             }
@@ -514,9 +586,25 @@ static void startRow(struct XMChannel* ch, unsigned voice) {
             break;
         case 12:
             ch->pan = (v & 15) << 4;
+            ch->levelMode = 0;
             break;
         case 15:
             if (v & 15) ch->portaSpeed = (v & 15) << 4;
+            break;
+    }
+}
+
+// Version 2 extended effects, on the row's first tick.
+static void extEffect(struct XMChannel* ch) {
+    uint16_t p = ch->cellExtParam;
+    switch (ch->cellExt) {
+        case 1:
+            ch->levelLeft = p & 0xff;
+            ch->levelRight = p >> 8;
+            ch->levelMode = 1;
+            break;
+        case 2:
+            s_spuCtrl = (s_spuCtrl & ~0x3f00) | ((p & 63) << 8);
             break;
     }
 }
@@ -548,6 +636,7 @@ static void rowEffects(struct XMChannel* ch, unsigned voice) {
             break;
         case 8:
             ch->pan = p;
+            ch->levelMode = 0;
             break;
         case 11:
             s_jumpOrder = p;
@@ -795,12 +884,18 @@ static void updateVoice(struct XMChannel* ch, unsigned voice) {
     }
     uint32_t vol = ch->outVolume * envVol * XM_GlobalVolume;  // up to 2^18
     vol = (vol >> 6) * (ch->fadeVolume >> 3) >> 12;           // up to 4096
-    int pan = ch->pan;
-    int dist = pan < 128 ? pan : 255 - pan;
-    pan += ((int)envPan - 32) * (dist + (pan >= 128)) / 32;
-    pan = pan < 0 ? 0 : pan > 255 ? 255 : pan;
-    uint32_t left = (vol * s_panLaw[256 - pan]) >> 13;  // up to 0x4000
-    uint32_t right = (vol * s_panLaw[pan]) >> 13;
+    uint32_t left, right;
+    if (ch->levelMode) {
+        left = (vol * ch->levelLeft) >> 6;  // up to 0x3fc0
+        right = (vol * ch->levelRight) >> 6;
+    } else {
+        int pan = ch->pan;
+        int dist = pan < 128 ? pan : 255 - pan;
+        pan += ((int)envPan - 32) * (dist + (pan >= 128)) / 32;
+        pan = pan < 0 ? 0 : pan > 255 ? 255 : pan;
+        left = (vol * s_panLaw[256 - pan]) >> 13;  // up to 0x4000
+        right = (vol * s_panLaw[pan]) >> 13;
+    }
     if (left > 0x3fff) left = 0x3fff;
     if (right > 0x3fff) right = 0x3fff;
     left = (left * s_masterVolume) >> 16;
@@ -820,7 +915,8 @@ static void updateVoice(struct XMChannel* ch, unsigned voice) {
 unsigned XM_Check(const void* song) {
     const struct XMSongHeader* h = (const struct XMSongHeader*)song;
     if (h->magic[0] != 'P' || h->magic[1] != 'S' || h->magic[2] != 'X' || h->magic[3] != 'M') return 0;
-    if (h->version != 1 || h->channels == 0 || h->channels > 24 || h->songLength == 0 || h->bpm == 0) return 0;
+    if (h->version < 1 || h->version > 2 || (h->version == 2 && h->headerSize < 72)) return 0;
+    if (h->channels == 0 || h->channels > 24 || h->songLength == 0 || h->bpm == 0) return 0;
     return h->channels;
 }
 
@@ -838,6 +934,25 @@ unsigned XM_Load(const void* song, const uint8_t* samples) {
     s_samples = (const struct XMSample*)(s_song + s_header->samplesOffset);
     XM_SongLength = s_header->songLength;
     if (samples && s_header->sampleBytes) SPUUpload(SPU_BASE, samples, s_header->sampleBytes);
+    const struct XMReverb* reverb = NULL;
+    s_tickRate = 0;
+    if (s_header->version >= 2) {
+        s_tickRate = s_header->tickRate;
+        if (s_header->reverbOffset) reverb = (const struct XMReverb*)(s_song + s_header->reverbOffset);
+    }
+    s_spuCtrl = 0xc000;
+    if (reverb) {
+        static uint8_t zeroes[1024] __attribute__((aligned(4)));
+        for (uint32_t a = reverb->base * 8; a < 0x80000; a += sizeof(zeroes)) SPUUpload(a, zeroes, sizeof(zeroes));
+        volatile uint16_t* regs = (volatile uint16_t*)SPU_REVERB;
+        for (unsigned i = 0; i < 32; i++) regs[i] = reverb->regs[i];
+        SPU_REVERB_ADDR = reverb->base;
+        SPU_REVERB_LEFT = reverb->volLeft;
+        SPU_REVERB_RIGHT = reverb->volRight;
+        s_spuCtrl |= 0x0080;
+    }
+    s_keyOff = s_reverbMask = s_noiseMask = s_pmodMask = 0;
+    s_writtenMasks[0] = s_writtenMasks[1] = s_writtenMasks[2] = 0;
     for (unsigned i = 0; i < 24; i++) SPUResetVoice(i);
     __builtin_memset(s_channels, 0, sizeof(s_channels));
     for (unsigned i = 0; i < XM_Channels; i++) {
@@ -852,12 +967,13 @@ unsigned XM_Load(const void* song, const uint8_t* samples) {
     s_loopRow = s_loopCount = 0;
     setBPM(s_header->bpm);
     setPosition(0, 0);
-    SPU_CTRL = 0xc000;
+    SPU_CTRL = s_spuCtrl;
+    s_writtenCtrl = s_spuCtrl;
     return XM_Channels;
 }
 
 void XM_Poll(void) {
-    s_keyOn = 0;
+    s_keyOn = s_keyOff = 0;
     advanceHblanks();
     const int newRow = XM_Tick == 0 && !s_inDelay;
     for (unsigned c = 0; c < XM_Channels; c++) {
@@ -867,6 +983,7 @@ void XM_Poll(void) {
             unsigned delay = (ch->cellEffect == 14 && (ch->cellParam >> 4) == 13) ? (ch->cellParam & 15) : 0;
             if (!delay) startRow(ch, c);
             rowEffects(ch, c);
+            if (ch->cellExt) extEffect(ch);
         } else {
             if (ch->cellEffect == 14 && ch->cellParam == (0xd0 | XM_Tick)) startRow(ch, c);
         }
@@ -887,6 +1004,12 @@ void XM_Poll(void) {
             if (ch->outVolume < 0) ch->outVolume = ch->volume;
         }
         updateVoice(ch, c);
+    }
+    writeMasks();
+    s_keyOff &= ~s_keyOn;
+    if (s_keyOff) {
+        SPU_KEY_OFF_LOW = s_keyOff;
+        SPU_KEY_OFF_HIGH = s_keyOff >> 16;
     }
     if (s_keyOn) {
         SPU_KEY_ON_LOW = s_keyOn;
@@ -930,6 +1053,8 @@ void XM_PlaySoundEffect(unsigned voice, unsigned instrument, unsigned note, unsi
     if (volume > 64) volume = 64;
     SPU_VOICES[voice].sampleRate = periodToPitch(notePeriod(realNote, s->finetune), s->rateShift);
     SPU_VOICES[voice].sampleStartAddr = (SPU_BASE + s->spuOffset + (s->pad / 28) * 16) >> 3;
+    voiceSetup(s, voice);
+    writeMasks();
     if (voice < 16) {
         SPU_KEY_ON_LOW = 1u << voice;
     } else {
