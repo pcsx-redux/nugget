@@ -55,6 +55,11 @@ CESTER_TEST(cpu_quiet, cpu_tests,
     cester_assert_uint_eq(0, s_got80);
 )
 
+CESTER_TEST(temporary_failure, cpu_tests,
+    unsigned two = 2;
+    cester_assert_true(two < 1 && two > 3);
+)
+
 CESTER_TEST(cpu_LWR_LWL_half, cpu_tests,
     uint32_t buff[2] = {0x11223344, 0x55667788};
     // when lwl is used alone, while waiting properly for the
