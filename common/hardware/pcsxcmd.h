@@ -231,7 +231,8 @@ PCSX_INLINE int pcsx_commandSupported(uint32_t op) {
 }
 
 /* Set the stack bounds; see struct pcsx_StackBounds. Returns the command
-   status, PCSX_CMDSTATUS_NO_ANSWER on an emulator without this operation. */
+   status: PCSX_CMDSTATUS_NO_ANSWER on an emulator without the port,
+   PCSX_CMDSTATUS_UNKNOWN_OP on one with the port but not this operation. */
 PCSX_INLINE uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
     struct pcsx_StackBounds bounds;
     pcsx_commandInit(&bounds.header, PCSX_CMD_SET_STACK_BOUNDS, sizeof(bounds));
@@ -245,8 +246,9 @@ PCSX_INLINE uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
 PCSX_INLINE uint32_t pcsx_clearStackBounds() { return pcsx_setStackBounds(0, 0); }
 
 /* Fill buffer with length random bytes; see struct pcsx_GetRandom. Returns the
-   command status, PCSX_CMDSTATUS_NO_ANSWER on an emulator without this
-   operation, in which case the buffer is untouched. */
+   command status: PCSX_CMDSTATUS_NO_ANSWER on an emulator without the port,
+   PCSX_CMDSTATUS_UNKNOWN_OP on one with the port but not this operation. In
+   both cases the buffer is untouched. */
 PCSX_INLINE uint32_t pcsx_getRandom(void* buffer, uint32_t length) {
     struct pcsx_GetRandom cmd;
     pcsx_commandInit(&cmd.header, PCSX_CMD_GET_RANDOM, sizeof(cmd));
