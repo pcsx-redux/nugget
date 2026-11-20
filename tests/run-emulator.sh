@@ -63,6 +63,7 @@ TESTS=(
     "loadexe;bios/loadexe/loadexe;interpreter dynarec;$CESTER;"
     "memcpy;libc/memcpy/memcpy;interpreter dynarec;$CESTER;"
     "modplayer-state;spu/modplayer-state/modplayer-state;interpreter dynarec;$CESTER;"
+    "xmplayer-state;spu/xmplayer-state/xmplayer-state;interpreter dynarec;$CESTER;"
     "memops-unroll;libc/memops-unroll/memops-unroll;interpreter;$CESTER;"
     "memcard;sio/memcard/memcard;interpreter;^memcard port 0: all [0-9]+ checks passed;;240"
     "memcard-bios;bios/memcard-bios/memcard-bios;interpreter;^memcard-bios port 0: all [0-9]+ checks passed;;120"
