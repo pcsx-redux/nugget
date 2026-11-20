@@ -344,9 +344,12 @@ static uint16_t envelopeAdvance(const uint16_t (*points)[2], const struct XMEnve
     return tick;
 }
 
+// A sample's flags; bits 2 to 5 only exist in version 2.
+static unsigned sampleFlags(const struct XMSample* s) { return s_header->version >= 2 ? s->flags : s->flags & 3; }
+
 static void keyOff(struct XMChannel* ch) {
     ch->keyOn = 0;
-    if (ch->sample && (ch->sample->flags & 4)) {
+    if (ch->sample && (sampleFlags(ch->sample) & 4)) {
         s_keyOff |= 1u << (ch - s_channels);
         return;
     }
@@ -357,12 +360,13 @@ static void keyOff(struct XMChannel* ch) {
 // bits, for a key on of this sample on this voice.
 static void voiceSetup(const struct XMSample* s, unsigned voice) {
     uint32_t bit = 1u << voice;
-    int hw = s->flags & 4;
+    unsigned flags = sampleFlags(s);
+    int hw = flags & 4;
     SPU_VOICES[voice].adsrLo = hw ? s->adsr & 0xffff : 0x000f;
     SPU_VOICES[voice].adsrHi = hw ? s->adsr >> 16 : 0x0000;
-    s_reverbMask = (s->flags & 8) ? s_reverbMask | bit : s_reverbMask & ~bit;
-    s_noiseMask = (s->flags & 16) ? s_noiseMask | bit : s_noiseMask & ~bit;
-    s_pmodMask = (s->flags & 32) && voice ? s_pmodMask | bit : s_pmodMask & ~bit;
+    s_reverbMask = (flags & 8) ? s_reverbMask | bit : s_reverbMask & ~bit;
+    s_noiseMask = (flags & 16) ? s_noiseMask | bit : s_noiseMask & ~bit;
+    s_pmodMask = (flags & 32) && voice ? s_pmodMask | bit : s_pmodMask & ~bit;
     s_keyOff &= ~bit;
 }
 

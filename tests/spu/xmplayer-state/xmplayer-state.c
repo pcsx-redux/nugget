@@ -181,6 +181,32 @@ CESTER_TEST(xmplayer_hw_adsr, test_instance,
     cester_assert_uint_eq(0x0000, hi1);
 )
 
+CESTER_TEST(xmplayer_v1_ignores_v2_flags, test_instance,
+    // In a version 1 file, sample flag bits 2 to 5 are ignored: the hardware
+    // ADSR sample keys on with the default ADSR, the reverb and noise samples
+    // set no mask bit, and a note off on the hardware ADSR sample keys
+    // nothing off.
+    buildSong(1, 0, 0);
+    setCell(0, 0, HWADSR, 0, 0, 0, 0);
+    setCell(0, 1, VERB, 0, 0, 0, 0);
+    setCell(1, 1, NOISE, 0, 0, 0, 0);
+    setCell(2, 0, NOTE_OFF, 0, 0, 0, 0);
+    load();
+    poll(1);
+    uint16_t lo = SPU_VOICES[0].adsrLo, hi = SPU_VOICES[0].adsrHi;
+    uint32_t verb = s_reverbMask;
+    poll(1);
+    uint32_t noise = s_noiseMask;
+    poll(1);
+    uint32_t off = s_keyOff;
+    ramsyscall_printf("v1 flags: adsr %04x %04x, reverb %x, noise %x, key off %x\n", lo, hi, verb, noise, off);
+    cester_assert_uint_eq(0x000f, lo);
+    cester_assert_uint_eq(0x0000, hi);
+    cester_assert_uint_eq(0, verb);
+    cester_assert_uint_eq(0, noise);
+    cester_assert_uint_eq(0, off);
+)
+
 CESTER_TEST(xmplayer_voice_masks, test_instance,
     // Flags bits 3, 4 and 5 set the voice's reverb, noise and pitch modulation
     // bits, and a key on of a sample without them clears them. Voice 0 has no
