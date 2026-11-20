@@ -216,14 +216,15 @@ CESTER_TEST(xmplayer_voice_masks, test_instance,
 CESTER_TEST(xmplayer_reverb_block, test_instance,
     // A reverb block sets mBASE and the reverb volumes and turns the reverb
     // unit on, SPUCNT bit 7. Without one, or in a version 1 file whatever its
-    // reverbOffset field holds, it stays off.
+    // reverbOffset field holds, it stays off and its output is muted, since
+    // the previous song's reverb may still be in the work area.
     buildSong(2, 0, 1);
     load();
     uint16_t ctrl = s_spuCtrl, ctrlReg = SPU_CTRL, base = SPU_REVERB_ADDR;
     uint16_t left = SPU_REVERB_LEFT, right = SPU_REVERB_RIGHT, vlin = SPU_REVERB->vLIN;
     buildSong(2, 0, 0);
     load();
-    uint16_t ctrlOff = s_spuCtrl, ctrlRegOff = SPU_CTRL;
+    uint16_t ctrlOff = s_spuCtrl, ctrlRegOff = SPU_CTRL, leftOff = SPU_REVERB_LEFT, rightOff = SPU_REVERB_RIGHT;
     buildSong(1, 0, 1);
     load();
     uint16_t ctrlV1 = s_spuCtrl;
@@ -238,6 +239,8 @@ CESTER_TEST(xmplayer_reverb_block, test_instance,
     cester_assert_uint_eq(0x2000, vlin);
     cester_assert_uint_eq(0xc000, ctrlOff);
     cester_assert_uint_eq(0, enabledOff);
+    cester_assert_uint_eq(0, leftOff);
+    cester_assert_uint_eq(0, rightOff);
     cester_assert_uint_eq(0xc000, ctrlV1);
 )
 
@@ -298,6 +301,34 @@ CESTER_TEST(xmplayer_hw_adsr_key_off, test_instance,
     cester_assert_int_eq(64, vol0);
     cester_assert_int_eq(0, vol1);
     cester_assert_uint_eq(0, off2);
+)
+
+CESTER_TEST(xmplayer_hw_adsr_k00_after_note, test_instance,
+    // A hardware ADSR note and K00 in the same cell: the note keys on, and its
+    // key off goes out on the next poll so the voice releases instead of
+    // sustaining. A note on the next row cancels a pending key off.
+    buildSong(2, 0, 0);
+    setCell(0, 0, HWADSR, 20, 0, 0, 0);
+    setCell(2, 0, HWADSR, 20, 0, 0, 0);
+    setCell(3, 0, HWADSR, 0, 0, 0, 0);
+    load();
+    poll(1);
+    uint32_t on0 = s_keyOn, off0 = s_keyOff;
+    poll(1);
+    uint32_t on1 = s_keyOn, off1 = s_keyOff;
+    poll(1);
+    uint32_t next2 = s_keyOffNext;
+    poll(1);
+    uint32_t on3 = s_keyOn, off3 = s_keyOff;
+    ramsyscall_printf("k00: row 0 on %x off %x, row 1 on %x off %x, row 2 next %x, row 3 on %x off %x\n",
+                      on0, off0, on1, off1, next2, on3, off3);
+    cester_assert_uint_eq(1, on0);
+    cester_assert_uint_eq(0, off0);
+    cester_assert_uint_eq(0, on1);
+    cester_assert_uint_eq(1, off1);
+    cester_assert_uint_eq(1, next2);
+    cester_assert_uint_eq(1, on3);
+    cester_assert_uint_eq(0, off3);
 )
 
 CESTER_TEST(xmplayer_tick_rate, test_instance,

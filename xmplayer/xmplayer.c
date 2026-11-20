@@ -85,6 +85,8 @@ static int s_jumpOrder, s_breakRow;
 static unsigned s_loopRow, s_loopCount;
 static const uint8_t* s_loopPointer;
 static uint32_t s_keyOn, s_keyOff;
+// a key off that came after a key on in the same poll, written on the next one
+static uint32_t s_keyOffNext;
 static uint32_t s_reverbMask, s_noiseMask, s_pmodMask, s_writtenMasks[3];
 static uint16_t s_spuCtrl, s_writtenCtrl;
 static uint32_t s_tickRate;
@@ -950,8 +952,12 @@ unsigned XM_Load(const void* song, const uint8_t* samples) {
         SPU_REVERB_LEFT = reverb->volLeft;
         SPU_REVERB_RIGHT = reverb->volRight;
         s_spuCtrl |= 0x0080;
+    } else {
+        // the previous song's reverb may still be ringing in the work area
+        SPU_REVERB_LEFT = 0;
+        SPU_REVERB_RIGHT = 0;
     }
-    s_keyOff = s_reverbMask = s_noiseMask = s_pmodMask = 0;
+    s_keyOff = s_keyOffNext = s_reverbMask = s_noiseMask = s_pmodMask = 0;
     s_writtenMasks[0] = s_writtenMasks[1] = s_writtenMasks[2] = 0;
     for (unsigned i = 0; i < 24; i++) SPUResetVoice(i);
     __builtin_memset(s_channels, 0, sizeof(s_channels));
@@ -973,7 +979,9 @@ unsigned XM_Load(const void* song, const uint8_t* samples) {
 }
 
 void XM_Poll(void) {
-    s_keyOn = s_keyOff = 0;
+    s_keyOn = 0;
+    s_keyOff = s_keyOffNext;
+    s_keyOffNext = 0;
     advanceHblanks();
     const int newRow = XM_Tick == 0 && !s_inDelay;
     for (unsigned c = 0; c < XM_Channels; c++) {
@@ -1006,6 +1014,7 @@ void XM_Poll(void) {
         updateVoice(ch, c);
     }
     writeMasks();
+    s_keyOffNext = s_keyOff & s_keyOn;
     s_keyOff &= ~s_keyOn;
     if (s_keyOff) {
         SPU_KEY_OFF_LOW = s_keyOff;
