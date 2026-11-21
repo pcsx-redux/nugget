@@ -82,15 +82,15 @@ int main() {
     }
 
     static const char *const s_hwNames[] = {
-        "EXP1_BASE", "EXP2_BASE", "EXP1_DELAY", "EXP3_DELAY", "BIOS_DELAY", "SPU_DELAY", "CDROM_DELAY",
-        "EXP2_DELAY", "COM_DELAY", "RAM_SIZE",  "I_STAT",    "I_MASK",     "D0_MADR",    "D0_BCR",
-        "D0_CHCR",   "D1_MADR",   "D1_BCR",     "D1_CHCR",   "D2_MADR",    "D2_BCR",     "D2_CHCR",
-        "D3_MADR",   "D3_BCR",    "D3_CHCR",    "D4_MADR",   "D4_BCR",     "D4_CHCR",    "D5_MADR",
-        "D5_BCR",    "D5_CHCR",   "D6_MADR",    "D6_BCR",    "D6_CHCR",    "DPCR",       "DICR",
-        "T0_COUNT",  "T0_MODE",   "T0_TARGET",  "T1_COUNT",  "T1_MODE",    "T1_TARGET",  "T2_COUNT",
-        "T2_MODE",   "T2_TARGET", "GPUSTAT",    "SPU_MVOLL", "SPU_MVOLR",  "SPU_RVOLL",  "SPU_RVOLR",
-        "SPU_EON",   "SPU_ENDX",  "SPU_RVBADDR", "SPUCNT",   "SPU_XFERCTL", "SPUSTAT",   "SPU_CDVOLL",
-        "SPU_CDVOLR", "CD_STATUS", "CD_IE",     "CD_IF",     "JOY_STAT",   "JOY_MODE",   "JOY_CTRL",
+        "EXP1_BASE",  "EXP2_BASE", "EXP1_DELAY",  "EXP3_DELAY", "BIOS_DELAY",  "SPU_DELAY", "CDROM_DELAY",
+        "EXP2_DELAY", "COM_DELAY", "RAM_SIZE",    "I_STAT",     "I_MASK",      "D0_MADR",   "D0_BCR",
+        "D0_CHCR",    "D1_MADR",   "D1_BCR",      "D1_CHCR",    "D2_MADR",     "D2_BCR",    "D2_CHCR",
+        "D3_MADR",    "D3_BCR",    "D3_CHCR",     "D4_MADR",    "D4_BCR",      "D4_CHCR",   "D5_MADR",
+        "D5_BCR",     "D5_CHCR",   "D6_MADR",     "D6_BCR",     "D6_CHCR",     "DPCR",      "DICR",
+        "T0_COUNT",   "T0_MODE",   "T0_TARGET",   "T1_COUNT",   "T1_MODE",     "T1_TARGET", "T2_COUNT",
+        "T2_MODE",    "T2_TARGET", "GPUSTAT",     "SPU_MVOLL",  "SPU_MVOLR",   "SPU_RVOLL", "SPU_RVOLR",
+        "SPU_EON",    "SPU_ENDX",  "SPU_RVBADDR", "SPUCNT",     "SPU_XFERCTL", "SPUSTAT",   "SPU_CDVOLL",
+        "SPU_CDVOLR", "CD_STATUS", "CD_IE",       "CD_IF",      "JOY_STAT",    "JOY_MODE",  "JOY_CTRL",
         "JOY_BAUD",
     };
     ramsyscall_printf("BOOTSTATE begin\n");
@@ -116,8 +116,8 @@ int main() {
                           R16(0x1f801c00 + v * 16), R16(0x1f801c02 + v * 16), R16(0x1f801c04 + v * 16),
                           R16(0x1f801c06 + v * 16), R16(0x1f801c08 + v * 16), R16(0x1f801c0a + v * 16),
                           R16(0x1f801c0c + v * 16));
-    ramsyscall_printf("BOOTSTATE spu pmon %04x%04x non %04x%04x eon %04x%04x\n", R16(0x1f801d92),
-                      R16(0x1f801d90), R16(0x1f801d96), R16(0x1f801d94), R16(0x1f801d9a), R16(0x1f801d98));
+    ramsyscall_printf("BOOTSTATE spu pmon %04x%04x non %04x%04x eon %04x%04x\n", R16(0x1f801d92), R16(0x1f801d90),
+                      R16(0x1f801d96), R16(0x1f801d94), R16(0x1f801d9a), R16(0x1f801d98));
     ramsyscall_printf("BOOTSTATE count %u end\n", s_n);
     *((volatile int16_t *)0x1f802082) = 0;
     while (1);
