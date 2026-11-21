@@ -34,14 +34,15 @@ extern const uint8_t _binary_test_spd_end[];
 
 #define printf ramsyscall_printf
 
-static uint16_t s_nextCounter = 0;
+// 16.16: upper half tracks timer1, lower half carries the fraction.
+static uint32_t s_nextCounter = 0;
 
 // Poll the music player when the hblank counter says it's time.
 // Same approach as the modplayer demo.
 static void checkMusic() {
-    if (((int16_t)(s_nextCounter - COUNTERS[1].value)) <= 0) {
+    if (((int16_t)((s_nextCounter >> 16) - COUNTERS[1].value)) <= 0) {
         SPD_Poll();
-        s_nextCounter += SPD_hblanks;
+        s_nextCounter += SPD_hblanksFP;
     }
 }
 
@@ -76,7 +77,7 @@ void main() {
 
     unsigned order = 0xffffffff;
     // Give our initial counter a proper value.
-    s_nextCounter = COUNTERS[1].value + SPD_hblanks;
+    s_nextCounter = ((uint32_t)COUNTERS[1].value << 16) + SPD_hblanksFP;
     while (1) {
         if (order != SPD_CurrentOrder) {
             order = SPD_CurrentOrder;
