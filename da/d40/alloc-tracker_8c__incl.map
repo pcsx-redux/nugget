@@ -1,0 +1,20 @@
+<map id="psyq/examples/alloc&#45;tracker/alloc&#45;tracker.c" name="psyq/examples/alloc&#45;tracker/alloc&#45;tracker.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="197,5,363,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,106,83,134"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,53,94,103,91,98,225,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="372,266,442,294"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,52,173,72,148,99,141,120,148,142,163,170,184,195,210,215,239,232,300,256,359,272,353,272,299,261,237,237,207,220,181,199,159,173,143,144,136,120,143,97,169,68,206,49"/>
+<area shape="rect" id="Node000004" href="$d7/dde/psyq-alloc-tracker_8h.html" title=" " alt="" coords="158,98,295,143"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="269,48,249,87,245,83,266,52"/>
+<area shape="rect" id="Node000005" href="$d8/d07/pcsxcmd_8h.html" title=" " alt="" coords="225,191,442,218"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="291,48,311,97,330,176,325,175,305,99,289,53"/>
+<area shape="rect" id="Node000006" href="$d0/d54/allocdesc_8h.html" title=" " alt="" coords="371,106,592,134"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="328,48,441,99,436,100,328,53"/>
+<area shape="rect" id="Node000007" href="$d7/d18/pcsxhw_8h.html" title=" " alt="" coords="522,191,729,218"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="363,34,433,43,504,56,565,73,589,84,606,96,618,114,626,134,630,176,625,173,621,136,614,116,602,100,586,88,563,78,503,61,432,48,364,39"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="255,140,307,181,302,181,254,146"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="347,216,386,256,380,255,345,221"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="481,133,474,174,457,220,431,257,428,253,452,217,469,173,478,137"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="460,134,372,185,369,180,455,136"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="589,219,457,265,456,260,584,219"/>
+</map>

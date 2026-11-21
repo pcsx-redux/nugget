@@ -1,0 +1,33 @@
+<map id="tests/gpu/gpustat&#45;cmd&#45;ready/gpustat26.c" name="tests/gpu/gpustat&#45;cmd&#45;ready/gpustat26.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="222,5,389,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="343,325,413,353"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,53,156,92,109,117,67,145,33,176,13,208,9,225,9,241,15,258,26,275,46,290,76,302,157,320,248,330,330,336,324,337,248,335,157,325,75,308,43,295,22,279,10,260,4,242,3,224,8,206,29,173,64,141,106,113,154,87,246,49"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="53,174,260,201"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="284,52,181,164,177,160,287,48"/>
+<area shape="rect" id="Node000005" href="$d2/d6e/syscalls_8h.html" title=" " alt="" coords="323,98,526,126"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="337,48,396,89,390,89,337,53"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="549,98,665,126"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="386,48,547,93,542,95,386,53"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="109,204,78,218,48,235,38,245,33,254,32,264,38,275,57,290,86,302,164,319,251,329,330,336,324,336,250,334,163,324,84,307,54,294,34,279,27,266,28,253,34,241,45,231,76,213,113,200"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="49,249,264,277"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="158,200,159,235,154,233,155,204"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="196,275,330,320,325,322,195,280"/>
+<area shape="poly" id="edge9_Node000005_Node000002" title=" " alt="" coords="384,128,355,147,341,160,329,175,318,201,315,224,320,248,329,276,340,295,354,315,349,313,335,298,325,278,315,249,310,224,313,200,325,172,337,156,352,143,388,125"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="339,174,414,201"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="418,125,395,163,391,159,414,128"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="437,174,510,201"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="434,124,459,161,454,160,432,129"/>
+<area shape="rect" id="Node000008" href="$d0/d77/circularbuffer_8h.html" title=" " alt="" coords="339,249,568,277"/>
+<area shape="poly" id="edge10_Node000005_Node000008" title=" " alt="" coords="464,123,498,143,513,156,525,173,530,192,523,211,509,228,491,242,488,238,505,224,518,208,524,192,521,175,509,160,495,147,463,129"/>
+<area shape="rect" id="Node000009" href="$db/de9/device_8h.html" title=" " alt="" coords="611,174,798,201"/>
+<area shape="poly" id="edge12_Node000005_Node000009" title=" " alt="" coords="475,124,643,169,637,170,474,129"/>
+<area shape="rect" id="Node000011" href="$dc/dea/common_2psxlibc_2handlers_8h.html" title=" " alt="" coords="843,249,1043,277"/>
+<area shape="poly" id="edge17_Node000005_Node000011" title=" " alt="" coords="522,124,696,149,811,171,870,202,919,240,914,239,867,207,809,176,695,154,522,129"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="443,277,403,317,401,312,438,279"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="692,201,644,241,582,279,502,310,429,330,428,325,501,305,579,275,641,236,687,203"/>
+<area shape="rect" id="Node000010" href="$d3/d43/common_2psxlibc_2stdio_8h.html" title=" " alt="" coords="643,249,819,277"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="704,200,715,236,710,234,701,204"/>
+<area shape="poly" id="edge15_Node000010_Node000002" title=" " alt="" coords="670,278,429,330,428,324,665,278"/>
+<area shape="poly" id="edge16_Node000010_Node000009" title=" " alt="" coords="731,248,721,218,724,213,736,250"/>
+<area shape="poly" id="edge18_Node000011_Node000002" title=" " alt="" coords="845,279,429,334,428,328,840,276"/>
+</map>

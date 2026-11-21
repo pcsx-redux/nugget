@@ -1,0 +1,35 @@
+<map id="psyqo/scene.hh" name="psyqo/scene.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="1395,5,1517,33"/>
+<area shape="rect" id="Node000002" href="$d4/d39/keynote_8cpp.html" title=" " alt="" coords="5,98,230,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1377,20,1181,23,899,30,574,48,407,64,243,84,165,100,163,95,242,78,406,58,573,43,899,24,1181,17,1382,19"/>
+<area shape="rect" id="Node000003" href="$d9/d29/hello_8cpp.html" title=" " alt="" coords="254,90,408,134"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1377,23,891,43,618,60,505,71,419,84,389,91,387,86,418,78,504,66,617,55,890,38,1382,22"/>
+<area shape="rect" id="Node000004" href="$df/d7b/application_8cpp.html" title=" " alt="" coords="431,98,617,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1376,21,1239,27,1052,37,841,54,630,84,564,100,563,95,629,78,841,49,1051,31,1238,22,1382,21"/>
+<area shape="rect" id="Node000005" href="$df/d4a/shello_8cpp.html" title=" " alt="" coords="642,98,772,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1377,21,1263,27,1114,36,949,54,785,84,736,100,735,95,784,78,948,49,1114,30,1263,21,1382,20"/>
+<area shape="rect" id="Node000006" href="$de/dc5/str-player-alloc_8cpp.html" title=" " alt="" coords="796,90,983,134"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1377,28,1203,50,1099,65,995,84,962,92,961,86,994,78,1098,60,1203,44,1382,27"/>
+<area shape="rect" id="Node000007" href="$df/d6c/clear480i_8cpp.html" title=" " alt="" coords="1007,90,1172,134"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1382,35,1186,84,1158,91,1157,86,1185,78,1377,36"/>
+<area shape="rect" id="Node000008" href="$d2/da5/flip480i_8cpp.html" title=" " alt="" coords="1197,90,1350,134"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1419,39,1318,91,1317,86,1414,41"/>
+<area shape="rect" id="Node000009" href="$d3/d1e/dmachain_8cpp.html" title=" " alt="" coords="1374,90,1538,134"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1458,46,1458,91,1454,87,1454,50"/>
+<area shape="rect" id="Node000010" href="$db/d4c/irqcop2_8cpp.html" title=" " alt="" coords="1562,90,1716,134"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1497,38,1598,89,1592,88,1496,43"/>
+<area shape="rect" id="Node000011" href="$d5/d96/irqcost_8cpp.html" title=" " alt="" coords="1740,90,1890,134"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1533,33,1627,53,1729,78,1757,89,1751,89,1727,84,1626,58,1532,38"/>
+<area shape="rect" id="Node000012" href="$d4/de4/reinit_8cpp.html" title=" " alt="" coords="1913,90,2047,134"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1533,23,1703,41,1803,57,1902,78,1930,89,1925,89,1901,84,1802,62,1703,47,1533,28"/>
+<area shape="rect" id="Node000013" href="$dd/dba/spudma_8cpp.html" title=" " alt="" coords="2072,90,2224,134"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1533,20,1769,36,1915,53,2059,78,2091,89,2086,89,2058,84,1914,58,1769,41,1533,25"/>
+<area shape="rect" id="Node000014" href="$da/d85/memcard_8cpp.html" title=" " alt="" coords="2248,98,2483,126"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="1533,20,1841,36,2038,54,2237,78,2319,98,2313,97,2236,84,2038,59,1841,42,1533,25"/>
+<area shape="rect" id="Node000016" href="$d0/d97/modplayer-upload-tail_8cpp.html" title=" " alt="" coords="2507,81,2677,143"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="1533,20,2022,39,2296,56,2409,67,2495,78,2509,84,2504,83,2494,84,2409,72,2295,62,2022,44,1533,25"/>
+<area shape="rect" id="Node000017" href="$db/d5b/spu-upload-tail_8cpp.html" title=" " alt="" coords="2702,90,2856,134"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="1533,19,1781,24,2115,34,2447,52,2585,64,2690,78,2723,89,2718,89,2689,84,2585,69,2447,57,2115,40,1780,29,1533,24"/>
+<area shape="rect" id="Node000015" href="$d5/d6e/memcard-slot2_8cpp.html" title=" " alt="" coords="2276,191,2455,235"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="2367,139,2367,192,2364,188,2364,143"/>
+</map>

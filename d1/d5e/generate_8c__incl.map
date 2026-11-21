@@ -1,0 +1,10 @@
+<map id="openbios/patches/generate.c" name="openbios/patches/generate.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,214,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="113,157,183,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,36,82,51,70,69,63,88,67,108,84,130,107,148,102,149,80,133,62,110,58,88,65,66,78,47,96,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="77,81,142,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,31,112,66,107,65,108,36"/>
+<area shape="rect" id="Node000004" href="$db/dfb/hash_8h.html" title=" " alt="" coords="166,81,349,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="136,31,220,73,215,75,136,36"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="241,108,181,150,179,145,235,110"/>
+</map>

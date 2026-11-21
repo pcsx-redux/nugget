@@ -1,0 +1,19 @@
+<map id="openbios/kernel/globals.h" name="openbios/kernel/globals.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="737,5,924,33"/>
+<area shape="rect" id="Node000002" href="$df/d23/openbios_2fileio_2misc_8c.html" title=" " alt="" coords="5,81,168,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="719,30,474,54,180,84,168,85,168,80,180,78,473,48,724,29"/>
+<area shape="rect" id="Node000003" href="$d2/d2e/setup_8c.html" title=" " alt="" coords="192,81,384,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="724,35,384,83,383,78,719,35"/>
+<area shape="rect" id="Node000004" href="$db/dd8/syscall_8c.html" title=" " alt="" coords="408,81,608,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="760,37,566,83,566,78,755,37"/>
+<area shape="rect" id="Node000005" href="$df/dfd/kernel_2events_8c.html" title=" " alt="" coords="632,81,816,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="802,41,744,83,742,78,796,43"/>
+<area shape="rect" id="Node000006" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="840,81,1035,109"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="863,40,921,81,916,80,861,45"/>
+<area shape="rect" id="Node000007" href="$d3/d47/openbios_2kernel_2misc_8c.html" title=" " alt="" coords="1059,81,1229,109"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="902,34,1090,80,1085,80,901,40"/>
+<area shape="rect" id="Node000008" href="$d3/d18/threads_8c.html" title=" " alt="" coords="1254,81,1442,109"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="938,33,1257,80,1252,80,938,38"/>
+<area shape="rect" id="Node000009" href="$d8/d5b/openbios_2main_2main_8c.html" title=" " alt="" coords="1466,81,1632,109"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="940,27,1177,49,1455,78,1469,82,1463,82,1454,84,1176,55,940,33"/>
+</map>

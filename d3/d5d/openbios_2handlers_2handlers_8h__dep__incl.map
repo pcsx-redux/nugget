@@ -1,0 +1,11 @@
+<map id="openbios/handlers/handlers.h" name="openbios/handlers/handlers.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="307,5,519,33"/>
+<area shape="rect" id="Node000002" href="$d4/de0/openbios_2handlers_2irq_8c.html" title=" " alt="" coords="5,81,178,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="341,40,150,83,149,78,339,34"/>
+<area shape="rect" id="Node000003" href="$db/dd8/syscall_8c.html" title=" " alt="" coords="202,81,402,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="383,41,323,83,321,78,378,42"/>
+<area shape="rect" id="Node000004" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="426,81,621,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="446,39,507,81,501,80,444,44"/>
+<area shape="rect" id="Node000005" href="$d1/d56/driver_8c.html" title=" " alt="" coords="646,81,809,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="484,34,673,80,668,81,484,40"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="psyqo::Prim::Sprite" name="psyqo::Prim::Sprite">
+<area shape="rect" id="Node000001" title="The Sprite primitive." alt="" coords="48,263,193,291"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="5,132,116,159"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="68,172,80,205,95,238,111,263,106,262,90,240,75,207,67,177"/>
+<area shape="rect" id="Node000003" href="$d9/d0e/structpsyqo_1_1PrimPieces_1_1TexInfo.html" title="A primitive&#39;s texture information." alt="" coords="140,123,288,168"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,180,155,241,134,264,131,260,150,237,190,182"/>
+<area shape="rect" id="Node000004" href="$dc/d45/structpsyqo_1_1PrimPieces_1_1ClutIndex.html" title="A primitive&#39;s CLUT command." alt="" coords="140,5,288,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="215,64,216,123,211,122,212,68"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="openbios/patches/patch_card_1.c" name="openbios/patches/patch_card_1.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,181,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="58,174,128,201"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,53,54,86,50,105,52,125,60,143,73,162,67,162,56,146,46,126,44,105,50,84,74,48"/>
+<area shape="rect" id="Node000003" href="$d9/d29/patches_8h.html" title=" " alt="" coords="61,98,264,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,48,144,85,139,86,111,53"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="152,125,117,164,114,160,148,127"/>
+</map>

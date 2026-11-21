@@ -1,0 +1,9 @@
+<map id="common/hardware/allocdesc.h" name="common/hardware/allocdesc.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="155,5,376,33"/>
+<area shape="rect" id="Node000002" href="$df/d1b/psyq-alloc-tracker_8c.html" title=" " alt="" coords="5,81,158,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,39,131,83,129,78,219,41"/>
+<area shape="rect" id="Node000003" href="$dc/d3d/alloc-tracker_8c.html" title=" " alt="" coords="182,81,349,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,47,268,82,263,79,264,51"/>
+<area shape="rect" id="Node000004" href="$da/dec/alloc-tracker_8cpp.html" title=" " alt="" coords="373,81,555,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="312,37,414,80,409,81,311,42"/>
+</map>

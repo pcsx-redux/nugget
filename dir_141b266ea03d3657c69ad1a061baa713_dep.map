@@ -1,0 +1,16 @@
+<map id="tests/gpu/raster/stride&#45;sweep" name="tests/gpu/raster/stride&#45;sweep">
+<area shape="rect" id="node1" href="dir_36ba86a56354edb2d63ae941a2ba4729.html" title="common" alt="" coords="26,130,104,158"/>
+<area shape="rect" id="node2" href="dir_3904cefa70f806d733b0e13ce192c79a.html" title="affine" alt="" coords="128,130,186,158"/>
+<area shape="rect" id="node3" href="dir_c46f07a1fa24ebf80726a088191c8d0a.html" title="texture&#45;basic" alt="" coords="210,130,318,158"/>
+<area shape="rect" id="node4" href="dir_141b266ea03d3657c69ad1a061baa713.html" title="stride&#45;sweep" alt="" coords="158,54,263,82"/>
+<area shape="poly" id="edge1" href="dir_000236_000033.html" alt="" coords="182,84,106,125,104,120,187,81"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000236_000033.html" title="2" alt="" coords="107,120,115,137"/>
+<area shape="poly" id="edge2" href="dir_000236_000004.html" alt="" coords="203,81,177,119,174,115,199,84"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000236_000004.html" title="2" alt="" coords="180,111,188,128"/>
+<area shape="poly" id="edge4" href="dir_000236_000244.html" alt="" coords="221,80,248,118,243,117,219,85"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000236_000244.html" title="1" alt="" coords="247,101,255,118"/>
+<area shape="rect" id="node5" href="dir_bdd9a5d540de89e9fe90efdfc6973a4f.html" title="common" alt="" coords="342,130,420,158"/>
+<area shape="poly" id="edge3" href="dir_000236_000031.html" alt="" coords="242,80,340,123,334,124,241,85"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000236_000031.html" title="5" alt="" coords="334,106,342,123"/>
+<area shape="rect" id="clust1" href="dir_6b49b91f8d64295ff9bd4c13c629bddc.html" title="raster" alt="" coords="16,16,328,168"/>
+</map>

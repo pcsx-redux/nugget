@@ -1,0 +1,10 @@
+<map id="psyqo/src/hardware/sio.cpp" name="psyqo/src/hardware/sio.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="15,5,164,50"/>
+<area shape="rect" id="Node000002" href="$d0/dad/sio_8hh.html" title=" " alt="" coords="5,98,174,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,48,92,83,87,82,89,53"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="54,249,125,277"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,129,62,149,49,175,47,188,49,201,58,219,70,237,64,237,53,222,44,202,41,188,44,173,58,146,78,124"/>
+<area shape="rect" id="Node000004" href="$d8/d02/hwregs_8hh.html" title=" " alt="" coords="59,174,256,201"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="102,124,138,162,133,163,101,129"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="148,201,114,240,110,236,143,203"/>
+</map>

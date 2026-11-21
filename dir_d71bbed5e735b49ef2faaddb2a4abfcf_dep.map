@@ -1,0 +1,16 @@
+<map id="players" name="players">
+<area shape="rect" id="node2" href="dir_40958e48bbd86ed076abdf3d68c4f319.html" title="gpdplayer" alt="" coords="120,27,206,54"/>
+<area shape="rect" id="node6" href="dir_bdd9a5d540de89e9fe90efdfc6973a4f.html" title="common" alt="" coords="292,102,370,130"/>
+<area shape="poly" id="edge1" href="dir_000089_000031.html" alt="" coords="193,52,290,95,285,97,192,57"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000089_000031.html" title="6" alt="" coords="284,78,292,95"/>
+<area shape="rect" id="node3" href="dir_a98bd0a79da555c7d09cc587d06e1161.html" title="psmplayer" alt="" coords="230,27,320,54"/>
+<area shape="poly" id="edge2" href="dir_000185_000031.html" alt="" coords="286,52,314,91,309,89,284,57"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000185_000031.html" title="5" alt="" coords="312,74,320,91"/>
+<area shape="rect" id="node4" href="dir_b536ef4623ab4b3b94cfd57d7acc90f3.html" title="spdplayer" alt="" coords="344,27,429,54"/>
+<area shape="poly" id="edge3" href="dir_000220_000031.html" alt="" coords="379,54,351,92,348,88,374,56"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000220_000031.html" title="5" alt="" coords="354,84,362,101"/>
+<area shape="rect" id="node5" href="dir_3895f3d17c9641ea776b3c07934a56ae.html" title="xmplayer" alt="" coords="453,27,536,54"/>
+<area shape="poly" id="edge4" href="dir_000268_000031.html" alt="" coords="468,54,374,98,373,93,463,55"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000268_000031.html" title="5" alt="" coords="376,94,384,111"/>
+<area shape="rect" id="clust1" href="dir_d71bbed5e735b49ef2faaddb2a4abfcf.html" alt="" coords="16,16,547,65"/>
+</map>

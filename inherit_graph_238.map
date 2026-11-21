@@ -1,0 +1,14 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,172,123,199"/>
+<area shape="rect" id="Node000001" href="$d8/ddb/structpsyqo_1_1Concepts_1_1CDRomDeviceStateEnumHasIdle_3_01T_00_01std_1_1enable__if__t_3_01T_1_1IDLE_0a_0aT_070_08_4_01_4.html" title=" " alt="" coords="180,5,414,67"/>
+<area shape="poly" id="edge15_Node000000_Node000001" title=" " alt="" coords="91,160,121,132,143,103,153,90,169,77,192,66,188,70,172,81,157,94,147,106,125,135,95,163"/>
+<area shape="rect" id="Node000003" href="$d0/d56/structpsyqo_1_1has__explicit__copy__constructor_3_01T_00_01typename_01std_1_1enable__if_3_01std_38a14e761273749a46f5588578125945.html" title=" " alt="" coords="186,90,408,203"/>
+<area shape="poly" id="edge16_Node000000_Node000003" title=" " alt="" coords="137,171,188,164,184,167,139,176"/>
+<area shape="rect" id="Node000004" href="$df/dcb/structpsyqo_1_1Concepts_1_1CDRomDeviceStateEnumHasIdle.html" title=" " alt="" coords="171,227,424,272"/>
+<area shape="poly" id="edge17_Node000000_Node000004" title=" " alt="" coords="132,201,171,212,216,226,211,227,170,217,132,207"/>
+<area shape="rect" id="Node000005" href="$d5/dbb/structpsyqo_1_1has__explicit__copy__constructor.html" title=" " alt="" coords="214,296,380,358"/>
+<area shape="poly" id="edge18_Node000000_Node000005" title=" " alt="" coords="87,208,126,247,172,282,216,304,211,305,169,286,122,251,86,214"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,94,120,122"/>
+<area shape="poly" id="edge19_Node000002_Node000001" title=" " alt="" coords="124,87,197,66,193,70,127,92"/>
+<area shape="poly" id="edge20_Node000002_Node000003" title=" " alt="" coords="134,117,188,127,183,130,136,122"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="monitor/link&#45;atcons.h" name="monitor/link&#45;atcons.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="53,5,213,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,232,79,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,36,48,54,33,67,20,82,13,99,9,116,11,153,20,188,32,218,27,219,15,189,5,153,4,116,8,97,16,80,29,63,45,50,85,31"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="30,81,236,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,31,135,66,130,65,132,36"/>
+<area shape="rect" id="Node000005" href="$d4/d64/common_2hardware_2util_8h.html" title=" " alt="" coords="260,81,440,109"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="172,31,299,74,295,77,172,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="113,111,93,132,71,158,58,188,50,218,45,216,53,186,67,155,89,128,116,107"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="81,157,297,184"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="144,107,173,144,167,145,142,112"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="165,187,84,227,82,223,161,183"/>
+</map>

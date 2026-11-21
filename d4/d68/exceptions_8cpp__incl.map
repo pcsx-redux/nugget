@@ -1,0 +1,11 @@
+<map id="tests/cpu/cop0/exceptions.cpp" name="tests/cpu/cop0/exceptions.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,223,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="68,232,138,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,36,91,56,79,82,74,118,77,154,95,218,89,218,72,155,69,118,74,80,86,53,104,31"/>
+<area shape="rect" id="Node000003" href="$d0/da8/encoder_8hh.html" title=" " alt="" coords="89,81,267,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,31,159,69,154,70,125,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="167,107,149,132,132,158,120,188,111,219,107,216,115,186,128,155,145,129,163,111"/>
+<area shape="rect" id="Node000004" href="$d8/dd5/mips_8hh.html" title=" " alt="" coords="141,157,215,184"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="179,107,180,142,176,140,177,111"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="167,184,129,223,126,219,162,186"/>
+</map>

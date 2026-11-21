@@ -1,0 +1,8 @@
+<map id="common/hardware/sio.h" name="common/hardware/sio.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,184,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="59,157,130,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,36,71,56,60,82,57,95,60,108,77,144,72,144,55,110,52,95,55,80,67,53,85,31"/>
+<area shape="rect" id="Node000003" href="$d2/de7/irq_8h.html" title=" " alt="" coords="69,81,245,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,31,139,69,134,70,105,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="148,108,117,147,114,143,144,110"/>
+</map>
