@@ -2,7 +2,7 @@ TARGET = keynote
 TYPE = ps-exe
 
 SRCS = \
-../psmplayer/psmplayer.c \
+../../players/psmplayer/psmplayer.c \
 keynote-psm.o \
 keynote-vab.o \
 keynote.cpp \
@@ -12,7 +12,7 @@ CPPFLAGS = -Werror
 endif
 CXXFLAGS = -std=c++20
 
-include ../psyqo/psyqo.mk
+include ../../psyqo/psyqo.mk
 
 # keynote.mid is songs/keynote-reveal.mml from https://github.com/rixnobis/mml, compiled by
 # its mml2mid.py. keynote.psm and keynote.vab come from keynote.mid:

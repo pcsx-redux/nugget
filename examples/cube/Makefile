@@ -2,10 +2,10 @@ TARGET = cube
 TYPE = ps-exe
 
 SRCS = cube.c \
-../common/crt0/crt0.s \
+../../common/crt0/crt0.s \
 
-CPPFLAGS += -I../psyq/include
-LDFLAGS += -L../psyq/lib
+CPPFLAGS += -I../../psyq/include
+LDFLAGS += -L../../psyq/lib
 LDFLAGS += -Wl,--start-group
 LDFLAGS += -lapi
 LDFLAGS += -lc
@@ -30,4 +30,4 @@ LDFLAGS += -lspu
 LDFLAGS += -ltap
 LDFLAGS += -Wl,--end-group
 
-include ../common.mk
+include ../../common.mk

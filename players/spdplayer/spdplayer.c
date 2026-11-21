@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-#include "spdplayer/spdplayer.h"
+#include "players/spdplayer/spdplayer.h"
 
 #include <stddef.h>
 #include <stdint.h>

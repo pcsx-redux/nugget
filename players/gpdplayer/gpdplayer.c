@@ -24,7 +24,7 @@ SOFTWARE.
 
 */
 
-#include "gpdplayer/gpdplayer.h"
+#include "players/gpdplayer/gpdplayer.h"
 
 #include <stddef.h>
 #include <stdint.h>

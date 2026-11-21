@@ -27,7 +27,7 @@ SOFTWARE.
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
 #include "common/syscalls/syscalls.h"
-#include "spdplayer/spdplayer.h"
+#include "players/spdplayer/spdplayer.h"
 
 extern const uint8_t _binary_test_spd_start[];
 extern const uint8_t _binary_test_spd_end[];
