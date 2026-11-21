@@ -24,13 +24,11 @@ SOFTWARE.
 
 */
 
-
 #pragma once
 
 /* The physical link under the frame layer: either a blocking 16-bit word get
-   and put, or a byte get and put for a stream link, plus a one-time init. Each backend is a header of static inline functions so
-   the per-word calls inline into the framing loops; the build picks exactly
-   one. */
+   and put, or a byte get and put for a stream link, plus a one-time init. Each backend is a header of static inline
+   functions so the per-word calls inline into the framing loops; the build picks exactly one. */
 
 #if defined(MONITOR_LINK_ATCONS)
 #include "monitor/link-atcons.h"
@@ -46,12 +44,12 @@ SOFTWARE.
    bytes, with a 0 introducing a frame whose words go low byte first. It also
    provides linkRxOpen/linkRxClose around each receive, for flow control. */
 #ifdef MONITOR_LINK_IS_STREAM
-static inline uint16_t linkGetWord(void) {
+static inline __attribute__((always_inline)) uint16_t linkGetWord(void) {
     uint16_t lo = linkGetByte();
     return lo | ((uint16_t)linkGetByte() << 8);
 }
 
-static inline void linkPutWord(uint16_t w) {
+static inline __attribute__((always_inline)) void linkPutWord(uint16_t w) {
     linkPutByte(w & 0xff);
     linkPutByte(w >> 8);
 }

@@ -26,14 +26,31 @@ SOFTWARE.
 
 .include "common/hardware/hwregs.inc"
 
-/* This version of the cache flush routine is designed to be used from
-   the main ram, and is completely position-independent. This is inspired
-   from a main-ram version of FlushCache found in the PAL game TOCA World
-   Touring Cars, SLES-02572. The order of operations is important: the
-   BIU_CONFIG register has to be modified *after* changing cop0 Status.
-   Note that normally, nops are required after mutating cop0 Status or
-   BIU_CONFIG, but since we are running from uncached ram, the pipeline
-   stalls caused by accessing the SDRAM are enough. */
+/* Position-independent i-cache flush, callable from main RAM.
+ *
+ * Inspired by a main-RAM FlushCache found in the PAL game TOCA World
+ * Touring Cars (SLES-02572). Like that one, it runs from uncached memory
+ * (KSEG1): a fetch from cached space can itself fill i-cache lines while
+ * the tags are being rewritten.
+ *
+ * The i-cache is 4KB, organized as 256 lines of 4 words (16 bytes) each.
+ * Each line has a tag: physical_addr[31:12] | valid[3:0], where the 4
+ * valid bits correspond to the 4 words in the line.
+ *
+ * This routine only clears the tags (setting valid bits to 0 for all
+ * lines). The code words remain in cache SRAM but will not be served
+ * since no valid bits are set. This is sufficient because the CPU
+ * checks valid bits on every fetch and will refill from RAM on a miss.
+ *
+ * The TOCA approach (tag-only clear) does fewer stores than the retail
+ * BIOS approach, which does a two-pass clear (tags then code words).
+ * Clearing code words is unnecessary since invalid tags already prevent
+ * stale code from being served.
+ *
+ * As in the TOCA sequence, COP0 Status is cleared before BIU_CONFIG is
+ * changed. There are no nops after the COP0 Status or BIU_CONFIG writes;
+ * this relies on the slow uncached fetches from RAM to cover the hazards.
+ */
 
     .section .text.flushCache, "ax", @progbits
     .align 2
@@ -45,33 +62,53 @@ SOFTWARE.
 
 _ZN5psyqo6Kernel10flushCacheEv:
 flushCache:
-    /* Saves $ra to $t6, and the current cop0 Status register to $t0, and ensure we
-       are running from uncached ram. */
+    /* Save $ra (bal will clobber it) and COP0 Status register.
+       The mfc0 is in the bal's delay slot for efficiency. */
     li    $t1, 0xa0000000
     move  $t6, $ra
     bal   1f
     mfc0  $t0, $12
+
+    /* Trampoline to uncached KSEG1 mirror of this code.
+       bal set $ra to the address of label 1. ORing with 0xa0000000
+       converts any KUSEG/KSEG0 address to its KSEG1 equivalent.
+       We skip ahead 4 instructions (16 bytes) to land after the
+       jr's delay slot. */
 1:
     or    $t1, $ra, $t1
-    addiu $t1, 4 * 4 /* Jumps to the next instruction after the delay slot. */
+    addiu $t1, 4 * 4
     jr    $t1
 
-    /* First, disables interrupts. */
+    /* Disable interrupts and clear IsC, before the BIU_CONFIG change.
+       This is the jr's delay slot, so it is still fetched from the
+       caller's segment; the KSEG1 code starts at the lui below. */
     mtc0  $0, $12
 
-    /* Writes 0x0001e90c to the BIU_CONFIG register at 0xfffe0130.
-       This will let us continue to run from uncached memory, while
-       allowing us to access the i-cache. We keep the constant in
-       $t2, so we can reuse it later when re-enabling the i-cache. */
+    /* Set BIU_CONFIG to 0x0001e90c: TAG | RAM | IBLKSZ_4 | IS1 |
+       RDPRI | NOPAD | BGNT | LDSCH.
+       TAG (bit 2) routes isolated stores to the i-cache tag memory.
+       IS1 (bit 11) enables i-cache access.
+       Every other bit is the normal value, less DS, as in the TOCA
+       sequence. We keep the value in $t2 to derive the restore value later. */
     lui   $t5, %hi(BIU_CONFIG)
     li    $t2, 0x0001e90c
     sw    $t2, %lo(BIU_CONFIG)($t5)
 
-    /* Isolates the cache, and disables interrupts. */
+    /* Set COP0 Status to IsC (bit 16): isolate cache.
+       With TAG set in BIU, stores now go to i-cache tag memory.
+       The tag format is: physical_addr[31:12] | valid[3:0].
+       Writing 0 at offset N sets tag = (0 & 0xF) | (N & 0xFFFFF000),
+       which clears all valid bits (since N < 0x1000, address is 0). */
     li    $t1, 0x10000
     mtc0  $t1, $12
 
-    /* Clears only the relevant parts of the i-cache. */
+    /* Clear all 256 tags. Each tag is at a 16-byte stride (one per
+       line). The loop is unrolled 8x, so each iteration covers 8
+       lines (128 bytes). 256 lines / 8 = 32 iterations.
+       $t3 counts from 0 to 0x0f80 in steps of 0x80.
+       The bne compares before the addiu in the delay slot, so the
+       last iteration processes $t3 = 0x0f80, storing at offsets
+       0x0f80..0x0ff0, covering lines 248-255. */
     li    $t3, 0
     li    $t4, 0x0f80
 
@@ -87,15 +124,19 @@ flushCache:
     bne   $t3, $t4, 1b
     addiu $t3, 0x80
 
-    /* First, un-isolate the cache. */
+    /* Un-isolate the cache, before restoring BIU_CONFIG. */
     mtc0  $0, $12
-    /* Then, restore the BIU_CONFIG register to 0x0001e988. */
+
+    /* Restore BIU_CONFIG to normal: 0x0001e988.
+       0x0001e90c + 0x7c = 0x0001e988.
+       This clears TAG (bit 2), sets DS (bit 7), and keeps everything
+       else the same: RAM | DS | IBLKSZ_4 | IS1 | RDPRI | NOPAD |
+       BGNT | LDSCH. */
     addiu $t2, 0x7c
     sw    $t2, %lo(BIU_CONFIG)($t5)
-    /* Finally, restore the cop0 Status register, and return. It
-       might be unwise to do the mtc0 in the jr delay slot, in
-       case we arrive back at a cop2 instruction, but further
-       testing could be useful. */
+
+    /* Restore COP0 Status (re-enables interrupts if they were enabled)
+       and return via the saved $ra. */
     mtc0  $t0, $12
     jr    $t6
     nop

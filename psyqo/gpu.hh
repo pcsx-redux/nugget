@@ -45,6 +45,10 @@ SOFTWARE.
 #include "psyqo/primitives/misc.hh"
 #include "psyqo/shared.hh"
 
+// The vsync counter. The VBlank interrupt increments it: the takeover exception handler
+// (vector.s) directly, the BIOS event through GPU.
+extern "C" uint32_t psyqoFrameCounter;
+
 namespace psyqo {
 
 namespace timer_literals {
@@ -137,6 +141,18 @@ class GPU {
      * by one for each vsync event that occurred during the last rendering.
      */
     uint32_t getFrameCount() const { return m_previousFrameCount; }
+
+    /**
+     * @brief Returns the number of vsyncs since the GPU was initialized, as of now.
+     *
+     * @details Unlike `getFrameCount`, which is latched once per frame, this is
+     * the live counter the vblank interrupt increments. Spinning until it changes
+     * is how to wait for the start of the next vblank.
+     */
+    uint32_t getLiveFrameCount() const {
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        return *const_cast<const volatile uint32_t *>(&psyqoFrameCounter);
+    }
 
     /**
      * @brief Get the index of the current display buffer.
@@ -366,6 +382,19 @@ class GPU {
     }
 
     /**
+     * @brief Chains a runtime-sized ordering table to the next DMA chain transfer.
+     *
+     * @details Same as the `OrderingTable` overload above.
+     * @param table The ordering table to chain.
+     */
+    template <Safe safety = Safe::Yes>
+    void chain(DynamicOrderingTable<safety> &table) {
+        size_t n = table.size();
+        chain(&table.m_table[n].head, &table.m_table[0].head, 0);
+        scheduleOTC(&table.m_table[n].head, n + 1);
+    }
+
+    /**
      * @brief Immediately sends the current DMA chain
      *
      * @details This method will immediately send the current DMA chain to the GPU, and block until completion.
@@ -535,7 +564,7 @@ class GPU {
     // An oversized node's header stores size >> c_oversizedShift, and bit 0 of the link pointing at
     // it flags it. That link also carries bit 23, so the DMA engine stops there and never reads the
     // node; the engine ignores the low two bits of a link while MADR keeps them, so the interrupt
-    // handler sees the flag. tests/dma/dma.c covers that in linked_dma_800001_terminator and
+    // handler sees the flag. tests/dma/dma/dma.c covers that in linked_dma_800001_terminator and
     // linked_dma_odd_terminator.
     static constexpr unsigned c_oversizedShift = 4;
     static constexpr unsigned c_maxNodeWords = 255;
@@ -553,6 +582,7 @@ class GPU {
     void chain(uintptr_t *first, uintptr_t *last, size_t count);
     void scheduleOTC(uintptr_t *start, uint32_t count);
     void checkOTCAndTriggerCallback();
+    void applyConfiguration(const Configuration &config);
     void prepareForTakeover();
 
     eastl::function<void(void)> m_dmaCallback = nullptr;
@@ -560,8 +590,9 @@ class GPU {
     int m_width = 0;
     int m_height = 0;
     uint32_t m_currentTime = 0;
-    uint32_t m_frameCount = 0;
     uint32_t m_previousFrameCount = 0;
+    // Value of psyqoFrameCounter during the last 480i field GPUSTAT.31 was seen set in.
+    uint32_t m_lastLongFieldFrame = 0x80000000;
     unsigned m_parity = 0;
     uintptr_t *m_chainHead = nullptr;
     uintptr_t *m_chainTail = nullptr;

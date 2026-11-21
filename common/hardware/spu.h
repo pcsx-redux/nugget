@@ -33,8 +33,8 @@ struct SPUVoice {
     uint16_t volumeRight;
     uint16_t sampleRate;
     uint16_t sampleStartAddr;
-    uint16_t adsrLo;  // +0x08: release rate/mode, sustain rate/dir/mode
-    uint16_t adsrHi;  // +0x0A: attack mode/rate, decay rate, sustain level
+    uint16_t adsrLo;  // +0x08: attack mode/rate, decay rate, sustain level
+    uint16_t adsrHi;  // +0x0A: sustain mode/dir/rate, release mode/rate
     uint16_t currentVolume;
     uint16_t sampleRepeatAddr;
 };

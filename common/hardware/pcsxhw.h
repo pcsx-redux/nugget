@@ -54,7 +54,7 @@ static __inline__ void* pcsx_msanRealloc(void* ptr, uint32_t size) {
 static __inline__ void pcsx_msanSetChainPtr(void* headerAddr, void* ptrToNext, uint32_t wordCount) {
     register void* a0 asm("a0") = ptrToNext;
     register uint32_t a1 asm("a1") = wordCount;
-    __asm__ volatile("sw %0, 0x2094(%1)" : : "r"(a0), "r"(0x1f800000), "r"(a1));
+    __asm__ volatile("sw %0, 0x2094(%1)" : : "r"(headerAddr), "r"(0x1f800000), "r"(a0), "r"(a1) : "memory");
 }
 static __inline__ void* pcsx_msanGetChainPtr(void* headerAddr) {
     register void* a0 asm("a0") = headerAddr;
@@ -66,5 +66,11 @@ static __inline__ void* pcsx_msanGetChainPtr(void* headerAddr) {
 static __inline__ void pcsx_registerHeapMetadata(const void* metadata) {
     *((void* volatile* const)0x1f8020a0) = (void*)metadata;
 }
+
+/* Structured, versioned, feature-detectable commands live on the single port at
+   0x1f8020a4; see common/hardware/pcsxcmd.h. New features belong there rather
+   than on a fresh address in this file: the EXP2 space is shared with other
+   people's claimed registers and a write to an unclaimed one is
+   indistinguishable from success. */
 
 static __inline__ int pcsx_present() { return *((volatile uint32_t* const)0x1f802080) == 0x58534350; }

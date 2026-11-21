@@ -1,5 +1,7 @@
 BOOT ?= rom
 BOARD ?= psx
+# The shell embedded in the image: shello (psyqo), or shell (the older C one).
+OPENBIOS_SHELL ?= shello
 
 TARGET = openbios
 TYPE = bin
@@ -71,7 +73,7 @@ patches/remove_ChgclrPAD_2.c \
 patches/send_pad_1.c \
 patches/send_pad_2.c \
 \
-../shell/shell_data.o \
+../$(OPENBIOS_SHELL)/shell_data.o \
 \
 
 # Ensure all files are always cleaned up.
@@ -98,6 +100,8 @@ SRCS += $(CLEANSRCS)
 endif
 
 CPPFLAGS =
+# Kernel code runs from ROM and RAM: BIOS thunks are called through a register.
+CPPFLAGS += -DNUGGET_BIOS_LONG_CALLS
 
 ifneq ($(BOARD),psx)
 # Disable cheat cart builds and CD-ROM/shell support for arcade boards.
@@ -173,6 +177,10 @@ endif
 ifneq ($(MONITOR_LINK),ATCONS)
 CPPFLAGS += -DOPENBIOS_MONITOR -DMONITOR_LINK_$(MONITOR_LINK)
 include ../monitor/hosts/ft232h-boards.mk
+ifeq ($(BOARD),system573)
+MONITOR_PLATFORM ?= sys573
+endif
+include ../monitor/hosts/platforms.mk
 MONITOR_SIO1_RELOAD ?= 18
 CPPFLAGS += -DMONITOR_SIO1_RELOAD=$(MONITOR_SIO1_RELOAD)
 CPPFLAGS += -DOPENBIOS_BOOT_MODE_NO_SHELL -DOPENBIOS_BOOT_MODE_NO_CDROM
@@ -201,7 +209,7 @@ LDFLAGS_Release += -Wl,--defsym=__openbios_reserve_code_cave=1
 
 include ../common.mk
 
-../shell/shell_data.o: shell
+../$(OPENBIOS_SHELL)/shell_data.o: shell
 
 # The executable is aligned to 32 bytes in order to make it easier for tools and
 # homebrew apps to locate it by searching the ROM.
@@ -217,9 +225,10 @@ include ../common.mk
 	$(PREFIX)-objcopy -I binary --set-section-alignment .data=4 --rename-section .data=.font2,alloc,load,readonly,data,contents -O $(FORMAT) -B mips charset/font2.raw font2.o
 
 shell:
-	$(MAKE) -C ../shell shell_data.o
+	$(MAKE) -C ../$(OPENBIOS_SHELL) shell_data.o
 
 deepclean: clean
 	$(MAKE) -C ../shell clean
+	$(MAKE) -C ../shello clean
 
 .PHONY: deepclean shell

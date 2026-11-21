@@ -86,21 +86,21 @@ void unimplemented(uint32_t table, uint32_t call, uint32_t ra) {
     psxprintf("=== Unimplemented %x:%x syscall from %p ===\r\n", table, call, ra);
     psxprintf("epc = %p - status = %p - cause = %p - badv = %p\r\n", regs->returnPC, regs->SR, regs->Cause, badv);
     psxprintf("r0 = %p - at = %p - v0 = %p - v1 = %p\r\n", regs->GPR.r[0], regs->GPR.r[1], regs->GPR.r[2],
-                regs->GPR.r[3]);
+              regs->GPR.r[3]);
     psxprintf("a0 = %p - a1 = %p - a2 = %p - a3 = %p\r\n", regs->GPR.r[4], regs->GPR.r[5], regs->GPR.r[6],
-                regs->GPR.r[7]);
+              regs->GPR.r[7]);
     psxprintf("t0 = %p - t1 = %p - t2 = %p - t3 = %p\r\n", regs->GPR.r[8], regs->GPR.r[9], regs->GPR.r[10],
-                regs->GPR.r[11]);
+              regs->GPR.r[11]);
     psxprintf("t4 = %p - t5 = %p - t6 = %p - t7 = %p\r\n", regs->GPR.r[12], regs->GPR.r[13], regs->GPR.r[14],
-                regs->GPR.r[15]);
+              regs->GPR.r[15]);
     psxprintf("s0 = %p - s1 = %p - s2 = %p - s3 = %p\r\n", regs->GPR.r[16], regs->GPR.r[17], regs->GPR.r[18],
-                regs->GPR.r[19]);
+              regs->GPR.r[19]);
     psxprintf("s4 = %p - s5 = %p - s6 = %p - s7 = %p\r\n", regs->GPR.r[20], regs->GPR.r[21], regs->GPR.r[22],
-                regs->GPR.r[23]);
+              regs->GPR.r[23]);
     psxprintf("t8 = %p - t9 = %p - k0 = %p - k1 = %p\r\n", regs->GPR.r[24], regs->GPR.r[25], regs->GPR.r[26],
-                regs->GPR.r[27]);
+              regs->GPR.r[27]);
     psxprintf("gp = %p - sp = %p - s8 = %p - ra = %p\r\n", regs->GPR.r[28], regs->GPR.r[29], regs->GPR.r[30],
-                regs->GPR.r[31]);
+              regs->GPR.r[31]);
     psxprintf("hi = %p - lo = %p\r\n", regs->GPR.r[32], regs->GPR.r[33]);
     psxprintf("=== halting ===\r\n");
     pcsx_debugbreak();
@@ -279,11 +279,20 @@ static int getOpenBiosMonitorImpl() {
 static int installOpenBiosExceptionSlotImpl(int slot, void (*fn)(void)) {
     uint32_t *s;
     switch (slot) {
-        case 1: s = exceptionHandlerPatchSlot1; break;
-        case 2: s = exceptionHandlerPatchSlot2; break;
-        case 3: s = exceptionHandlerPatchSlot3; break;
-        case 4: s = exceptionHandlerPatchSlot4; break;
-        default: return -1;
+        case 1:
+            s = exceptionHandlerPatchSlot1;
+            break;
+        case 2:
+            s = exceptionHandlerPatchSlot2;
+            break;
+        case 3:
+            s = exceptionHandlerPatchSlot3;
+            break;
+        case 4:
+            s = exceptionHandlerPatchSlot4;
+            break;
+        default:
+            return -1;
     }
     uint32_t sr;
     __asm__ volatile("mfc0 %0, $12" : "=r"(sr));
@@ -292,10 +301,10 @@ static int installOpenBiosExceptionSlotImpl(int slot, void (*fn)(void)) {
     int ret = -2;
     if (!(s[0] | s[1] | s[2] | s[3])) {
         uint32_t e = (uint32_t)fn;
-        s[0] = 0x3c010000 | (e >> 16);     /* lui  at, %hi(fn) */
-        s[1] = 0x34210000 | (e & 0xffff);  /* ori  at, at, %lo(fn) */
-        s[2] = 0x0020f809;                 /* jalr at */
-        s[3] = 0;                          /* nop */
+        s[0] = 0x3c010000 | (e >> 16);    /* lui  at, %hi(fn) */
+        s[1] = 0x34210000 | (e & 0xffff); /* ori  at, at, %lo(fn) */
+        s[2] = 0x0020f809;                /* jalr at */
+        s[3] = 0;                         /* nop */
         flushCache();
         ret = 0;
     }

@@ -742,8 +742,8 @@ int __attribute__((section(".ramtext"))) cdromInnerInit() {
     enterCriticalSection();
     IMASK &= ~IRQ_CDROM;
     IMASK &= ~IRQ_DMA;
-    IREG &= ~IRQ_CDROM;
-    IREG &= ~IRQ_DMA;
+    IREG = ~IRQ_CDROM;
+    IREG = ~IRQ_DMA;
     s_irqAutoAck[1] = 1;
     s_irqAutoAck[0] = 1;
     DPCR = 0x9099;
@@ -757,13 +757,15 @@ int __attribute__((section(".ramtext"))) cdromInnerInit() {
     s_gotInt3 = 0;
     resetAllCDRomIRQs();
     enableAllCDRomIRQs();
-    IREG &= ~IRQ_CDROM;
+    IREG = ~IRQ_CDROM;
     IMASK |= IRQ_CDROM;
     IMASK |= IRQ_DMA;
     leaveCriticalSection();
     CDROM_REG0 = 0;
     CDROM_REG1 = CDL_INIT;
-    int wait = 30000;
+    // Init completes 50 to 150ms after its acknowledge (tests/cdrom/commands/cdlinit.c). A pass of
+    // this loop costs about 20 cycles in PCSX-Redux, so this waits about 280ms there.
+    int wait = 500000;
     while (wait-- && s_initializationComplete != 2) {
         if (s_initializationComplete == 1) return 1;
         atomic_signal_fence(memory_order_consume);

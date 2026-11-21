@@ -198,5 +198,6 @@ SECTIONS {
 
     .scratchpad (NOLOAD) : {
         *(.scratchpad)
+        __scratchpad_end = .;
     } > dcache
 }
