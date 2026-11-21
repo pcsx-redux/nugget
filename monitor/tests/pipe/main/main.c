@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-
 /* Full v1 monitor pipeline target: tty print, one PCDRV file, then an exit
    break with code 42. Loads at 0x80010000, below the RAM-linked monitor. */
 #include "common/kernel/pcdrv.h"

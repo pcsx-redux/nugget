@@ -133,7 +133,7 @@ void psyqoBreakHandler(uint32_t code) {
     ramsyscall_printf("Unhandled break: %08x\n", code);
     psyqo::Kernel::abort("Unhandled break");
 }
-void psyqoAssemblyExceptionHandler();
+extern const uint32_t psyqoExceptionVector[4];
 extern uint32_t psyqoExceptionHandlerStop[];
 }
 
@@ -145,8 +145,7 @@ void psyqo::Kernel::takeOverKernel() {
         __builtin_memset(nullptr, 0, 0x1000);
         application.gpu().prepareForTakeover();
         uint32_t* const exceptionHandler = reinterpret_cast<uint32_t*>(0x80);
-        exceptionHandler[0] = Mips::Encoder::j(reinterpret_cast<uint32_t>(psyqoAssemblyExceptionHandler));
-        exceptionHandler[1] = Mips::Encoder::nop();
+        for (unsigned i = 0; i < 4; i++) exceptionHandler[i] = psyqoExceptionVector[i];
         uint32_t* const handlers = reinterpret_cast<uint32_t*>(0xa0);
         // We want to redirect printf, but nothing else.
         uintptr_t printfAddr = reinterpret_cast<uintptr_t>(printfStub);
@@ -160,7 +159,7 @@ void psyqo::Kernel::takeOverKernel() {
         handlers[3] = Mips::Encoder::nop();
         // b0
         handlers[4] = Mips::Encoder::jr(Mips::Encoder::Reg::RA);
-        handlers[5] = Mips::Encoder::li(Mips::Encoder::Reg::T0, lo);
+        handlers[5] = Mips::Encoder::addiu(Mips::Encoder::Reg::T0, lo);
         handlers[6] = Mips::Encoder::jr(Mips::Encoder::Reg::T0);
         handlers[7] = Mips::Encoder::nop();
         // c0
@@ -287,8 +286,19 @@ void psyqo::Kernel::Internal::addInitializer(eastl::function<void(Application&)>
 }
 
 namespace {
+void dmaIRQOnce();
+// DICR bit 31 is the OR of every enabled channel flag, and I_STAT only sees its
+// rising edge. A channel finishing after DICR is read keeps bit 31 high through
+// the ack of the others, so loop until it drops.
 void dmaIRQ() {
     psyqo::Hardware::CPU::IReg.clear(psyqo::Hardware::CPU::IRQ::DMA);
+    for (unsigned pass = 0; pass < 16; pass++) {
+        if ((uint32_t(psyqo::Hardware::CPU::DICR) & 0x80000000) == 0) break;
+        dmaIRQOnce();
+    }
+}
+
+void dmaIRQOnce() {
     uint32_t dicr = psyqo::Hardware::CPU::DICR;
     uint32_t dirqs = dicr >> 24;
     dicr &= 0xff7fff;
@@ -304,6 +314,7 @@ void dmaIRQ() {
     ack <<= 24;
     dicr |= ack;
     psyqo::Hardware::CPU::DICR = dicr;
+    psyqo::Kernel::dmaAcquireBarrier();
 
     for (unsigned dma = 0; dma < static_cast<unsigned>(psyqo::Kernel::DMA::Max); dma++) {
         uint32_t mask = 1 << dma;
@@ -313,6 +324,23 @@ void dmaIRQ() {
             }
         }
     }
+}
+
+// Leaves through syscall_returnFromException when it handles a break, so it
+// cannot be instrumented: its shadow stack entry would never be popped. A
+// lambda would not do, as its static invoker gets instrumented regardless.
+[[gnu::no_instrument_function]] void exceptionEvent() {
+    Process* processes = *reinterpret_cast<Process**>(0x108);
+    Thread* currentThread = processes[0].thread;
+    unsigned exCode = currentThread->registers.Cause & 0x3c;
+    if (exCode == 0x24) {
+        unsigned code = *reinterpret_cast<uint32_t*>(currentThread->registers.returnPC) >> 6;
+        if (handleBreak(code)) {
+            currentThread->registers.returnPC += 4;
+            syscall_returnFromException();
+        }
+    }
+    if (s_crashHandlerPtr) s_crashHandlerPtr(exCode >> 2, &currentThread->registers.GPR.r[0]);
 }
 }  // namespace
 
@@ -350,19 +378,7 @@ void psyqo::Kernel::Internal::prepare(Application& application) {
         syscall_enqueueRCntIrqs(1);
         uint32_t event = syscall_openEvent(EVENT_DMA, 0x1000, EVENT_MODE_CALLBACK, dmaIRQ);
         syscall_enableEvent(event);
-        event = syscall_openEvent(0xf0000010, 0x1000, EVENT_MODE_CALLBACK, []() {
-            Process* processes = *reinterpret_cast<Process**>(0x108);
-            Thread* currentThread = processes[0].thread;
-            unsigned exCode = currentThread->registers.Cause & 0x3c;
-            if (exCode == 0x24) {
-                unsigned code = *reinterpret_cast<uint32_t*>(currentThread->registers.returnPC) >> 6;
-                if (handleBreak(code)) {
-                    currentThread->registers.returnPC += 4;
-                    syscall_returnFromException();
-                }
-            }
-            if (s_crashHandlerPtr) s_crashHandlerPtr(exCode >> 2, &currentThread->registers.GPR.r[0]);
-        });
+        event = syscall_openEvent(0xf0000010, 0x1000, EVENT_MODE_CALLBACK, exceptionEvent);
         syscall_enableEvent(event);
     } else {
         // Our exception handler will expect $k0 to be set to 0x1f80,
@@ -409,13 +425,19 @@ void psyqo::Kernel::Internal::pumpCallbacks() {
     if (s_flag == 0) return;
     fastEnterCriticalSection();
     s_flag = 0;
+    // Run at most as many callbacks as were queued on entry, so a callback
+    // that keeps queueing cannot hold us here forever. Each callback is moved
+    // out and popped before it runs, so a callback that pumps the queue itself
+    // (any blocking call does) cannot run its own entry again. A nested pump
+    // can drain entries under us; the remaining count may then run entries
+    // queued after we started, which only runs them one pump early.
     auto count = s_callbacks.size();
-    for (size_t i = 0; i < count; i++) {
-        auto& l = s_callbacks.front();
+    while (count-- && !s_callbacks.empty()) {
+        auto l = eastl::move(s_callbacks.front());
+        s_callbacks.pop_front();
         fastLeaveCriticalSection();
         l();
         fastEnterCriticalSection();
-        s_callbacks.pop_front();
     }
     fastLeaveCriticalSection();
 }

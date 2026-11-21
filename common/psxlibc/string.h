@@ -24,6 +24,9 @@ SOFTWARE.
 
 */
 
+// Most of these were originally written for uC-sdk (libc/include/string.h) by Nicolas Noble, who relicensed them here
+// under the MIT license above.
+
 #pragma once
 
 #include <stddef.h>
@@ -80,22 +83,26 @@ static __inline__ char *strncpy(char *s1, const char *s2, size_t n) {
     return r;
 }
 
+// The terminator is part of the string: searching for '\0' returns its
+// address, as in ISO C and the retail BIOS.
 static __inline__ char *strchr(const char *s, int c) {
+    const char ch = c;
     char b;
-    while ((b = *s)) {
-        if (b == c) return (char *)s;
+    while ((b = *s) != ch) {
+        if (!b) return NULL;
         s++;
     }
-    return NULL;
+    return (char *)s;
 }
 
 static __inline__ char *strrchr(const char *s, int c) {
+    const char ch = c;
     const char *r = NULL;
     char b;
-    while ((b = *s)) {
-        if (b == c) r = s;
+    do {
+        if ((b = *s) == ch) r = s;
         s++;
-    }
+    } while (b);
     return (char *)r;
 }
 
@@ -139,10 +146,10 @@ static __inline__ char *strstr(const char *s1, const char *s2) {
     return NULL;
 }
 
-static __attribute__((always_inline)) void* safeMemZero(void* ptr_, int size) {
-    uint8_t* ptr = (uint8_t*)ptr_;
+static __attribute__((always_inline)) void *safeMemZero(void *ptr_, int size) {
+    uint8_t *ptr = (uint8_t *)ptr_;
     if (!ptr || size <= 0) return NULL;
-    uint8_t* orig = ptr;
+    uint8_t *orig = ptr;
     for (; size > 0; ptr++) {
         size--;
         *ptr = 0;

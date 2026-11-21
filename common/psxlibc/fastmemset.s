@@ -32,7 +32,7 @@ SOFTWARE.
  * memory-s.s, and this one has to live in .ramtext.
  *
  * Four-word block, for the reasons set out in memory-s.s and measured by
- * src/mips/tests/memops-unroll. Main RAM drains at 2.10 cyc/word, four stores
+ * src/mips/tests/libc/memops-unroll. Main RAM drains at 2.10 cyc/word, four stores
  * per iteration already hides the loop tail underneath that, and anything
  * deeper is icache fill paid on every cold call for no gain per word. That
  * weighs more here than it does for the wrapped memset: sio0/pad.c calls this

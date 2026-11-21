@@ -33,6 +33,7 @@ SOFTWARE.
 #include "common/kernel/openbios.h"
 #include "common/psxlibc/handlers.h"
 #include "common/syscalls/syscalls.h"
+#include "monitor/watchdog.h"
 
 /* The monitor's exception chain entry, defined in monitor.c. */
 extern struct HandlerInfo s_monitorHandler;
@@ -53,6 +54,7 @@ static inline uint32_t monitorBiosChecksum(void) {
     const volatile uint32_t *p = (const volatile uint32_t *)0xbfc00000;
     uint32_t s1 = 0, s2 = 0;
     for (unsigned i = 0; i < 0x80000 / 4; i++) {
+        if ((i & 0xfff) == 0) monitorWatchdogKick();
         uint32_t w = p[i];
         s1 += w & 0xffff;
         s2 += s1;
@@ -79,11 +81,9 @@ extern uint32_t exceptionHandlerPatchSlot4[];
 static inline uint32_t *monitorFindSlot(void) { return exceptionHandlerPatchSlot4; }
 #else
 /* B0 0x56, GetC0Table. */
-static inline uint32_t **monitorGetC0Table(void) {
-    register int n asm("t1") = 0x56;
-    __asm__ volatile("" : "=r"(n) : "r"(n));
-    return ((uint32_t * *(*)(void))0xb0)();
-}
+NUGGET_BIOS_THUNK(monitorGetC0Table, 0xb0, 0x56)
+NUGGET_BIOS_EXTERN uint32_t **__nugget_bios_monitorGetC0Table(void);
+static inline uint32_t **monitorGetC0Table(void) { return __nugget_bios_monitorGetC0Table(); }
 
 /* The kernel exception handler as the CPU reaches it: the 0x80 vector is
    `lui k0, hi / addiu k0, k0, lo / jr k0` on the retail kernel and on
@@ -106,14 +106,29 @@ static inline uint32_t *monitorHandlerFromVector(void) {
    not know the monitor's loader and halts the machine; there the handler
    comes from the 0x80 vector instead (the same place on OpenBIOS). OpenBIOS
    API 1 and up installs the slot itself, see monitorInstallSlot. */
-static inline uint32_t *monitorFindSlot(void) {
+static inline uint32_t *monitorSlotAddress(void) {
     uint32_t *h = isOpenBiosPresent() ? monitorHandlerFromVector() : monitorGetC0Table()[6];
     uintptr_t a = (uintptr_t)h;
     if ((a & 3) || (a & 0x1fffffff) >= 0x00200000 - 0xb4) return 0; /* not in main RAM */
     if (h[0x6c / 4] != 0xaf430080 || h[0xb0 / 4] != 0xaf440010) return 0;
-    uint32_t *slot = h + 0xa0 / 4;
-    if (slot[0] | slot[1] | slot[2] | slot[3]) return 0;
+    return h + 0xa0 / 4;
+}
+
+static inline uint32_t *monitorFindSlot(void) {
+    uint32_t *slot = monitorSlotAddress();
+    if (!slot || (slot[0] | slot[1] | slot[2] | slot[3])) return 0;
     return slot;
+}
+
+/* A monitor already resident (a cart's, chainloading this one) left its
+   `lui at / ori at / jalr at / nop` call in slot 4, aimed into the core this
+   loader is about to overwrite. Give the slot back before the copy. */
+static inline void monitorReleaseSlot(void) {
+    uint32_t *slot = monitorSlotAddress();
+    if (!slot) return;
+    if ((slot[0] >> 16) != 0x3c01 || (slot[1] >> 16) != 0x3421 || slot[2] != 0x0020f809 || slot[3]) return;
+    slot[0] = slot[1] = slot[2] = 0;
+    syscall_flushCache();
 }
 #endif
 

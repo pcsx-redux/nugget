@@ -28,7 +28,7 @@ SOFTWARE.
  * -Wl,-wrap,memcpy / -Wl,-wrap,memset toggles. The plain memcpy below, and the
  * routines in memory-c.c, are the small default.
  *
- * THE BLOCK SIZES ARE MEASURED. src/mips/tests/memops-unroll sweeps both of
+ * THE BLOCK SIZES ARE MEASURED. src/mips/tests/libc/memops-unroll sweeps both of
  * them on hardware; re-run it before changing either.
  *
  *   memcpy uses a 32-byte block: eight words loaded before any is stored. What
@@ -62,7 +62,7 @@ SOFTWARE.
  * exact multiple of the block size silently loses its last one. The unaligned
  * memcpy path carries the same trap one step further along: its end has to come
  * from the count BEFORE the mask, or it lands below the source pointer and the
- * loop runs exactly once whatever the length. src/mips/tests/{memcpy,memset}
+ * loop runs exactly once whatever the length. src/mips/tests/libc/{memcpy,memset}
  * sweep lengths rather than sampling them, which is what holds both.
  */
 
@@ -103,25 +103,25 @@ __wrap_memcpy:
     subu   $a3, $a2
 
 .Lmemcpy_loop32_aligned:
-    lw     $t0, 0($a1)
-    lw     $t1, 4($a1)
-    lw     $t2, 8($a1)
-    lw     $t3, 12($a1)
-    lw     $t4, 16($a1)
-    lw     $t5, 20($a1)
-    lw     $t6, 24($a1)
-    lw     $t7, 28($a1)
     addiu  $a1, 32
-    sw     $t0, 0($a0)
-    sw     $t1, 4($a0)
-    sw     $t2, 8($a0)
-    sw     $t3, 12($a0)
-    sw     $t4, 16($a0)
-    sw     $t5, 20($a0)
-    sw     $t6, 24($a0)
-    sw     $t7, 28($a0)
-    bltu   $a1, $a3, .Lmemcpy_loop32_aligned
     addiu  $a0, 32
+    lw     $t0, -32($a1)
+    lw     $t1, -28($a1)
+    lw     $t2, -24($a1)
+    lw     $t3, -20($a1)
+    lw     $t4, -16($a1)
+    lw     $t5, -12($a1)
+    lw     $t6, -8($a1)
+    lw     $t7, -4($a1)
+    sw     $t0, -32($a0)
+    sw     $t1, -28($a0)
+    sw     $t2, -24($a0)
+    sw     $t3, -20($a0)
+    sw     $t4, -16($a0)
+    sw     $t5, -12($a0)
+    sw     $t6, -8($a0)
+    bltu   $a1, $a3, .Lmemcpy_loop32_aligned
+    sw     $t7, -4($a0)
 
 .Lmemcpy_last32_aligned:
     bltu   $a2, 4, .Lmemcpy_last4

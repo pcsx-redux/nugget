@@ -15,6 +15,10 @@ either through the official hardware or emulators.
 This can serve as a base for other projects, or as a reference for how to write code for the
 PlayStation 1.
 
+Small example programs live in [examples](../examples) and the audio format players in
+[players](../players). Libraries, OpenBIOS, the two shells, the monitor and modplayer stay at the
+top level, because other projects build them by path.
+
 ### Libraries
 
  - [common](../common) - Common code for all projects. Highly recommended to be used by other projects.
@@ -28,18 +32,18 @@ PlayStation 1.
 ### Audio
 
  - [modplayer](../modplayer) A MOD player from the reverse engineering of HITMEN's modplayer.
- - [psmplayer](../psmplayer) Real-time MIDI playback, driving a VAB instrument bank from a PSM event stream. The [PSM format](https://github.com/ps1dev/standards/blob/main/PSM.md) is documented in the ps1dev standards repository.
- - [spdplayer](../spdplayer) Playback of [SPU dumps](https://github.com/ps1dev/standards/blob/main/SPUDUMP.md), with sound effect voices available above the music voices.
+ - [psmplayer](../players/psmplayer) Real-time MIDI playback, driving a VAB instrument bank from a PSM event stream. The [PSM format](https://github.com/ps1dev/standards/blob/main/PSM.md) is documented in the ps1dev standards repository.
+ - [spdplayer](../players/spdplayer) Playback of [SPU dumps](https://github.com/ps1dev/standards/blob/main/SPUDUMP.md), with sound effect voices available above the music voices.
 
 ### Systems and examples
 
  - [openbios](../openbios) A fully functional BIOS implementation for the PlayStation 1, based on the reverse engineering of Sony's BIOS.
  - [shell](../shell) The tiny shell project. This is currently the shell software that OpenBIOS uses to have a boot logo and chime.
- - [helloworld](../helloworld) A very simple hello world.
- - [cxxhello](../cxxhello) A very quick hello world using C++.
- - [cube](../cube) A small demo that's demonstrating the use of the converted psyq libraries.
+ - [helloworld](../examples/helloworld) A very simple hello world.
+ - [cxxhello](../examples/cxxhello) A very quick hello world using C++.
+ - [cube](../examples/cube) A small demo that's demonstrating the use of the converted psyq libraries.
  - [ucl-demo](../ucl-demo) Decompressing a UCL/NRV2E stream, with a from-scratch decompressor.
- - [scratchstack](../scratchstack) Running a hot function on a separate stack in the scratchpad, to keep the compiler from spilling registers into slow main RAM.
+ - [scratchstack](../examples/scratchstack) Running a hot function on a separate stack in the scratchpad, to keep the compiler from spilling registers into slow main RAM.
 
 ### Tests
 

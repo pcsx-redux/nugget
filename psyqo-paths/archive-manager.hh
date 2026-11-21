@@ -139,7 +139,12 @@ class ArchiveManager {
             NONE = 0,
             UCL_NRV2E = 1,
             LZ4 = 2,
-            COUNT = 3,
+            // Raw sectors stored as-is, such as an STR movie with interleaved
+            // XA audio, meant to be streamed rather than loaded. The entry's
+            // first 32-bit field holds the sector count instead of the
+            // decompressed size and padding. `readFile` refuses these.
+            STREAM = 3,
+            COUNT = 4,
         };
         typedef Utilities::BitSpan<uint32_t, 21> DecompSizeField;
         typedef Utilities::BitSpan<uint32_t, 11> PaddingField;
@@ -164,6 +169,8 @@ class ArchiveManager {
         uint32_t getCompressedSize() const { return entry.get<CompressedSizeField>(); }
         // Return the compression method used to compress the data.
         Method getCompressionMethod() const { return entry.get<MethodField>(); }
+        // Return the number of sectors of a STREAM entry.
+        uint32_t getStreamSectors() const { return asArray[2]; }
         uint32_t asArray[4];
         struct {
             uint64_t hash;
@@ -349,7 +356,7 @@ class ArchiveManager {
      * UCL_NRV2E decompressor will not be registered. This will reduce the
      * final binary size of the program, as the decompressor code will not
      * be included in the final binary. The UCL_NRV2E decompressor takes
-     * 340 bytes of code, while the LZ4 decompressor takes 200 bytes of code.
+     * 276 bytes of code, while the LZ4 decompressor takes 200 bytes of code.
      * It is also reasonable to not register any decompressors at all, if the
      * user is sure that the archive will not contain any compressed files.
      */
@@ -393,7 +400,8 @@ class ArchiveManager {
         uint32_t indexSize = (getIndexCount() + 1) * sizeof(IndexEntry);
         return (indexSize + 2047) / 2048;
     }
-    static eastl::array<void (ArchiveManager::*)(const IndexEntry *), toUnderlying(IndexEntry::Method::COUNT)> s_decompressors;
+    static eastl::array<void (ArchiveManager::*)(const IndexEntry *), toUnderlying(IndexEntry::Method::COUNT)>
+        s_decompressors;
     void decompressUCL_NRV2E(const IndexEntry *entry);
     void decompressLZ4(const IndexEntry *entry);
 };

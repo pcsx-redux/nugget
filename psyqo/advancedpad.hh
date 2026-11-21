@@ -103,6 +103,17 @@ class AdvancedPad {
     void initialize(PollingMode mode = PollingMode::Normal);
 
     /**
+     * @brief Changes the polling mode after `initialize`.
+     *
+     * @details Takes effect from the next frame. Calling `initialize`
+     * again is not a substitute: it would register a second polling
+     * callback.
+     *
+     * @param mode The polling mode to use.
+     */
+    void setPollingMode(PollingMode mode) { m_portsToProbeByVSync = mode == PollingMode::Normal ? 1 : 2; }
+
+    /**
      * @brief Sets the event callback function.
      *
      * @details The event callback will be called for each pad-related event,

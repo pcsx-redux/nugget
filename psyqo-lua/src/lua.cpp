@@ -70,8 +70,8 @@ void psyqo::Lua::push(lua_CPPFunction f) {
 bool psyqo::Lua::isFixedPoint(int idx) {
     if (!isTable(idx)) return false;
 
-    // Check if it has a _raw field and the correct metatable
-    getMetatable(idx);
+    // lua_getmetatable pushes nothing when the value has no metatable.
+    if (!getMetatable(idx)) return false;
     getMetatable(PSYQO_FIXEDPOINT_METATABLE);
     bool result = lua_rawequal(L, -1, -2);
     pop(2);  // Pop both metatables

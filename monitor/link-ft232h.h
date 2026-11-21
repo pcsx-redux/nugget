@@ -50,6 +50,9 @@ SOFTWARE.
    Only the orion preset has run on hardware (SCPH-1001 and SCPH-7502). */
 
 #define MONITOR_LINK_IS_STREAM 1
+/* A whole bulk frame waits in the chip and the host's USB stack while the
+   monitor finishes the previous one (MON_CAP_PIPELINE). */
+#define LINK_DEEP_RX 1
 
 #ifndef MONITOR_FT232H_DATA
 #define MONITOR_FT232H_DATA 0xbf000000
@@ -78,17 +81,25 @@ static inline void linkRxOpen(void) {}
 
 static inline void linkRxClose(void) {}
 
-static inline uint8_t linkGetByte(void) {
+static inline __attribute__((always_inline)) uint8_t linkGetByte(void) {
     while (!FT232H_READY(FT232H_RXF)) {
     }
     return FT232H_DATA;
 }
 
-static inline void linkPutByte(uint8_t b) {
+static inline __attribute__((always_inline)) void linkPutByte(uint8_t b) {
     while (!FT232H_READY(FT232H_TXE)) {
     }
     FT232H_DATA = b;
 }
+
+/* Non-blocking transmit test for the console path (sio1-tty.c). TXE stays
+   busy once the chip's TX FIFO is full and nobody on the USB side reads it. */
+static inline int linkTxReady(void) { return FT232H_READY(FT232H_TXE); }
+
+/* The FIFO has no line rate to size a wait from: 2^20 polls, at least 124 ms
+   at 4 cycles a poll, above a USB latency timer period (16 ms by default). */
+static inline uint32_t linkTxStallPolls(void) { return 1u << 20; }
 
 /* The received-byte test the exception entry makes in assembly on every
    interrupt (monitor.c, monitorSlotEntry): RXF in the status register. */

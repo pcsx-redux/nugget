@@ -204,6 +204,69 @@ with open(OUT, 'w') as f:
     f.write('    0x%08x,\n' % pack((1, 0, 0, 0)))  # kind 1 = EOB, no suffix
     f.write('};\n')
 
+# Two direct-lookup tables in front of the dispatch above. Each is indexed by nine
+# bits of the window and gives back the finished entry, with bits 16..20 holding the
+# WHOLE code length rather than the suffix width, so a hit costs one load and no
+# leading-zero count at all.
+#
+#   c_bsdecPrim9: the top nine bits. Holds every code of nine bits or fewer, which
+#                 is all of groups 0..5 (escape included) and on real streams about
+#                 nine symbols in ten. Zero where the window has six or more leading
+#                 zeros.
+#   c_bsdecSec9:  bits 6..14, read only on a prim9 miss, so the six bits above are
+#                 known to be zero. Holds groups 6..9, every code of fifteen bits or
+#                 fewer. Zero where the window has ten or more leading zeros, which
+#                 is the only case left for the count-and-dispatch path.
+def direct(lead):
+    t = []
+    for i in range(512):
+        s = '0' * lead + format(i, '09b')
+        hit = [x for x in syms if s.startswith(x[0])]
+        assert len(hit) <= 1, 'two codes prefix %s' % s
+        if not hit:
+            t.append(0)
+            continue
+        c, kind, run, lvl = hit[0]
+        assert len(c) < 32
+        if kind == 1:
+            hw = 0xfe00
+        elif kind == 2:
+            hw = 0
+        else:
+            hw = ((run & 0x3f) << 10) | (lvl & 0x3ff)
+        t.append(hw | (len(c) << 16) | (kind << 21) | (1 << 23))
+    return t
+
+
+prim9 = direct(0)
+sec9 = direct(6)
+# The book saturates, so coverage is exact: prim9 misses precisely when the top six
+# bits are zero, sec9 precisely when bits 6..9 are zero as well.
+for i, e in enumerate(prim9):
+    assert (e != 0) == (i >= 8), 'prim9 coverage hole at %d' % i
+for i, e in enumerate(sec9):
+    assert (e != 0) == (i >= 32), 'sec9 coverage hole at %d' % i
+
+with open(OUT, 'a') as f:
+    f.write('''
+// Direct-lookup tables: nine bits of the window give the finished entry, with bits
+// 16..20 holding the whole code length. c_bsdecPrim9 is indexed by the top nine bits
+// and misses only when the window has six or more leading zeros; c_bsdecSec9 is
+// indexed by bits 6..14 on that miss and misses only on ten or more, which is what
+// is left for the count-and-dispatch tables above.
+#define BSDEC_VLC_LENGTH(e) (((e) >> 16) & 0x1f)
+''')
+    for nm, t in (('Prim9', prim9), ('Sec9', sec9)):
+        f.write('static const uint32_t c_bsdec%s[512] = {\n' % nm)
+        line = '   '
+        for e in t:
+            tok = ' 0x%08x,' % e
+            if len(line) + len(tok) > 118:
+                f.write(line + '\n')
+                line = '   '
+            line += tok
+        f.write(line + '\n};\n\n')
+
 # The version-3 delta-DC size books, read out of the same file for the same reason.
 # These are MPEG-1's DC size codes (ISO/IEC 11172-2 tables B-12 and B-13); Sony's
 # DecDCTvlc derives the long ones arithmetically rather than tabulating them.

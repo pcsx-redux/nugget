@@ -47,7 +47,16 @@ enum class IRQ : uint32_t {
 template <uint32_t offset>
 struct IRQReg : public Register<offset> {
     void set(IRQ irq) { *this |= (static_cast<uint32_t>(irq)); }
-    void clear(IRQ irq) { *this &= ~(static_cast<uint32_t>(irq)); }
+    // On I_STAT, writing 0 acks a bit and writing 1 leaves it alone, so clearing
+    // is a plain write: a read-modify-write would also ack any bit raised between
+    // its read and its write. On I_MASK it stays a read-modify-write.
+    void clear(IRQ irq) {
+        if constexpr (offset == 0x0070) {
+            Register<offset>::access() = ~static_cast<uint32_t>(irq);
+        } else {
+            *this &= ~(static_cast<uint32_t>(irq));
+        }
+    }
     void clear() { Register<offset>::access() = 0; }
     bool isSet(IRQ irq) const { return (*this & static_cast<uint32_t>(irq)) != 0; }
 };

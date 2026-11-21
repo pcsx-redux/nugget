@@ -1,0 +1,8 @@
+# The same source listed twice is one object, not a clash: openbios lists its
+# sources again for clean.
+TARGET = samebasename
+TYPE = library
+
+SRCS = pick.c other.cpp pick.c
+
+include ../../../common.mk

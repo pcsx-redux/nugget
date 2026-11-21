@@ -60,6 +60,9 @@ void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len);
    single-threaded). */
 void transportSendBegin(uint16_t type, uint16_t len);
 void transportSendWord(uint16_t w);
+/* nbytes from src as (nbytes + 1) / 2 words, low byte first, the last one
+   padded with 0; the checksum is updated as by transportSendWord. */
+void transportSendBytes(const uint8_t *src, uint32_t nbytes);
 void transportSendEnd(void);
 
 /* Block until a full, checksum-valid frame arrives. On success returns
@@ -94,4 +97,8 @@ void transportRecvBegin(uint16_t *type, uint16_t *len);
    next interrupt comes, so its tail cannot be relied on. */
 int transportStopPending(void);
 uint16_t transportRecvWord(void);
+/* `words` payload words into dst, low byte first, storing only the first
+   nbytes; the checksum is updated as by transportRecvWord. The bulk path of
+   WRITE_MEM/LOAD. */
+void transportRecvBytes(uint8_t *dst, uint32_t nbytes, uint32_t words);
 int transportRecvEnd(void);

@@ -26,8 +26,6 @@ SOFTWARE.
 
 #include "psyqo/cdrom-device.hh"
 
-#include <EASTL/atomic.h>
-
 #include "common/kernel/events.h"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/gpu.hh"
@@ -36,6 +34,12 @@ SOFTWARE.
 #include "psyqo/kernel.hh"
 
 void psyqo::CDRomDevice::prepare() {
+    // A reply left over from whatever had the drive before this program.
+    const uint8_t cause = Hardware::CDRom::Cause;
+    if (cause & 7) Hardware::CDRom::Cause = 7;
+    if (cause & 0x18) Hardware::CDRom::Cause = 0x18;
+    for (unsigned i = 0; i < 16 && (Hardware::CDRom::Ctrl.access() & 0x20); i++) Hardware::CDRom::Response.throwAway();
+    Hardware::CPU::IReg.clear(Hardware::CPU::IRQ::CDRom);
     Hardware::CPU::IMask.set(Hardware::CPU::IRQ::CDRom);
     Kernel::enableDma(Kernel::DMA::CDRom);
     eastl::function<void()> callback = [this]() {
@@ -69,6 +73,11 @@ void psyqo::CDRomDevice::irq() {
         uint8_t cause = Hardware::CDRom::Cause;
         if (ranOnce && ((cause & 15) == 0)) break;
         ranOnce = true;
+        // No response to receive (an SCPH-5501 raises one at start, Cause E0h and no reply, after prepare()'s drain).
+        if ((cause & 7) == 0) {
+            if (cause & 0x18) Hardware::CDRom::Cause = 0x18;
+            break;
+        }
         Kernel::assert(m_action != nullptr, "CDRomDevice::irq() called with no action - spurious interrupt?");
 
         if (cause & 7) {
@@ -78,6 +87,10 @@ void psyqo::CDRomDevice::irq() {
         if (cause & 0x18) {
             Hardware::CDRom::Cause = 0x18;
         }
+
+        // A re-entry can find the flags already serviced by the previous pass
+        // of this loop; there is nothing to do then.
+        if ((cause & 7) == 0) break;
 
         bool callCallback = false;
         Response response;
@@ -139,10 +152,10 @@ void psyqo::CDRomDevice::irq() {
         if (callCallback) {
             Kernel::assert(!!m_callback, "Wrong CDRomDevice state");
             m_action = nullptr;
+            Kernel::dmaAcquireBarrier();
             if (m_blocking) {
                 actionComplete();
             } else {
-                eastl::atomic_signal_fence(eastl::memory_order_acquire);
                 Kernel::queueCallbackFromISR([this]() { actionComplete(); });
             }
         }
@@ -165,6 +178,7 @@ psyqo::CDRomDevice::BlockingAction::~BlockingAction() {
         }
         gpu->pumpCallbacks();
     }
+    Kernel::dmaAcquireBarrier();
     device->m_blocking = false;
     Hardware::CPU::IMask.set(Hardware::CPU::IRQ::CDRom);
 }

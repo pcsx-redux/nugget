@@ -198,6 +198,10 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
             m_card.readSector(m_port, 0, m_scratch.bytes, [this](Error e) { onSectorDone(e); });
             return;
 
+        case Phase::Probe:
+            m_card.readSector(m_port, m_probeSector, m_probe.bytes, [this](Error e) { onSectorDone(e); });
+            return;
+
         case Phase::ReadDir:
             m_card.readSector(m_port, static_cast<uint16_t>(m_idx + 1), m_dir[m_idx].bytes,
                               [this](Error e) { onSectorDone(e); });
@@ -206,8 +210,7 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
         case Phase::ReadTitle:
             // Read the file's first frame to learn how many leading frames are
             // title + icon (not part of the payload).
-            m_card.readSector(m_port, blockToSector(m_chain[0]), m_scratch.bytes,
-                              [this](Error e) { onSectorDone(e); });
+            m_card.readSector(m_port, blockToSector(m_chain[0]), m_scratch.bytes, [this](Error e) { onSectorDone(e); });
             return;
 
         case Phase::ReadData: {
@@ -244,8 +247,8 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
                 if (m_dataOffset < m_dataLen) {
                     uint32_t chunk = m_dataLen - m_dataOffset;
                     if (chunk > MemoryCard::c_sectorSize) chunk = MemoryCard::c_sectorSize;
-                    __builtin_memcpy(m_scratch.bytes,
-                                     reinterpret_cast<const uint8_t *>(m_writeData) + m_dataOffset, chunk);
+                    __builtin_memcpy(m_scratch.bytes, reinterpret_cast<const uint8_t *>(m_writeData) + m_dataOffset,
+                                     chunk);
                     m_dataOffset += chunk;
                 }
             }
@@ -268,7 +271,12 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
         }
 
         case Phase::Format: {
-            uint16_t sector = static_cast<uint16_t>(m_idx);
+            // Steps 0..2 zero the size-probe sectors 512, 256 and 128, so a card
+            // that only looked small because one of them held a copy of the
+            // header reads full size again. On a 64KiB card sector 512 is
+            // sector 0 itself, so steps 3..66, block 0's sectors 0..63 in
+            // order, run after it.
+            uint16_t sector = m_idx < 3 ? static_cast<uint16_t>(512 >> m_idx) : static_cast<uint16_t>(m_idx - 3);
             __builtin_memset(m_scratch.bytes, 0, sizeof(m_scratch.bytes));
             if (sector == 0 || sector == 63) {
                 // Header frame and the write-test frame: "MC".
@@ -287,7 +295,7 @@ void psyqo::MemoryCardFileSystem::issueOrFinish() {
                 put16(m_scratch.bytes + 0x08, 0xffff);
                 finishDirEntry(m_scratch.bytes);
             }
-            // sectors 36..62: zero (already memset).
+            // sectors 36..62 and the probe sectors: zero (already memset).
             m_card.writeSector(m_port, sector, m_scratch.bytes, [this](Error e) { onSectorDone(e); });
             return;
         }
@@ -319,6 +327,40 @@ void psyqo::MemoryCardFileSystem::onSectorDone(Error error) {
                 m_result = Error::NotFormatted;
                 finish(m_result);
                 return;
+            }
+            m_cardBlocks = 16;
+            if (m_op == Op::WriteFile || m_op == Op::GetFreeBlockCount) {
+                // Only these two depend on how many blocks really exist.
+                m_probeSector = 512;
+                m_phase = Phase::Probe;
+                break;
+            }
+            m_phase = Phase::ReadDir;
+            m_idx = 0;
+            break;
+        }
+
+        case Phase::Probe: {
+            // A card that drops the sector address bit at m_probeSector returns
+            // sector 0 here, byte for byte. A full-size card returns the first
+            // frame of a data block: a "SC" title frame or never-written data.
+            // A full-size card whose block 8 starts with a copy of the header
+            // (a raw 64KiB image written twice, or a card built to look small)
+            // also reads as 64KiB. That costs it blocks 8..15 for new files;
+            // files already there stay listed and readable.
+            bool alias = true;
+            for (uint32_t i = 0; i < sizeof(m_probe.bytes); i++) {
+                if (m_probe.bytes[i] != m_scratch.bytes[i]) {
+                    alias = false;
+                    break;
+                }
+            }
+            if (alias) {
+                m_cardBlocks = m_probeSector / MemoryCard::c_sectorsPerBlock;
+                if (m_probeSector > 128) {
+                    m_probeSector >>= 1;
+                    break;
+                }
             }
             m_phase = Phase::ReadDir;
             m_idx = 0;
@@ -429,8 +471,7 @@ void psyqo::MemoryCardFileSystem::onSectorDone(Error error) {
                     } else {
                         put32(entry + c_offSize, 0);
                     }
-                    uint16_t next =
-                        (bi == m_blocksNeeded - 1) ? 0xffff : static_cast<uint16_t>(m_chain[bi + 1] - 1);
+                    uint16_t next = (bi == m_blocksNeeded - 1) ? 0xffff : static_cast<uint16_t>(m_chain[bi + 1] - 1);
                     put16(entry + c_offNext, next);
                     finishDirEntry(entry);
                 }
@@ -457,7 +498,7 @@ void psyqo::MemoryCardFileSystem::onSectorDone(Error error) {
             break;
 
         case Phase::Format:
-            if (++m_idx > 63) {
+            if (++m_idx > 66) {
                 finish(m_result);
                 return;
             }
@@ -472,7 +513,7 @@ psyqo::MemoryCardFileSystem::StepResult psyqo::MemoryCardFileSystem::afterReadDi
         case Op::GetFreeBlockCount: {
             uint16_t inUse = reachableBlocks(m_dir);
             uint32_t free = 0;
-            for (unsigned i = 0; i < 15; i++) {
+            for (unsigned i = 0; i + 1 < m_cardBlocks; i++) {
                 if (!(inUse & (1 << (i + 1)))) free++;
             }
             if (m_outFreeBlocks) *m_outFreeBlocks = free;
@@ -579,12 +620,14 @@ psyqo::MemoryCardFileSystem::StepResult psyqo::MemoryCardFileSystem::afterReadDi
             // recoverable) and ignoring blocks any valid file still references.
             uint16_t inUse = reachableBlocks(m_dir);
             m_chainLen = 0;
-            for (unsigned i = 0; i < 15 && m_chainLen < m_blocksNeeded; i++) {
+            // Blocks at or past m_cardBlocks alias lower blocks, the directory
+            // included, so they are never handed out.
+            for (unsigned i = 0; i + 1 < m_cardBlocks && m_chainLen < m_blocksNeeded; i++) {
                 if (!(inUse & (1 << (i + 1))) && m_dir[i].bytes[c_offAlloc] == c_stateFree) {
                     m_chain[m_chainLen++] = static_cast<uint8_t>(i + 1);
                 }
             }
-            for (unsigned i = 0; i < 15 && m_chainLen < m_blocksNeeded; i++) {
+            for (unsigned i = 0; i + 1 < m_cardBlocks && m_chainLen < m_blocksNeeded; i++) {
                 if (!(inUse & (1 << (i + 1))) && m_dir[i].bytes[c_offAlloc] != c_stateFree) {
                     m_chain[m_chainLen++] = static_cast<uint8_t>(i + 1);
                 }
@@ -655,8 +698,8 @@ void psyqo::MemoryCardFileSystem::getFreeBlockCount(Port port, uint32_t *outFree
     issueOrFinish();
 }
 
-void psyqo::MemoryCardFileSystem::listFiles(Port port, FileEntry *out, uint32_t maxEntries,
-                                            uint32_t *outCount, eastl::function<void(Error)> &&callback) {
+void psyqo::MemoryCardFileSystem::listFiles(Port port, FileEntry *out, uint32_t maxEntries, uint32_t *outCount,
+                                            eastl::function<void(Error)> &&callback) {
     m_outEntries = out;
     m_maxEntries = maxEntries;
     m_outCount = outCount;
@@ -674,8 +717,8 @@ void psyqo::MemoryCardFileSystem::fileExists(Port port, const char *name, bool *
     issueOrFinish();
 }
 
-void psyqo::MemoryCardFileSystem::readFile(Port port, const char *name, void *buffer, uint32_t maxLen,
-                                           uint32_t *outLen, eastl::function<void(Error)> &&callback) {
+void psyqo::MemoryCardFileSystem::readFile(Port port, const char *name, void *buffer, uint32_t maxLen, uint32_t *outLen,
+                                           eastl::function<void(Error)> &&callback) {
     m_name = name;
     m_readBuffer = buffer;
     m_maxLen = maxLen;
@@ -693,8 +736,8 @@ void psyqo::MemoryCardFileSystem::readFileInfo(Port port, const char *name, File
     issueOrFinish();
 }
 
-void psyqo::MemoryCardFileSystem::writeFile(Port port, const char *name, const char *title,
-                                            const Icon &icon, const void *data, uint32_t dataLen,
+void psyqo::MemoryCardFileSystem::writeFile(Port port, const char *name, const char *title, const Icon &icon,
+                                            const void *data, uint32_t dataLen,
                                             eastl::function<void(Error)> &&callback) {
     m_name = name;
     m_title = title;
@@ -705,8 +748,7 @@ void psyqo::MemoryCardFileSystem::writeFile(Port port, const char *name, const c
     issueOrFinish();
 }
 
-void psyqo::MemoryCardFileSystem::deleteFile(Port port, const char *name,
-                                             eastl::function<void(Error)> &&callback) {
+void psyqo::MemoryCardFileSystem::deleteFile(Port port, const char *name, eastl::function<void(Error)> &&callback) {
     m_name = name;
     begin(Op::DeleteFile, port, eastl::move(callback));
     issueOrFinish();
