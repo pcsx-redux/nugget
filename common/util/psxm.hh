@@ -108,8 +108,7 @@ class Model {
      */
     bool parse(const uint8_t* blob) {
         auto header = reinterpret_cast<const Header*>(blob);
-        if (header->magic[0] != 'P' || header->magic[1] != 'X' || header->magic[2] != 'M' ||
-            header->magic[3] != '2') {
+        if (header->magic[0] != 'P' || header->magic[1] != 'X' || header->magic[2] != 'M' || header->magic[3] != '2') {
             return false;
         }
         m_header = header;

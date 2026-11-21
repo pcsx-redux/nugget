@@ -3,7 +3,11 @@ local mips = path.join(os.scriptdir())
 
 includes(path.join(root, "tools", "xmake", "assets.lua"))
 
-includes(path.join(root, "third_party", "xmake-psx"))
+local xmakePsx = path.join(root, "third_party", "xmake-psx")
+if not os.isfile(path.join(xmakePsx, "xmake.lua")) then
+    print("nugget: %s is empty, so the psx rule cannot load. Fetch the submodules: git submodule sync --recursive && git submodule update --init --recursive", xmakePsx)
+end
+includes(xmakePsx)
 
 -- Turns the one binary target this depends on into a PS-X EXE, the same
 -- layout the Makefile build produces through ps-exe.ld: the file holds the
@@ -93,6 +97,7 @@ target("nugget.crt", function()
     add_files(path.join(mips, "common", "crt0", "memory-s.s"))
     add_files(path.join(mips, "common", "syscalls", "printf.s"))
     add_values("psx.no_gpopt", true)
+    add_values("psx.abi", "o32")
     add_asflags("-mabi=32")
     add_cxflags("-mabi=32", "-fno-reg-struct-return", "-G0")
     add_cxflags("-fno-fuse-ops-with-volatile-access")
@@ -105,6 +110,10 @@ rule("nugget", function()
         target:add("values", "psx.no_crt", true)
         target:add("values", "psx.no_ldscript", true)
         target:add("values", "psx.no_gpopt", true)
+        -- o32, like the BIOS and the Makefile build. xmake-psx's default eabi
+        -- also passes -fcall-saved-k0/k1, which -mabi=32 below does not undo,
+        -- and the exception handler clobbers k0 and k1.
+        target:set("values", "psx.abi", "o32")
         target:add("asflags", "-mabi=32")
         target:add("cxflags", "-mabi=32", "-fno-reg-struct-return", "-G0", "-fno-strict-aliasing")
         -- gcc 16 can narrow a 32-bit volatile hardware register load; xmake

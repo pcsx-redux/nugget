@@ -229,8 +229,8 @@ PSYQO_GTE_MATH_INLINE FixedPoint<> inverseSquareRootSeed(FixedPoint<> x) {
 /**
  * @brief Normalises a vector in place.
  *
- * @details Drop-in for SoftMath::normalizeVec3, which reaches 1/sqrt through
- * squareRoot's shift-subtract loop at about 3588 cycles a vector. This keeps
+ * @details Drop-in for SoftMath::normalizeVec3, which takes squareRoot and
+ * then divides by it. This keeps
  * the squared length on the CPU - three multiplies - and takes only the seed
  * from the GTE, then uses the existing Newton refinement. Measured against the
  * exact version over 800 vectors, worst component deviation is 10 raw out of
@@ -301,8 +301,7 @@ PSYQO_GTE_MATH_INLINE Vec3 cubic(const Vec3 &a, const Vec3 &b, const Vec3 &c, co
  *
  * CLOBBERS: the rotation matrix (RT), V0, IR1-3, MAC1-3. Not TR.
  */
-PSYQO_GTE_MATH_INLINE Vec3 cubicDerivative(const Vec3 &a, const Vec3 &b, const Vec3 &c, const Vec3 &d,
-                                           FixedPoint<> t) {
+PSYQO_GTE_MATH_INLINE Vec3 cubicDerivative(const Vec3 &a, const Vec3 &b, const Vec3 &c, const Vec3 &d, FixedPoint<> t) {
     using namespace psyqo::fixed_point_literals;
     FixedPoint<> mt = 1.0_fp - t;
     Vec3 ab = {b.x - a.x, b.y - a.y, b.z - a.z};

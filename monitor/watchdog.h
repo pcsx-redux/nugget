@@ -50,9 +50,7 @@ SOFTWARE.
 #ifdef MONITOR_WATCHDOG_ADDR
 #define MONITOR_HAS_WATCHDOG 1
 extern volatile uint8_t g_monitorKick;
-static inline void monitorWatchdogKick(void) {
-    *(volatile uint16_t *)MONITOR_WATCHDOG_ADDR = 0;
-}
+static inline void monitorWatchdogKick(void) { *(volatile uint16_t *)MONITOR_WATCHDOG_ADDR = 0; }
 
 /* MONITOR_WDT_KICK_HZ=N (default 0 = off) makes monitorWatchdogIdle kick at
    most N times a second, timed by root counter 2 at sysclk/8 (free-running,

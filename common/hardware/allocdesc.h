@@ -130,14 +130,14 @@ struct pcsx_AllocReport {
     volatile uint32_t findingCounts[PCSX_ALLOCFINDING_COUNT];
 };
 
-static __inline__ void pcsx_allocReportInit(struct pcsx_AllocReport* report, uint32_t arenaIndex) {
+PCSX_INLINE void pcsx_allocReportInit(struct pcsx_AllocReport* report, uint32_t arenaIndex) {
     pcsx_commandInit(&report->header, PCSX_CMD_ALLOC_REPORT, sizeof(struct pcsx_AllocReport));
     report->arenaIndex = arenaIndex;
 }
 
 /* Convenience for the common case: fill in the header for a descriptor holding
    `count` entries. The caller still fills nameAddr/heapStart/heapEnd/entries. */
-static __inline__ void pcsx_allocDescriptorInit(struct pcsx_AllocDescriptor* descriptor, uint32_t count) {
+PCSX_INLINE void pcsx_allocDescriptorInit(struct pcsx_AllocDescriptor* descriptor, uint32_t count) {
     pcsx_commandInit(&descriptor->header, PCSX_CMD_REGISTER_ALLOCATOR,
                      sizeof(struct pcsx_AllocDescriptor) + count * sizeof(struct pcsx_AllocEntry));
     descriptor->entryCount = count;

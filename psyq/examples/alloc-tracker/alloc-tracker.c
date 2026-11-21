@@ -68,9 +68,7 @@ static struct pcsx_AllocReport s_report;
 /* Returning from main under the psyq crt0 lands in A0:A1, which is abort().
    psyqo's cxxglue calls pcsx_exit(main()) for you; this crt0 does not, so say
    it explicitly. */
-static void finish(int code) {
-    pcsx_exit(code);
-}
+static void finish(int code) { pcsx_exit(code); }
 
 static int fetch(void) {
     pcsx_allocReportInit(&s_report, 0);
@@ -163,11 +161,11 @@ int main(void) {
        back. The tracker DOES record it - it never touches guest memory, so a
        wrecked heap does not impair it - but the guest does not survive to say
        so. PSYQo's allocator happens to tolerate the same abuse, so the
-       findings-panel demonstration lives in src/mips/tests/alloc-tracker
+       findings-panel demonstration lives in src/mips/tests/tooling/alloc-tracker
        instead. Against a real allocator, read the findings in the widget rather
        than expecting the program to keep running. */
 
     print("psyq malloc3 tracker example: ok\n");
     finish(0);
-        return 0;
+    return 0;
 }

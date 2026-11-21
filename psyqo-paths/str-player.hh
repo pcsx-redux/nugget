@@ -45,7 +45,8 @@ class ArchiveManager;
  * count. Where they come from is the business of the helpers at the bottom of this
  * file, which resolve an ISO9660 path or an archive entry into that pair.
  *
- * The sectors are read in one continuous ReadS at double speed. Video sectors
+ * The sectors are read in one continuous ReadS, at double speed unless a movie made
+ * for single speed asks otherwise (Options::doubleSpeed). Video sectors
  * (the 0x0160 chunk magic at the start of their user data) are reassembled into
  * frame slots straight from the CD-ROM interrupt, and XA-ADPCM audio sectors go to
  * the SPU through the drive, without ever touching RAM. Frames are VLC-decoded
@@ -61,6 +62,10 @@ class ArchiveManager;
  * The GPU has to be configured by the application for the depth the player
  * outputs: 24 bits per pixel by default, 15 bits with `Options::rgb24 = false`.
  * In 24 bits, a 320 pixels wide frame occupies 480 halfwords of VRAM per buffer.
+ *
+ * With `Options::vramX` set, frames go to that one VRAM rectangle instead, always
+ * in 15 bits, for a program that draws the movie as a texture: `frame()` then
+ * returns once the rectangle holds the next frame, and the display is left alone.
  *
  * The CD-ROM device is owned by the player for the duration of the playback.
  */
@@ -83,6 +88,8 @@ class StrPlayer {
     struct Options {
         bool rgb24 = true;
         bool audio = true;
+        // Off for a movie encoded for single speed (psxavenc -x 1).
+        bool doubleSpeed = true;
         // Setfilter: only play the XA channel matching file/channel. When false,
         // the drive plays every audio sector it meets.
         bool xaFilter = false;
@@ -100,6 +107,11 @@ class StrPlayer {
         // Size of the display the frame is centered in, in pixels.
         uint16_t displayWidth = 320;
         uint16_t displayHeight = 240;
+        // Where in VRAM to decode, for a frame drawn as a texture: always 15-bit (rgb24 is ignored). -1 for the back
+        // buffer. One rectangle, not double buffered: each frame lands in it during frame(), so a caller that draws
+        // from it waits for its own chain to finish before calling frame().
+        int16_t vramX = -1;
+        int16_t vramY = 0;
     };
 
     enum class Status : uint8_t { IDLE, PLAYING, ENDED, FAILED };
@@ -113,6 +125,7 @@ class StrPlayer {
         uint32_t videoSectors = 0;
         uint32_t otherSectors = 0;
         uint32_t readErrors = 0;
+        uint32_t badAddresses = 0;
         uint32_t lastFrameNumber = 0;
         // Vsyncs between two consecutive presented frames, 1, 2, 3, and 4 or more.
         uint32_t vsyncHistogram[4] = {};
@@ -135,6 +148,15 @@ class StrPlayer {
      */
     bool play(uint32_t lba, uint32_t sectors, const Options &options);
     bool play(uint32_t lba, uint32_t sectors);
+
+    /**
+     * @brief The heap `play()` takes with these options, in bytes.
+     *
+     * @details It is one contiguous block, the allocator's header included, held
+     * until the movie ends, fails, or is stopped. 0xffffffff when rlHalfwords
+     * is over 4M (8 MiB of run-level buffer), which play() refuses.
+     */
+    static uint32_t heapNeeded(const Options &options);
 
     /**
      * @brief Drives the playback, to be called from the scene's `frame()`.
@@ -187,8 +209,14 @@ class StrPlayer {
     GPU &m_gpu;
     Options m_options;
     Stats m_stats;
+    struct Layout {
+        uint32_t slotBytes, rlBytes, sliceBytes;
+        uint32_t slotData, rl, slices, total;
+        bool fits;  // false when rlHalfwords is past any PS1 RAM
+        static Layout of(const Options &options);
+    };
+    uint8_t *m_heap = nullptr;
     Slot *m_slots = nullptr;
-    uint8_t *m_slotMemory = nullptr;
     struct Rl {
         uint32_t command;
         uint32_t halfwords;

@@ -720,6 +720,13 @@ static void sout(const char *txt, int amt, void *arg) {
     ((struct s_strargument *)arg)->next = head;
 }
 
+/*
+** The null output: vxprintf already counts what it emits, so discarding
+** the text is enough to measure it. This is what vsnprintf uses when it has
+** no room at all, which C99 allows with a NULL buffer.
+*/
+static void nout(const char *txt, int amt, void *arg) {}
+
 int vsprintf(char *buf, const char *fmt, va_list ap) {
     struct s_strargument arg;
     arg.next = buf;
@@ -729,6 +736,7 @@ int vsprintf(char *buf, const char *fmt, va_list ap) {
 }
 int vsnprintf(char *buf, size_t n, const char *fmt, va_list ap) {
     struct s_strargument arg;
+    if (n == 0) return vxprintf(nout, 0, fmt, ap);
     arg.next = buf;
     arg.last = &buf[n - 1];
     *buf = 0;

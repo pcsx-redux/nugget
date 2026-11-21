@@ -100,6 +100,8 @@ SRCS += $(CLEANSRCS)
 endif
 
 CPPFLAGS =
+# Kernel code runs from ROM and RAM: BIOS thunks are called through a register.
+CPPFLAGS += -DNUGGET_BIOS_LONG_CALLS
 
 ifneq ($(BOARD),psx)
 # Disable cheat cart builds and CD-ROM/shell support for arcade boards.

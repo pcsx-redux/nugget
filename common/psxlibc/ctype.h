@@ -24,7 +24,8 @@ SOFTWARE.
 
 */
 
-// Originally written for uC-sdk (libc/include/ctype.h) by Nicolas Noble, who relicensed it here under the MIT license above.
+// Originally written for uC-sdk (libc/include/ctype.h) by Nicolas Noble, who relicensed it here under the MIT license
+// above.
 
 #pragma once
 
@@ -37,7 +38,9 @@ static __inline__ int isspace(int c) {
     return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v';
 }
 static __inline__ int isupper(int c) { return c >= 'A' && c <= 'Z'; }
-static __inline__ int isxdigit(int c) { return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'); }
+static __inline__ int isxdigit(int c) {
+    return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+}
 
 static __inline__ int isalpha(int c) { return isupper(c) || islower(c); }
 static __inline__ int isalnum(int c) { return isalpha(c) || isdigit(c); }
