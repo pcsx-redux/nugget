@@ -391,3 +391,20 @@ CESTER_TEST(xmplayer_tick_rate, test_instance,
     cester_assert_uint_eq(250, bpm);
     cester_assert_uint_le(dFxx, 1);
 )
+
+CESTER_TEST(xmplayer_tick_rate_clamp, test_instance,
+    // A tick of 65536 hblanks or more does not fit the Q16 step: 1/16 Hz
+    // (tickRate 4096) is clamped to 65535 hblanks, while 1/2 Hz is still
+    // under the limit, about 31470 NTSC or 31250 PAL hblanks.
+    buildSong(2, 4096, 0);
+    load();
+    uint32_t slow = s_hblankStep;
+    buildSong(2, 32768, 0);
+    load();
+    uint32_t half = s_hblankStep;
+    unsigned halfHblanks = half >> 16;
+    ramsyscall_printf("tick rate clamp: 1/16 Hz %08x, 1/2 Hz %08x\n", slow, half);
+    cester_assert_uint_eq(0xffff0000, slow);
+    cester_assert_uint_ge(halfHblanks, 31000);
+    cester_assert_uint_le(halfHblanks, 31600);
+)

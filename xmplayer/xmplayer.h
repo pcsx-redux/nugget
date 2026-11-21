@@ -64,7 +64,8 @@ struct XMSongHeader {
     uint32_t samplesOffset;      // numSamples of struct XMSample
     char title[20];
     // version 2 only, headerSize 72
-    uint32_t tickRate;      // ticks per second in Q16 at the initial bpm, 0 for bpm * 2 / 5; Fxx scales it
+    uint32_t tickRate;      // ticks per second in Q16 at the initial bpm, 0 for bpm * 2 / 5; Fxx scales it;
+                            // a tick is at most 65535 hblanks, about 4 s
     uint32_t reverbOffset;  // struct XMReverb, or 0 to leave reverb off
 };
 

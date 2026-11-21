@@ -209,18 +209,23 @@ static void setBPM(unsigned bpm) {
         // the step is base * 2 * 2^32 / (5 * rate), a 64 by 32 bit division done by hand
         unsigned b0 = s_header->bpm;
         uint32_t rate = (s_tickRate / b0) * bpm + (s_tickRate % b0) * bpm / b0;
-        uint32_t hi = base << 1, lo = 0, d = 5 * rate, q = 0;
-        for (unsigned i = 0; i < 32; i++) {
-            uint32_t carry = hi >> 31;
-            hi = (hi << 1) | (lo >> 31);
-            lo <<= 1;
-            q <<= 1;
-            if (carry || hi >= d) {
-                hi -= d;
-                q |= 1;
+        uint32_t hi = base << 1, lo = 0, d = 5 * rate, q = 0xffff0000;
+        // a tick of 65536 hblanks or more (a rate under about 0.24 Hz) does not fit the Q16 step
+        // and is clamped to 65535, which also keeps the fraction from carrying out of 32 bits
+        if (hi < d) {
+            q = 0;
+            for (unsigned i = 0; i < 32; i++) {
+                uint32_t carry = hi >> 31;
+                hi = (hi << 1) | (lo >> 31);
+                lo <<= 1;
+                q <<= 1;
+                if (carry || hi >= d) {
+                    hi -= d;
+                    q |= 1;
+                }
             }
         }
-        s_hblankStep = q;
+        s_hblankStep = q > 0xffff0000 ? 0xffff0000 : q;
     } else {
         s_hblankStep = (base << 16) / bpm;
     }
