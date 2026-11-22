@@ -41,26 +41,6 @@ static inline int isOpenBiosPresent() {
     return (a0table[11] & 3) == 1;
 }
 
-static inline uint32_t getOpenBiosApiVersion() {
-    if (!isOpenBiosPresent()) return 0;
-    register int n asm("t1") = 0x00;
-    __asm__ volatile("" : "=r"(n) : "r"(n));
-    uintptr_t* a0table = (uintptr_t*)0x200;
-    return ((uint32_t(*)())(a0table[11] ^ 1))();
-}
-
-static inline struct BuildId* getOpenBiosBuildId() {
-    if (!isOpenBiosPresent()) return 0;
-    register int n asm("t1") = 0x01;
-    __asm__ volatile("" : "=r"(n) : "r"(n));
-    uintptr_t* a0table = (uintptr_t*)0x200;
-    return ((struct BuildId * (*)())(a0table[11] ^ 1))();
-}
-
-/* OpenBIOS API 1. Each wrapper answers "no" (0, or nonzero for
-   installOpenBiosExceptionSlot) on a retail BIOS and on OpenBIOS builds
-   older than API 1, without calling anything. */
-
 /* Calls OpenBIOS API entry `index` with two arguments. The call itself is
    in the asm so that nothing the compiler schedules between setting t1 and
    the jump can reuse t1; it clobbers what a normal call does. */
@@ -78,6 +58,20 @@ static inline uintptr_t openBiosCall(uint32_t index, uintptr_t arg0, uintptr_t a
                        "memory");
     return v0;
 }
+
+static inline uint32_t getOpenBiosApiVersion() {
+    if (!isOpenBiosPresent()) return 0;
+    return openBiosCall(0x00, 0, 0);
+}
+
+static inline struct BuildId* getOpenBiosBuildId() {
+    if (!isOpenBiosPresent()) return 0;
+    return (struct BuildId*)openBiosCall(0x01, 0, 0);
+}
+
+/* OpenBIOS API 1. Each wrapper answers "no" (0, or nonzero for
+   installOpenBiosExceptionSlot) on a retail BIOS and on OpenBIOS builds
+   older than API 1, without calling anything. */
 
 /* Nonzero if this OpenBIOS was built with the debug monitor in it
    (MONITOR=1): that monitor owns the exception path and its link from

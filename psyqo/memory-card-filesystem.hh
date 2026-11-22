@@ -46,7 +46,12 @@ class GPU;
  *
  * The card is laid out as a 16-block device (block 0 is the directory, blocks
  * 1..15 hold files). A file occupies one or more whole 8KiB blocks, chained
- * through the directory as a linked list. The first block of a file starts
+ * through the directory as a linked list. Some third-party cards are only 64KiB
+ * and ignore the top sector address bit, so block N+8 is block N. Before it
+ * counts or allocates blocks, the filesystem compares sector 0 with sector 512
+ * (and, if those match, 256 and 128); on a card that aliases, only the blocks
+ * below the alias are counted as free or handed to new files, so such a card
+ * holds 7 one-block files and then reports OutOfSpace. The first block of a file starts
  * with a "title frame" (magic "SC", a Shift-JIS title and a 16-colour palette)
  * followed by 1..3 icon frames (16x16, 4bpp); the rest of the blocks hold the
  * caller's payload.
@@ -136,28 +141,45 @@ class MemoryCardFileSystem {
      * @brief Writes a fresh, empty Sony filesystem to the card.
      *
      * @details This erases the directory; any existing files become
-     * unreachable. The 15 file blocks themselves are not touched (they are
-     * simply marked free), matching what the BIOS does.
+     * unreachable. The file blocks are marked free, as the BIOS does, and only
+     * the first sector of blocks 2, 4 and 8 is written (zeroed), so that a
+     * stale copy of the header there cannot make the card read as smaller
+     * than it is.
      */
     void format(Port port, eastl::function<void(Error)> &&callback);
 
     /**
      * @brief Counts the free 8KiB blocks (0..15) into *outFreeBlocks.
+     *
+     * @details On a 64KiB card the count only covers blocks 1..7.
+     *
+     * @param outFreeBlocks Receives the count. Must stay valid until the
+     * callback fires.
      */
     void getFreeBlockCount(Port port, uint32_t *outFreeBlocks, eastl::function<void(Error)> &&callback);
 
     /**
      * @brief Lists the files on the card.
      *
-     * @param out An array to receive up to `maxEntries` entries.
+     * @param out An array to receive up to `maxEntries` entries. Must stay
+     * valid until the callback fires.
      * @param outCount Receives the number of files found (may exceed
-     * `maxEntries`, in which case only `maxEntries` were written).
+     * `maxEntries`, in which case only `maxEntries` were written). Must stay
+     * valid until the callback fires.
      */
     void listFiles(Port port, FileEntry *out, uint32_t maxEntries, uint32_t *outCount,
                    eastl::function<void(Error)> &&callback);
 
     /**
      * @brief Reports whether a named file exists, into *outExists.
+     *
+     * @details A missing file is not an error: the callback gets Error::OK
+     * and *outExists is false. Error::FileNotFound is never returned.
+     *
+     * @param name The Sony filename to look up. Must stay valid until the
+     * callback fires.
+     * @param outExists Receives the answer. Must stay valid until the
+     * callback fires.
      */
     void fileExists(Port port, const char *name, bool *outExists, eastl::function<void(Error)> &&callback);
 
@@ -169,9 +191,12 @@ class MemoryCardFileSystem {
      * frames. The caller is responsible for knowing the logical length of its
      * own payload (typically via a small header it embeds in `data`).
      *
-     * @param buffer Receives up to `maxLen` payload bytes.
+     * @param name The Sony filename to read. Must stay valid until the
+     * callback fires.
+     * @param buffer Receives up to `maxLen` payload bytes. Must stay valid
+     * until the callback fires.
      * @param outLen Receives the number of payload bytes available (capped at
-     * `maxLen`).
+     * `maxLen`). Must stay valid until the callback fires.
      */
     void readFile(Port port, const char *name, void *buffer, uint32_t maxLen, uint32_t *outLen,
                   eastl::function<void(Error)> &&callback);
@@ -197,9 +222,9 @@ class MemoryCardFileSystem {
      *
      * @details The file is sized to hold the title frame, the icon frames and
      * `dataLen` payload bytes, rounded up to whole 8KiB blocks. If a file with
-     * the same name already exists it is replaced. The data is written first
-     * and the directory committed last, so an interrupted write never leaves a
-     * referenced but corrupt file.
+     * the same name already exists it is replaced, and no error is reported
+     * for it. The data is written first and the directory committed last, so
+     * an interrupted write never leaves a referenced but corrupt file.
      *
      * @param name The Sony filename (up to 20 characters). The pointer must
      * stay valid until the callback fires.
@@ -210,11 +235,14 @@ class MemoryCardFileSystem {
      * @param data The payload bytes. Must stay valid until the callback fires.
      * @param dataLen The number of payload bytes.
      */
-    void writeFile(Port port, const char *name, const char *title, const Icon &icon, const void *data,
-                   uint32_t dataLen, eastl::function<void(Error)> &&callback);
+    void writeFile(Port port, const char *name, const char *title, const Icon &icon, const void *data, uint32_t dataLen,
+                   eastl::function<void(Error)> &&callback);
 
     /**
      * @brief Deletes a file, freeing all of its blocks.
+     *
+     * @param name The Sony filename to delete. Must stay valid until the
+     * callback fires.
      */
     void deleteFile(Port port, const char *name, eastl::function<void(Error)> &&callback);
 
@@ -222,6 +250,10 @@ class MemoryCardFileSystem {
     // These run the same transaction but pump the GPU until it finishes and
     // return the error directly. They still take a few hundred milliseconds for
     // a non-trivial payload, so they are best used at a deliberate save point.
+    // Calling one from inside a queued callback, such as another operation's
+    // completion callback, pumps the callback queue from within the pump; this
+    // is supported, and the remaining queued callbacks still run once each, in
+    // order.
 
     Error getCardStateBlocking(GPU &gpu, Port port);
     Error formatBlocking(GPU &gpu, Port port);
@@ -290,13 +322,14 @@ class MemoryCardFileSystem {
     enum class Phase : uint8_t {
         Fail,       // m_result is set; finish on the next tick
         Header,     // read sector 0, validate "MC"
+        Probe,      // read sector m_probeSector, compare it with sector 0
         ReadDir,    // read the 15 directory frames (m_idx = 0..14)
         ReadTitle,  // read a file's first frame to size its header (readFile)
         ReadData,   // read a file's payload frames (readFile)
         ReadInfo,   // read a file's title + icon frames (readFileInfo)
         WriteData,  // write title/icon/payload frames (writeFile)
         WriteDir,   // commit the dirty directory frames (write/delete)
-        Format,     // write the format frames (m_idx = 0..63)
+        Format,     // zero the probe sectors, then write the format frames (m_idx = 0..66)
     };
     enum class StepResult : uint8_t { Continue, Done };
 
@@ -328,6 +361,11 @@ class MemoryCardFileSystem {
     // working buffers / per-operation state
     Frame m_dir[15];
     Frame m_scratch;
+    Frame m_probe;
+    // The card's size in blocks, as measured by the Probe phase: 16, or the
+    // block where sector 0 first repeats on a smaller card.
+    uint32_t m_cardBlocks = 16;
+    uint16_t m_probeSector = 0;
     uint8_t m_chain[16];
     uint32_t m_chainLen = 0;
     uint32_t m_headerFrames = 0;
@@ -343,7 +381,7 @@ class MemoryCardFileSystem {
     uint32_t m_writeOrderLen = 0;
     uint32_t m_dataOffset = 0;
     uint32_t m_written = 0;
-    uint32_t m_blockIdx = 0;     // current block within the chain
+    uint32_t m_blockIdx = 0;      // current block within the chain
     uint32_t m_frameInBlock = 0;  // current frame within the current block
 
     // saved operation arguments

@@ -271,9 +271,13 @@ void *libc_malloc(size_t size_) {
         curr->next = &marker;
         // The heap ends __stack_reserve bytes below the stack pointer's start,
         // so an allocation cannot land on the stack. Its size needs to be
-        // aligned to the empty_block size.
-        curr->size = ALIGN_TO(((size_t)&__stack_start) - ((size_t)&__stack_reserve) - ((size_t)curr) -
-                              sizeof(empty_block));
+        // aligned to the empty_block size. A reserve that leaves no room
+        // gives an empty heap, so every allocation fails.
+        size_t heap_end = (size_t)&__stack_start - (size_t)&__stack_reserve;
+        size_t heap_floor = (size_t)curr + sizeof(empty_block);
+        curr->size = ((size_t)&__stack_reserve < (size_t)&__stack_start) && (heap_end > heap_floor)
+                         ? ALIGN_TO(heap_end - heap_floor)
+                         : 0;
         top = (allocated_block *)((char *)curr + curr->size);
         if (pcsx_present()) {
             pcsx_registerHeapMetadata(&s_heap_metadata);

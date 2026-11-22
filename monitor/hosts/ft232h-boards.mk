@@ -1,13 +1,14 @@
 # FT232H board presets for MONITOR_LINK=FT232H, one monitor build per board:
 # the hardware has nowhere to store the link addresses. Select one with
 # MONITOR_FT232H_BOARD, or pass MONITOR_FT232H_DATA / _STATUS / _EXP1_CONFIG
-# directly. Addresses are KSEG1, see monitor/link-ft232h.h. Only orion and
-# powerreplay have run on silicon.
+# directly. Addresses are KSEG1, see monitor/link-ft232h.h. Only orion,
+# powerreplay and picodev-usb have run on silicon.
 #
 #   psx232h-a20   psx232h with A0 on A20, EXP1 widened to 8 MB
 #   psx232h-a0    psx232h with A0 on A0, in the comms window at 0x1f060000
-#   picodev-usb   Pico-Dev, FT232H emulation on its USB channel
-#   picodev-uart  Pico-Dev, same interface on its UART channel
+#   picodev-usb   Pico-Dev, FT232H emulation on its USB channel, EXP1 read
+#                 delay 8 (lower delays corrupted transfers)
+#   picodev-uart  Pico-Dev, same interface on its UART channel, same timing
 #   piodev-lite   PIO-Dev-Lite, FT232H on the second 2 MB of /CS0 (derived
 #                 from its netlist), EXP1 widened to 4 MB
 #   orion         Orion's cart, an FTDI FIFO chip with A18 selecting status,
@@ -23,8 +24,10 @@ else ifeq ($(MONITOR_FT232H_BOARD),psx232h-a0)
 CPPFLAGS += -DMONITOR_FT232H_DATA=0xbf060004 -DMONITOR_FT232H_STATUS=0xbf060005
 else ifeq ($(MONITOR_FT232H_BOARD),picodev-usb)
 CPPFLAGS += -DMONITOR_FT232H_DATA=0xbf000000 -DMONITOR_FT232H_STATUS=0xbf000001
+CPPFLAGS += '-DMONITOR_FT232H_EXP1_CONFIG=((23 << 16) | 0x84)'
 else ifeq ($(MONITOR_FT232H_BOARD),picodev-uart)
 CPPFLAGS += -DMONITOR_FT232H_DATA=0xbf000002 -DMONITOR_FT232H_STATUS=0xbf000003
+CPPFLAGS += '-DMONITOR_FT232H_EXP1_CONFIG=((23 << 16) | 0x84)'
 else ifeq ($(MONITOR_FT232H_BOARD),piodev-lite)
 CPPFLAGS += -DMONITOR_FT232H_DATA=0xbf200000 -DMONITOR_FT232H_STATUS=0xbf200001
 CPPFLAGS += '-DMONITOR_FT232H_EXP1_CONFIG=((22 << 16) | 0x243f)'

@@ -65,7 +65,7 @@ namespace Internal {
 static inline uint32_t getCop0Status() {
 #ifndef PS1_PC_PORT
     uint32_t r;
-    asm("mfc0 %0, $12 ; nop" : "=r"(r));
+    asm volatile("mfc0 %0, $12 ; nop" : "=r"(r));
     return r;
 #else
     return 0;

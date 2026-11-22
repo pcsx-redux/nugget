@@ -29,7 +29,6 @@ SOFTWARE.
 #include "common/hardware/gpu.h"
 #include "common/hardware/hwregs.h"
 #include "common/hardware/irq.h"
-#include "common/hardware/pcsxhw.h"
 
 static int s_frame = 0;
 
@@ -60,7 +59,7 @@ void flip(int doubleBuffer, const union Color bg) {
 }
 
 void waitVSync(int interlaced, void (*idle)()) {
-    if (!interlaced || pcsx_present()) {
+    if (!interlaced) {
         uint32_t imask = IMASK;
 
         IMASK = imask | IRQ_VBLANK;
@@ -69,13 +68,25 @@ void waitVSync(int interlaced, void (*idle)()) {
         IREG &= ~IRQ_VBLANK;
         IMASK = imask;
     } else {
+        // NTSC 480i alternates a 263-line and a 262-line field. GPUSTAT.31 reads 1 from line 23
+        // of the 263-line field until the next vblank, and 0 everywhere else, on every GPU
+        // revision. GPUSTAT.13 never sets on the first-generation GPU, so it cannot be used.
+        // With GP0(E1h).10 clear the GPU skips the rows whose parity equals GPUSTAT.31 at draw
+        // time, so even calls wait until GPUSTAT.31 reads 1, and odd calls for the 262-line
+        // field, which follows a vblank where GPUSTAT.31 was last seen set.
         static int lastField = 0;
+        static uint32_t frameCount = 0;
+        static uint32_t lastLongFieldFrame = 0;
         while (1) {
-            uint32_t stat = GPU_STATUS;
-            int isDrawingEven = (stat & 0x80000000) == 0;
-            int isMaskingEven = (stat & 0x00002000) == 0;
-            if (lastField && isDrawingEven && !isMaskingEven) break;
-            if (!lastField && !isDrawingEven && isMaskingEven) break;
+            // Vblank first: a GPUSTAT.31 read of 1 is taken before the vblank that ends the field.
+            if (IREG & IRQ_VBLANK) {
+                IREG &= ~IRQ_VBLANK;
+                frameCount++;
+            }
+            int bit31 = (GPU_STATUS & 0x80000000) != 0;
+            if (bit31) lastLongFieldFrame = frameCount;
+            uint32_t sinceLong = frameCount - lastLongFieldFrame;
+            if (lastField ? (sinceLong == 1) : bit31) break;
             idle();
         }
         lastField = !lastField;

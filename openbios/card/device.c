@@ -26,9 +26,8 @@ SOFTWARE.
 
 #include "common/psxlibc/device.h"
 
-#include "common/psxlibc/string.h"
-
 #include "common/hardware/pcsxhw.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/card/backupunit.h"
 #include "openbios/card/card.h"
@@ -634,7 +633,7 @@ static const struct Device s_cardDevice = {
     .open = dev_bu_open,
     .action = (int (*)(struct File *, enum FileAction))psxdummy,
     .close = dev_bu_close,
-    .ioctl = (int (*)(struct File *, int,  int))psxdummy,
+    .ioctl = (int (*)(struct File *, int, int))psxdummy,
     .read = dev_bu_read,
     .write = dev_bu_write,
     .erase = dev_bu_erase,
