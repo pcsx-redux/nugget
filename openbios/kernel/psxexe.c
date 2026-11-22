@@ -27,9 +27,8 @@ SOFTWARE.
 #include "openbios/kernel/psxexe.h"
 
 #include "common/psxlibc/ctype.h"
-#include "common/psxlibc/string.h"
-
 #include "common/psxlibc/stdio.h"
+#include "common/psxlibc/string.h"
 #include "common/syscalls/syscalls.h"
 #include "openbios/fileio/fileio.h"
 #include "openbios/kernel/flushcache.h"

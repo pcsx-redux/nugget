@@ -31,7 +31,6 @@ SOFTWARE.
 
 #include "common/hardware/counters.h"
 #include "common/hardware/dma.h"
-#include "common/hardware/pcsxhw.h"
 #include "common/kernel/events.h"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/hardware/cpu.hh"
@@ -71,6 +70,22 @@ constexpr uint32_t vDisplayRange(unsigned midScanline, unsigned lines) {
 }  // namespace
 
 void psyqo::GPU::reinitialize(const psyqo::GPU::Configuration &config) {
+    // The reset clears the FIFO and turns DMA requests off, so let any
+    // transfer in flight finish, then let the GPU drain what it was sent.
+    eastl::atomic_signal_fence(eastl::memory_order_acquire);
+    while (m_dmaCallback) {
+        pumpCallbacks();
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+    }
+    while ((DMA_CTRL[DMA_GPU].CHCR & 0x01000000) != 0);
+    // GPUSTAT bit 26, ready for a command, and bit 28, GP0 FIFO empty.
+    while ((Hardware::GPU::Ctrl & uint32_t(0x14000000)) != uint32_t(0x14000000));
+    applyConfiguration(config);
+    // The reset turned the display off.
+    Hardware::GPU::Ctrl = 0x03000000;
+}
+
+void psyqo::GPU::applyConfiguration(const psyqo::GPU::Configuration &config) {
     // Reset
     Hardware::GPU::Ctrl = 0;
     // FIFO polling mode
@@ -134,7 +149,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
     COUNTERS[1].mode = 0x100;
     COUNTERS[1].value = 0;
 
-    reinitialize(config);
+    applyConfiguration(config);
 
     // Install VBlank interrupt handler
     if (Kernel::isKernelTakenOver()) {
@@ -145,7 +160,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
         Hardware::CPU::IMask.set(Hardware::CPU::IRQ::VBlank);
     } else {
         uint32_t event = Kernel::openEvent(0xf2000003, 2, EVENT_MODE_CALLBACK, [this]() {
-            m_frameCount++;
+            psyqoFrameCounter++;
             eastl::atomic_signal_fence(eastl::memory_order_release);
         });
         syscall_enableEvent(event);
@@ -168,7 +183,7 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
     Kernel::enableDma(Kernel::DMA::GPU);
     Kernel::enableDma(Kernel::DMA::OTC);
     Kernel::registerDmaEvent(Kernel::DMA::GPU, [this]() {
-        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        Kernel::dmaAcquireBarrier();
         uint32_t mode = (DMA_CTRL[DMA_GPU].CHCR & 0x00000600) >> 9;
         switch (mode) {
             case 1: {  // was a normal DMA
@@ -235,7 +250,10 @@ void psyqo::GPU::initialize(const psyqo::GPU::Configuration &config) {
         }
         checkOTCAndTriggerCallback();
     });
-    Kernel::registerDmaEvent(Kernel::DMA::OTC, [this]() { checkOTCAndTriggerCallback(); });
+    Kernel::registerDmaEvent(Kernel::DMA::OTC, [this]() {
+        Kernel::dmaAcquireBarrier();
+        checkOTCAndTriggerCallback();
+    });
     // Enable DMA interrupt for GPU
     uint32_t dicr = Hardware::CPU::DICR;
     dicr &= 0xffffff;
@@ -250,7 +268,7 @@ void psyqo::GPU::checkOTCAndTriggerCallback() {
         DMA_CTRL[DMA_GPUOTC].MADR = uint32_t(otc.start);
         DMA_CTRL[DMA_GPUOTC].BCR = otc.count;
         OTCs.pop_front();
-        eastl::atomic_signal_fence(eastl::memory_order_release);
+        Kernel::dmaReleaseBarrier();
         DMA_CTRL[DMA_GPUOTC].CHCR = 0x11000002;
     } else {
         if (m_fromISR) {
@@ -271,7 +289,7 @@ void psyqo::GPU::flip() {
     do {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
-    } while ((m_previousFrameCount == m_frameCount) || (m_chainStatus == CHAIN_TRANSFERRING));
+    } while ((m_previousFrameCount == psyqoFrameCounter) || (m_chainStatus == CHAIN_TRANSFERRING));
 
     auto parity = m_parity;
     parity ^= 1;
@@ -283,20 +301,25 @@ void psyqo::GPU::flip() {
         } else {
             Hardware::GPU::Ctrl = 0x05000000;
         }
-    } else if (!pcsx_present()) {
+    } else {
+        // NTSC 480i alternates a 263-line and a 262-line field. GPUSTAT.31 reads 1 from line 23
+        // of the 263-line field until the next vblank, and 0 everywhere else, on every GPU
+        // revision. GPUSTAT.13 never sets on the first-generation GPU, so it cannot be used.
+        // With GP0(E1h).10 clear the GPU skips the rows whose parity equals GPUSTAT.31 at draw
+        // time, so parity 0 waits until GPUSTAT.31 reads 1, and parity 1 for the 262-line field,
+        // which follows a frame where pumpCallbacks() saw GPUSTAT.31 set.
         while (1) {
-            uint32_t stat = Hardware::GPU::Ctrl;
-            int isDrawingEven = (stat & 0x80000000) == 0;
-            int isMaskingEven = (stat & 0x00002000) == 0;
-            if (parity && isDrawingEven && !isMaskingEven) break;
-            if (!parity && !isDrawingEven && isMaskingEven) break;
             pumpCallbacks();
+            eastl::atomic_signal_fence(eastl::memory_order_acquire);
+            uint32_t sinceLong = psyqoFrameCounter - m_lastLongFieldFrame;
+            bool bit31 = Hardware::GPU::Ctrl & uint32_t(0x80000000);
+            if (parity ? (sinceLong == 1) : bit31) break;
         }
     }
 
     m_chainStatus = CHAIN_IDLE;
     m_parity = parity;
-    m_previousFrameCount = m_frameCount;
+    m_previousFrameCount = psyqoFrameCounter;
     eastl::atomic_signal_fence(eastl::memory_order_release);
 
     enableScissor();
@@ -339,7 +362,8 @@ void psyqo::GPU::getNextScissor(Prim::Scissor &scissor) {
     auto parity = m_parity;
     int16_t width = m_width;
     int16_t height = m_height;
-    bool firstBuffer = !parity || m_interlaced;
+    // Interlaced modes draw into a single buffer at y=0.
+    bool firstBuffer = !parity && !m_interlaced;
 
     scissor.start = Prim::DrawingAreaStart(Vertex{{.x = 0, .y = firstBuffer ? int16_t(256) : int16_t(0)}});
     scissor.end = Prim::DrawingAreaEnd(Vertex{{.x = width, .y = firstBuffer ? int16_t(256 + height) : height}});
@@ -363,7 +387,9 @@ void psyqo::GPU::getClear(Prim::FastFill &ff, Color bg) const {
 void psyqo::GPU::getNextClear(Prim::FastFill &ff, Color bg) const {
     int16_t width = m_width;
     int16_t height = m_height;
-    bool firstBuffer = !m_parity || m_interlaced;
+    // Interlaced modes draw into a single buffer at y=0. The fill must not start
+    // at y=256: GP0(02h) wraps past row 511, so a 480-line fill there misses rows 224-255.
+    bool firstBuffer = !m_parity && !m_interlaced;
     ff.setColor(bg);
     ff.rect = Rect{0, firstBuffer ? int16_t(256) : int16_t(0), width, height};
 }
@@ -382,6 +408,7 @@ void psyqo::GPU::uploadToVRAM(const uint16_t *data, Rect rect) {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::GPU::uploadToVRAM(const uint16_t *data, Rect region, eastl::function<void()> &&callback,
@@ -421,7 +448,7 @@ void psyqo::GPU::uploadToVRAM(const uint16_t *data, Rect region, eastl::function
     while ((Hardware::GPU::Ctrl & uint32_t(0x10000000)) == 0);
     DMA_CTRL[DMA_GPU].MADR = ptr;
     DMA_CTRL[DMA_GPU].BCR = bcr;
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_GPU].CHCR = 0x01000201;
 }
 
@@ -439,6 +466,7 @@ void psyqo::GPU::sendFragment(const uint32_t *data, size_t count) {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::GPU::sendFragment(const uint32_t *data, size_t count, eastl::function<void()> &&callback,
@@ -457,22 +485,19 @@ void psyqo::GPU::sendFragment(const uint32_t *data, size_t count, eastl::functio
 }
 
 void psyqo::GPU::scheduleNormalDMA(uintptr_t data, size_t count) {
-    uint32_t bcr = count;
-
+    // One word per block, paced by "FIFO not full". With GP1(04h)=2 the GPU drops
+    // the request after a polygon or line command word until the command completes,
+    // so a block boundary inside one of those deadlocks the transfer, and blocks
+    // bigger than one word overrun the FIFO when paced by "not full".
     Kernel::assert((DMA_CTRL[DMA_GPU].CHCR & 0x01000000) == 0, "GPU DMA busy");
-    unsigned bs = 1;
-    while (((bcr & 1) == 0) && (bs < 16)) {
-        bs <<= 1;
-        bcr >>= 1;
-    }
-    Kernel::assert(bcr < 65536, "Transfer too big or block size too small");
-    bcr <<= 16;
-    bcr |= bs;
+    Kernel::assert(count < 65536, "Transfer too big");
+    uint32_t bcr = (count << 16) | 1;
 
     while ((Hardware::GPU::Ctrl & uint32_t(0x10000000)) == 0);
+    Hardware::GPU::Ctrl = 0x04000001;
     DMA_CTRL[DMA_GPU].MADR = data;
     DMA_CTRL[DMA_GPU].BCR = bcr;
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_GPU].CHCR = 0x01000201;
 }
 
@@ -512,6 +537,7 @@ void psyqo::GPU::sendChain() {
         pumpCallbacks();
         eastl::atomic_signal_fence(eastl::memory_order_acquire);
     }
+    Kernel::dmaAcquireBarrier();
 }
 
 void psyqo::GPU::sendChain(eastl::function<void()> &&callback, DMA::DmaCallback dmaCallback) {
@@ -549,7 +575,7 @@ void psyqo::GPU::scheduleChainedDMA(uintptr_t head) {
     // Using block command mode, probably?
     Hardware::GPU::Ctrl = 0x04000002;
     DMA_CTRL[DMA_GPU].MADR = head;
-    eastl::atomic_signal_fence(eastl::memory_order_release);
+    Kernel::dmaReleaseBarrier();
     DMA_CTRL[DMA_GPU].CHCR = 0x01000401;
 }
 
@@ -655,24 +681,22 @@ void psyqo::GPU::pumpCallbacks() {
     }
     Kernel::Internal::pumpCallbacks();
     m_lastHSyncCounter = hsyncCounter;
+    if (m_interlaced) {
+        // Frame count first: a GPUSTAT.31 read of 1 is taken before the vblank that ends the
+        // field, so before that vblank's IRQ moves psyqoFrameCounter.
+        uint32_t frame = psyqoFrameCounter;
+        eastl::atomic_signal_fence(eastl::memory_order_acquire);
+        if (Hardware::GPU::Ctrl & uint32_t(0x80000000)) m_lastLongFieldFrame = frame;
+    }
 }
 
 void psyqo::GPU::scheduleOTC(uintptr_t *start, uint32_t count) { m_OTCs[m_parity].emplace_back(start, count); }
 
-extern uint16_t psyqoExceptionHandlerAdjustFrameCount[];
+uint32_t psyqoFrameCounter = 0;
 
 void psyqo::GPU::prepareForTakeover() {
-    uintptr_t frameCountPtr = reinterpret_cast<uintptr_t>(&m_frameCount);
-    uint16_t hi = frameCountPtr >> 16;
-    uint16_t lo = frameCountPtr & 0xffff;
-    if (lo >= 0x8000) hi++;
-    // Highly dependent on the assembly code in vector.s, as we're modifying it on the fly.
-    // See vector.s for more details.
-    psyqoExceptionHandlerAdjustFrameCount[0] = hi;
-    psyqoExceptionHandlerAdjustFrameCount[2] = lo;
-    psyqoExceptionHandlerAdjustFrameCount[8] = lo;
-    Kernel::queueIRQHandler(Kernel::IRQ::VBlank, [this]() {
-        m_frameCount++;
+    Kernel::queueIRQHandler(Kernel::IRQ::VBlank, []() {
+        psyqoFrameCounter++;
         eastl::atomic_signal_fence(eastl::memory_order_release);
     });
 }

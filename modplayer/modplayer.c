@@ -67,6 +67,7 @@ struct SPUChannelData {
     uint8_t fx[4];
     uint32_t samplePos;  // MOD samples can be up to 128kB long
     uint16_t sampleOffset;
+    uint8_t keyOns;
 };
 
 struct SpuInstrumentData {
@@ -240,6 +241,7 @@ unsigned MOD_LoopStart = 0;
 unsigned MOD_LoopCount = 0;
 int MOD_Stereo = 0;
 uint32_t MOD_hblanks;
+uint32_t MOD_SampleRateScale = 4096;
 
 // This function is now more of a helper to calculate the number of hsync
 // values to wait until the next call to MOD_Poll. If the user wants to use
@@ -435,7 +437,7 @@ const uint16_t MOD_PeriodTable[36 * 16] = {
 };
 
 #define SETVOICESAMPLERATE(channel, newPeriod) \
-    SPUSetVoiceSampleRate(channel, ((7093789 / (newPeriod * 2)) << 12) / 44100)
+    SPUSetVoiceSampleRate(channel, ((((7093789 / (newPeriod * 2)) << 12) / 44100) * MOD_SampleRateScale) >> 12)
 #define SETVOICEVOLUME(channel, volume)             \
     volume <<= 8;                                   \
     if (MOD_Stereo) {                               \
@@ -500,7 +502,7 @@ static void MOD_UpdateEffect() {
                 break;
             case 5:
                 volume = channelData->volume;
-                if (effectNibble23 <= 0x10) {
+                if (effectNibble23 < 0x10) {
                     volume -= effectNibble23;
                     if (volume < 0) volume = 0;
                 } else {
@@ -525,7 +527,7 @@ static void MOD_UpdateEffect() {
                 break;
             case 6:
                 volume = channelData->volume;
-                if (effectNibble23 <= 0x10) {
+                if (effectNibble23 < 0x10) {
                     volume -= effectNibble23;
                     if (volume < 0) volume = 0;
                 } else {
@@ -569,8 +571,10 @@ static void MOD_UpdateEffect() {
                 SETVOICESAMPLERATE(channel, newPeriod);
                 break;
             case 7:  // tremolo
-                mutation = s_channelData[0].fx[0] & 0x1f;
-                switch (s_channelData[0].fx[3] & 3) {
+                // fx[0] is the tremolo position, fx[2] holds speed (low) and depth (high),
+                // and the tremolo waveform is the high nibble of fx[3] (E7x).
+                mutation = channelData->fx[0] & 0x1f;
+                switch ((channelData->fx[3] >> 4) & 3) {
                     case 0:
                     case 3:  // 3 is technically random
                         mutation = MOD_SineTable[mutation];
@@ -587,7 +591,7 @@ static void MOD_UpdateEffect() {
                         mutation = 0xff;
                         break;
                 }
-                mutation *= channelData->fx[3] >> 4;
+                mutation *= channelData->fx[2] >> 4;
                 mutation >>= 6;
                 volume = channelData->volume;
                 if (channelData->fx[0] & 0x80) {
@@ -598,12 +602,13 @@ static void MOD_UpdateEffect() {
                 newValue = channelData->fx[0] + (channelData->fx[2] & 0x0f);
                 if (newValue >= 32) newValue -= 64;
                 channelData->fx[0] = newValue;
+                if (volume < 0) volume = 0;
                 if (volume > 63) volume = 63;
                 SETVOICEVOLUME(channel, volume);
                 break;
             case 10:  // volume slide
                 volume = channelData->volume;
-                if (effectNibble23 <= 0x10) {
+                if (effectNibble23 < 0x10) {
                     volume -= effectNibble23;
                     if (volume < 0) volume = 0;
                 } else {
@@ -617,8 +622,13 @@ static void MOD_UpdateEffect() {
                 switch (effectNibble3) {
                     case 9:  // retrigger sample
                         // this doesn't look right, we probably want to reset the sample location
-                        if (effectNibble2 && (MOD_Tick % effectNibble2) == 0)
+                        // Tick 0 only gets here on the repeats of a delayed row. Like ProTracker, a row
+                        // with a note doesn't retrigger on tick 0, even then.
+                        if ((MOD_Tick == 0) && (((rowPointer[0] & 0x0f) << 8) | rowPointer[1])) break;
+                        if (effectNibble2 && (MOD_Tick % effectNibble2) == 0) {
                             SPUKeyOnInstrument(channel, channelData->sampleID);
+                            channelData->keyOns++;
+                        }
                         break;
                     case 12:  // cut sample
                         if (MOD_Tick != effectNibble2) break;
@@ -696,8 +706,9 @@ static void MOD_UpdateRow() {
 
         if (period != 0) {
             int periodIndex;
-            // original code erroneously does >= 0
-            for (periodIndex = 35; periodIndex--; periodIndex > 0) {
+            // Scan the whole finetune 0 row, down to C-1 at index 0. A period that
+            // isn't in it leaves periodIndex at -1.
+            for (periodIndex = 35; periodIndex >= 0; periodIndex--) {
                 if (MOD_PeriodTable[periodIndex] == period) break;
             }
             channelData->note = periodIndex + s_spuInstrumentData[channelData->sampleID].finetune * 36;
@@ -711,6 +722,7 @@ static void MOD_UpdateRow() {
             if ((effectNibble1 != 3) && (effectNibble1 != 5)) {
                 SPUWaitIdle();
                 SPUKeyOnInstrument(channel, channelData->sampleID);
+                channelData->keyOns++;
                 channelData->period = MOD_PeriodTable[channelData->note];
             }
             newPeriod = channelData->period;
@@ -736,7 +748,7 @@ static void MOD_UpdateRow() {
                 if (effectNibble2 != 0) {
                     fx = channelData->fx[1];
                     fx &= ~0xf0;
-                    fx |= effectNibble3 << 4;
+                    fx |= effectNibble2 << 4;
                     channelData->fx[1] = fx;
                 }
                 break;
@@ -795,7 +807,9 @@ static void MOD_UpdateRow() {
                         channelData->fx[3] = fx;
                         break;
                     case 5:  // set finetune value
-                        s_spuInstrumentData[sampleID].finetune = effectNibble2;
+                        // Applies to the channel's current sample, which a sample number
+                        // on this row has already selected.
+                        s_spuInstrumentData[channelData->sampleID].finetune = effectNibble2;
                         break;
                     case 6:  // loop pattern
                         if (MOD_LoopCount-- == 0) {
@@ -810,6 +824,14 @@ static void MOD_UpdateRow() {
                         fx &= ~0xf0;
                         fx |= effectNibble2 << 4;
                         channelData->fx[3] = fx;
+                        break;
+                    case 9:  // retrigger sample
+                        // Like ProTracker, a row without a note retriggers on tick 0 too. With a note,
+                        // the note itself is the tick 0 trigger. Later ticks are in MOD_UpdateEffect.
+                        if (effectNibble2 && (period == 0)) {
+                            SPUKeyOnInstrument(channel, channelData->sampleID);
+                            channelData->keyOns++;
+                        }
                         break;
                     case 10:  // fine volume up
                         volume = channelData->volume;
@@ -883,7 +905,7 @@ void MOD_PlayNote(unsigned channel, unsigned sampleID, unsigned note, int16_t vo
     SPUSetStartAddress(channel, SPUInstrumentAddress(sampleID, channelData->samplePos));
     SPUWaitIdle();
     SPUKeyOnInstrument(channel, sampleID);
-    channelData->note = note = note +s_spuInstrumentData[sampleID].finetune * 36;
+    channelData->note = note = note + s_spuInstrumentData[sampleID].finetune * 36;
     int32_t newPeriod = channelData->period = MOD_PeriodTable[note];
     SETVOICESAMPLERATE(channel, newPeriod);
 }
@@ -901,3 +923,7 @@ void MOD_SetMusicVolume(uint32_t musicVolume) {
         SETVOICEVOLUME(channel, s_channelData[channel].volume);
     }
 }
+
+unsigned MOD_GetChannelVolume(unsigned channel) { return s_channelData[channel].volume; }
+
+unsigned MOD_GetChannelKeyOns(unsigned channel) { return s_channelData[channel].keyOns; }

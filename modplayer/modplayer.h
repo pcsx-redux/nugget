@@ -116,6 +116,12 @@ extern int MOD_Stereo;
 // tempo change.
 extern uint32_t MOD_hblanks;
 
+// Scales every voice's sample rate, in 4.12 fixed point. Defaults to
+// 4096 (1.0). Set it when the module's samples were resampled from the
+// rate the module was authored for, e.g. 2731 for samples stored at 2/3
+// of their original rate.
+extern uint32_t MOD_SampleRateScale;
+
 // It is possible to reclaim memory from the initial call
 // to MOD_Load, in case the module was loaded from an
 // external source. The number of bytes needed for the
@@ -173,3 +179,12 @@ void MOD_PlaySoundEffect(unsigned channel, unsigned sampleID, unsigned note, int
 
 // Added API to reset the SPU and silence everything.
 void MOD_Silence();
+
+// Read-only channel state, for visualizers. The channel has
+// to be below MOD_Channels. The volume is the channel's
+// current volume between 0 and 63, as set by the sample, Cxx
+// and the volume slides; tremolo is not included. The key on
+// count goes up by one, modulo 256, each time the player keys
+// on the channel's voice, so compare it to the previous value.
+unsigned MOD_GetChannelVolume(unsigned channel);
+unsigned MOD_GetChannelKeyOns(unsigned channel);

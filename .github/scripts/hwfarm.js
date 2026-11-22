@@ -29,92 +29,150 @@ const RUN_SECONDS = 300;
 const TOTAL_SECONDS = 3600;
 const POLL_MS = 10000;
 
-// name;ps-exe under tests/. Each one ends on the exit break from
-// tests/support/runtime.c, which the farm reads back as the verdict.
+// name;ps-exe under tests/[;feature]. Each one ends on the exit break from
+// tests/runtime/runtime.c, which the farm reads back as the verdict. A feature
+// restricts the test to the consoles advertising it, through its own job file.
 const TESTS = [
-    'basic;basic/basic',
-    'cop0;cop0/cop0',
-    'cpu;cpu/cpu',
-    'dma;dma/dma',
-    'gpu-command;gpu-command/gpu-command',
-    'gpu-fbrect;gpu-fbrect/gpu-fbrect',
-    'gpu-irq;gpu-irq/gpu-irq',
-    'gpu-polyline;gpu-polyline/gpu-polyline',
-    'gpu-vram-move;gpu-vram-move/gpu-vram-move',
-    'gte;gte/gte',
-    'gte-latency;gte-latency/gte-latency',
-    'gte-latency-color;gte-latency-color/gte-latency-color',
-    'gte-latency-dpc;gte-latency-dpc/gte-latency-dpc',
-    'gte-latency-lzcs;gte-latency-lzcs/gte-latency-lzcs',
-    'gte-latency-math;gte-latency-math/gte-latency-math',
-    'gte-latency-misc;gte-latency-misc/gte-latency-misc',
-    'gte-latency-mvmva;gte-latency-mvmva/gte-latency-mvmva',
-    'gte-latency-perspective;gte-latency-perspective/gte-latency-perspective',
-    'gte-latency-singles;gte-latency-singles/gte-latency-singles',
-    'icache;icache/icache',
-    'irq-branch-slot;irq-branch-slot/irq-branch-slot',
-    'libc;libc/libc',
-    'load-timings;load-timings/load-timings',
-    'memcpy;memcpy/memcpy',
-    'memops-unroll;memops-unroll/memops-unroll',
-    'memset;memset/memset',
-    'psyqo-spudma;psyqo-spudma/spudma',
-    'spu;spu/spu',
-    'spu-endmute;spu-endmute/spu-endmute',
-    'spu-endx;spu-endx/spu-endx',
-    'spu-offvoice;spu-offvoice/spu-offvoice',
-    'spu-volsweep;spu-volsweep/spu-volsweep',
-    'sr-write;sr-write/sr-write',
-    'timers;timers/timers',
+    'kernel-printf-strcmp;bios/kernel-printf-strcmp/kernel-printf-strcmp',
+    'cop0;cpu/cop0/cop0',
+    'cpu;cpu/cpu/cpu',
+    'dma;dma/dma/dma',
+    'dma-rewrite2;dma/rewrite2/dma-rewrite2',
+    'gpu-command;gpu/command/gpu-command',
+    'gpu-async-stress;gpu/async-stress/gpu-async-stress',
+    'gpu-dfe-480i;gpu/dfe-480i/gpu-dfe-480i',
+    'gpu-dma-dreq;gpu/dma-dreq/gpu-dma-dreq',
+    'gpu-dma-loop;gpu/dma-loop/gpu-dma-loop',
+    'gpu-dma-ring;gpu/dma-ring/gpu-dma-ring',
+    'gpu-dma-node;gpu/dma-node/gpu-dma-node',
+    'gpu-dma-forced;gpu/dma-forced/gpu-dma-forced',
+    'dev-wide;bus/dev-wide/dev-wide',
+    'gpu-timing;gpu/timing/gpu-timing',
+    'gpu-fbrect;gpu/fbrect/gpu-fbrect',
+    'gpu-irq;gpu/irq/gpu-irq',
+    'gpu-polyline;gpu/polyline/gpu-polyline',
+    'gpustat-480i;gpu/gpustat-480i/gpustat-480i',
+    'gpustat-timeline;gpu/gpustat-timeline/gpustat-timeline',
+    'gpustat-texpage-bits;gpu/gpustat-texpage-bits/gpustat-texpage-bits',
+    'gpustat-cmd-ready;gpu/gpustat-cmd-ready/gpustat-cmd-ready',
+    'gpu-vram-move;gpu/vram-move/gpu-vram-move',
+    'gte;gte/gte/gte',
+    'gte-latency;gte/latency/gte-latency',
+    'gte-latency-color;gte/latency-color/gte-latency-color',
+    'gte-latency-dpc;gte/latency-dpc/gte-latency-dpc',
+    'gte-latency-lzcs;gte/latency-lzcs/gte-latency-lzcs',
+    'gte-latency-math;gte/latency-math/gte-latency-math',
+    'gte-latency-misc;gte/latency-misc/gte-latency-misc',
+    'gte-latency-mvmva;gte/latency-mvmva/gte-latency-mvmva',
+    'gte-latency-perspective;gte/latency-perspective/gte-latency-perspective',
+    'gte-latency-singles;gte/latency-singles/gte-latency-singles',
+    'gte-write-to-use;gte/write-to-use/gte-write-to-use',
+    'icache;cpu/icache/icache',
+    'irq-branch-slot;cpu/irq-branch-slot/irq-branch-slot',
+    'libc;libc/libc/libc',
+    'load-timings;bus/load-timings/load-timings',
+    'memcpy;libc/memcpy/memcpy',
+    'memops-unroll;libc/memops-unroll/memops-unroll',
+    'memset;libc/memset/memset',
+    'modplayer-state;spu/modplayer-state/modplayer-state',
+    'psyqo-480i-clear;psyqo/480i-clear/clear480i',
+    'psyqo-480i-flip;psyqo/480i-flip/flip480i',
+    'psyqo-reinit;psyqo/reinit/reinit',
+    'psyqo-spudma;psyqo/spudma/spudma',
+    'spu;spu/spu/spu',
+    'spu-endmute;spu/endmute/spu-endmute',
+    'spu-endredirect;spu/endredirect/spu-endredirect',
+    'spu-endx;spu/endx/spu-endx',
+    'spu-irqrefire;spu/irqrefire/spu-irqrefire',
+    'spu-konlatch;spu/konlatch/spu-konlatch',
+    'spu-offvoice;spu/offvoice/spu-offvoice',
+    'spu-volsweep;spu/volsweep/spu-volsweep',
+    'shell-480i-wait;bios/shell-480i-wait/shell-480i-wait',
+    'sio-reset;sio/reset/sio-reset',
+    'sio1-misc;sio/sio1-misc/sio1-misc',
+    'cop0-write-keeps-registers;cpu/cop0-write-keeps-registers/cop0-write-keeps-registers',
+    'str-player-alloc;cdrom/str-player-alloc/str-player-alloc',
+    'timers;timers/timers/timers',
+    // Each card test erases the card in one fixed slot, so it only runs on a
+    // console whose card in that slot is a test card. Another console's slot 1
+    // holds a PocketStation.
+    'memcard;sio/memcard/memcard;memcard-slot1',
+    'memcard-slot2;sio/memcard-slot2/memcard-slot2;memcard-slot2',
+    'memcard-bios;bios/memcard-bios/memcard-bios;memcard-slot1',
+    'memcard-bios-slot2;bios/memcard-bios-slot2/memcard-bios-slot2;memcard-slot2',
 ];
-for (let p = 1; p <= 23; p++) TESTS.push(`gpu-raster-phase${p};gpu-raster-phase${p}/gpu-raster-phase${p}`);
+for (const s of ['edges-clipping', 'line-endpoints-mask-bit', 'edge-walker-stress', 'texture-basic', 'cross-primitive-mask',
+                 'edge-walker-precision', 'gouraud-color', 'quad-flat', 'texture-window-8-15', 'lines', 'dither', 'abr-matrix',
+                 'tex-rect', 'cull-thresholds', 'tex-window-exhaustive', 'uv-boundary', 'affine', 'stride-sweep',
+                 'stride-sign-cross', 'row-walk-drift', 'uv-overflow', 'slanted-gouraud', 'cull-disambiguation'])
+    TESTS.push(`gpu-raster-${s};gpu/raster/${s}/gpu-raster-${s}`);
 
 // ps-exe|reason. As in run-emulator.sh, a ps-exe in neither list fails the
 // run, so a new test cannot be left out by accident.
 const SKIPS = [
-    'bsdec/bsdec|needs a captured bs-in.bin staged beside it',
-    'bcc-bits/bcc-bits|probe: prints timings, no verdict',
+    'mdec/bsdec/bsdec|needs a captured bs-in.bin staged beside it',
+    'cpu/bcc-bits/bcc-bits|probe: prints timings, no verdict',
     'cdrom/cd-cmd-latency/cd-cmd-latency|probe: prints timings, no verdict',
-    'cdrom/cdrom|needs the disc from cdrom/create-test-iso.lua',
-    'cop-branch/cop-branch|no hardware baseline recorded yet',
-    'cop0-sr/cop0-sr|probe: prints what each SR bit does, no verdict, ends in the ROM through BEV',
-    'dcache/dcache|no hardware baseline recorded yet',
-    'dma-modes/dma-modes|probe: loops forever, no verdict',
-    'dma-priority/dma-priority|probe: loops forever, no verdict',
-    'spu-wide-writes/spu-wide-writes|probe: loops forever, no verdict',
-    'gpu/gpu|probe: loops forever, no verdict',
-    'gpu-nop/gpu-nop|probe: loops forever, no verdict',
-    'gpu-fifo/gpu-fifo|probe: prints FIFO readings, no verdict',
-    'fifo-depths/fifo-depths|probe: prints FIFO depth readings, no verdict',
-    'gte-math-bench/gte-math-bench|benchmark: prints timings, no verdict',
-    'mult-timing/mult-timing|probe: prints timings, no verdict',
-    'gte-timing/gte-timing|probe: prints timings, no verdict',
-    'pocketstation-memmap/pocketstation-memmap|needs the PocketStation console, which the pin excludes',
-    'regwrites/regwrites|probe: loops forever, no verdict',
-    'rumble/rumble|needs a DualShock and someone to feel it',
-    'msan/msan|exercises the emulator memory sanitizer',
-    'msan-trip/msan-trip|exercises the emulator memory sanitizer',
-    'pcdrv/pcdrv|needs a pcdrv host directory',
-    'psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
-    'psyqo-dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
-    'autoinc/autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
-    'bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
-    'dma-chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
-    'exp2-width/exp2-width|probe: prints every access width to the EXP2 region, no verdict',
-    'gpu-info8/gpu-info8|probe: prints GP1(10h) index 08h readings, no verdict',
-    'mdec-roundtrip/mdec-roundtrip|needs a job file over pcdrv, no verdict',
-    'scanline-timing/scanline-timing|probe: prints scanline and frame lengths, loops forever, no verdict',
-    'spu-capring/spu-capring|probe: prints capture ring readings, no verdict',
-    'spu-envx/spu-envx|probe: prints ENVX readings beside the expected values, always exits 0',
-    'spu-revread/revread|graded on the digital audio tap, loops forever, no verdict',
-    'spu-revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict',
+    'cdrom/commands/cdrom-commands|needs the disc from cdrom/common/create-test-iso.lua',
+    'cdrom/reading/cdrom-reading|needs the disc from cdrom/common/create-test-iso.lua',
+    'cdrom/playback/cdrom-playback|needs the disc from cdrom/common/create-test-iso.lua',
+    'cdrom/race/cdrom-race|needs the disc from cdrom/common/create-test-iso.lua',
+    'cdrom/errors/cdrom-errors|needs the disc from cdrom/common/create-test-iso.lua',
+    'cpu/cop-branch/cop-branch|no hardware baseline recorded yet',
+    'cpu/cop0-sr/cop0-sr|probe: prints what each SR bit does, no verdict, ends in the ROM through BEV',
+    'cpu/dcache/dcache|no hardware baseline recorded yet',
+    'psyqo/irq-cop2/irqcop2|takeover probe: psyqo owns the kernel, so no exit break; prints its verdict over SIO1 and spins',
+    'psyqo/irq-cost/irqcost|takeover probe: prints VBlank interrupt costs over SIO1, no verdict',
+    'dma/modes/dma-modes|probe: loops forever, no verdict',
+    'dma/priority/dma-priority|probe: loops forever, no verdict',
+    'spu/wide-writes/spu-wide-writes|probe: loops forever, no verdict',
+    'spu/upload-tail/spu-upload-tail|probe: prints per-arm tail loss across wait strategies, verdict only on its own controls',
+    'spu/modplayer-upload-tail/modplayer-upload-tail|probe: prints per-arm tail loss across wait strategies, verdict only on its own controls',
+    'gpu/dma-chain-polygons/dma-chain-polygons|probe: loops forever, no verdict',
+    'gpu/nop/gpu-nop|probe: loops forever, no verdict',
+    'gpu/fifo/gpu-fifo|probe: prints FIFO readings, no verdict',
+    'bus/fifo-depths/fifo-depths|probe: prints FIFO depth readings, no verdict',
+    'gte/math-bench/gte-math-bench|benchmark: prints timings, no verdict',
+    'cpu/mult-timing/mult-timing|probe: prints timings, no verdict',
+    'gte/timing/gte-timing|probe: prints timings, no verdict',
+    'pocketstation/memmap/pocketstation-memmap|needs the PocketStation console, which the pin excludes',
+    'bus/mmio-partial-writes/mmio-partial-writes|probe: loops forever, no verdict',
+    'sio/rumble/rumble|needs a DualShock and someone to feel it',
+    'tooling/msan/msan|exercises the emulator memory sanitizer',
+    'sio/multitap/multitap|needs a setup-*.lua writing the shared display block, so it only runs in the emulator',
+    'sio/tapcard/tapcard|needs a setup-*.lua arm and tap memory cards in pcsx-redux, so it only runs in the emulator',
+    'tooling/msan-trip/msan-trip|exercises the emulator memory sanitizer',
+    'tooling/alloc-tracker/alloc-tracker|exercises the emulator allocation tracker, needs -debugger',
+    'bios/loadexe/loadexe|covers the emulator -loadexe path on the dynarec (pcsx-redux#2443), nothing to measure on silicon',
+    'tooling/pcdrv/pcdrv|needs a pcdrv host directory',
+    'tooling/pcdrv-net/pcdrv-net|needs a pcdrv host and a TCP echo peer',
+    'tooling/pcdrv-net-off/pcdrv-net-off|needs a pcdrv host, checks the emulator with -pcdrvnet off',
+    'psyqo/psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
+    'psyqo/dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
+    'bus/delay-size-autoinc/delay-size-autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
+    'cpu/bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
+    'dma/chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
+    'bus/exp2-width/exp2-width|probe: prints every access width to the EXP2 region, no verdict',
+    'gpu/info8/gpu-info8|probe: prints GP1(10h) index 08h readings, no verdict',
+    'mdec/roundtrip/mdec-roundtrip|needs a job file over pcdrv, no verdict',
+    'gpu/scanline-timing/scanline-timing|probe: prints scanline and frame lengths, loops forever, no verdict',
+    'spu/capring/spu-capring|probe: prints capture ring readings, no verdict',
+    'spu/envx/spu-envx|probe: prints ENVX readings beside the expected values, always exits 0',
+    'spu/revread/revread|graded on the digital audio tap, loops forever, no verdict',
+    'spu/revstream/revstream|reverb stimulus for the digital audio tap: loops forever, no verdict',
+    'tooling/stack-bounds/stack-bounds|emulator stack-bounds command (pcsx-redux#2510), no hardware verdict',
+    'tooling/stack-bounds-churn/stack-bounds-churn|emulator stack-bounds command (pcsx-redux#2510), no hardware verdict',
+    'tooling/stack-bounds-trip/stack-bounds-trip|emulator stack-bounds command (pcsx-redux#2510), expects Redux to exit 251, no hardware verdict',
+    'tooling/stack-bounds-heap/stack-bounds-heap|emulator heap vs stack-bounds check (pcsx-redux#2551), expects Redux to exit 251, no hardware verdict',
+    'tooling/stack-bounds-heap-quiet/stack-bounds-heap-quiet|emulator heap vs stack-bounds check (pcsx-redux#2551), no hardware verdict',
+    'tooling/profiler/profiler|fixture for the emulator call-path profiler, checks nothing itself, no hardware verdict',
 ];
 for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
-    SKIPS.push(`2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
+    SKIPS.push(`gpu/2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
 }
-for (const d of ['texpage-upper', 'transfer-wrap-y']) {
-    SKIPS.push(`2mb-vram/${d}/${d}|needs 2MB-VRAM hardware, the pinned consoles have 1MB`);
+for (const d of ['gate-flip-queued', 'texpage-upper', 'transfer-wrap-y']) {
+    SKIPS.push(`gpu/2mb-vram/${d}/${d}|needs 2MB-VRAM hardware, the pinned consoles have 1MB`);
 }
 
 // Ticket failure codes that say nothing about the program. The lower-case
@@ -234,6 +292,20 @@ function listed(root) {
     return problems;
 }
 
+// The manifest gate's problems to a results file. A refusal is neither a
+// regression nor a sick farm: nothing was submitted, and the fix is a line in
+// TESTS or SKIPS above.
+function refusal(problems) {
+    const names = (tag) => problems.filter((p) => p.startsWith(`${tag}: `)).map((p) => p.split(' ')[1]);
+    const unlisted = names('UNLISTED');
+    const missing = names('MISSING');
+    const parts = [];
+    if (unlisted.length) parts.push(`${unlisted.length} unlisted`);
+    if (missing.length) parts.push(`${missing.length} not built`);
+    const description = `MANIFEST REFUSED: ${parts.join(', ')}, see hwfarm.js TESTS/SKIPS`;
+    return { summary: { state: 'error', description }, refused: { unlisted, missing }, results: [] };
+}
+
 async function run(argv) {
     let out = 'hwfarm-results.json';
     const only = [];
@@ -243,24 +315,43 @@ async function run(argv) {
     }
     const problems = only.length ? [] : listed('tests');
     problems.forEach((p) => console.log(p));
-    if (problems.length) process.exit(2);
+    if (problems.length) {
+        // Exit 2 fails the job. The results file carries the refused names so
+        // the workflow can open an issue and the status can say what happened.
+        fs.writeFileSync(out, JSON.stringify(refusal(problems), null, 2));
+        process.exit(2);
+    }
 
     const tests = TESTS.map((t) => t.split(';')).filter(([name]) => !only.length || only.includes(name));
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hwfarm-'));
-    const manifest = path.join(tmp, 'job.json');
-    fs.writeFileSync(manifest, JSON.stringify({ capabilityRequest: { consoleRevisions: [REVISION] } }));
+    // The feature sits in the job file beside the revision, so the whole
+    // capabilityRequest is in one place.
+    const jobFile = (feature) => {
+        const file = path.join(tmp, feature ? `job-${feature}.json` : 'job.json');
+        const capabilityRequest = { consoleRevisions: [REVISION] };
+        if (feature) capabilityRequest.requiredFeatures = [feature];
+        fs.writeFileSync(file, JSON.stringify({ capabilityRequest }));
+        return file;
+    };
     const key = `${process.env.GITHUB_SHA || 'local'}-${process.env.GITHUB_RUN_ID || Date.now()}-${process.env.GITHUB_RUN_ATTEMPT || 1}`;
 
     const results = [];
-    for (const [name, exe] of tests) {
-        const args = ['submit', '--exe', `tests/${exe}.ps-exe`, '--manifest', manifest, '--pool', 'ps1',
+    for (const [name, exe, feature] of tests) {
+        const args = ['submit', '--exe', `tests/${exe}.ps-exe`, '--manifest', jobFile(feature), '--pool', 'ps1',
                       '--exclude-feature', 'flaky', '--priority', 'CI', '--run-seconds', String(RUN_SECONDS),
                       '--total-seconds', String(TOTAL_SECONDS), '--idempotency-key', `${key}-${name}`];
         console.log(`hwtest ${args.join(' ')}`);
         try {
             const submitted = hwtest(args);
+            const required = ((submitted.jobSpec || {}).capabilityRequest || {}).requiredFeatures || [];
+            if (feature && !required.includes(feature)) {
+                // Not graded as the test's result: it may be running on the wrong console.
+                results.push({ name, ticketId: submitted.ticket.ticketId, kind: 'infra', state: 'error',
+                               detail: `feature lost: asked ${feature}, job requires "${required.join(',')}"` });
+                continue;
+            }
             results.push({ name, ticketId: submitted.ticket.ticketId });
-            console.log(`${name}: ${submitted.ticket.ticketId}`);
+            console.log(`${name}: ${submitted.ticket.ticketId}${feature ? ` (${feature})` : ''}`);
         } catch (e) {
             results.push({ name, kind: 'infra', state: 'error', detail: `submit failed: ${e.message.split('\n')[0]}` });
         }
@@ -271,7 +362,7 @@ async function run(argv) {
     // extra margin here covers the coordinator's own reaping.
     const deadline = Date.now() + (TOTAL_SECONDS + 600) * 1000;
     for (const r of results) {
-        if (!r.ticketId) continue;
+        if (!r.ticketId || r.kind) continue;
         let ticket;
         for (;;) {
             try {
@@ -308,12 +399,21 @@ async function run(argv) {
     console.log(`\n${summary.state}: ${summary.description}`);
 }
 
-module.exports = { classify, summarize, TESTS, SKIPS, REVISION };
+module.exports = { classify, summarize, listed, refusal, TESTS, SKIPS, REVISION };
 
 if (require.main === module) {
     const [cmd, ...rest] = process.argv.slice(2);
+    if (cmd === 'check') {
+        // The manifest gate alone, against the built tree, with nothing
+        // submitted. Run on every PR so an unlisted test fails there.
+        const problems = listed('tests');
+        problems.forEach((p) => console.log(p));
+        if (problems.length) process.exit(2);
+        console.log(`hwfarm manifest OK: ${TESTS.length} run, ${SKIPS.length} skipped`);
+        process.exit(0);
+    }
     if (cmd !== 'run') {
-        console.error('usage: hwfarm.js run [--out results.json] [name...]');
+        console.error('usage: hwfarm.js run [--out results.json] [name...] | hwfarm.js check');
         process.exit(2);
     }
     run(rest).catch((e) => {

@@ -65,7 +65,7 @@ def main():
     ap.add_argument('--mdec', required=True, help='path to the mdec tool (needs the BS encoder)')
     ap.add_argument('--root', default=None, help='repo root; defaults to four levels up from here')
     ap.add_argument('-o', '--out', required=True)
-    ap.add_argument('--order', choices=('raster', 'column'), default='raster',
+    ap.add_argument('--order', choices=('raster', 'column'), default='column',
                     help="the macroblock order to encode in. Passed through to `mdec -order` AND "
                          "recorded in the blob, so the two cannot disagree. column walks 16-pixel "
                          "columns top to bottom, which makes each column of the decoded frame one "

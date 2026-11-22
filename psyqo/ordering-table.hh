@@ -80,6 +80,12 @@ class OrderingTable : public OrderingTableBase {
      * of the range [0, N - 1] will be clamped to the nearest valid value when `safety`
      * is set to `Safe::Yes`, which is the default.
      *
+     * Keep fragments short: the GPU DMA sends a whole fragment without waiting for
+     * the GPU, so a fragment over 17 words that starts while the GPU is still drawing
+     * gets corrupted on hardware, which PCSX-Redux does not reproduce. Insert one
+     * primitive per fragment rather than packing several into one. See
+     * tests/gpu/dma-node.
+     *
      * @param frag The fragment to insert.
      * @param z The Z value of the fragment.
      */
@@ -106,6 +112,7 @@ class OrderingTable : public OrderingTableBase {
 
     // NOTE: can't use from other classes (PCGPU) otherwise
     psyqo::Fragments::ChainEntry m_table[N + 1];
+
   private:
     friend class GPU;
 };
@@ -122,7 +129,8 @@ class DynamicOrderingTable : public OrderingTableBase {
   public:
     DynamicOrderingTable(psyqo::Fragments::ChainEntry* storage, size_t buckets) : m_table(storage), m_size(buckets) {
         if constexpr (safety == Safe::Yes) {
-            psyqo::Kernel::assert(storage && buckets > 0, "DynamicOrderingTable: needs storage and at least one bucket");
+            psyqo::Kernel::assert(storage && buckets > 0,
+                                  "DynamicOrderingTable: needs storage and at least one bucket");
         }
         clear();
     }
@@ -151,6 +159,7 @@ class DynamicOrderingTable : public OrderingTableBase {
 
     // NOTE: can't use from other classes (PCGPU) otherwise
     psyqo::Fragments::ChainEntry* m_table;
+
   private:
     size_t m_size;
     friend class GPU;

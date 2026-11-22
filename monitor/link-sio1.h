@@ -30,6 +30,7 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 #include "common/hardware/sio.h"
+#include "monitor/watchdog.h"
 
 /* SIO1 byte link at 115200 8N1 (x16, reload 18: 117600 baud, the setting the
    Unirom-carrying cables are known to run at).
@@ -44,6 +45,14 @@ SOFTWARE.
 
 #define SIO1_CTRL_BASE (SIO_CTRL_TXEN | SIO_CTRL_RXE)
 
+/* The 573 and GV loop RTS back to CTS, so dropping RTS would stop the
+   transmitter. There RTS stays up and nothing throttles the host. */
+#ifdef MONITOR_SIO1_RTS_ALWAYS
+#define SIO1_CTRL_IDLE (SIO1_CTRL_BASE | SIO_CTRL_RTS)
+#else
+#define SIO1_CTRL_IDLE SIO1_CTRL_BASE
+#endif
+
 /* Baud = 2073600 / reload at x16: 18 -> 115200 (117600 actual), 5 -> 414720,
    4 -> 518400. */
 #ifndef MONITOR_SIO1_RELOAD
@@ -54,24 +63,41 @@ static inline void linkInit(void) {
     SIOS[1].ctrl = SIO_CTRL_IR;
     SIOS[1].baudRate = MONITOR_SIO1_RELOAD;
     SIOS[1].mode = 0x4e; /* 1 stop bit, 8 bits, no parity, x16 */
-    SIOS[1].ctrl = SIO1_CTRL_BASE;
+    SIOS[1].ctrl = SIO1_CTRL_IDLE;
 }
 
 static inline void linkRxOpen(void) { SIOS[1].ctrl = SIO1_CTRL_BASE | SIO_CTRL_RTS; }
 
-static inline void linkRxClose(void) { SIOS[1].ctrl = SIO1_CTRL_BASE; }
+static inline void linkRxClose(void) { SIOS[1].ctrl = SIO1_CTRL_IDLE; }
 
 static inline uint8_t linkGetByte(void) {
     while ((SIOS[1].stat & SIO_STAT_RXRDY) == 0) {
+        monitorWatchdogIdle();
     }
     return SIOS[1].fifo;
 }
 
 static inline void linkPutByte(uint8_t b) {
     while ((SIOS[1].stat & SIO_STAT_TXRDY) == 0) {
+        monitorWatchdogIdle();
     }
     SIOS[1].fifo = b;
 }
+
+/* Non-blocking transmit test for the console path, which must not wait on a
+   host that dropped RTS (sio1-tty.c). TX is CTS-gated, so this stays 0 while
+   CTS is low and the holding register is full. */
+static inline int linkTxReady(void) { return (SIOS[1].stat & SIO_STAT_TXRDY) != 0; }
+
+/* How many linkTxReady polls the console path waits for before it gives up on
+   a byte. One byte is 10 bits of 16 SIO clocks per reload unit, and the SIO
+   clock is the CPU clock: 160 * reload cycles, 85 us at reload 18. The wait is
+   at least 1024 byte times, 87 ms at reload 18 and 19 ms at reload 4, which
+   covers a USB latency timer period (16 ms by default on FTDI parts) for a
+   host that does gate us with RTS while it is reading; psxmon itself raises
+   RTS at open and keeps it up. A poll costs at least 4 cycles, hence
+   1024 * 160 / 4 polls per reload unit; slower polls only make it longer. */
+static inline uint32_t linkTxStallPolls(void) { return (uint32_t)SIOS[1].baudRate * 40960u; }
 
 /* Sticky receive overrun since the last linkClearErrors(). */
 static inline int linkOverrun(void) { return (SIOS[1].stat & SIO_STAT_OE) != 0; }

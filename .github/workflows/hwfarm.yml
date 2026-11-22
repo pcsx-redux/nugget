@@ -71,6 +71,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: read
+      issues: write
+      statuses: write
 
     steps:
       - uses: actions/checkout@v4
@@ -89,10 +93,18 @@ jobs:
               context: 'hwfarm/ps1', state: 'pending', description: 'submitted to the PS1 farm',
               target_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}` });
 
+      # Exit 2 is the manifest gate: a ps-exe in neither TESTS nor SKIPS, or a
+      # listed one that was not built. Nothing is submitted, the job fails, and
+      # the step below opens an issue so the refusal is not just a status.
       - name: Run on the farm
+        id: farm
         env:
           HWTEST_TOKEN: ${{ secrets.HWTEST_TOKEN }}
-        run: node .github/scripts/hwfarm.js run --out hwfarm-results.json
+        run: |
+          code=0
+          node .github/scripts/hwfarm.js run --out hwfarm-results.json || code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit $code
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -100,6 +112,43 @@ jobs:
           name: hwfarm-results
           path: hwfarm-results.json
           if-no-files-found: ignore
+
+      # One open issue per refusal: a later run comments on it instead of
+      # opening another.
+      - name: Open an issue for a manifest refusal
+        if: failure() && steps.farm.outputs.code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title='hwfarm nightly: manifest refused the run'
+          {
+            echo "The hardware farm run on ${GITHUB_SHA::12} submitted nothing: the manifest gate in .github/scripts/hwfarm.js refused it. $RUN_URL"
+            if [ -f hwfarm-results.json ]; then
+              if jq -e '.refused.unlisted | length > 0' hwfarm-results.json > /dev/null; then
+                echo
+                echo 'Unlisted, each needs a line in TESTS or SKIPS:'
+                jq -r '.refused.unlisted[] | "- `\(.)`"' hwfarm-results.json
+              fi
+              if jq -e '.refused.missing | length > 0' hwfarm-results.json > /dev/null; then
+                echo
+                echo 'Listed but not built:'
+                jq -r '.refused.missing[] | "- `\(.)`"' hwfarm-results.json
+              fi
+            else
+              echo
+              echo 'hwfarm.js exited 2 without writing a results file; see the run log.'
+            fi
+          } > refusal.md
+          cat refusal.md
+          number=$(gh issue list -R "$REPO" --state open --search "\"$title\" in:title" --json number,title \
+            --jq "map(select(.title == \"$title\")) | .[0].number // empty")
+          if [ -n "$number" ]; then
+            gh issue comment "$number" -R "$REPO" --body-file refusal.md
+          else
+            gh issue create -R "$REPO" --title "$title" --body-file refusal.md
+          fi
 
       - name: Report
         if: always()
