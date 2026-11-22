@@ -58,6 +58,9 @@ SOFTWARE.
 
 extern char __heap_start;
 extern char __stack_start;
+// Bytes kept free below __stack_start for the stack. Its value is the symbol
+// address. Weak, so a link without it keeps the whole range for the heap.
+extern char __stack_reserve __attribute__((weak));
 
 // We keep track of the empty spaces in the heap, because
 // it is fungible. Allocated blocks aren't tracked, and
@@ -266,9 +269,15 @@ void *libc_malloc(size_t size_) {
         curr = head = (empty_block *)ALIGN_TO((void *)&__heap_start);
         bottom = (allocated_block *)curr;
         curr->next = &marker;
-        // We need to compute the size of the heap, according to the stack pointer.
-        // Its size needs to be aligned to the empty_block size.
-        curr->size = ALIGN_TO(((size_t)&__stack_start) - ((size_t)curr) - sizeof(empty_block));
+        // The heap ends __stack_reserve bytes below the stack pointer's start,
+        // so an allocation cannot land on the stack. Its size needs to be
+        // aligned to the empty_block size. A reserve that leaves no room
+        // gives an empty heap, so every allocation fails.
+        size_t heap_end = (size_t)&__stack_start - (size_t)&__stack_reserve;
+        size_t heap_floor = (size_t)curr + sizeof(empty_block);
+        curr->size = ((size_t)&__stack_reserve < (size_t)&__stack_start) && (heap_end > heap_floor)
+                         ? ALIGN_TO(heap_end - heap_floor)
+                         : 0;
         top = (allocated_block *)((char *)curr + curr->size);
         if (pcsx_present()) {
             pcsx_registerHeapMetadata(&s_heap_metadata);
