@@ -97,6 +97,16 @@ enum pcsx_Command {
        tracker against its own ground truth, which is the only way to find out
        whether the tracker is right rather than merely plausible. */
     PCSX_CMD_ALLOC_REPORT = 2,
+    /* Sets the bounds the emulator checks $sp against. Payload is
+       struct pcsx_StackBounds. Issuing it again replaces the bounds, and costs
+       the same as the first time, so it is fine to issue on every context
+       switch. */
+    PCSX_CMD_SET_STACK_BOUNDS = 3,
+    /* Points the emulator at a scoped-profiler ring buffer, whose layout is in
+       pcsxprof.h, so it can read the completed scopes live. Payload is
+       struct pcsx_RegisterProfiler. Issuing it again replaces the buffer; a
+       zero header pointer unregisters it. */
+    PCSX_CMD_REGISTER_PROFILER = 4,
 
     PCSX_CMD_COUNT
 };
@@ -150,6 +160,31 @@ struct pcsx_QueryResult {
     volatile uint32_t opBitmap[4];
 };
 
+/* Stack bounds, checked by the interpreter every time $sp changes value. An $sp
+   below low is an overflow, above high an underflow; both bounds are valid
+   values for $sp. On a violation the emulator prints the address of the
+   instruction that moved $sp, the new $sp and the bounds, then pauses, or exits
+   with code 251 in test mode. Low and high both zero clears the bounds; low
+   above high is BAD_ARGUMENT.
+
+   Only a CHANGE of $sp is checked, so an $sp already outside the new bounds
+   when they are set does not trip until it next moves: set the incoming
+   bounds, then load the incoming $sp. Nothing is checked between an exception
+   and its rfe, since exception handlers run on stacks of their own. A load
+   into $sp is seen once the load delay has elapsed, so the reported address is
+   the instruction in the load delay slot. The dynarec does not check. The
+   bounds are cleared on reset and are not kept in save states. */
+struct pcsx_StackBounds {
+    struct pcsx_CommandHeader header;
+    uint32_t low;
+    uint32_t high;
+};
+
+struct pcsx_RegisterProfiler {
+    struct pcsx_CommandHeader header;
+    uint32_t profHeader; /* struct pcsx_ProfHeader* */
+};
+
 /* Fill in a header and poison the result. Call before pcsx_command. */
 PCSX_INLINE void pcsx_commandInit(struct pcsx_CommandHeader* header, uint32_t op, uint32_t size) {
     header->magic = PCSX_CMD_MAGIC;
@@ -179,3 +214,17 @@ PCSX_INLINE int pcsx_commandSupported(uint32_t op) {
     if (query.protocolVersion == 0) return 0;
     return (query.opBitmap[op >> 5] >> (op & 31)) & 1;
 }
+
+/* Set the stack bounds; see struct pcsx_StackBounds. Returns the command
+   status, PCSX_CMDSTATUS_NO_ANSWER on an emulator without this operation. */
+PCSX_INLINE uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
+    struct pcsx_StackBounds bounds;
+    pcsx_commandInit(&bounds.header, PCSX_CMD_SET_STACK_BOUNDS, sizeof(bounds));
+    bounds.low = low;
+    bounds.high = high;
+    pcsx_command(&bounds);
+    return bounds.header.results.status;
+}
+
+/* Stop checking $sp. */
+PCSX_INLINE uint32_t pcsx_clearStackBounds() { return pcsx_setStackBounds(0, 0); }

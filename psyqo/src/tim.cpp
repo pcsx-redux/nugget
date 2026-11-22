@@ -42,7 +42,7 @@ uint32_t readU32(const uint8_t* p) {
 constexpr uint32_t c_fileHeaderSize = 8;
 constexpr uint32_t c_sectionHeaderSize = 12;
 
-} // namespace
+}  // namespace
 
 bool psyqo::TIM::parse(const uint8_t* data, uint32_t size) {
     m_error = Error::None;
@@ -177,8 +177,7 @@ void uploadUnaligned(psyqo::GPU& gpu, const psyqo::TIM::Section& section, psyqo:
     unsigned halfwords = unsigned(region.size.w) * unsigned(region.size.h);
     for (unsigned i = 0; i + 1 < halfwords; i += 2) {
         const uint8_t* p = bytes + i * 2;
-        gpu.sendRaw(uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) |
-                    (uint32_t(p[3]) << 24));
+        gpu.sendRaw(uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24));
     }
     // A section with an odd halfword count still owes the GPU a full word.
     if (halfwords & 1) {
@@ -204,7 +203,7 @@ void uploadSection(psyqo::GPU& gpu, const psyqo::TIM::Section& section, psyqo::V
     }
 }
 
-} // namespace
+}  // namespace
 
 void psyqo::TIM::upload(GPU& gpu) const {
     if (m_hasCLUT) uploadSection(gpu, m_clut, m_clut.rect.pos);

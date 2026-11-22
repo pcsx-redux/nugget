@@ -128,6 +128,10 @@ psyqoExceptionVector:
     sw    $t9, 0x144($0)
     sw    $sp, 0x148($0)
     sw    $ra, 0x14c($0)
+    mfhi  $t0
+    mflo  $t1
+    sw    $t0, 0x178($0)
+    sw    $t1, 0x17c($0)
 
     /* Call the C++ exception or break handler while adjusting the stack */
     li    $a1, 0
@@ -135,6 +139,10 @@ psyqoExceptionVector:
     li    $sp, 0x1000 - 16
 
     /* Restore the registers and exit */
+    lw    $t0, 0x178($0)
+    lw    $t1, 0x17c($0)
+    mthi  $t0
+    mtlo  $t1
     lw    $at, 0x100($0)
     lw    $v0, 0x104($0)
     lw    $v1, 0x108($0)

@@ -564,7 +564,7 @@ class GPU {
     // An oversized node's header stores size >> c_oversizedShift, and bit 0 of the link pointing at
     // it flags it. That link also carries bit 23, so the DMA engine stops there and never reads the
     // node; the engine ignores the low two bits of a link while MADR keeps them, so the interrupt
-    // handler sees the flag. tests/dma/dma.c covers that in linked_dma_800001_terminator and
+    // handler sees the flag. tests/dma/dma/dma.c covers that in linked_dma_800001_terminator and
     // linked_dma_odd_terminator.
     static constexpr unsigned c_oversizedShift = 4;
     static constexpr unsigned c_maxNodeWords = 255;

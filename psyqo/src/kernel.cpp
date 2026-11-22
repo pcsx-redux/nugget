@@ -325,6 +325,23 @@ void dmaIRQOnce() {
         }
     }
 }
+
+// Leaves through syscall_returnFromException when it handles a break, so it
+// cannot be instrumented: its shadow stack entry would never be popped. A
+// lambda would not do, as its static invoker gets instrumented regardless.
+[[gnu::no_instrument_function]] void exceptionEvent() {
+    Process* processes = *reinterpret_cast<Process**>(0x108);
+    Thread* currentThread = processes[0].thread;
+    unsigned exCode = currentThread->registers.Cause & 0x3c;
+    if (exCode == 0x24) {
+        unsigned code = *reinterpret_cast<uint32_t*>(currentThread->registers.returnPC) >> 6;
+        if (handleBreak(code)) {
+            currentThread->registers.returnPC += 4;
+            syscall_returnFromException();
+        }
+    }
+    if (s_crashHandlerPtr) s_crashHandlerPtr(exCode >> 2, &currentThread->registers.GPR.r[0]);
+}
 }  // namespace
 
 void psyqo::Kernel::Internal::prepare(Application& application) {
@@ -361,19 +378,7 @@ void psyqo::Kernel::Internal::prepare(Application& application) {
         syscall_enqueueRCntIrqs(1);
         uint32_t event = syscall_openEvent(EVENT_DMA, 0x1000, EVENT_MODE_CALLBACK, dmaIRQ);
         syscall_enableEvent(event);
-        event = syscall_openEvent(0xf0000010, 0x1000, EVENT_MODE_CALLBACK, []() {
-            Process* processes = *reinterpret_cast<Process**>(0x108);
-            Thread* currentThread = processes[0].thread;
-            unsigned exCode = currentThread->registers.Cause & 0x3c;
-            if (exCode == 0x24) {
-                unsigned code = *reinterpret_cast<uint32_t*>(currentThread->registers.returnPC) >> 6;
-                if (handleBreak(code)) {
-                    currentThread->registers.returnPC += 4;
-                    syscall_returnFromException();
-                }
-            }
-            if (s_crashHandlerPtr) s_crashHandlerPtr(exCode >> 2, &currentThread->registers.GPR.r[0]);
-        });
+        event = syscall_openEvent(0xf0000010, 0x1000, EVENT_MODE_CALLBACK, exceptionEvent);
         syscall_enableEvent(event);
     } else {
         // Our exception handler will expect $k0 to be set to 0x1f80,

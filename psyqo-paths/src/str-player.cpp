@@ -36,12 +36,12 @@ extern "C" {
 #include "common/hardware/hwregs.h"
 #include "common/hardware/spu.h"
 #include "psyqo-paths/archive-manager.hh"
+#include "psyqo/alloc.h"
 #include "psyqo/hardware/cdrom.hh"
 #include "psyqo/hardware/gpu.hh"
 #include "psyqo/hardware/sbus.hh"
 #include "psyqo/kernel.hh"
 #include "psyqo/msf.hh"
-
 
 namespace {
 
@@ -64,12 +64,11 @@ constexpr uint8_t c_quant[64] = {
 
 // The standard IDCT matrix for MDEC(3).
 constexpr int16_t c_scale[64] = {
-    0x5a82,  0x5a82,  0x5a82,  0x5a82,  0x5a82,  0x5a82,  0x5a82,  0x5a82,  0x7d8a,  0x6a6d,  0x471c,
-    0x18f8,  -0x18f9, -0x471d, -0x6a6e, -0x7d8b, 0x7641,  0x30fb,  -0x30fc, -0x7642, -0x7642, -0x30fc,
-    0x30fb,  0x7641,  0x6a6d,  -0x18f9, -0x7d8b, -0x471d, 0x471c,  0x7d8a,  0x18f8,  -0x6a6e, 0x5a82,
-    -0x5a83, -0x5a83, 0x5a82,  0x5a82,  -0x5a83, -0x5a83, 0x5a82,  0x471c,  -0x7d8b, 0x18f8,  0x6a6d,
-    -0x6a6e, -0x18f9, 0x7d8a,  -0x471d, 0x30fb,  -0x7642, 0x7641,  -0x30fc, -0x30fc, 0x7641,  -0x7642,
-    0x30fb,  0x18f8,  -0x471d, 0x6a6d,  -0x7d8b, 0x7d8a,  -0x6a6e, 0x471c,  -0x18f9,
+    0x5a82,  0x5a82,  0x5a82,  0x5a82, 0x5a82, 0x5a82,  0x5a82,  0x5a82,  0x7d8a,  0x6a6d,  0x471c,  0x18f8,  -0x18f9,
+    -0x471d, -0x6a6e, -0x7d8b, 0x7641, 0x30fb, -0x30fc, -0x7642, -0x7642, -0x30fc, 0x30fb,  0x7641,  0x6a6d,  -0x18f9,
+    -0x7d8b, -0x471d, 0x471c,  0x7d8a, 0x18f8, -0x6a6e, 0x5a82,  -0x5a83, -0x5a83, 0x5a82,  0x5a82,  -0x5a83, -0x5a83,
+    0x5a82,  0x471c,  -0x7d8b, 0x18f8, 0x6a6d, -0x6a6e, -0x18f9, 0x7d8a,  -0x471d, 0x30fb,  -0x7642, 0x7641,  -0x30fc,
+    -0x30fc, 0x7641,  -0x7642, 0x30fb, 0x18f8, -0x471d, 0x6a6d,  -0x7d8b, 0x7d8a,  -0x6a6e, 0x471c,  -0x18f9,
 };
 
 uint32_t s_quantWords[32] __attribute__((aligned(4)));
@@ -83,6 +82,7 @@ bool waitDma(int ch) {
 }
 
 uint8_t fromBCD(uint8_t v) { return (v >> 4) * 10 + (v & 15); }
+bool isBCD(uint8_t v) { return (v >> 4) < 10 && (v & 15) < 10; }
 
 uint16_t le16(const uint8_t *p) { return p[0] | (p[1] << 8); }
 uint32_t le32(const uint8_t *p) { return p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24); }
@@ -112,6 +112,7 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     void start(CDRomDevice *device, StrPlayer *player, uint32_t lba) {
         Kernel::assert(device->isIdle(), "StrPlayer: the CD-ROM device is busy");
         m_player = player;
+        m_rawLba = 0xfffffff0;
         registerMe(device);
         setCallback([player](bool success) { player->cdDone(success); });
         setState(StrStreamState::SETLOC);
@@ -169,6 +170,17 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         for (unsigned i = 0; i < 1000 && !(*status & 0x40); i++);
         for (unsigned i = 0; i < c_sectorHeader; i++) header[i] = *fifo;
         uint32_t lba = (fromBCD(header[0]) * 60 + fromBCD(header[1])) * 75 + fromBCD(header[2]) - 150;
+        // A broken address can come with its data intact: unless the next sector agrees with it, it is the next one.
+        const uint32_t last = m_player->m_lastLba;
+        const bool valid = isBCD(header[0]) && isBCD(header[1]) && isBCD(header[2]) && fromBCD(header[1]) < 60 &&
+                           fromBCD(header[2]) < 75;
+        const bool follows = valid && lba - last <= c_lbaReach;
+        const bool agrees = valid && lba - m_rawLba - 1 <= 1;
+        m_rawLba = lba;
+        if (!follows && !agrees) {
+            m_player->m_stats.badAddresses++;
+            lba = last + 1;
+        }
 
         uint8_t *dest = m_player->sectorDest(header, lba);
         if (dest) {
@@ -190,9 +202,10 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
         const StrPlayer::Options &o = m_player->m_options;
         switch (getState()) {
             case StrStreamState::SETLOC: {
-                // Double speed, whole sectors minus sync so the MSF and the
+                // The movie's speed, whole sectors minus sync so the MSF and the
                 // subheader are visible, and XA-ADPCM to the SPU when wanted.
-                uint8_t mode = 0x80 | 0x20;
+                uint8_t mode = 0x20;
+                if (o.doubleSpeed) mode |= 0x80;
                 if (o.audio) mode |= 0x40;
                 if (o.audio && o.xaFilter) mode |= 0x08;
                 setState(StrStreamState::SETMODE);
@@ -227,7 +240,9 @@ class StrStreamAction : public CDRomDevice::Action<StrStreamState> {
     }
 
   private:
+    static constexpr uint32_t c_lbaReach = 64;
     StrPlayer *m_player = nullptr;
+    uint32_t m_rawLba = 0;
     bool m_pending = false;
 };
 
@@ -242,6 +257,32 @@ psyqo::paths::StrPlayer::~StrPlayer() {
     finish();
 }
 
+// Where play() puts each buffer in its one block. Every offset is a multiple of 8,
+// the allocator's own alignment.
+psyqo::paths::StrPlayer::Layout psyqo::paths::StrPlayer::Layout::of(const Options &options) {
+    constexpr auto align8 = [](uint32_t n) { return (n + 7) & ~7u; };
+    Layout l{};
+    // rlHalfwords is the one option that can wrap these sums: past 8 MiB of run-level
+    // buffer it cannot fit in any PS1's RAM, so it is refused before anything adds up.
+    l.fits = options.rlHalfwords <= (1u << 22);
+    if (!l.fits) return l;
+    l.slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
+    l.rlBytes = align8(options.rlHalfwords * sizeof(uint16_t));
+    l.sliceBytes = align8((options.rgb24 && options.vramX < 0 ? 24 : 16) * options.displayHeight * sizeof(uint16_t));
+    l.slotData = align8(options.frameSlots * sizeof(Slot));
+    l.rl = l.slotData + align8(options.frameSlots * l.slotBytes);
+    l.slices = l.rl + 2 * l.rlBytes;
+    l.total = l.slices + 2 * l.sliceBytes;
+    return l;
+}
+
+uint32_t psyqo::paths::StrPlayer::heapNeeded(const Options &options) {
+    const Layout l = Layout::of(options);
+    if (!l.fits) return 0xffffffffu;
+    // libc_malloc adds an 8-byte header and rounds the block to 8 bytes.
+    return ((l.total + 8) + 7) & ~7u;
+}
+
 bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors) { return play(lba, sectors, Options{}); }
 
 bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options &options) {
@@ -249,6 +290,9 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     Kernel::assert(options.frameSlots >= 2, "StrPlayer: needs at least two frame slots");
     Kernel::assert(options.maxSectorsPerFrame >= 1 && options.maxSectorsPerFrame <= 32,
                    "StrPlayer: maxSectorsPerFrame must be 1..32");
+    Kernel::assert(options.vramX < 0 || (options.vramY >= 0 && options.vramX + options.displayWidth <= 1024 &&
+                                         options.vramY + options.displayHeight <= 512),
+                   "StrPlayer: the vramX/vramY rectangle must fit in VRAM");
     finish();
     m_options = options;
     m_stats = {};
@@ -256,26 +300,25 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     m_savedSpuCtrl = SPU_CTRL;
     m_savedCdLeft = SPU_VOL_CD_LEFT;
     m_savedCdRight = SPU_VOL_CD_RIGHT;
-    const uint32_t slotBytes = options.maxSectorsPerFrame * c_chunkPayload;
-    const uint32_t sliceHalfwords = (options.rgb24 ? 24 : 16) * options.displayHeight;
-    m_slots = new Slot[options.frameSlots];
-    m_slotMemory = new uint8_t[slotBytes * options.frameSlots + 4];
-    m_rlBufs[0] = new uint16_t[options.rlHalfwords];
-    m_rlBufs[1] = new uint16_t[options.rlHalfwords];
-    m_slices[0] = new uint16_t[sliceHalfwords];
-    m_slices[1] = new uint16_t[sliceHalfwords];
-    if (!m_slots || !m_slotMemory || !m_rlBufs[0] || !m_rlBufs[1] || !m_slices[0] || !m_slices[1]) {
-        finish();
-        return false;
-    }
-    uint8_t *mem = reinterpret_cast<uint8_t *>((reinterpret_cast<uintptr_t>(m_slotMemory) + 3) & ~3);
+    const Layout layout = Layout::of(options);
+    // One block from psyqo's allocator, which returns null when the heap is out. A
+    // throwing new[] is assumed never to return null, so its check would be compiled out.
+    if (!layout.fits) return false;
+    m_heap = reinterpret_cast<uint8_t *>(psyqo_malloc(layout.total));
+    if (!m_heap) return false;
+    m_slots = reinterpret_cast<Slot *>(m_heap);
+    m_rlBufs[0] = reinterpret_cast<uint16_t *>(m_heap + layout.rl);
+    m_rlBufs[1] = reinterpret_cast<uint16_t *>(m_heap + layout.rl + layout.rlBytes);
+    m_slices[0] = reinterpret_cast<uint16_t *>(m_heap + layout.slices);
+    m_slices[1] = reinterpret_cast<uint16_t *>(m_heap + layout.slices + layout.sliceBytes);
     for (unsigned i = 0; i < options.frameSlots; i++) {
-        m_slots[i].data = mem + i * slotBytes;
+        m_slots[i] = {};
+        m_slots[i].data = m_heap + layout.slotData + i * layout.slotBytes;
         m_slots[i].state = SLOT_FREE;
     }
     m_lba = lba;
     m_end = lba + sectors;
-    m_lastLba = lba;
+    m_lastLba = lba - 1;
     m_writeSlot = m_readSlot = 0;
     m_filling = -1;
     m_skipFrame = 0xffffffff;
@@ -283,8 +326,8 @@ bool psyqo::paths::StrPlayer::play(uint32_t lba, uint32_t sectors, const Options
     m_retries = 0;
 
     for (unsigned i = 0; i < 32; i++) {
-        s_quantWords[i] = c_quant[(i * 4) & 63] | (c_quant[(i * 4 + 1) & 63] << 8) |
-                          (c_quant[(i * 4 + 2) & 63] << 16) | (c_quant[(i * 4 + 3) & 63] << 24);
+        s_quantWords[i] = c_quant[(i * 4) & 63] | (c_quant[(i * 4 + 1) & 63] << 8) | (c_quant[(i * 4 + 2) & 63] << 16) |
+                          (c_quant[(i * 4 + 3) & 63] << 24);
         s_scaleWords[i] = uint16_t(c_scale[i * 2]) | (uint32_t(uint16_t(c_scale[i * 2 + 1])) << 16);
     }
     DPCR |= 0x000000ff;
@@ -390,6 +433,17 @@ void psyqo::paths::StrPlayer::cdDone(bool success) {
     m_cdRunning = false;
 }
 
+// Turns everything after the given number of run-level blocks into end-of-block padding.
+static void cutAfter(uint16_t *rl, uint32_t halfwords, uint32_t blocks) {
+    uint32_t i = 0;
+    for (uint32_t b = 0; b < blocks && i < halfwords; b++) {
+        i++;
+        while (i < halfwords && rl[i++] != 0xfe00) {
+        }
+    }
+    while (i < halfwords) rl[i++] = 0xfe00;
+}
+
 bool psyqo::paths::StrPlayer::vlcNext() {
     Slot &s = m_slots[m_readSlot];
     if (s.state != SLOT_READY) return false;
@@ -398,7 +452,11 @@ bool psyqo::paths::StrPlayer::vlcNext() {
     if (need && need <= m_options.rlHalfwords && s.width && s.height && !(s.width & 15) && !(s.height & 15) &&
         s.width <= m_options.displayWidth && s.height <= m_options.displayHeight) {
         const BsdecResult r = bsdecFrame(s.data, s.size, m_rlBufs[m_vlcIdx], m_options.rlHalfwords);
-        if (bsdecUsable(r.error)) {
+        const uint32_t blocks = uint32_t(s.width / 16) * (s.height / 16) * 6;
+        // A partial macroblock must not reach the MDEC: fewer blocks than the picture
+        // rejects the frame, more are cut after its last block.
+        if (bsdecUsable(r.error) && r.blocks >= blocks) {
+            if (r.blocks > blocks) cutAfter(m_rlBufs[m_vlcIdx], r.halfwords, blocks);
             ok = true;
             m_rlMeta[m_vlcIdx] = {r.mdecCommand, r.halfwords, s.width, s.height};
             m_rlIdx = m_vlcIdx;
@@ -420,6 +478,10 @@ bool psyqo::paths::StrPlayer::vlcNext() {
 // is out. It must not run while a VRAM upload shares the bus.
 void psyqo::paths::StrPlayer::mdecReset() {
     MDEC1 = 0x80000000;
+    // A store 6 cycles or fewer behind the reset is lost. Busy reads clear at once,
+    // so this is one read, there for the time it takes.
+    const uint32_t gap = MDEC1;
+    (void)gap;
     MDEC1 = 0x60000000;
     MDEC0 = 0x40000001;
     DMA_CTRL[DMA_MDECIN].MADR = reinterpret_cast<uintptr_t>(s_quantWords);
@@ -440,16 +502,22 @@ void psyqo::paths::StrPlayer::mdecReset() {
 // from interrupts, so the CPU is free to VLC-decode the next frame meanwhile.
 void psyqo::paths::StrPlayer::startDecode() {
     const Rl &rl = m_rlMeta[m_rlIdx];
-    const bool rgb24 = m_options.rgb24;
+    const bool rgb24 = m_options.rgb24 && m_options.vramX < 0;  // a rectangle is always 15-bit
     m_colCount = rl.width / 16;
     m_colWords = (rgb24 ? 192 : 128) * (rl.height / 16);
     m_colHw = rgb24 ? 24 : 16;
     m_colHeight = rl.height;
     m_x0 = int16_t(((m_options.displayWidth - rl.width) / 2) * (rgb24 ? 3 : 2) / 2);
     m_y0 = int16_t((m_gpu.getParity() ? 256 : 0) + (m_options.displayHeight - rl.height) / 2);
+    if (m_options.vramX >= 0) {
+        m_x0 = m_options.vramX;
+        m_y0 = m_options.vramY;
+    }
     const uint32_t inWords = (rl.halfwords + 1) / 2;
     uint32_t command = rl.command;
     if (rgb24) command = (command & ~(3u << 27)) | (2u << 27);
+    // A frame drawn as a texture: black without bit 15 would be see-through.
+    if (m_options.vramX >= 0) command |= 1u << 25;
 
     if (m_needReset) {
         mdecReset();
@@ -535,10 +603,12 @@ bool psyqo::paths::StrPlayer::finishDecode() {
         abortDecode();
         return false;
     }
-    if (DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000) {
-        DMA_CTRL[DMA_MDECIN].CHCR = 0;
-        m_needReset = true;
-    }
+    // A frame can stop part way through a macroblock: the MDEC is left busy, or on a block other than the next one's
+    // first.
+    const uint32_t status = MDEC1;
+    const bool feeding = DMA_CTRL[DMA_MDECIN].CHCR & 0x01000000;
+    if (feeding) DMA_CTRL[DMA_MDECIN].CHCR = 0;
+    if (feeding || (status & 0x20000000) || (status & 0x70000) != 0x40000) m_needReset = true;
     return true;
 }
 
@@ -584,7 +654,7 @@ psyqo::paths::StrPlayer::Status psyqo::paths::StrPlayer::frame() {
                 m_haveDecoded = true;
                 const uint32_t lines = hsyncs() - m_decodeStartLine;
                 m_stats.decodeLineHistogram[lines / 64 > 11 ? 11 : lines / 64]++;
-                if (m_options.present == Present::ASAP) {
+                if (m_options.present == Present::ASAP && m_options.vramX < 0) {
                     Hardware::GPU::Ctrl = 0x05000000 | ((m_gpu.getParity() ? 256 : 0) << 10);
                     const uint32_t line = (hsyncs() - m_vblankRef) % linesPerFrame;
                     m_stats.switchLineHistogram[line / 32 > 9 ? 9 : line / 32]++;
@@ -671,14 +741,9 @@ void psyqo::paths::StrPlayer::finish() {
             SPU_VOL_CD_RIGHT = m_savedCdRight;
         }
     }
-    delete[] m_slots;
-    delete[] m_slotMemory;
-    delete[] m_rlBufs[0];
-    delete[] m_rlBufs[1];
-    delete[] m_slices[0];
-    delete[] m_slices[1];
+    psyqo_free(m_heap);
+    m_heap = nullptr;
     m_slots = nullptr;
-    m_slotMemory = nullptr;
     m_rlBufs[0] = m_rlBufs[1] = nullptr;
     if (m_dmaSlot != ~0u) {
         Kernel::unregisterDmaEvent(m_dmaSlot);

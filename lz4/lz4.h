@@ -54,4 +54,12 @@ SOFTWARE.
  * @param dest The pointer to the destination buffer where the
  * decompressed data will be stored.
  */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void lz4_decompress_block(const void* source, const void* sourceEnd, void* dest);
+
+#ifdef __cplusplus
+}
+#endif

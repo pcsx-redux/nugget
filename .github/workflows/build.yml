@@ -27,6 +27,9 @@ jobs:
           submodules: recursive
           set-safe-directory: true
 
+      - name: Same-basename sources
+        run: tools/build-checks/same-basename/check.sh
+
       - name: OpenBIOS
         run: make -C openbios -j2 all
 
@@ -40,8 +43,8 @@ jobs:
         # which are not redistributable and have to be built locally. See
         # psyq/README.md.
         run: |
-          for d in crc32 cxxhello helloworld modplayer psmplayer psyqo \
-                   psyqo-lua psyqo-paths scratchstack shell shello spdplayer gpdplayer ucl-demo xmplayer; do
+          for d in crc32 examples/cxxhello examples/helloworld modplayer players/psmplayer psyqo \
+                   psyqo-lua psyqo-paths psyqo/examples/profiler psyqo/examples/scratchpad-stack psyqo/examples/shadow-stack psyqo/examples/sprite examples/scratchstack shell shello players/spdplayer players/gpdplayer ucl-demo players/xmplayer; do
             echo "::group::$d"
             make -C $d -j2 all
             echo "::endgroup::"
@@ -49,6 +52,13 @@ jobs:
 
       - name: Tests
         run: make -C tests -j2 all PCSX_TESTS=true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Hardware farm manifest
+        run: node .github/scripts/hwfarm.js check
 
       - name: Emulator
         # The dev channel AppImage, extracted because a runner has no FUSE.
@@ -59,6 +69,49 @@ jobs:
 
       - name: Run tests
         run: tests/run-emulator.sh "$GITHUB_WORKSPACE/squashfs-root/AppRun" openbios/openbios.bin
+
+      - name: FastDebug shadow stack
+        # Rebuilds psyqo instrumented, so it has to come after everything
+        # that links the Release one.
+        run: |
+          make -C psyqo clean
+          make -C psyqo/examples/shadow-stack clean
+          make -C psyqo/examples/shadow-stack -j2 BUILD=FastDebug TEST=true all
+          xvfb-run -a timeout -k 10 60 squashfs-root/AppRun -no-ui -run -stdout -testmode -interpreter \
+            -bios openbios/openbios.bin -loadexe psyqo/examples/shadow-stack/shadow-stack.ps-exe > shadow-stack.log 2>&1 \
+            || { cat shadow-stack.log; exit 1; }
+          cat shadow-stack.log
+          grep -aqE '^shadow-stack: all [0-9]+ checks passed' shadow-stack.log
+
+  xmake:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 45
+    container: ghcr.io/grumpycoders/pcsx-redux-build:latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          set-safe-directory: true
+          persist-credentials: false
+
+      - name: xmake
+        shell: bash
+        run: |
+          curl -fsSL https://xmake.io/shget.text | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: xmake targets
+        # Each directory is built on its own, the way its README says to.
+        run: |
+          export PATH="$HOME/.local/bin:$PATH" XMAKE_ROOT=y
+          for d in examples/helloworld modplayer players/xmplayer psyqo/examples/hello psyqo/examples/backgrounds psyqo-lua/examples/hello; do
+            echo "::group::$d"
+            (cd $d && xmake f -c -P . -y && xmake -P . -y)
+            echo "::endgroup::"
+          done
 
   psxdemo:
     # A downstream build: nugget's own suite can stay green while breaking a

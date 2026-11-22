@@ -35,6 +35,7 @@ SOFTWARE.
 #include "common/psxlibc/ucontext.h"
 #include "common/syscalls/syscalls.h"
 #include "psyqo/kernel.hh"
+#include "psyqo/shadow-stack.hh"
 
 namespace psyqo {
 
@@ -302,6 +303,10 @@ class StackfulBase {
     ucontext_t m_return;
     eastl::function<void()> m_func;
     bool m_isAlive = false;
+#ifdef PSYQO_SHADOW_STACK
+    ShadowStack::Context m_shadowStack;
+    ShadowStack::Context *m_shadowReturn = nullptr;
+#endif
 };
 
 /**
@@ -372,6 +377,81 @@ class Stackful : public StackfulBase {
         uint8_t data[c_stackSize];
     };
     Stack m_stack;
+};
+
+// End of the linked .scratchpad section, from the link script.
+extern "C" char __scratchpad_end[];
+
+/**
+ * @brief Stackful coroutine whose stack is the scratchpad.
+ *
+ * @details Same as `Stackful`, except that the stack is not part of the
+ * object: it is the top `StackSize` bytes of the 1KB scratchpad, growing
+ * down from 0x1f800400. The scratchpad answers a load in one cycle where
+ * main RAM takes several, so a hot routine that spends its time saving
+ * and restoring registers and reloading spilled locals gets faster by
+ * running here. The scratchpad-stack example measures it.
+ *
+ * The constraints all come from the scratchpad itself:
+ * - Only one can be alive at a time, since every instance uses the same
+ *   bytes. Let one return before initializing the next.
+ * - DMA cannot reach the scratchpad, so a local of the coroutine cannot
+ *   be a DMA source or target. That includes a primitive or fragment
+ *   built on its stack and then chained to the GPU.
+ * - The bottom `c_freeBytes` bytes are left for data, such as variables
+ *   placed with `__attribute__((section(".scratchpad")))`, which the
+ *   linker allocates from 0x1f800000 upward. `initialize` aborts if the
+ *   linked `.scratchpad` section, which ends at `__scratchpad_end`,
+ *   reaches into the stack. A stack that overflows at run time still
+ *   writes over that data silently.
+ * - Only the main link's `.scratchpad` section is checked: data an
+ *   overlay module places in the scratchpad is not accounted for.
+ * - Interrupts do not run on this stack: psyqo's exception handler saves
+ *   the registers it needs to fixed addresses and switches to its own
+ *   stack before calling into C++.
+ *
+ * @tparam StackSize The number of bytes taken from the top of the
+ * scratchpad. A multiple of 8, at most 1024.
+ */
+template <unsigned StackSize = 1024>
+class ScratchpadStackful : public StackfulBase {
+    static_assert(StackSize <= 1024, "The scratchpad is 1024 bytes");
+    static_assert(StackSize > 16, "makecontext reserves 16 bytes at the top of the stack");
+    static_assert((StackSize & 7) == 0, "The stack size needs to be a multiple of 8");
+
+  public:
+    static constexpr uintptr_t c_stackBase = 0x1f800400 - StackSize;
+    static constexpr unsigned c_stackSize = StackSize;
+    static constexpr unsigned c_freeBytes = 1024 - StackSize;
+    ScratchpadStackful() = default;
+    ScratchpadStackful(const ScratchpadStackful &) = delete;
+    ScratchpadStackful &operator=(const ScratchpadStackful &) = delete;
+
+    /**
+     * @brief Initialize the coroutine with a function.
+     *
+     * @param func Function to be executed by the coroutine.
+     */
+    void initialize(eastl::function<void()> &&func) {
+        Kernel::assert(reinterpret_cast<uintptr_t>(__scratchpad_end) <= c_stackBase,
+                       "ScratchpadStackful: the .scratchpad section overlaps the stack");
+        initializeInternal(eastl::move(func), reinterpret_cast<void *>(c_stackBase), c_stackSize);
+    }
+
+    /**
+     * @brief Resume the coroutine. See `Stackful::resume`.
+     */
+    void resume() { StackfulBase::resume(); }
+
+    /**
+     * @brief Yield the coroutine. See `Stackful::yield`.
+     */
+    void yield() { StackfulBase::yield(); }
+
+    /**
+     * @brief Check if the coroutine is currently alive. See `Stackful::isAlive`.
+     */
+    [[nodiscard]] bool isAlive() const { return StackfulBase::isAlive(); }
 };
 
 }  // namespace psyqo

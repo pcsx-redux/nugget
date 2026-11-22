@@ -67,19 +67,24 @@ struct JmpBuf;
 #else
 #define NUGGET_BIOS_EXTERN extern NUGGET_BIOS_CALL_ATTR
 #endif
-#define NUGGET_BIOS_THUNK(name, table, number)                                                              \
-    __asm__(".ifndef __nugget_bios_" #name "\n"                                                             \
-            ".pushsection .text.__nugget_bios_" #name ",\"axG\",@progbits,__nugget_bios_" #name ",comdat\n" \
-            ".weak __nugget_bios_" #name "\n"                                                               \
-            ".type __nugget_bios_" #name ", @function\n"                                                    \
-            ".set push\n.set noreorder\n"                                                                   \
-            "__nugget_bios_" #name ":\n"                                                                    \
-            NUGGET_BIOS_JUMP(table)                                                                         \
-            "    li $t1, " #number "\n"                                                                     \
-            ".set pop\n"                                                                                     \
-            ".size __nugget_bios_" #name ", . - __nugget_bios_" #name "\n"                                  \
-            ".popsection\n"                                                                                \
-            ".endif\n");
+#define NUGGET_BIOS_THUNK(name, table, number)                                                  \
+    __asm__(".ifndef __nugget_bios_" #name                                                      \
+            "\n"                                                                                \
+            ".pushsection .text.__nugget_bios_" #name ",\"axG\",@progbits,__nugget_bios_" #name \
+            ",comdat\n"                                                                         \
+            ".weak __nugget_bios_" #name                                                        \
+            "\n"                                                                                \
+            ".type __nugget_bios_" #name                                                        \
+            ", @function\n"                                                                     \
+            ".set push\n.set noreorder\n"                                                       \
+            "__nugget_bios_" #name ":\n" NUGGET_BIOS_JUMP(table) "    li $t1, " #number         \
+                                                                 "\n"                           \
+                                                                 ".set pop\n"                   \
+                                                                 ".size __nugget_bios_" #name   \
+                                                                 ", . - __nugget_bios_" #name   \
+                                                                 "\n"                           \
+                                                                 ".popsection\n"                \
+                                                                 ".endif\n");
 #endif
 
 #ifndef PS1_PC_PORT
@@ -123,14 +128,14 @@ static __attribute__((always_inline, noreturn)) void syscall_longjmp(struct JmpB
 }
 
 NUGGET_BIOS_THUNK(syscall_strcat, 0xa0, 0x15)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_strcat(char *dst, const char *src);
-static __attribute__((always_inline)) char * syscall_strcat(char *dst, const char *src) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_strcat(char *dst, const char *src);
+static __attribute__((always_inline)) char *syscall_strcat(char *dst, const char *src) {
     return __nugget_bios_syscall_strcat(dst, src);
 }
 
 NUGGET_BIOS_THUNK(syscall_strncat, 0xa0, 0x16)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_strncat(char *dst, const char *src, size_t size);
-static __attribute__((always_inline)) char * syscall_strncat(char *dst, const char *src, size_t size) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_strncat(char *dst, const char *src, size_t size);
+static __attribute__((always_inline)) char *syscall_strncat(char *dst, const char *src, size_t size) {
     return __nugget_bios_syscall_strncat(dst, src, size);
 }
 
@@ -147,56 +152,54 @@ static __attribute__((always_inline)) int syscall_strncmp(const char *s1, const 
 }
 
 NUGGET_BIOS_THUNK(syscall_strcpy, 0xa0, 0x19)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_strcpy(char *dst, const char *src);
-static __attribute__((always_inline)) char * syscall_strcpy(char *dst, const char *src) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_strcpy(char *dst, const char *src);
+static __attribute__((always_inline)) char *syscall_strcpy(char *dst, const char *src) {
     return __nugget_bios_syscall_strcpy(dst, src);
 }
 
 NUGGET_BIOS_THUNK(syscall_strncpy, 0xa0, 0x1a)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_strncpy(char *dst, const char *src, size_t size);
-static __attribute__((always_inline)) char * syscall_strncpy(char *dst, const char *src, size_t size) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_strncpy(char *dst, const char *src, size_t size);
+static __attribute__((always_inline)) char *syscall_strncpy(char *dst, const char *src, size_t size) {
     return __nugget_bios_syscall_strncpy(dst, src, size);
 }
 
 NUGGET_BIOS_THUNK(syscall_strlen, 0xa0, 0x1b)
 NUGGET_BIOS_EXTERN size_t __nugget_bios_syscall_strlen(const char *s);
-static __attribute__((always_inline)) size_t syscall_strlen(const char *s) {
-    return __nugget_bios_syscall_strlen(s);
-}
+static __attribute__((always_inline)) size_t syscall_strlen(const char *s) { return __nugget_bios_syscall_strlen(s); }
 
 NUGGET_BIOS_THUNK(syscall_index, 0xa0, 0x1c)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_index(const char *s, int c);
-static __attribute__((always_inline)) char * syscall_index(const char *s, int c) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_index(const char *s, int c);
+static __attribute__((always_inline)) char *syscall_index(const char *s, int c) {
     return __nugget_bios_syscall_index(s, c);
 }
 
 NUGGET_BIOS_THUNK(syscall_rindex, 0xa0, 0x1d)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_rindex(const char *s, int c);
-static __attribute__((always_inline)) char * syscall_rindex(const char *s, int c) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_rindex(const char *s, int c);
+static __attribute__((always_inline)) char *syscall_rindex(const char *s, int c) {
     return __nugget_bios_syscall_rindex(s, c);
 }
 
 NUGGET_BIOS_THUNK(syscall_strchr, 0xa0, 0x1e)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_strchr(const char *s, int c);
-static __attribute__((always_inline)) char * syscall_strchr(const char *s, int c) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_strchr(const char *s, int c);
+static __attribute__((always_inline)) char *syscall_strchr(const char *s, int c) {
     return __nugget_bios_syscall_strchr(s, c);
 }
 
 NUGGET_BIOS_THUNK(syscall_strrchr, 0xa0, 0x1f)
-NUGGET_BIOS_EXTERN char * __nugget_bios_syscall_strrchr(const char *s, int c);
-static __attribute__((always_inline)) char * syscall_strrchr(const char *s, int c) {
+NUGGET_BIOS_EXTERN char *__nugget_bios_syscall_strrchr(const char *s, int c);
+static __attribute__((always_inline)) char *syscall_strrchr(const char *s, int c) {
     return __nugget_bios_syscall_strrchr(s, c);
 }
 
 NUGGET_BIOS_THUNK(syscall_memcpy, 0xa0, 0x2a)
-NUGGET_BIOS_EXTERN void * __nugget_bios_syscall_memcpy(void *dst, const void *src, size_t count);
-static __attribute__((always_inline)) void * syscall_memcpy(void *dst, const void *src, size_t count) {
+NUGGET_BIOS_EXTERN void *__nugget_bios_syscall_memcpy(void *dst, const void *src, size_t count);
+static __attribute__((always_inline)) void *syscall_memcpy(void *dst, const void *src, size_t count) {
     return __nugget_bios_syscall_memcpy(dst, src, count);
 }
 
 NUGGET_BIOS_THUNK(syscall_memset, 0xa0, 0x2b)
-NUGGET_BIOS_EXTERN void * __nugget_bios_syscall_memset(void *dst, int c, size_t count);
-static __attribute__((always_inline)) void * syscall_memset(void *dst, int c, size_t count) {
+NUGGET_BIOS_EXTERN void *__nugget_bios_syscall_memset(void *dst, int c, size_t count);
+static __attribute__((always_inline)) void *syscall_memset(void *dst, int c, size_t count) {
     return __nugget_bios_syscall_memset(dst, c, count);
 }
 
@@ -209,16 +212,14 @@ static __attribute__((always_inline)) void syscall_qsort(void *base, size_t nel,
 }
 
 NUGGET_BIOS_THUNK(syscall_userMalloc, 0xa0, 0x33)
-NUGGET_BIOS_EXTERN void * __nugget_bios_syscall_userMalloc(size_t size);
-static __attribute__((always_inline)) void * syscall_userMalloc(size_t size) {
+NUGGET_BIOS_EXTERN void *__nugget_bios_syscall_userMalloc(size_t size);
+static __attribute__((always_inline)) void *syscall_userMalloc(size_t size) {
     return __nugget_bios_syscall_userMalloc(size);
 }
 
 NUGGET_BIOS_THUNK(syscall_userFree, 0xa0, 0x34)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_userFree(void *ptr);
-static __attribute__((always_inline)) void syscall_userFree(void *ptr) {
-    __nugget_bios_syscall_userFree(ptr);
-}
+static __attribute__((always_inline)) void syscall_userFree(void *ptr) { __nugget_bios_syscall_userFree(ptr); }
 
 NUGGET_BIOS_THUNK(syscall_userInitheap, 0xa0, 0x39)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_userInitheap(void *ptr, size_t size);
@@ -228,15 +229,11 @@ static __attribute__((always_inline)) void syscall_userInitheap(void *ptr, size_
 
 NUGGET_BIOS_THUNK(syscall__exit, 0xa0, 0x3a)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall__exit(int code);
-static __attribute__((always_inline)) void syscall__exit(int code) {
-    __nugget_bios_syscall__exit(code);
-}
+static __attribute__((always_inline)) void syscall__exit(int code) { __nugget_bios_syscall__exit(code); }
 
 NUGGET_BIOS_THUNK(syscall_puts, 0xa0, 0x3e)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_puts(const char *msg);
-static __attribute__((always_inline)) void syscall_puts(const char *msg) {
-    __nugget_bios_syscall_puts(msg);
-}
+static __attribute__((always_inline)) void syscall_puts(const char *msg) { __nugget_bios_syscall_puts(msg); }
 
 // doing this one in raw inline assembly would prove tricky,
 // and there's already enough voodoo in this file.
@@ -258,9 +255,7 @@ static __attribute__((always_inline)) int syscall_unresolvedException() {
 
 NUGGET_BIOS_THUNK(syscall_flushCache, 0xa0, 0x44)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_flushCache(void);
-static __attribute__((always_inline)) void syscall_flushCache() {
-    __nugget_bios_syscall_flushCache();
-}
+static __attribute__((always_inline)) void syscall_flushCache() { __nugget_bios_syscall_flushCache(); }
 
 NUGGET_BIOS_THUNK(syscall_cdromSeekL, 0xa0, 0x78)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_cdromSeekL(uint8_t *msf);
@@ -282,15 +277,11 @@ static __attribute__((always_inline)) int syscall_cdromRead(int count, void *buf
 
 NUGGET_BIOS_THUNK(syscall_cdromInnerInit, 0xa0, 0x95)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_cdromInnerInit(void);
-static __attribute__((always_inline)) int syscall_cdromInnerInit() {
-    return __nugget_bios_syscall_cdromInnerInit();
-}
+static __attribute__((always_inline)) int syscall_cdromInnerInit() { return __nugget_bios_syscall_cdromInnerInit(); }
 
 NUGGET_BIOS_THUNK(syscall_addCDRomDevice, 0xa0, 0x96)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_addCDRomDevice(void);
-static __attribute__((always_inline)) int syscall_addCDRomDevice() {
-    return __nugget_bios_syscall_addCDRomDevice();
-}
+static __attribute__((always_inline)) int syscall_addCDRomDevice() { return __nugget_bios_syscall_addCDRomDevice(); }
 
 NUGGET_BIOS_THUNK(syscall_addMemoryCardDevice, 0xa0, 0x97)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_addMemoryCardDevice(void);
@@ -336,27 +327,19 @@ static __attribute__((always_inline)) void syscall_buLowLevelOpCompleted() {
 
 NUGGET_BIOS_THUNK(syscall_buLowLevelOpError1, 0xa0, 0xa8)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_buLowLevelOpError1(void);
-static __attribute__((always_inline)) void syscall_buLowLevelOpError1() {
-    __nugget_bios_syscall_buLowLevelOpError1();
-}
+static __attribute__((always_inline)) void syscall_buLowLevelOpError1() { __nugget_bios_syscall_buLowLevelOpError1(); }
 
 NUGGET_BIOS_THUNK(syscall_buLowLevelOpError2, 0xa0, 0xa9)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_buLowLevelOpError2(void);
-static __attribute__((always_inline)) void syscall_buLowLevelOpError2() {
-    __nugget_bios_syscall_buLowLevelOpError2();
-}
+static __attribute__((always_inline)) void syscall_buLowLevelOpError2() { __nugget_bios_syscall_buLowLevelOpError2(); }
 
 NUGGET_BIOS_THUNK(syscall_buLowLevelOpError3, 0xa0, 0xaa)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_buLowLevelOpError3(void);
-static __attribute__((always_inline)) void syscall_buLowLevelOpError3() {
-    __nugget_bios_syscall_buLowLevelOpError3();
-}
+static __attribute__((always_inline)) void syscall_buLowLevelOpError3() { __nugget_bios_syscall_buLowLevelOpError3(); }
 
 NUGGET_BIOS_THUNK(syscall_buLowLevelOpError4, 0xa0, 0xae)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_buLowLevelOpError4(void);
-static __attribute__((always_inline)) void syscall_buLowLevelOpError4() {
-    __nugget_bios_syscall_buLowLevelOpError4();
-}
+static __attribute__((always_inline)) void syscall_buLowLevelOpError4() { __nugget_bios_syscall_buLowLevelOpError4(); }
 
 NUGGET_BIOS_THUNK(syscall_ioabortraw, 0xa0, 0xb2)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_ioabortraw(int code);
@@ -366,16 +349,14 @@ static __attribute__((always_inline)) int syscall_ioabortraw(int code) {
 
 /* B0 table */
 NUGGET_BIOS_THUNK(syscall_kmalloc, 0xb0, 0x00)
-NUGGET_BIOS_EXTERN void * __nugget_bios_syscall_kmalloc(unsigned size);
-static __attribute__((always_inline)) void * syscall_kmalloc(unsigned size) {
+NUGGET_BIOS_EXTERN void *__nugget_bios_syscall_kmalloc(unsigned size);
+static __attribute__((always_inline)) void *syscall_kmalloc(unsigned size) {
     return __nugget_bios_syscall_kmalloc(size);
 }
 
 NUGGET_BIOS_THUNK(syscall_kfree, 0xb0, 0x01)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_kfree(void *ptr);
-static __attribute__((always_inline)) void syscall_kfree(void *ptr) {
-    __nugget_bios_syscall_kfree(ptr);
-}
+static __attribute__((always_inline)) void syscall_kfree(void *ptr) { __nugget_bios_syscall_kfree(ptr); }
 
 NUGGET_BIOS_THUNK(syscall_initTimer, 0xb0, 0x02)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_initTimer(uint32_t timer, uint16_t target, uint16_t flags);
@@ -447,15 +428,11 @@ static __attribute__((always_inline)) void syscall_initPad(void *buffer1, size_t
 
 NUGGET_BIOS_THUNK(syscall_startPad, 0xb0, 0x13)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_startPad(void);
-static __attribute__((always_inline)) void syscall_startPad() {
-    __nugget_bios_syscall_startPad();
-}
+static __attribute__((always_inline)) void syscall_startPad() { __nugget_bios_syscall_startPad(); }
 
 NUGGET_BIOS_THUNK(syscall_stopPad, 0xb0, 0x14)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_stopPad(void);
-static __attribute__((always_inline)) void syscall_stopPad() {
-    __nugget_bios_syscall_stopPad();
-}
+static __attribute__((always_inline)) void syscall_stopPad() { __nugget_bios_syscall_stopPad(); }
 
 NUGGET_BIOS_THUNK(syscall_returnFromException, 0xb0, 0x17)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_returnFromException(void) __attribute__((noreturn));
@@ -490,15 +467,11 @@ static __attribute__((always_inline)) int syscall_read(int fd, void *buffer, int
 
 NUGGET_BIOS_THUNK(syscall_close, 0xb0, 0x36)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_close(int fd);
-static __attribute__((always_inline)) int syscall_close(int fd) {
-    return __nugget_bios_syscall_close(fd);
-}
+static __attribute__((always_inline)) int syscall_close(int fd) { return __nugget_bios_syscall_close(fd); }
 
 NUGGET_BIOS_THUNK(syscall_putchar, 0xb0, 0x3d)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_putchar(int c);
-static __attribute__((always_inline)) void syscall_putchar(int c) {
-    __nugget_bios_syscall_putchar(c);
-}
+static __attribute__((always_inline)) void syscall_putchar(int c) { __nugget_bios_syscall_putchar(c); }
 
 NUGGET_BIOS_THUNK(syscall_addDevice, 0xb0, 0x47)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_addDevice(const struct Device *device);
@@ -526,21 +499,17 @@ static __attribute__((always_inline)) int syscall_mcReadSector(int deviceID, int
 
 NUGGET_BIOS_THUNK(syscall_mcAllowNewCard, 0xb0, 0x50)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_mcAllowNewCard(void);
-static __attribute__((always_inline)) void syscall_mcAllowNewCard() {
-    __nugget_bios_syscall_mcAllowNewCard();
-}
+static __attribute__((always_inline)) void syscall_mcAllowNewCard() { __nugget_bios_syscall_mcAllowNewCard(); }
 
 NUGGET_BIOS_THUNK(syscall_Krom2RawAdd, 0xb0, 0x51)
-NUGGET_BIOS_EXTERN const uint8_t * __nugget_bios_syscall_Krom2RawAdd(uint32_t c);
-static __attribute__((always_inline)) const uint8_t * syscall_Krom2RawAdd(uint32_t c) {
+NUGGET_BIOS_EXTERN const uint8_t *__nugget_bios_syscall_Krom2RawAdd(uint32_t c);
+static __attribute__((always_inline)) const uint8_t *syscall_Krom2RawAdd(uint32_t c) {
     return __nugget_bios_syscall_Krom2RawAdd(c);
 }
 
 NUGGET_BIOS_THUNK(syscall_mcGetLastDevice, 0xb0, 0x58)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_mcGetLastDevice(void);
-static __attribute__((always_inline)) int syscall_mcGetLastDevice() {
-    return __nugget_bios_syscall_mcGetLastDevice();
-}
+static __attribute__((always_inline)) int syscall_mcGetLastDevice() { return __nugget_bios_syscall_mcGetLastDevice(); }
 
 /* C0 table */
 NUGGET_BIOS_THUNK(syscall_enqueueRCntIrqs, 0xc0, 0x00)
@@ -613,9 +582,7 @@ static __attribute__((always_inline)) void syscall_cdevinput(struct CircularBuff
 
 NUGGET_BIOS_THUNK(syscall_cdevscan, 0xc0, 0x16)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_cdevscan(void);
-static __attribute__((always_inline)) void syscall_cdevscan() {
-    __nugget_bios_syscall_cdevscan();
-}
+static __attribute__((always_inline)) void syscall_cdevscan() { __nugget_bios_syscall_cdevscan(); }
 
 NUGGET_BIOS_THUNK(syscall_circgetc, 0xc0, 0x17)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_circgetc(struct CircularBuffer *circ);
@@ -637,13 +604,9 @@ static __attribute__((always_inline)) void syscall_setDeviceStatus(int status) {
 
 NUGGET_BIOS_THUNK(syscall_patchA0table, 0xc0, 0x1c)
 NUGGET_BIOS_EXTERN void __nugget_bios_syscall_patchA0table(void);
-static __attribute__((always_inline)) void syscall_patchA0table() {
-    __nugget_bios_syscall_patchA0table();
-}
+static __attribute__((always_inline)) void syscall_patchA0table() { __nugget_bios_syscall_patchA0table(); }
 
 NUGGET_BIOS_THUNK(syscall_getDeviceStatus, 0xc0, 0x1d)
 NUGGET_BIOS_EXTERN int __nugget_bios_syscall_getDeviceStatus(void);
-static __attribute__((always_inline)) int syscall_getDeviceStatus() {
-    return __nugget_bios_syscall_getDeviceStatus();
-}
-#endif // #ifdef PS1_PC_PORT
+static __attribute__((always_inline)) int syscall_getDeviceStatus() { return __nugget_bios_syscall_getDeviceStatus(); }
+#endif  // #ifdef PS1_PC_PORT

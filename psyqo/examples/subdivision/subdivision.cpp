@@ -41,6 +41,13 @@ SOFTWARE.
 //
 // Up and Down move the distance at which Active stops dividing, so you can
 // walk the boundary across the floor and watch the cracks move with it.
+//
+// Square cycles a wireframe over the floor: off, drawn on top of the
+// textured floor, or on its own. Quad edges are yellow. The B-C diagonal, which
+// is where the GPU cuts each quad into the two triangles it actually draws and
+// so where the texture bends, is cyan. Fill triangles are magenta.
+
+#include "psyqo/subdivision.hh"
 
 #include <stdint.h>
 
@@ -52,12 +59,12 @@ SOFTWARE.
 #include "psyqo/gte-kernels.hh"
 #include "psyqo/gte-registers.hh"
 #include "psyqo/primitives/common.hh"
+#include "psyqo/primitives/lines.hh"
 #include "psyqo/primitives/quads.hh"
 #include "psyqo/primitives/triangles.hh"
 #include "psyqo/scene.hh"
 #include "psyqo/simplepad.hh"
 #include "psyqo/soft-math.hh"
-#include "psyqo/subdivision.hh"
 #include "psyqo/trigonometry.hh"
 #include "psyqo/vector.hh"
 
@@ -82,7 +89,7 @@ constexpr psyqo::Angle FLOOR_YAW = 0.08_pi;
 
 constexpr psyqo::FixedPoint<> FLOOR_Y = 0.70_fp;   // camera height above the plane
 constexpr psyqo::FixedPoint<> TILE_SIZE = 0.9_fp;  // tile edge, in world units
-constexpr psyqo::FixedPoint<> NEAR_Z = 0.70_fp;   // front edge of the closest row
+constexpr psyqo::FixedPoint<> NEAR_Z = 0.70_fp;    // front edge of the closest row
 
 // Anything closer than this is dropped rather than projected. The GTE's
 // perspective divide falls apart as z approaches zero, and a quad with one
@@ -98,6 +105,11 @@ constexpr unsigned MAX_DEPTH = 2;
 // fewer, but the arrays are sized to not have to think about it.
 constexpr unsigned MAX_QUADS = TILES_X * TILES_Z * (1 << (2 * MAX_DEPTH));
 constexpr unsigned MAX_TRIS = TILES_X * TILES_Z * 4 * (1 << MAX_DEPTH);
+
+// Five lines per quad (four edges and the diagonal) and three per fill
+// triangle. Shared edges are drawn twice; deduplicating them is not worth the
+// code in an example.
+constexpr unsigned MAX_LINES = MAX_QUADS * 5 + MAX_TRIS * 3;
 
 // The texture is 8bpp, 256x256 texels, which occupies 128x256 VRAM words. It
 // goes at 512, 0, so the texture page is at pageX 8 (512 / 64), pageY 0.
@@ -130,6 +142,30 @@ const char* modeName(Mode mode) {
     }
 }
 
+enum class Wireframe : unsigned {
+    Off,
+    Overlay,
+    Only,
+    Count,
+};
+
+const char* wireframeName(Wireframe wireframe) {
+    switch (wireframe) {
+        case Wireframe::Off:
+            return "off";
+        case Wireframe::Overlay:
+            return "overlay";
+        case Wireframe::Only:
+            return "only";
+        default:
+            return "?";
+    }
+}
+
+constexpr psyqo::Color c_edgeColor = {{.r = 0xff, .g = 0xff, .b = 0x00}};
+constexpr psyqo::Color c_diagonalColor = {{.r = 0x00, .g = 0xff, .b = 0xff}};
+constexpr psyqo::Color c_fillColor = {{.r = 0xff, .g = 0x00, .b = 0xff}};
+
 }  // namespace
 
 class SubdivisionDemo final : public psyqo::Application {
@@ -158,15 +194,20 @@ class FloorScene final : public psyqo::Scene {
                      const psyqo::Subdivision::TexturedVertex& c, const psyqo::Subdivision::TexturedVertex& d,
                      Prim& prim);
 
+    void addLine(psyqo::Vertex a, psyqo::Vertex b, psyqo::Color color);
+
     Mode m_mode = Mode::Off;
+    Wireframe m_wireframe = Wireframe::Off;
     psyqo::FixedPoint<> m_activeZ = 1.6_fp;
     unsigned m_quadCount = 0;
     unsigned m_triCount = 0;
+    unsigned m_lineCount = 0;
 
     psyqo::Fragments::SimpleFragment<psyqo::Prim::FastFill> m_clear[2];
     psyqo::Fragments::SimpleFragment<psyqo::Prim::TPage> m_tpage[2];
     eastl::array<psyqo::Fragments::SimpleFragment<psyqo::Prim::TexturedQuad>, MAX_QUADS> m_quads[2];
     eastl::array<psyqo::Fragments::SimpleFragment<psyqo::Prim::TexturedTriangle>, MAX_TRIS> m_tris[2];
+    eastl::array<psyqo::Fragments::SimpleFragment<psyqo::Prim::Line>, MAX_LINES> m_lines[2];
 
     static constexpr psyqo::Color c_bg = {{.r = 0x10, .g = 0x10, .b = 0x20}};
 };
@@ -245,8 +286,11 @@ void FloorScene::start(StartReason reason) {
         if (event.type != psyqo::SimplePad::Event::ButtonPressed) return;
         switch (event.button) {
             case psyqo::SimplePad::Button::Cross:
-                m_mode = static_cast<Mode>((static_cast<unsigned>(m_mode) + 1) %
-                                           static_cast<unsigned>(Mode::Count));
+                m_mode = static_cast<Mode>((static_cast<unsigned>(m_mode) + 1) % static_cast<unsigned>(Mode::Count));
+                break;
+            case psyqo::SimplePad::Button::Square:
+                m_wireframe = static_cast<Wireframe>((static_cast<unsigned>(m_wireframe) + 1) %
+                                                     static_cast<unsigned>(Wireframe::Count));
                 break;
             case psyqo::SimplePad::Button::Up:
                 m_activeZ += 0.1_fp;
@@ -260,11 +304,20 @@ void FloorScene::start(StartReason reason) {
     });
 }
 
+// Lines are only collected here. They are chained after the whole floor, so
+// that no quad or fill triangle drawn later can paint over them.
+void FloorScene::addLine(psyqo::Vertex a, psyqo::Vertex b, psyqo::Color color) {
+    if (m_lineCount >= MAX_LINES) return;
+    auto& prim = m_lines[gpu().getParity()][m_lineCount++].primitive;
+    prim.setColor(color);
+    prim.pointA = a;
+    prim.pointB = b;
+}
+
 template <typename Prim>
-bool FloorScene::projectQuad(const psyqo::Subdivision::TexturedVertex& a,
-                             const psyqo::Subdivision::TexturedVertex& b,
-                             const psyqo::Subdivision::TexturedVertex& c,
-                             const psyqo::Subdivision::TexturedVertex& d, Prim& prim) {
+bool FloorScene::projectQuad(const psyqo::Subdivision::TexturedVertex& a, const psyqo::Subdivision::TexturedVertex& b,
+                             const psyqo::Subdivision::TexturedVertex& c, const psyqo::Subdivision::TexturedVertex& d,
+                             Prim& prim) {
     psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V0>(a.position);
     psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V1>(b.position);
     psyqo::GTE::writeUnsafe<psyqo::GTE::PseudoRegister::V2>(c.position);
@@ -302,6 +355,10 @@ void FloorScene::drawFloor() {
 
     m_quadCount = 0;
     m_triCount = 0;
+    m_lineCount = 0;
+
+    const bool drawTextured = (m_wireframe != Wireframe::Only);
+    const bool drawLines = (m_wireframe != Wireframe::Off);
 
     const unsigned depth = (m_mode == Mode::Off) ? 0 : MAX_DEPTH;
     const bool wantFill = (m_mode == Mode::ActiveWithFill);
@@ -329,27 +386,31 @@ void FloorScene::drawFloor() {
         return nearest < activeZ;
     };
 
-    auto emitQuad = [this, &quads](const psyqo::Subdivision::TexturedVertex& a,
-                                   const psyqo::Subdivision::TexturedVertex& b,
-                                   const psyqo::Subdivision::TexturedVertex& c,
-                                   const psyqo::Subdivision::TexturedVertex& d) {
+    auto emitQuad = [this, &quads, drawTextured, drawLines](
+                        const psyqo::Subdivision::TexturedVertex& a, const psyqo::Subdivision::TexturedVertex& b,
+                        const psyqo::Subdivision::TexturedVertex& c, const psyqo::Subdivision::TexturedVertex& d) {
         if (m_quadCount >= MAX_QUADS) return;
-        if ((a.position.z < MIN_Z) || (b.position.z < MIN_Z) || (c.position.z < MIN_Z) ||
-            (d.position.z < MIN_Z)) {
+        if ((a.position.z < MIN_Z) || (b.position.z < MIN_Z) || (c.position.z < MIN_Z) || (d.position.z < MIN_Z)) {
             return;
         }
         auto& frag = quads[m_quadCount++];
         projectQuad(a, b, c, d, frag.primitive);
         frag.primitive.setColor({{.r = 0x80, .g = 0x80, .b = 0x80}});
         frag.primitive.clutIndex = psyqo::PrimPieces::ClutIndex(psyqo::Vertex{{.x = CLUT_VRAM_X, .y = CLUT_VRAM_Y}});
-        frag.primitive.tpage.setPageX(TEX_PAGE_X)
-            .setPageY(0)
-            .set(psyqo::Prim::TPageAttr::Tex8Bits)
-            .enableDisplayArea();
-        gpu().chain(frag);
+        frag.primitive.tpage.setPageX(TEX_PAGE_X).setPageY(0).set(psyqo::Prim::TPageAttr::Tex8Bits).enableDisplayArea();
+        if (drawTextured) gpu().chain(frag);
+        if (drawLines) {
+            const auto& p = frag.primitive;
+            addLine(p.pointA, p.pointB, c_edgeColor);
+            addLine(p.pointB, p.pointD, c_edgeColor);
+            addLine(p.pointD, p.pointC, c_edgeColor);
+            addLine(p.pointC, p.pointA, c_edgeColor);
+            // The GPU draws a quad as triangles ABC and BCD.
+            addLine(p.pointB, p.pointC, c_diagonalColor);
+        }
     };
 
-    auto emitFill = [this, wantFill, &tris](const psyqo::Subdivision::TexturedVertex& v0,
+    auto emitFill = [this, wantFill, &tris, drawTextured, drawLines](const psyqo::Subdivision::TexturedVertex& v0,
                                             const psyqo::Subdivision::TexturedVertex& mid,
                                             const psyqo::Subdivision::TexturedVertex& v1) {
         if (!wantFill) return;
@@ -379,7 +440,12 @@ void FloorScene::drawFloor() {
         prim.setColor({{.r = 0x80, .g = 0x80, .b = 0x80}});
         prim.clutIndex = psyqo::PrimPieces::ClutIndex(psyqo::Vertex{{.x = CLUT_VRAM_X, .y = CLUT_VRAM_Y}});
         prim.tpage.setPageX(TEX_PAGE_X).setPageY(0).set(psyqo::Prim::TPageAttr::Tex8Bits).enableDisplayArea();
-        gpu().chain(frag);
+        if (drawTextured) gpu().chain(frag);
+        if (drawLines) {
+            addLine(p[0], p[1], c_fillColor);
+            addLine(p[1], p[2], c_fillColor);
+            addLine(p[2], p[0], c_fillColor);
+        }
     };
 
     // Far to near. The floor is a plane seen from above, so nothing on it can
@@ -401,10 +467,12 @@ void FloorScene::drawFloor() {
             const psyqo::Subdivision::TexturedVertex c = {{.x = x0, .y = FLOOR_Y, .z = z0}, {.u = 0, .v = 254}};
             const psyqo::Subdivision::TexturedVertex d = {{.x = x1, .y = FLOOR_Y, .z = z0}, {.u = 254, .v = 254}};
 
-            psyqo::Subdivision::divideQuad(a, b, c, d, depth, psyqo::Subdivision::AllEdges, decide, emitQuad,
-                                           emitFill);
+            psyqo::Subdivision::divideQuad(a, b, c, d, depth, psyqo::Subdivision::AllEdges, decide, emitQuad, emitFill);
         }
     }
+
+    auto& lines = m_lines[parity];
+    for (unsigned i = 0; i < m_lineCount; i++) gpu().chain(lines[i]);
 }
 
 void FloorScene::frame() {
@@ -416,12 +484,13 @@ void FloorScene::frame() {
 
     drawFloor();
 
-    demo.m_font.chainprintf(gpu(), {{.x = 4, .y = 4}}, {{.r = 0xff, .g = 0xff, .b = 0xff}}, "%s",
-                            modeName(m_mode));
-    demo.m_font.chainprintf(gpu(), {{.x = 4, .y = 20}}, {{.r = 0xc0, .g = 0xc0, .b = 0xc0}},
-                            "quads %u  fill tris %u", m_quadCount, m_triCount);
+    demo.m_font.chainprintf(gpu(), {{.x = 4, .y = 4}}, {{.r = 0xff, .g = 0xff, .b = 0xff}}, "%s", modeName(m_mode));
+    demo.m_font.chainprintf(gpu(), {{.x = 4, .y = 20}}, {{.r = 0xc0, .g = 0xc0, .b = 0xc0}}, "quads %u  fill tris %u",
+                            m_quadCount, m_triCount);
     demo.m_font.chainprintf(gpu(), {{.x = 4, .y = 36}}, {{.r = 0xc0, .g = 0xc0, .b = 0xc0}},
                             "cross: mode   up/down: stop distance");
+    demo.m_font.chainprintf(gpu(), {{.x = 4, .y = 52}}, {{.r = 0xc0, .g = 0xc0, .b = 0xc0}}, "square: wireframe %s",
+                            wireframeName(m_wireframe));
 }
 
 int main() { return demo.run(); }

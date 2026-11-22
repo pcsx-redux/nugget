@@ -24,7 +24,6 @@ SOFTWARE.
 
 */
 
-
 /* The monitor as a plain PS-EXE on top of the retail BIOS kernel, over SIO1,
    in two stages. core/ is the resident half, linked into the free RAM under
    the kernel's control blocks; this loader copies it there, hooks it into the
@@ -98,8 +97,8 @@ int main(void) {
     if (!monitorCoreFitsCave(__core_start, __core_end)) {
         uint32_t size;
         void *cave = getOpenBiosCodeCave(&size);
-        ramsyscall_printf("monitor: core %p..%p is outside the OpenBIOS code cave %p+%x, not installed\n",
-                          __core_start, __core_end, cave, size);
+        ramsyscall_printf("monitor: core %p..%p is outside the OpenBIOS code cave %p+%x, not installed\n", __core_start,
+                          __core_end, cave, size);
         linkInit();
         for (const char *m = "monitor: core outside the OpenBIOS code cave, not installed\n"; *m; m++) linkPutByte(*m);
         for (;;);

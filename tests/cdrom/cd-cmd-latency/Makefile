@@ -3,16 +3,16 @@ TYPE = ps-exe
 USE_FUNCTION_SECTIONS = false
 
 SRCS = \
-../../support/alloc.c \
-../../support/crt0.s \
-../../support/memory-c.c \
-../../support/memory-s.s \
-../../support/runtime.c \
-../../support/xprintf.c \
+../../runtime/alloc.c \
+../../runtime/crt0.s \
+../../runtime/memory-c.c \
+../../runtime/memory-s.s \
+../../runtime/runtime.c \
+../../runtime/xprintf.c \
 ../../../common/syscalls/printf.s \
 cd-cmd-latency.c \
 
 CPPFLAGS = -I.
-CPPFLAGS += -I../../support/include
+CPPFLAGS += -I../../runtime/include
 
 include ../../../common.mk
