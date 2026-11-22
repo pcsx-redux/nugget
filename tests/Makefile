@@ -23,6 +23,7 @@ all:
 	$(MAKE) -C dma/rewrite2 all
 	$(MAKE) -C gpu/dma-chain-polygons all
 	$(MAKE) -C gpu/nop all
+	$(MAKE) -C bus/fifo-depths all
 	$(MAKE) -C gpu/fifo all
 	$(MAKE) -C gpu/fbrect all
 	$(MAKE) -C gpu/vram-move all
@@ -168,6 +169,7 @@ clean:
 	$(MAKE) -C dma/rewrite2 clean
 	$(MAKE) -C gpu/dma-chain-polygons clean
 	$(MAKE) -C gpu/nop clean
+	$(MAKE) -C bus/fifo-depths clean
 	$(MAKE) -C gpu/fifo clean
 	$(MAKE) -C gpu/fbrect clean
 	$(MAKE) -C gpu/vram-move clean

@@ -131,6 +131,7 @@ const SKIPS = [
     'gpu/dma-chain-polygons/dma-chain-polygons|probe: loops forever, no verdict',
     'gpu/nop/gpu-nop|probe: loops forever, no verdict',
     'gpu/fifo/gpu-fifo|probe: prints FIFO readings, no verdict',
+    'bus/fifo-depths/fifo-depths|probe: prints FIFO depth readings, no verdict',
     'gte/math-bench/gte-math-bench|benchmark: prints timings, no verdict',
     'cpu/mult-timing/mult-timing|probe: prints timings, no verdict',
     'gte/timing/gte-timing|probe: prints timings, no verdict',
