@@ -5,23 +5,35 @@ The easiest to get started with PSYQo, and with development on the PlayStation 1
 In order to develop for the PlayStation1 using the PSYQo library, a modern C++ toolchain is required. There are several different toolchains available for the PS1, but the PSYQo library is designed to work with at least gcc 10 targeting mips I. Here are some installation methods available:
 
 ## Linux
-### Debian derivatives:
-There's no distribution package for the toolchain, so build it from source:
+There's no working distribution package for the toolchain, so build it from source with [this script](../tools/linux-mips/spawn-compiler.sh). Install the build dependencies first.
+
+Debian derivatives:
 
 ```bash
-sudo apt-get install -y make wget bzip2 xz-utils bison flex texinfo libgmp-dev libmpfr-dev libmpc-dev
-sudo bash tools/linux-mips/spawn-compiler.sh
+sudo apt-get install -y build-essential make wget bzip2 xz-utils bison flex texinfo libgmp-dev libmpfr-dev libmpc-dev
 ```
 
-### Arch derivatives:
-The mipsel environment can be installed from [AUR](https://wiki.archlinux.org/index.php/Aur) : [mipsel-none-elf-binutils](https://aur.archlinux.org/packages/mipsel-none-elf-binutils/) and [mipsel-none-elf-gcc](https://aur.archlinux.org/packages/mipsel-none-elf-gcc/) using your [AURhelper](https://wiki.archlinux.org/index.php/AUR_helpers) of choice:
+Arch derivatives:
 
 ```bash
-trizen -S mipsel-none-elf-binutils mipsel-none-elf-gcc
+sudo pacman -S --needed base-devel wget texinfo gmp mpfr libmpc
 ```
 
-### All other flavors of Unix environments:
-[This script](https://github.com/grumpycoders/pcsx-redux/blob/main/tools/linux-mips/spawn-compiler.sh) will spawn a working mips toolchain.
+Then build and install it into `/usr/local`. The script downloads and builds the sources in the current directory, so run it from a new, empty one:
+
+```bash
+wget -O spawn-compiler.sh https://raw.githubusercontent.com/pcsx-redux/nugget/main/tools/linux-mips/spawn-compiler.sh
+sudo bash spawn-compiler.sh
+```
+
+To install it elsewhere as a regular user instead, from its own empty directory, set `PREFIX` for the script only and put its `bin` directory on `PATH`. Do not leave `PREFIX` exported: the Makefiles read it as the compiler name prefix.
+
+```bash
+PREFIX=$HOME/mips-toolchain bash spawn-compiler.sh
+export PATH="$HOME/mips-toolchain/bin:$PATH"
+```
+
+The script works the same on other Unix flavors, given equivalent dependencies.
 
 ## MacOS
 
@@ -114,8 +126,13 @@ This is the default build, and will enable a release build of the library and yo
 This will enable a full debug build of the library and your binary. It will be slow and bloated, but debugging will be very easy.
 - `make BUILD=SmallDebug`  
 This will enable a debug build of the library and your binary with still some optimizations. Debugging is possible, but will be hindered at times. It is the best compromise if debugging is needed while retaining some speed and small code footprint.
+- `make BUILD=FastDebug`  
+This will enable an optimized build where every function call records its call site on a shadow call stack, which `psyqo::ShadowStack` reads back on the console, to get callstacks for profiling or crash reports. See [shadow-stack.hh](shadow-stack.hh) for the rules, and the [shadow-stack](examples/shadow-stack) example. The bookkeeping costs two calls per function call.
 - `make BUILD=LTO`  
 This will enable a release build of the library and your binary with [LTO](https://gcc.gnu.org/wiki/LinkTimeOptimization) enabled. It will be really fast and really small, but debugging will be impossible.
+
+# Profiling
+[profiler.hh](profiler.hh) times scopes into a ring buffer: install a `psyqo::Profiler::Buffer` once, then put `PSYQO_PROFILE_SCOPE("name")` at the top of any block to time. PCSX-Redux reads the buffer live and draws it as a timeline; on a console, `psyqo::Profiler::dumpPCDRV` writes it to a host file. See the [profiler](examples/profiler) example.
 
 # Further reading
 Moving on to the [Concepts](CONCEPTS.md) page is the next step in understanding how the library functions. The library itself is also thoroughly documented, and the [nugget website](https://pcsx-redux.github.io/nugget/) has a render of the doxygen documentation.

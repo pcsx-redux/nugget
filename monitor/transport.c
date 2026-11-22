@@ -61,7 +61,8 @@ void transportSendBegin(uint16_t type, uint16_t len) {
 
 void transportSendWord(uint16_t w) {
     linkPutWord(w);
-    s_txS1 += w; s_txS2 += s_txS1;
+    s_txS1 += w;
+    s_txS2 += s_txS1;
 }
 
 /* -O2 here, so the link accessors inline into the loop (-Os calls them). */
@@ -71,15 +72,18 @@ __attribute__((optimize("O2"))) void transportSendBytes(const uint8_t *src, uint
     while (src < end) {
         uint16_t w = src[0] | ((uint16_t)src[1] << 8);
         linkPutWord(w);
-        s1 += w; s2 += s1;
+        s1 += w;
+        s2 += s1;
         src += 2;
     }
     if (nbytes & 1) {
         uint16_t w = src[0];
         linkPutWord(w);
-        s1 += w; s2 += s1;
+        s1 += w;
+        s2 += s1;
     }
-    s_txS1 = s1; s_txS2 = s2;
+    s_txS1 = s1;
+    s_txS2 = s2;
 }
 
 void transportSendEnd(void) {
@@ -93,7 +97,6 @@ void transportSendFrame(uint16_t type, const uint16_t *payload, uint16_t len) {
     for (uint16_t i = 0; i < len; i++) transportSendWord(payload[i]);
     transportSendEnd();
 }
-
 
 #ifdef MONITOR_LINK_IS_STREAM
 /* Console input the monitor has no consumer for yet (card #676) is dropped and
@@ -124,8 +127,10 @@ void transportRecvBegin(uint16_t *type, uint16_t *len) {
         b = linkGetByte();
     }
     s_rxS1 = s_rxS2 = 0;
-    s_rxS1 += t; s_rxS2 += s_rxS1;
-    s_rxS1 += l; s_rxS2 += s_rxS1;
+    s_rxS1 += t;
+    s_rxS2 += s_rxS1;
+    s_rxS1 += l;
+    s_rxS2 += s_rxS1;
     *type = t;
     *len = l;
 }
@@ -136,9 +141,11 @@ void transportRecvBegin(uint16_t *type, uint16_t *len) {
     }
     s_rxS1 = s_rxS2 = 0;
     uint16_t t = linkGetWord();
-    s_rxS1 += t; s_rxS2 += s_rxS1;
+    s_rxS1 += t;
+    s_rxS2 += s_rxS1;
     uint16_t l = linkGetWord();
-    s_rxS1 += l; s_rxS2 += s_rxS1;
+    s_rxS1 += l;
+    s_rxS2 += s_rxS1;
     *type = t;
     *len = l;
 }
@@ -177,7 +184,8 @@ int transportStopPending(void) { return 0; }
 
 uint16_t transportRecvWord(void) {
     uint16_t w = linkGetWord();
-    s_rxS1 += w; s_rxS2 += s_rxS1;
+    s_rxS1 += w;
+    s_rxS2 += s_rxS1;
     return w;
 }
 
@@ -189,17 +197,20 @@ __attribute__((optimize("O2"))) void transportRecvBytes(uint8_t *dst, uint32_t n
     uint8_t *end = dst + full * 2;
     while (dst < end) {
         uint16_t w = linkGetWord();
-        s1 += w; s2 += s1;
+        s1 += w;
+        s2 += s1;
         dst[0] = (uint8_t)w;
         dst[1] = (uint8_t)(w >> 8);
         dst += 2;
     }
     for (uint32_t i = full; i < words; i++) {
         uint16_t w = linkGetWord();
-        s1 += w; s2 += s1;
+        s1 += w;
+        s2 += s1;
         if (i * 2 < nbytes) *dst++ = (uint8_t)w;
     }
-    s_rxS1 = s1; s_rxS2 = s2;
+    s_rxS1 = s1;
+    s_rxS2 = s2;
 }
 
 int transportRecvEnd(void) {

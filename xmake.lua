@@ -3,7 +3,11 @@ local mips = path.join(os.scriptdir())
 
 includes(path.join(root, "tools", "xmake", "assets.lua"))
 
-includes(path.join(root, "third_party", "xmake-psx"))
+local xmakePsx = path.join(root, "third_party", "xmake-psx")
+if not os.isfile(path.join(xmakePsx, "xmake.lua")) then
+    print("nugget: %s is empty, so the psx rule cannot load. Fetch the submodules: git submodule sync --recursive && git submodule update --init --recursive", xmakePsx)
+end
+includes(xmakePsx)
 
 -- Turns the one binary target this depends on into a PS-X EXE, the same
 -- layout the Makefile build produces through ps-exe.ld: the file holds the

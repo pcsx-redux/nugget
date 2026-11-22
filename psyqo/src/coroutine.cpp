@@ -29,6 +29,9 @@ SOFTWARE.
 void psyqo::StackfulBase::initializeInternal(eastl::function<void()>&& func, void* ss_sp, unsigned ss_size) {
     m_isAlive = true;
     m_func = eastl::move(func);
+#ifdef PSYQO_SHADOW_STACK
+    m_shadowStack.depth = 0;
+#endif
     getcontext(&m_coroutine);
     m_coroutine.uc_stack.ss_sp = ss_sp;
     m_coroutine.uc_stack.ss_size = ss_size;
@@ -43,10 +46,21 @@ void psyqo::StackfulBase::trampoline() {
 
 void psyqo::StackfulBase::resume() {
     if (!m_isAlive) return;
+#ifdef PSYQO_SHADOW_STACK
+    m_shadowReturn = ShadowStack::switchTo(&m_shadowStack);
+#endif
     swapcontext(&m_return, &m_coroutine);
+#ifdef PSYQO_SHADOW_STACK
+    // The coroutine either yielded, which already switched back, or
+    // returned through uc_link, which did not.
+    ShadowStack::switchTo(m_shadowReturn);
+#endif
 }
 
 void psyqo::StackfulBase::yield() {
     if (!m_isAlive) return;
+#ifdef PSYQO_SHADOW_STACK
+    ShadowStack::switchTo(m_shadowReturn);
+#endif
     swapcontext(&m_coroutine, &m_return);
 }

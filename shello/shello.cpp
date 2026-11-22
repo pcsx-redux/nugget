@@ -37,6 +37,8 @@ SOFTWARE.
 
 #include <stdint.h>
 
+#include "common/hardware/dma.h"
+#include "common/hardware/hwregs.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/psxlibc/setjmp.h"
 #include "common/syscalls/syscalls.h"
@@ -250,7 +252,20 @@ void Shell::createScene() {
 }
 
 void Shell::requestBoot() {
+    // The frame loop leaves the last chain in flight. Let it drain before
+    // leaving, or the game starts with GPU DMA still running and resets it
+    // mid-transfer.
+    gpu().waitChainIdle();
+    for (unsigned c = 0; c < 7; c++) {
+        while (DMA_CTRL[c].CHCR & 0x01000000);
+    }
+    while (!(GPU_STATUS & 0x04000000));
     m_sound.uninit(gpu());
+    // Hand the game what the retail shell leaves: no OTC DMA interrupt (psyqo
+    // enables it, the retail shell does not) and GPU DMA direction off (psyqo
+    // leaves it on FIFO).
+    DICR = DICR & 0x00bf0000;
+    GPU_STATUS = 0x04000000;
     // psyqo turns on the emulator's kernel checker; the game must not inherit it.
     pcsx_checkKernel(0);
     syscall_longjmp(&m_exitJmpBuf, 1);
@@ -563,10 +578,10 @@ extern "C" InitFunc __init_array_start[] __attribute__((weak));
 extern "C" InitFunc __init_array_end[] __attribute__((weak));
 
 extern "C" int shelloStart() {
-    for (InitFunc* f = __preinit_array_start; f < __preinit_array_end; f++) {
+    for (InitFunc *f = __preinit_array_start; f < __preinit_array_end; f++) {
         if (*f) (*f)();
     }
-    for (InitFunc* f = __init_array_start; f < __init_array_end; f++) {
+    for (InitFunc *f = __init_array_start; f < __init_array_end; f++) {
         if (*f) (*f)();
     }
     return main();

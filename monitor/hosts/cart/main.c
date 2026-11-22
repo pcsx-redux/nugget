@@ -35,6 +35,7 @@ SOFTWARE.
 
 #include "common/hardware/hwregs.h"
 #include "common/syscalls/syscalls.h"
+#include "monitor/hosts/gpu.h"
 #include "monitor/install.h"
 #include "monitor/link.h"
 
@@ -44,7 +45,6 @@ extern const uint32_t _binary_monitor_core_bin_end[];
 extern uint32_t __core_start[];
 
 void installSio1Tty(void);
-void drawLoaderSplash(void);
 
 int main(void) {
     enterCriticalSection();
@@ -52,6 +52,7 @@ int main(void) {
     IREG = 0;
     syscall_setDefaultExceptionJmpBuf();
 
+    getVRAM();
     drawLoaderSplash();
 
     const uint32_t *src = _binary_monitor_core_bin_start;

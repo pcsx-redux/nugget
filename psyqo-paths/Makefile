@@ -10,6 +10,7 @@ src/str-player.cpp \
 ../bsdec/bsdec.c \
 ../common/crt0/clz.c \
 ../ucl-demo/n2e-d.S \
+../lz4/lz4.c \
 
 CPPFLAGS += -I..
 

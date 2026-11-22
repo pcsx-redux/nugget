@@ -42,7 +42,7 @@ SOFTWARE.
 
 static inline int PCinit() {
     register int r asm("v0");
-    __asm__ volatile("break 0, 0x101\n" : "=r"(r));
+    __asm__ volatile("break 0, 0x101\n" : "=r"(r) : : "v1");
     return r;
 }
 
