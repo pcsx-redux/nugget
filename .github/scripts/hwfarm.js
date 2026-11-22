@@ -71,6 +71,7 @@ const TESTS = [
     'irq-branch-slot;cpu/irq-branch-slot/irq-branch-slot',
     'libc;libc/libc/libc',
     'load-timings;bus/load-timings/load-timings',
+    'lz4;libc/lz4/lz4',
     'memcpy;libc/memcpy/memcpy',
     'memops-unroll;libc/memops-unroll/memops-unroll',
     'memset;libc/memset/memset',

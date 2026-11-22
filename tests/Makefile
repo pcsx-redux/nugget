@@ -88,6 +88,7 @@ all:
 	$(MAKE) -C bios/memcard-bios-slot2 all
 	$(MAKE) -C sio/memcard-slot2 all
 	$(MAKE) -C libc/memcpy all
+	$(MAKE) -C libc/lz4 all
 	$(MAKE) -C spu/modplayer-state all
 	$(MAKE) -C libc/memops-unroll all
 	$(MAKE) -C libc/memset all
@@ -234,6 +235,7 @@ clean:
 	$(MAKE) -C bios/memcard-bios-slot2 clean
 	$(MAKE) -C sio/memcard-slot2 clean
 	$(MAKE) -C libc/memcpy clean
+	$(MAKE) -C libc/lz4 clean
 	$(MAKE) -C spu/modplayer-state clean
 	$(MAKE) -C libc/memops-unroll clean
 	$(MAKE) -C libc/memset clean
