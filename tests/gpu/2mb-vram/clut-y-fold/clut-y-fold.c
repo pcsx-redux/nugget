@@ -61,6 +61,8 @@ static void setupPalettes(void) {
     gpuFullResetWithGate(0);
     writePixel(0, 480, 0);
     writePixel(1, 480, LOW_COLOR);
+    // Entry 15 is what an open-bus 0xFFFF texel selects on a 1MB fitment.
+    writePixel(15, 480, 0x7c00u);
     // A 4bpp TILE x TILE texture whose every texel is index 1.
     fillRectViaUpload(PAGE_X, 0, TILE / 4, TILE, 0x1111u);
     readPixel(PAGE_X, 0);
