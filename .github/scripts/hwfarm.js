@@ -166,7 +166,7 @@ const SKIPS = [
     'tooling/stack-bounds-heap-quiet/stack-bounds-heap-quiet|emulator heap vs stack-bounds check (pcsx-redux#2551), no hardware verdict',
     'tooling/profiler/profiler|fixture for the emulator call-path profiler, checks nothing itself, no hardware verdict',
 ];
-for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
+for (const d of ['bank-probe', 'clut-y-fold', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
     SKIPS.push(`gpu/2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
 }
