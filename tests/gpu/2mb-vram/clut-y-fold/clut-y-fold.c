@@ -47,16 +47,23 @@ SOFTWARE.
 #define HIGH_COLOR 0x03e0u
 
 // CLUT entry 1 at (0,480), and on a 2MB fitment a different entry 1 at
-// (0,992), written with the gate open so it lands in the upper bank.
+// (0,992), written with the gate open so it lands in the upper bank. The
+// upper texture page gets index 2 texels (CLUT entry 2 is writePixel's
+// padding), so a texpage-bit11 read that misses the fold cannot match. Each
+// phase ends on a readback, which queues behind the uploads and drains them
+// before the next GP1(00h) reset.
 static void setupPalettes(void) {
     gpuFullResetWithGate(1);
     writePixel(0, 992, 0);
     writePixel(1, 992, HIGH_COLOR);
+    fillRectViaUpload(PAGE_X, 512, TILE / 4, TILE, 0x2222u);
+    readPixel(1, 992);
     gpuFullResetWithGate(0);
     writePixel(0, 480, 0);
     writePixel(1, 480, LOW_COLOR);
     // A 4bpp TILE x TILE texture whose every texel is index 1.
     fillRectViaUpload(PAGE_X, 0, TILE / 4, TILE, 0x1111u);
+    readPixel(PAGE_X, 0);
 }
 
 static int upperBankFitted(void) {
