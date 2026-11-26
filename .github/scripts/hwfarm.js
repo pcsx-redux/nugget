@@ -154,6 +154,7 @@ const SKIPS = [
     'psyqo/dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
     'bus/delay-size-autoinc/delay-size-autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
     'cpu/bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
+    'cpu/bcc-store/bcc-store|probe: prints where each BCC/IsC store goes, no verdict',
     'dma/chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
     'bus/exp2-width/exp2-width|probe: prints every access width to the EXP2 region, no verdict',
     'gpu/info8/gpu-info8|probe: prints GP1(10h) index 08h readings, no verdict',
