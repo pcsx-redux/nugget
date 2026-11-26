@@ -130,6 +130,7 @@ all:
 	$(MAKE) -C tooling/get-random all
 	$(MAKE) -C bus/delay-size-autoinc all
 	$(MAKE) -C cpu/bcc-narrow all
+	$(MAKE) -C cpu/bcc-store all
 	$(MAKE) -C dma/chopping all
 	$(MAKE) -C bus/exp2-width all
 	$(MAKE) -C bus/dev-wide all
@@ -280,6 +281,7 @@ clean:
 	$(MAKE) -C tooling/get-random clean
 	$(MAKE) -C bus/delay-size-autoinc clean
 	$(MAKE) -C cpu/bcc-narrow clean
+	$(MAKE) -C cpu/bcc-store clean
 	$(MAKE) -C dma/chopping clean
 	$(MAKE) -C bus/exp2-width clean
 	$(MAKE) -C bus/dev-wide clean
