@@ -166,6 +166,7 @@ const SKIPS = [
     'tooling/stack-bounds-trip/stack-bounds-trip|emulator stack-bounds command (pcsx-redux#2510), expects Redux to exit 251, no hardware verdict',
     'tooling/stack-bounds-heap/stack-bounds-heap|emulator heap vs stack-bounds check (pcsx-redux#2551), expects Redux to exit 251, no hardware verdict',
     'tooling/stack-bounds-heap-quiet/stack-bounds-heap-quiet|emulator heap vs stack-bounds check (pcsx-redux#2551), no hardware verdict',
+    'tooling/get-random/get-random|emulator get-random command, reads the dev board SRAM and checks a refused ROM write, no hardware verdict',
     'tooling/profiler/profiler|fixture for the emulator call-path profiler, checks nothing itself, no hardware verdict',
 ];
 for (const d of ['bank-probe', 'clut-y-fold', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
