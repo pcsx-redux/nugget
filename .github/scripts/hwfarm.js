@@ -151,6 +151,7 @@ const SKIPS = [
     'tooling/pcdrv-net/pcdrv-net|needs a pcdrv host and a TCP echo peer',
     'tooling/pcdrv-net-off/pcdrv-net-off|needs a pcdrv host, checks the emulator with -pcdrvnet off',
     'psyqo/psyqo/psyqo-tests|ends on pcsx_exit only, never halts on hardware',
+    'psyqo/cdda-waterfall-spectrum/cdda-waterfall-spectrum|ends on pcsx_exit only, never halts on hardware',
     'psyqo/dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
     'bus/delay-size-autoinc/delay-size-autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
     'cpu/bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',

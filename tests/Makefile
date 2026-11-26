@@ -108,6 +108,7 @@ all:
 	$(MAKE) -C psyqo/reinit all
 	$(MAKE) -C cdrom/str-player-alloc all
 	$(MAKE) -C psyqo/spudma all
+	$(MAKE) -C psyqo/cdda-waterfall-spectrum all
 	$(MAKE) -C bus/mmio-partial-writes all
 	$(MAKE) -C sio/multitap all
 	$(MAKE) -C sio/tapcard all
@@ -250,6 +251,7 @@ clean:
 	$(MAKE) -C tooling/pcdrv-net clean
 	$(MAKE) -C tooling/pcdrv-net-off clean
 	$(MAKE) -C psyqo/psyqo clean
+	$(MAKE) -C psyqo/cdda-waterfall-spectrum clean
 	$(MAKE) -C psyqo/480i-flip clean
 	$(MAKE) -C psyqo/480i-clear clean
 	$(MAKE) -C psyqo/irq-cop2 clean

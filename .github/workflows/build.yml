@@ -44,7 +44,7 @@ jobs:
         # psyq/README.md.
         run: |
           for d in crc32 examples/cxxhello examples/helloworld modplayer players/psmplayer psyqo \
-                   psyqo-lua psyqo-paths psyqo/examples/profiler psyqo/examples/scratchpad-stack psyqo/examples/shadow-stack psyqo/examples/sprite examples/scratchstack shell shello players/spdplayer players/gpdplayer ucl-demo players/xmplayer; do
+                   psyqo-lua psyqo-paths psyqo/examples/cdda-waterfall psyqo/examples/profiler psyqo/examples/scratchpad-stack psyqo/examples/shadow-stack psyqo/examples/sprite examples/scratchstack shell shello players/spdplayer players/gpdplayer ucl-demo players/xmplayer; do
             echo "::group::$d"
             make -C $d -j2 all
             echo "::endgroup::"
