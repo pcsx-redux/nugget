@@ -79,6 +79,7 @@ int main() {
     if (!untouched(s_first, 3, 0xa5) || !untouched(s_first + 67, 5, 0xa5)) fail("first fill guards", 0, 1);
     if (!untouched(s_second, 3, 0xa5) || !untouched(s_second + 67, 5, 0xa5)) fail("second fill guards", 0, 1);
     if (untouched(s_first + 3, 64, 0xa5)) fail("first fill wrote nothing", 0, 1);
+    if (untouched(s_second + 3, 64, 0xa5)) fail("second fill wrote nothing", 0, 1);
     int same = 1;
     for (unsigned i = 3; i < 67; i++) {
         if (s_first[i] != s_second[i]) same = 0;
