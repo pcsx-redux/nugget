@@ -143,6 +143,7 @@ SKIPS=(
     "bus/mmio-partial-writes/mmio-partial-writes|probe: loops forever, no verdict"
     "bus/delay-size-autoinc/delay-size-autoinc|hardware probe: prints what Delay/Size bit 13 does to split accesses, no verdict"
     "cpu/bcc-narrow/bcc-narrow|hardware probe: prints BCC narrow-read results, no verdict"
+    "cpu/bcc-store/bcc-store|hardware probe: prints where each BCC/IsC store goes, no verdict"
     "dma/chopping/dma-chopping|hardware probe: prints CPU progress during a chopped DMA2 transfer, no verdict"
     "bus/exp2-width/exp2-width|hardware probe: prints every access width to the EXP2 region, no verdict"
     "gpu/info8/gpu-info8|hardware probe: prints GP1(10h) index 08h readings, no verdict"
