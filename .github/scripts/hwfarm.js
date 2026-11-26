@@ -101,6 +101,8 @@ const TESTS = [
     'memcard-slot2;sio/memcard-slot2/memcard-slot2;memcard-slot2',
     'memcard-bios;bios/memcard-bios/memcard-bios;memcard-slot1',
     'memcard-bios-slot2;bios/memcard-bios-slot2/memcard-bios-slot2;memcard-slot2',
+    'memcard-pad;sio/memcard-pad/memcard-pad;memcard-slot1',
+    'memcard-pad-slot2;sio/memcard-pad-slot2/memcard-pad-slot2;memcard-slot2',
 ];
 for (const s of ['edges-clipping', 'line-endpoints-mask-bit', 'edge-walker-stress', 'texture-basic', 'cross-primitive-mask',
                  'edge-walker-precision', 'gouraud-color', 'quad-flat', 'texture-window-8-15', 'lines', 'dither', 'abr-matrix',
