@@ -30,6 +30,7 @@ SOFTWARE.
 #include <stdint.h>
 
 #include "common/hardware/pcsxcmd.h"
+#include "common/hardware/pcsxhw.h"
 #include "common/syscalls/syscalls.h"
 
 static int s_failures = 0;
@@ -108,6 +109,28 @@ int main() {
 
     // A range running off the top of the address space.
     expectStatus("wrap", pcsx_getRandom((void*)0xfffffff8, 16), PCSX_CMDSTATUS_UNMAPPED);
+
+    // The scratchpad is writable, up to its last byte and not past it.
+    volatile uint8_t* scratch = (volatile uint8_t*)0x1f800100;
+    fill(scratch, 72, 0xa5);
+    expectStatus("scratchpad", pcsx_getRandom((void*)(scratch + 3), 64), PCSX_CMDSTATUS_OK);
+    if (!untouched(scratch, 3, 0xa5) || !untouched(scratch + 67, 5, 0xa5)) fail("scratchpad guards", 0, 1);
+    if (untouched(scratch + 3, 64, 0xa5)) fail("scratchpad fill wrote nothing", 0, 1);
+    volatile uint8_t* scratchTop = (volatile uint8_t*)0x1f8003f8;
+    fill(scratchTop, 8, 0x3c);
+    expectStatus("scratchpad end", pcsx_getRandom((void*)scratchTop, 8), PCSX_CMDSTATUS_OK);
+    fill(scratchTop, 8, 0x3c);
+    expectStatus("past the scratchpad", pcsx_getRandom((void*)scratchTop, 9), PCSX_CMDSTATUS_UNMAPPED);
+    if (!untouched(scratchTop, 8, 0x3c)) fail("past the scratchpad wrote", 0, 1);
+
+    // Filled msan memory reads as initialized; the run quits on the read below
+    // if it does not. A range reaching past the block is refused.
+    pcsx_initMsan();
+    volatile uint8_t* block = (volatile uint8_t*)pcsx_msanAlloc(32);
+    expectStatus("msan block", pcsx_getRandom((void*)block, 32), PCSX_CMDSTATUS_OK);
+    ramsyscall_printf("get-random: msan block sum %u\n", sumBytes(block, 32));
+    expectStatus("past the msan block", pcsx_getRandom((void*)(block + 24), 16), PCSX_CMDSTATUS_UNMAPPED);
+    pcsx_msanFree((void*)block);
 
     // A struct declaring itself without the length field.
     struct pcsx_GetRandom cmd;
