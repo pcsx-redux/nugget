@@ -125,6 +125,7 @@ all:
 	$(MAKE) -C tooling/profiler all
 	$(MAKE) -C tooling/stack-bounds-heap all
 	$(MAKE) -C tooling/stack-bounds-heap-quiet all
+	$(MAKE) -C tooling/get-random all
 	$(MAKE) -C bus/delay-size-autoinc all
 	$(MAKE) -C cpu/bcc-narrow all
 	$(MAKE) -C dma/chopping all
@@ -272,6 +273,7 @@ clean:
 	$(MAKE) -C tooling/profiler clean
 	$(MAKE) -C tooling/stack-bounds-heap clean
 	$(MAKE) -C tooling/stack-bounds-heap-quiet clean
+	$(MAKE) -C tooling/get-random clean
 	$(MAKE) -C bus/delay-size-autoinc clean
 	$(MAKE) -C cpu/bcc-narrow clean
 	$(MAKE) -C dma/chopping clean
