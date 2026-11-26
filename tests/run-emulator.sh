@@ -158,6 +158,7 @@ SKIPS=(
     "tooling/stack-bounds-trip/stack-bounds-trip|expects exit 251, run by the pcsx-redux gtests"
     "tooling/stack-bounds-heap/stack-bounds-heap|expects exit 251, run by the pcsx-redux gtests"
     "tooling/stack-bounds-heap-quiet/stack-bounds-heap-quiet|needs the stack bounds command in the dev AppImage; run by the pcsx-redux gtests"
+    "tooling/get-random/get-random|needs the get-random command in the dev AppImage; run by the pcsx-redux gtests"
     "tooling/profiler/profiler|fixture for the call-path profiler, checks nothing itself; run by the pcsx-redux gtests"
     "sio/memcard-slot2/memcard-slot2|the memcard test built for slot 2, for the farm console whose test card is there"
     "bios/memcard-bios-slot2/memcard-bios-slot2|the memcard-bios test built for slot 2, for the farm console whose test card is there"
