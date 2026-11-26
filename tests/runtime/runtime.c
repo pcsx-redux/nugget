@@ -30,6 +30,7 @@ SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "common/hardware/pcsxcmd.h"
 #include "common/hardware/pcsxhw.h"
 #include "common/syscalls/syscalls.h"
 
@@ -50,11 +51,29 @@ static FILE s_stderr = {2};
 FILE *stdout = &s_stdout;
 FILE *stderr = &s_stderr;
 
+// The report stream also goes to the tty, so the log still carries it.
+#define REPORT_FD 3
+static FILE s_report = {REPORT_FD};
+
 static void ttyOut(const char *str, int size, void *opaque) {
     while (size--) syscall_putchar(*str++);
 }
 
-int vdprintf(int fd, const char *fmt, va_list ap) { return vxprintf(ttyOut, NULL, fmt, ap); }
+static void reportOut(const char *str, int size, void *opaque) {
+    pcsx_reportWrite(str, size);
+    ttyOut(str, size, opaque);
+}
+
+int vdprintf(int fd, const char *fmt, va_list ap) {
+    return vxprintf(fd == REPORT_FD ? reportOut : ttyOut, NULL, fmt, ap);
+}
+
+// cester writes its junitxml report here when the emulator collects one; see
+// CESTER_REPORT_STREAM in common.mk.
+FILE *tests_reportStream(void) {
+    if (!pcsx_present() || !pcsx_reportWrite(NULL, 0)) return NULL;
+    return &s_report;
+}
 int vfprintf(FILE *stream, const char *fmt, va_list ap) { return vdprintf(stream->fd, fmt, ap); }
 
 // Trap into the resident debugger with the exit code in $a0 via break
