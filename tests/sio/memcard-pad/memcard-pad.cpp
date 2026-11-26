@@ -33,7 +33,8 @@ SOFTWARE.
 // loop keeps running, and counts the pad polls that completed meanwhile
 // (AdvancedPad::pollCount). The filesystem holds the SIO0 bus for the whole
 // write, but the card is deselected between sector transfers, so the pad must
-// keep polling: at least one poll for every two frames of the write. The file
+// keep polling: at least one poll for every two frames of the write, and never
+// more than two frames in a row without one. The file
 // is then read back and compared byte for byte, so a poll that corrupted a
 // transfer fails the test too.
 //
@@ -80,6 +81,9 @@ class TestScene final : public psyqo::Scene {
     uint32_t m_polls0 = 0;
     uint32_t m_writeFrames = 0;
     uint32_t m_writePolls = 0;
+    uint32_t m_lastPolls = 0;
+    uint32_t m_gap = 0;
+    uint32_t m_maxGap = 0;
     bool m_writeDone = false;
     Error m_writeError = Error::OK;
 };
@@ -220,14 +224,22 @@ void TestScene::frame() {
             }
             m_frames = 0;
             m_polls0 = pad.pollCount();
+            m_lastPolls = m_polls0;
             m_state = 2;
             app.m_fs.writeFile(kPort, kName, kTitle, s_icon, s_payload, kLen, [this](Error e) {
                 m_writeError = e;
                 m_writeDone = true;
             });
             break;
-        case 2:
+        case 2: {
             m_frames++;
+            uint32_t polls = pad.pollCount();
+            if (polls == m_lastPolls) {
+                if (++m_gap > m_maxGap) m_maxGap = m_gap;
+            } else {
+                m_gap = 0;
+                m_lastPolls = polls;
+            }
             if (!m_writeDone) {
                 if (m_frames > 60 * 60) {
                     check(false, "write: finished within 60 s");
@@ -239,10 +251,13 @@ void TestScene::frame() {
             m_writePolls = pad.pollCount() - m_polls0;
             m_state = 3;
             break;
+        }
         case 3: {
             checkError(m_writeError, Error::OK, "write: async writeFile");
             ramsyscall_printf("write: %d polls in %d frames\n", m_writePolls, m_writeFrames);
             check(m_writePolls * 2 >= m_writeFrames, "write: the pad polled at least every other frame");
+            ramsyscall_printf("write: longest run without a poll: %d frames\n", m_maxGap);
+            check(m_maxGap <= 2, "write: never more than two frames in a row without a poll");
             uint32_t got = 0;
             __builtin_memset(s_readback, 0, sizeof(s_readback));
             checkError(app.m_fs.readFileBlocking(app.gpu(), kPort, kName, s_readback, kLen, &got), Error::OK,
