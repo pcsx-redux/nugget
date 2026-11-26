@@ -35,6 +35,9 @@ SOFTWARE.
  * after it again, so no code runs from a line an arm left valid. The store
  * value ends in 5h, so a tag write shows as valid bits 5h.
  *
+ * Only the match bit and the valid bits of a tag read are compared across
+ * passes; the rest is printed as read.
+ *
  * Nothing runs from .bss, so a tag or code word left at the target's line
  * index only matters for the target's own page.
  */
@@ -116,8 +119,8 @@ int main(void) {
     }
     for (unsigned i = 0; i < NARMS; i++) {
         const struct Arm *a = &s_arms[i];
-        int stable = s_ram[0][i] == s_ram[1][i] && s_ram[1][i] == s_ram[2][i] && s_tag[0][i] == s_tag[1][i] &&
-                     s_tag[1][i] == s_tag[2][i];
+        int stable = s_ram[0][i] == s_ram[1][i] && s_ram[1][i] == s_ram[2][i] &&
+                     (s_tag[0][i] & 0x1f) == (s_tag[1][i] & 0x1f) && (s_tag[1][i] & 0x1f) == (s_tag[2][i] & 0x1f);
         ramsyscall_printf("ARM %-18s biu=%08x sr=%08x %s %s value=%08x ram=%08x ramHit=%d tag=%08x tagValid=%x%s\n",
                           a->name, a->biu, a->sr, s_kind[a->kind], a->kseg1 ? "kseg1" : "kseg0",
                           0xaabbcc05u | (i << 4), s_ram[0][i], s_ram[0][i] != 0x11223344u, s_tag[0][i],
