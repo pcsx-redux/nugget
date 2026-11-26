@@ -1,5 +1,6 @@
 all:
 	$(MAKE) -C bank-probe all
+	$(MAKE) -C clut-y-fold all
 	$(MAKE) -C display-area-y all
 	$(MAKE) -C drawing-area-y all
 	$(MAKE) -C drawing-offset-y all
@@ -16,6 +17,7 @@ all:
 
 clean:
 	$(MAKE) -C bank-probe clean
+	$(MAKE) -C clut-y-fold clean
 	$(MAKE) -C display-area-y clean
 	$(MAKE) -C drawing-area-y clean
 	$(MAKE) -C drawing-offset-y clean

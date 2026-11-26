@@ -35,6 +35,7 @@ SOFTWARE.
 #include "psyqo/hardware/cpu.hh"
 #include "psyqo/hardware/sio.hh"
 #include "psyqo/kernel.hh"
+#include "psyqo/sio0-bus.hh"
 
 using namespace psyqo::Hardware;
 
@@ -158,6 +159,9 @@ void psyqo::MemoryCard::recoverBeforeSelect() {
 // without stalling the main loop.
 void psyqo::MemoryCard::startAsyncWhenRecovered(Action action, Port port, uint16_t sector, void *readBuf,
                                                 const void *writeBuf) {
+    // No transfer is in flight here, so a pad poll that was refused during the
+    // previous one can run now, before this one is issued.
+    SIO0Bus::servicePendingPoll();
     if (!m_deselectStamped) {
         SIO::Ctrl = 0;
         stampDeselect();
@@ -203,6 +207,7 @@ uint8_t psyqo::MemoryCard::exchangeByte(uint8_t out) {
 }
 
 void psyqo::MemoryCard::startTransfer(Action action, Port port, uint16_t sector, void *readBuf, const void *writeBuf) {
+    SIO0Bus::beginTransfer();
     m_action = action;
     m_port = port;
     m_sector = sector;
@@ -261,6 +266,7 @@ void psyqo::MemoryCard::finishTransfer(Error result) {
     CPU::IMask.clear(CPU::IRQ::Controller);
     CPU::flushWriteQueue();
     m_action = Action::None;
+    SIO0Bus::endTransfer();
     m_result = result;
     if (!m_blocking && m_callback) {
         auto cb = eastl::move(m_callback);
@@ -780,9 +786,8 @@ void psyqo::MemoryCard::readSector(Port port, uint16_t sector, void *buffer, eas
     }
     // True interrupt-driven, non-blocking transfer: returns immediately, the
     // callback fires (from a queued main-thread callback) once the interrupt
-    // state machine completes. The caller is responsible for not letting an
-    // AdvancedPad poll run while this single-sector op is in flight (it shares
-    // SIO0). The transfer starts once the recovery window since the previous
+    // state machine completes. AdvancedPad defers its poll while the transfer
+    // is in flight (SIO0Bus tracks it). The transfer starts once the recovery window since the previous
     // one has elapsed, so a chain of sectors advances about one per frame,
     // each completing well within a frame. A transient failure is
     // retried internally (a safeguard behind the corrected timing) before the

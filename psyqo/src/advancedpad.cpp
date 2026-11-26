@@ -45,6 +45,8 @@ void psyqo::AdvancedPad::initialize(PollingMode mode) {
     SIO::Mode = 0xd;   // MUL1, 8bit, no parity, normal polarity
     SIO::Ctrl = 0;
 
+    SIO0Bus::setPollService([](void *pad) { static_cast<AdvancedPad *>(pad)->pollBus(); }, this);
+
     Kernel::Internal::addOnFrame([this]() {
         readPad();
 
@@ -164,11 +166,19 @@ inline uint8_t psyqo::AdvancedPad::transceive(uint8_t dataOut) {
 }
 
 void psyqo::AdvancedPad::readPad() {
-    // The memory card and the pad share the SIO0 bus. While a card transaction
-    // owns the bus, stand down entirely: touching SIO0 now would corrupt the
-    // in-flight card transfer. We resume polling once the card releases it.
-    if (SIO0Bus::owned()) return;
+    // The memory card and the pad share the SIO0 bus. Touching SIO0 during a
+    // card transfer would corrupt it, so if the bus cannot be polled now, leave
+    // the poll pending: the card driver runs it before its next transfer, once
+    // the bus is idle (see SIO0Bus).
+    if (!SIO0Bus::canPoll()) {
+        SIO0Bus::requestPoll();
+        return;
+    }
+    SIO0Bus::clearPendingPoll();
+    pollBus();
+}
 
+void psyqo::AdvancedPad::pollBus() {
     uint8_t dataIn, dataOut;
     uint8_t portDevType[2] = {PadType::None, PadType::None};
 
@@ -287,6 +297,7 @@ void psyqo::AdvancedPad::readPad() {
         port ^= 1;
     }  // port loop
     m_portToProbe = port;
+    m_pollCount = m_pollCount + 1;
 }
 
 inline bool psyqo::AdvancedPad::waitForAck() {

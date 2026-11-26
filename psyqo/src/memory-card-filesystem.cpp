@@ -125,6 +125,9 @@ void psyqo::MemoryCardFileSystem::begin(Op op, Port port, eastl::function<void(E
     m_idx = 0;
     if (!m_lockHeld) {
         SIO0Bus::acquire();
+        // Every bus access of this transaction goes through a MemoryCard
+        // transfer, which SIO0Bus tracks, so the pad may poll between them.
+        SIO0Bus::allowPollsBetweenTransfers(true);
         m_lockHeld = true;
     }
 
@@ -174,6 +177,7 @@ Error psyqo::MemoryCardFileSystem::runBlocking(GPU &gpu) {
 
 void psyqo::MemoryCardFileSystem::finish(Error error) {
     if (m_lockHeld) {
+        SIO0Bus::allowPollsBetweenTransfers(false);
         SIO0Bus::release();
         m_lockHeld = false;
     }

@@ -122,19 +122,19 @@ ifneq ($(SRCS_C),)
 $(SRCS_C:.c=.o): %.o: %.c
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 $(SRCS_C:.c=.dep): %.dep: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MP -MT $(addsuffix .o, $(basename $@)) -MT $@ -MF $@ $<
 endif
 ifneq ($(SRCS_CPP),)
 $(SRCS_CPP:.cpp=.o): %.o: %.cpp
 	$(COMPILE.cpp) $(OUTPUT_OPTION) $<
 $(SRCS_CPP:.cpp=.dep): %.dep: %.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MP -MT $(addsuffix .o, $(basename $@)) -MT $@ -MF $@ $<
 endif
 ifneq ($(SRCS_CC),)
 $(SRCS_CC:.cc=.o): %.o: %.cc
 	$(COMPILE.cc) $(OUTPUT_OPTION) $<
 $(SRCS_CC:.cc=.dep): %.dep: %.cc
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MP -MT $(addsuffix .o, $(basename $@)) -MT $@ -MF $@ $<
 endif
 ifneq ($(SRCS_S),)
 $(SRCS_S:.s=.o): %.o: %.s
@@ -148,13 +148,13 @@ $(SRCS_SPP:.S=.o): %.o: %.S
 endif
 
 %.dep: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -M -MP -MT $(addsuffix .o, $(basename $@)) -MT $@ -MF $@ $<
 
 %.dep: %.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MP -MT $(addsuffix .o, $(basename $@)) -MT $@ -MF $@ $<
 
 %.dep: %.cc
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MT $(addsuffix .o, $(basename $@)) -MF $@ $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M -MP -MT $(addsuffix .o, $(basename $@)) -MT $@ -MF $@ $<
 
 # A bit broken, but that'll do in most cases.
 %.dep: %.s
