@@ -131,6 +131,9 @@ int main() {
     ramsyscall_printf("get-random: msan block sum %u\n", sumBytes(block, 32));
     expectStatus("past the msan block", pcsx_getRandom((void*)(block + 24), 16), PCSX_CMDSTATUS_UNMAPPED);
     pcsx_msanFree((void*)block);
+    // Freeing keeps the initialized bits, so this has to be refused on
+    // usability alone.
+    expectStatus("freed msan block", pcsx_getRandom((void*)block, 32), PCSX_CMDSTATUS_UNMAPPED);
 
     // A struct declaring itself without the length field.
     struct pcsx_GetRandom cmd;
