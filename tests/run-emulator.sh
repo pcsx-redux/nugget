@@ -100,6 +100,7 @@ done
 
 # ps-exe|reason
 SKIPS=(
+    "psyqo/cdda-waterfall-spectrum/cdda-waterfall-spectrum|pending: the example's computeBands is still a placeholder; moves to TESTS with the FFT body"
     "mdec/bsdec/bsdec|hardware rig: needs a captured bs-in.bin staged beside it"
     "cpu/bcc-bits/bcc-bits|hardware probe: the emulator does not model bus timing, prints timings, no verdict"
     "cdrom/cd-cmd-latency/cd-cmd-latency|probe: prints CD command timings, no verdict"

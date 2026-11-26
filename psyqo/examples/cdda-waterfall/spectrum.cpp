@@ -52,8 +52,9 @@ void Spectrum::computeBands(std::span<const int16_t, SAMPLES> samples, std::span
     // This placeholder is not a spectrum: it splits the window into BANDS
     // consecutive slices of time and returns the RMS of each, so the field
     // moves with the music while the real transform is written. A
-    // fixed-point FFT over the same 256 samples replaces this body, with
-    // the same signature and the same output range.
+    // fixed-point FFT over the same 256 samples replaces this body, under
+    // the contract written in spectrum.hh, which
+    // tests/psyqo/cdda-waterfall-spectrum checks.
     constexpr unsigned SLICE = SAMPLES / BANDS;
     for (unsigned band = 0; band < BANDS; band++) {
         uint32_t sum = 0;
