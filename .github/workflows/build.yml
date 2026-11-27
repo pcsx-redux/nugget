@@ -43,8 +43,8 @@ jobs:
         # which are not redistributable and have to be built locally. See
         # psyq/README.md.
         run: |
-          for d in crc32 cxxhello helloworld modplayer psmplayer psyqo \
-                   psyqo-lua psyqo-paths psyqo/examples/profiler psyqo/examples/scratchpad-stack psyqo/examples/shadow-stack psyqo/examples/sprite scratchstack shell shello spdplayer gpdplayer ucl-demo xmplayer; do
+          for d in crc32 examples/cxxhello examples/helloworld modplayer players/psmplayer psyqo \
+                   psyqo-lua psyqo-paths psyqo/examples/profiler psyqo/examples/scratchpad-stack psyqo/examples/shadow-stack psyqo/examples/sprite examples/scratchstack shell shello players/spdplayer players/gpdplayer ucl-demo players/xmplayer; do
             echo "::group::$d"
             make -C $d -j2 all
             echo "::endgroup::"
@@ -107,7 +107,7 @@ jobs:
         # Each directory is built on its own, the way its README says to.
         run: |
           export PATH="$HOME/.local/bin:$PATH" XMAKE_ROOT=y
-          for d in helloworld modplayer xmplayer psyqo/examples/hello psyqo/examples/backgrounds psyqo-lua/examples/hello; do
+          for d in examples/helloworld modplayer players/xmplayer psyqo/examples/hello psyqo/examples/backgrounds psyqo-lua/examples/hello; do
             echo "::group::$d"
             (cd $d && xmake f -c -P . -y && xmake -P . -y)
             echo "::endgroup::"

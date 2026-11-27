@@ -207,6 +207,14 @@ class AdvancedPad {
      * @param pad The pad to query.
      * @return The type of the pad.
      */
+    /**
+     * @brief Returns the number of bus polls completed so far.
+     *
+     * @details A poll can be deferred while a memory card transfer holds the
+     * bus; this count only moves when the pad data was actually refreshed.
+     */
+    uint32_t pollCount() const { return m_pollCount; }
+
     uint8_t getPadType(Pad pad) const { return m_padData[toUnderlying(pad)].padType; }
 
     /**
@@ -260,6 +268,7 @@ class AdvancedPad {
     uint8_t outputMultitap(unsigned ticks);
     void processChanges(Pad pad);
     void readPad();
+    void pollBus();
     uint8_t transceive(uint8_t dataOut);
     bool waitForAck();  // true if ack received, false if timeout
 
@@ -274,6 +283,7 @@ class AdvancedPad {
     };
 
     PadData m_padData[8];
+    uint32_t m_pollCount = 0;
     eastl::function<void(Event)> m_callback;
     bool m_connected[8] = {false, false, false, false, false, false, false, false};
     uint16_t m_buttons[8] = {

@@ -46,6 +46,7 @@ TESTS=(
     "gpu-async-stress;gpu/async-stress/gpu-async-stress;interpreter;$CESTER;"
     "gpu-timing;gpu/timing/gpu-timing;interpreter dynarec;$CESTER;;120"
     "sio-reset;sio/reset/sio-reset;interpreter dynarec;^SIORST-PASS;"
+    "sio1-misc;sio/sio1-misc/sio1-misc;interpreter dynarec;^SIO1MISC-PASS;"
     "alloc-tracker;tooling/alloc-tracker/alloc-tracker;interpreter;^alloc-tracker: all [0-9]+ checks passed;-debugger"
     "gte;gte/gte/gte;interpreter dynarec;$CESTER;"
     "gte-latency;gte/latency/gte-latency;interpreter;$CESTER;"
@@ -62,11 +63,13 @@ TESTS=(
     "load-timings;bus/load-timings/load-timings;interpreter;$CESTER;"
     "loadexe;bios/loadexe/loadexe;interpreter dynarec;$CESTER;"
     "memcpy;libc/memcpy/memcpy;interpreter dynarec;$CESTER;"
+    "lz4;libc/lz4/lz4;interpreter dynarec;$CESTER;"
     "modplayer-state;spu/modplayer-state/modplayer-state;interpreter dynarec;$CESTER;"
     "xmplayer-state;spu/xmplayer-state/xmplayer-state;interpreter dynarec;$CESTER;"
     "memops-unroll;libc/memops-unroll/memops-unroll;interpreter;$CESTER;"
     "memcard;sio/memcard/memcard;interpreter;^memcard port 0: all [0-9]+ checks passed;;240"
     "memcard-bios;bios/memcard-bios/memcard-bios;interpreter;^memcard-bios port 0: all [0-9]+ checks passed;;120"
+    "memcard-pad;sio/memcard-pad/memcard-pad;interpreter;^memcard-pad port 0: all [0-9]+ checks passed;;120"
     "memset;libc/memset/memset;interpreter dynarec;$CESTER;"
     "pcdrv;tooling/pcdrv/pcdrv;interpreter dynarec;$CESTER;-pcdrv -pcdrvbase @HOME@"
     "psyqo;psyqo/psyqo/psyqo-tests;interpreter dynarec;^All tests passed!;"
@@ -91,7 +94,8 @@ for s in edges-clipping line-endpoints-mask-bit edge-walker-stress texture-basic
 done
 PROBE='^SUMMARY name=[^ ]+ passed=[1-9][0-9]* failed=0'
 TESTS+=("2mb-vram-bank-probe-1mb;gpu/2mb-vram/bank-probe/bank-probe;interpreter;$PROBE;")
-for d in bank-probe drawing-area-y drawing-offset-y gate-flip-queued primitives-cross texpage-upper transfer-h-quirk \
+TESTS+=("2mb-vram-clut-y-fold-1mb;gpu/2mb-vram/clut-y-fold/clut-y-fold;interpreter;$PROBE;")
+for d in bank-probe clut-y-fold drawing-area-y drawing-offset-y gate-flip-queued primitives-cross texpage-upper transfer-h-quirk \
          transfer-wrap-y vram-blit-y vram-transfers-y; do
     TESTS+=("2mb-vram-$d;gpu/2mb-vram/$d/$d;interpreter;$PROBE;-2mbvram")
 done
@@ -111,10 +115,10 @@ SKIPS=(
     "dma/priority/dma-priority|hardware probe: prints DMA arbitration timings, loops forever, no verdict"
     "spu/wide-writes/spu-wide-writes|hardware probe: prints SPU write miss counts, loops forever, no verdict"
     "cpu/dcache/dcache|emulator gap: the BIU d-cache-as-scratchpad modes are not modelled"
-    "sio/sio1-misc/sio1-misc|emulator gap: SIO1 1F80105Ch is not modelled (pcsx-redux#2445)"
     "gpu/dma-chain-polygons/dma-chain-polygons|probe: loops forever, no verdict"
     "gpu/nop/gpu-nop|probe: loops forever, no verdict"
     "gpu/fifo/gpu-fifo|hardware probe: prints FIFO readings, no verdict"
+    "bus/fifo-depths/fifo-depths|hardware probe: prints FIFO depth readings, no verdict"
     "gte/latency-lzcs/gte-latency-lzcs|emulator gap: the GTE store delay is not modelled, so the cached negative control reads correct at N=0"
     "gte/math-bench/gte-math-bench|benchmark: prints timings, no verdict"
     "gte/write-to-use/gte-write-to-use|emulator gap: GTE write-to-use delay per command and register not in the dev AppImage; run by the pcsx-redux gtests"
@@ -141,6 +145,7 @@ SKIPS=(
     "bus/mmio-partial-writes/mmio-partial-writes|probe: loops forever, no verdict"
     "bus/delay-size-autoinc/delay-size-autoinc|hardware probe: prints what Delay/Size bit 13 does to split accesses, no verdict"
     "cpu/bcc-narrow/bcc-narrow|hardware probe: prints BCC narrow-read results, no verdict"
+    "cpu/bcc-store/bcc-store|hardware probe: prints where each BCC/IsC store goes, no verdict"
     "dma/chopping/dma-chopping|hardware probe: prints CPU progress during a chopped DMA2 transfer, no verdict"
     "bus/exp2-width/exp2-width|hardware probe: prints every access width to the EXP2 region, no verdict"
     "gpu/info8/gpu-info8|hardware probe: prints GP1(10h) index 08h readings, no verdict"
@@ -157,9 +162,11 @@ SKIPS=(
     "tooling/stack-bounds-trip/stack-bounds-trip|expects exit 251, run by the pcsx-redux gtests"
     "tooling/stack-bounds-heap/stack-bounds-heap|expects exit 251, run by the pcsx-redux gtests"
     "tooling/stack-bounds-heap-quiet/stack-bounds-heap-quiet|needs the stack bounds command in the dev AppImage; run by the pcsx-redux gtests"
+    "tooling/get-random/get-random|needs the get-random command in the dev AppImage; run by the pcsx-redux gtests"
     "tooling/profiler/profiler|fixture for the call-path profiler, checks nothing itself; run by the pcsx-redux gtests"
     "sio/memcard-slot2/memcard-slot2|the memcard test built for slot 2, for the farm console whose test card is there"
     "bios/memcard-bios-slot2/memcard-bios-slot2|the memcard-bios test built for slot 2, for the farm console whose test card is there"
+    "sio/memcard-pad-slot2/memcard-pad-slot2|the memcard-pad test built for slot 2, for the farm console whose test card is there"
     "tooling/pcdrv-net/pcdrv-net|needs a TCP echo peer on 127.0.0.1:37373, run by the pcsx-redux gtests"
     "tooling/pcdrv-net-off/pcdrv-net-off|needs PCdrv networking from pcsx-redux#2327 in the dev AppImage"
     "sio/multitap/multitap|needs -shmdisplay host input and multitap from pcsx-redux#2471, run by the pcsx-redux gtests"

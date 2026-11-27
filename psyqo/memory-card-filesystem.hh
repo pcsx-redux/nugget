@@ -70,9 +70,10 @@ class GPU;
  *   - a `*Blocking(GPU&)` variant that pumps the GPU until the operation
  *     completes and returns the error directly.
  *
- * The `SIO0Bus` is owned for the entire transaction, so `AdvancedPad` stands
- * down for its full duration (see the `MemoryCard` warning: this filesystem is
- * usable with `AdvancedPad` only, never `SimplePad`).
+ * The `SIO0Bus` is owned for the entire transaction. `AdvancedPad` keeps
+ * polling between sector transfers, while the card is deselected, and defers
+ * a poll that falls during one until it ends (see the `MemoryCard` warning:
+ * this filesystem is usable with `AdvancedPad` only, never `SimplePad`).
  */
 class MemoryCardFileSystem {
   public:

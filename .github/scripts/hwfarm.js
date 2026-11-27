@@ -71,6 +71,7 @@ const TESTS = [
     'irq-branch-slot;cpu/irq-branch-slot/irq-branch-slot',
     'libc;libc/libc/libc',
     'load-timings;bus/load-timings/load-timings',
+    'lz4;libc/lz4/lz4',
     'memcpy;libc/memcpy/memcpy',
     'memops-unroll;libc/memops-unroll/memops-unroll',
     'memset;libc/memset/memset',
@@ -101,6 +102,8 @@ const TESTS = [
     'memcard-slot2;sio/memcard-slot2/memcard-slot2;memcard-slot2',
     'memcard-bios;bios/memcard-bios/memcard-bios;memcard-slot1',
     'memcard-bios-slot2;bios/memcard-bios-slot2/memcard-bios-slot2;memcard-slot2',
+    'memcard-pad;sio/memcard-pad/memcard-pad;memcard-slot1',
+    'memcard-pad-slot2;sio/memcard-pad-slot2/memcard-pad-slot2;memcard-slot2',
 ];
 for (const s of ['edges-clipping', 'line-endpoints-mask-bit', 'edge-walker-stress', 'texture-basic', 'cross-primitive-mask',
                  'edge-walker-precision', 'gouraud-color', 'quad-flat', 'texture-window-8-15', 'lines', 'dither', 'abr-matrix',
@@ -132,6 +135,7 @@ const SKIPS = [
     'gpu/dma-chain-polygons/dma-chain-polygons|probe: loops forever, no verdict',
     'gpu/nop/gpu-nop|probe: loops forever, no verdict',
     'gpu/fifo/gpu-fifo|probe: prints FIFO readings, no verdict',
+    'bus/fifo-depths/fifo-depths|probe: prints FIFO depth readings, no verdict',
     'gte/math-bench/gte-math-bench|benchmark: prints timings, no verdict',
     'cpu/mult-timing/mult-timing|probe: prints timings, no verdict',
     'gte/timing/gte-timing|probe: prints timings, no verdict',
@@ -151,6 +155,7 @@ const SKIPS = [
     'psyqo/dmachain/dmachain|ends on pcsx_exit only, never halts on hardware',
     'bus/delay-size-autoinc/delay-size-autoinc|probe: prints what Delay/Size bit 13 does to split accesses, no verdict',
     'cpu/bcc-narrow/bcc-narrow|probe: prints BCC narrow-read results, no verdict',
+    'cpu/bcc-store/bcc-store|probe: prints where each BCC/IsC store goes, no verdict',
     'dma/chopping/dma-chopping|probe: prints CPU progress during a chopped DMA2 transfer, no verdict',
     'bus/exp2-width/exp2-width|probe: prints every access width to the EXP2 region, no verdict',
     'gpu/info8/gpu-info8|probe: prints GP1(10h) index 08h readings, no verdict',
@@ -165,9 +170,10 @@ const SKIPS = [
     'tooling/stack-bounds-trip/stack-bounds-trip|emulator stack-bounds command (pcsx-redux#2510), expects Redux to exit 251, no hardware verdict',
     'tooling/stack-bounds-heap/stack-bounds-heap|emulator heap vs stack-bounds check (pcsx-redux#2551), expects Redux to exit 251, no hardware verdict',
     'tooling/stack-bounds-heap-quiet/stack-bounds-heap-quiet|emulator heap vs stack-bounds check (pcsx-redux#2551), no hardware verdict',
+    'tooling/get-random/get-random|emulator get-random command, reads the dev board SRAM and checks a refused ROM write, no hardware verdict',
     'tooling/profiler/profiler|fixture for the emulator call-path profiler, checks nothing itself, no hardware verdict',
 ];
-for (const d of ['bank-probe', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
+for (const d of ['bank-probe', 'clut-y-fold', 'display-area-y', 'drawing-area-y', 'drawing-offset-y', 'fast-fill-h-quirk', 'fast-fill-y',
                  'gp1-09-matrix', 'primitives-cross', 'transfer-h-quirk', 'vram-blit-y', 'vram-transfers-y']) {
     SKIPS.push(`gpu/2mb-vram/${d}/${d}|probe for 2MB-VRAM hardware: loops forever, no verdict`);
 }

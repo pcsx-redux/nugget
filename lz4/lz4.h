@@ -43,6 +43,11 @@ SOFTWARE.
  * whole of the compressed data will be completely overwritten by the
  * decompressed data.
  *
+ * @note Two implementations exist, with the same contract: lz4.c, the
+ * smallest, and lz4-mips.S, a MIPS version roughly a quarter faster at
+ * about two and a half times the code size. Link one of them. Both need the
+ * same margin when decompressing in place.
+ *
  * @note The function does not check for the validity of the
  * compressed data. If the data is corrupted, this will likely result
  * in a crash or an infinite loop. The caller is responsible for

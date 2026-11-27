@@ -107,6 +107,12 @@ enum pcsx_Command {
        struct pcsx_RegisterProfiler. Issuing it again replaces the buffer; a
        zero header pointer unregisters it. */
     PCSX_CMD_REGISTER_PROFILER = 4,
+    /* Fills a guest buffer with random bytes from the host. Payload is
+       struct pcsx_GetRandom. */
+    PCSX_CMD_GET_RANDOM = 5,
+    /* Appends bytes to the report the emulator collects for this run, such as
+       a test framework's JUnit XML. Payload is struct pcsx_ReportWrite. */
+    PCSX_CMD_REPORT_WRITE = 6,
 
     PCSX_CMD_COUNT
 };
@@ -185,6 +191,28 @@ struct pcsx_RegisterProfiler {
     uint32_t profHeader; /* struct pcsx_ProfHeader* */
 };
 
+/* Random bytes. The emulator writes length bytes starting at buffer, which
+   needs no alignment; a length of zero writes nothing and succeeds. A range
+   that is not entirely in mapped guest memory is UNMAPPED, and then nothing is
+   written. The bytes are not part of the emulated machine's state, so a guest
+   that wants a reproducible run (a replay, a test) should seed its own
+   generator from them once rather than draw from them continuously. */
+struct pcsx_GetRandom {
+    struct pcsx_CommandHeader header;
+    uint32_t buffer; /* void* */
+    uint32_t length;
+};
+
+/* A run collects a report only when the emulator was asked for one; otherwise
+   the bytes are dropped and collecting reads 0. A zero length writes nothing,
+   so it asks whether this run collects a report. */
+struct pcsx_ReportWrite {
+    struct pcsx_CommandHeader header;
+    uint32_t data; /* const void* */
+    uint32_t length;
+    volatile uint32_t collecting;
+};
+
 /* Fill in a header and poison the result. Call before pcsx_command. */
 PCSX_INLINE void pcsx_commandInit(struct pcsx_CommandHeader* header, uint32_t op, uint32_t size) {
     header->magic = PCSX_CMD_MAGIC;
@@ -216,7 +244,8 @@ PCSX_INLINE int pcsx_commandSupported(uint32_t op) {
 }
 
 /* Set the stack bounds; see struct pcsx_StackBounds. Returns the command
-   status, PCSX_CMDSTATUS_NO_ANSWER on an emulator without this operation. */
+   status: PCSX_CMDSTATUS_NO_ANSWER on an emulator without the port,
+   PCSX_CMDSTATUS_UNKNOWN_OP on one with the port but not this operation. */
 PCSX_INLINE uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
     struct pcsx_StackBounds bounds;
     pcsx_commandInit(&bounds.header, PCSX_CMD_SET_STACK_BOUNDS, sizeof(bounds));
@@ -228,3 +257,30 @@ PCSX_INLINE uint32_t pcsx_setStackBounds(uint32_t low, uint32_t high) {
 
 /* Stop checking $sp. */
 PCSX_INLINE uint32_t pcsx_clearStackBounds() { return pcsx_setStackBounds(0, 0); }
+
+/* Fill buffer with length random bytes; see struct pcsx_GetRandom. Returns the
+   command status: PCSX_CMDSTATUS_NO_ANSWER on an emulator without the port,
+   PCSX_CMDSTATUS_UNKNOWN_OP on one with the port but not this operation. In
+   both cases the buffer is untouched. */
+PCSX_INLINE uint32_t pcsx_getRandom(void* buffer, uint32_t length) {
+    struct pcsx_GetRandom cmd;
+    pcsx_commandInit(&cmd.header, PCSX_CMD_GET_RANDOM, sizeof(cmd));
+    cmd.buffer = (uint32_t)(uintptr_t)buffer;
+    cmd.length = length;
+    pcsx_command(&cmd);
+    return cmd.header.results.status;
+}
+
+/* Append to this run's report; see struct pcsx_ReportWrite. Returns non-zero
+   when the emulator is collecting a report, and 0 on one without this
+   operation. */
+PCSX_INLINE int pcsx_reportWrite(const void* data, uint32_t length) {
+    struct pcsx_ReportWrite report;
+    pcsx_commandInit(&report.header, PCSX_CMD_REPORT_WRITE, sizeof(report));
+    report.data = (uint32_t)(uintptr_t)data;
+    report.length = length;
+    report.collecting = 0;
+    pcsx_command(&report);
+    if (report.header.results.status != PCSX_CMDSTATUS_OK) return 0;
+    return report.collecting != 0;
+}

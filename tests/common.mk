@@ -16,6 +16,7 @@ $(TESTS_DIR)/../common/syscalls/printf.s \
 CPPFLAGS = -I.
 CPPFLAGS += -I$(TESTS_DIR)/runtime/include
 CPPFLAGS += -I$(TESTS_DIR)/../third_party/libcester/include
+CPPFLAGS += -DCESTER_REPORT_STREAM=tests_reportStream
 
 ifeq ($(PCSX_TESTS),true)
 CPPFLAGS += -DPCSX_TESTS=1

@@ -23,6 +23,7 @@ all:
 	$(MAKE) -C dma/rewrite2 all
 	$(MAKE) -C gpu/dma-chain-polygons all
 	$(MAKE) -C gpu/nop all
+	$(MAKE) -C bus/fifo-depths all
 	$(MAKE) -C gpu/fifo all
 	$(MAKE) -C gpu/fbrect all
 	$(MAKE) -C gpu/vram-move all
@@ -86,7 +87,10 @@ all:
 	$(MAKE) -C bios/memcard-bios all
 	$(MAKE) -C bios/memcard-bios-slot2 all
 	$(MAKE) -C sio/memcard-slot2 all
+	$(MAKE) -C sio/memcard-pad all
+	$(MAKE) -C sio/memcard-pad-slot2 all
 	$(MAKE) -C libc/memcpy all
+	$(MAKE) -C libc/lz4 all
 	$(MAKE) -C spu/modplayer-state all
 	$(MAKE) -C spu/xmplayer-state all
 	$(MAKE) -C libc/memops-unroll all
@@ -124,8 +128,10 @@ all:
 	$(MAKE) -C tooling/profiler all
 	$(MAKE) -C tooling/stack-bounds-heap all
 	$(MAKE) -C tooling/stack-bounds-heap-quiet all
+	$(MAKE) -C tooling/get-random all
 	$(MAKE) -C bus/delay-size-autoinc all
 	$(MAKE) -C cpu/bcc-narrow all
+	$(MAKE) -C cpu/bcc-store all
 	$(MAKE) -C dma/chopping all
 	$(MAKE) -C bus/exp2-width all
 	$(MAKE) -C bus/dev-wide all
@@ -169,6 +175,7 @@ clean:
 	$(MAKE) -C dma/rewrite2 clean
 	$(MAKE) -C gpu/dma-chain-polygons clean
 	$(MAKE) -C gpu/nop clean
+	$(MAKE) -C bus/fifo-depths clean
 	$(MAKE) -C gpu/fifo clean
 	$(MAKE) -C gpu/fbrect clean
 	$(MAKE) -C gpu/vram-move clean
@@ -232,7 +239,10 @@ clean:
 	$(MAKE) -C bios/memcard-bios clean
 	$(MAKE) -C bios/memcard-bios-slot2 clean
 	$(MAKE) -C sio/memcard-slot2 clean
+	$(MAKE) -C sio/memcard-pad clean
+	$(MAKE) -C sio/memcard-pad-slot2 clean
 	$(MAKE) -C libc/memcpy clean
+	$(MAKE) -C libc/lz4 clean
 	$(MAKE) -C spu/modplayer-state clean
 	$(MAKE) -C spu/xmplayer-state clean
 	$(MAKE) -C libc/memops-unroll clean
@@ -270,8 +280,10 @@ clean:
 	$(MAKE) -C tooling/profiler clean
 	$(MAKE) -C tooling/stack-bounds-heap clean
 	$(MAKE) -C tooling/stack-bounds-heap-quiet clean
+	$(MAKE) -C tooling/get-random clean
 	$(MAKE) -C bus/delay-size-autoinc clean
 	$(MAKE) -C cpu/bcc-narrow clean
+	$(MAKE) -C cpu/bcc-store clean
 	$(MAKE) -C dma/chopping clean
 	$(MAKE) -C bus/exp2-width clean
 	$(MAKE) -C bus/dev-wide clean
