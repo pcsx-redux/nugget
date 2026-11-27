@@ -93,7 +93,8 @@ for s in edges-clipping line-endpoints-mask-bit edge-walker-stress texture-basic
 done
 PROBE='^SUMMARY name=[^ ]+ passed=[1-9][0-9]* failed=0'
 TESTS+=("2mb-vram-bank-probe-1mb;gpu/2mb-vram/bank-probe/bank-probe;interpreter;$PROBE;")
-for d in bank-probe drawing-area-y drawing-offset-y gate-flip-queued primitives-cross texpage-upper transfer-h-quirk \
+TESTS+=("2mb-vram-clut-y-fold-1mb;gpu/2mb-vram/clut-y-fold/clut-y-fold;interpreter;$PROBE;")
+for d in bank-probe clut-y-fold drawing-area-y drawing-offset-y gate-flip-queued primitives-cross texpage-upper transfer-h-quirk \
          transfer-wrap-y vram-blit-y vram-transfers-y; do
     TESTS+=("2mb-vram-$d;gpu/2mb-vram/$d/$d;interpreter;$PROBE;-2mbvram")
 done
@@ -169,7 +170,6 @@ SKIPS=(
     "tooling/pcdrv-net-off/pcdrv-net-off|needs PCdrv networking from pcsx-redux#2327 in the dev AppImage"
     "sio/multitap/multitap|needs -shmdisplay host input and multitap from pcsx-redux#2471, run by the pcsx-redux gtests"
     "sio/tapcard/tapcard|needs a setup-*.lua arm and tap memory cards in pcsx-redux, run by the pcsx-redux gtests"
-    "gpu/2mb-vram/clut-y-fold/clut-y-fold|needs the soft CLUT and texpage gate fold from pcsx-redux#2826 in the dev AppImage, run by the pcsx-redux gtests"
 )
 for d in display-area-y fast-fill-h-quirk fast-fill-y gp1-09-matrix; do
     SKIPS+=("gpu/2mb-vram/$d/$d|probe for 2MB-VRAM hardware: loops forever, no verdict")
