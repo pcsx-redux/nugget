@@ -12,7 +12,7 @@ line's tag read in tag test mode (BCC 0001E90Ch, IsC). Store values end in
 | 0001E98Ch | 0 | sw/sh/sb KSEG0, sw KSEG1 | written (sh/sb: its lanes only) | untouched |
 | 0001E90Ch | 0 | sw KSEG0 | written | untouched |
 | 0001E908h | 0 | sw KSEG0 | written | untouched |
-| 0001E90Ch | 1 | sw KSEG0 | untouched | valid 5h, match |
+| 0001E90Ch | 1 | sw/sh/sb KSEG0 | untouched | valid 5h, match |
 | 0001E90Ch | 1 | sw KSEG1 | untouched | valid 5h, no match |
 | 0001E98Ch | 1 | sw/sh/sb KSEG0 | untouched | valid 5h, match |
 | 0001E98Ch | 1 | sw KSEG1 | untouched | valid 5h, no match |

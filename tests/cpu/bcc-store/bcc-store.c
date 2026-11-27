@@ -81,6 +81,8 @@ static const struct Arm s_arms[] = {
     {"nods-isc0-sw", BIU_NODS, 0, 0, SW},
     {"tag-isc1-sw", BIU_TAG, ISC, 0, SW},
     {"tag-isc1-sw-k1", BIU_TAG, ISC, 1, SW},
+    {"tag-isc1-sh", BIU_TAG, ISC, 0, SH},
+    {"tag-isc1-sb", BIU_TAG, ISC, 0, SB},
     {"tagds-isc1-sw", BIU_TAG_DS, ISC, 0, SW},
     {"tagds-isc1-sh", BIU_TAG_DS, ISC, 0, SH},
     {"tagds-isc1-sb", BIU_TAG_DS, ISC, 0, SB},
