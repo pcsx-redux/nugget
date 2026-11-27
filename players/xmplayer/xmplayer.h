@@ -36,7 +36,10 @@ SOFTWARE.
 // Each XM channel plays on the SPU voice with the same number. Voices from XM_Channels to 23 are
 // left alone while the song plays, and can be used for sound effects with XM_PlaySoundEffect.
 
-// Song file format, version 1. All fields are little endian. Offsets are from the start of the file.
+// Song file format, version 1 or 2. All fields are little endian. Offsets are from the start of the
+// file. Version 2 adds what the SPU can do and FastTracker 2 cannot say: an exact tick rate,
+// reverb, the hardware ADSR, noise and pitch modulation per sample, and a second, extended effect
+// per cell. A version 1 file plays the same in both.
 struct XMSongHeader {
     char magic[4];  // "PSXM"
     uint16_t version;
@@ -60,10 +63,29 @@ struct XMSongHeader {
     uint32_t instrumentsOffset;  // numInstruments of struct XMInstrument
     uint32_t samplesOffset;      // numSamples of struct XMSample
     char title[20];
+    // version 2 only, headerSize 72
+    uint32_t tickRate;      // ticks per second in Q16 at the initial bpm, 0 for bpm * 2 / 5; Fxx scales it;
+                            // a tick is at most 65535 hblanks, about 4 s
+    uint32_t reverbOffset;  // struct XMReverb, or 0 to leave reverb off
+};
+
+// Version 2: the reverb unit's setup, written once by XM_Load, which also clears its work area,
+// from base * 8 to the end of SPU RAM. Samples have to end below it.
+struct XMReverb {
+    uint16_t regs[32];  // 0x1f801dc0 onwards, dAPF1 to vRIN
+    uint16_t base;      // mBASE, in 8-byte units
+    int16_t volLeft, volRight;
+    uint16_t reserved;
 };
 
 // Pattern data uses the XM packing: a byte with bit 7 set is a mask of which of note, instrument,
 // volume, effect and parameter follow; otherwise that byte is the note, and the four others follow.
+// Version 2: mask bit 5 adds an extended effect after them, one byte for the effect and two for its
+// little endian parameter, played at the row's first tick:
+//   1  levels: left in the low byte, right in the high byte, 0 to 255. The channel's volume goes to
+//      each side scaled by its level, with no pan law, until a pan effect (8xx or a volume column
+//      Px) sets panning again
+//   2  noise clock, 0 to 63, SPUCNT bits 13-8
 struct XMPatternEntry {
     uint32_t offset;
     uint16_t rows;
@@ -90,13 +112,16 @@ struct XMSample {
     uint32_t loopStart;   // samples, at the converted rate
     uint32_t loopLength;  // samples; for a ping-pong loop, the unfolded period
     uint16_t pad;         // silent samples written before the start, to align the loop
-    uint8_t flags;        // bit 0 loop, bit 1 ping-pong
+    // bit 0 loop, bit 1 ping-pong; version 2: bit 2 hardware ADSR from adsr (a key off releases it,
+    // and the volume envelope and fadeout still apply), bit 3 reverb, bit 4 noise instead of the
+    // sample, bit 5 pitch modulated by the voice below
+    uint8_t flags;
     uint8_t rateShift;    // the sample was resampled to 1 / (1 << rateShift) of its rate
     uint8_t volume;       // 0..64
     int8_t finetune;
     uint8_t pan;
     int8_t relnote;
-    uint32_t reserved;
+    uint32_t adsr;  // version 2: ADSR1 in the low half, ADSR2 in the high half; 0 in version 1
 };
 
 extern unsigned XM_Channels;
@@ -121,7 +146,8 @@ unsigned XM_Check(const void* song);
 // memory, 4-bytes aligned, while it plays; the samples can be freed once this returns. If samples is
 // NULL, they are considered already uploaded. Returns the number of channels, or 0 on error. This
 // resets the SPU and all 24 voices, so sound effects have to be started after it. The upload writes
-// SPU RAM from 0x1010 for sampleBytes rounded up to a multiple of 64 bytes.
+// SPU RAM from 0x1010 for sampleBytes rounded up to a multiple of 64 bytes; a version 2 reverb
+// block also clears SPU RAM from its base to the end.
 unsigned XM_Load(const void* song, const uint8_t* samples);
 
 // Call this at the rate given by XM_hblanks to play.

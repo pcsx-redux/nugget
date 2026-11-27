@@ -92,6 +92,7 @@ all:
 	$(MAKE) -C libc/memcpy all
 	$(MAKE) -C libc/lz4 all
 	$(MAKE) -C spu/modplayer-state all
+	$(MAKE) -C spu/xmplayer-state all
 	$(MAKE) -C libc/memops-unroll all
 	$(MAKE) -C libc/memset all
 	$(MAKE) -C tooling/msan all
@@ -243,6 +244,7 @@ clean:
 	$(MAKE) -C libc/memcpy clean
 	$(MAKE) -C libc/lz4 clean
 	$(MAKE) -C spu/modplayer-state clean
+	$(MAKE) -C spu/xmplayer-state clean
 	$(MAKE) -C libc/memops-unroll clean
 	$(MAKE) -C libc/memset clean
 	$(MAKE) -C tooling/msan clean
