@@ -29,7 +29,7 @@ SOFTWARE.
 #ifndef XMPLAYER_STATE_PLAYER
 #define XMPLAYER_STATE_PLAYER
 #include "common/syscalls/syscalls.h"
-#include "xmplayer/xmplayer.c"
+#include "players/xmplayer/xmplayer.c"
 #endif
 
 #undef unix

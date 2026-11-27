@@ -146,7 +146,8 @@ unsigned XM_Check(const void* song);
 // memory, 4-bytes aligned, while it plays; the samples can be freed once this returns. If samples is
 // NULL, they are considered already uploaded. Returns the number of channels, or 0 on error. This
 // resets the SPU and all 24 voices, so sound effects have to be started after it. The upload writes
-// SPU RAM from 0x1010 for sampleBytes rounded up to a multiple of 64 bytes.
+// SPU RAM from 0x1010 for sampleBytes rounded up to a multiple of 64 bytes; a version 2 reverb
+// block also clears SPU RAM from its base to the end.
 unsigned XM_Load(const void* song, const uint8_t* samples);
 
 // Call this at the rate given by XM_hblanks to play.
