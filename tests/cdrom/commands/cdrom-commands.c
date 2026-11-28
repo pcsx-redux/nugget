@@ -24,9 +24,6 @@ SOFTWARE.
 
 */
 
-
-#include "cdrom-prelude.h"
-
 #include "cdlforward.c"
 #include "cdlgetlocl.c"
 #include "cdlgetlocp.c"
@@ -47,4 +44,5 @@ SOFTWARE.
 #include "cdlsetsession.c"
 #include "cdlstop.c"
 #include "cdltest.c"
+#include "cdrom-prelude.h"
 #include "timing.c"

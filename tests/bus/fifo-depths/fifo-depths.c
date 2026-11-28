@@ -71,9 +71,7 @@ static void irqOff(void) {
     __asm__ volatile("mtc0 %0, $12; nop; nop" : : "r"(sr));
 }
 
-static void delay(unsigned n) {
-    for (volatile unsigned i = 0; i < n; i++);
-}
+static void delay(unsigned n) { for (volatile unsigned i = 0; i < n; i++); }
 
 /* ------------------------------------------------------------------ GPU */
 
@@ -140,8 +138,8 @@ static void copyProof(int rep) {
     readRect(300, 400, 2, 1, px, 1);
     uint32_t after = px[0];
     readRect(300, 144, 2, 1, px, 1);
-    ramsyscall_printf("OBS copy rep=%d ticks8=%u polls=%u dst %08x->%08x src=%08x %s\n", rep, dt, polls, before,
-                      after, px[0], (after != before && after == px[0]) ? "COPIED" : "NOT-COPIED");
+    ramsyscall_printf("OBS copy rep=%d ticks8=%u polls=%u dst %08x->%08x src=%08x %s\n", rep, dt, polls, before, after,
+                      px[0], (after != before && after == px[0]) ? "COPIED" : "NOT-COPIED");
 }
 
 #define GP0_ROWW 128 /* pixels, 64 words */
@@ -188,8 +186,9 @@ static void gp0Arm(const char *tag, int busy, int nw, int rep) {
     int idle = waitIdle();
     int to = readRect(640, 300, GP0_ROWW, 1, s_rb, GP0_WORDS);
 
-    ramsyscall_printf("OBS gp0 %s rep=%d nw=%d stPreHdr=%08x stHdr=%08x tBurst8=%u tDrain8=%u drainPolls=%u idle=%d rbTO=%d\n",
-                      tag, rep, nw, stHdr0, stHdr, tBurst, tDrain, polls, idle, to);
+    ramsyscall_printf(
+        "OBS gp0 %s rep=%d nw=%d stPreHdr=%08x stHdr=%08x tBurst8=%u tDrain8=%u drainPolls=%u idle=%d rbTO=%d\n", tag,
+        rep, nw, stHdr0, stHdr, tBurst, tDrain, polls, idle, to);
     ramsyscall_printf("OBS gp0 %s rep=%d dt8:", tag, rep);
     for (int i = 0; i < nw; i++) ramsyscall_printf(" %u", s_dt[i]);
     ramsyscall_printf("\nOBS gp0 %s rep=%d b25:", tag, rep);
@@ -285,9 +284,10 @@ static void gp0Dots(int busy, int e, int p, int rep) {
     }
     map[64] = 0;
     ramsyscall_printf(
-        "OBS dots %s rep=%d e=%d P=%d words=%d present=%d lastPresent=%d other=%d beyond=%d tBurst8=%u drainPolls=%u stBurst=%08x stPre=%08x idle=%d rbTO=%d map=%s\n",
-        busy ? "busy" : "idle", rep, e, p, e + 2 * p, present, lastPresent, other, beyond, tBurst, polls, stBurst, stPre,
-        idle, to, map);
+        "OBS dots %s rep=%d e=%d P=%d words=%d present=%d lastPresent=%d other=%d beyond=%d tBurst8=%u drainPolls=%u "
+        "stBurst=%08x stPre=%08x idle=%d rbTO=%d map=%s\n",
+        busy ? "busy" : "idle", rep, e, p, e + 2 * p, present, lastPresent, other, beyond, tBurst, polls, stBurst,
+        stPre, idle, to, map);
 }
 
 /* ------------------------------------------------------------- GPUREAD */
@@ -362,7 +362,8 @@ static void grArm(const char *tag, int mode, int j, int rep) {
     uint32_t after[2];
     readRect(GR_X + 200, GR_Y, 2, 1, after, 1);
     ramsyscall_printf(
-        "OBS gpuread %s rep=%d j=%d old=%d new=%d other=%d firstNew=%d lastOld=%d TO=%d idle=%d st=%08x,%08x,%08x,%08x,%08x vramAfter=%08x\n",
+        "OBS gpuread %s rep=%d j=%d old=%d new=%d other=%d firstNew=%d lastOld=%d TO=%d idle=%d "
+        "st=%08x,%08x,%08x,%08x,%08x vramAfter=%08x\n",
         tag, rep, j, old, nw, other, firstNew, lastOld, to, idle, st0, st1, st2, st3, st4, after[0]);
     if (other || (mode == GR_FILLDURING)) {
         ramsyscall_printf("OBS gpuread %s rep=%d j=%d map:", tag, rep, j);
@@ -494,7 +495,11 @@ static void grEnd(int rep) {
             larger than what the GPU has buffered when DREQ fires should show
             a repeat inside the block. */
 #define SPADW ((volatile uint32_t *)0x1f800000)
-#define R4(k) SPADW[k] = GPU_DATA; SPADW[k + 1] = GPU_DATA; SPADW[k + 2] = GPU_DATA; SPADW[k + 3] = GPU_DATA;
+#define R4(k)                \
+    SPADW[k] = GPU_DATA;     \
+    SPADW[k + 1] = GPU_DATA; \
+    SPADW[k + 2] = GPU_DATA; \
+    SPADW[k + 3] = GPU_DATA;
 static void grBurst(int pre, int rep) {
     fullReset();
     uploadPattern();
@@ -504,8 +509,7 @@ static void grBurst(int pre, int rep) {
     GPU_DATA = (1 << 16) | GR_W;
     delay(pre);
     uint32_t t0 = now();
-    R4(0) R4(4) R4(8) R4(12) R4(16) R4(20) R4(24) R4(28)
-    uint32_t dt = since(t0);
+    R4(0) R4(4) R4(8) R4(12) R4(16) R4(20) R4(24) R4(28) uint32_t dt = since(t0);
     int rpt = 0, firstRpt = -1, ok = 0;
     for (int k = 0; k < 32; k++) {
         if (k && SPADW[k] == SPADW[k - 1]) {
@@ -575,9 +579,10 @@ static void grDma(int bs, int ba, int pre, int rep) {
         if (k && b[k] == b[k - 1]) rpt++;
     }
     ramsyscall_printf(
-        "OBS grdma bs=%d ba=%d pre=%d rep=%d words=%d ok=%d repeats=%d firstBad=%d aborted=%d polls=%u dt8=%u bcr=%08x madr+%d st0=%08x st=%08x runs:",
-        bs, ba, pre, rep, words, ok, rpt, firstBad, aborted, polls, dt, bcr, (int)(madr - ((uint32_t)s_dbuf & 0x1fffffff)),
-        st0, st);
+        "OBS grdma bs=%d ba=%d pre=%d rep=%d words=%d ok=%d repeats=%d firstBad=%d aborted=%d polls=%u dt8=%u bcr=%08x "
+        "madr+%d st0=%08x st=%08x runs:",
+        bs, ba, pre, rep, words, ok, rpt, firstBad, aborted, polls, dt, bcr,
+        (int)(madr - ((uint32_t)s_dbuf & 0x1fffffff)), st0, st);
     /* runs: "[pos]a-b" = buffer positions from pos hold pattern words a..b */
     int k = 0;
     while (k < words) {
@@ -661,7 +666,8 @@ static void mdecOutArm(int depth, int k, int n, int rep) {
     }
     uint32_t e = MDEC1;
     ramsyscall_printf(
-        "OBS mdecout %s k=%d n=%d rep=%d afterCmd=%08x undrained=%08x busy=%d rem=%04x blk=%d empty=%d read=%d firstEmpty=%d gaps=%d end=%08x out0..3=%08x %08x %08x %08x last=%08x\n",
+        "OBS mdecout %s k=%d n=%d rep=%d afterCmd=%08x undrained=%08x busy=%d rem=%04x blk=%d empty=%d read=%d "
+        "firstEmpty=%d gaps=%d end=%08x out0..3=%08x %08x %08x %08x last=%08x\n",
         depthName(depth), k, n, rep, sc, s, !!(s & M_BUSY), s & 0xffff, (s >> 16) & 7, !!(s & M_EMPTY), cnt, firstEmpty,
         gaps, e, s_mo[0], s_mo[1], s_mo[2], s_mo[3], last);
     MDEC1 = 0x80000000;
@@ -751,7 +757,8 @@ static void mdecOverfill(int f, int drainFirst, int rep) {
     }
     uint32_t e = MDEC1;
     ramsyscall_printf(
-        "OBS mdecover drainFirst=%d rep=%d F=%d fullAt=%d sFull=%08x readBefore=%d sMid=%08x extraDt8=%u sAfter=%08x readAfter=%d total=%d expectKept=%d expectLost=%d end=%08x busy=%d\n",
+        "OBS mdecover drainFirst=%d rep=%d F=%d fullAt=%d sFull=%08x readBefore=%d sMid=%08x extraDt8=%u sAfter=%08x "
+        "readAfter=%d total=%d expectKept=%d expectLost=%d end=%08x busy=%d\n",
         drainFirst, rep, f, fullAt, sFull, pre, sMid, dt, sx, cnt, pre + cnt, (f + 1) * 16, f * 16, e, !!(e & M_BUSY));
     MDEC1 = 0x80000000;
     MDEC1 = 0;
@@ -816,7 +823,8 @@ int main(void) {
 
     /* DMA last: a stuck channel is aborted after a bounded poll, but keep
        everything else ahead of it. */
-    static const int bss[][2] = {{8, 16}, {16, 8}, {17, 7}, {18, 7}, {20, 6}, {22, 5}, {24, 5}, {28, 4}, {32, 4}, {64, 2}, {128, 1}};
+    static const int bss[][2] = {{8, 16}, {16, 8}, {17, 7}, {18, 7}, {20, 6}, {22, 5},
+                                 {24, 5}, {28, 4}, {32, 4}, {64, 2}, {128, 1}};
     for (int r = 0; r < REPS; r++)
         for (int pre = 0; pre < 2; pre++)
             for (unsigned i = 0; i < sizeof(bss) / sizeof(bss[0]); i++) grDma(bss[i][0], bss[i][1], pre ? 3000 : 0, r);

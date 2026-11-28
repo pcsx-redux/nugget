@@ -25,8 +25,8 @@ SOFTWARE.
 */
 
 #include <stdint.h>
-#include "psyqo/alloc.h"
 
+#include "psyqo/alloc.h"
 #include "snitch_all.hpp"
 
 extern "C" char __stack_start;
