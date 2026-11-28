@@ -72,22 +72,14 @@ struct Arm {
 };
 
 static const struct Arm s_arms[] = {
-    {"default-isc0-sw", BIU_DEFAULT, 0, 0, SW},
-    {"tagds-isc0-sw", BIU_TAG_DS, 0, 0, SW},
-    {"tagds-isc0-sh", BIU_TAG_DS, 0, 0, SH},
-    {"tagds-isc0-sb", BIU_TAG_DS, 0, 0, SB},
-    {"tagds-isc0-sw-k1", BIU_TAG_DS, 0, 1, SW},
-    {"tag-isc0-sw", BIU_TAG, 0, 0, SW},
-    {"nods-isc0-sw", BIU_NODS, 0, 0, SW},
-    {"tag-isc1-sw", BIU_TAG, ISC, 0, SW},
-    {"tag-isc1-sw-k1", BIU_TAG, ISC, 1, SW},
-    {"tag-isc1-sh", BIU_TAG, ISC, 0, SH},
-    {"tag-isc1-sb", BIU_TAG, ISC, 0, SB},
-    {"tagds-isc1-sw", BIU_TAG_DS, ISC, 0, SW},
-    {"tagds-isc1-sh", BIU_TAG_DS, ISC, 0, SH},
-    {"tagds-isc1-sb", BIU_TAG_DS, ISC, 0, SB},
-    {"tagds-isc1-sw-k1", BIU_TAG_DS, ISC, 1, SW},
-    {"default-isc1-sw", BIU_DEFAULT, ISC, 0, SW},
+    {"default-isc0-sw", BIU_DEFAULT, 0, 0, SW},   {"tagds-isc0-sw", BIU_TAG_DS, 0, 0, SW},
+    {"tagds-isc0-sh", BIU_TAG_DS, 0, 0, SH},      {"tagds-isc0-sb", BIU_TAG_DS, 0, 0, SB},
+    {"tagds-isc0-sw-k1", BIU_TAG_DS, 0, 1, SW},   {"tag-isc0-sw", BIU_TAG, 0, 0, SW},
+    {"nods-isc0-sw", BIU_NODS, 0, 0, SW},         {"tag-isc1-sw", BIU_TAG, ISC, 0, SW},
+    {"tag-isc1-sw-k1", BIU_TAG, ISC, 1, SW},      {"tag-isc1-sh", BIU_TAG, ISC, 0, SH},
+    {"tag-isc1-sb", BIU_TAG, ISC, 0, SB},         {"tagds-isc1-sw", BIU_TAG_DS, ISC, 0, SW},
+    {"tagds-isc1-sh", BIU_TAG_DS, ISC, 0, SH},    {"tagds-isc1-sb", BIU_TAG_DS, ISC, 0, SB},
+    {"tagds-isc1-sw-k1", BIU_TAG_DS, ISC, 1, SW}, {"default-isc1-sw", BIU_DEFAULT, ISC, 0, SW},
 };
 #define NARMS (sizeof(s_arms) / sizeof(s_arms[0]))
 
@@ -124,9 +116,9 @@ int main(void) {
         int stable = s_ram[0][i] == s_ram[1][i] && s_ram[1][i] == s_ram[2][i] &&
                      (s_tag[0][i] & 0x1f) == (s_tag[1][i] & 0x1f) && (s_tag[1][i] & 0x1f) == (s_tag[2][i] & 0x1f);
         ramsyscall_printf("ARM %-18s biu=%08x sr=%08x %s %s value=%08x ram=%08x ramHit=%d tag=%08x tagValid=%x%s\n",
-                          a->name, a->biu, a->sr, s_kind[a->kind], a->kseg1 ? "kseg1" : "kseg0",
-                          0xaabbcc05u | (i << 4), s_ram[0][i], s_ram[0][i] != 0x11223344u, s_tag[0][i],
-                          s_tag[0][i] & 0xf, stable ? "" : " UNSTABLE");
+                          a->name, a->biu, a->sr, s_kind[a->kind], a->kseg1 ? "kseg1" : "kseg0", 0xaabbcc05u | (i << 4),
+                          s_ram[0][i], s_ram[0][i] != 0x11223344u, s_tag[0][i], s_tag[0][i] & 0xf,
+                          stable ? "" : " UNSTABLE");
     }
     ramsyscall_printf("BCCSTORE-DONE\n");
     while (1) __asm__ __volatile__("");

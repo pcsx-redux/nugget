@@ -24,7 +24,5 @@ SOFTWARE.
 
 */
 
-
 #include "cdrom-prelude.h"
-
 #include "race.c"

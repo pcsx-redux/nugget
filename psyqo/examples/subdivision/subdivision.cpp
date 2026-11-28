@@ -411,8 +411,8 @@ void FloorScene::drawFloor() {
     };
 
     auto emitFill = [this, wantFill, &tris, drawTextured, drawLines](const psyqo::Subdivision::TexturedVertex& v0,
-                                            const psyqo::Subdivision::TexturedVertex& mid,
-                                            const psyqo::Subdivision::TexturedVertex& v1) {
+                                                                     const psyqo::Subdivision::TexturedVertex& mid,
+                                                                     const psyqo::Subdivision::TexturedVertex& v1) {
         if (!wantFill) return;
         if (m_triCount >= MAX_TRIS) return;
         auto& frag = tris[m_triCount++];

@@ -198,8 +198,7 @@ void TestScene::frame() {
     switch (m_state) {
         case 0: {
             ramsyscall_printf("psyqo memory card + pad, port %d (slot %d)\n", MEMCARD_PORT, MEMCARD_PORT + 1);
-            if (!check(app.m_card.probeBlocking(kPort) == Error::OK, "probe: a card answers") ||
-                !cardIsOursToErase()) {
+            if (!check(app.m_card.probeBlocking(kPort) == Error::OK, "probe: a card answers") || !cardIsOursToErase()) {
                 s_failures++;
                 finish();
             }

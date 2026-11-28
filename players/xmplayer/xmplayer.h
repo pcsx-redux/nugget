@@ -116,8 +116,8 @@ struct XMSample {
     // and the volume envelope and fadeout still apply), bit 3 reverb, bit 4 noise instead of the
     // sample, bit 5 pitch modulated by the voice below
     uint8_t flags;
-    uint8_t rateShift;    // the sample was resampled to 1 / (1 << rateShift) of its rate
-    uint8_t volume;       // 0..64
+    uint8_t rateShift;  // the sample was resampled to 1 / (1 << rateShift) of its rate
+    uint8_t volume;     // 0..64
     int8_t finetune;
     uint8_t pan;
     int8_t relnote;
