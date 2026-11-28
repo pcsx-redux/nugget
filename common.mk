@@ -165,10 +165,24 @@ DEPS += $(patsubst %.cc,  %.dep,$(filter %.cc,$(SRCS)))
 DEPS +=	$(patsubst %.c,   %.dep,$(filter %.c,$(SRCS)))
 DEPS += $(patsubst %.s,   %.dep,$(filter %.s,$(SRCS)))
 
+# Objects depend on a file holding the flags they were compiled with, so a
+# build with other DEFINES, BUILD or CPPFLAGS rebuilds them instead of mixing
+# objects from both. The file is rewritten only when the flags change, and is
+# named .dep so the usual ignore patterns cover it. Flags added after this file
+# is included are not tracked. Reading a file needs GNU make 4.2.
+ifeq ($(filter 3.% 4.0 4.0.% 4.1 4.1.%,$(MAKE_VERSION)),)
+FLAGS_STAMP := $(TARGET).flags.dep
+FLAGS_NOW := $(strip $(CC) $(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXFLAGS) $(ASFLAGS))
+ifneq ($(FLAGS_NOW),$(strip $(file <$(FLAGS_STAMP))))
+$(file >$(FLAGS_STAMP),$(FLAGS_NOW))
+endif
+$(OBJS) $(DEPS): $(FLAGS_STAMP)
+endif
+
 dep: $(DEPS)
 
 clean::
-	rm -f $(OBJS) $(BINDIR)*.a $(BINDIR)Overlay.* $(BINDIR)*.elf $(BINDIR)*.ps-exe $(BINDIR)*.map $(DEPS)
+	rm -f $(OBJS) $(BINDIR)*.a $(BINDIR)Overlay.* $(BINDIR)*.elf $(BINDIR)*.ps-exe $(BINDIR)*.map $(DEPS) $(FLAGS_STAMP)
 
 ifneq ($(MAKECMDGOALS), clean)
 ifneq ($(MAKECMDGOALS), deepclean)
