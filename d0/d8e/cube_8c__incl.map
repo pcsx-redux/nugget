@@ -1,0 +1,18 @@
+<map id="examples/cube/cube.c" name="examples/cube/cube.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="146,5,312,33"/>
+<area shape="rect" id="Node000002" href="$dc/d9c/stdlib_8h.html" title=" " alt="" coords="54,81,123,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,36,129,76,125,71,205,32"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="147,81,217,109"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="222,32,200,70,196,66,219,36"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="241,81,310,109"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="238,31,262,68,256,68,236,36"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="335,81,408,109"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="254,31,335,73,330,74,254,36"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,232,79,260"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="82,107,61,158,47,218,42,216,55,156,79,112"/>
+<area shape="rect" id="Node000004" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="70,157,222,184"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="99,107,129,144,124,145,98,112"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="130,184,74,226,71,221,125,185"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="111,232,181,260"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="148,183,148,218,144,215,144,187"/>
+</map>

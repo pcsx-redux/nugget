@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['data_20width_20biu_20dispatches_20per_20halfword_0',['SBUS: per-device data width, BIU dispatches per-halfword',['../d6/dd1/md_tests_2bus_2mmio-partial-writes_2RESULTS.html#autotoc_md117',1,'']]],
+  ['dcpl_1',['DCPL',['../d5/d78/md_tests_2gte_2write-to-use_2RESULTS.html#autotoc_md209',1,'']]],
+  ['delay_20probe_2',['LZCS -&amp;gt; LZCR store-delay probe',['../dir_5432e3e8f6ca4e23fab08dc93f79ee51.html#autotoc_md135',1,'']]],
+  ['delay_20results_3',['gte-store-delay results',['../d7/da3/md_tests_2gte_2store-delay_2RESULTS.html',1,'']]],
+  ['delay_3a_20hardware_20results_4',['LZCS -&amp;gt; LZCR store delay: hardware results',['../d5/d9f/md_tests_2gte_2latency-lzcs_2RESULTS.html',1,'']]],
+  ['depth_20cue_5',['Depth-cue',['../da/d47/md_tests_2gte_2latency_2RESULTS.html#autotoc_md157',1,'']]],
+  ['dev8_20readback_20results_6',['dev8-readback results',['../de/d32/md_tests_2bus_2dev8-readback_2RESULTS.html',1,'']]],
+  ['device_20data_20width_20biu_20dispatches_20per_20halfword_7',['SBUS: per-device data width, BIU dispatches per-halfword',['../d6/dd1/md_tests_2bus_2mmio-partial-writes_2RESULTS.html#autotoc_md117',1,'']]],
+  ['did_20not_8',['What survived, what did not',['../d6/d24/md_tests_2gte_2math-bench_2RESULTS.html#autotoc_md178',1,'']]],
+  ['die_20mmio_3a_20byte_20enables_20ignored_20full_20bus_20latched_9',['On-die MMIO: byte enables ignored, full bus latched',['../d6/dd1/md_tests_2bus_2mmio-partial-writes_2RESULTS.html#autotoc_md116',1,'']]],
+  ['direction_10',['Direction',['../dir_070c7c646ed95c49b1a24f64c203521c.html#autotoc_md55',1,'']]],
+  ['directory_11',['Consequence outside this directory',['../d5/d9f/md_tests_2gte_2latency-lzcs_2RESULTS.html#autotoc_md142',1,'']]],
+  ['directory_20structure_12',['Directory structure',['../dir_648e14673f6e1f8a04607326d8704996.html#autotoc_md64',1,'']]],
+  ['dispatches_20per_20halfword_13',['SBUS: per-device data width, BIU dispatches per-halfword',['../d6/dd1/md_tests_2bus_2mmio-partial-writes_2RESULTS.html#autotoc_md117',1,'']]],
+  ['distribution_14',['Ease of distribution',['../dir_070c7c646ed95c49b1a24f64c203521c.html#autotoc_md50',1,'']]],
+  ['div_15',['Busy unit, mtlo/mthi, div',['../d6/d04/md_tests_2cpu_2mult-timing_2RESULTS.html#autotoc_md128',1,'']]],
+  ['dma_20priority_20results_16',['dma-priority results',['../df/dc3/md_tests_2dma_2priority_2RESULTS.html',1,'']]],
+  ['dma2_20against_20dma6_17',['DMA2 against DMA6',['../df/dc3/md_tests_2dma_2priority_2RESULTS.html#autotoc_md131',1,'']]],
+  ['dma6_18',['DMA2 against DMA6',['../df/dc3/md_tests_2dma_2priority_2RESULTS.html#autotoc_md131',1,'']]],
+  ['do_20not_20inline_20at_20os_19',['Compiler: psyqo&apos;s GTE wrappers do not inline at &lt;span class=&quot;tt&quot;&gt;-Os&lt;/span&gt;',['../d6/d24/md_tests_2gte_2math-bench_2RESULTS.html#autotoc_md185',1,'']]],
+  ['docker_20',['Docker',['../d3/d4b/md_psyqo_2GETTING__STARTED.html#autotoc_md94',1,'']]],
+  ['dpcs_21',['DPCS',['../d5/d78/md_tests_2gte_2write-to-use_2RESULTS.html#autotoc_md207',1,'']]],
+  ['dpct_22',['DPCT',['../d5/d78/md_tests_2gte_2write-to-use_2RESULTS.html#autotoc_md208',1,'']]],
+  ['dtl_20h2700_20atcons_23',['12.1 OpenBIOS on the DTL-H2700 (ATCONS)',['../de/d39/md_monitor_2PROTOCOL.html#autotoc_md32',1,'']]],
+  ['dump_24',['Correctness dump',['../dir_9261268fa4e489fe6f11a3dc7a3a177b.html#autotoc_md166',1,'']]]
+];

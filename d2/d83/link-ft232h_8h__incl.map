@@ -1,0 +1,11 @@
+<map id="monitor/link&#45;ft232h.h" name="monitor/link&#45;ft232h.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,164,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="31,232,101,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,36,56,56,43,82,37,117,40,154,47,188,57,218,51,218,42,190,34,155,32,117,38,80,52,53,72,31"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="52,81,258,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="97,31,135,69,130,71,97,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="135,111,115,132,93,158,80,188,72,218,67,216,75,186,89,155,111,128,139,107"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="104,157,319,184"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="166,107,195,144,190,144,164,112"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="188,185,106,227,104,223,183,185"/>
+</map>

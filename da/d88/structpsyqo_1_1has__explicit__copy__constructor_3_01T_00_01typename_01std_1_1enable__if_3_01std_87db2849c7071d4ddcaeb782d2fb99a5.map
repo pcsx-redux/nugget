@@ -1,0 +1,7 @@
+<map id="psyqo::has_explicit_copy_constructor&lt; T, typename std::enable_if&lt; std::is_copy_constructible_v&lt; T &gt; &amp;&amp;!std::is_convertible_v&lt; const T &amp;, T &gt; &gt;::type &gt;" name="psyqo::has_explicit_copy_constructor&lt; T, typename std::enable_if&lt; std::is_copy_constructible_v&lt; T &gt; &amp;&amp;!std::is_convertible_v&lt; const T &amp;, T &gt; &gt;::type &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="22,81,244,194"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,123,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,44,103,80,97,81,79,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="147,5,258,33"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,44,169,82,165,79,185,48"/>
+</map>

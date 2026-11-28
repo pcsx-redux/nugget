@@ -1,0 +1,7 @@
+<map id="psyqo::Subdivision::TexturedVertex" name="psyqo::Subdivision::TexturedVertex">
+<area shape="rect" id="Node000001" title="A model&#45;space vertex and its texture coordinates." alt="" coords="93,123,236,168"/>
+<area shape="rect" id="Node000002" href="$d2/dae/structpsyqo_1_1Vector.html" title=" " alt="" coords="5,14,153,42"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,52,151,122,146,123,96,56"/>
+<area shape="rect" id="Node000003" href="$dc/d89/structpsyqo_1_1PrimPieces_1_1UVCoords.html" title="A primitive&#39;s UV coordinates attribute." alt="" coords="177,5,325,50"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,62,182,124,179,120,223,64"/>
+</map>

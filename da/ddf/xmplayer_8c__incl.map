@@ -1,0 +1,21 @@
+<map id="players/xmplayer/xmplayer.c" name="players/xmplayer/xmplayer.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="224,5,436,33"/>
+<area shape="rect" id="Node000002" href="$dc/de9/xmplayer_8h.html" title=" " alt="" coords="5,157,218,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,35,238,83,144,149,140,145,235,79,312,32"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="352,308,423,336"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="318,31,299,56,285,82,268,132,259,173,263,213,283,259,294,273,308,285,341,306,335,305,305,289,290,277,279,261,258,214,254,173,263,130,280,80,295,53,314,35"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="294,81,367,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="331,31,333,66,328,64,329,36"/>
+<area shape="rect" id="Node000005" href="$d9/d95/dma_8h.html" title=" " alt="" coords="293,232,482,260"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="345,31,366,53,382,80,392,116,396,153,394,218,389,215,390,153,386,117,377,82,362,56,344,36"/>
+<area shape="rect" id="Node000006" href="$d0/dea/common_2hardware_2spu_8h.html" title=" " alt="" coords="442,81,624,109"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="366,31,485,75,480,76,366,36"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="128,182,177,219,238,258,289,282,340,304,335,304,287,287,236,262,174,223,127,187"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="389,259,390,294,385,291,386,262"/>
+<area shape="rect" id="Node000007" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="493,157,573,184"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="534,107,535,142,531,140,531,111"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="532,183,520,222,510,243,496,262,468,286,437,304,435,299,465,281,492,258,505,240,515,220,528,186"/>
+<area shape="rect" id="Node000008" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="557,232,772,260"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="557,182,631,225,625,224,556,187"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="618,260,438,310,437,305,613,261"/>
+</map>

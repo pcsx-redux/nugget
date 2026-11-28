@@ -1,0 +1,10 @@
+<map id="openbios/cdrom/events.h" name="openbios/cdrom/events.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="12,5,197,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,157,76,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,36,68,82,49,143,44,141,63,80,96,31"/>
+<area shape="rect" id="Node000003" href="$dc/d96/openbios_2kernel_2events_8h.html" title=" " alt="" coords="78,81,262,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,31,151,69,146,70,116,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="149,110,78,151,75,146,144,108"/>
+<area shape="rect" id="Node000004" href="$d8/d24/common_2kernel_2events_8h.html" title=" " alt="" coords="100,157,282,184"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="175,107,186,143,181,141,172,111"/>
+</map>

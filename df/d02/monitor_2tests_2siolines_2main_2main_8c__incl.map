@@ -1,0 +1,17 @@
+<map id="monitor/tests/siolines/main/main.c" name="monitor/tests/siolines/main/main.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="43,5,205,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="145,249,215,277"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,53,35,72,11,99,8,111,12,125,25,166,52,199,90,226,133,246,128,248,88,231,49,203,21,169,7,126,3,111,7,97,31,68,65,48"/>
+<area shape="rect" id="Node000003" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="21,98,227,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,48,126,83,121,82,123,53"/>
+<area shape="rect" id="Node000005" href="$da/dda/sio_8h.html" title=" " alt="" coords="251,98,429,126"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="181,48,293,91,289,93,181,53"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="101,128,85,143,68,161,58,181,58,190,62,200,75,216,92,229,132,249,127,251,89,234,72,220,57,203,53,191,53,180,63,158,81,139,104,124"/>
+<area shape="rect" id="Node000004" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="72,174,287,201"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="134,124,163,161,158,162,133,129"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="182,200,182,235,177,232,178,204"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="339,124,327,164,316,184,302,203,268,230,230,248,229,243,265,225,298,199,311,182,322,161,335,128"/>
+<area shape="rect" id="Node000006" href="$d2/de7/irq_8h.html" title=" " alt="" coords="362,174,539,201"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="360,124,421,165,416,165,359,129"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="405,202,230,251,229,246,399,202"/>
+</map>

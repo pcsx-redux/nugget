@@ -1,0 +1,12 @@
+<map id="openbios/fileio/fileio.h" name="openbios/fileio/fileio.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="82,5,246,33"/>
+<area shape="rect" id="Node000002" href="$db/de9/device_8h.html" title=" " alt="" coords="5,81,193,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,36,123,71,118,68,154,31"/>
+<area shape="rect" id="Node000004" href="$d3/d43/common_2psxlibc_2stdio_8h.html" title=" " alt="" coords="74,157,250,184"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="177,31,202,66,208,87,207,109,198,129,186,146,182,143,193,126,202,108,203,88,197,68,176,36"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="64,232,134,260"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="87,111,76,132,64,157,62,170,64,183,82,220,77,220,59,185,56,170,59,156,71,129,89,107"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="104,107,136,145,130,146,103,112"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="155,156,127,123,129,117,160,156"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="153,184,122,222,118,218,148,186"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="psyqo/atan2.hh" name="psyqo/atan2.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="6,5,128,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,232,76,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,36,46,82,39,154,41,217,35,217,33,154,41,80,61,31"/>
+<area shape="rect" id="Node000003" href="$d6/d36/trigonometry_8hh.html" title=" " alt="" coords="56,81,223,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="80,31,118,69,113,71,80,36"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="123,111,106,132,85,158,67,189,53,219,49,217,63,187,81,155,102,129,127,107"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="95,157,204,184"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="142,107,148,142,143,141,140,112"/>
+<area shape="rect" id="Node000005" href="$da/dbc/fixed-point_8hh.html" title=" " alt="" coords="229,157,382,184"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="169,107,265,149,260,151,169,112"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="259,187,92,234,90,228,258,182"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="100,232,242,260"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="284,184,209,227,207,222,279,185"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="267,232,345,260"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="308,183,308,218,304,215,304,187"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="369,232,448,260"/>
+<area shape="poly" id="edge9_Node000005_Node000008" title=" " alt="" coords="325,182,381,223,375,223,323,187"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="472,232,564,260"/>
+<area shape="poly" id="edge10_Node000005_Node000009" title=" " alt="" coords="344,182,468,227,463,227,343,188"/>
+</map>

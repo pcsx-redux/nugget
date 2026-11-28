@@ -1,0 +1,7 @@
+<map id="psyqo::Prim::GouraudLine" name="psyqo::Prim::GouraudLine">
+<area shape="rect" id="Node000001" title="The Gouraud&#45;shaded Line primitive." alt="" coords="32,128,220,156"/>
+<area shape="rect" id="Node000002" href="$d5/d3c/unionpsyqo_1_1Vertex.html" title="The Vertex struct." alt="" coords="5,5,116,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,45,121,127,116,128,73,49"/>
+<area shape="rect" id="Node000003" href="$dd/d74/unionpsyqo_1_1Color.html" title="The Color struct." alt="" coords="140,5,242,33"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,46,177,77,163,106,142,130,139,126,158,103,172,75,182,50"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="psyqo/vector.hh" name="psyqo/vector.hh">
+<area shape="rect" id="Node000001" title=" " alt="" coords="147,5,271,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,157,85,184"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,35,72,148,69,144,193,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="109,157,200,184"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,32,181,82,163,143,158,140,176,80,199,35"/>
+<area shape="rect" id="Node000004" href="$da/dbc/fixed-point_8hh.html" title=" " alt="" coords="190,81,343,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="220,31,250,69,244,69,218,36"/>
+<area shape="rect" id="Node000008" href="$d7/d7c/common_8hh.html" title=" " alt="" coords="397,81,608,109"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="262,31,437,76,432,78,262,36"/>
+<area shape="poly" id="edge7_Node000004_Node000002" title=" " alt="" coords="228,112,100,154,98,149,226,107"/>
+<area shape="poly" id="edge8_Node000004_Node000003" title=" " alt="" coords="249,108,188,150,185,146,244,110"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="327,157,470,184"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="291,107,364,149,359,149,289,112"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="494,157,564,184"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="314,107,481,155,476,156,313,112"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="224,157,303,184"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="268,107,267,143,263,139,264,111"/>
+<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="509,107,521,143,517,141,506,111"/>
+</map>

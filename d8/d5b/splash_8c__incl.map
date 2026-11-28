@@ -1,0 +1,17 @@
+<map id="openbios/main/splash.c" name="openbios/main/splash.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="195,5,370,33"/>
+<area shape="rect" id="Node000002" href="$d3/da1/splash_8h.html" title=" " alt="" coords="5,81,181,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,36,142,77,139,73,250,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="279,308,350,336"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,31,258,56,246,82,244,95,246,108,258,160,273,211,305,294,300,293,268,213,253,162,241,109,239,95,241,80,254,53,269,35"/>
+<area shape="rect" id="Node000004" href="$d2/d4b/common_2hardware_2gpu_8h.html" title=" " alt="" coords="256,81,439,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="294,31,329,69,324,70,294,36"/>
+<area shape="rect" id="Node000005" href="$de/d57/hwregs_8h.html" title=" " alt="" coords="354,157,560,184"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="370,29,416,47,437,62,454,79,462,94,465,110,465,143,460,140,460,111,457,96,450,83,433,66,414,52,370,34"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="348,108,321,293,316,291,343,110"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="368,107,428,148,422,148,367,112"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="433,184,399,207,367,234,344,264,327,296,324,292,340,261,363,231,396,203,428,186"/>
+<area shape="rect" id="Node000006" href="$d0/dfb/counters_8h.html" title=" " alt="" coords="377,232,593,260"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="463,183,477,219,472,217,461,187"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="457,260,359,304,358,299,452,261"/>
+</map>

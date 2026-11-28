@@ -1,0 +1,11 @@
+<map id="psyq_DescriptorStorage" name="psyq_DescriptorStorage">
+<area shape="rect" id="Node000001" title=" " alt="" coords="89,307,266,335"/>
+<area shape="rect" id="Node000002" href="$d5/da3/structpcsx__AllocDescriptor.html" title=" " alt="" coords="99,207,256,234"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,248,180,308,175,306,175,252"/>
+<area shape="rect" id="Node000003" href="$d8/d3a/structpcsx__CommandHeader.html" title=" " alt="" coords="6,106,178,134"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="114,143,168,205,163,207,112,148"/>
+<area shape="rect" id="Node000004" href="$d3/db5/structpcsx__CommandResults.html" title=" " alt="" coords="5,5,179,33"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="93,46,95,106,89,105,91,51"/>
+<area shape="rect" id="Node000005" href="$d9/d12/structpcsx__AllocEntry.html" title=" " alt="" coords="202,106,326,134"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="245,144,191,208,187,204,240,147"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="bsdec/hostfuzz.c" name="bsdec/hostfuzz.c">
+<area shape="rect" id="Node000001" title=" " alt="" coords="66,5,195,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="61,232,131,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,36,45,54,29,67,17,82,10,100,9,118,13,137,20,156,44,191,72,221,66,222,40,194,16,158,7,139,3,119,4,99,12,80,25,63,42,50,81,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="27,81,92,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,36,85,71,80,68,119,31"/>
+<area shape="rect" id="Node000004" href="$dc/d9c/stdlib_8h.html" title=" " alt="" coords="261,81,330,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,31,255,73,250,76,160,36"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="167,81,238,109"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="143,31,182,69,176,70,143,36"/>
+<area shape="rect" id="Node000008" href="$dc/d5a/bsdec_8h.html" title=" " alt="" coords="60,157,131,184"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="129,31,105,142,100,140,125,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="251,232,324,260"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="305,107,320,142,324,164,322,185,307,221,303,217,317,184,319,164,315,144,302,112"/>
+<area shape="rect" id="Node000006" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="156,157,308,184"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="286,108,255,147,251,143,282,111"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="210,184,134,227,132,222,205,185"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="243,182,271,221,266,220,241,187"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="97,183,98,218,93,216,94,187"/>
+</map>

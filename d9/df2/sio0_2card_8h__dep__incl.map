@@ -1,0 +1,19 @@
+<map id="openbios/sio0/card.h" name="openbios/sio0/card.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="751,5,906,33"/>
+<area shape="rect" id="Node000002" href="$d8/d81/backupunit_8c.html" title=" " alt="" coords="5,90,204,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="732,28,499,50,216,84,169,92,168,86,215,78,498,45,738,27"/>
+<area shape="rect" id="Node000003" href="$d5/d96/device_8c.html" title=" " alt="" coords="227,90,398,117"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="738,32,583,56,410,84,370,92,370,86,409,78,582,51,733,32"/>
+<area shape="rect" id="Node000004" href="$dc/dea/handlers_8c.html" title=" " alt="" coords="422,90,617,117"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="767,37,569,92,568,86,762,38"/>
+<area shape="rect" id="Node000005" href="$d3/d82/patch__card2__1_8c.html" title=" " alt="" coords="641,81,816,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="803,42,756,83,754,78,798,44"/>
+<area shape="rect" id="Node000006" href="$d9/dca/patch__card2__2_8c.html" title=" " alt="" coords="841,81,1016,126"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="857,41,905,81,899,80,855,46"/>
+<area shape="rect" id="Node000007" href="$d4/d10/patch__card__info__1_8c.html" title=" " alt="" coords="1041,81,1216,126"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="891,35,1051,80,1046,80,891,40"/>
+<area shape="rect" id="Node000008" href="$d7/d8f/card_8c.html" title=" " alt="" coords="1241,90,1395,117"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="922,30,1067,51,1229,78,1268,89,1262,89,1228,84,1066,56,922,35"/>
+<area shape="rect" id="Node000009" href="$d1/d56/driver_8c.html" title=" " alt="" coords="1419,90,1582,117"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="922,24,1144,44,1276,59,1408,78,1450,89,1445,89,1407,84,1275,65,1143,49,922,30"/>
+</map>

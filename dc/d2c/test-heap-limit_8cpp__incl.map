@@ -1,0 +1,15 @@
+<map id="tests/psyqo/psyqo/test&#45;heap&#45;limit.cpp" name="tests/psyqo/psyqo/test&#45;heap&#45;limit.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="11,5,180,50"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,249,79,277"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,53,51,74,32,99,17,135,10,174,8,188,10,201,27,236,22,237,5,202,3,188,5,173,12,133,28,97,47,70,71,48"/>
+<area shape="rect" id="Node000003" href="$d6/daf/psyqo_2alloc_8h.html" title=" " alt="" coords="42,98,149,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="96,48,98,83,93,82,95,53"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="173,98,284,126"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="131,48,197,89,192,91,131,53"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="111,249,184,277"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="128,124,161,143,175,157,186,173,190,190,188,207,171,239,167,235,183,206,185,190,181,175,171,160,157,148,128,129"/>
+<area shape="rect" id="Node000005" href="$d6/d88/common_2libc_2alloc_8h.html" title=" " alt="" coords="19,174,172,201"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="96,124,98,159,93,157,94,129"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="88,200,63,238,59,235,84,203"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="106,199,132,237,127,237,104,204"/>
+</map>

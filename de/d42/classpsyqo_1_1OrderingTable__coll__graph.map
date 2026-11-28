@@ -1,0 +1,5 @@
+<map id="psyqo::OrderingTable&lt; N, safety &gt;" name="psyqo::OrderingTable&lt; N, safety &gt;">
+<area shape="rect" id="Node000001" title="The ordering table. Used to sort fragments before sending them to the GPU." alt="" coords="21,81,180,126"/>
+<area shape="rect" id="Node000002" href="$db/d1b/classpsyqo_1_1OrderingTableBase.html" title=" " alt="" coords="5,5,196,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,47,103,81,98,79,99,51"/>
+</map>

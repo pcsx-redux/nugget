@@ -1,0 +1,7 @@
+<map id="psyqo::OrderingTableBase" name="psyqo::OrderingTableBase">
+<area shape="rect" id="Node000001" title=" " alt="" coords="124,5,314,33"/>
+<area shape="rect" id="Node000002" href="$d0/d17/classpsyqo_1_1DynamicOrderingTable.html" title="An ordering table whose bucket count is chosen at runtime." alt="" coords="5,81,222,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,42,143,83,140,78,188,44"/>
+<area shape="rect" id="Node000003" href="$d6/d6b/classpsyqo_1_1OrderingTable.html" title="The ordering table. Used to sort fragments before sending them to the GPU." alt="" coords="246,81,405,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,40,300,80,295,80,247,45"/>
+</map>
